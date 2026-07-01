@@ -159,15 +159,25 @@ namespace Content.Server.Connection
             {
                 var (reason, msg, banHits) = deny.Value;
 
-                var id = await _db.AddConnectionLogAsync(userId, e.UserName, addr, hwid, trust, reason, serverId);
-                if (banHits is { Count: > 0 })
-                    await _db.AddServerBanHitsAsync(id, banHits);
-
                 var properties = new Dictionary<string, object>();
                 if (reason == ConnectionDenyReason.Full)
                     properties["delay"] = _cfg.GetCVar(CCVars.GameServerFullReconnectDelay);
 
+                // DS14-start: keep the user-facing deny reason even if audit logging fails.
                 e.Deny(new NetDenyReason(msg, properties));
+
+                try
+                {
+                    var id = await _db.AddConnectionLogAsync(userId, e.UserName, addr, hwid, trust, reason, serverId);
+                    if (banHits is { Count: > 0 })
+                        await _db.AddServerBanHitsAsync(id, banHits);
+                }
+                catch (Exception ex)
+                {
+                    _sawmill.Error("Failed to log denied connection for {UserName} ({UserId}) from {Address}: {Exception}",
+                        e.UserName, userId, addr, ex);
+                }
+                // DS14-end
             }
             else
             {
