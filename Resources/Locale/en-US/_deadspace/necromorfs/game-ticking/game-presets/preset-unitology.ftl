@@ -1,0 +1,1 @@
+unitology-centcomm-announcement-supermatter-obelisk-activated = Attention! A controlled spike of obelisk activity has been detected on Corporate Object grounds. Security and qualified personnel are advised to use caution when working with the obelisk and monitor its activity status. Glory to NanoTrasen!

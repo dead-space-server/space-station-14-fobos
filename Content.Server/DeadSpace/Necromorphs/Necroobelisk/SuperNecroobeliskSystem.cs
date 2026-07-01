@@ -24,6 +24,7 @@ using Content.Shared.Damage.Components;
 using Robust.Shared.Audio.Systems;
 using Content.Server.Power.Components;
 using Content.Server.Anomaly;
+using Robust.Shared.Map;
 using Robust.Shared.Random;
 using System.Numerics;
 using Content.Server.GameTicking;
@@ -38,6 +39,10 @@ namespace Content.Server.DeadSpace.Necromorphs.Necroobelisk;
 
 public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
 {
+    private const string ActivationAnnouncement = "unitology-centcomm-announcement-supermatter-obelisk-activated";
+    private const string ActivationAnnouncementSender = "Автоматические Системы Станции";
+    private const string ActivationAnnouncementVoice = "Glados";
+
     [Dependency] private readonly IGameTiming _gameTiming = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
@@ -219,21 +224,27 @@ public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
         component.NextPulseTime = _gameTiming.CurTime + component.TimeUtilPulse;
         component.IsActive = false;
         UpdateState(uid, component);
-        GlobalWarn(uid, component, "uni-centcomm-announcement-obelisk-was-spawned", Color.Red);
     }
 
-    private void GlobalWarn(EntityUid uid, SuperMatterialNecroObeliskComponent component, string str, Color color)
+    private void AnnounceActivation(EntityUid uid, SuperMatterialNecroObeliskComponent component)
     {
-        if (!component.IsGivesWarnings)
+        if (!component.IsGivesWarnings ||
+            !TryComp(uid, out TransformComponent? xform) ||
+            xform.MapID == MapId.Nullspace)
+        {
             return;
+        }
 
-        var msg = new GameGlobalSoundEvent(component.SoundInit, AudioParams.Default);
-        var stationFilter = _stationSystem.GetInOwningStation(uid);
-        stationFilter.AddPlayersByPvs(uid, entityManager: EntityManager);
-        RaiseNetworkEvent(msg, stationFilter);
-
-        _chatSystem.DispatchGlobalAnnouncement(Loc.GetString(str), playSound: true, colorOverride: color);
+        var announcement = Loc.GetString(ActivationAnnouncement);
+        _chatSystem.DispatchAdminFilteredAnnouncement(
+            Filter.Empty().AddInMap(xform.MapID, EntityManager),
+            announcement,
+            sender: ActivationAnnouncementSender,
+            colorOverride: Color.LightSeaGreen,
+            originalMessage: announcement,
+            voice: ActivationAnnouncementVoice);
     }
+
     private void OnSeverityChanged(EntityUid uid, SuperMatterialNecroObeliskComponent component, ref NecroobeliskPulseEvent args)
     {
         if (_mobState.IsDead(uid))
@@ -429,6 +440,15 @@ public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
     public void SetRangeSanity(SuperMatterialNecroObeliskComponent component, float radius)
     {
         component.RangeSanity = radius;
+    }
+
+    public void StartActivationSequence(EntityUid target, SuperMatterialNecroObeliskComponent component)
+    {
+        if (component.SequenceStarted || component.Percents == 99)
+            return;
+
+        component.SequenceStarted = true;
+        AnnounceActivation(target, component);
     }
 
     public void ToggleObeliskActive(EntityUid target, SuperMatterialNecroObeliskComponent component)

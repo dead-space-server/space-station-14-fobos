@@ -15,6 +15,7 @@ public sealed class NecroobeliskStoperSystem : EntitySystem
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly NecroobeliskSystem _necroobeliskSystem = default!;
+    [Dependency] private readonly SuperNecroobeliskSystem _superNecroobeliskSystem = default!;
 
     public override void Initialize()
     {
@@ -88,7 +89,8 @@ public sealed class NecroobeliskStoperSystem : EntitySystem
         }
         if (TryComp<SuperMatterialNecroObeliskComponent>(target, out var comp))
         {
-            if (!comp.SequenceStarted && comp.Percents != 99) comp.SequenceStarted = true;
+            if (!comp.SequenceStarted && comp.Percents != 99)
+                _superNecroobeliskSystem.StartActivationSequence(target, comp);
             else if (comp.Percents >= 5) comp.Percents -= 5;
         }
 
