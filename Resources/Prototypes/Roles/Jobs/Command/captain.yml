@@ -23,24 +23,6 @@
       time: 140h
     - !type:AgeRequirement
       requiredAge: 26
-    # DS14-start
-    - !type:SpeciesRequirement
-      species:
-        - Human
-        - SlimePerson
-        - Reptilian
-        - Kobolt
-        - Demon
-        - Dwarf
-        - Moth
-        - Tajaran
-        - Felinid
-        - Arachnid
-        - IPC
-        - Vulpkanin
-        - Shark
-        - Diona
-      # DS14-end
   weight: 20
   startingGear: CaptainGear
   icon: "JobIconCaptain"

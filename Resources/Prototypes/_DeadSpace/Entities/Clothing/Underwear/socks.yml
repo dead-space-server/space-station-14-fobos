@@ -283,7 +283,7 @@
   parent: ClothingUnderwearSocksBase
   id: ClothingUnderwearSocksCaptainWhite
   name: белые носки капитана
-  description: Стандартные белые носки капитана. (Хз зачем я их сделал, но всё же)
+  description: Стандартные белые носки капитана.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Underwear/Command/captain/socks_white.rsi
@@ -293,7 +293,7 @@
   parent: ClothingUnderwearSocksBase
   id: ClothingUnderwearSocksCaptainBlack
   name: чёрные носки капитана
-  description: Стандартные чёрные носки капитана. (Хз зачем я их сделал, но всё же)
+  description: Стандартные чёрные носки капитана.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Underwear/Command/captain/socks_black.rsi
