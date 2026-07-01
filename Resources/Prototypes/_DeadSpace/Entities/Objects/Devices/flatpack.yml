@@ -104,7 +104,7 @@
   parent: BaseFlatpack
   id: SMObeliskFlatpack
   name: упакованный обелиск - Супер Материя
-  description: Fuck...
+  description: Fuck.
   components:
   - type: Sprite
     layers:
