@@ -3,6 +3,7 @@
   id: sastrHair
   bodyPart: Hair
   markingCategory: Hair
+  sponsorOnly: true
   sprites:
   - sprite: _DeadSpace/Sponsor/sastr/Customization/hair.rsi
     state: hair
@@ -11,6 +12,8 @@
   id: Scarsastr
   bodyPart: Head
   markingCategory: Head
+  followSkinColor: true
+  sponsorOnly: true
   sprites:
   - sprite: _DeadSpace/Sponsor/sastr/Customization/top.rsi
     state: head
