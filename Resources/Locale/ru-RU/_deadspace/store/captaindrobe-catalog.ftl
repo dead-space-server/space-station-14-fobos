@@ -228,12 +228,12 @@ captaindrobe-socks = носки капитана
 captaindrobe-socks-desc = Стандартные носки капитана.
 
 ## Белый
-captainbrobe-socks-white = белые носки капитана
-captainbrobe-socks-white-desc = Стандартные белые носки капитана.
+captaindrobe-socks-white = белые носки капитана
+captaindrobe-socks-white-desc = Стандартные белые носки капитана.
 
 ## Чёрный
 captaindrobe-socks-black = чёрные носки капитана
-captainbrobe-socks-black-desc = Стандартные чёрные носки капитана.
+captaindrobe-socks-black-desc = Стандартные чёрные носки капитана.
 
 ## Колготки
 captaindrobe-under-nylon = колготки
