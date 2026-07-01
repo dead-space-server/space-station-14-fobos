@@ -134,8 +134,7 @@ public sealed partial class EnergySellerSystem : EntitySystem
 
     private static int GetEnergyPrice(BatteryComponent battery, EnergySellerComponent seller)
     {
-        var coefficient = Math.Max(seller.AdditionalCoefficient, 1);
-        return (int)Math.Round(battery.PricePerJoule * battery.MaxCharge + battery.MaxCharge / coefficient + 1);
+        return (int)Math.Round(battery.PricePerJoule * battery.MaxCharge * (battery.MaxCharge / seller.AdditionalCoefficient + 1));
     }
 
     private static int ClampPowerSetting(int value, int max)
