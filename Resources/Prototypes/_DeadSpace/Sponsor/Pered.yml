@@ -492,7 +492,7 @@
   
 # EYES
 - type: entity
-  parent: ClothingEyesHudMultiversal
+  parent: ClothingEyesHudAdvanced
   id: ClothingEyesHudPERed
   name: боевые очки
   description: Защитные очки с голубым визором.
