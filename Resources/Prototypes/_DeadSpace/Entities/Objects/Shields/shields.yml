@@ -1,8 +1,8 @@
 - type: entity
-  name: балааа
+  name: blue shield officer shield
   parent: [ BaseRepairableShield, BaseSecurityContraband ]
   id: BulletShieldBlueShield
-  description: ы
+  description: A reinforced ballistic shield issued to Blue Shield officers.
   components:
     - type: Sprite
       sprite: _DeadSpace/Objects/Weapons/Melee/shield_blueshield.rsi
