@@ -204,26 +204,64 @@
   name: loadout-group-captain-head
   minLimit: 0
   loadouts:
-  - CaptainHead
+  #- CaptainHead # DS14-CaptainResprite: removed this shit
+  - CaptainBeret # DS14-CaptainResprite
   - CaptainCap
+  # DS14-start: CaptainResprite
+  ## White
+  - CaptainBeretWhite
+  - CaptainCapWhite
+  ## Black
+  - CaptainBeretBlack
+  - CaptainCapBlack
+  # DS14-end
 
 - type: loadoutGroup
   id: CaptainJumpsuit
   name: loadout-group-captain-jumpsuit
   loadouts:
+  # DS14-start: CaptainResprite
+  ## Blue
   - CaptainJumpsuit
   - CaptainJumpskirt
+  - CaptainJumpsuitTurtleneck
+  - CaptainJumpskirtTurtleneck
   - CaptainFormalSuit
-  - CaptainFormalSkirt
+  #- CaptainFormalSkirt # DS14-CaptainResprite: removed this shit, bacause not a new sprite
+  - CaptainJumpskirtPencil
+  ## White
+  - CaptainJumpsuitWhite
+  - CaptainJumpskirtWhite
+  - CaptainJumpsuitTurtleneckWhite
+  - CaptainJumpskirtTurtleneckWhite
+  - CaptainFormalSuitWhite
+  - CaptainJumpskirtPencilWhite
+  ## Black
+  - CaptainJumpsuitBlack
+  - CaptainJumpskirtBlack
+  - CaptainJumpsuitTurtleneckBlack
+  - CaptainJumpskirtTurtleneckBlack
+  - CaptainFormalSuitBlack
+  - CaptainJumpskirtPencilBlack
+  # DS14-end
 
 - type: loadoutGroup
   id: CaptainNeck
   name: loadout-group-captain-neck
   minLimit: 0
   loadouts:
+  # DS14-start: CaptainResprite
+  ## Blue
   - CaptainCloak
   - CaptainCloakFormal
+  - CaptainShoulderMantle # DS14
+  - CaptainShoulderMantleFormal # DS14
   - CaptainMantle
+  ## White
+  - CaptainShoulderMantleWhite
+  ## Black
+  - CaptainShoulderMantleBlack
+  # DS14-end
 
 - type: loadoutGroup
   id: CaptainBackpack
@@ -232,14 +270,32 @@
   - CaptainBackpack
   - CaptainSatchel
   - CaptainDuffel
+  # DS14-start: CaptainResprite
+  ## White
+  - CaptainBackpackWhite
+  - CaptainSatchelWhite
+  - CaptainDuffelWhite
+  ## Black
+  - CaptainBackpackBlack
+  - CaptainSatchelBlack
+  - CaptainDuffelBlack
+  # DS14-end
 
 - type: loadoutGroup
   id: CaptainOuterClothing
   name: loadout-group-captain-outerclothing
   loadouts:
+  # DS14-start: CaptainResprite
   - CaptainOuterClothing
   - CaptainWintercoat
-  - CaptainCoat # DS-14
+  - CaptainCoat
+  ## White
+  - CaptainOuterClothingWhite
+  - CaptainWintercoatWhite
+  ## Black
+  - CaptainOuterClothingBlack
+  - CaptainWintercoatBlack
+  # DS14-end
 
 - type: loadoutGroup
   id: CaptainUnderwear

@@ -145,3 +145,14 @@
     sprite: _DeadSpace/Clothing/Eyes/Hud/blueshield_hud.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/Eyes/Hud/blueshield_hud.rsi
+
+- type: entity
+  parent: ClothingEyesHudAdvanced
+  id: ClothingEyesHudCaptain
+  name: золотые очки капитана 
+  description: Превосходные золотые очки, производимые для капитанов. Их ношение добавляет +15 к стилю.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Eyes/Hud/captain_hud.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Eyes/Hud/captain_hud.rsi

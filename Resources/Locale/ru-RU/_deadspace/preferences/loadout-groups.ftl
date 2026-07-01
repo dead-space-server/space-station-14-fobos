@@ -7,6 +7,11 @@ loadout-group-blue-shield-officer-backpack = Синий щит, рюкзак
 loadout-group-blue-shield-officer-neck = Синий щит, шея
 loadout-group-blue-shield-officer-underwear = Синий щит, нижнее бельё
 
+loadout-group-captain-gloves = Капитан, перчатки
+loadout-group-captain-tailbag = Капитан, хвост
+loadout-group-captain-shoes = Капитан, обувь
+loadout-group-captain-socks = Капитан, носки
+
 # Civilian
 loadout-group-senior-administrator-jumpsuit = Менеджер, комбинезон
 
@@ -88,7 +93,7 @@ loadout-group-cmo-socks = Главный врач, носки
 
 loadout-group-medical-socks = Врач, носки
 
-loadout-group-chemist-socks = Химик, носки 
+loadout-group-chemist-socks = Химик, носки
 
 loadout-group-paramedic-socks = Парамедик, носки
 

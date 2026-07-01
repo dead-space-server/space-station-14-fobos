@@ -78,7 +78,7 @@
 - type: entity
   parent: ClothingHeadHelmetBasic
   id: ClothingHeadHatUshankaHOS
-  name: бронеушанка главы службы безопасности 
+  name: бронеушанка главы службы безопасности
   description: Ушанка с бронеплитой из кевлара.
   components:
   - type: Sprite
@@ -119,3 +119,63 @@
     sprite: _DeadSpace/Clothing/Head/Hats/beret_medic.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
+
+# Captain
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretCaptain
+  name: берет капитана
+  description: Синий берет, с кокардой в виде звезды.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Hats/captain.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Hats/captain.rsi
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretCaptainWhite
+  name: белый берет капитана
+  description: Белый берет, с кокардой в виде звезды.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Hats/captain_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Hats/captain_white.rsi
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretCaptainBlack
+  name: чёрный берет капитана
+  description: Чёрный берет, с кокардой в виде звезды.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Hats/captain_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Hats/captain_black.rsi
+
+- type: entity
+  parent: ClothingHeadHatCapcap
+  id: ClothingHeadHatCapcapWhite
+  name: белая фуражка капитана
+  description: Белая фуражка, с кокардой в виде звезды.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Hats/capcap_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Hats/capcap_white.rsi
+  - type: Item
+    sprite: _DeadSpace/Clothing/Head/Hats/capcap_white.rsi
+
+- type: entity
+  parent: ClothingHeadHatCapcap
+  id: ClothingHeadHatCapcapBlack
+  name: чёрная фуражка капитана
+  description: Чёрная фуражка, с кокардой в виде звезды.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Hats/capcap_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Hats/capcap_black.rsi
+  - type: Item
+    sprite: _DeadSpace/Clothing/Head/Hats/capcap_black.rsi

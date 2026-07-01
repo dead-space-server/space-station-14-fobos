@@ -98,6 +98,8 @@
   - type: Clothing
     sprite: _DeadSpace/Clothing/Back/Tailbag/atmospherics.rsi
 
+# Captain
+## Blue
 - type: entity
   parent: ClothingBackpackTailbag
   id: ClothingBackpackTailbagCaptain
@@ -108,6 +110,30 @@
     sprite: _DeadSpace/Clothing/Back/Tailbag/captain.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/Back/Tailbag/captain.rsi
+
+## White
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagCaptainWhite
+  name: белый подсумок на хвост плафеимов капитана
+  description: Удобный белый подсумок на хвост. Выглядит дорого и блестяще.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/captain_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/captain_white.rsi
+
+## Black
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagCaptainBlack
+  name: чёрный подсумок на хвост плафеимов капитана
+  description: Удобный чёрный подсумок на хвост. Выглядит дорого и строго.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/captain_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/captain_black.rsi
 
 - type: entity
   parent: ClothingBackpackTailbag
