@@ -1,0 +1,24 @@
+- type: constructionGraph
+  id: ObeliskNonReal
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: obeliskNonReal
+          steps:
+            - material: Steel
+              amount: 30
+              doAfter: 5
+
+    - node: obeliskNonReal
+      entity: StructureObeliskNonReal
+      edges:
+        - to: start
+          steps:
+            - tool: Screwing
+              doAfter: 5
+          completed:
+            - !type:SpawnPrototype
+              prototype: SheetSteel1
+              amount: 30
+            - !type:DeleteEntity
