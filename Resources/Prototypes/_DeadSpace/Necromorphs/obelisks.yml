@@ -365,12 +365,12 @@
 - type: entity
   parent: BaseStructure
   id: StructureObeliskNonReal
-  name: черный обелиск
+  name: красный обелиск
   suffix: муляж
   components:
   - type: Sprite
     noRot: true
-    sprite: _DeadSpace/Necromorfs/blackobelisk.rsi
+    sprite: _DeadSpace/Necromorfs/obelisk.rsi
     layers:
     - state: active
       map: [ "enum.DamageStateVisualLayers.Base" ]
