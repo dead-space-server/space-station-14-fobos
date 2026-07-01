@@ -407,6 +407,7 @@
           SheetSteel1:
             min: 5
             max: 10
+  - type: Anchorable
   - type: Construction
     graph: ObeliskNonReal
     node: obeliskNonReal
