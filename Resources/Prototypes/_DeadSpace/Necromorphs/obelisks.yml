@@ -450,7 +450,6 @@
         - FullTileMask
         layer:
         - WallLayer
-        damage: 1500
   - type: Destructible
     thresholds:
     - trigger:
