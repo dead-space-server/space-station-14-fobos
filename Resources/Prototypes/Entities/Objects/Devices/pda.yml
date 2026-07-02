@@ -139,7 +139,7 @@
   - type: EmitSoundOnLand
     sound:
       path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg
-  #DS14-End
+  # DS14-end
 
 - type: entity
   parent: BasePDA
@@ -910,6 +910,7 @@
     - NewsReaderCartridge
     - WantedListCartridge
     - LogProbeCartridge
+    - BankCartridge # DS14
     - MessengerCartridge
 
 - type: entity

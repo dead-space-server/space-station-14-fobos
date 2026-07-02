@@ -576,8 +576,8 @@
 - type: entity
   parent: ClothingUnderwearBottomBase
   id: ClothingUnderwearBottomBoxersTaipanCargotech
-  name: боксеры корготехника
-  description: Cтандартное нижнее бельё корготехника.
+  name: боксеры карготехника
+  description: Cтандартное нижнее бельё карготехника.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Underwear/Taipan/cargotech/man.rsi

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Content.Shared.Actions;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Prototypes;
 using Content.Shared.Emp;
 using Content.Shared.Examine;
 using Content.Shared.Hands;
@@ -14,9 +15,11 @@ using Content.Shared.Physics;
 using Content.Shared.Popups;
 using Content.Shared.Toggleable;
 using Content.Shared.Verbs;
+using Robust.Shared.Containers;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
 namespace Content.Shared.Blocking;
@@ -33,6 +36,10 @@ public sealed partial class BlockingSystem : EntitySystem
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly ExamineSystemShared _examine = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
+    // DS14-start
+    [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    // DS14-end
 
     public override void Initialize()
     {
@@ -50,9 +57,7 @@ public sealed partial class BlockingSystem : EntitySystem
 
         SubscribeLocalEvent<BlockingComponent, GetVerbsEvent<ExamineVerb>>(OnVerbExamine);
         SubscribeLocalEvent<BlockingComponent, MapInitEvent>(OnMapInit);
-        // DS14-start EMP-disables-energy-shield
-        SubscribeLocalEvent<EmpDisableItemToggleComponent, EmpItemToggleDisabledEvent>(OnEmpItemToggleDisabled);
-        // DS14-end
+        SubscribeLocalEvent<EmpDisableItemToggleComponent, EmpItemToggleDisabledEvent>(OnEmpItemToggleDisabled); // DS14
     }
 
     private void OnMapInit(EntityUid uid, BlockingComponent component, MapInitEvent args)
@@ -95,7 +100,7 @@ public sealed partial class BlockingSystem : EntitySystem
         if (args.Handled)
             return;
 
-        // DS14-start EMP-disables-energy-shield
+        // DS14-start
         if (HasComp<EmpDisableItemToggleComponent>(uid) && HasComp<EmpDisabledComponent>(uid))
         {
             CantBlockError(args.Performer);
@@ -132,7 +137,7 @@ public sealed partial class BlockingSystem : EntitySystem
         args.Handled = true;
     }
 
-    // DS14-start EMP-disables-energy-shield
+    // DS14-start
     private void OnEmpItemToggleDisabled(Entity<EmpDisableItemToggleComponent> ent, ref EmpItemToggleDisabledEvent args)
     {
         if (!TryComp<BlockingComponent>(ent.Owner, out var blocking))
@@ -197,11 +202,15 @@ public sealed partial class BlockingSystem : EntitySystem
             var mobQuery = GetEntityQuery<MobStateComponent>();
             foreach (var uid in intersecting)
             {
-                if (uid != user && mobQuery.HasComponent(uid))
-                {
-                    TooCloseError(user);
-                    return false;
-                }
+                // DS14-start
+                if (uid == user ||
+                    !mobQuery.HasComponent(uid) ||
+                    _container.IsEntityOrParentInContainer(uid))
+                    continue;
+
+                TooCloseError(user);
+                return false;
+                // DS14-end
             }
         }
 
@@ -342,7 +351,7 @@ public sealed partial class BlockingSystem : EntitySystem
         {
             msg.PushNewline();
             msg.AddMarkupOrThrow(Robust.Shared.Localization.Loc.GetString("blocking-coefficient-value",
-                ("type", coefficient.Key),
+                ("type", GetLocalizedDamageType(coefficient.Key)), // DS14
                 ("value", MathF.Round(coefficient.Value * 100, 1))
             ));
         }
@@ -351,9 +360,18 @@ public sealed partial class BlockingSystem : EntitySystem
         {
             msg.PushNewline();
             msg.AddMarkupOrThrow(Robust.Shared.Localization.Loc.GetString("blocking-reduction-value",
-                ("type", flat.Key),
+                ("type", GetLocalizedDamageType(flat.Key)), // DS14
                 ("value", flat.Value)
             ));
         }
     }
+
+    // DS14-start
+    private string GetLocalizedDamageType(string type)
+    {
+        return _prototype.TryIndex<DamageTypePrototype>(type, out var prototype)
+            ? prototype.LocalizedName
+            : type;
+    }
+    // DS14-end
 }

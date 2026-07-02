@@ -1,4 +1,5 @@
 using Content.Server.Chat.Systems;
+using Content.Server.DeadSpace.PortableHolopad;
 using Content.Server.Popups;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Telephone;
@@ -105,8 +106,16 @@ public sealed class HolopadSystem : SharedHolopadSystem
         if (!TryComp<TelephoneComponent>(receiver, out var receiverTelephone))
             return;
 
+        // DS14-start
+        var sourceTelephoneEntity = new Entity<TelephoneComponent>(source.Owner, sourceTelephone);
+        var receiverTelephoneEntity = new Entity<TelephoneComponent>(receiver, receiverTelephone);
+        TelephoneCallOptions? options = CanReachPortableHolopad(sourceTelephoneEntity, receiverTelephoneEntity)
+            ? new TelephoneCallOptions { IgnoreRange = true }
+            : null;
+        // DS14-end
+
         LinkHolopadToUser(source, args.Actor);
-        _telephoneSystem.CallTelephone((source, sourceTelephone), (receiver, receiverTelephone), args.Actor);
+        _telephoneSystem.CallTelephone((source, sourceTelephone), (receiver, receiverTelephone), args.Actor, options); // DS14
     }
 
     private void OnHolopadAnswerCall(Entity<HolopadComponent> receiver, ref HolopadAnswerCallMessage args)
@@ -512,8 +521,11 @@ public sealed class HolopadSystem : SharedHolopadSystem
             if (source == receiver)
                 continue;
 
-            if (!_telephoneSystem.IsSourceInRangeOfReceiver(source, receiver))
+            // DS14-start
+            if (!_telephoneSystem.IsSourceInRangeOfReceiver(source, receiver) &&
+                !CanReachPortableHolopad(source, receiver))
                 continue;
+            // DS14-end
 
             var name = MetaData(receiverUid).EntityName;
 
@@ -527,7 +539,7 @@ public sealed class HolopadSystem : SharedHolopadSystem
         _userInterfaceSystem.SetUiState(entity.Owner, uiKey, new HolopadBoundInterfaceState(holopads));
     }
 
-    public void GenerateHologram(Entity<HolopadComponent> entity) //DS14
+    public void GenerateHologram(Entity<HolopadComponent> entity) // DS14
     {
         if (entity.Comp.Hologram != null ||
             entity.Comp.HologramProtoId == null)
@@ -554,7 +566,7 @@ public sealed class HolopadSystem : SharedHolopadSystem
         _powerState.SetWorkingState(entity.Owner, true);
     }
 
-    public void DeleteHologram(EntityUid hologram, Entity<HolopadComponent> attachedHolopad) //DS14
+    public void DeleteHologram(EntityUid hologram, Entity<HolopadComponent> attachedHolopad) // DS14
     {
         _powerState.SetWorkingState(attachedHolopad.Owner, false);
 
@@ -674,11 +686,14 @@ public sealed class HolopadSystem : SharedHolopadSystem
         var source = new Entity<TelephoneComponent>(stationAiCore, stationAiTelephone);
 
         // Check if the AI is unable to activate the projector (unlikely this will ever pass; its just a safeguard)
-        if (!_telephoneSystem.IsSourceInRangeOfReceiver(source, receiver))
+        // DS14-start
+        var usePortableFallback = CanReachPortableHolopad(source, receiver);
+        if (!_telephoneSystem.IsSourceInRangeOfReceiver(source, receiver) && !usePortableFallback)
         {
             _popupSystem.PopupEntity(Loc.GetString("holopad-ai-is-unable-to-activate-projector"), receiver, user);
             return;
         }
+        // DS14-end
 
         // Terminate any calls that the core is hosting and immediately connect to the receiver
         _telephoneSystem.TerminateTelephoneCalls(source);
@@ -686,6 +701,7 @@ public sealed class HolopadSystem : SharedHolopadSystem
         var callOptions = new TelephoneCallOptions()
         {
             ForceConnect = true,
+            IgnoreRange = usePortableFallback, // DS14
             MuteReceiver = true
         };
 
@@ -761,6 +777,15 @@ public sealed class HolopadSystem : SharedHolopadSystem
             Dirty(receiver);
         }
     }
+
+    // DS14-start
+    private bool CanReachPortableHolopad(Entity<TelephoneComponent> source, Entity<TelephoneComponent> receiver)
+    {
+        return HasComp<StationAiCoreComponent>(source.Owner) &&
+               HasComp<PortableHolopadComponent>(receiver.Owner) &&
+               Transform(source.Owner).MapID == Transform(receiver.Owner).MapID;
+    }
+    // DS14-end
 
     private HashSet<Entity<HolopadComponent>> GetLinkedHolopads(Entity<HolopadComponent> entity)
     {

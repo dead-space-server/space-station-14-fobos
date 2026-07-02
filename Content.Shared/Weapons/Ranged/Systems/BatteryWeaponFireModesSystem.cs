@@ -137,8 +137,14 @@ public sealed class BatteryWeaponFireModesSystem : EntitySystem
         }
     }
 
-    private static string GetFireModeName(EntityPrototype prototype)
+    private string GetFireModeName(EntityPrototype prototype)
     {
+        // DS14-start
+        if (Loc.TryGetString($"ent-{prototype.ID}", out var localizedName) &&
+            !string.IsNullOrWhiteSpace(localizedName))
+            return localizedName;
+        // DS14-end
+
         return string.IsNullOrWhiteSpace(prototype.Name)
             ? prototype.ID
             : prototype.Name;

@@ -372,10 +372,21 @@ public sealed class NPCUtilitySystem : EntitySystem
                         return 1f;
                     return 0f;
                 }
-            case TargetIsStunnedCon:
+            // DS14-start
+            case TargetIsStunnedCon con:
                 {
-                    return HasComp<StunnedComponent>(targetUid) ? 1f : 0f;
+                    if (!HasComp<StunnedComponent>(targetUid))
+                        return 0f;
+
+                    if (con.OwnerBatteryAmmoPrototypes == null)
+                        return 1f;
+
+                    return TryComp<BatteryAmmoProviderComponent>(owner, out var ammoProvider) &&
+                           con.OwnerBatteryAmmoPrototypes.Contains(ammoProvider.Prototype)
+                        ? 1f
+                        : 0f;
                 }
+            // DS14-end
             case TurretTargetingCon:
                 {
                     if (!TryComp<TurretTargetSettingsComponent>(owner, out var turretTargetSettings) ||

@@ -15,6 +15,7 @@ using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.VirtualItem;
 using Content.Shared.Popups;
+using Content.Shared.Sound.Components;
 using Content.Shared.Strip.Components;
 using Content.Shared.Verbs;
 using Robust.Shared.Utility;
@@ -347,9 +348,23 @@ public abstract class SharedStrippableSystem : EntitySystem
         if (!_inventorySystem.TryUnequip(user, target, slot, triggerHandContact: true))
             return;
 
-        RaiseLocalEvent(item, new DroppedEvent(user), true); // Gas tank internals etc.
+        // DS14-start
+        var suppressSounds = stealth && !HasComp<SuppressPickupDropSoundComponent>(item);
+        if (suppressSounds)
+            EnsureComp<SuppressPickupDropSoundComponent>(item);
 
-        _handsSystem.PickupOrDrop(user, item, animateUser: stealth, animate: !stealth);
+        try
+        {
+            RaiseLocalEvent(item, new DroppedEvent(user), true); // Gas tank internals etc.
+            _handsSystem.PickupOrDrop(user, item, animateUser: stealth, animate: !stealth);
+        }
+        finally
+        {
+            if (suppressSounds)
+                RemCompDeferred<SuppressPickupDropSoundComponent>(item);
+        }
+        // DS14-end
+
         _adminLogger.Add(LogType.Stripping, LogImpact.High, $"{ToPrettyString(user):actor} has stripped the item {ToPrettyString(item):item} from {ToPrettyString(target):target}'s {slot} slot");
     }
 
@@ -457,8 +472,23 @@ public abstract class SharedStrippableSystem : EntitySystem
         if (!CanStripRemoveHand(user, target, item, handName))
             return;
 
-        _handsSystem.TryDrop(target, item, checkActionBlocker: false);
-        _handsSystem.PickupOrDrop(user, item, animateUser: stealth, animate: !stealth, handsComp: user.Comp);
+        // DS14-start
+        var suppressSounds = stealth && !HasComp<SuppressPickupDropSoundComponent>(item);
+        if (suppressSounds)
+            EnsureComp<SuppressPickupDropSoundComponent>(item);
+
+        try
+        {
+            _handsSystem.TryDrop(target, item, checkActionBlocker: false);
+            _handsSystem.PickupOrDrop(user, item, animateUser: stealth, animate: !stealth, handsComp: user.Comp);
+        }
+        finally
+        {
+            if (suppressSounds)
+                RemCompDeferred<SuppressPickupDropSoundComponent>(item);
+        }
+        // DS14-end
+
         _adminLogger.Add(LogType.Stripping, LogImpact.High, $"{ToPrettyString(user):actor} has stripped the item {ToPrettyString(item):item} from {ToPrettyString(target):target}'s hands");
 
         // Hand update will trigger strippable update.
