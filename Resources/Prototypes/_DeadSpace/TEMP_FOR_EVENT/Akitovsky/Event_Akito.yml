@@ -2008,6 +2008,15 @@
   - type: Sprite
     state: snake
 
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorSignMinesAki
+  name: знак «Мины!»
+  description: Осторожно, мины!
+  components:
+  - type: Sprite
+    state: mine_sign
+
 # Base декор напольный
 - type: entity
   id: DecorFloorWorldBaseAki
@@ -2017,7 +2026,7 @@
   suffix: Akitovsky, Маппинг
   components:
   - type: Sprite
-    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/world.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/world_32x48.rsi
     netsync: false
     noRot: true
     snapCardinals: false
@@ -2108,6 +2117,7 @@
   - type: Sprite
     state: cardboard
 
+# Бетонные барьеры
 - type: entity
   parent: DecorFloorWorldBaseAki
   id: DecorConcreteBarrierAki
@@ -2199,7 +2209,6 @@
   components:
   - type: Sprite
     state: pallet_stack
-        # add destruction drop for materials
   - type: Fixtures
     fixtures:
       fix1:
@@ -2221,11 +2230,177 @@
   - type: Sprite
     state: brickpile
 
+# Еда
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorFloorFood1Aki
+  name: продукты
+  description: Старые продукты.
+  components:
+  - type: Sprite
+    state: foodstuff_1
 
+- type: entity
+  parent: DecorFloorFood1Aki
+  id: DecorFloorFood2Aki
+  components:
+  - type: Sprite
+    state: foodstuff_2
 
+- type: entity
+  parent: DecorFloorFood1Aki
+  id: DecorFloorFood3Aki
+  components:
+  - type: Sprite
+    state: foodstuff_3
 
+- type: entity
+  parent: DecorFloorFood1Aki
+  id: DecorFloorFood4Aki
+  components:
+  - type: Sprite
+    state: foodstuff_4
 
+- type: entity
+  parent: DecorFloorFood1Aki
+  id: DecorFloorFood5Aki
+  components:
+  - type: Sprite
+    state: foodstuff_5
 
+- type: entity
+  parent: DecorFloorFood1Aki
+  id: DecorFloorFood6Aki
+  components:
+  - type: Sprite
+    state: foodstuff_6
+
+# Бутылки
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorFloorGlass1Aki
+  name: стеклянные бутылки
+  description: Старые стеклянные обломки.
+  components:
+  - type: Sprite
+    state: glass_1
+
+- type: entity
+  parent: DecorFloorGlass1Aki
+  id: DecorFloorGlass2Aki
+  components:
+  - type: Sprite
+    state: glass_2
+
+- type: entity
+  parent: DecorFloorGlass1Aki
+  id: DecorFloorGlass3Aki
+  components:
+  - type: Sprite
+    state: glass_3
+
+- type: entity
+  parent: DecorFloorGlass1Aki
+  id: DecorFloorGlass4Aki
+  components:
+  - type: Sprite
+    state: glass_4
+
+- type: entity
+  parent: DecorFloorGlass1Aki
+  id: DecorFloorGlass5Aki
+  components:
+  - type: Sprite
+    state: glass_5
+
+- type: entity
+  parent: DecorFloorGlass1Aki
+  id: DecorFloorGlass6Aki
+  components:
+  - type: Sprite
+    state: glass_6
+
+# Комнатные растения
+- type: entity
+  id: PottedPlantAki1
+  parent: PottedPlantBase
+  suffix: Akitovsky, Маппинг
+  name: комнатное растение
+  description: Чудесный кусочек при... Когда вы его поливали?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/world_32x48.rsi
+    state: pot_1
+
+- type: entity
+  id: PottedPlantAki2
+  parent: PottedPlantAki1
+  components:
+  - type: Sprite
+    state: pot_2
+
+- type: entity
+  id: PottedPlantAki3
+  parent: PottedPlantAki1
+  components:
+  - type: Sprite
+    state: pot_3
+
+- type: entity
+  id: PottedPlantAki4
+  parent: PottedPlantAki1
+  components:
+  - type: Sprite
+    state: pot_4
+
+# Душ
+- type: entity
+  parent: SignStreetBaseAki
+  id: ShowerAki
+  name: душ
+  description: Кап-кап-кап...
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/world_32x48.rsi
+    state: shower
+
+# Раковина
+- type: entity
+  name: широкая раковина
+  id: SinkWideAki
+  parent: SinkEmpty
+  suffix: Akitovsky, Маппинг
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/sink.rsi
+      layers:
+        - state: sink_wide
+        - map: [ "enum.SolutionContainerLayers.Fill" ]
+          state: sink_wide-fill-1
+          visible: false
+    - type: SolutionContainerManager
+      solutions:
+        drainBuffer:
+          maxVol: 200
+        tank:
+          eagents:
+          - ReagentId: Water
+            Quantity: 500
+    - type: SolutionContainerVisuals
+      maxFillLevels: 1
+      fillBaseName: sink_wide-fill-
+      solutionName: drainBuffer
+
+# Скелет
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorFloorSkeletonAki
+  name: скелет
+  description: Выглядит немного потрепанным.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/world_32x32.rsi
+    state: skeleton
 
 
 ################# КПСК
