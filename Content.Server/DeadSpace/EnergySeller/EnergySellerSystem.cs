@@ -49,11 +49,13 @@ public sealed partial class EnergySellerSystem : EntitySystem
             return;
         if (!TryComp<EnergySellerComponent>(uid, out var compSell))
             return;
+        if (!TryComp<PowerNetworkBatteryComponent>(uid, out var compNetBatt))
+            return;
 
         if (!TryGetStationBank(uid, out var stationBank))
             return;
 
-        _cargo.UpdateBankAccount(stationBank, GetEnergyPrice(comp, compSell), compSell.Distribution, false);
+        _cargo.UpdateBankAccount(stationBank, GetEnergyPrice(comp, compSell, compNetBatt), compSell.Distribution, false);
         _battery.SetCharge((uid, comp), 0);
         Dirty(stationBank);
     }
@@ -132,9 +134,9 @@ public sealed partial class EnergySellerSystem : EntitySystem
         return true;
     }
 
-    private static int GetEnergyPrice(BatteryComponent battery, EnergySellerComponent seller)
+    private static int GetEnergyPrice(BatteryComponent battery, EnergySellerComponent seller, PowerNetworkBatteryComponent netBatt)
     {
-        return (int)Math.Round(battery.PricePerJoule * battery.MaxCharge * (battery.MaxCharge / seller.AdditionalCoefficient + 1));
+        return (int)Math.Round(battery.PricePerJoule * battery.MaxCharge * ((battery.MaxCharge / seller.AdditionalCoefficient + 1) * (netBatt.MaxChargeRate >= battery.MaxCharge ? 1 : (netBatt.MaxChargeRate / battery.MaxCharge))));
     }
 
     private static int ClampPowerSetting(int value, int max)
