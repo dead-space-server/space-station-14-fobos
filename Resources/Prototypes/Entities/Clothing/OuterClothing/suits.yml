@@ -191,6 +191,8 @@
         type: SpiderOSWindowBoundUserInterface
       enum.HealthAnalyzerUiKey.Key:
         type: HealthAnalyzerBoundUserInterface
+      enum.NinjaScannerUiKey.Key:
+        type: NinjaScannerBoundUserInterface
   - type: SelfHealthAnalyzer
   - type: HealthAnalyzer
   - type: AutoDust
@@ -207,6 +209,10 @@
     heatRate: 5
     coolRate: 10
     effectsThreshold: 50 
+  - type: NinjaScanner
+  - type: ChameleonClothing
+    slot: outerclothing
+    default: ClothingOuterSuitSpaceNinja
   #DS14 end
   - type: EmpResistance
     strengthMultiplier: 0

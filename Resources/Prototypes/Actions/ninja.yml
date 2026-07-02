@@ -203,4 +203,35 @@
     itemIconStyle: BigAction
   - type: InstantAction
     event: !type:ShurikenHandRetractEvent
+
+- type: entity
+  id: ActionNinjaScan
+  parent: BaseAction
+  name: маскировка
+  description: Сканирует цель для маскировки
+  components:
+  - type: Action
+    useDelay: 10
+    itemIconStyle: BigAction
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: scanner
+  - type: TargetAction
+  - type: EntityTargetAction
+    canTargetSelf: false
+    event: !type:NinjaScanActionEvent
+
+- type: entity
+  id: ActionNinjaOpenScanner
+  parent: BaseAction
+  name: открыть сканер
+  description: Открывает сканер для маскировки
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: scanner
+  - type: InstantAction
+    event: !type:NinjaOpenScannerActionEvent
 #DS-14 End
