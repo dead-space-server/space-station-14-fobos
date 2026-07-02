@@ -18,3 +18,43 @@
   - type: Sprite
     sprite: _DeadSpace/Structures/Decoration/banner.rsi
     state: banner-deathsquad
+
+- type: entity
+  id: BannerOPZ
+  parent: BannerBase
+  name: знамя ОПЗ
+  description: Под знаменем ОПЗ галактика обрела известные нам границы.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Decoration/banner.rsi
+    state: opz
+
+- type: entity
+  id: BannerSNK
+  parent: BannerBase
+  name: знамя СНК
+  description: Символ свободного мира, ставший наживкой для стервятников.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Decoration/banner.rsi
+    state: snk
+
+- type: entity
+  id: BannerUSSP
+  parent: BannerBase
+  name: знамя СССП
+  description: Благодаря знамени СССП в галактике прекратилось рабство.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Decoration/banner.rsi
+    state: ussp
+
+- type: entity
+  id: BannerImpire
+  parent: BannerBase
+  name: знамя Империи
+  description: Символ страны, которая несколько веков уничтожает редспейс угрозу.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Decoration/banner.rsi
+    state: impire

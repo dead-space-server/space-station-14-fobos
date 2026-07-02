@@ -1,0 +1,40 @@
+- type: entity
+  parent: BaseFlag
+  id: OPZFlag
+  name: флаг ОПЗ
+  description: Олицетворяет собой государство, чья гегемония перекроила карту галактики благодаря военной и политической силе.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/flags.rsi
+    state: opz
+
+- type: entity
+  parent: BaseFlag
+  id: SNKFlag
+  name: флаг СНК
+  description: Пестрый символ свободного мира, который, однако, стал удобной кормушкой для мегакорпораций и сброда.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/flags.rsi
+    state: snk
+
+- type: entity
+  parent: BaseFlag
+  id: USSPFlag
+  name: флаг СССП
+  description: Лаконичное напоминание о том, что даже в 3-е тысячелетие нельзя забывать про рабочий класс.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/flags.rsi
+    state: ussp
+
+- type: entity
+  parent: BaseFlag
+  id: ImpireFlag
+  name: флаг Империи
+  description: Пропитан духом многовековой войны, и даже его внешний вид дышит сражением.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/flags.rsi
+    state: impire
+
