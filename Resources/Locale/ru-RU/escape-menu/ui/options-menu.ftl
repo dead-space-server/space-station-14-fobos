@@ -172,6 +172,7 @@ ui-options-function-save-item-location = Сохранить расположен
 ui-options-function-toggle-item-priority = Переключить приоритет объекта
 #DS14-end
 ui-options-static-storage-ui = Закрепить интерфейс хранилища на хотбаре
+ui-options-multiple-inventory-windows = Несколько окон инвентаря
 ui-options-function-smart-equip-backpack = Умная экипировка в рюкзак
 ui-options-function-smart-equip-suit-storage = Умная экипировка в хранилище скафандра
 ui-options-function-smart-equip-pocket1 = Умная экипировка в карман 1

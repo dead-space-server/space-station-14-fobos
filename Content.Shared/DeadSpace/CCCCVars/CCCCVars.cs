@@ -157,4 +157,14 @@ public sealed class CCCCVars
 
     public static readonly CVarDef<string> SysNotifySoundPath =
         CVarDef.Create("sysnotifys.soundpath", "/Audio/Effects/balloon-pop.ogg", CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /*
+    * Storage
+    */
+
+    /// <summary>
+    ///     Allows opening multiple inventory/storage windows simultaneously.
+    /// </summary>
+    public static readonly CVarDef<bool> MultipleInventoryWindows =
+        CVarDef.Create("storage.multiple_inventory_windows", false, CVar.CLIENTONLY | CVar.ARCHIVE);
 }
