@@ -10,6 +10,7 @@ using Content.Shared.Examine;
 using Content.Shared.Fluids.Components;
 using Content.Shared.Inventory;
 using Content.Shared.Mobs;
+using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.NPC.Systems;
 using Content.Shared.Nutrition.Components;
@@ -314,12 +315,15 @@ public sealed class NPCUtilitySystem : EntitySystem
             }
             case TargetHealthCon con:
             {
-                if (!TryComp(targetUid, out DamageableComponent? damage))
+                // DS14-start
+                if (!TryComp(targetUid, out DamageableComponent? damage) ||
+                    !TryComp(targetUid, out MobThresholdsComponent? thresholds))
                     return 0f;
-                if (con.TargetState != MobState.Invalid && _thresholdSystem.TryGetPercentageForState(targetUid, con.TargetState, damage.TotalDamage, out var percentage))
+                if (con.TargetState != MobState.Invalid && _thresholdSystem.TryGetPercentageForState(targetUid, con.TargetState, damage.TotalDamage, out var percentage, thresholds))
                     return Math.Clamp((float)(1 - percentage), 0f, 1f);
-                if (_thresholdSystem.TryGetIncapPercentage(targetUid, damage.TotalDamage, out var incapPercentage))
+                if (_thresholdSystem.TryGetIncapPercentage(targetUid, damage.TotalDamage, out var incapPercentage, thresholds))
                     return Math.Clamp((float)(1 - incapPercentage), 0f, 1f);
+                // DS14-end
                 return 0f;
             }
             case TargetInLOSCon:
