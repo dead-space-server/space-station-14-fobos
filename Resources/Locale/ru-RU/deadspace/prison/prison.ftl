@@ -7,3 +7,5 @@ prison-ooc-blocked = Вы не можете использовать OOC во в
 prison-bwoink-blocked = Вы не можете писать в adminhelp во время отбывания срока.
 prison-ghost-role-blocked = Вы не можете занимать гост-роли во время отбывания срока.
 prison-antag-role-blocked = Вы не можете стать антагонистом во время отбывания срока.
+prison-murder-penalty-reason = Убийство другого заключённого во время отбывания срока.
+prison-murder-penalty-message = Вы убили другого заключённого. Ваш срок увеличен на { $minutes } мин.

@@ -12,14 +12,20 @@ using Content.Server.Roles;
 using Content.Server.Station.Systems;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
+using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.CCCCVars;
+using Content.Shared.FixedPoint;
 using Content.Shared.GameTicking;
 using Content.Shared.Ghost;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Inventory;
 using Content.Shared.Mind;
+using Content.Shared.Mind.Components;
+using Content.Shared.Mobs;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Preferences;
+using Content.Shared.Projectiles;
 using Content.Shared.Roles;
 using Content.Shared.Throwing;
 using Robust.Server.Player;
@@ -46,6 +52,7 @@ public sealed class PrisonSystem : EntitySystem
     [Dependency] private readonly IServerPreferencesManager _preferences = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
@@ -55,7 +62,10 @@ public sealed class PrisonSystem : EntitySystem
     [Dependency] private readonly StationSpawningSystem _spawning = default!;
 
     private readonly HashSet<NetUserId> _prisonUsers = [];
+    private readonly Dictionary<EntityUid, Dictionary<EntityUid, FixedPoint2>> _prisonDamageByTarget = new();
+    private const int SourceParentSearchDepth = 6;
     private bool _enabled;
+    private int _murderPenaltyMinutes;
 
     private readonly TimeSpan _safeguardUpdateRate = TimeSpan.FromSeconds(10);
     private TimeSpan _nextSafeguardUpdate;
@@ -72,11 +82,15 @@ public sealed class PrisonSystem : EntitySystem
         base.Initialize();
 
         Subs.CVar(_cfg, CCCCVars.PrisonEnabled, value => _enabled = value, true);
+        Subs.CVar(_cfg, CCCCVars.PrisonMurderPenaltyMinutes, value => _murderPenaltyMinutes = value, true);
 
         SubscribeLocalEvent<PlayerJoinedLobbyEvent>(OnPlayerJoinedLobby);
         SubscribeLocalEvent<PlayerBeforeSpawnEvent>(OnPlayerBeforeSpawn);
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
         SubscribeLocalEvent<MindRoleAddAttemptEvent>(OnMindRoleAddAttempt);
+        SubscribeLocalEvent<PrisonBoundComponent, DamageChangedEvent>(OnPrisonDamageChanged, before: [typeof(MobThresholdSystem)]);
+        SubscribeLocalEvent<MobStateChangedEvent>(OnPrisonMobStateChanged);
+        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
 
         _player.PlayerStatusChanged += OnPlayerStatusChanged;
     }
@@ -86,6 +100,11 @@ public sealed class PrisonSystem : EntitySystem
         base.Shutdown();
 
         _player.PlayerStatusChanged -= OnPlayerStatusChanged;
+    }
+
+    private void OnRoundRestartCleanup(RoundRestartCleanupEvent ev)
+    {
+        _prisonDamageByTarget.Clear();
     }
 
     public override void Update(float frameTime)
@@ -255,6 +274,84 @@ public sealed class PrisonSystem : EntitySystem
             _chat.DispatchServerMessage(session, Loc.GetString("prison-antag-role-blocked"));
     }
 
+    private void OnPrisonDamageChanged(EntityUid uid, PrisonBoundComponent component, DamageChangedEvent args)
+    {
+        if (args.DamageDelta == null)
+        {
+            if (args.Damageable.TotalDamage == FixedPoint2.Zero)
+                _prisonDamageByTarget.Remove(uid);
+
+            return;
+        }
+
+        if (!TryGetPrisonerMind(uid, out var targetMindId, out _))
+        {
+            _prisonDamageByTarget.Remove(uid);
+            return;
+        }
+
+        var delta = args.DamageDelta.GetTotal();
+        if (!args.DamageIncreased)
+        {
+            if (args.Damageable.TotalDamage == FixedPoint2.Zero)
+            {
+                _prisonDamageByTarget.Remove(uid);
+                return;
+            }
+
+            ReducePrisonDamageContributors(uid, -delta);
+            return;
+        }
+
+        if (delta <= FixedPoint2.Zero ||
+            !TryGetDamageSourceMind(args.Origin, out var sourceMindId, out var sourceMind) ||
+            sourceMindId == targetMindId ||
+            !IsMindPrisoner(sourceMindId, sourceMind))
+        {
+            return;
+        }
+
+        if (!_prisonDamageByTarget.TryGetValue(uid, out var sourceDamage))
+        {
+            sourceDamage = new Dictionary<EntityUid, FixedPoint2>();
+            _prisonDamageByTarget[uid] = sourceDamage;
+        }
+
+        sourceDamage[sourceMindId] = sourceDamage.GetValueOrDefault(sourceMindId) + delta;
+    }
+
+    private void OnPrisonMobStateChanged(MobStateChangedEvent args)
+    {
+        if (!_enabled ||
+            _murderPenaltyMinutes <= 0 ||
+            args.NewMobState != MobState.Dead ||
+            args.OldMobState >= args.NewMobState)
+        {
+            return;
+        }
+
+        var target = args.Target;
+        if (!TryGetPrisonerMind(target, out var targetMindId, out _))
+        {
+            _prisonDamageByTarget.Remove(target);
+            return;
+        }
+
+        if (TryGetDamageSourceMind(args.Origin, out var sourceMindId, out var sourceMind) &&
+            sourceMindId != targetMindId &&
+            IsMindPrisoner(sourceMindId, sourceMind))
+        {
+            AddPrisonMurderPenalty(sourceMind);
+            _prisonDamageByTarget.Remove(target);
+            return;
+        }
+
+        if (TryGetLargestPrisonDamageContributor(target, targetMindId, out _, out var contributorMind))
+            AddPrisonMurderPenalty(contributorMind);
+
+        _prisonDamageByTarget.Remove(target);
+    }
+
     private void SpawnPrisonMob(ICommonSession session, HumanoidCharacterProfile profile, EntityCoordinates coordinates)
     {
         if (_mind.TryGetMind(session.UserId, out _, out var existingMind) && !existingMind.IsVisitingEntity)
@@ -368,7 +465,7 @@ public sealed class PrisonSystem : EntitySystem
 
                 results.Add(new PrisonBanRefreshResult(
                     check.UserId,
-                    bans.FirstOrDefault(IsTemporaryServerBan),
+                    GetLongestTemporaryServerBan(bans),
                     bans.FirstOrDefault(IsPermanentServerBan)));
             }
 
@@ -439,6 +536,231 @@ public sealed class PrisonSystem : EntitySystem
             RemComp<PrisonBoundComponent>(entity);
     }
 
+    private bool TryGetPrisonerMind(EntityUid entity, out EntityUid mindId, out MindComponent mind)
+    {
+        return TryGetMind(entity, out mindId, out mind) &&
+               IsMindPrisoner(mindId, mind);
+    }
+
+    private bool TryGetDamageSourceMind(EntityUid? source, out EntityUid mindId, out MindComponent mind)
+    {
+        mindId = default;
+        mind = default!;
+
+        if (source == null)
+            return false;
+
+        if (TryGetMind(source.Value, out mindId, out mind))
+            return true;
+
+        if (TryGetProjectileSourceMind(source.Value, out mindId, out mind))
+            return true;
+
+        var current = source.Value;
+        for (var i = 0; i < SourceParentSearchDepth; i++)
+        {
+            if (!TryComp(current, out TransformComponent? transform))
+                return false;
+
+            var parent = transform.ParentUid;
+            if (parent == current)
+                return false;
+
+            if (TryGetMind(parent, out mindId, out mind))
+                return true;
+
+            if (TryGetProjectileSourceMind(parent, out mindId, out mind))
+                return true;
+
+            current = parent;
+        }
+
+        return false;
+    }
+
+    private bool TryGetProjectileSourceMind(EntityUid uid, out EntityUid mindId, out MindComponent mind)
+    {
+        mindId = default;
+        mind = default!;
+
+        if (!TryComp<ProjectileComponent>(uid, out var projectile))
+            return false;
+
+        if (projectile.Shooter != null && TryGetMind(projectile.Shooter.Value, out mindId, out mind))
+            return true;
+
+        return projectile.Weapon != null &&
+               TryGetMind(projectile.Weapon.Value, out mindId, out mind);
+    }
+
+    private bool TryGetMind(EntityUid uid, out EntityUid mindId, out MindComponent mind)
+    {
+        mindId = default;
+        mind = default!;
+
+        if (!TryComp<MindContainerComponent>(uid, out var mindContainer) ||
+            mindContainer.Mind == null)
+        {
+            return false;
+        }
+
+        var mindEntity = mindContainer.Mind.Value;
+        if (!TryComp<MindComponent>(mindEntity, out var mindComponent))
+            return false;
+
+        mindId = mindEntity;
+        mind = mindComponent;
+        return true;
+    }
+
+    private bool TryGetLargestPrisonDamageContributor(
+        EntityUid target,
+        EntityUid targetMindId,
+        out EntityUid sourceMindId,
+        out MindComponent sourceMind)
+    {
+        sourceMindId = default;
+        sourceMind = default!;
+
+        if (!_prisonDamageByTarget.TryGetValue(target, out var sources))
+            return false;
+
+        var highest = FixedPoint2.Zero;
+        var found = false;
+
+        foreach (var (candidateMindId, damage) in sources)
+        {
+            MindComponent? candidateMind = null;
+            if (candidateMindId == targetMindId ||
+                damage <= highest ||
+                !Resolve(candidateMindId, ref candidateMind, false) ||
+                !IsMindPrisoner(candidateMindId, candidateMind))
+            {
+                continue;
+            }
+
+            sourceMindId = candidateMindId;
+            sourceMind = candidateMind;
+            highest = damage;
+            found = true;
+        }
+
+        return found;
+    }
+
+    private void ReducePrisonDamageContributors(EntityUid target, FixedPoint2 healing)
+    {
+        if (healing <= FixedPoint2.Zero || !_prisonDamageByTarget.TryGetValue(target, out var sources))
+            return;
+
+        var totalTrackedDamage = FixedPoint2.Zero;
+        foreach (var damage in sources.Values)
+        {
+            if (damage > FixedPoint2.Zero)
+                totalTrackedDamage += damage;
+        }
+
+        if (totalTrackedDamage <= healing)
+        {
+            _prisonDamageByTarget.Remove(target);
+            return;
+        }
+
+        var sourceMindIds = new EntityUid[sources.Count];
+        sources.Keys.CopyTo(sourceMindIds, 0);
+
+        foreach (var sourceMindId in sourceMindIds)
+        {
+            var damage = sources[sourceMindId];
+            var reduction = damage / totalTrackedDamage * healing;
+            var remaining = damage - reduction;
+            if (remaining <= FixedPoint2.Zero)
+                sources.Remove(sourceMindId);
+            else
+                sources[sourceMindId] = remaining;
+        }
+
+        if (sources.Count == 0)
+            _prisonDamageByTarget.Remove(target);
+    }
+
+    private async void AddPrisonMurderPenalty(MindComponent killerMind)
+    {
+        if (killerMind.UserId is not { } userId)
+            return;
+
+        var minutes = Math.Max(1, _murderPenaltyMinutes);
+        var now = DateTimeOffset.UtcNow;
+        var expiration = now + TimeSpan.FromMinutes(minutes);
+        var roundIds = _gameTicker.RoundId != 0
+            ? ImmutableArray.Create(_gameTicker.RoundId)
+            : ImmutableArray<int>.Empty;
+
+        try
+        {
+            if (_player.TryGetSessionById(userId, out var session))
+            {
+                var check = CreateBanRefreshCheck(session);
+                var bans = await _db.GetBansAsync(
+                    check.Address,
+                    check.UserId,
+                    check.HwId,
+                    check.ModernHwIds,
+                    includeUnbanned: false);
+
+                if (GetLongestTemporaryServerBan(bans)?.ExpirationTime is { } activeExpiration &&
+                    activeExpiration > now)
+                {
+                    expiration = activeExpiration + TimeSpan.FromMinutes(minutes);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Log.Error($"Failed to fetch active prison ban for murder penalty for {userId}: {e}");
+            return;
+        }
+
+        var ban = new BanDef(
+            null,
+            BanType.Server,
+            ImmutableArray.Create(userId),
+            ImmutableArray<(IPAddress address, int cidrMask)>.Empty,
+            ImmutableArray<ImmutableTypedHwid>.Empty,
+            now,
+            expiration,
+            roundIds,
+            TimeSpan.Zero,
+            Loc.GetString("prison-murder-penalty-reason"),
+            NoteSeverity.High,
+            null,
+            null);
+
+        try
+        {
+            await _db.AddBanAsync(ban);
+        }
+        catch (Exception e)
+        {
+            Log.Error($"Failed to add prison murder penalty for {userId}: {e}");
+            return;
+        }
+
+        _taskManager.RunOnMainThread(() => ApplyPrisonMurderPenalty(userId, minutes));
+    }
+
+    private void ApplyPrisonMurderPenalty(NetUserId userId, int minutes)
+    {
+        _nextActiveBanRefresh = TimeSpan.Zero;
+
+        if (_player.TryGetSessionById(userId, out var session))
+        {
+            _chat.DispatchServerMessage(
+                session,
+                Loc.GetString("prison-murder-penalty-message", ("minutes", minutes)));
+        }
+    }
+
     private bool IsUserCurrentlyAntagonist(NetUserId userId)
     {
         return _mind.TryGetMind(userId, out var mindId, out _)
@@ -502,6 +824,14 @@ public sealed class PrisonSystem : EntitySystem
                && ban.Unban == null
                && ban.ExpirationTime is { } expiration
                && expiration > DateTimeOffset.UtcNow;
+    }
+
+    private static BanDef? GetLongestTemporaryServerBan(IEnumerable<BanDef> bans)
+    {
+        return bans
+            .Where(IsTemporaryServerBan)
+            .OrderByDescending(ban => ban.ExpirationTime)
+            .FirstOrDefault();
     }
 
     private static bool IsPermanentServerBan(BanDef ban)

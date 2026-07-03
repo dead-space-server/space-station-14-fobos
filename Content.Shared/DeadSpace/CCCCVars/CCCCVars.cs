@@ -116,6 +116,9 @@ public sealed class CCCCVars
     public static readonly CVarDef<bool> PrisonEnabled =
         CVarDef.Create("prison.enabled", false, CVar.SERVERONLY);
 
+    public static readonly CVarDef<int> PrisonMurderPenaltyMinutes =
+        CVarDef.Create("prison.murder_penalty_minutes", 60, CVar.SERVERONLY);
+
     /// <summary>
     /// Moves long-stuck dynamic physics bodies out of static hard overlaps.
     /// </summary>

@@ -7,3 +7,5 @@ prison-ooc-blocked = You cannot use OOC while serving a prison sentence.
 prison-bwoink-blocked = You cannot use adminhelp while serving a prison sentence.
 prison-ghost-role-blocked = You cannot take ghost roles while serving a prison sentence.
 prison-antag-role-blocked = You cannot become an antagonist while serving a prison sentence.
+prison-murder-penalty-reason = Murdered another prisoner while serving a prison sentence.
+prison-murder-penalty-message = You killed another prisoner. Your sentence was increased by { $minutes } minutes.
