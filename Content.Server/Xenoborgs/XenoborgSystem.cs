@@ -1,4 +1,5 @@
 using Content.Server.Antag;
+using Content.Server.DeadSpace.Prison;
 using Content.Server.GameTicking.Rules;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Silicons.Borgs;
@@ -18,6 +19,7 @@ public sealed partial class XenoborgSystem : EntitySystem
 {
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
     [Dependency] private readonly BorgSystem _borg = default!;
+    [Dependency] private readonly PrisonSystem _prison = default!;
     [Dependency] private readonly SharedRoleSystem _roles = default!;
     [Dependency] private readonly XenoborgsRuleSystem _xenoborgsRule = default!;
 
@@ -82,6 +84,9 @@ public sealed partial class XenoborgSystem : EntitySystem
 
     private void OnXenoborgMindAdded(EntityUid ent, XenoborgComponent comp, MindAddedMessage args)
     {
+        if (_prison.IsMindPrisoner(args.Mind.Owner, args.Mind.Comp))
+            return;
+
         _roles.MindAddRole(args.Mind, comp.MindRole, silent: true);
 
         if (!TryComp<ActorComponent>(ent, out var actorComp))

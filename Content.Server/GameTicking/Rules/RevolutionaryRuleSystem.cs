@@ -38,6 +38,7 @@ using Content.Server.Actions;
 using Robust.Shared.Player;
 using Content.Server.AlertLevel;
 using Content.Server.Chat.Systems;
+using Content.Server.DeadSpace.Prison;
 using Content.Server.DeadSpace.ERT;
 using Content.Shared.DeadSpace.ERT.Prototypes;
 using Content.Server.Database;
@@ -64,6 +65,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly PrisonSystem _prison = default!;
     [Dependency] private readonly RoleSystem _role = default!;
     [Dependency] private readonly RoundEndSystem _roundEnd = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
@@ -263,6 +265,12 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         if (!_mind.TryGetMind(ev.Target, out var mindId, out var mind) && !alwaysConvertible)
             return;
 
+        if (_prison.IsEntityPrisoner(ev.Target))
+        {
+            _popup.PopupEntity(Loc.GetString("head-rev-cant-convert-attempt", ("target", targetName)), ev.Target, uid);
+            return;
+        }
+
         if (HasComp<RevolutionaryComponent>(ev.Target) ||
             HasComp<MindShieldComponent>(ev.Target) ||
             !HasComp<HumanoidAppearanceComponent>(ev.Target) &&
@@ -304,6 +312,9 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         var alwaysConvertible = HasComp<AlwaysRevolutionaryConvertibleComponent>(targetUid);
 
         if (!_mind.TryGetMind(targetUid, out var mindId, out var mind) && !alwaysConvertible)
+            return;
+
+        if (_prison.IsEntityPrisoner(targetUid))
             return;
 
         if (HasComp<RevolutionaryComponent>(targetUid) ||
@@ -358,6 +369,9 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         var alwaysConvertible = HasComp<AlwaysRevolutionaryConvertibleComponent>(ev.Target);
 
         if (!_mind.TryGetMind(ev.Target, out var mindId, out var mind) && !alwaysConvertible)
+            return;
+
+        if (_prison.IsEntityPrisoner(ev.Target))
             return;
 
         if (HasComp<RevolutionaryComponent>(ev.Target) ||

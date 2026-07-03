@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Server.Antag;
+using Content.Server.DeadSpace.Prison;
 using Content.Server.GameTicking.Rules.Components;
 using Robust.Shared.Timing;
 using Content.Server.RoundEnd;
@@ -54,6 +55,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly RoundEndSystem _roundEnd = default!;
     [Dependency] private readonly ServerGlobalSoundSystem _sound = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    [Dependency] private readonly PrisonSystem _prison = default!;
     [Dependency] private readonly IServerDbManager _db = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
@@ -100,6 +102,9 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         session ??= _player.TryGetSessionById(mind.UserId, out var foundSession)
             ? foundSession
             : null;
+
+        if (_prison.IsEntityPrisoner(target) || _prison.IsMindPrisoner(mindId, mind))
+            return false;
 
         var ruleQuery = EntityQueryEnumerator<UnitologyRuleComponent, AntagSelectionComponent>();
         while (ruleQuery.MoveNext(out var ruleUid, out _, out var antagSelection))
@@ -361,6 +366,12 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
 
         if (!_mindSystem.TryGetMind(args.EntityUid, out var mindId, out var mind))
             return;
+
+        if ((args.Session != null && _prison.IsUserPrisoner(args.Session.UserId)) ||
+            _prison.IsMindPrisoner(mindId, mind))
+        {
+            return;
+        }
 
         var roles = _role.MindGetAllRoleInfo(mindId);
         var headRoles = roles.Where(x => x.Prototype == UnitologyAntagRole);

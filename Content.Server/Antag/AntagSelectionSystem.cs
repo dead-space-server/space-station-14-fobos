@@ -2,6 +2,7 @@ using System.Linq;
 using Content.Server.Administration.Managers;
 using Content.Server.Antag.Components;
 using Content.Server.Chat.Managers;
+using Content.Server.DeadSpace.Prison;
 using Content.Server.DeadSpace.Traitor;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Events;
@@ -51,6 +52,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
     [Dependency] private readonly MindSystem _mind = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly PlayTimeTrackingSystem _playTime = default!;
+    [Dependency] private readonly PrisonSystem _prison = default!;
     [Dependency] private readonly IServerPreferencesManager _pref = default!;
     [Dependency] private readonly RoleSystem _role = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
@@ -427,6 +429,13 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
     /// </summary>
     public void MakeAntag(Entity<AntagSelectionComponent> ent, ICommonSession? session, AntagSelectionDefinition def, bool ignoreSpawner = false)
     {
+        if (session != null && _prison.IsUserPrisoner(session.UserId))
+        {
+            Log.Info($"Rejected prison-bound {session.Name} as antagonist: {ToPrettyString(ent)}");
+            _adminLogger.Add(LogType.AntagSelection, $"Rejected prison-bound {session.Name} as antagonist: {ToPrettyString(ent)}");
+            return;
+        }
+
         // DS14-start
         if (session != null && TryRedirectSleeperAgentToTraitorUltra(ent, session))
             return;
@@ -638,6 +647,9 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
             return true;
 
         if (session.Status is SessionStatus.Disconnected or SessionStatus.Zombie)
+            return false;
+
+        if (_prison.IsUserPrisoner(session.UserId))
             return false;
 
         if (ent.Comp.AssignedSessions.Contains(session))
