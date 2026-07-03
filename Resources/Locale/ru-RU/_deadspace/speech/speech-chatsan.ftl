@@ -307,7 +307,6 @@ deadspace-chatsan-replacement-126 = хорошо сработано
 
 deadspace-chatsan-word-127 = увы
 deadspace-chatsan-replacement-127 = увы 
-[#-- Да, это щитлокаль, чтобы не переёбывать нумерацию ещё 100+ словам. --]
 
 deadspace-chatsan-word-128 = сво
 deadspace-chatsan-replacement-128 = свой
