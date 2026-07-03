@@ -11,14 +11,7 @@
       "name": "icon"
     },
     {
-      "name": "equipped-INNERCLOTHING",
-      "directions": 4
-    },
-    {
-      "name": "h-icon"
-    },
-    {
-      "name": "h-equipped-INNERCLOTHING",
+      "name": "equipped-NECK",
       "directions": 4
     }
   ]
