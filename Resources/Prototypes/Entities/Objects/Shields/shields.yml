@@ -74,6 +74,20 @@
     #DS14-End
 
 - type: entity
+  parent: BaseAction
+  id: ShieldDashAction
+  name: таран щитом
+  description: Рывок вперед с поднятым щитом, чтобы сбить врага с ног.
+  components:
+  - type: Action
+    useDelay: 15
+    icon:
+      sprite: Interface/Actions/actions_mecha.rsi
+      state: mech_overload_off
+  - type: InstantAction
+    event: !type:ShieldDashEvent
+
+- type: entity
   name: base repairable shield
   parent: BaseShield
   id: BaseRepairableShield
@@ -118,6 +132,17 @@
         flatReductions:
           Blunt: 1
           Slash: 1
+    #DS14-Start
+    - type: ShieldDash
+      damage: 
+        types:
+          Blunt: 10
+      damageToShield: 
+        types:
+            Blunt: 110
+      staminaDamage: 60
+      staminaDamageToUser: 30   
+    #DS14-End
 
 - type: entity
   name: laser shield
@@ -172,6 +197,17 @@
           Piercing: 0.5
         flatReductions:
           Piercing: 1
+    #DS14-Start
+    - type: ShieldDash
+      damage: 
+        types:
+          Blunt: 10
+      damageToShield: 
+        types:
+            Blunt: 110
+      staminaDamage: 60
+      staminaDamageToUser: 30   
+    #DS14-End
 
 #Craftable shields
 
@@ -236,6 +272,17 @@
                   max: 5
     - type: StaticPrice
       price: 150
+    #DS14-Start
+    - type: ShieldDash
+      damage: 
+        types:
+          Blunt: 5
+      damageToShield: 
+        types:
+            Blunt: 30
+      staminaDamage: 60
+      staminaDamageToUser: 30   
+    #DS14-End
 
 - type: entity
   name: cardboard shield
@@ -345,6 +392,17 @@
                 SheetSteel:
                   min: 1
                   max: 2
+    #DS14-Start
+    - type: ShieldDash
+      damage: 
+        types:
+          Blunt: 5
+      damageToShield: 
+        types:
+            Blunt: 20
+      staminaDamage: 60
+      staminaDamageToUser: 30   
+    #DS14-End
 
 - type: entity
   name: web shield
@@ -458,6 +516,15 @@
                 SheetBrass:
                   min: 1
                   max: 2
+    - type: ShieldDash
+      damage: 
+        types:
+          Blunt: 15
+          Piercing: 5
+      damageToShield: 
+        types:
+            Blunt: 25
+      staminaDamage: 60
 # DS14-end
 
 - type: entity
@@ -509,6 +576,17 @@
                 SheetGlass:
                   min: 5
                   max: 5
+    #DS14-Start
+    - type: ShieldDash
+      damage: 
+        types:
+          Blunt: 20
+      damageToShield: 
+        types:
+            Blunt: 10
+      staminaDamage: 60
+      staminaDamageToUser: 30   
+    #DS14-End
 
 - type: entity
   name: energy shield
@@ -722,3 +800,12 @@
                   max: 2
     - type: StaticPrice
       price: 150
+    - type: ShieldDash
+      damage: 
+        types:
+          Blunt: 20
+      damageToShield: 
+        types:
+            Blunt: 60
+      staminaDamage: 60
+      staminaDamageToUser: 30     
