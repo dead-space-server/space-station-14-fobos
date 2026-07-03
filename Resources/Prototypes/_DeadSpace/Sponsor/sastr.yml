@@ -3,6 +3,7 @@
   id: Hairsastr
   bodyPart: Hair
   markingCategory: Hair
+  sponsorOnly: true
   sprites:
   - sprite: _DeadSpace/Sponsor/sastr/Customization/hair.rsi
     state: hair
@@ -12,24 +13,10 @@
   bodyPart: Head
   markingCategory: Head
   followSkinColor: true
+  sponsorOnly: true
   sprites:
   - sprite: _DeadSpace/Sponsor/sastr/Customization/top.rsi
     state: head
-    scale: 0.8, 0.8
-
-- type: marking
-  id: Eyesastr
-  bodyPart: Eyes
-  markingCategory: Head
-  sprites:
-  - sprite: _DeadSpace/Sponsor/sastr/Customization/eye.rsi
-    layers:
-    - state: eye_1
-      scale: 0.8, 0.8
-  - sprite: _DeadSpace/Sponsor/sastr/Customization/eye.rsi
-    layers:
-    - state: eye_2
-      scale: 0.8, 0.8
 
 # backpack.rsi
 - type: entity
