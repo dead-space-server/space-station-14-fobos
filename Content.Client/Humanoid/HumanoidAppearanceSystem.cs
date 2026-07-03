@@ -354,7 +354,10 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
 
         for (var j = 0; j < markingPrototype.Sprites.Count; j++)
         {
-            var markingSprite = markingPrototype.Sprites[j];
+            // DS14-start
+            var markingLayer = markingPrototype.SpriteLayers[j];
+            var markingSprite = markingLayer.Sprite;
+            // DS14-end
 
             if (markingSprite is not SpriteSpecifier.Rsi rsi)
                 return;
@@ -369,6 +372,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             }
 
             _sprite.LayerSetVisible((entity.Owner, sprite), layerId, visible);
+            _sprite.LayerSetScale((entity.Owner, sprite), layerId, markingLayer.Scale); // DS14
 
             if (!visible || setting == null) // this is kinda implied
                 continue;
