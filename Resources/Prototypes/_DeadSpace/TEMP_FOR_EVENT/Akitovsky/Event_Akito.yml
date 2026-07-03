@@ -31,8 +31,8 @@
   - type: FoldableClothing
     foldedEquippedPrefix: lowered
   - type: PNV
-    color: "#AFC4D111"
-    desaturation: 0.8
+    color: "#1ae61a11"
+    desaturation: 0.95
     activateSound: 
       path: /Audio/_DeadSpace/NightVision/pnv.ogg
 
@@ -64,7 +64,7 @@
   parent: [ ClothingHeadHelmetAkiBasic, ClothingHeadHelmetNVD ]
   id: ClothingHeadHelmetAkiDeltaSandNVD
   name: шлем M10 с ПНВ
-  description: Стандартная защитная экипировка. Защищает голову от ударов. Внутри спрятана распечатка аниме-девочки в джаггернауте и энергомечом в руках.
+  description: Шлем, который защитит голову от осколков или мелкого калибра. Имеет антибликовую сетку. Внутри спрятана распечатка аниме-девочки в джаггернауте и энергомечом в руках.
   suffix: Akitovsky, Песок
   components:
   - type: Sprite
@@ -80,7 +80,7 @@
   parent: ClothingHeadHelmetAkiBasic
   id: ClothingHeadHelmetAkiDeltaSand
   name: шлем M10
-  description: Стандартная защитная экипировка. Защищает голову от ударов. Внутри спрятана распечатка слаймолюдки в элитном скафандре синдиката и энергомечом в руках.
+  description: Шлем, который защитит голову от осколков или мелкого калибра. Имеет антибликовую сетку. Внутри спрятана распечатка слаймолюдки в элитном скафандре синдиката и энергомечом в руках.
   suffix: Akitovsky, Песок
   components:
   - type: Sprite
@@ -95,7 +95,7 @@
   parent: [ ClothingHeadHelmetAkiBasic, ClothingHeadHelmetNVD ]
   id: ClothingHeadHelmetAkiDeltaBlackNVD
   name: шлем M10 с ПНВ
-  description: Стандартная защитная экипировка. Защищает голову от ударов. Внутри спрятана распечатка аниме-девочки в джаггернауте и энергомечом в руках.
+  description: Шлем, который защитит голову от осколков или мелкого калибра. Имеет антибликовую сетку. Внутри спрятана распечатка аниме-девочки в джаггернауте и энергомечом в руках.
   suffix: Akitovsky
   components:
   - type: Sprite
@@ -111,7 +111,7 @@
   parent: ClothingHeadHelmetAkiBasic
   id: ClothingHeadHelmetAkiDeltaBlack
   name: шлем M10
-  description: Стандартная защитная экипировка. Защищает голову от ударов. Внутри спрятана распечатка слаймолюдки в элитном скафандре синдиката и энергомечом в руках.
+  description: Шлем, который защитит голову от осколков или мелкого калибра. Имеет антибликовую сетку. Внутри спрятана распечатка слаймолюдки в элитном скафандре синдиката и энергомечом в руках.
   suffix: Akitovsky
   components:
   - type: Sprite
@@ -1466,6 +1466,8 @@
         whitelist:
           tags:
           - CartridgePistol
+  - type: Gun
+    fireRate: 9.5
 
 # Магазин Точмаш (9х19 мм AP 6.3)
 - type: entity
