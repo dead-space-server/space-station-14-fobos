@@ -137,3 +137,41 @@
   components:
   - type: Implanter
     implant: RezervImplant
+
+- type: entity
+  parent: BaseSubdermalImplant
+  id: SandevistanImplant
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    implantAction: ActionActivateSandevistanImplant
+  - type: SandevistanImplant
+    duration: 16
+    softcapTime: 8
+    movementSpeedModifier: 1.7
+    attackRateModifier: 1.35
+    overloadInterval: 1
+    overloadStaminaDamage: 9
+    overloadDamage:
+      types:
+        Blunt: 4
+    initialJitterProgress: 0.2
+    maxJitterHits: 5
+    maxJitterAmplitude: 5
+    maxJitterFrequency: 30
+    jitterLerpRate: 5
+    jitterRefreshTime: 0.35
+    afterimageInterval: 0.015
+    afterimageMinDistance: 0.08
+    afterimageLifetime: 0.35
+    afterimageColor: "#c5ecff99"
+    afterimageFallbackEffect: MantisDodgeEffect
+    popup: sandevistan-implant-activated
+
+- type: entity
+  id: SandevistanImplanter
+  suffix: Сандевистан
+  parent: BaseImplantOnlyImplanter
+  components:
+  - type: Implanter
+    implant: SandevistanImplant
