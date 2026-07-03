@@ -1,0 +1,6 @@
+- type: entity
+  parent: [ WallRockChromite, WallIndestructible ]
+  id: WallRockChromitePrisonBoundary
+  name: prison boundary rock
+  description: It looks impossible to destroy.
+  suffix: Prison Boundary, Indestructible

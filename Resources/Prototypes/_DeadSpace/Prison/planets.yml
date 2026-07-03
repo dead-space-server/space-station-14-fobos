@@ -1,0 +1,29 @@
+- type: prisonPlanet
+  id: PrisonQuarry
+  biome: PrisonQuarrySurface
+  mapName: Prison Quarry
+  lightColor: "#5A1419"
+  mapHalfSize: 250
+  boundaryEnabled: true
+  boundaryWallWidth: 6
+  boundaryTile: FloorChromite
+  boundaryWallEntity: WallRockChromitePrisonBoundary
+  residenceReservationEnabled: true
+  residenceReservationSize: 48
+  residenceTile: FloorSnowDug
+  markerLayers:
+  - PrisonOreIron
+  - PrisonOreCoal
+  - PrisonOreQuartz
+  - PrisonOreSalt
+  - PrisonOreSilver
+  - PrisonOreGold
+  - PrisonOrePlasma
+  - PrisonOreUranium
+  - PrisonOreDiamond
+  atmosphere:
+    volume: 2500
+    temperature: 255
+    moles:
+    - 14
+    - 23
