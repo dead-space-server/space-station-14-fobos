@@ -1003,7 +1003,7 @@
 - type: entity
   parent: BaseCartridgeRifle
   id: CartridgeRifleSpentAki
-  name: патрон (6.5х39 мм учебный)
+  name: патрон (5.56х45 мм учебный)
   suffix: Akitovsky, использован
   components:
   - type: Sprite
@@ -1305,6 +1305,10 @@
     soundGunshot:
       path: /Audio/_DeadSpace/TEMP_FOR_EVENT/Akitovsky/sfx/hk.ogg
     fireRate: 5.5
+  - type: CursorOffsetRequiresWield
+  - type: EyeCursorOffset
+    maxOffset: 5
+    pvsIncrease: 0.2
 
 # Магазин 5.56х45 мм SSA AP
 - type: entity
@@ -1488,7 +1492,44 @@
   - type: Tag
     tags: 
     - MagazinePistolTochmash
-  
+
+# Вектор
+- type: entity
+  name: KRISS Vector
+  parent: WeaponTochmash
+  id: WeaponKRISSVectorAki
+  description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении спецназа. Переработан под 9х19 мм.
+  suffix: Akitovsky, Оружие
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/KRISS_Vector.rsi
+    layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: mag-0
+        map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/KRISS_Vector.rsi
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazinePistolTochmash9x19AP63
+        priority: 2
+        whitelist:
+          tags:
+          - MagazinePistolTochmash
+      gun_chamber:
+        name: Chamber
+        startingItem: Cartridge9x19AP63
+        priority: 1
+        whitelist:
+          tags:
+          - CartridgePistol
+  - type: Gun
+    soundGunshot:
+      path: /Audio/_DeadSpace/TEMP_FOR_EVENT/Akitovsky/sfx/vector.ogg
+    fireRate: 9.5
 
 # Иконки работ
 - type: jobIcon
@@ -1573,7 +1614,7 @@
   description: Универсальное и надежное защитное сооружение.
   placement:
     mode: SnapgridCenter
-  suffix: Akitovsky
+  suffix: Akitovsky, Маппинг
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/sandbags.rsi
@@ -1584,7 +1625,7 @@
     thresholds:
     - trigger:
         !type:DamageTrigger
-        damage: 200
+        damage: 700
       behaviors:
       - !type:DoActsBehavior
         acts: ["Destruction"]
@@ -1593,12 +1634,12 @@
       fix1:
         shape:
           !type:PhysShapeAabb
-          bounds: "-0.49,-0.35,0.49,-0.2"
+          bounds: "-0.41,-0.35,0.41,-0.2"
         mask:
-        - TableMask
+        - CrateMask
         layer:
-        - TableLayer
-        - LowImpassable
+        - MachineLayer
+  - type: RequireProjectileTarget
   - type: Appearance
   - type: Climbable
   - type: MeleeSound
@@ -1611,7 +1652,6 @@
 - type: entity
   parent: BarricadeSandbagAki
   id: BarricadeSandbagAkiBrown
-  suffix: Akitovsky
   components:
   - type: Sprite
     color: "#a98c7c"
@@ -1620,7 +1660,7 @@
 - type: entity
   parent: BaseStructure
   id: BaseStreetlightAki
-  suffix: Akitovsky
+  suffix: Akitovsky, Маппинг
   abstract: true
   placement:
     mode: SnapgridCenter
@@ -1679,7 +1719,7 @@
   id: PoweredStreetlightEmptyAki
   name: уличный фонарный слолб
   description: Высокая металлическая опора с фонарем для освещения улиц.
-  suffix: Akitovsky, пустой
+  suffix: Akitovsky, Пустой, Маппинг
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/Lights/streetlight.rsi
@@ -1734,7 +1774,7 @@
 - type: entity
   parent: PoweredStreetlightEmptyAki
   id: PoweredStreetlightAki
-  suffix: Akitovsky
+  suffix: Akitovsky, Маппинг
   components:
   - type: Sprite
     state: base
@@ -1760,7 +1800,7 @@
   id: PoweredStreetlightBrokenAki
   name: уличный фонарный слолб
   description: Кажется, он уже всё.
-  suffix: Akitovsky, сломанный
+  suffix: Akitovsky, Сломанный, Маппинг
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/Lights/streetlight.rsi
@@ -2057,7 +2097,7 @@
   id: DecorFloorPaperAki
   name: разбросанные бумаги
   description: Беспорядок из бумаг.
-  suffix: Akitovsky, 8 states, Маппинг
+  suffix: Akitovsky, 8 направлений, Маппинг
   components:
   - type: Sprite
     state: scattered_papers
@@ -2065,7 +2105,7 @@
 - type: entity
   parent: DecorFloorWorldBaseAki
   id: DecorFloorPaper1Aki
-  suffix: Akitovsky, 4 states, Маппинг
+  suffix: Akitovsky, 4 направления, Маппинг
   name: разбросанные бумаги
   description: Беспорядок из бумаг.
   components:
@@ -2091,7 +2131,7 @@
   id: DecorFloorScrapwoodAki
   name: деревянные обрезки
   description: Деревянные обрезки.
-  suffix: Akitovsky, 6 states, Маппинг
+  suffix: Akitovsky, 6 направлений, Маппинг
   components:
   - type: Sprite
     snapCardinals: false
@@ -2102,7 +2142,7 @@
   id: DecorFloorBrickrubbleAki
   name: кирпичные обломки
   description: Кирпичные обломки.
-  suffix: Akitovsky, 6 states, Маппинг
+  suffix: Akitovsky, 6 направлений, Маппинг
   components:
   - type: Sprite
     state: brickrubble
@@ -2112,7 +2152,7 @@
   id: DecorFloorCardboardAki
   name: картонные коробки
   description: Коробки из картонных обрезков.
-  suffix: Akitovsky, 6 states, Маппинг
+  suffix: Akitovsky, 6 направлений, Маппинг
   components:
   - type: Sprite
     state: cardboard
@@ -2125,20 +2165,34 @@
   description: Старый бетонный барьер для остановки движения.
   components:
   - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/barriers.rsi
     state: concrete_barrier
+    drawdepth: BlastDoors
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 2000
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
   - type: Fixtures
     fixtures:
       fix1:
         shape:
           !type:PhysShapeAabb
-            bounds: "0.3,0,-0.3,-0.1"
-        density: 1000
+          bounds: "-0.41,-0.35,0.41,-0.2"
+        mask:
+        - CrateMask
         layer:
-        - WallLayer
+        - MachineLayer
+  - type: RequireProjectileTarget
+  - type: Climbable
     
 - type: entity
   parent: DecorConcreteBarrierAki
   id: DecorConcreteBarrierDamagedAki
+  suffix: Akitovsky, Повреждённый, Маппинг
   components:
   - type: Sprite
     layers:
@@ -2156,8 +2210,6 @@
 - type: entity
   parent: DecorConcreteBarrierAki
   id: DecorConcreteBarrierStripedAki
-  name: бетонный барьер
-  description: Старый бетонный барьер для остановки движения.
   components:
   - type: Sprite
     layers:
@@ -2167,8 +2219,26 @@
     available:
       - body:
           concrete_barrier_alt: ""
-          concrete_barrier_alt_2: ""
+          concrete_barrier_alt_1: ""
 
+- type: entity
+  parent: DecorConcreteBarrierAki
+  id: DecorRoadBarrierAki
+  name: дорожный барьер
+  description: Старый деревянный барьер для остановки движения.
+  components:
+  - type: Sprite
+    state: road_barrier
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+
+# Бочки
 - type: entity
   parent: DecorFloorWorldBaseAki
   id: DecorBarrelsAki
@@ -2205,7 +2275,7 @@
   id: DecorFloorPalletStackAki
   name: стопка поддонов
   description: Стопка деревянных поддонов.
-  suffix: Akitovsky, 2 states, Маппинг
+  suffix: Akitovsky, 2 направления, Маппинг
   components:
   - type: Sprite
     state: pallet_stack
@@ -2322,7 +2392,7 @@
 
 # Комнатные растения
 - type: entity
-  id: PottedPlantAki1
+  id: PottedPlant1Aki
   parent: PottedPlantBase
   suffix: Akitovsky, Маппинг
   name: комнатное растение
@@ -2333,22 +2403,22 @@
     state: pot_1
 
 - type: entity
-  id: PottedPlantAki2
-  parent: PottedPlantAki1
+  id: PottedPlant2Aki
+  parent: PottedPlant1Aki
   components:
   - type: Sprite
     state: pot_2
 
 - type: entity
-  id: PottedPlantAki3
-  parent: PottedPlantAki1
+  id: PottedPlant3Aki
+  parent: PottedPlant1Aki
   components:
   - type: Sprite
     state: pot_3
 
 - type: entity
-  id: PottedPlantAki4
-  parent: PottedPlantAki1
+  id: PottedPlant4Aki
+  parent: PottedPlant1Aki
   components:
   - type: Sprite
     state: pot_4
@@ -2402,6 +2472,242 @@
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/world_32x32.rsi
     state: skeleton
 
+# Мешки мусора
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorFloorTrashbags1Aki
+  name: мешки с мусором
+  description: Старые мешки с мусором.
+  components:
+  - type: Sprite
+    state: trashbags_1
+
+- type: entity
+  parent: DecorFloorTrashbags1Aki
+  id: DecorFloorTrashbags2Aki
+  components:
+  - type: Sprite
+    state: trashbags_2
+
+- type: entity
+  parent: DecorFloorTrashbags1Aki
+  id: DecorFloorTrashbags3Aki
+  components:
+  - type: Sprite
+    state: trashbags_3
+
+- type: entity
+  parent: DecorFloorTrashbags1Aki
+  id: DecorFloorTrashbags4Aki
+  components:
+  - type: Sprite
+    state: trashbags_4
+
+- type: entity
+  parent: DecorFloorTrashbags1Aki
+  id: DecorFloorTrashbags5Aki
+  components:
+  - type: Sprite
+    state: trashbags_5
+
+- type: entity
+  parent: DecorFloorTrashbags1Aki
+  id: DecorFloorTrashbags6Aki
+  components:
+  - type: Sprite
+    state: trashbags_6
+
+# Урны
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorStreetTrashbinAki
+  name: уличная мусорка
+  description: Старая урна для мусора.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/world_32x32.rsi
+    state: trashbin
+
+- type: entity
+  parent: DecorStreetTrashbinAki
+  id: DecorStreetTrashbinDamagedAki
+  suffix: Akitovsky, Повреждённая, Маппинг
+  components:
+  - type: Sprite
+    layers:
+    - state: trashbin-1
+      map: [ "body" ]
+  - type: RandomSprite
+    available:
+      - body:
+          trashbin-1: ""
+          trashbin-2: ""
+          trashbin-3: ""
+
+# Рельсы
+- type: entity
+  id: RailsAki
+  name: рельсы
+  suffix: Akitovsky, Прямые, Маппинг
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/rails64.rsi
+    state: rails
+    netsync: false
+    drawdepth: FloorObjects
+  - type: Damageable
+    damageModifierSet: Wood
+    damageContainer: Inorganic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: WoodDestroy
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Transform
+    anchored: true
+  - type: Physics
+    bodyType: Static
+    canCollide: false
+  - type: Clickable
+
+- type: entity
+  parent: RailsAki
+  id: RailsJunctionRightTopAki
+  suffix: Akitovsky, Соединение право верх, Маппинг
+  components:
+  - type: Sprite
+    state: junction-right-top
+
+- type: entity
+  parent: RailsAki
+  id: RailsJunctionLeftTopAki
+  suffix: Akitovsky, Соединение лево верх, Маппинг
+  components:
+  - type: Sprite
+    state: junction-left-top
+
+- type: entity
+  parent: RailsAki
+  id: RailsJunctionRightBottomAki
+  suffix: Akitovsky, Соединение право низ, Маппинг
+  components:
+  - type: Sprite
+    state: junction-right-bottom
+
+- type: entity
+  parent: RailsAki
+  id: RailsJunctionLeftBottomAki
+  suffix: Akitovsky, Соединение лево низ, Маппинг
+  components:
+  - type: Sprite
+    state: junction-left-bottom
+
+- type: entity
+  parent: RailsAki
+  id: RailsTurnWSAki
+  suffix: Akitovsky, Поворот юго-восток, Маппинг
+  components:
+  - type: Sprite
+    state: turn-WS
+
+- type: entity
+  parent: RailsAki
+  id: RailsTurnNWAki
+  suffix: Akitovsky, Поворот северо-восток, Маппинг
+  components:
+  - type: Sprite
+    state: turn-NW
+
+- type: entity
+  parent: RailsAki
+  id: RailsTurnNEAki
+  suffix: Akitovsky, Поворот северо-запад, Маппинг
+  components:
+  - type: Sprite
+    state: turn-NE
+
+- type: entity
+  parent: RailsAki
+  id: RailsTurnSEAki
+  suffix: Akitovsky, Поворот юго-запад, Маппинг
+  components:
+  - type: Sprite
+    state: turn-SE
+
+# Деревянная дверь
+- type: entity
+  parent: BaseMaterialDoorNavMap
+  id: WoodDoorAki
+  name: деревянная дверь
+  description: Дверь, куда она ведёт?
+  suffix: Akitovsky, Маппинг
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/securedoor.rsi
+  - type: Door
+    openSound:
+      path: /Audio/Effects/door_open.ogg
+    closeSound:
+      path: /Audio/Effects/door_close.ogg
+  - type: Damageable
+    damageModifierSet: Wood
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 400
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: WoodDestroy
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          MaterialWoodPlank1:
+            min: 3
+            max: 5
+
+# Кирпичная стена
+- type: entity
+  parent: BaseWall
+  id: WallBrickAki
+  name: кирпичная стена
+  description: Удерживает тепло внутри, а песок снаружи.
+  suffix: Akitovsky, Маппинг
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Walls/brick.rsi
+  - type: Icon
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Walls/brick.rsi
+  - type: RCDDeconstructable
+    cost: 6
+    delay: 8
+    fx: EffectRCDDeconstruct8
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          Girder:
+            min: 1
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: IconSmooth
+    key: walls
+    base: brick
 
 ################# КПСК
 # Баннер революции

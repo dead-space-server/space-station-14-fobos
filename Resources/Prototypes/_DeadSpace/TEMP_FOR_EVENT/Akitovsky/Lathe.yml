@@ -49,72 +49,54 @@
   result: MagazineVSK9x39SP6
   materials:
    Steel: 450
-   plasteel: 50
+   Plasteel: 50
 
 - type: latheRecipe
   id: Magazine9x19AP63
   result: Magazine9x19AP63
   materials:
    Steel: 350
-   plasteel: 50
-
-- type: latheRecipe
-  result: Zipties
-  id: Zipties
-  materials:
-   plastic: 100
-
-- type: latheRecipe
-  result: Flash
-  id: Flash
-  materials:
-   Steel: 250
+   Plasteel: 50
 
 - type: latheRecipe
   result: PowerCellHyperPrinted
   id: PowerCellHyperPrinted
   materials:
    Steel: 1000
-   gold: 250
-   plastic: 250
+   Gold: 250
+   Plastic: 250
 
 - type: latheRecipe
   result: FlashlightSeclite
   id: FlashlightSeclite
   materials:
    Steel: 1000
-   plastic: 250
-
-- type: latheRecipe
-  result: CombatKnife
-  id: CombatKnife
-  materials:
-   Steel: 1000
+   Plastic: 250
 
 - type: latheRecipe
   id: MagazineEagle357MagnumFMJ
   result: MagazineEagle357MagnumFMJ
   materials:
    Steel: 750
-   plasteel: 75
+   Plasteel: 75
 
 - type: latheRecipe
   id: Magazine556x45AP
   result: Magazine556x45AP
   materials:
    Steel: 450
-   plasteel: 50
+   Plasteel: 50
 
 - type: latheRecipe
   id: Magazine12x70Piranha
   result: Magazine12x70Piranha
   materials:
    Steel: 450
-   plasteel: 100
+   Plasteel: 100
 
 - type: latheRecipe
   id: Magazine556x45APExtended
   result: Magazine556x45APExtended
   materials:
    Steel: 600
-   plasteel: 65
+   Plasteel: 65

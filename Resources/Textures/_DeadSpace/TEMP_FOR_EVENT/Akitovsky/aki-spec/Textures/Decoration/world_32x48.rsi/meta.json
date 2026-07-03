@@ -26,18 +26,6 @@
       "name": "barrels6"
     },
     {
-      "name": "trashbin"
-    },
-    {
-      "name": "trashbin-1"
-    },
-    {
-      "name": "trashbin-2"
-    },
-    {
-      "name": "trashbin-3"
-    },
-    {
       "name": "pot_1"
     },
     {
@@ -50,43 +38,7 @@
       "name": "pot_4"
     },
     {
-      "name": "concrete_barrier",
-      "directions": 4
-    },
-    {
-      "name": "concrete_barrier_1",
-      "directions": 4
-    },
-    {
-      "name": "concrete_barrier_2",
-      "directions": 4
-    },
-    {
-      "name": "concrete_barrier_3",
-      "directions": 4
-    },
-    {
-      "name": "concrete_barrier_4",
-      "directions": 4
-    },
-    {
-      "name": "concrete_barrier_5",
-      "directions": 4
-    },
-    {
-      "name": "concrete_barrier_alt",
-      "directions": 4
-    },
-    {
-      "name": "concrete_barrier_alt_2",
-      "directions": 4
-    },
-    {
       "name": "shower",
-      "directions": 4
-    },
-    {
-      "name": "toilet",
       "directions": 4
     },
     {

@@ -9,6 +9,18 @@
   "states": [
     {
       "name": "skeleton"
+    },
+    {
+      "name": "trashbin"
+    },
+    {
+      "name": "trashbin-1"
+    },
+    {
+      "name": "trashbin-2"
+    },
+    {
+      "name": "trashbin-3"
     }
   ]
 }
