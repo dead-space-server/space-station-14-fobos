@@ -286,8 +286,17 @@ namespace Content.Client.Lobby.UI
             {
                 if (Profile is null || _readOnly) // DS14
                     return;
+                // DS14-start
+                var selectedId = newStyle.id;
+                if (Profile.Appearance.HairGradientEnabled)
+                {
+                    var gradientId = selectedId + "Gradient";
+                    if (_markingManager.Markings.ContainsKey(gradientId))
+                        selectedId = gradientId;
+                }
+                // DS14-End
                 Profile = Profile.WithCharacterAppearance(
-                    Profile.Appearance.WithHairStyleName(newStyle.id));
+                    Profile.Appearance.WithHairStyleName(selectedId)); // DS14
                 ReloadPreview();
             };
 
@@ -297,9 +306,59 @@ namespace Content.Client.Lobby.UI
                     return;
                 Profile = Profile.WithCharacterAppearance(
                     Profile.Appearance.WithHairColor(newColor.marking.MarkingColors[0]));
+                // DS14-start
+                if (Profile.Appearance.HairGradientEnabled && newColor.marking.MarkingColors.Count > 1)
+                {
+                    Profile = Profile.WithCharacterAppearance(
+                        Profile.Appearance.WithHairGradientColor(newColor.marking.MarkingColors[1]));
+                }
+                // DS14-end
                 UpdateCMarkingsHair();
                 ReloadPreview();
             };
+
+            // DS14-start
+            HairStylePicker.OnGradientChanged += gradient =>
+            {
+                if (Profile is null || _readOnly)
+                    return;
+
+                var currentHairId = Profile.Appearance.HairStyleId;
+
+                if (gradient.enabled)
+                {
+                    var baseId = currentHairId;
+                    if (baseId.EndsWith("Gradient"))
+                        baseId = baseId[..^"Gradient".Length];
+
+                    var gradientId = baseId + "Gradient";
+                    if (_markingManager.Markings.ContainsKey(gradientId))
+                    {
+                        Profile = Profile.WithCharacterAppearance(
+                            Profile.Appearance.WithHairStyleName(gradientId)
+                                .WithHairGradientEnabled(true)
+                                .WithHairGradientColor(gradient.color));
+                    }
+                }
+                else
+                {
+                    var baseId = currentHairId;
+                    if (baseId.EndsWith("Gradient"))
+                        baseId = baseId[..^"Gradient".Length];
+
+                    if (baseId.Length > 0 && _markingManager.Markings.ContainsKey(baseId))
+                    {
+                        Profile = Profile.WithCharacterAppearance(
+                            Profile.Appearance.WithHairStyleName(baseId)
+                                .WithHairGradientEnabled(false));
+                    }
+                }
+
+                UpdateHairPickers();
+                UpdateCMarkingsHair();
+                ReloadPreview();
+            };
+            // DS14-end
 
             FacialHairPicker.OnMarkingSelect += newStyle =>
             {
@@ -326,6 +385,7 @@ namespace Content.Client.Lobby.UI
                     return;
                 Profile = Profile.WithCharacterAppearance(
                     Profile.Appearance.WithHairStyleName(HairStyles.DefaultHairStyle)
+                        .WithHairGradientEnabled(false) // DS14
                 );
                 UpdateHairPickers();
                 UpdateCMarkingsHair();
@@ -354,6 +414,15 @@ namespace Content.Client.Lobby.UI
 
                 if (string.IsNullOrEmpty(hair))
                     return;
+
+                // DS14-start
+                if (Profile.Appearance.HairGradientEnabled)
+                {
+                    var gradientHair = hair + "Gradient";
+                    if (_markingManager.Markings.ContainsKey(gradientHair))
+                        hair = gradientHair;
+                }
+                // DS14-end
 
                 Profile = Profile.WithCharacterAppearance(
                     Profile.Appearance.WithHairStyleName(hair)
@@ -1669,14 +1738,40 @@ namespace Content.Client.Lobby.UI
             {
                 return;
             }
-            var hairMarking = Profile.Appearance.HairStyleId == HairStyles.DefaultHairStyle
+
+            // DS14-start
+            var hairId = Profile.Appearance.HairStyleId;
+            var gradientEnabled = Profile.Appearance.HairGradientEnabled;
+
+            var hairColors = new List<Color> { Profile.Appearance.HairColor };
+            if (gradientEnabled)
+            {
+                hairColors.Add(Profile.Appearance.HairGradientColor);
+            }
+
+            // If gradient enabled, the ID should be the Gradient version (it's set in OnGradientChanged)
+            // But make sure the marking actually exists; if not, fall back
+            if (gradientEnabled && !_markingManager.Markings.ContainsKey(hairId))
+            {
+                var gradientId = hairId + "Gradient";
+                if (_markingManager.Markings.ContainsKey(gradientId))
+                    hairId = gradientId;
+            }
+            // DS14-end
+
+            var hairMarking = hairId == HairStyles.DefaultHairStyle
                 ? new List<Marking>()
-                : new() { new(Profile.Appearance.HairStyleId, new List<Color>() { Profile.Appearance.HairColor }) };
+                : new() { new(hairId, hairColors) };
 
             var facialHairMarking = Profile.Appearance.FacialHairStyleId == HairStyles.DefaultFacialHairStyle
                 ? new List<Marking>()
                 : new() { new(Profile.Appearance.FacialHairStyleId, new List<Color>() { Profile.Appearance.FacialHairColor }) };
 
+            // DS14-start
+            HairStylePicker.SetGradientData(
+                gradientEnabled,
+                Profile.Appearance.HairGradientColor);
+            // DS14-end
             HairStylePicker.UpdateData(
                 hairMarking,
                 Profile.Species,
