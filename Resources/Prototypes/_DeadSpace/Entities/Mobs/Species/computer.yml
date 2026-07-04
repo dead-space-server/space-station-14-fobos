@@ -40,6 +40,7 @@
         Blunt: -15
         Piercing: -15
         Slash: -15
+        Heat: -15
   - type: Damageable
     damageContainer: Silicon
     damageModifierSet: IPC
