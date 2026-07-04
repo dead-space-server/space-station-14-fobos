@@ -34,9 +34,15 @@
             <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="8">
                 <ui:Label Text="{Loc 'headshot-base64-label'}"
                           StyleClasses="LabelHeading"/>
-                <TextEdit Name="HeadshotBase64Input"
-                          MinSize="0 80"
-                          HorizontalExpand="True"/>
+                <PanelContainer HorizontalExpand="True">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#1a1a1a"/>
+                    </PanelContainer.PanelOverride>
+                    <TextEdit Name="HeadshotBase64Input"
+                              MinSize="0 80"
+                              Margin="4"
+                              HorizontalExpand="True"/>
+                </PanelContainer>
                 <BoxContainer Orientation="Horizontal" SeparationOverride="6">
                     <Button Name="ApplyBase64Button"
                             Text="{Loc 'headshot-apply-base64-button'}"
@@ -73,7 +79,7 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"/>
                 <BoxContainer Orientation="Horizontal"
-                              HorizontalAlignment="Center"
+                              HorizontalAlignment="End"
                               SeparationOverride="6"
                               Margin="0 6 0 0">
                     <Button Name="ClearHeadshotButton"
