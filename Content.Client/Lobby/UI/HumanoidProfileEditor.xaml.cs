@@ -8,6 +8,7 @@ using Content.Client.Message;
 using Content.Client.Players.PlayTimeTracking;
 using Content.Client.Stylesheets;
 using Content.Client.Sprite;
+using Content.Client.DeadSpace.CharacterFlavor;
 using Content.Client.DeadSpace.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.Guidebook;
 using Content.DeadSpace.Interfaces.Client;
@@ -64,6 +65,10 @@ namespace Content.Client.Lobby.UI
 
         private FlavorText.FlavorText? _flavorText;
         private TextEdit? _flavorTextEdit;
+
+        // DS14-Start
+        private HeadshotPanel? _headshotPanel;
+        // DS14-End
 
         // One at a time.
         private LoadoutWindow? _loadoutWindow;
@@ -465,6 +470,7 @@ namespace Content.Client.Lobby.UI
             #endregion Markings
 
             RefreshFlavorText();
+            RefreshHeadshotTab(); // DS14
 
             #region Dummy
 
@@ -560,6 +566,49 @@ namespace Content.Client.Lobby.UI
                 _flavorText = null;
             }
         }
+
+        // DS14-Start
+        /// <summary>
+        /// Refreshes the headshot editor status.
+        /// </summary>
+        public void RefreshHeadshotTab()
+        {
+            if (_headshotPanel == null)
+            {
+                _headshotPanel = new HeadshotPanel();
+                TabContainer.AddChild(_headshotPanel);
+                TabContainer.SetTabTitle(TabContainer.ChildCount - 1, Loc.GetString("headshot-panel-title"));
+
+                _headshotPanel.OnHeadshotDataChanged += OnHeadshotDataChange;
+                _headshotPanel.OnUrlDownloadRequested += OnHeadshotUrlDownload;
+            }
+
+            if (Profile != null)
+                _headshotPanel.SetHeadshotData(Profile.HeadshotData);
+
+            if (_readOnly && _headshotPanel != null)
+                SetInteractiveControlsDisabled(_headshotPanel, true);
+        }
+
+        private void OnHeadshotDataChange(string? data)
+        {
+            if (Profile is null || _readOnly)
+                return;
+
+            Profile = Profile.WithHeadshotData(data ?? string.Empty);
+            SetDirty();
+        }
+
+        private void OnHeadshotUrlDownload(string url)
+        {
+            var controller = UserInterfaceManager.GetUIController<HeadshotUIController>();
+            controller.RequestUrlDownload(url, base64 =>
+            {
+                if (_headshotPanel != null)
+                    _headshotPanel.OnUrlDownloadCompleted(base64);
+            });
+        }
+        // DS14-End
 
         /// <summary>
         /// Refreshes traits selector
@@ -900,6 +949,7 @@ namespace Content.Client.Lobby.UI
             RefreshSpecies();
             RefreshTraits();
             RefreshFlavorText();
+            RefreshHeadshotTab(); // DS14
             ReloadPreview();
 
             if (Profile != null)
@@ -946,6 +996,10 @@ namespace Content.Client.Lobby.UI
                     SetInteractiveControlsDisabled(_flavorText, false);
                 if (_flavorTextEdit != null)
                     _flavorTextEdit.Editable = true;
+                // DS14-Start
+                if (_headshotPanel != null)
+                    SetInteractiveControlsDisabled(_headshotPanel, false);
+                // DS14-End
                 UpdateSaveButton();
                 return;
             }
@@ -984,6 +1038,10 @@ namespace Content.Client.Lobby.UI
                 _flavorTextEdit.Editable = false;
             if (_flavorText != null)
                 SetInteractiveControlsDisabled(_flavorText, true);
+            // DS14-Start
+            if (_headshotPanel != null)
+                SetInteractiveControlsDisabled(_headshotPanel, true);
+            // DS14-End
             _loadoutWindow?.Dispose();
             _loadoutWindow = null;
         }
@@ -1388,6 +1446,14 @@ namespace Content.Client.Lobby.UI
 
             _loadoutWindow?.Dispose();
             _loadoutWindow = null;
+            // DS14-Start
+            if (_headshotPanel != null)
+            {
+                TabContainer.RemoveChild(_headshotPanel);
+                _headshotPanel.Dispose();
+                _headshotPanel = null;
+            }
+            // DS14-End
         }
 
         protected override void EnteredTree()

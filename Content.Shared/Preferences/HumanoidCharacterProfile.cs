@@ -69,6 +69,14 @@ namespace Content.Shared.Preferences
         [DataField]
         public string FlavorText { get; set; } = string.Empty;
 
+        // DS14-Start
+        /// <summary>
+        /// Headshot image data (base64 data URI or Pinterest URL).
+        /// </summary>
+        [DataField]
+        public string HeadshotData { get; set; } = string.Empty;
+        // DS14-End
+
         /// <summary>
         /// Associated <see cref="SpeciesPrototype"/> for this profile.
         /// </summary>
@@ -143,7 +151,8 @@ namespace Content.Shared.Preferences
             PreferenceUnavailableMode preferenceUnavailable,
             HashSet<ProtoId<AntagPrototype>> antagPreferences,
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
-            Dictionary<string, RoleLoadout> loadouts)
+            Dictionary<string, RoleLoadout> loadouts,
+            string headshotData = "") // DS14
         {
             Name = name;
             FlavorText = flavortext;
@@ -159,6 +168,7 @@ namespace Content.Shared.Preferences
             _antagPreferences = antagPreferences;
             _traitPreferences = traitPreferences;
             _loadouts = loadouts;
+            HeadshotData = headshotData; // DS14
 
             var hasHighPrority = false;
             foreach (var (key, value) in _jobPriorities)
@@ -190,7 +200,8 @@ namespace Content.Shared.Preferences
                 other.PreferenceUnavailable,
                 new HashSet<ProtoId<AntagPrototype>>(other.AntagPreferences),
                 new HashSet<ProtoId<TraitPrototype>>(other.TraitPreferences),
-                new Dictionary<string, RoleLoadout>(other.Loadouts))
+                new Dictionary<string, RoleLoadout>(other.Loadouts),
+                other.HeadshotData) // DS14
         {
         }
 
@@ -291,6 +302,13 @@ namespace Content.Shared.Preferences
         {
             return new(this) { FlavorText = flavorText };
         }
+
+        // DS14-Start
+        public HumanoidCharacterProfile WithHeadshotData(string headshotData)
+        {
+            return new(this) { HeadshotData = headshotData };
+        }
+        // DS14-End
 
         public HumanoidCharacterProfile WithAge(int age)
         {
@@ -495,6 +513,9 @@ namespace Content.Shared.Preferences
             if (!_traitPreferences.SequenceEqual(other._traitPreferences)) return false;
             if (!Loadouts.SequenceEqual(other.Loadouts)) return false;
             if (FlavorText != other.FlavorText) return false;
+            // DS14-Start
+            if (HeadshotData != other.HeadshotData) return false;
+            // DS14-End
             return Appearance.MemberwiseEquals(other.Appearance);
         }
 
@@ -583,6 +604,14 @@ namespace Content.Shared.Preferences
             {
                 flavortext = FormattedMessage.RemoveMarkupOrThrow(FlavorText);
             }
+
+            // DS14-Start
+            // Validate headshot data - max 2MB base64 string
+            if (HeadshotData.Length > 2 * 1024 * 1024)
+            {
+                HeadshotData = string.Empty;
+            }
+            // DS14-End
 
             var appearance = HumanoidCharacterAppearance.EnsureValid(Appearance, Species, Sex, sponsorMarkings); // DS14-sponsors
 
@@ -772,6 +801,7 @@ namespace Content.Shared.Preferences
             hashCode.Add(_loadouts);
             hashCode.Add(Name);
             hashCode.Add(FlavorText);
+            hashCode.Add(HeadshotData); // DS14
             hashCode.Add(Species);
             hashCode.Add(Age);
             hashCode.Add((int)Sex);

@@ -7,6 +7,7 @@ using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.CCVar;
 using Content.Shared.Clothing;
+using Content.Shared.DeadSpace.CharacterFlavor; // DS14
 using Content.Shared.DetailExaminable;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Prototypes;
@@ -140,6 +141,15 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
             {
                 AddComp<DetailExaminableComponent>(entity.Value).Content = profile.FlavorText;
             }
+
+            // DS14-Start
+            if (!string.IsNullOrEmpty(profile.HeadshotData))
+            {
+                var headshot = AddComp<HeadshotComponent>(entity.Value);
+                headshot.HeadshotData = profile.HeadshotData;
+                headshot.FlavorText = profile.FlavorText;
+            }
+            // DS14-End
         }
 
         if (loadout != null)
