@@ -1,0 +1,23 @@
+#- type: entity
+#  id: CashCollectionMonitorRule
+#  components:
+#  - type: GameRule
+#  - type: CashCollection
+#    threshold: 1000000
+#    checkInterval: 30
+#    cashCollectionRule: CashCollectionRule
+
+
+#- type: entity
+#  id: CashCollectionRule
+#  parent: BaseGameRule
+#  components:
+#  - type: StationEvent
+#    startAnnouncement: survival-necromorph-breach-start-announcement
+#    startAnnouncementColor: "#b82525"
+#    startAudio:
+#      path: /Audio/_DeadSpace/Announcements/attention.ogg
+#    willNotStartRandomly: true
+#  - type: RuleGrids
+#  - type: LoadMapRule
+#    gridPath: /Maps/Shuttles/mothership.yml
