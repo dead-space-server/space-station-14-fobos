@@ -527,6 +527,7 @@
         types:
             Blunt: 25
       staminaDamage: 60
+      staminaDamageToUser: 30
 # DS14-end
 
 - type: entity

@@ -76,16 +76,53 @@ public sealed partial class ShieldDashSystem : EntitySystem
 
     private void OnUnequip(EntityUid uid, ShieldDashComponent comp, GotUnequippedHandEvent args)
     {
-        StopDash(args.User, EnsureComp<ShieldDashUserComponent>(args.User));
-        RemComp<ShieldDashUserComponent>(args.User);
-        comp.User = null;
+        RemoveShieldTracking(uid, comp, args.User);
     }
 
     private void OnDrop(EntityUid uid, ShieldDashComponent comp, DroppedEvent args)
     {
-        StopDash(args.User, EnsureComp<ShieldDashUserComponent>(args.User));
-        RemComp<ShieldDashUserComponent>(args.User);
+        RemoveShieldTracking(uid, comp, args.User);
+    }
+
+    private void RemoveShieldTracking(EntityUid uid, ShieldDashComponent comp, EntityUid user)
+    {
         comp.User = null;
+
+        if (!TryComp<ShieldDashUserComponent>(user, out var userComp) || userComp.Shield != uid)
+            return;
+
+        StopDash(user, userComp);
+
+        if (TryFindHeldShield(user, uid, out var nextShield))
+        {
+            userComp.Shield = nextShield;
+
+            if (TryComp<ShieldDashComponent>(nextShield, out var nextShieldComp))
+                nextShieldComp.User = user;
+
+            return;
+        }
+
+        RemComp<ShieldDashUserComponent>(user);
+    }
+
+    private bool TryFindHeldShield(EntityUid user, EntityUid except, out EntityUid shield)
+    {
+        shield = default;
+
+        if (!TryComp<HandsComponent>(user, out var hands))
+            return false;
+
+        foreach (var held in _hands.EnumerateHeld((user, hands)))
+        {
+            if (held == except || !HasComp<ShieldDashComponent>(held))
+                continue;
+
+            shield = held;
+            return true;
+        }
+
+        return false;
     }
 
     private void OnGetActions(EntityUid uid, ShieldDashComponent comp, GetItemActionsEvent args)
