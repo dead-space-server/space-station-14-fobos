@@ -1,13 +1,18 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Content.Shared.DeadSpace.FlipTable;
+using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
+using Content.Shared.Damage.Systems;
 using Content.Shared.DoAfter;
 using Content.Shared.Popups;
 using Content.Shared.Verbs;
-
 
 namespace Content.Server.DeadSpace.FlipTable;
 
 public sealed class FlippedTableSystem : EntitySystem
 {
+    [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
@@ -68,11 +73,7 @@ public sealed class FlippedTableSystem : EntitySystem
 
     private void TryUnflipTable(EntityUid uid, FlippedTableComponent component, EntityUid user)
     {
-        var delay = 1.0f;
-        if (TryComp<FlippableTableComponent>(uid, out var flippable))
-            delay = flippable.UnflipDelay;
-
-        var args = new DoAfterArgs(EntityManager, user, delay, new UnflipTableDoAfterEvent(), eventTarget: uid, target: uid)
+        var args = new DoAfterArgs(EntityManager, user, component.UnflipDelay, new UnflipTableDoAfterEvent(), eventTarget: uid, target: uid)
         {
             BreakOnMove = true,
             NeedHand = true,
@@ -93,12 +94,14 @@ public sealed class FlippedTableSystem : EntitySystem
         var flipped = Spawn(component.FlippedTableId, xform.Coordinates);
         var flippedComp = Comp<FlippedTableComponent>(flipped);
         flippedComp.FlipperUid = args.User;
+        Dirty(flipped, flippedComp);
 
         var userXform = Comp<TransformComponent>(args.User);
         var dir = userXform.LocalRotation.GetCardinalDir();
         var flippedXform = Comp<TransformComponent>(flipped);
         _transform.SetLocalRotation(flipped, dir.ToAngle(), flippedXform);
 
+        CopyDamage(uid, flipped);
         Del(uid);
 
         _popup.PopupEntity(Loc.GetString("flip-table-success"), flipped, args.User);
@@ -114,8 +117,17 @@ public sealed class FlippedTableSystem : EntitySystem
         var original = Spawn(component.OriginalTableId, xform.Coordinates);
         var originalXform = Comp<TransformComponent>(original);
         _transform.SetLocalRotation(original, xform.LocalRotation, originalXform);
+        CopyDamage(uid, original);
         Del(uid);
 
         _popup.PopupEntity(Loc.GetString("unflip-table-success"), original, args.User);
+    }
+
+    private void CopyDamage(EntityUid source, EntityUid target)
+    {
+        if (!TryComp<DamageableComponent>(source, out var sourceDamage))
+            return;
+
+        _damageable.SetDamage(target, new DamageSpecifier(sourceDamage.Damage));
     }
 }

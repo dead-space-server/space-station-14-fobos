@@ -1,3 +1,5 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
@@ -11,7 +13,4 @@ public sealed partial class FlippableTableComponent : Component
 
     [DataField]
     public float FlipDelay = 2.0f;
-
-    [DataField]
-    public float UnflipDelay = 1.0f;
 }
