@@ -42,7 +42,7 @@
 - type: entity
   id: TaipanHandCuttingMachine
   name: ручной резательный станок
-  description: Ручная версия резательного станка. Под курком выгравирована буква S.
+  description: Ручная версия резательного станка. На внутренней стороне ручки выгравирована буква S.
   parent: [BaseItem, BaseWeaponBattery]
   suffix: taipan
   components:
