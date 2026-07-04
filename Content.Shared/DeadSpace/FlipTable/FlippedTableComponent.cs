@@ -1,7 +1,7 @@
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared._DeadSpace.FlipTable;
+namespace Content.Shared.DeadSpace.FlipTable;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class FlippedTableComponent : Component

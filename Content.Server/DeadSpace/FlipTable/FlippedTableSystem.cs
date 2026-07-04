@@ -1,10 +1,10 @@
-using Content.Shared._DeadSpace.FlipTable;
+using Content.Shared.DeadSpace.FlipTable;
 using Content.Shared.DoAfter;
 using Content.Shared.Popups;
 using Content.Shared.Verbs;
 
 
-namespace Content.Server._DeadSpace.FlipTable;
+namespace Content.Server.DeadSpace.FlipTable;
 
 public sealed class FlippedTableSystem : EntitySystem
 {
