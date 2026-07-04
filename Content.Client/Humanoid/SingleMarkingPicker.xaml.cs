@@ -279,8 +279,9 @@ public sealed partial class SingleMarkingPicker : BoxContainer
         MarkingList.Clear();
 
         var sortedMarkings = _markingPrototypeCache.Where(m =>
-            m.Key.ToLower().Contains(filter.ToLower()) ||
-            GetMarkingName(m.Value).ToLower().Contains(filter.ToLower())
+            !IsTechnicalHairGradient(m.Value) && // DS14
+            (m.Key.ToLower().Contains(filter.ToLower()) ||
+                GetMarkingName(m.Value).ToLower().Contains(filter.ToLower()))
         ).OrderBy(p => Loc.GetString($"marking-{p.Key}"));
 
         foreach (var (id, marking) in sortedMarkings)
@@ -298,7 +299,7 @@ public sealed partial class SingleMarkingPicker : BoxContainer
             }
             // DS14-sponsors-end
 
-            if (_markings[Slot].MarkingId == id)
+            if (IsSelectedMarking(id)) // DS14
             {
                 _ignoreItemSelected = true;
                 item.Selected = true;
@@ -438,4 +439,22 @@ public sealed partial class SingleMarkingPicker : BoxContainer
     {
         return Loc.GetString($"marking-{marking.ID}");
     }
+
+    // DS14-start
+    private bool IsSelectedMarking(string id)
+    {
+        var selectedId = _markings?[Slot].MarkingId;
+        if (selectedId == id)
+            return true;
+
+        return _category == MarkingCategories.Hair
+            && selectedId == id + "Gradient";
+    }
+
+    private static bool IsTechnicalHairGradient(MarkingPrototype marking)
+    {
+        return marking.MarkingCategory == MarkingCategories.Hair
+            && marking.ID.Contains("Gradient", StringComparison.Ordinal);
+    }
+    // DS14-end
 }

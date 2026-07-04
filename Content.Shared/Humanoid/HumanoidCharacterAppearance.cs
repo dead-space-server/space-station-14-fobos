@@ -213,53 +213,37 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
 
         var proto = IoCManager.Resolve<IPrototypeManager>();
         var markingManager = IoCManager.Resolve<MarkingManager>();
+        var hairStyleIdForSponsorCheck = hairStyleId; // DS14
 
         // DS14-start
-        if (markingManager.MarkingsByCategory(MarkingCategories.Hair).ContainsKey(hairStyleId))
+        if (!markingManager.MarkingsByCategory(MarkingCategories.Hair).ContainsKey(hairStyleId))
         {
-            // night club for валидные прически. окей перья подходят проходи. Все валидные, все валидные, ну больше, проходим, давайте, скорее. Wait a minute sastr haircut
-        //⠀⠀⠀⠁⠁⠁⠁⠁⠁⠀⠀                                      
-        //  ⠃⠃⠃⠃⠃⠃⠃⠃⠁⠁⠀⠀                                     
-        //  ⠏⠏⠏⠏⠏⠏⠏⠏⠃⠁⠀⠀⠀⠀⠀⠀⠀⠀                               
-        //  ⠏⠏⠏⠏⠏⠏⠏⠏⠃⠁⠁⠁⠁⠀⠁⠁⠀⠀                               
-        //  ⠏⠏⠏⠏⠏⠏⠏⠏⠇⠃⠃⠃⠇⠇⠏⠇⠃⠃⠀                              
-        //  ⠏⠏⠏⠏⠏⠏⠏⠏⠇⠃⠃⠏⠟⠟⠏⠃⠁⠇⠁                              
-        //  ⠏⠏⠏⠏⠏⠏⠏⠏⠇⠃⠃⠟⠿⠟⠏⠇⠇⠇⠀                              
-        //  ⠏⠏⠏⠏⠏⠏⠇⠁⠀⠀⠃⠟⠟⠏⠇⠃⠁⠀               ⠀     ⠀         
-        //  ⠏⠏⠏⠏⠏⠏⠁⠁⠀⠀⠏⠟⠏⠏⠇⠃⠀                   ⠀⠀           
-        //  ⠏⠏⠏⠏⠇⠁⠀⠀⠀⠀⠁⠃⠇⠁⠁⠁                ⠀ ⠀⠁⠁⠀  ⠁⠀       
-        //  ⠏⠏⠏⠃⠁⠀⠀⠀⠀⠀⠀⠀⠀   ⠀⠀⠀             ⠀⠃⠇⠏⠃⠁⠀⠀⠁⠃       
-        //  ⠏⠇⠁⠀⠀⠀⠀⠀⠀⠀⠀      ⠀⠀ ⠀          ⠁⠇⠿⠿⠏⠃⠃⠁⠀⠁⠃⠁      
-        //  ⠇⠁⠀⠀⠀⠀⠀⠀⠀⠀           ⠀  ⠃⠃⠀⠁⠀ ⠁⠃⠇⠏⠇⠃⠃⠀⠀⠀⠁⠃⠃⠁     
-        //  ⠁⠁⠀⠀⠀⠀⠀⠀⠀   ⠀      ⠀⠀⠀⠀⠁⠇⠃⠃⠃⠃⠁⠀⠁⠇⠇⠃⠃⠁⠀⠁⠀⠁⠀⠁⠃⠀    
-        //  ⠁⠀⠀⠀⠀⠀⠀⠀⠀           ⠁⠃⠃⠇⠃⠃⠃⠃⠃⠁⠀⠁⠇⠃⠃⠃⠃⠁⠁⠁⠁⠀⠀⠁⠃⠀   
-        //  ⠀⠀⠀⠀⠀⠀  ⠀            ⠀⠁⠃⠃⠃⠃⠁   ⠃⠃⠃⠃⠁⠁⠀⠁⠁⠀⠀⠀⠁⠃⠁   
-        //  ⠀⠀⠀⠀⠀  ⠀⠀⠀            ⠀⠃⠁⠁⠀   ⠁⠃⠁⠃⠁⠁⠀⠀⠀⠁⠀ ⠀⠁⠃⠃⠁  
-        //  ⠀⠀⠀⠀⠀  ⠀⠀⠀           ⠀⠁⠃⠁    ⠁⠁⠃⠁⠃⠃⠁⠀ ⠀⠀⠀⠀⠀⠁⠃⠁⠇⠃ 
-        //  ⠀⠀⠀⠀⠀       ⠀⠀       ⠀⠀⠁⠀    ⠃⠀⠃⠁⠃⠁⠀⠀⠀  ⠀⠀⠀⠁⠃⠁⠁⠃⠇
-        //  ⠀⠃⠇⠇⠁⠀      ⠀         ⠀⠀     ⠀⠃⠃⠃⠁⠀  ⠃⠀⠀⠀⠀⠁⠁⠁⠃⠁⠁⠃
-        //  ⠇⠏⠟⠟⠟⠏⠇⠁⠀ ⠀⠀                  ⠀⠀⠀⠀   ⠃⠁⠀⠀⠀⠁⠀⠁⠃⠃⠁⠁
+            if (appearance.HairGradientEnabled && hairStyleId.EndsWith("Gradient"))
+            {
+                var baseId = hairStyleId[..^"Gradient".Length];
+                if (!markingManager.MarkingsByCategory(MarkingCategories.Hair).ContainsKey(baseId))
+                    hairStyleId = HairStyles.DefaultHairStyle;
+            }
+            else
+            {
+                hairStyleId = HairStyles.DefaultHairStyle;
+            }
         }
-        else if (appearance.HairGradientEnabled && hairStyleId.EndsWith("Gradient"))
+
+        if (appearance.HairGradientEnabled && hairStyleId.EndsWith("Gradient"))
         {
             var baseId = hairStyleId[..^"Gradient".Length];
-            if (!markingManager.MarkingsByCategory(MarkingCategories.Hair).ContainsKey(baseId))
-                hairStyleId = HairStyles.DefaultHairStyle;
+            if (markingManager.MarkingsByCategory(MarkingCategories.Hair).ContainsKey(baseId))
+                hairStyleIdForSponsorCheck = baseId;
         }
-        else
+
+        if (proto.TryIndex(hairStyleIdForSponsorCheck, out MarkingPrototype? hairProto) &&
+            hairProto.SponsorOnly &&
+            !sponsorMarkings.Contains(hairStyleIdForSponsorCheck))
         {
             hairStyleId = HairStyles.DefaultHairStyle;
         }
         // DS14-end
-
-        // DS14-sponsors-start
-        if (proto.TryIndex(hairStyleId, out MarkingPrototype? hairProto) &&
-            hairProto.SponsorOnly &&
-            !sponsorMarkings.Contains(hairStyleId))
-        {
-            hairStyleId = HairStyles.DefaultHairStyle;
-        }
-        // DS14-sponsors-end
 
         if (!markingManager.MarkingsByCategory(MarkingCategories.FacialHair).ContainsKey(facialHairStyleId))
         {
