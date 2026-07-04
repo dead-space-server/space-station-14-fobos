@@ -1449,7 +1449,6 @@ namespace Content.Client.Lobby.UI
             // DS14-Start
             if (_headshotPanel != null)
             {
-                TabContainer.RemoveChild(_headshotPanel);
                 _headshotPanel.Dispose();
                 _headshotPanel = null;
             }

@@ -84,6 +84,7 @@
                               Margin="0 6 0 0">
                     <Button Name="ClearHeadshotButton"
                             Text="{Loc 'headshot-clear-button'}"
+                            MinWidth="150"
                             StyleClasses="Button"/>
                 </BoxContainer>
             </BoxContainer>
