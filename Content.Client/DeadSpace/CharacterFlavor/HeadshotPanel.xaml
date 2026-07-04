@@ -79,7 +79,7 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"/>
                 <BoxContainer Orientation="Horizontal"
-                              HorizontalAlignment="End"
+                               HorizontalAlignment="Right"
                               SeparationOverride="6"
                               Margin="0 6 0 0">
                     <Button Name="ClearHeadshotButton"
