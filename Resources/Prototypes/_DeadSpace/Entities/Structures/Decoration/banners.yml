@@ -50,11 +50,11 @@
     state: ussp
 
 - type: entity
-  id: BannerImpire
+  id: BannerEmpire
   parent: BannerBase
   name: знамя Империи
   description: Символ страны, которая несколько веков уничтожает редспейс угрозу.
   components:
   - type: Sprite
     sprite: _DeadSpace/Structures/Decoration/banner.rsi
-    state: impire
+    state: empire

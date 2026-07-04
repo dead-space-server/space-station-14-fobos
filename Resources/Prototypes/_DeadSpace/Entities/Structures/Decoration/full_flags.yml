@@ -77,7 +77,7 @@
         - MachineLayer
 
 - type: entity
-  id: FullFlagImpire
+  id: FullFlagEmpire
   parent: BaseStructure
   name: Флаг Империи
   suffix: На шесте
@@ -86,7 +86,7 @@
   - type: Sprite
     noRot: true
     sprite: _DeadSpace/Structures/Decoration/full_flags.rsi
-    state: impire
+    state: empire
     drawdepth: Mobs
     offset: "0.0,0.5"
   - type: Fixtures

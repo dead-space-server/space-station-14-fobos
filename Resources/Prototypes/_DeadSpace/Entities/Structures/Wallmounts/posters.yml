@@ -108,13 +108,13 @@
 # Империя
 - type: entity
   parent: PosterBase
-  id: PosterImpire
+  id: PosterEmpire
   name: плакат "Империя"
   description: Флаг Империи пахнет победой. Много веков подряд.
   components:
     - type: Sprite
       sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
-      state: Impire
+      state: Empire
 
 # СБ
 - type: entity
