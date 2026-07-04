@@ -29,7 +29,7 @@
   id: FlippedTableSteel
   parent: BaseFlippedTable
   name: перевёрнутый стол
-  description: Стол перевёрнутый на бок. Через него можно стрелять с одной стороны.
+  description: Перевёрнутый на бок стол.
   components:
   - type: Sprite
     sprite: _DeadSpace/Structures/Furniture/Tables/flipped/steel.rsi
@@ -70,7 +70,7 @@
   id: FlippedTableReinforced
   parent: BaseFlippedTable
   name: перевёрнутый бронированный стол
-  description: Стол перевёрнутый на бок. Через него можно стрелять с одной стороны.
+  description: Перевёрнутый на бок стол.
   components:
   - type: Sprite
     sprite: _DeadSpace/Structures/Furniture/Tables/flipped/armed.rsi
@@ -111,7 +111,7 @@
   id: FlippedTableWood
   parent: BaseFlippedTable
   name: перевёрнутый деревянный стол
-  description: Стол перевёрнутый на бок. Через него можно стрелять с одной стороны.
+  description: Перевёрнутый на бок стол.
   components:
   - type: Sprite
     sprite: _DeadSpace/Structures/Furniture/Tables/flipped/wooden.rsi
@@ -150,7 +150,7 @@
   id: FlippedTableCard
   parent: BaseFlippedTable
   name: перевёрнутый картонный стол
-  description: Стол перевёрнутый на бок. Через него можно стрелять с одной стороны.
+  description: Перевёрнутый на бок стол.
   components:
   - type: Sprite
     sprite: _DeadSpace/Structures/Furniture/Tables/flipped/karton.rsi
@@ -188,7 +188,7 @@
   id: FlippedTableFrame
   parent: BaseFlippedTable
   name: перевёрнутый каркас стола
-  description: Каркас стола перевёрнутый на бок. Пули свободно проходят сквозь него.
+  description: Перевёрнутый на бок каркас стола.
   components:
   - type: Sprite
     sprite: _DeadSpace/Structures/Furniture/Tables/flipped/karkas.rsi

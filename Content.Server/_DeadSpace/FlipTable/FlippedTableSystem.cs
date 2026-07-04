@@ -94,8 +94,10 @@ public sealed class FlippedTableSystem : EntitySystem
         var flippedComp = Comp<FlippedTableComponent>(flipped);
         flippedComp.FlipperUid = args.User;
 
+        var userXform = Comp<TransformComponent>(args.User);
+        var dir = userXform.LocalRotation.GetCardinalDir();
         var flippedXform = Comp<TransformComponent>(flipped);
-        _transform.SetLocalRotation(flipped, xform.LocalRotation, flippedXform);
+        _transform.SetLocalRotation(flipped, dir.ToAngle(), flippedXform);
 
         Del(uid);
 
