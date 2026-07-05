@@ -38,18 +38,6 @@
       dynamicPacks:
       - FauxTiles
 
-- type: latheRecipe
-  id: HandCuttingMachineRecipe
-  result: HandCuttingMachine
-  completetime: 10
-  categories:
-    - Equipment
-  materials:
-    Steel: 800
-    Plastic: 300
-    Gold: 50
-
-
 - type: entity
   id: TaipanHandCuttingMachine
   name: ручной резательный станок
@@ -103,11 +91,4 @@
       - FloorMarbleTilesStatic
       dynamicPacks:
       - FauxTiles
-- type: latheRecipe
-  id: TaipanHandCuttingMachineRecipe
-  result: TaipanHandCuttingMachine
-  completetime: 10
-  materials:
-    Steel: 800
-    Plastic: 300
-    Gold: 100
+
