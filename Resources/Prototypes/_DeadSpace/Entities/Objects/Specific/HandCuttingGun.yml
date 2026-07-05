@@ -39,6 +39,17 @@
       dynamicPacks:
       - FauxTiles
 
+- type: latheRecipe
+  id: HandCuttingMachineRecipe
+  result: HandCuttingMachine
+  completetime: 10
+  categories:
+    - Equipment
+  materials:
+    Steel: 500
+    Plastic: 300
+
+
 - type: entity
   id: TaipanHandCuttingMachine
   name: ручной резательный станок
@@ -62,15 +73,12 @@
     - type: MaterialStorage
       whitelist: *StandardMaterialWhitelist
     - type: Gun
-      fireRate: 6
+      fireRate: 3
       soundGunshot:
         path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/laser_rifle.ogg
         params:
           volume: 1
-      selectedMode: FullAuto
-      availableModes:
-      - FullAuto
-      - SemiAuto
+      selectedMode: SemiAuto
     - type: BatteryAmmoProvider
       proto: LaserRifleBulletTrace
       fireCost: 40
@@ -96,3 +104,10 @@
       - FloorMarbleTilesStatic
       dynamicPacks:
       - FauxTiles
+- type: latheRecipe
+  id: TaipanHandCuttingMachineRecipe
+  result: TaipanHandCuttingMachine
+  completetime: 10
+  materials:
+    Steel: 400
+    Plastic: 200
