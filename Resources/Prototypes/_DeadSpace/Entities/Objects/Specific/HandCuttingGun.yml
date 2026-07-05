@@ -46,8 +46,9 @@
   categories:
     - Equipment
   materials:
-    Steel: 500
+    Steel: 800
     Plastic: 300
+    Gold: 50
 
 
 - type: entity
@@ -109,5 +110,6 @@
   result: TaipanHandCuttingMachine
   completetime: 10
   materials:
-    Steel: 400
-    Plastic: 200
+    Steel: 800
+    Plastic: 300
+    Gold: 100
