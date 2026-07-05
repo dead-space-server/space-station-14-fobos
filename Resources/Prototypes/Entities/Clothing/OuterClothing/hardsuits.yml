@@ -1334,6 +1334,7 @@
         Poison: 0.55 # DS14
   - type: StaminaResistance # DS14
     damageCoefficient: 0.4
+  - type: HardsuitIdentification # DS14
   - type: ZombificationResistance
     zombificationResistanceCoefficient: 0.25
   - type: ClothingSpeedModifier
@@ -1343,6 +1344,14 @@
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetCBURN
   # DS14-start
+  - type: AutoInjectReagentClothingOnAllowedState
+    durationRegenReagents: 100
+    allowedStates:
+    - Critical
+    reagents:
+      DexalinPlus: 10
+      Puncturase: 10
+      Omnizine: 10
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
   # DS14-end
