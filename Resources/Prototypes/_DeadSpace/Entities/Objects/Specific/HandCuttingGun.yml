@@ -26,7 +26,6 @@
     - type: Lathe
       producingSound: /Audio/Machines/cutter.ogg
       idleState: icon
-      runningState: building
       staticPacks:
       - FloorDarkTilesStatic
       - FloorSteelTilesStatic
@@ -93,7 +92,6 @@
     - type: Lathe
       producingSound: /Audio/Machines/cutter.ogg
       idleState: icon
-      runningState: building
       staticPacks:
       - FloorDarkTilesStatic
       - FloorSteelTilesStatic
