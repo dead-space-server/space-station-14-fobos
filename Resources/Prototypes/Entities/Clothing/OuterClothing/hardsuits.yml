@@ -411,17 +411,17 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.8
-        Slash: 0.8
-        Piercing: 0.6
+        Blunt: 0.55
+        Slash: 0.55
+        Piercing: 0.55
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.6
   - type: StaminaResistance # DS14
     damageCoefficient: 0.45
   - type: ClothingSpeedModifier
-    walkModifier: 0.8
-    sprintModifier: 0.8
+    walkModifier: 1
+    sprintModifier: 1
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitCap
