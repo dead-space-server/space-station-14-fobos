@@ -4264,3 +4264,10 @@ Entries:
   changes:
   - type: Tweak
     message: Ремап эвак пода синдиката. /by arabusik228
+- id: 424
+  author: RIP6100
+  time: '2026-07-05T14:54:46.472424+00:00'
+  pr: 1904
+  changes:
+  - type: Remove
+    message: Убран имплант макробомбы у АЦК, ОСО и ПОСО.
