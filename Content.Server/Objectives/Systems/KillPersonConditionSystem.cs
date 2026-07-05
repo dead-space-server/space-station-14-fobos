@@ -78,14 +78,14 @@ public sealed class KillPersonConditionSystem : EntitySystem
         var query = EntityQueryEnumerator<KillPersonConditionComponent, TargetObjectiveComponent, PickRandomPersonComponent>();
         while (query.MoveNext(out var objectiveUid, out var kill, out var target, out var picker))
         {
-            if (!kill.RequireMaroon ||
+            if (!ShouldRetargetCryostorageTarget(objectiveUid, kill) ||
                 target.Target != oldTargetMindId ||
                 !TryGetObjectiveOwner(objectiveUid, out var ownerMindId, out var ownerMind))
                 continue;
 
             if (PickReplacementTarget((objectiveUid, picker), ownerMindId, oldTargetMindId) is not { } replacement)
             {
-                Log.Warning($"Could not retarget maroon objective {ToPrettyString(objectiveUid)} after {ToPrettyString(oldTargetMindId)} entered cryostorage.");
+                Log.Warning($"Could not retarget kill objective {ToPrettyString(objectiveUid)} after {ToPrettyString(oldTargetMindId)} entered cryostorage.");
                 continue;
             }
 
@@ -108,6 +108,15 @@ public sealed class KillPersonConditionSystem : EntitySystem
             return null;
 
         return _random.Pick(candidates);
+    }
+
+    private bool ShouldRetargetCryostorageTarget(EntityUid objective, KillPersonConditionComponent kill)
+    {
+        if (kill.RequireMaroon)
+            return true;
+
+        var prototype = MetaData(objective).EntityPrototype?.ID;
+        return prototype != null && prototype.StartsWith("TraitorUltraKill", StringComparison.Ordinal);
     }
 
     private bool TryGetObjectiveOwner(EntityUid objective, out EntityUid ownerMindId, out MindComponent ownerMind)
