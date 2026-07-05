@@ -20,8 +20,6 @@
   id: HandCuttingMachineRecipe
   result: HandCuttingMachine
   completetime: 10
-  categories:
-    - Equipment
   materials:
     Steel: 800
     Plastic: 300
