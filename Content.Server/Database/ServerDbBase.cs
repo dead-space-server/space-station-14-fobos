@@ -1121,6 +1121,12 @@ namespace Content.Server.Database
                 loadouts[role.RoleName] = loadout;
             }
 
+            // DS14-start
+            var hairGradientEnabled = profile.HairGradientEnabled;
+            var hairGradientColor = Color.FromHex(
+                string.IsNullOrEmpty(profile.HairGradientColor) ? "#000000" : profile.HairGradientColor);
+            // DS14-end
+
             return new HumanoidCharacterProfile(
                 profile.CharacterName,
                 profile.FlavorText,
@@ -1137,7 +1143,9 @@ namespace Content.Server.Database
                     Color.FromHex(profile.FacialHairColor),
                     Color.FromHex(profile.EyeColor),
                     Color.FromHex(profile.SkinColor),
-                    markings
+                    markings,
+                    hairGradientEnabled, // DS14
+                    hairGradientColor // DS14
                 ),
                 spawnPriority,
                 jobs,
@@ -1172,6 +1180,10 @@ namespace Content.Server.Database
             profile.FacialHairColor = appearance.FacialHairColor.ToHex();
             profile.EyeColor = appearance.EyeColor.ToHex();
             profile.SkinColor = appearance.SkinColor.ToHex();
+            // DS14-start
+            profile.HairGradientEnabled = appearance.HairGradientEnabled;
+            profile.HairGradientColor = appearance.HairGradientColor.ToHex();
+            // DS14-end
             profile.SpawnPriority = (int) humanoid.SpawnPriority;
             profile.Markings = markings;
             profile.Slot = slot;
