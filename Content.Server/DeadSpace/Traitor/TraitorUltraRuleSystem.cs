@@ -50,6 +50,7 @@ using Content.Shared.Random.Helpers;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Components;
 using Content.Shared.Roles.Jobs;
+using Content.Shared.Store;
 using Content.Shared.Store.Components;
 using Robust.Server.Player;
 using Robust.Shared.Player;
@@ -457,6 +458,83 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         if (changed)
             _store.RefreshAllListings(store);
+    }
+
+    private void ApplyCorporateDiscounts(StoreComponent store, TraitorUltraRuleComponent component, TraitorUltraMindState state)
+    {
+        foreach (var listing in store.FullListingsCatalog)
+        {
+            listing.RemoveCostModifier(component.CorporateDiscountModifierSourceId);
+        }
+
+        if (!HasCorporateDiscountsStage(state) ||
+            string.IsNullOrWhiteSpace(state.NewCorporation) ||
+            !TryFindCorporateDiscountSet(component, state.NewCorporation, out var discountSet))
+        {
+            return;
+        }
+
+        foreach (var discount in discountSet.Listings)
+        {
+            if (discount.TelecrystalDiscount <= FixedPoint2.Zero)
+                continue;
+
+            if (!TryFindStoreListing(store, discount.Listing, out var listing))
+            {
+                Log.Warning($"TraitorUltra corporate discount listing {discount.Listing} does not exist in the store catalog.");
+                continue;
+            }
+
+            listing.AddCostModifier(
+                component.CorporateDiscountModifierSourceId,
+                new Dictionary<ProtoId<CurrencyPrototype>, FixedPoint2>
+                {
+                    { component.TelecrystalCurrency, -discount.TelecrystalDiscount },
+                });
+        }
+    }
+
+    private bool HasCorporateDiscountsStage(TraitorUltraMindState state)
+    {
+        return state.Stage == TraitorUltraStage.Upgraded ||
+               state.Stage == TraitorUltraStage.BountyAnnounced ||
+               state.Stage == TraitorUltraStage.Resolved;
+    }
+
+    private bool TryFindCorporateDiscountSet(
+        TraitorUltraRuleComponent component,
+        string corporation,
+        out TraitorUltraCorporateDiscountSet discountSet)
+    {
+        foreach (var set in component.CorporateDiscounts)
+        {
+            if (CorporationMatches(set.Corporation, corporation))
+            {
+                discountSet = set;
+                return true;
+            }
+        }
+
+        discountSet = default!;
+        return false;
+    }
+
+    private bool TryFindStoreListing(
+        StoreComponent store,
+        ProtoId<ListingPrototype> listingId,
+        out ListingDataWithCostModifiers listing)
+    {
+        foreach (var item in store.FullListingsCatalog)
+        {
+            if (item.ID.Equals(listingId.Id, StringComparison.Ordinal))
+            {
+                listing = item;
+                return true;
+            }
+        }
+
+        listing = default!;
+        return false;
     }
 
     private bool IsReusableUplinkStore(EntityUid entity, TraitorUltraRuleComponent component)
@@ -2018,6 +2096,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             return;
         }
 
+        ApplyCorporateDiscounts(store, component, state);
         _store.TryAddCurrency(new Dictionary<string, FixedPoint2> { { component.TelecrystalCurrency, amount } }, uplink.Value, store);
         _store.UpdateUserInterface(owned, uplink.Value, store);
     }

@@ -401,6 +401,23 @@
       - SurplusBundle
   # DS14-end
 
+- type: listing
+  id: UplinkTraitorUltraRPG70
+  name: РПГ70
+  description: Невероятно мощный одноразовый гранатомёт для уничтожения структур. Почти не наносит вреда людям.
+  productEntity: WeaponLauncherRPG70
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Launchers/rpg70.rsi, state: icon }
+  cost:
+    Telecrystal: 4
+  categories:
+  - TraitorUltraUplinkExclusive
+  conditions:
+  - !type:BuyerAntagCondition
+    whitelist:
+    - TraitorUltra
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
 # Explosives
 
 - type: listing
@@ -3046,14 +3063,13 @@
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
   productEntity: ClothingBackpackDuffelSyndicateFilledXC67
   cost:
-    Telecrystal: 18
+    Telecrystal: 14
   categories:
-  - TraitorUltraUplinkWeaponry
+  - TraitorUltraUplinkExclusive
   conditions:
-  - !type:StoreWhitelistCondition
+  - !type:BuyerAntagCondition
     whitelist:
-      tags:
-      - NukeOpsUplink
+    - TraitorUltra
 
 - type: listing
   id: UplinkTraitorUltraBuldogAmmoBundle
@@ -3114,10 +3130,9 @@
   categories:
   - TraitorUltraUplinkAmmo
   conditions:
-  - !type:StoreWhitelistCondition
+  - !type:BuyerAntagCondition
     whitelist:
-      tags:
-      - NukeOpsUplink
+    - TraitorUltra
 
 - type: listing
   id: UplinkTraitorUltraAKAmmoBundle
@@ -3141,6 +3156,17 @@
   description: uplink-light-rifle-magazine-desc
   icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/light_rifle_mag.rsi, state: red }
   productEntity: MagazineLightRifle
+  cost:
+    Telecrystal: 3
+  categories:
+  - TraitorUltraUplinkAmmo
+
+- type: listing
+  id: UplinkTraitorUltraMagazineLightRifleBox
+  name: uplink-light-rifle-magazine-name
+  description: uplink-light-rifle-magazine-desc
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/light_rifle_box.rsi, state: base }
+  productEntity: MagazineLightRifleBox
   cost:
     Telecrystal: 3
   categories:
@@ -3688,14 +3714,13 @@
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Snipers/sr.rsi, state: icon }
   productEntity: CaseR17
   cost:
-    Telecrystal: 18
+    Telecrystal: 14
   categories:
-  - TraitorUltraUplinkWeaponry
+  - TraitorUltraUplinkExclusive
   conditions:
-  - !type:StoreWhitelistCondition
+  - !type:BuyerAntagCondition
     whitelist:
-      tags:
-      - NukeOpsUplink
+    - TraitorUltra
 
 - type: listing
   id: UplinkTraitorUltraMagazineR17
@@ -3708,10 +3733,9 @@
   categories:
   - TraitorUltraUplinkAmmo
   conditions:
-  - !type:StoreWhitelistCondition
+  - !type:BuyerAntagCondition
     whitelist:
-      tags:
-      - NukeOpsUplink
+    - TraitorUltra
 
 - type: listing
   id: UplinkTraitorUltraSyndicateChemBundle
@@ -3724,10 +3748,9 @@
   categories:
   - TraitorUltraUplinkChemicals
   conditions:
-  - !type:StoreWhitelistCondition
+  - !type:BuyerAntagCondition
     whitelist:
-      tags:
-      - LoneOpsUplink
+    - TraitorUltra
   - !type:BuyerWhitelistCondition
     blacklist:
       components:
@@ -3827,6 +3850,20 @@
   productEntity: ADTCyberHypospray
   cost:
     Telecrystal: 8
+  categories:
+  - TraitorUltraUplinkExclusive
+  conditions:
+  - !type:BuyerAntagCondition
+    whitelist:
+    - TraitorUltra
+- type: listing
+  id: UplinkTraitorUltraGorlexHypospray
+  name: uplink-gorlex-hypospray-name
+  description: uplink-gorlex-hypospray-desc
+  icon: { sprite: /Textures/Objects/Specific/Medical/syndihypo.rsi, state: hypo }
+  productEntity: ADTCyberHypospray
+  cost:
+    Telecrystal: 14
   categories:
   - TraitorUltraUplinkExclusive
   conditions:

@@ -43,7 +43,7 @@ public sealed partial class TraitorUltraRuleComponent : Component
     public TimeSpan RewardDelay = TimeSpan.FromSeconds(10);
 
     [DataField]
-    public FixedPoint2 UpgradeTelecrystals = 10;
+    public FixedPoint2 UpgradeTelecrystals = 20;
 
     [DataField]
     public FixedPoint2 ExtraObjectiveTelecrystals = 5;
@@ -171,6 +171,166 @@ public sealed partial class TraitorUltraRuleComponent : Component
 
     [DataField]
     public ProtoId<CurrencyPrototype> TelecrystalCurrency = "Telecrystal";
+
+    [DataField]
+    public string CorporateDiscountModifierSourceId = "traitor-ultra-corporate-discount";
+
+    [DataField]
+    public List<TraitorUltraCorporateDiscountSet> CorporateDiscounts = new()
+    {
+        new TraitorUltraCorporateDiscountSet
+        {
+            Corporation = "traitor-corporations-dataset-1",
+            Listings =
+            {
+                new TraitorUltraListingDiscount("UplinkTraitorUltraStorageImplanter", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraEmpImplanter", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraSyndicateWeaponModule", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraEnergyShield", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraEsword", 2),
+            },
+        },
+        new TraitorUltraCorporateDiscountSet
+        {
+            Corporation = "traitor-corporations-dataset-2",
+            Listings =
+            {
+                new TraitorUltraListingDiscount("UplinkTraitorUltraC20R", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraBulldog", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraGrenadeLauncher", 3),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraRPG70", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraGorlexHypospray", 3),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraClothingOuterVestWebElite", 1),
+            },
+        },
+        new TraitorUltraCorporateDiscountSet
+        {
+            Corporation = "traitor-corporations-dataset-3",
+            Listings =
+            {
+                new TraitorUltraListingDiscount("UplinkTraitorUltraStimpack2", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraCombatMedipen2", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraChemistryKitBundle", 4),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraSyndicateChemBundle", 5),
+            },
+        },
+        new TraitorUltraCorporateDiscountSet
+        {
+            Corporation = "traitor-corporations-dataset-4",
+            Listings =
+            {
+                new TraitorUltraListingDiscount("UplinkTraitorUltraC4", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraC4Bundle", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraSyndieMiniBomb", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraSyndicateJawsOfLife", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraToolbox", 1),
+            },
+        },
+        new TraitorUltraCorporateDiscountSet
+        {
+            Corporation = "traitor-corporations-dataset-5",
+            Listings =
+            {
+                new TraitorUltraListingDiscount("UplinkTraitorUltraChameleonProjector", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraStealthBox", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraAgentIDCard", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraVoiceMask", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraSlipocalypseClusterSoap", 1),
+            },
+        },
+        new TraitorUltraCorporateDiscountSet
+        {
+            Corporation = "traitor-corporations-dataset-6",
+            Listings =
+            {
+                new TraitorUltraListingDiscount("UplinkTraitorUltraPistolCobra", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraC20R", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraBulldog", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraWeaponSniperR17", 3),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraXC67Bundle", 3),
+            },
+        },
+        new TraitorUltraCorporateDiscountSet
+        {
+            Corporation = "traitor-corporations-dataset-7",
+            Listings =
+            {
+                new TraitorUltraListingDiscount("UplinkTraitorUltraStimpack2", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraStimkit", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraCombatBakery", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraReinforcementRadioSyndicate", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraSurplusBundle", 2),
+            },
+        },
+        new TraitorUltraCorporateDiscountSet
+        {
+            Corporation = "traitor-corporations-dataset-8",
+            Listings =
+            {
+                new TraitorUltraListingDiscount("UplinkTraitorUltraEmag", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraAccessBreaker", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraSyndicateJawsOfLife", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraRadioJammer", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraCameraBug", 1),
+            },
+        },
+        new TraitorUltraCorporateDiscountSet
+        {
+            Corporation = "traitor-corporations-dataset-9",
+            Listings =
+            {
+                new TraitorUltraListingDiscount("UplinkTraitorUltraAgentIDCard", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraChameleon", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraVoiceMask", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraHypopen", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraNocturineChemistryBottle", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraSmugglerSatchel", 1),
+            },
+        },
+        new TraitorUltraCorporateDiscountSet
+        {
+            Corporation = "traitor-corporations-dataset-10",
+            Listings =
+            {
+                new TraitorUltraListingDiscount("UplinkTraitorUltraNukeHardsuit", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraCommanderHardsuit", 3),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraJuggernaut", 6),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraEnergyShield", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraClothingOuterVestWebElite", 1),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraEswordDoubleAgents", 2),
+            },
+        },
+    };
+}
+
+[DataDefinition]
+public sealed partial class TraitorUltraCorporateDiscountSet
+{
+    [DataField(required: true)]
+    public string Corporation = string.Empty;
+
+    [DataField]
+    public List<TraitorUltraListingDiscount> Listings = new();
+}
+
+[DataDefinition]
+public sealed partial class TraitorUltraListingDiscount
+{
+    public TraitorUltraListingDiscount()
+    {
+    }
+
+    public TraitorUltraListingDiscount(ProtoId<ListingPrototype> listing, FixedPoint2 telecrystalDiscount)
+    {
+        Listing = listing;
+        TelecrystalDiscount = telecrystalDiscount;
+    }
+
+    [DataField(required: true)]
+    public ProtoId<ListingPrototype> Listing;
+
+    [DataField]
+    public FixedPoint2 TelecrystalDiscount;
 }
 
 public sealed class TraitorUltraMindState
