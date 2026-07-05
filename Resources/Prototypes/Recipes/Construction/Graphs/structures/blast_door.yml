@@ -52,6 +52,19 @@
                 sprite: "Objects/Misc/module.rsi"
                 state: "door_electronics"
               doAfter: 2
+        # DS14-start
+        - to: frame3
+          conditions:
+            - !type:EntityAnchored {}
+          steps:
+            - tag: TaipanDoorElectronics
+              store: board
+              name: construction-graph-tag-door-electronics-circuit-board
+              icon:
+                sprite: "_DeadSpace/Objects/Misc/module.rsi"
+                state: "door_electronics_syndicate"
+              doAfter: 2
+        # DS14-end
         - to: frame1
           completed:
             - !type:SpawnPrototype

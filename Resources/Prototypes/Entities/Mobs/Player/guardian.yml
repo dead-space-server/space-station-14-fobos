@@ -79,6 +79,12 @@
         - Alive
     - type: CombatMode
     - type: Internals
+    # DS14-start
+    - type: ZombieImmune
+    - type: ImmunitetInfectionDead
+    - type: VirusImmun
+      immunAll: true
+    # DS14-end
     - type: Examiner
     - type: Speech
       speechVerb: Robotic
