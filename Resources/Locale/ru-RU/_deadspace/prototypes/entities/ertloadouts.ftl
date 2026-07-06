@@ -256,3 +256,9 @@ ert-loadout-category-combatmedicine-name = Набор автоинъекторо
 ert-loadout-category-combatmedicine-description =
     Состоит из четырёх боевых, двух пунктураза, двух пиразина и двух автоинъекторов от яда.
     Помогут вам залатать свои раны прямо в бою.
+ert-loadout-category-truncheon-name = Дубинка
+ert-loadout-category-truncheon-description =
+    Содержит жёсткую дубинку со стальным сердечником, предназначенная причинять боль.
+ert-loadout-category-truncheonsec-name = боевое мачете
+ert-loadout-category-truncheonsec-description =
+    Содержит электрошоковое мачете для обездвиживания или убийства людей. Имеет нелетальный и летальный режимы. Является улучшением шоковой дубинки для действительно трудных ситуаций

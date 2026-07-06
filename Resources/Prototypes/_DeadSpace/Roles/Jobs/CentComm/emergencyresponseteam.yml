@@ -124,6 +124,7 @@
     back:
     - ERTloadoutRedPrimary
     - ERTloadoutRedSecondary
+    - ERTloadoutMelee
     - BoxCardboardERT
     - PinpointerNuclear
     - CrowbarRed
@@ -188,6 +189,7 @@
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
+    - ERTloadoutMelee
     - BoxCardboardERT
     - PinpointerNuclear
     - CrowbarRed
@@ -311,6 +313,7 @@
     back:
     - ERTloadoutRedPrimary
     - ERTloadoutRedSecondary
+    - ERTloadoutMelee
     - BoxCardboardERT
     - CrowbarRed
     - PinpointerNuclear
@@ -369,6 +372,7 @@
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
+    - ERTloadoutMelee
     - BoxCardboardERT
     - CrowbarRed
     - PinpointerNuclear
@@ -494,6 +498,7 @@
     back:
     - ERTloadoutRedPrimary
     - ERTloadoutRedSecondary
+    - ERTloadoutMelee
     - BoxCardboardERT
     - DefibrillatorCompact
     - PinpointerNuclear
@@ -557,6 +562,7 @@
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
+    - ERTloadoutMelee
     - BoxCardboardERT
     - DefibrillatorCompact
     - PinpointerNuclear
@@ -684,6 +690,7 @@
     back:
     - ERTloadoutRedPrimary
     - ERTloadoutRedSecondary
+    - ERTloadoutMelee
     - BoxCardboardERT
     - BoxC4ERT
     - RCDAmmo
@@ -743,6 +750,7 @@
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
+    - ERTloadoutMelee
     - BoxCardboardERT
     - BoxC4ERT
     - RCDRecharging
@@ -861,6 +869,7 @@
     back:
     - ERTloadoutRedPrimary
     - ERTloadoutRedSecondary
+    - ERTloadoutMelee
     - BoxCardboardERT
     - BoxLightMixed
     - AdvMopItem
@@ -918,6 +927,7 @@
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
+    - ERTloadoutMelee
     - BoxCardboardERT
     - BoxLightMixed
     - BoxGrenadeCleanade

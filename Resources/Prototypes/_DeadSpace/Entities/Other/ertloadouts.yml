@@ -234,6 +234,26 @@
       enum.ThiefBackpackUIKey.Key:
         type: ThiefBackpackBoundUserInterface
 
+- type: entity
+  id: ERTloadoutMelee
+  name: коробка неопределённости ближнего оружия
+  description: Коробка с оружием ближнего кода. Принадлежит отряду "Красный" и "Гамма".
+  suffix: ОБР, Гамма, Милишка
+  parent: BaseERTloadoutSecondary
+  components:
+  - type: Sprite
+    state: ml
+  - type: ThiefUndeterminedBackpack
+    possibleSets:
+    - TruncheonsecSet
+    - TruncheonSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
 ## CBURN
 - type: entity
   id: ERTloadoutCBURNPrimary
@@ -1368,3 +1388,25 @@
   - PyraAutoInjector
   - AntiPoisonMedipen
   - AntiPoisonMedipen
+
+# милишка
+
+- type: thiefBackpackSet
+  id: TruncheonSet
+  name: ert-loadout-category-truncheon-name
+  description: ert-loadout-category-truncheon-description
+  sprite:
+    sprite: Objects/Weapons/Melee/truncheon.rsi
+    state: icon
+  content:
+  - Truncheon
+
+- type: thiefBackpackSet
+  id: TruncheonsecSet
+  name: ert-loadout-category-truncheonsec-name
+  description: ert-loadout-category-truncheonsec-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Melee/truncheon_sec.rsi
+    state: stunbaton_nocell
+  content:
+  - Truncheonsec
