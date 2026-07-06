@@ -1190,7 +1190,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             ? Timing.CurTime + component.BountyPreparationTime
             : TimeSpan.Zero;
 
-        UpgradeTraitorRole(mindId, mind);
+        UpgradeTraitorRole(mindId, mind, component);
         if (!EnsureDeathAcidifierImplant((mindId, mind), component))
             Log.Error($"Failed to assign the TraitorUltra death-acidifier implant to {ToPrettyString(mindId)}.");
 
@@ -1464,21 +1464,30 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return TryCreateAndAddObjective(mind, component.PostUpgradeSurviveObjective, issuer, out _);
     }
 
-    private void UpgradeTraitorRole(EntityUid mindId, MindComponent mind)
+    private void UpgradeTraitorRole(EntityUid mindId, MindComponent mind, TraitorUltraRuleComponent component)
     {
-        if (!_roles.MindHasRole<TraitorRoleComponent>(mindId, out var traitorRole))
+        var updated = false;
+        foreach (var roleUid in mind.MindRoleContainer.ContainedEntities)
         {
-            Log.Warning($"TraitorUltra upgrade could not find a TraitorRole on {ToPrettyString(mindId)}; adding Ultra role silently.");
-            _roles.MindAddRole(mindId, "MindRoleTraitorUltra", mind, silent: true);
-            return;
+            if (!HasComp<TraitorRoleComponent>(roleUid) ||
+                !TryComp<MindRoleComponent>(roleUid, out var role))
+            {
+                continue;
+            }
+
+            role.AntagPrototype = "TraitorUltra";
+            role.Subtype = "role-subtype-traitor-ultra";
+            EnsureComp<TraitorUltraRoleComponent>(roleUid);
+            Dirty(roleUid, role);
+            updated = true;
         }
 
-        var roleUid = traitorRole.Value.Owner;
-        var role = traitorRole.Value.Comp1;
-        role.AntagPrototype = "TraitorUltra";
-        role.Subtype = "role-subtype-traitor-ultra";
-        EnsureComp<TraitorUltraRoleComponent>(roleUid);
-        Dirty(roleUid, role);
+        if (!updated)
+        {
+            Log.Warning($"TraitorUltra upgrade could not find a TraitorRole on {ToPrettyString(mindId)}; adding Ultra role silently.");
+            _roles.MindAddRole(mindId, component.UltraMindRole, mind, silent: true);
+        }
+
         _roles.RefreshMindRoleType((mindId, mind));
     }
 
