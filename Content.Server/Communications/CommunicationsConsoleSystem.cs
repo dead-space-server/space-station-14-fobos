@@ -39,6 +39,8 @@ namespace Content.Server.Communications
         [Dependency] private readonly IConfigurationManager _cfg = default!;
         [Dependency] private readonly IAdminLogManager _adminLogger = default!;
 
+        public bool EvacLocked { get; private set; } //DS14
+
         private const float UIUpdateInterval = 5.0f;
 
         public override void Initialize()
@@ -187,6 +189,11 @@ namespace Content.Server.Communications
 
         private bool CanCallOrRecall(CommunicationsConsoleComponent comp)
         {
+            //DS14-start
+            if (_cfg.GetCVar(CCVars.EvacLocked))
+                return false;
+            //DS14-end
+
             // Defer to what the round end system thinks we should be able to do.
             if (_emergency.EmergencyShuttleArrived || !_roundEndSystem.CanCallOrRecall())
                 return false;
@@ -355,6 +362,16 @@ namespace Content.Server.Communications
             _roundEndSystem.CancelRoundEndCountdown(mob, uid);
             _adminLogger.Add(LogType.Action, LogImpact.High, $"{ToPrettyString(message.Actor):player} has recalled the shuttle.");
         }
+
+        //DS14-start
+        public void ToggleLockEvac()
+        {
+            EvacLocked = !EvacLocked;
+
+            _cfg.SetCVar(CCVars.EvacLocked, EvacLocked);
+            var query = EntityQueryEnumerator<CommunicationsConsoleComponent>();
+        }
+        //DS14-end
     }
 
     /// <summary>

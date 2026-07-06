@@ -7,18 +7,31 @@ using Robust.Client.UserInterface.XAML;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 using Robust.Shared.Localization;
+using Content.Shared.CCVar; //DS14
+using Robust.Shared.Configuration; //DS14
 
 namespace Content.Client.Administration.UI.Tabs.AdminTab
 {
+
     [GenerateTypedNameReferences]
     public sealed partial class AdminShuttleWindow : DefaultWindow
     {
+        [Dependency] private readonly IConfigurationManager _cfg = default!; //DS14
+
         public AdminShuttleWindow()
         {
             RobustXamlLoader.Load(this);
             IoCManager.InjectDependencies(this);
 
             _callShuttleTime.OnTextChanged += CallShuttleTimeOnOnTextChanged;
+
+            // DS14-start
+            _cfg.OnValueChanged(CCVars.EvacLocked, locked =>
+            {
+                _lockShuttleButton.Modulate = locked ? Color.Green : Color.White;
+            }, true);
+            // DS14-end
+
         }
 
         private void CallShuttleTimeOnOnTextChanged(LineEdit.LineEditEventArgs obj)
