@@ -246,6 +246,8 @@ public sealed partial class TraitorUltraRuleComponent : Component
                 new TraitorUltraListingDiscount("UplinkTraitorUltraPistolCobra", 1),
                 new TraitorUltraListingDiscount("UplinkTraitorUltraC20R", 2),
                 new TraitorUltraListingDiscount("UplinkTraitorUltraBulldog", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraPistolDesertEagle", 2),
+                new TraitorUltraListingDiscount("UplinkTraitorUltraMagazineEagleAP2", 1),
                 new TraitorUltraListingDiscount("UplinkTraitorUltraWeaponSniperR17", 3),
                 new TraitorUltraListingDiscount("UplinkTraitorUltraXC67Bundle", 3),
             },
