@@ -37,8 +37,7 @@ public sealed class TTSManager
     private readonly HttpClient _httpClient = new();
 
     private ISawmill _sawmill = default!;
-    // DS14
-    private readonly object _cacheLock = new();
+    private readonly object _cacheLock = new(); // DS14
     private readonly Dictionary<string, byte[]> _cache = new();
     private readonly List<string> _cacheKeysSeq = new();
     private int _maxCachedCount = 200;
