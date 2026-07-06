@@ -50,7 +50,9 @@ public sealed class SandevistanOverlaySystem : EntitySystem
     private void SyncOverlay()
     {
         var player = _player.LocalEntity;
-        if (player != null && HasComp<ActiveSandevistanComponent>(player.Value))
+        if (player != null &&
+            (HasComp<ActiveSandevistanComponent>(player.Value) ||
+             HasComp<SandevistanVisualFadeoutComponent>(player.Value)))
         {
             AddOverlay();
             return;

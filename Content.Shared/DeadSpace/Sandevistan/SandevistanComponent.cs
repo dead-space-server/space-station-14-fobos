@@ -12,10 +12,13 @@ namespace Content.Shared.DeadSpace.Sandevistan;
 public sealed partial class SandevistanImplantComponent : Component
 {
     [DataField]
-    public float Duration = 16f;
+    public float Duration = 17f;
 
     [DataField]
-    public float SoftcapTime = 8f;
+    public float SoftcapTime = 12f;
+
+    [DataField]
+    public float CooldownMultiplier = 1.5f;
 
     [DataField]
     public float MovementSpeedModifier = 1.7f;
@@ -27,15 +30,122 @@ public sealed partial class SandevistanImplantComponent : Component
     public float OverloadInterval = 1f;
 
     [DataField]
-    public float OverloadStaminaDamage = 9f;
-
-    [DataField]
     public DamageSpecifier OverloadDamage = new()
     {
         DamageDict = new Dictionary<string, FixedPoint2>
         {
-            { "Blunt", 4 },
+            { "Slash", 5 },
+            { "Piercing", 5 },
         },
+    };
+
+    public TimeSpan NextReadyTime = TimeSpan.Zero;
+
+    [DataField]
+    public float ExhaustionStaminaDamage = 100f;
+
+    [DataField]
+    public float SoftcapPopupInterval = 2f;
+
+    [DataField]
+    public float SoftcapPopupInitialDelay = 2f;
+
+    [DataField]
+    public float ShoutInitialDelay = 1.25f;
+
+    [DataField]
+    public float ShoutMinInterval = 3.5f;
+
+    [DataField]
+    public float ShoutMaxInterval = 4.5f;
+
+    [DataField]
+    public List<LocId> SoftcapPopups = new()
+    {
+        "sandevistan-softcap-popup-1",
+        "sandevistan-softcap-popup-2",
+        "sandevistan-softcap-popup-3",
+        "sandevistan-softcap-popup-4",
+        "sandevistan-softcap-popup-5",
+        "sandevistan-softcap-popup-6",
+    };
+
+    [DataField]
+    public List<LocId> SoftcapShouts = new()
+    {
+        "sandevistan-softcap-shout-1",
+        "sandevistan-softcap-shout-2",
+        "sandevistan-softcap-shout-3",
+        "sandevistan-softcap-shout-4",
+        "sandevistan-softcap-shout-5",
+        "sandevistan-softcap-shout-6",
+        "sandevistan-softcap-shout-7",
+        "sandevistan-softcap-shout-8",
+        "sandevistan-softcap-shout-9",
+        "sandevistan-softcap-shout-10",
+        "sandevistan-softcap-shout-11",
+    };
+
+    [DataField]
+    public float EndWarningLeadTime = 5f;
+
+    [DataField]
+    public float EndWarningInterval = 2.5f;
+
+    [DataField]
+    public int EndWarningPopupCount = 1;
+
+    [DataField]
+    public List<LocId> EndWarningPopups = new()
+    {
+        "sandevistan-end-warning-popup-1",
+        "sandevistan-end-warning-popup-2",
+        "sandevistan-end-warning-popup-3",
+        "sandevistan-end-warning-popup-4",
+        "sandevistan-end-warning-popup-5",
+        "sandevistan-end-warning-popup-6",
+        "sandevistan-end-warning-popup-7",
+    };
+
+    [DataField]
+    public float RecoveryDuration = 10f;
+
+    [DataField]
+    public float RecoveryMovementSpeedModifier = 0.65f;
+
+    [DataField]
+    public float RecoveryTickInterval = 3f;
+
+    [DataField]
+    public float RecoveryManualStaminaDamageFraction = 0.3f;
+
+    [DataField]
+    public DamageSpecifier RecoveryDamage = new()
+    {
+        DamageDict = new Dictionary<string, FixedPoint2>
+        {
+            { "Asphyxiation", 2 },
+        },
+    };
+
+    [DataField]
+    public float RecoveryJitterAmplitude = 3.5f;
+
+    [DataField]
+    public float RecoveryJitterFrequency = 18f;
+
+    [DataField]
+    public float RecoveryJitterRefreshTime = 0.35f;
+
+    [DataField]
+    public float RecoveryPopupInterval = 5f;
+
+    [DataField]
+    public List<LocId> RecoveryPopups = new()
+    {
+        "sandevistan-recovery-popup-1",
+        "sandevistan-recovery-popup-2",
+        "sandevistan-recovery-popup-3",
     };
 
     [DataField]
@@ -57,16 +167,22 @@ public sealed partial class SandevistanImplantComponent : Component
     public float JitterRefreshTime = 0.35f;
 
     [DataField]
-    public float AfterimageInterval = 0.015f;
+    public float AfterimageInterval = 0.01f;
 
     [DataField]
-    public float AfterimageMinDistance = 0.08f;
+    public float AfterimageMinDistance = 1f;
 
     [DataField]
-    public float AfterimageLifetime = 0.35f;
+    public float AfterimageLifetime = 1.25f;
 
     [DataField]
-    public Color AfterimageColor = Color.FromHex("#c5ecff99");
+    public float DeactivationVisualDuration = 1.5f;
+
+    [DataField]
+    public float DeactivationMovementDuration = 1.25f;
+
+    [DataField]
+    public Color AfterimageColor = Color.FromHex("#00ffd0dd");
 
     [DataField]
     public string AfterimageFallbackEffect = "MantisDodgeEffect";
@@ -90,6 +206,59 @@ public sealed partial class ActiveSandevistanComponent : Component
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
     public TimeSpan NextOverloadTime;
 
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
+    public TimeSpan NextSoftcapPopupTime;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
+    public TimeSpan NextShoutTime;
+
+    [DataField]
+    public float CooldownMultiplier = 1.5f;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
+    public TimeSpan StartTime;
+
+    [DataField]
+    public float SoftcapPopupInterval = 2f;
+
+    [DataField]
+    public float ShoutInitialDelay = 1.25f;
+
+    [DataField]
+    public float ShoutMinInterval = 3.5f;
+
+    [DataField]
+    public float ShoutMaxInterval = 4.5f;
+
+    [DataField]
+    public List<LocId> SoftcapPopups = new();
+
+    [DataField]
+    public List<LocId> SoftcapShouts = new();
+
+    public int LastSoftcapPopupIndex = -1;
+    public int LastSoftcapShoutIndex = -1;
+    public readonly List<int> SoftcapPopupBag = new();
+    public readonly List<int> SoftcapShoutBag = new();
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
+    public TimeSpan NextEndWarningTime;
+
+    [DataField]
+    public float EndWarningLeadTime = 5f;
+
+    [DataField]
+    public float EndWarningInterval = 2.5f;
+
+    [DataField]
+    public int EndWarningPopupCount = 1;
+
+    [DataField]
+    public List<LocId> EndWarningPopups = new();
+
+    public int LastEndWarningPopupIndex = -1;
+    public readonly List<int> EndWarningPopupBag = new();
+
     [DataField, AutoNetworkedField]
     public float MovementSpeedModifier = 1.7f;
 
@@ -100,16 +269,23 @@ public sealed partial class ActiveSandevistanComponent : Component
     public float OverloadInterval = 1f;
 
     [DataField]
-    public float OverloadStaminaDamage = 9f;
-
-    [DataField]
     public DamageSpecifier OverloadDamage = new()
     {
         DamageDict = new Dictionary<string, FixedPoint2>
         {
-            { "Blunt", 4 },
+            { "Slash", 5 },
+            { "Piercing", 5 },
         },
     };
+
+    [DataField]
+    public float ExhaustionStaminaDamage = 100f;
+
+    [DataField]
+    public bool ManualStopRequested;
+
+    [DataField]
+    public float ManualStopVisualIntensity = -1f;
 
     [DataField]
     public float JitterCurrentProgress;
@@ -139,17 +315,161 @@ public sealed partial class ActiveSandevistanComponent : Component
     public float JitterRefreshTime = 0.35f;
 
     [DataField, AutoNetworkedField]
-    public float AfterimageInterval = 0.015f;
+    public float AfterimageInterval = 0.01f;
 
     [DataField, AutoNetworkedField]
-    public float AfterimageMinDistance = 0.08f;
+    public float AfterimageMinDistance = 1f;
 
     [DataField, AutoNetworkedField]
-    public float AfterimageLifetime = 0.35f;
+    public float AfterimageLifetime = 1.25f;
 
     [DataField, AutoNetworkedField]
-    public Color AfterimageColor = Color.FromHex("#c5ecff99");
+    public float DeactivationVisualDuration = 1.5f;
+
+    [DataField]
+    public float DeactivationMovementDuration = 1.25f;
+
+    [DataField, AutoNetworkedField]
+    public Color AfterimageColor = Color.FromHex("#00ffd0dd");
 
     [DataField, AutoNetworkedField]
     public string AfterimageFallbackEffect = "MantisDodgeEffect";
+
+    [DataField]
+    public float RecoveryDuration = 10f;
+
+    [DataField]
+    public float RecoveryMovementSpeedModifier = 0.65f;
+
+    [DataField]
+    public float RecoveryTickInterval = 3f;
+
+    [DataField]
+    public float RecoveryManualStaminaDamageFraction = 0.3f;
+
+    [DataField]
+    public DamageSpecifier RecoveryDamage = new()
+    {
+        DamageDict = new Dictionary<string, FixedPoint2>
+        {
+            { "Asphyxiation", 2 },
+        },
+    };
+
+    [DataField]
+    public float RecoveryJitterAmplitude = 3.5f;
+
+    [DataField]
+    public float RecoveryJitterFrequency = 18f;
+
+    [DataField]
+    public float RecoveryJitterRefreshTime = 0.35f;
+
+    [DataField]
+    public float RecoveryPopupInterval = 5f;
+
+    [DataField]
+    public List<LocId> RecoveryPopups = new();
+}
+
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true), AutoGenerateComponentPause]
+public sealed partial class SandevistanRecoveryComponent : Component
+{
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan EndTime;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
+    public TimeSpan NextTickTime;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
+    public TimeSpan NextPopupTime;
+
+    [DataField, AutoNetworkedField]
+    public float MovementSpeedModifier = 0.65f;
+
+    [DataField, AutoNetworkedField]
+    public float Duration = 10f;
+
+    [DataField]
+    public float TickInterval = 3f;
+
+    [DataField]
+    public float ManualStaminaDamageRemaining;
+
+    [DataField]
+    public int ManualStaminaDamageTicksRemaining;
+
+    [DataField]
+    public DamageSpecifier Damage = new()
+    {
+        DamageDict = new Dictionary<string, FixedPoint2>
+        {
+            { "Asphyxiation", 2 },
+        },
+    };
+
+    [DataField]
+    public float JitterAmplitude = 3.5f;
+
+    [DataField]
+    public float JitterFrequency = 18f;
+
+    [DataField]
+    public float JitterRefreshTime = 0.35f;
+
+    [DataField]
+    public float PopupInterval = 5f;
+
+    [DataField]
+    public List<LocId> Popups = new();
+
+    public int LastPopupIndex = -1;
+    public readonly List<int> PopupBag = new();
+}
+
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true), AutoGenerateComponentPause]
+public sealed partial class SandevistanVisualFadeoutComponent : Component
+{
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan EndTime;
+
+    [DataField, AutoNetworkedField]
+    public float Duration = 1.5f;
+
+    [DataField, AutoNetworkedField]
+    public float StartIntensity = 1f;
+
+    [DataField, AutoNetworkedField]
+    public float SoftcapProgress;
+
+    [DataField, AutoNetworkedField]
+    public float AfterimageInterval = 0.01f;
+
+    [DataField, AutoNetworkedField]
+    public float AfterimageMinDistance = 1f;
+
+    [DataField, AutoNetworkedField]
+    public float AfterimageLifetime = 1.25f;
+
+    [DataField, AutoNetworkedField]
+    public Color AfterimageColor = Color.FromHex("#00ffd0dd");
+
+    [DataField, AutoNetworkedField]
+    public string AfterimageFallbackEffect = "MantisDodgeEffect";
+}
+
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true), AutoGenerateComponentPause]
+public sealed partial class SandevistanSpeedFadeoutComponent : Component
+{
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan EndTime;
+
+    [DataField, AutoNetworkedField]
+    public float Duration = 1.25f;
+
+    [DataField, AutoNetworkedField]
+    public float StartModifier = 1f;
+
+    [DataField, AutoNetworkedField]
+    public float EndModifier = 1f;
 }

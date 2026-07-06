@@ -71,7 +71,7 @@
 
 - type: entity
   id: ActionActivateSandevistanImplant
-  name: "[color=cyan]Активировать Сандевистан[/color]"
+  name: "[color=red]Активировать Сандевистан[/color]"
   description: Включить имплант боевого ускорения с опасной перегрузкой организма.
   components:
   - type: Action
@@ -79,8 +79,7 @@
     priority: -20
     icon:
       sprite: _DeadSpace/Actions/implants_actions.rsi
-      state: rezerv
-    useDelay: 90
+      state: sandevistan
     checkCanInteract: false
   - type: InstantAction
     event: !type:ActivateSandevistanImplantEvent

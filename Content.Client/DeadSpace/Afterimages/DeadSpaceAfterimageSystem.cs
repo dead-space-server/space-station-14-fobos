@@ -54,7 +54,8 @@ public sealed class DeadSpaceAfterimageSystem : EntitySystem
         Angle rotation,
         Color color,
         float lifetime,
-        string fallbackEffect)
+        string fallbackEffect,
+        Color? endColor = null)
     {
         if (!coordinates.IsValid(EntityManager))
             return false;
@@ -80,7 +81,7 @@ public sealed class DeadSpaceAfterimageSystem : EntitySystem
         despawn.Lifetime = lifetime;
 
         var animationPlayer = EnsureComp<AnimationPlayerComponent>(clone);
-        _animation.Play((clone, animationPlayer), GetFadeAnimation(color, lifetime), AnimationKey);
+        _animation.Play((clone, animationPlayer), GetFadeAnimation(color, lifetime, endColor), AnimationKey);
 
         return true;
     }
@@ -105,8 +106,31 @@ public sealed class DeadSpaceAfterimageSystem : EntitySystem
         return true;
     }
 
-    private static Animation GetFadeAnimation(Color color, float lifetime)
+    private static Animation GetFadeAnimation(Color color, float lifetime, Color? endColor = null)
     {
+        if (endColor == null)
+        {
+            return new Animation
+            {
+                Length = TimeSpan.FromSeconds(lifetime),
+                AnimationTracks =
+                {
+                    new AnimationTrackComponentProperty
+                    {
+                        ComponentType = typeof(SpriteComponent),
+                        Property = nameof(SpriteComponent.Color),
+                        InterpolationMode = AnimationInterpolationMode.Linear,
+                        KeyFrames =
+                        {
+                            new AnimationTrackProperty.KeyFrame(color, 0f),
+                            new AnimationTrackProperty.KeyFrame(color.WithAlpha(0f), lifetime),
+                        },
+                    },
+                },
+            };
+        }
+
+        var finalColor = endColor.Value;
         return new Animation
         {
             Length = TimeSpan.FromSeconds(lifetime),
@@ -120,7 +144,8 @@ public sealed class DeadSpaceAfterimageSystem : EntitySystem
                     KeyFrames =
                     {
                         new AnimationTrackProperty.KeyFrame(color, 0f),
-                        new AnimationTrackProperty.KeyFrame(color.WithAlpha(0f), lifetime),
+                        new AnimationTrackProperty.KeyFrame(finalColor.WithAlpha(finalColor.A * 0.65f), lifetime * 0.55f),
+                        new AnimationTrackProperty.KeyFrame(finalColor.WithAlpha(0f), lifetime),
                     },
                 },
             },
