@@ -11,6 +11,7 @@ using Content.Shared.Preferences;
 using Content.Shared.Preferences.Loadouts;
 using Content.Shared.Roles;
 using Content.Shared.Station;
+using Content.Shared.Storage.EntitySystems; // DS14
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 
@@ -23,6 +24,7 @@ public sealed class OutfitSystem : EntitySystem
     [Dependency] private readonly HandsSystem _handSystem = default!;
     [Dependency] private readonly InventorySystem _invSystem = default!;
     [Dependency] private readonly SharedStationSpawningSystem _spawningSystem = default!;
+    [Dependency] private readonly SharedStorageSystem _storageSystem = default!; // DS14
 
     public bool SetOutfit(EntityUid target, string gear, Action<EntityUid, EntityUid>? onEquipped = null, bool unremovable = false)
     {
@@ -77,6 +79,30 @@ public sealed class OutfitSystem : EntitySystem
                 _handSystem.TryPickup(target, inhandEntity, checkActionBlocker: false, handsComp: handsComponent);
             }
         }
+
+        // DS14-Start - заполнение сторадж...
+        if (startingGear.Storage.Count > 0)
+        {
+            var coords = Comp<TransformComponent>(target).Coordinates;
+            if (_invSystem.TryGetSlots(target, out var slotDefs))
+            {
+                foreach (var (slotName, entProtos) in startingGear.Storage)
+                {
+                    if (entProtos.Count == 0)
+                        continue;
+
+                    if (_invSystem.TryGetSlotEntity(target, slotName, out var slotEnt))
+                    {
+                        foreach (var entProto in entProtos)
+                        {
+                            var item = Spawn(entProto, coords);
+                            _storageSystem.Insert(slotEnt.Value, item, out _, playSound: false);
+                        }
+                    }
+                }
+            }
+        }
+        // DS14-End
 
         // See if this starting gear is associated with a job
         var jobs = _prototypeManager.EnumeratePrototypes<JobPrototype>();
