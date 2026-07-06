@@ -7,7 +7,6 @@ namespace Content.Server.Administration.Commands
     [AdminCommand(AdminFlags.Round)]
     public sealed class LockShuttleCommand : LocalizedEntityCommands
     {
-        [Dependency] private readonly IEntityManager _entityManager = default!;
         [Dependency] private readonly CommunicationsConsoleSystem _comms = default!;
 
         public override string Command => "lockshuttle";
