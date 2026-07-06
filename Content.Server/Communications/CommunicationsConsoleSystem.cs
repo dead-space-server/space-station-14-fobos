@@ -39,8 +39,6 @@ namespace Content.Server.Communications
         [Dependency] private readonly IConfigurationManager _cfg = default!;
         [Dependency] private readonly IAdminLogManager _adminLogger = default!;
 
-        public bool EvacLocked { get; private set; } //DS14
-
         private const float UIUpdateInterval = 5.0f;
 
         public override void Initialize()
@@ -366,10 +364,8 @@ namespace Content.Server.Communications
         //DS14-start
         public void ToggleLockEvac()
         {
-            EvacLocked = !EvacLocked;
-
-            _cfg.SetCVar(CCVars.EvacLocked, EvacLocked);
-            var query = EntityQueryEnumerator<CommunicationsConsoleComponent>();
+            _cfg.SetCVar(CCVars.EvacLocked, !_cfg.GetCVar(CCVars.EvacLocked));
+            UpdateCommsConsoleInterface();
         }
         //DS14-end
     }
