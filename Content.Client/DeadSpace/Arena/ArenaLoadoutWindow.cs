@@ -14,7 +14,6 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
 
     private int _weaponSelection = -1;
     private ArenaWeaponCard? _selectedCard;
-    private readonly Label _playerCountLabel;
     private readonly BoxContainer _categoriesContainer;
     private readonly Button _confirmButton;
 
@@ -30,14 +29,6 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
             HorizontalExpand = true,
             VerticalExpand = true,
         };
-
-        _playerCountLabel = new Label
-        {
-            Text = Loc.GetString("arena-loadout-players", ("count", 0)),
-            HorizontalAlignment = HAlignment.Center,
-            Margin = new Thickness(0, 4, 0, 4),
-        };
-        outerContainer.AddChild(_playerCountLabel);
 
         var subtitle = new Label
         {
@@ -81,7 +72,6 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
 
     public void UpdateState(ArenaLoadoutEuiState state)
     {
-        _playerCountLabel.Text = Loc.GetString("arena-loadout-players", ("count", state.PlayerCount));
         _categoriesContainer.RemoveAllChildren();
         _selectedCard = null;
         _weaponSelection = -1;

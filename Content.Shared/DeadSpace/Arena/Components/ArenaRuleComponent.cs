@@ -41,4 +41,9 @@ public sealed partial class ArenaRuleComponent : Component
 
     [DataField]
     public List<ArenaWeaponLoadout> WeaponLoadouts = new();
+
+    [DataField]
+    public TimeSpan CleanupInterval = TimeSpan.FromSeconds(60);
+
+    public TimeSpan NextCleanup;
 }

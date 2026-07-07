@@ -7,12 +7,10 @@ namespace Content.Shared.DeadSpace.Arena;
 public sealed class ArenaLoadoutEuiState : EuiStateBase
 {
     public List<ArenaLoadoutOption> Weapons { get; }
-    public int PlayerCount { get; }
 
-    public ArenaLoadoutEuiState(List<ArenaLoadoutOption> weapons, int playerCount)
+    public ArenaLoadoutEuiState(List<ArenaLoadoutOption> weapons)
     {
         Weapons = weapons;
-        PlayerCount = playerCount;
     }
 }
 

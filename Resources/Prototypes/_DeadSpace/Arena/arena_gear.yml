@@ -22,7 +22,7 @@
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
-    - WeaponShotgunKammerer
+    - WeaponShotgunEnforcer
   storage:
     back:
       - MedkitFilled

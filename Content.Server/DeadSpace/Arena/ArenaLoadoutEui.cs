@@ -23,7 +23,7 @@ public sealed class ArenaLoadoutEui : BaseEui
     public override EuiStateBase GetNewState()
     {
         if (!_entManager.TryGetComponent<ArenaRuleComponent>(_ruleEntity, out var rule))
-            return new ArenaLoadoutEuiState(new List<ArenaLoadoutOption>(), 0);
+            return new ArenaLoadoutEuiState(new List<ArenaLoadoutOption>());
 
         return _arenaSystem.GetLoadoutState(rule);
     }

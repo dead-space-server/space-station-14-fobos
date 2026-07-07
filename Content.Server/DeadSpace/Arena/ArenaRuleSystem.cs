@@ -6,6 +6,7 @@ using Content.Server.GameTicking.Rules;
 using Content.Server.Ghost;
 using Content.Server.Mind;
 using Content.Shared.DeadSpace.Arena;
+using Content.Shared.Fluids.Components;
 using Content.Shared.GameTicking.Components;
 using Content.Shared.Ghost;
 using Content.Shared.Mobs;
@@ -13,6 +14,7 @@ using Robust.Server.GameObjects;
 using Robust.Shared.EntitySerialization;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
 
@@ -96,8 +98,31 @@ public sealed class ArenaRuleSystem : GameRuleSystem<ArenaRuleComponent>
 
     protected override void ActiveTick(EntityUid uid, ArenaRuleComponent component, GameRuleComponent gameRule, float frameTime)
     {
-        if (!component.Active)
+        if (!component.Active || component.ArenaMap is not { } mapUid)
             return;
+
+        var curTime = Timing.CurTime;
+        if (curTime < component.NextCleanup)
+            return;
+
+        component.NextCleanup = curTime + component.CleanupInterval;
+
+        var mapId = Transform(mapUid).MapID;
+        var enumerator = AllEntityQuery<TransformComponent>();
+        while (enumerator.MoveNext(out var ent, out var xform))
+        {
+            if (!xform.ParentUid.IsValid() || xform.MapID != mapId)
+                continue;
+
+            if (HasComp<MapGridComponent>(ent))
+                continue;
+
+            if (!HasComp<MapGridComponent>(xform.ParentUid) && xform.ParentUid != mapUid)
+                continue;
+
+            if (HasComp<PuddleComponent>(ent) || (!xform.Anchored && !HasComp<ActorComponent>(ent)))
+                QueueDel(ent);
+        }
     }
 
     private void OnArenaJoinRequest(ArenaJoinRequestEvent msg, EntitySessionEventArgs args)
@@ -188,7 +213,7 @@ public sealed class ArenaRuleSystem : GameRuleSystem<ArenaRuleComponent>
             });
         }
 
-        return new ArenaLoadoutEuiState(options, component.Players.Count);
+        return new ArenaLoadoutEuiState(options);
     }
 
     private EntityUid? GetArenaRuleEntity()

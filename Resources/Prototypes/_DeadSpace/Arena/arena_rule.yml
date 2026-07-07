@@ -10,7 +10,7 @@
       name: arena-loadout-shotgun
       description: arena-desc-shotgun
       category: arena-category-shotguns
-      sprite: WeaponShotgunKammerer
+      sprite: WeaponShotgunEnforcer
     - gear: ArenaSmg
       name: arena-loadout-smg
       description: arena-desc-smg
