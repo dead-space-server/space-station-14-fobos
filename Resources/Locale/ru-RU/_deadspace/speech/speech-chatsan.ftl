@@ -60,39 +60,6 @@ deadspace-chatsan-replacement-26 = мобилизации
 deadspace-chatsan-word-27 = мобилкой
 deadspace-chatsan-replacement-27 = мобилизацией
 
-deadspace-chatsan-word-28 = лут
-deadspace-chatsan-replacement-28 = вещи
-deadspace-chatsan-word-29 = лута
-deadspace-chatsan-replacement-29 = вещей
-deadspace-chatsan-word-30 = лутай
-deadspace-chatsan-replacement-30 = собирай вещи
-
-deadspace-chatsan-word-31 = чекай
-deadspace-chatsan-replacement-31 = проверяй
-deadspace-chatsan-word-32 = чекну
-deadspace-chatsan-replacement-32 = проверю
-deadspace-chatsan-word-33 = чекаю
-deadspace-chatsan-replacement-33 = проверяю
-deadspace-chatsan-word-34 = чекни
-deadspace-chatsan-replacement-34 = проверь
-deadspace-chatsan-word-35 = чекаем
-deadspace-chatsan-replacement-35 = проверяем
-deadspace-chatsan-word-36 = чекает
-deadspace-chatsan-replacement-36 = проверяет
-deadspace-chatsan-word-37 = чекают
-deadspace-chatsan-replacement-37 = проверяют
-
-deadspace-chatsan-word-38 = гиб
-deadspace-chatsan-replacement-38 = расчленение
-deadspace-chatsan-word-39 = гибну
-deadspace-chatsan-replacement-39 = расчленю
-deadspace-chatsan-word-40 = гибнул
-deadspace-chatsan-replacement-40 = расчлененил
-deadspace-chatsan-word-41 = гибнули
-deadspace-chatsan-replacement-41 = расчленили
-deadspace-chatsan-word-42 = гибни
-deadspace-chatsan-replacement-42 = расчленени
-
 deadspace-chatsan-word-43 = инстры
 deadspace-chatsan-replacement-43 = инструменты
 deadspace-chatsan-word-44 = инстров
@@ -299,9 +266,6 @@ deadspace-chatsan-replacement-123 = всмысле
 deadspace-chatsan-word-124 = чзх
 deadspace-chatsan-replacement-124 = что за херня
 
-deadspace-chatsan-word-125 = изи
-deadspace-chatsan-replacement-125 = легко
-
 deadspace-chatsan-word-126 = гг
 deadspace-chatsan-replacement-126 = хорошо сработано
 
@@ -313,15 +277,6 @@ deadspace-chatsan-replacement-128 = к сожалению
 deadspace-chatsan-word-129 = сво
 deadspace-chatsan-replacement-129 = свой
 
-deadspace-chatsan-word-130 = пруф
-deadspace-chatsan-replacement-130 = доказательство
-deadspace-chatsan-word-131 = пруфы
-deadspace-chatsan-replacement-131 = доказательства
-deadspace-chatsan-word-132 = пруфани
-deadspace-chatsan-replacement-132 = докажи
-deadspace-chatsan-word-133 = пруфанул
-deadspace-chatsan-replacement-133 = доказал
-
 deadspace-chatsan-word-134 = имба
 deadspace-chatsan-replacement-134 = нечестно
 deadspace-chatsan-word-135 = имбулечка
@@ -329,35 +284,6 @@ deadspace-chatsan-replacement-135 = нечестно
 
 deadspace-chatsan-word-136 = разлокать
 deadspace-chatsan-replacement-136 = разблокировать
-
-deadspace-chatsan-word-137 = юзать
-deadspace-chatsan-replacement-137 = использовать
-deadspace-chatsan-word-138 = юзай
-deadspace-chatsan-replacement-138 = используй
-deadspace-chatsan-word-139 = юзнул
-deadspace-chatsan-replacement-139 = использовал
-
-deadspace-chatsan-word-140 = хил
-deadspace-chatsan-replacement-140 = лечение
-deadspace-chatsan-word-141 = хилка
-deadspace-chatsan-replacement-141 = лечение
-deadspace-chatsan-word-142 = хилку
-deadspace-chatsan-replacement-142 = лечение
-deadspace-chatsan-word-143 = хилки
-deadspace-chatsan-replacement-143 = лечение
-deadspace-chatsan-word-144 = хильни
-deadspace-chatsan-replacement-144 = полечи
-deadspace-chatsan-word-145 = хилься
-deadspace-chatsan-replacement-145 = лечись
-deadspace-chatsan-word-146 = подхиль
-deadspace-chatsan-replacement-146 = полечи
-
-deadspace-chatsan-word-147 = хелп
-deadspace-chatsan-replacement-147 = помоги
-deadspace-chatsan-word-148 = хелпани
-deadspace-chatsan-replacement-148 = помоги
-deadspace-chatsan-word-149 = хелпанул
-deadspace-chatsan-replacement-149 = помог
 
 deadspace-chatsan-word-150 = рофл
 deadspace-chatsan-replacement-150 = прикол
@@ -397,6 +323,7 @@ deadspace-chatsan-replacement-162 = снабженцы
 deadspace-chatsan-word-163 = командывание
 deadspace-chatsan-replacement-163 = командование
 
+
 # Reagents
 deadspace-chatsan-word-164 = бикардин
 deadspace-chatsan-replacement-164 = бикаридин
@@ -425,6 +352,7 @@ deadspace-chatsan-replacement-173 = эпинефрин
 deadspace-chatsan-word-174 = эпиф
 deadspace-chatsan-replacement-174 = эпинефрин
 
+
 # Jobs SS13
 deadspace-chatsan-word-175 = хоп
 deadspace-chatsan-replacement-175 = гп
@@ -442,6 +370,7 @@ deadspace-chatsan-replacement-179 = си
 
 deadspace-chatsan-word-180 = рд
 deadspace-chatsan-replacement-180 = нр
+
 
 # Jobs SS14
 deadspace-chatsan-word-181 = кеп
@@ -584,6 +513,7 @@ deadspace-chatsan-replacement-243 = парамедиком
 deadspace-chatsan-word-244 = парамеды
 deadspace-chatsan-replacement-244 = парамедики
 
+
 # OOC
 deadspace-chatsan-word-245 = афк
 deadspace-chatsan-replacement-245 = крс
@@ -638,3 +568,187 @@ deadspace-chatsan-word-265 = лкм
 deadspace-chatsan-replacement-265 = левой рукой
 deadspace-chatsan-word-266 = пкм
 deadspace-chatsan-replacement-266 = правой рукой
+
+
+# Киберспортивные англицизмы
+deadspace-chatsan-word-137 = юзать
+deadspace-chatsan-replacement-137 = использовать
+deadspace-chatsan-word-138 = юзай
+deadspace-chatsan-replacement-138 = используй
+deadspace-chatsan-word-139 = юзнул
+deadspace-chatsan-replacement-139 = использовал
+
+deadspace-chatsan-word-140 = хил
+deadspace-chatsan-replacement-140 = лечение
+deadspace-chatsan-word-141 = хилка
+deadspace-chatsan-replacement-141 = лечение
+deadspace-chatsan-word-142 = хилку
+deadspace-chatsan-replacement-142 = лечение
+deadspace-chatsan-word-143 = хилки
+deadspace-chatsan-replacement-143 = лечение
+deadspace-chatsan-word-144 = хильни
+deadspace-chatsan-replacement-144 = полечи
+deadspace-chatsan-word-145 = хилься
+deadspace-chatsan-replacement-145 = лечись
+deadspace-chatsan-word-146 = подхиль
+deadspace-chatsan-replacement-146 = полечи
+
+deadspace-chatsan-word-137 = пуш
+deadspace-chatsan-replacement-137 = штурм
+deadspace-chatsan-word-137 = пушь
+deadspace-chatsan-replacement-137 = штурмуй
+deadspace-chatsan-word-137 = запуш
+deadspace-chatsan-replacement-137 = штурмуй
+deadspace-chatsan-word-137 = запушь
+deadspace-chatsan-replacement-137 = штурмуй
+deadspace-chatsan-word-139 = пушьте
+deadspace-chatsan-replacement-139 = штурмуйте
+deadspace-chatsan-word-138 = пушим
+deadspace-chatsan-replacement-138 = штурмуем
+deadspace-chatsan-word-138 = пушат
+deadspace-chatsan-replacement-138 = штурмуют
+deadspace-chatsan-word-138 = запушили
+deadspace-chatsan-replacement-138 = штурманули
+
+deadspace-chatsan-word-137 = бэк
+deadspace-chatsan-replacement-137 = отход
+deadspace-chatsan-word-137 = бэкай
+deadspace-chatsan-replacement-137 = отходи
+deadspace-chatsan-word-137 = бэкаем
+deadspace-chatsan-replacement-137 = отходим
+deadspace-chatsan-word-137 = бэкайте
+deadspace-chatsan-replacement-137 = отходите
+
+deadspace-chatsan-word-137 = фид
+deadspace-chatsan-replacement-137 = проёб
+deadspace-chatsan-word-137 = нафидил
+deadspace-chatsan-replacement-137 = проебал
+deadspace-chatsan-word-137 = сфидил
+deadspace-chatsan-replacement-137 = проебал
+
+deadspace-chatsan-word-137 = ласт
+deadspace-chatsan-replacement-137 = последний
+deadspace-chatsan-word-137 = ластовый
+deadspace-chatsan-replacement-137 = последний
+
+deadspace-chatsan-word-137 = стакаемся
+deadspace-chatsan-replacement-137 = собираемся
+deadspace-chatsan-word-137 = стакайтесь
+deadspace-chatsan-replacement-137 = собирайтесь
+
+deadspace-chatsan-word-137 = файт
+deadspace-chatsan-replacement-137 = бой
+deadspace-chatsan-word-137 = файты
+deadspace-chatsan-replacement-137 = бои
+
+deadspace-chatsan-word-137 = тп
+deadspace-chatsan-replacement-137 = телепорт
+
+deadspace-chatsan-word-137 = кд
+deadspace-chatsan-replacement-137 = перезарядка
+
+deadspace-chatsan-word-137 = фаст
+deadspace-chatsan-replacement-137 = быстро
+deadspace-chatsan-word-137 = фастом
+deadspace-chatsan-replacement-137 = по-быстрому
+
+deadspace-chatsan-word-147 = хелп
+deadspace-chatsan-replacement-147 = помоги
+deadspace-chatsan-word-148 = хелпани
+deadspace-chatsan-replacement-148 = помоги
+deadspace-chatsan-word-149 = хелпанул
+deadspace-chatsan-replacement-149 = помог
+
+deadspace-chatsan-word-130 = пруф
+deadspace-chatsan-replacement-130 = доказательство
+deadspace-chatsan-word-131 = пруфы
+deadspace-chatsan-replacement-131 = доказательства
+deadspace-chatsan-word-132 = пруфани
+deadspace-chatsan-replacement-132 = докажи
+deadspace-chatsan-word-133 = пруфанул
+deadspace-chatsan-replacement-133 = доказал
+
+deadspace-chatsan-word-125 = изи
+deadspace-chatsan-replacement-125 = легко
+
+deadspace-chatsan-word-28 = лут
+deadspace-chatsan-replacement-28 = вещи
+deadspace-chatsan-word-29 = лута
+deadspace-chatsan-replacement-29 = вещей
+deadspace-chatsan-word-30 = лутай
+deadspace-chatsan-replacement-30 = собирай вещи
+
+deadspace-chatsan-word-31 = чекай
+deadspace-chatsan-replacement-31 = проверяй
+deadspace-chatsan-word-32 = чекну
+deadspace-chatsan-replacement-32 = проверю
+deadspace-chatsan-word-33 = чекаю
+deadspace-chatsan-replacement-33 = проверяю
+deadspace-chatsan-word-34 = чекни
+deadspace-chatsan-replacement-34 = проверь
+deadspace-chatsan-word-35 = чекаем
+deadspace-chatsan-replacement-35 = проверяем
+deadspace-chatsan-word-36 = чекает
+deadspace-chatsan-replacement-36 = проверяет
+deadspace-chatsan-word-37 = чекают
+deadspace-chatsan-replacement-37 = проверяют
+
+deadspace-chatsan-word-38 = гиб
+deadspace-chatsan-replacement-38 = расчленение
+deadspace-chatsan-word-39 = гибну
+deadspace-chatsan-replacement-39 = расчленю
+deadspace-chatsan-word-39 = гибнуло
+deadspace-chatsan-replacement-39 = расчленило
+deadspace-chatsan-word-40 = гибнул
+deadspace-chatsan-replacement-40 = расчлененил
+deadspace-chatsan-word-41 = гибнули
+deadspace-chatsan-replacement-41 = расчленили
+deadspace-chatsan-word-42 = гибни
+deadspace-chatsan-replacement-42 = расчленени
+deadspace-chatsan-word-42 = гибай
+deadspace-chatsan-replacement-42 = расчленяй
+deadspace-chatsan-word-42 = гибайте
+deadspace-chatsan-replacement-42 = расчленяйте
+
+deadspace-chatsan-word-38 = ресай
+deadspace-chatsan-replacement-38 = поднимай
+deadspace-chatsan-word-38 = ресни
+deadspace-chatsan-replacement-38 = подними
+deadspace-chatsan-word-38 = ресайте
+deadspace-chatsan-replacement-38 = поднимайте
+deadspace-chatsan-word-38 = ресните
+deadspace-chatsan-replacement-38 = поднимите
+
+deadspace-chatsan-word-38 = инфа
+deadspace-chatsan-replacement-38 = информация
+deadspace-chatsan-word-38 = инфу
+deadspace-chatsan-replacement-38 = информацию
+deadspace-chatsan-word-38 = инфы
+deadspace-chatsan-replacement-38 = информации
+deadspace-chatsan-word-38 = инфой
+deadspace-chatsan-replacement-38 = информацией
+
+deadspace-chatsan-word-38 = фулл
+deadspace-chatsan-replacement-38 = полный
+deadspace-chatsan-word-38 = фуллы
+deadspace-chatsan-replacement-38 = полные
+deadspace-chatsan-word-38 = фулловый
+deadspace-chatsan-replacement-38 = заряженный
+
+deadspace-chatsan-word-38 = дефать
+deadspace-chatsan-replacement-38 = защищать
+deadspace-chatsan-word-38 = дефай
+deadspace-chatsan-replacement-38 = защищай
+
+deadspace-chatsan-word-38 = дифузь
+deadspace-chatsan-replacement-38 = обезвреживай
+deadspace-chatsan-word-38 = дефузь
+deadspace-chatsan-replacement-38 = обезвреживай
+deadspace-chatsan-word-38 = дифузьте
+deadspace-chatsan-replacement-38 = обезвреживайте
+deadspace-chatsan-word-38 = дефузьте
+deadspace-chatsan-replacement-38 = обезвреживайте
+deadspace-chatsan-word-38 = дифузили
+deadspace-chatsan-replacement-38 = обезвреживали
+deadspace-chatsan-word-38 = дефузили
+deadspace-chatsan-replacement-38 = обезвреживали
