@@ -5,7 +5,8 @@
     Title="{Loc admin-announce-title}"
     HeaderClass="DS14MenuHeader"
     TitleClass="DS14MenuTitle"
-    SetSize="1100, 350">
+    SetSize="1200, 400"
+    Resizable="false">
 
 
 
@@ -173,7 +174,7 @@
                                  SetHeight="1" />
                 <!-- Мы обернули Label в PanelContainer, чтобы контролировать его вертикальный отступ и сделать блок минимальным. -->
                 <PanelContainer HorizontalExpand="True">
-                    <Label Text="{Loc admin-announce-footer}"
+                    <Label Text="{Loc emag-announce-footer}"
                            StyleClasses="DS14MenuSubtitle"
                            ClipText="True" />
                 </PanelContainer>
@@ -192,7 +193,7 @@
                 <!-- LineEdit (Ввод данных справа) -->
                 <LineEdit Name="RightPanelInput"
                           Access="Public"
-                          PlaceHolder="{Loc admin-announce-rightpanel-placeholder}"
+                          PlaceHolder="{Loc emag-announce-rightpanel-placeholder}"
                           Text=""
                           HorizontalExpand="True"
                           StyleClasses="DS14MenuInput" />
@@ -201,7 +202,7 @@
                 <!-- Кнопка Подтверждения (Под LineEdit справа) -->
                 <Button Name="RightPanelConfirmButton"
                         Access="Public"
-                        Text="{Loc admin-announce-confirm}"
+                        Text="{Loc emag-announce-confirm}"
                         HorizontalExpand="True"
                         Disabled="true"
                         StyleClasses="DS14MenuProfileControl" />
