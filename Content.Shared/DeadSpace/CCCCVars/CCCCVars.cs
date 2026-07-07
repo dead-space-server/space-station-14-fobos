@@ -167,4 +167,6 @@ public sealed class CCCCVars
     /// </summary>
     public static readonly CVarDef<bool> MultipleInventoryWindows =
         CVarDef.Create("storage.multiple_inventory_windows", false, CVar.CLIENTONLY | CVar.ARCHIVE);
+    public static readonly CVarDef<int> MaxBroadcastLength =
+        CVarDef.Create("chat.max_broadcast_length", 10, CVar.SERVER | CVar.REPLICATED);
 }

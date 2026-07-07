@@ -74,5 +74,7 @@ namespace Content.Server.Communications
         /// </summary>
         [DataField]
         public bool AnnounceSentBy = true;
+        [DataField]
+        public string? PassWord;
     }
 }

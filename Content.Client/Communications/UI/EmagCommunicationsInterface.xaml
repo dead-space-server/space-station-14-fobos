@@ -1,0 +1,214 @@
+<!-- Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT -->
+<controls:FancyWindow
+    xmlns="https://spacestation14.io"
+    xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+    Title="{Loc admin-announce-title}"
+    HeaderClass="DS14MenuHeader"
+    TitleClass="DS14MenuTitle"
+    SetSize="1100, 350">
+
+
+
+    <!-- ГЛАВНЫЙ КОНТЕНТ: Горизонтальный контейнер, разделяющий основную форму и боковую панель -->
+    <BoxContainer Orientation="Horizontal"
+                    HorizontalExpand="True"
+                    VerticalExpand="True">
+
+
+        <!-- ======================================================== -->
+        <!-- БЛОК 1: ОСНОВНАЯ ФОРМА (СЛЕВА) - Занимает максимальное место -->
+        <PanelContainer HorizontalExpand="True">
+
+            <!-- Внешний вертикальный контейнер, содержащий все поля формы -->
+            <BoxContainer Orientation="Vertical"
+                            HorizontalExpand="True"
+                            VerticalExpand="True">
+
+                <!-- Поля Announcer и Sender (ОСТАЮТСЯ) -->
+                <BoxContainer Orientation="Horizontal"
+                                HorizontalExpand="True">
+                    <LineEdit Name="Announcer"
+                              Access="Public"
+                              PlaceHolder="{Loc admin-announce-announcer-placeholder}"
+                              Text="{Loc admin-announce-announcer-default}"
+                              HorizontalExpand="True"
+                              SizeFlagsStretchRatio="1"
+                              StyleClasses="DS14MenuInput" />
+                    <LineEdit Name="Sender"
+                              Access="Public"
+                              PlaceHolder="{Loc admin-announce-sender-placeholder}"
+                              Text="{Loc admin-announce-sender-default}"
+                              HorizontalExpand="True"
+                              SizeFlagsStretchRatio="1"
+                              StyleClasses="DS14MenuInput" />
+                </BoxContainer>
+
+                <!-- Поля цвета и пароля (ОСТАЮТСЯ) -->
+                <BoxContainer Orientation="Horizontal"
+              HorizontalExpand="True">
+
+    <!-- Левая часть: цвет -->
+    <BoxContainer Orientation="Horizontal"
+                  HorizontalExpand="True"
+                  SizeFlagsStretchRatio="1.7">
+        <Button Name="ColorPreview"
+                Access="Public"
+                Text=" "
+                MinSize="30 28"
+                SetSize="30 28"
+                StyleClasses="DS14MenuProfileControl" />
+        <LineEdit Name="ColorHex"
+                  Access="Public"
+                  PlaceHolder="{Loc emag-announce-color-placeholder}"
+                  Text="1d8bad"
+                  HorizontalExpand="True"
+                  StyleClasses="DS14MenuInput"
+                   />
+    </BoxContainer>
+
+    <!-- Правая часть: MusicSelector + время и кнопка -->
+    <BoxContainer Orientation="Vertical"
+                  HorizontalExpand="True"
+                  SizeFlagsStretchRatio="6.3">
+
+        <!-- Строка 1: MusicSelector -->
+        <OptionButton Name="MusicSelector"
+                      Access="Public"
+                      HorizontalExpand="True"
+                      ToolTip="{Loc emag-announce-MusicSelector-tooltip}"
+                      Filterable="True" />
+
+        <!-- Строка 2: Label + кнопка прослушать (новое) -->
+        <BoxContainer Orientation="Horizontal"
+                              HorizontalExpand="True">
+                    <!-- Время воспроизведения -->
+                    <Label Name="MusicDurationLabel"
+                           Access="Public"
+                           Text="00:00"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           StyleClasses="DS14MenuSubtitle" />
+
+                    <!-- Кнопка "прослушать" -->
+                    <Button Name="PreviewButton"
+                            Access="Public"
+                            Text="▶"
+                            HorizontalExpand="False"
+                            MinWidth="80"
+                            SizeFlagsStretchRatio="0.5"
+                            StyleClasses="DS14MenuProfileControl" />
+                </BoxContainer>
+
+        </BoxContainer>
+    </BoxContainer>
+                <!-- Поле для объявления (TextEdit) (ОСТАЕТСЯ) -->
+                <PanelContainer StyleClasses="DS14MenuTextField"
+                                 HorizontalExpand="True"
+                                 VerticalExpand="True">
+                    <TextEdit Name="Announcement"
+                              Access="Public"
+                              HorizontalExpand="True"
+                              VerticalExpand="True"
+                              MinHeight="120"
+                              StyleClasses="DS14MenuTextArea" />
+                </PanelContainer>
+
+
+                <!-- СЕКЦИЯ TTS И КНОПКА АНОНСИРОВАНИЯ (ОСТАЮТСЯ ВМЕСТЕ) -->
+                <BoxContainer Orientation="Vertical"
+                                HorizontalExpand="True"
+                                VerticalExpand="True">
+
+                    <!-- 1. Настройки TTS (Голос и Язык) -->
+                    <BoxContainer Orientation="Horizontal"
+                                    HorizontalExpand="True">
+                        <!-- Чекбоксы TTS -->
+                        <CheckBox Name="CustomTTS"
+                                  Access="Public"
+                                  Text="{Loc admin-announce-custom-centcomm-tts}"
+                                  StyleClasses="DS14MenuProfileControl" />
+                        <!-- Пустой элемент для заполнения пространства -->
+                        <Control HorizontalExpand="True" />
+                    </BoxContainer>
+
+
+                    <!-- Секторы выбора голоса и языка (Без "карт") -->
+                    <BoxContainer Orientation="Horizontal"
+                                    HorizontalExpand="True">
+                        <OptionButton Name="VoiceSelector"
+                                       Access="Public"
+                                       HorizontalExpand="True"
+                                       StyleClasses="DS14MenuProfileControl"
+                                       Filterable="True"/>
+                        <OptionButton Name="LanguageSelector"
+                                       Access="Public"
+                                       HorizontalExpand="True"
+                                       StyleClasses="DS14MenuProfileControl"
+                                       Filterable="True" />
+                    </BoxContainer>
+
+                    <!-- 2. ПОЛОСА ДЕЙСТВИЙ (Кнопки) -->
+                    <BoxContainer Orientation="Horizontal"
+                                    HorizontalExpand="True">
+                        <!-- Кнопка Announce (Основное действие) -->
+                        <Button Name="AnnounceButton"
+                                Access="Public"
+                                Disabled="True"
+                                Text="{Loc admin-announce-button}"
+                                TextAlign="Center"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                HorizontalExpand="false"
+                                MinWidth="200"
+                                SetHeight="26"
+                                SizeFlagsStretchRatio="1.5"
+                                StyleClasses="DS14MenuProfileControl" />
+
+                    </BoxContainer>
+                </BoxContainer>
+
+
+                <!-- FOOTER/DIVIDER (Исправленная область) -->
+                <PanelContainer StyleClasses="DS14MenuAccentDim"
+                                 SetHeight="1" />
+                <!-- Мы обернули Label в PanelContainer, чтобы контролировать его вертикальный отступ и сделать блок минимальным. -->
+                <PanelContainer HorizontalExpand="True">
+                    <Label Text="{Loc admin-announce-footer}"
+                           StyleClasses="DS14MenuSubtitle"
+                           ClipText="True" />
+                </PanelContainer>
+
+            </BoxContainer>
+
+        </PanelContainer> <!-- Конец Блока 1 -->
+
+
+        <!-- ======================================================== -->
+        <!-- БЛОК 2: СТРОКА УПРАВЛЕНИЯ (СПРАВА) - Ограниченная ширина -->
+        <PanelContainer HorizontalExpand="False">
+            <BoxContainer Orientation="Vertical"
+                            HorizontalExpand="True"
+                            VerticalExpand="True">
+                <!-- LineEdit (Ввод данных справа) -->
+                <LineEdit Name="RightPanelInput"
+                          Access="Public"
+                          PlaceHolder="{Loc admin-announce-rightpanel-placeholder}"
+                          Text=""
+                          HorizontalExpand="True"
+                          StyleClasses="DS14MenuInput" />
+
+
+                <!-- Кнопка Подтверждения (Под LineEdit справа) -->
+                <Button Name="RightPanelConfirmButton"
+                        Access="Public"
+                        Text="{Loc admin-announce-confirm}"
+                        HorizontalExpand="True"
+                        Disabled="true"
+                        StyleClasses="DS14MenuProfileControl" />
+            </BoxContainer>
+        <!-- Конец блока управления справа -->
+    </PanelContainer>
+
+
+    </BoxContainer>
+</controls:FancyWindow>

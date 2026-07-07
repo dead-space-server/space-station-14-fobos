@@ -22,6 +22,11 @@ using Robust.Shared.Configuration;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
 using Content.Shared.Corvax.TTS;
+using Content.Shared.Emag.Systems;
+using Content.Shared.Emag.Components;
+using Robust.Shared.Audio;
+using Robust.Shared.Prototypes;
+using Robust.Shared.ContentPack;
 
 namespace Content.Server.Communications
 {
@@ -38,7 +43,9 @@ namespace Content.Server.Communications
         [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
         [Dependency] private readonly IConfigurationManager _cfg = default!;
         [Dependency] private readonly IAdminLogManager _adminLogger = default!;
-
+        [Dependency] private readonly EmagSystem _emag = default!; //DS14
+        [Dependency] private readonly IResourceManager _resourceManager = default!; //DS14
+        [Dependency] private readonly IPrototypeManager _prototypeManager = default!; //DS14
         private const float UIUpdateInterval = 5.0f;
 
         public override void Initialize()
@@ -54,9 +61,13 @@ namespace Content.Server.Communications
             SubscribeLocalEvent<CommunicationsConsoleComponent, CommunicationsConsoleBroadcastMessage>(OnBroadcastMessage);
             SubscribeLocalEvent<CommunicationsConsoleComponent, CommunicationsConsoleCallEmergencyShuttleMessage>(OnCallShuttleMessage);
             SubscribeLocalEvent<CommunicationsConsoleComponent, CommunicationsConsoleRecallEmergencyShuttleMessage>(OnRecallShuttleMessage);
+            SubscribeLocalEvent<CommunicationsConsoleComponent, EmagedAnonce>(OnEmagAnnounceMessage);//DS14
+            SubscribeLocalEvent<CommunicationsConsoleComponent, PasswordSet>(PasswordSet); //DS14
 
             // On console init, set cooldown
             SubscribeLocalEvent<CommunicationsConsoleComponent, MapInitEvent>(OnCommunicationsConsoleMapInit);
+
+            SubscribeLocalEvent<CommunicationsConsoleComponent, GotEmaggedEvent>(OnEmagged); //DS14
         }
 
         public override void Update(float frameTime)
@@ -132,7 +143,7 @@ namespace Content.Server.Communications
         /// <summary>
         /// Updates the UI for a particular comms console.
         /// </summary>
-        public void UpdateCommsConsoleInterface(EntityUid uid, CommunicationsConsoleComponent comp)
+        public void UpdateCommsConsoleInterface(EntityUid uid, CommunicationsConsoleComponent comp, bool rightPassword = false)
         {
             var stationUid = _stationSystem.GetOwningStation(uid);
             List<string>? levels = null;
@@ -160,14 +171,26 @@ namespace Content.Server.Communications
                     currentDelay = _alertLevelSystem.GetAlertLevelDelay(stationUid.Value, alertComp);
                 }
             }
-
+            var passWordIsNull = false;
+            if (comp.PassWord == null && HasComp<EmaggedComponent>(uid))
+            {
+                passWordIsNull = true;
+            }
+            string? _password = null;
+            if (rightPassword && HasComp<EmaggedComponent>(uid))
+            {
+                _password = comp.PassWord;
+            }
             _uiSystem.SetUiState(uid, CommunicationsConsoleUiKey.Key, new CommunicationsConsoleInterfaceState(
                 CanAnnounce(comp),
                 CanCallOrRecall(comp),
                 levels,
                 currentLevel,
                 currentDelay,
-                _roundEndSystem.ExpectedCountdownEnd
+                _roundEndSystem.ExpectedCountdownEnd,
+                rightPassword,
+                passWordIsNull,
+                _password
             ));
         }
 
@@ -301,17 +324,23 @@ namespace Content.Server.Communications
 
         private void OnBroadcastMessage(EntityUid uid, CommunicationsConsoleComponent component, CommunicationsConsoleBroadcastMessage message)
         {
+            var msg = SharedChatSystem.SanitizeAnnouncement(message.Message, _cfg.GetCVar(CCVars.ChatMaxAnnouncementLength)); //DS14=start
+            if (HasComp<EmaggedComponent>(uid) && msg == component.PassWord)
+            {
+                UpdateCommsConsoleInterface(uid, component, true);
+                return;
+            } //DS14-end
             if (!TryComp<DeviceNetworkComponent>(uid, out var net))
                 return;
 
             var payload = new NetworkPayload
             {
-                [ScreenMasks.Text] = message.Message
+                [ScreenMasks.Text] = msg //DS14
             };
 
             _deviceNetworkSystem.QueuePacket(uid, null, payload, net.TransmitFrequency);
 
-            _adminLogger.Add(LogType.DeviceNetwork, LogImpact.Low, $"{ToPrettyString(message.Actor):player} has sent the following broadcast: {message.Message:msg}");
+            _adminLogger.Add(LogType.DeviceNetwork, LogImpact.Low, $"{ToPrettyString(message.Actor):player} has sent the following broadcast: {msg:msg}"); //DS14
         }
 
         private void OnCallShuttleMessage(EntityUid uid, CommunicationsConsoleComponent comp, CommunicationsConsoleCallEmergencyShuttleMessage message)
@@ -355,6 +384,133 @@ namespace Content.Server.Communications
             _roundEndSystem.CancelRoundEndCountdown(mob, uid);
             _adminLogger.Add(LogType.Action, LogImpact.High, $"{ToPrettyString(message.Actor):player} has recalled the shuttle.");
         }
+        public void OnEmagged(EntityUid uid, CommunicationsConsoleComponent component, ref GotEmaggedEvent args) // DS14-start
+        {
+            if (!_emag.CompareFlag(args.Type, EmagType.Interaction))
+                return;
+
+            if (_emag.CheckFlag(uid, EmagType.Interaction))
+                return;
+
+            args.Handled = true;
+        }
+        private void OnEmagAnnounceMessage(EntityUid uid, CommunicationsConsoleComponent comp, EmagedAnonce message)
+        {
+            var (hex, color) = GetAnnouncementColor(message.ColorHex);
+            var sound = GetAnnouncementSound(message.SoundPath, message.SoundVolume);
+            var sender = string.IsNullOrWhiteSpace(message.Announcer)
+                ? Loc.GetString("chat-manager-sender-announcement")
+                : message.Announcer.Trim();
+            var announcementWithSignature = GetAnnouncementWithSignature(message.Announcement, message.Sender);
+            if (message.Actor is { Valid: true } mob)
+            {
+                if (!CanAnnounce(comp))
+                {
+                    return;
+                }
+
+                if (!CanUse(mob, uid))
+                {
+                    _popupSystem.PopupEntity(Loc.GetString("comms-console-permission-denied"), uid, message.Actor);
+                    return;
+                }
+
+                var tryGetIdentityShortInfoEvent = new TryGetIdentityShortInfoEvent(uid, mob);
+                RaiseLocalEvent(tryGetIdentityShortInfoEvent);
+            }
+
+            comp.AnnouncementCooldownRemaining = comp.Delay;
+            UpdateCommsConsoleInterface(uid, comp, true);
+
+            var voice = string.Empty;
+
+            if (!message.UseMyTTS && TryComp<TTSComponent>(message.Actor, out var tts))
+                voice = tts.VoicePrototypeId;
+            Console.WriteLine($"announcementWithSignature {announcementWithSignature}, sender {sender}, sound {sound}, color {color}, voice {voice!.ToString()}, message.LanguageId {message.LanguageId.ToString()} ");
+            _chatSystem.DispatchStationAnnouncement(uid,
+                announcementWithSignature,
+                sender,
+                playDefaultSound: true,
+                announcementSound:
+                sound,
+                colorOverride:
+                color,
+                voice: voice,
+                languageId: message.LanguageId);
+
+            _adminLogger.Add(
+                        LogType.Chat,
+                        LogImpact.Low,
+                        $"{message.Actor} has sent emag announcement " +
+                        $"[color={hex}] " +
+                        $"[sound={(sound != null ? message.SoundPath : "none")}] " +
+                        $"[volume={message.SoundVolume}] " +
+                        $"[announcer=\"{message.Announcer}\"] " +
+                        $"[sender=\"{message.Sender}\"] " +
+                        $": {message.Announcement}"
+                    );
+        }
+        private (string Hex, Color Color) GetAnnouncementColor(string? colorHex)
+        {
+            var hex = colorHex?.Trim();
+
+            if (string.IsNullOrWhiteSpace(hex))
+                hex = "1d8bad";
+
+            if (!hex.StartsWith('#'))
+                hex = "#" + hex;
+
+            try
+            {
+                return (hex, Color.FromHex(hex));
+            }
+            catch (FormatException)
+            {
+                return ("#1d8bad", Color.FromHex("#1d8bad"));
+            }
+        }
+        private SoundSpecifier? GetAnnouncementSound(string? soundPath, float soundVolume)
+        {
+            if (string.IsNullOrWhiteSpace(soundPath))
+                return null;
+
+            var path = soundPath.Trim();
+            if (!path.StartsWith("/Audio/", StringComparison.OrdinalIgnoreCase) ||
+                !HasAnnouncementAudio(path))
+            {
+                return null;
+            }
+
+            var audioParams = AudioParams.Default.WithVolume(soundVolume).AddVolume(-8);
+            return new SoundPathSpecifier(path)
+            {
+                Params = audioParams
+            };
+        }
+        private string GetAnnouncementWithSignature(string announcement, string? signature)
+        {
+            if (string.IsNullOrWhiteSpace(signature))
+                return announcement;
+
+            return $"{announcement}\n{Loc.GetString("comms-console-announcement-sent-by")} {signature.Trim()}";
+        }
+        private bool HasAnnouncementAudio(string path)
+        {
+            if (_prototypeManager.HasIndex<AudioMetadataPrototype>(path))
+                return true;
+            if (!_resourceManager.TryContentFileRead(path, out var stream))
+                return false;
+            stream.Dispose();
+            return true;
+        }
+        private void PasswordSet(EntityUid uid, CommunicationsConsoleComponent component, ref PasswordSet args)
+        {
+            if (args.Password == null || component.PassWord != null)
+                return;
+            if(args.Password.Length > _cfg.GetCVar(CCVars.ChatMaxAnnouncementLength))
+                return;
+            component.PassWord = args.Password;
+        }//DS14-end
     }
 
     /// <summary>

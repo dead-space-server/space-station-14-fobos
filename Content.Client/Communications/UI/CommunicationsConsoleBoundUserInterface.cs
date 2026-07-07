@@ -4,6 +4,7 @@ using Content.Shared.Communications;
 using Robust.Client.UserInterface;
 using Robust.Shared.Configuration;
 using Robust.Shared.Timing;
+using Content.Shared.DeadSpace.CCCCVars;
 
 namespace Content.Client.Communications.UI
 {
@@ -13,6 +14,9 @@ namespace Content.Client.Communications.UI
 
         [ViewVariables]
         private CommunicationsConsoleMenu? _menu;
+        private EmagCommunicationsInterface? _menuEmag; //DS14
+        private string _password = ""; //DS14
+        private bool _passwordIsNull = false; //DS14
 
         public CommunicationsConsoleBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
         {
@@ -27,6 +31,10 @@ namespace Content.Client.Communications.UI
             _menu.OnBroadcast += BroadcastButtonPressed;
             _menu.OnAlertLevel += AlertLevelSelected;
             _menu.OnEmergencyLevel += EmergencyShuttleButtonPressed;
+
+            _menuEmag = new EmagCommunicationsInterface(); //DS14
+            _menuEmag.OnInputPassword += SendPassowrd; //DS14
+            _menuEmag.OnOutputMessage += SendEmagAnnoce; //DS14
         }
 
         public void AlertLevelSelected(string level)
@@ -55,7 +63,7 @@ namespace Content.Client.Communications.UI
 
         public void BroadcastButtonPressed(string message)
         {
-            SendMessage(new CommunicationsConsoleBroadcastMessage(message));
+            SendMessage(new CommunicationsConsoleBroadcastMessage(SharedChatSystem.SanitizeAnnouncement(message, _cfg.GetCVar(CCCCVars.MaxBroadcastLength)))); //DS14
         }
 
         public void CallShuttle()
@@ -67,6 +75,19 @@ namespace Content.Client.Communications.UI
         {
             SendMessage(new CommunicationsConsoleRecallEmergencyShuttleMessage());
         }
+        public void SendPassowrd(string password) //DS14-start
+        {
+            _password = password;
+            SendMessage(new PasswordSet(password));
+        }
+        public void SendEmagAnnoce(EmagedAnonce message)
+        {
+            if (_passwordIsNull)
+            {
+                message.Password = _password;
+            }
+            SendMessage(message);
+        } //DS14-end
 
         protected override void UpdateState(BoundUserInterfaceState state)
         {
@@ -74,8 +95,8 @@ namespace Content.Client.Communications.UI
 
             if (state is not CommunicationsConsoleInterfaceState commsState)
                 return;
-
-            if (_menu != null)
+            _password = commsState.Password ?? ""; //DS14
+            if (_menu != null && !commsState.RigtAnswer) //DS14
             {
                 _menu.CanAnnounce = commsState.CanAnnounce;
                 _menu.CanBroadcast = commsState.CanBroadcast;
@@ -92,6 +113,20 @@ namespace Content.Client.Communications.UI
                 _menu.AnnounceButton.Disabled = !_menu.CanAnnounce;
                 _menu.BroadcastButton.Disabled = !_menu.CanBroadcast;
             }
+            if (_menuEmag != null && (commsState.RigtAnswer || commsState.PassWordIsNull)) //DS14-start
+            {
+                if (_menu != null)
+                {
+                    _menu.Close();
+                }
+                if (!_menuEmag.IsOpen)
+                {
+                    _menuEmag.OpenCentered();
+                    _menuEmag.MaxPassWordLenght =_cfg.GetCVar(CCVars.ChatMaxAnnouncementLength);
+                    _menuEmag.HavePassword = commsState.RigtAnswer;
+                    _passwordIsNull = commsState.PassWordIsNull;
+                }
+            } //DS14-end
         }
     }
 }
