@@ -4,7 +4,7 @@ meta:
   engineVersion: 276.0.0
   forkId: ""
   forkVersion: ""
-  time: 07/07/2026 05:15:23
+  time: 07/07/2026 06:24:12
   entityCount: 396
 maps:
 - 1
@@ -1053,6 +1053,43 @@ entities:
       parent: 2
     - type: Fixtures
       fixtures: {}
+- proto: ArenaSpawnPoint
+  entities:
+  - uid: 58
+    components:
+    - type: Transform
+      pos: 2.5,-4.5
+      parent: 2
+  - uid: 59
+    components:
+    - type: Transform
+      pos: 0.5,8.5
+      parent: 2
+  - uid: 60
+    components:
+    - type: Transform
+      pos: 13.5,5.5
+      parent: 2
+  - uid: 277
+    components:
+    - type: Transform
+      pos: -3.5,-4.5
+      parent: 2
+  - uid: 278
+    components:
+    - type: Transform
+      pos: 9.5,-10.5
+      parent: 2
+  - uid: 400
+    components:
+    - type: Transform
+      pos: -2.5,5.5
+      parent: 2
+  - uid: 402
+    components:
+    - type: Transform
+      pos: 2.5,0.5
+      parent: 2
 - proto: CableApcExtensionUncuttable
   entities:
   - uid: 5

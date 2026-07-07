@@ -16,6 +16,7 @@ using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Player;
+using Robust.Shared.Random;
 using Robust.Shared.Utility;
 
 namespace Content.Server.DeadSpace.Arena;
@@ -29,6 +30,7 @@ public sealed class ArenaRuleSystem : GameRuleSystem<ArenaRuleComponent>
     [Dependency] private readonly GhostSystem _ghostSystem = default!;
     [Dependency] private readonly OutfitSystem _outfitSystem = default!;
     [Dependency] private readonly MetaDataSystem _metadata = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
 
     private const string ArenaMapPath = "/Maps/_DeadSpace/arena.yml";
 
@@ -180,8 +182,19 @@ public sealed class ArenaRuleSystem : GameRuleSystem<ArenaRuleComponent>
             QueueDel(attached.Value);
         }
 
-        var coords = new EntityCoordinates(mapUid, new System.Numerics.Vector2(0, 0));
-        var humanoid = Spawn("MobHuman", coords);
+        var spawnPoints = new List<EntityUid>();
+        var spawnQuery = AllEntityQuery<ArenaSpawnPointComponent, TransformComponent>();
+        while (spawnQuery.MoveNext(out var spawnUid, out _, out var spawnXform))
+        {
+            if (spawnXform.MapID == Transform(mapUid).MapID)
+                spawnPoints.Add(spawnUid);
+        }
+
+        var targetCoords = spawnPoints.Count > 0
+            ? Transform(_random.Pick(spawnPoints)).Coordinates
+            : new EntityCoordinates(mapUid, System.Numerics.Vector2.Zero);
+
+        var humanoid = Spawn("MobHuman", targetCoords);
 
         _metadata.SetEntityName(humanoid, session.Name);
         _mindSystem.TransferTo(mindId, humanoid, mind: mind);
