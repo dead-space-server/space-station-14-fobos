@@ -2,7 +2,6 @@
 using Content.Server.Clothing.Systems;
 using Content.Server.EUI;
 using Content.Server.GameTicking;
-using Content.Server.GameTicking.Events;
 using Content.Server.GameTicking.Rules;
 using Content.Server.Ghost;
 using Content.Server.Mind;
@@ -29,7 +28,7 @@ public sealed class ArenaRuleSystem : GameRuleSystem<ArenaRuleComponent>
     [Dependency] private readonly OutfitSystem _outfitSystem = default!;
     [Dependency] private readonly MetaDataSystem _metadata = default!;
 
-    private const string ArenaMapPath = "/Maps/reach.yml";
+    private const string ArenaMapPath = "/Maps/_DeadSpace/arena.yml";
 
     public override void Initialize()
     {
@@ -37,15 +36,9 @@ public sealed class ArenaRuleSystem : GameRuleSystem<ArenaRuleComponent>
 
         SubscribeLocalEvent<ArenaPlayerComponent, MobStateChangedEvent>(OnMobStateChanged);
         SubscribeLocalEvent<ArenaPlayerComponent, PlayerDetachedEvent>(OnPlayerDetached);
-        SubscribeLocalEvent<RoundStartingEvent>(OnRoundStarting);
 
         SubscribeNetworkEvent<ArenaJoinRequestEvent>(OnArenaJoinRequest);
         SubscribeNetworkEvent<ArenaLeaveRequestEvent>(OnArenaLeaveRequest);
-    }
-
-    private void OnRoundStarting(RoundStartingEvent ev)
-    {
-        GameTicker.StartGameRule("ArenaRule");
     }
 
     protected override void Added(EntityUid uid, ArenaRuleComponent component, GameRuleComponent gameRule, GameRuleAddedEvent args)
@@ -55,14 +48,14 @@ public sealed class ArenaRuleSystem : GameRuleSystem<ArenaRuleComponent>
 
         if (_mapLoader.TryLoadMap(mapPath, out var mapId, out var grids, opts))
         {
-            component.ArenaMap = mapId.Value.Comp.MapId;
+            component.ArenaMap = mapId.Value.Owner;
             Log.Info($"Arena map loaded: {component.ArenaMap}");
         }
         else
         {
             Log.Error($"Failed to load arena map from {ArenaMapPath}");
             var newMapId = _mapManager.CreateMap();
-            component.ArenaMap = newMapId;
+            component.ArenaMap = _mapManager.GetMapEntityId(newMapId);
             Log.Warning($"Created empty map {newMapId} as fallback");
         }
     }
@@ -92,9 +85,9 @@ public sealed class ArenaRuleSystem : GameRuleSystem<ArenaRuleComponent>
 
         component.Players.Clear();
 
-        if (component.ArenaMap is { } mapId)
+        if (component.ArenaMap is { } mapUid)
         {
-            _mapManager.DeleteMap(mapId);
+            _mapManager.DeleteMap(Transform(mapUid).MapID);
             component.ArenaMap = null;
         }
 
@@ -112,6 +105,12 @@ public sealed class ArenaRuleSystem : GameRuleSystem<ArenaRuleComponent>
         var session = args.SenderSession;
 
         var ruleEnt = GetArenaRuleEntity();
+        if (ruleEnt == null)
+        {
+            GameTicker.StartGameRule("ArenaRule");
+            ruleEnt = GetArenaRuleEntity();
+        }
+
         if (ruleEnt == null)
             return;
 
@@ -143,13 +142,11 @@ public sealed class ArenaRuleSystem : GameRuleSystem<ArenaRuleComponent>
         if (!TryComp<ArenaRuleComponent>(ruleEntity, out var rule))
             return;
 
-        if (rule.ArenaMap is not { } mapId)
+        if (rule.ArenaMap is not { } mapUid)
             return;
 
         if (!_mindSystem.TryGetMind(session, out var mindId, out var mind))
             return;
-
-        var mapUid = _mapManager.GetMapEntityId(mapId);
 
         var attached = session.AttachedEntity;
         if (attached != null && HasComp<GhostComponent>(attached.Value))

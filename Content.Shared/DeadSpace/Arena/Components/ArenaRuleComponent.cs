@@ -1,6 +1,5 @@
 using Robust.Shared.GameObjects;
 using Robust.Shared.GameStates;
-using Robust.Shared.Map;
 using Robust.Shared.Serialization.Manager.Attributes;
 
 namespace Content.Shared.DeadSpace.Arena;
@@ -29,7 +28,7 @@ public sealed partial class ArenaWeaponLoadout
 public sealed partial class ArenaRuleComponent : Component
 {
     [DataField]
-    public MapId? ArenaMap;
+    public EntityUid? ArenaMap;
 
     [DataField]
     public HashSet<NetEntity> Players = new();
