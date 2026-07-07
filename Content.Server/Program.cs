@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Content.Server.CrashReporting;
 using Robust.Server;
 
 namespace Content.Server
@@ -12,7 +13,17 @@ namespace Content.Server
 
         public static void Main(string[] args)
         {
-            ContentStart.Start(ApplyServerCVarDefaults(args));
+            CrashReportWriter.Install(args);
+
+            try
+            {
+                ContentStart.Start(ApplyServerCVarDefaults(args));
+            }
+            catch (Exception e)
+            {
+                CrashReportWriter.Write("ContentStart.Start threw an unhandled exception.", e);
+                throw;
+            }
         }
 
         private static string[] ApplyServerCVarDefaults(string[] args)

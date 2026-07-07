@@ -116,8 +116,7 @@ public sealed class LavalandJaunterSystem : EntitySystem
             return false;
         }
 
-        if (TryFindSafeDestination(mapUid, planet.TerminalGridOffset, component, user, out destination) ||
-            TryFindSafeDestination(mapUid, Vector2.Zero, component, user, out destination) ||
+        if (TryFindSafeDestination(mapUid, planet.JaunterDestinationOffset, component, user, out destination) ||
             TryFindSafeDestination(mapUid, planet.FtlBeaconOffset, component, user, out destination))
         {
             return true;

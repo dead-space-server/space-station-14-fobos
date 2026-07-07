@@ -24,6 +24,8 @@ public sealed class PatrolTabletBoundUserInterface : BoundUserInterface
             SendMessage(new PatrolTabletClearAllMessage());
         _window.OnClearSquad += squadId =>
             SendMessage(new PatrolTabletClearSquadMessage(squadId));
+        _window.OnDeleteSquad += squadId =>
+            SendMessage(new PatrolTabletDeleteSquadMessage(squadId));
         _window.OnCreateSquad += (name, iconId) =>
             SendMessage(new PatrolTabletCreateSquadMessage(name, iconId));
         _window.OnClose += Close;

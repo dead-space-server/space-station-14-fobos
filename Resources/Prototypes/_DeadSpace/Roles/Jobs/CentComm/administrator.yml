@@ -14,7 +14,7 @@
   - CentralCommand
   special:
   - !type:AddImplantSpecial
-    implants: [ MindShieldImplant, TrackingImplant, DeathRattleImplantCentcomm, MacroBombImplant ]
+    implants: [ MindShieldImplant, TrackingImplant, DeathRattleImplantCentcomm ]
   - !type:AddComponentSpecial
     components:
     - type: AntagImmune
@@ -36,7 +36,7 @@
     ears: ClothingHeadsetAltCentCom
     neck: ClothingNeckCloakCentcom
     belt: ADTClothingBeltSupremeSheathFilled
-    pocket1: RubberStampAdministratorCC
+    pocket1: WeaponTochmash
     pocket2: DoorRemoteAll
 
 - type: chameleonOutfit

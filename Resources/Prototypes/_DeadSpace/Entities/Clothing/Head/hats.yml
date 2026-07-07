@@ -2,7 +2,7 @@
   parent: ClothingHeadBase
   id: ClothingHeadHatRedji
   name: шляпа старика Рэджи
-  description: Слегка потёртая, стильная шляпа.
+  description: Слегка потёртая стильная шляпа.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Head/Hats/old_stylish_hat.rsi
@@ -24,7 +24,7 @@
   parent: ClothingHeadBase
   id: ClothingHeadHatBeretAtmos
   name: берет атмосферного техника
-  description: Жёлтый берет, с ароматом плазмы.
+  description: Жёлтый берет с ароматом плазмы.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Head/Hats/beret_atmos.rsi
@@ -35,7 +35,7 @@
   parent: ClothingHeadBase
   id: ClothingHeadHatBeretBlueShield
   name: берет офицера "Синий Щит"
-  description: Серый берет, с кокардой подразделения "Синий Щит".
+  description: Серый берет с кокардой подразделения "Синий Щит".
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Head/Hats/beret_blueshield.rsi
@@ -46,7 +46,7 @@
   parent: ClothingHeadBase
   id: ClothingHeadHatBeretSeniorOfficer
   name: берет инструктора СБ
-  description: Берет показывающий мастерство и доблесть его владельца.
+  description: Берет, показывающий мастерство и доблесть его владельца.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Head/Hats/beret_senior_officer.rsi
@@ -79,7 +79,7 @@
   parent: ClothingHeadHelmetBasic
   id: ClothingHeadHatUshankaHOS
   name: бронеушанка главы службы безопасности
-  description: Ушанка с бронеплитой из кевлара.
+  description: Ушанка с кевларовой вставкой для дополнительной защиты.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Head/Hats/hos_ushanka.rsi
@@ -125,7 +125,7 @@
   parent: ClothingHeadBase
   id: ClothingHeadHatBeretCaptain
   name: берет капитана
-  description: Синий берет, с кокардой в виде звезды.
+  description: Синий берет с кокардой в виде звезды.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Head/Hats/captain.rsi
@@ -136,7 +136,7 @@
   parent: ClothingHeadBase
   id: ClothingHeadHatBeretCaptainWhite
   name: белый берет капитана
-  description: Белый берет, с кокардой в виде звезды.
+  description: Белый берет с кокардой в виде звезды.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Head/Hats/captain_white.rsi
@@ -147,7 +147,7 @@
   parent: ClothingHeadBase
   id: ClothingHeadHatBeretCaptainBlack
   name: чёрный берет капитана
-  description: Чёрный берет, с кокардой в виде звезды.
+  description: Чёрный берет с кокардой в виде звезды.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Head/Hats/captain_black.rsi
@@ -158,7 +158,7 @@
   parent: ClothingHeadHatCapcap
   id: ClothingHeadHatCapcapWhite
   name: белая фуражка капитана
-  description: Белая фуражка, с кокардой в виде звезды.
+  description: Белая фуражка с кокардой в виде звезды.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Head/Hats/capcap_white.rsi
@@ -171,7 +171,7 @@
   parent: ClothingHeadHatCapcap
   id: ClothingHeadHatCapcapBlack
   name: чёрная фуражка капитана
-  description: Чёрная фуражка, с кокардой в виде звезды.
+  description: Чёрная фуражка с кокардой в виде звезды.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Head/Hats/capcap_black.rsi

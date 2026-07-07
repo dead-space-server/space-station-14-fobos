@@ -18,6 +18,14 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
     [DataField]
     public Color HairColor { get; set; } = Color.Black;
 
+    // DS14-start
+    [DataField]
+    public bool HairGradientEnabled { get; set; } = false;
+
+    [DataField]
+    public Color HairGradientColor { get; set; } = Color.Black;
+    // DS14-end
+
     [DataField("facialHair")]
     public string FacialHairStyleId { get; set; } = HairStyles.DefaultFacialHairStyle;
 
@@ -39,10 +47,18 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
         Color facialHairColor,
         Color eyeColor,
         Color skinColor,
-        List<Marking> markings)
+        List<Marking> markings,
+        // DS14-start
+        bool hairGradientEnabled = false,
+        Color? hairGradientColor = null)
+        // DS14-end
     {
         HairStyleId = hairStyleId;
         HairColor = ClampColor(hairColor);
+        // DS14-start
+        HairGradientEnabled = hairGradientEnabled;
+        HairGradientColor = hairGradientColor.HasValue ? ClampColor(hairGradientColor.Value) : ClampColor(hairColor);
+        // DS14-end
         FacialHairStyleId = facialHairStyleId;
         FacialHairColor = ClampColor(facialHairColor);
         EyeColor = ClampColor(eyeColor);
@@ -51,44 +67,56 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
     }
 
     public HumanoidCharacterAppearance(HumanoidCharacterAppearance other) :
-        this(other.HairStyleId, other.HairColor, other.FacialHairStyleId, other.FacialHairColor, other.EyeColor, other.SkinColor, new(other.Markings))
+        this(other.HairStyleId, other.HairColor, other.FacialHairStyleId, other.FacialHairColor, other.EyeColor, other.SkinColor, new(other.Markings), other.HairGradientEnabled, other.HairGradientColor) // DS14
     {
 
     }
 
     public HumanoidCharacterAppearance WithHairStyleName(string newName)
     {
-        return new(newName, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings);
+        return new(newName, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings, HairGradientEnabled, HairGradientColor); // DS14
     }
 
     public HumanoidCharacterAppearance WithHairColor(Color newColor)
     {
-        return new(HairStyleId, newColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings);
+        return new(HairStyleId, newColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings, HairGradientEnabled, HairGradientColor); // DS14
     }
+
+    // DS14-start
+    public HumanoidCharacterAppearance WithHairGradientEnabled(bool enabled)
+    {
+        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings, enabled, HairGradientColor);
+    }
+
+    public HumanoidCharacterAppearance WithHairGradientColor(Color newColor)
+    {
+        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings, HairGradientEnabled, newColor);
+    }
+    // DS14-end
 
     public HumanoidCharacterAppearance WithFacialHairStyleName(string newName)
     {
-        return new(HairStyleId, HairColor, newName, FacialHairColor, EyeColor, SkinColor, Markings);
+        return new(HairStyleId, HairColor, newName, FacialHairColor, EyeColor, SkinColor, Markings, HairGradientEnabled, HairGradientColor); // DS14
     }
 
     public HumanoidCharacterAppearance WithFacialHairColor(Color newColor)
     {
-        return new(HairStyleId, HairColor, FacialHairStyleId, newColor, EyeColor, SkinColor, Markings);
+        return new(HairStyleId, HairColor, FacialHairStyleId, newColor, EyeColor, SkinColor, Markings, HairGradientEnabled, HairGradientColor); // DS14
     }
 
     public HumanoidCharacterAppearance WithEyeColor(Color newColor)
     {
-        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, newColor, SkinColor, Markings);
+        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, newColor, SkinColor, Markings, HairGradientEnabled, HairGradientColor); // DS14
     }
 
     public HumanoidCharacterAppearance WithSkinColor(Color newColor)
     {
-        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, newColor, Markings);
+        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, newColor, Markings, HairGradientEnabled, HairGradientColor); // DS14
     }
 
     public HumanoidCharacterAppearance WithMarkings(List<Marking> newMarkings)
     {
-        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, newMarkings);
+        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, newMarkings, HairGradientEnabled, HairGradientColor); // DS14
     }
 
     public static HumanoidCharacterAppearance DefaultWithSpecies(string species)
@@ -159,7 +187,8 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
             _ => strategy.ClosestSkinColor(new Color(random.NextFloat(1), random.NextFloat(1), random.NextFloat(1), 1)),
         };
 
-        return new HumanoidCharacterAppearance(newHairStyle, newHairColor, newFacialHairStyle, newHairColor, newEyeColor, newSkinColor, new());
+        return new HumanoidCharacterAppearance(newHairStyle, newHairColor, newFacialHairStyle, newHairColor, newEyeColor, newSkinColor, new() // DS14
+        ); // DS14
 
         float RandomizeColor(float channel)
         {
@@ -184,20 +213,37 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
 
         var proto = IoCManager.Resolve<IPrototypeManager>();
         var markingManager = IoCManager.Resolve<MarkingManager>();
+        var hairStyleIdForSponsorCheck = hairStyleId; // DS14
 
+        // DS14-start
         if (!markingManager.MarkingsByCategory(MarkingCategories.Hair).ContainsKey(hairStyleId))
         {
-            hairStyleId = HairStyles.DefaultHairStyle;
+            if (appearance.HairGradientEnabled && hairStyleId.EndsWith("Gradient"))
+            {
+                var baseId = hairStyleId[..^"Gradient".Length];
+                if (!markingManager.MarkingsByCategory(MarkingCategories.Hair).ContainsKey(baseId))
+                    hairStyleId = HairStyles.DefaultHairStyle;
+            }
+            else
+            {
+                hairStyleId = HairStyles.DefaultHairStyle;
+            }
         }
 
-        // DS14-sponsors-start
-        if (proto.TryIndex(hairStyleId, out MarkingPrototype? hairProto) &&
+        if (appearance.HairGradientEnabled && hairStyleId.EndsWith("Gradient"))
+        {
+            var baseId = hairStyleId[..^"Gradient".Length];
+            if (markingManager.MarkingsByCategory(MarkingCategories.Hair).ContainsKey(baseId))
+                hairStyleIdForSponsorCheck = baseId;
+        }
+
+        if (proto.TryIndex(hairStyleIdForSponsorCheck, out MarkingPrototype? hairProto) &&
             hairProto.SponsorOnly &&
-            !sponsorMarkings.Contains(hairStyleId))
+            !sponsorMarkings.Contains(hairStyleIdForSponsorCheck))
         {
             hairStyleId = HairStyles.DefaultHairStyle;
         }
-        // DS14-sponsors-end
+        // DS14-end
 
         if (!markingManager.MarkingsByCategory(MarkingCategories.FacialHair).ContainsKey(facialHairStyleId))
         {
@@ -236,7 +282,12 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
             facialHairColor,
             eyeColor,
             skinColor,
-            markingSet.GetForwardEnumerator().ToList());
+            markingSet.GetForwardEnumerator().ToList(),
+            // DS14-start
+            appearance.HairGradientEnabled,
+            appearance.HairGradientColor
+            // DS14-end
+        );
     }
     // DS14-sponsors-end
 
@@ -245,6 +296,10 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
         if (maybeOther is not HumanoidCharacterAppearance other) return false;
         if (HairStyleId != other.HairStyleId) return false;
         if (!HairColor.Equals(other.HairColor)) return false;
+        // DS14-start
+        if (HairGradientEnabled != other.HairGradientEnabled) return false;
+        if (!HairGradientColor.Equals(other.HairGradientColor)) return false;
+        // DS14-end
         if (FacialHairStyleId != other.FacialHairStyleId) return false;
         if (!FacialHairColor.Equals(other.FacialHairColor)) return false;
         if (!EyeColor.Equals(other.EyeColor)) return false;
@@ -259,6 +314,10 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
         if (ReferenceEquals(this, other)) return true;
         return HairStyleId == other.HairStyleId &&
                HairColor.Equals(other.HairColor) &&
+               // DS14-start
+               HairGradientEnabled == other.HairGradientEnabled &&
+               HairGradientColor.Equals(other.HairGradientColor) &&
+               // DS14-end
                FacialHairStyleId == other.FacialHairStyleId &&
                FacialHairColor.Equals(other.FacialHairColor) &&
                EyeColor.Equals(other.EyeColor) &&
@@ -273,7 +332,19 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings);
+        // DS14-Start
+        var hash = new HashCode();
+        hash.Add(HairStyleId);
+        hash.Add(HairColor);
+        hash.Add(HairGradientEnabled);
+        hash.Add(HairGradientColor);
+        hash.Add(FacialHairStyleId);
+        hash.Add(FacialHairColor);
+        hash.Add(EyeColor);
+        hash.Add(SkinColor);
+        hash.Add(Markings);
+        return hash.ToHashCode();
+        // DS14-End
     }
 
     public HumanoidCharacterAppearance Clone()

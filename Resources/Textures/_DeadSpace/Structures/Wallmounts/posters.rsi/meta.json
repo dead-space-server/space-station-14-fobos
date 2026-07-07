@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "poster 'absk' by shaxid22 (discord) for Space Station 14 server Мёртвый Космос, poster 'meow' by chuiomoio (discord) for Space Station 14 server Мёртвый Космос, poster 'dies_liberatis' by milkywaynoway (discord) for Space Station 14 server Мёртвый Космос, 'hb2' by hq._.dishka (discord) for Space Station 14 server Мёртвый Космос",
+  "copyright": "poster 'absk' by shaxid22 (discord) for Space Station 14 server Мёртвый Космос, poster 'meow' by chuiomoio (discord) for Space Station 14 server Мёртвый Космос, poster 'dies_liberatis' by milkywaynoway (discord) for Space Station 14 server Мёртвый Космос, 'hb2' by hq._.dishka (discord) for Space Station 14 server Мёртвый Космос, posters countrys and departments by Urani, pyfya (discord) for Space Station 14 server Мёртвый Космос",
   "size": {
     "x": 32,
     "y": 32
@@ -18,6 +18,75 @@
     },
     {
       "name": "hb2"
+    },
+    {
+      "name": "clown"
+    },
+    {
+      "name": "dam"
+    },
+    {
+      "name": "genetic"
+    },
+    {
+      "name": "helmet"
+    },
+    {
+      "name": "hydro"
+    },
+    {
+      "name": "Empire"
+    },
+    {
+      "name": "mime"
+    },
+    {
+      "name": "multitool"
+    },
+    {
+      "name": "OPZ"
+    },
+    {
+      "name": "OPZgalatic"
+    },
+    {
+      "name": "OPZpehota"
+    },
+    {
+      "name": "OPZvoice"
+    },
+    {
+      "name": "science_anom"
+    },
+    {
+      "name": "sec_arest"
+    },
+    {
+      "name": "sec_cop"
+    },
+    {
+      "name": "sec_kz"
+    },
+    {
+      "name": "sec_prop1"
+    },
+    {
+      "name": "sec_prop2"
+    },
+    {
+      "name": "sec_space"
+    },
+    {
+      "name": "SNK"
+    },
+    {
+      "name": "USSP"
+    },
+    {
+      "name": "sec_eye"
+    },
+    {
+      "name": "NT"
     }
   ]
 }

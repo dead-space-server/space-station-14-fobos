@@ -7,8 +7,10 @@
     - id: BoxQMCircuitboards
     - id: BoxQMStamps
     - id: SalvageShuttleConsoleCircuitboard #DS14
+    - id: NitrogenTankFilled # DS14
     - id: CigPackGreen
       prob: 0.50
+    - id: ClothingOuterHardsuitQM # DS14
     - id: ClothingHeadsetAltCargo
     - id: DoorRemoteCargo
     - id: AstroNavCartridge
@@ -40,6 +42,7 @@
     - id: ClothingHeadsetAltCommand
     - id: ClothingOuterArmorCaptainCarapace
     - id: BoxCaptainCircuitboards
+    - id: NitrogenTankFilled # DS14
     - id: DoorRemoteCustom
     - id: MedalCase
     - id: NukeDisk
@@ -126,6 +129,7 @@
 #    - id: BoxHeadset # DS14
     - id: BoxHoPCircuitboards
     - id: BoxHoPStamps
+    - id: NitrogenTankFilled # DS14
 #    - id: BoxID # DS14
     - id: BoxPDA
     - id: CigarGoldCase
@@ -162,6 +166,7 @@
   table: !type:AllSelector
     children:
     - id: AccessConfigurator
+    - id: NitrogenTankFilled # DS14
     - id: BoxEncryptionKeyEngineering
 #    - id: CigarCase #DS14
 #      prob: 0.15 #DS14
@@ -238,6 +243,7 @@
     - id: HandheldCrewMonitor
     - id: Hypospray
     - id: MedTekCartridge
+    - id: NitrogenTankFilled # DS14
     - id: ADTtelescopicBaton # ADT
     # Standard command gear
     - id: RubberStampCMO
@@ -295,6 +301,7 @@
     - id: ClothingHeadsetAltScience
     - id: DoorRemoteResearch
     - id: HandTeleporter
+    - id: NitrogenTankFilled # DS14
     - id: RubberStampRd
     - id: ADTtelescopicBaton # ADT
     - id: ClothingHandsGlovesColorYellow # DS14
@@ -357,6 +364,7 @@
 #    - id: ClothingShoesBootsJack
 #    - id: FlashlightSeclite
     - id: DoorRemoteSecurity
+    - id: NitrogenTankFilled # DS14
 #    - id: HoloprojectorSecurity
     - id: RubberStampHos
     - id: BoxHoSCircuitboards

@@ -356,6 +356,10 @@ namespace Content.Server.Database
         public string FacialHairColor { get; set; } = null!;
         public string EyeColor { get; set; } = null!;
         public string SkinColor { get; set; } = null!;
+        // DS14-start
+        public bool HairGradientEnabled { get; set; }
+        public string HairGradientColor { get; set; } = null!;
+        // DS14-end
         public int SpawnPriority { get; set; } = 0;
         public List<Job> Jobs { get; } = new();
         public List<Antag> Antags { get; } = new();

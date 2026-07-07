@@ -43,7 +43,7 @@ public abstract partial class SharedStunSystem
 
     public static readonly ProtoId<AlertPrototype> KnockdownAlert = "Knockdown";
 
-    private static readonly TimeSpan ForceStandMeleeSuppressionTime = TimeSpan.FromMilliseconds(250); // DS14
+    protected static readonly TimeSpan ForceStandMeleeSuppressionTime = TimeSpan.FromMilliseconds(250); // DS14
 
     private void InitializeKnockdown()
     {

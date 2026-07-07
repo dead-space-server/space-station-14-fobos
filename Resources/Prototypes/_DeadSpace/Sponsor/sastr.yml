@@ -73,6 +73,9 @@
     - id: ClothingNeckGhillieAltsastr
     - id: WeaponCrusherPvrsifvlAlt2
     - id: WeaponPistolCHIMPPvrsifvlAlt2
+    - id: ClothingNeckMantle2sastr
+    - id: ClothingShoessastr
+    - id: ClothingHeadHatsastr
   - type: TypingIndicatorClothing
     proto: TypingIndicatorsastr
   - type: Tag
@@ -91,10 +94,32 @@
     - 0,0,7,1
   - type: Sprite
     sprite: _DeadSpace/Sponsor/sastr/belt.rsi
+    layers:
+    - state: icon
+      map: [ "unfoldedLayer" ]
+    - state: h-icon
+      map: ["foldedLayer"]
+      visible: false
   - type: Clothing
     sprite: _DeadSpace/Sponsor/sastr/belt.rsi
   - type: Item
     size: Huge
+  - type: Appearance
+  - type: Foldable
+    canFoldInsideContainer: true
+  - type: GroupExamine
+  - type: FoldableClothing
+    foldedEquippedPrefix: h
+    foldedHeldPrefix: h
+  - type: GenericVisualizer
+    visuals:
+      enum.FoldedVisuals.State:
+        foldedLayer:
+          True: {visible: true}
+          False: {visible: false}
+        unfoldedLayer:
+          True: {visible: false}
+          False: {visible: true}
   - type: StorageFill
     contents:
       - id: JawsOfLifesastr
@@ -112,7 +137,6 @@
   parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitsastr
   name: диверсионно-разведывательный скафандр Klecsh //
-  description: Все самые лучшие при виде меня говорят «Вау». Ты пытаешься всем угодить — это провал.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -161,7 +185,6 @@
   categories: [ HideSpawnMenu ]
   id: ClothingHeadHelmetHardsuitsastr
   name: шлем диверсионно-разведывательного скафандра Klecsh //
-  description: Мне не нужен целый оркестр. Дайте мне медийку два квадратных метра — и я создам планету.
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/sastr/helmet.rsi
@@ -200,7 +223,6 @@
   parent: ClothingOuterVestArmorSec
   id: ClothingOuterVestsastr
   name: тактический бронежилет Klecsh //
-  description: Бездна прям перед тобой. Шаг вперёд — попал в софтлок. Ты герой, но всё равно сфидишь.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -222,7 +244,6 @@
   parent: ClothingHeadHelmetArmoredBase
   id: ClothingHeadHelmetsastr
   name: тактический шлем Klecsh //
-  description: Не показывай себя, просто покажи им stock-image. Соври сотню тысяч раз, на ходу меняй цвета. Скажи, что просто сменил имидж. 
   categories: [ HideSpawnMenu ] 
   components:
   - type: Sprite
@@ -267,14 +288,49 @@
 - type: entity
   parent: ClothingUniformBase
   id: ClothingUniformJumpsuitsastr
-  name: униформа Klecsh //
-  description: Я бы с тобой погулял, но у меня слишком много дел. Если бы я пошёл, что бы я надел тогда?
+  name: форма Klecsh //
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/sastr/jumpsuit.rsi
+    layers:
+    - state: icon
+      map: [ "unfoldedLayer" ]
+    - state: h-icon
+      map: ["foldedLayer"]
+      visible: false
   - type: Clothing
     sprite: _DeadSpace/Sponsor/sastr/jumpsuit.rsi
+  - type: Appearance
+  - type: Foldable
+    canFoldInsideContainer: true
+  - type: GroupExamine
+  - type: FoldableClothing
+    foldedEquippedPrefix: h
+    foldedHeldPrefix: h
+  - type: GenericVisualizer
+    visuals:
+      enum.FoldedVisuals.State:
+        foldedLayer:
+          True: {visible: true}
+          False: {visible: false}
+        unfoldedLayer:
+          True: {visible: false}
+          False: {visible: true}
+  - type: Tag
+    tags: [ ]
+
+# beret.rsi
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatsastr
+  name: чёрная фуражка Klecsh //
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/sastr/cap.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/sastr/cap.rsi
   - type: Tag
     tags: [ ]
 
@@ -283,7 +339,6 @@
   parent: ClothingHeadset
   id: ClothingHeadsetsastr
   name: модифицированная гарнитура Klecsh //
-  description: Пропустил звонки, пропустил сообщения. Не перезвоню, отдыхаю, нету времени.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -302,7 +357,6 @@
   parent: ClothingHandsGlovesCombat
   id: ClothingHandsGlovessastr
   name: тактические перчатки Klecsh //
-  description: Тебе становится чуть-чуть лучше, прикосновения вспоминая. Пока в наушниках играет МИЛАЯ СКАРЛЕТТ. МИЛАЯ СКАРЛЕТТ.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -317,7 +371,6 @@
   parent: ClothingNeckBase
   id: ClothingNeckMantlesastr
   name: куртка Klecsh //
-  description: Крепкие руки тебя обнимали, не объяснишь своей маме.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -349,10 +402,31 @@
   - type: SolutionContainerManager
     solutions:
       food:
-        maxVol: 10
+        maxVol: 15
         reagents:
         - ReagentId: Fiber
-          Quantity: 10
+          Quantity: 15
+  - type: Tag
+    tags: [ ]
+
+# cloak2.rsi
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantle2sastr
+  name: чёрный плащ Klecsh //
+  categories: [ HideSpawnMenu ]
+  components: 
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/sastr/cloak2.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/sastr/cloak2.rsi
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 15
+        reagents:
+        - ReagentId: Fiber
+          Quantity: 15
   - type: Tag
     tags: [ ]
 
@@ -361,7 +435,6 @@
   parent: ClothingNeckBase
   id: ClothingNeckGhillieAltsastr
   name: чёрный маскхалат Klecsh //
-  description: Ты не слышишь ничего, ну же потанцуй со мной. Почему такая ты красная-красная?
   categories: [ HideSpawnMenu ]
   components: 
   - type: Sprite
@@ -392,7 +465,6 @@
   parent: ClothingEyesHudAdvanced
   id: ClothingEyesHudMedicalsastr
   name: тактические очки Klecsh //
-  description: Пойдём со мной, пойдём ко мне домой. Там будет лето, а мы будем под луной. Пойдём со мной, и всё что есть с собой — ты хочешь показать, а я хочу увидеееть. Я хочу увидеееть.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -432,7 +504,6 @@
   parent: ClothingMaskGasSecurity
   id: ClothingMasksastr
   name: балаклава Klecsh //
-  description: Давай оставлю свой автограф, только на тебе. Скрепляю степлером оставленный тобой порез. Не замечаю, что вокруг один тупой протест.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -454,7 +525,6 @@
   parent: ClothingShoesBootsMag
   id: ClothingShoesBootsMagsastr
   name: армейские ботинки Klecsh //
-  description: Я как Пеннивайз — твой ночной кошмар. Тебя не буду ждать, мне нечего терять. Видим мир в твоих словах, тебе не стоит лгать
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite
@@ -467,6 +537,20 @@
     - type: ClothingSpeedModifier
       walkModifier: 1
       sprintModifier: 1
+    - type: Tag
+      tags: [ ]
+
+# boots.rsi
+- type: entity
+  parent: ClothingShoesBootsLaceup
+  id: ClothingShoessastr
+  name: туфли Klecsh //
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Sponsor/sastr/boots.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Sponsor/sastr/boots.rsi
     - type: SolutionContainerManager
       solutions:
         food:
@@ -482,7 +566,6 @@
   parent: JetpackVoidFilled
   id: JetpackVoidFilledsastr
   name: пустотный джетпак Klecsh //
-  description: Достаю билет на небеса, станцуем на луне. Мы не такие, как все. Давай утонем в темноте.
   categories: [ HideSpawnMenu ]
   components:
   - type: Item
@@ -503,7 +586,6 @@
   parent: BaseMedicalPDA
   id: PDAsastr
   name: тактический планшет Klecsh //
-  description: Gucci, Louis, Александра Прада. Всё, что на тебе, скажи — «Спасибо, папа». Нет, man, это не твоя награда. Ты ничего не сделал — тебе идёт расплата.
   categories: [ HideSpawnMenu ]
   components:
   - type: Icon
@@ -532,7 +614,6 @@
   parent: DoubleEmergencyOxygenTank
   id: DoubleEmergencyOxygenTanksastr
   name: двойной аварийный кислородный баллон Klecsh //
-  description: Имею шесть слотов, и всё на фулл саппорте. Мне не нужна команда, могу выиграть в solo.
   categories: [ HideSpawnMenu ] 
   components:
   - type: Sprite
@@ -558,7 +639,6 @@
   parent: DefibrillatorCompact
   id: DefibrillatorCompactsastr
   name: компактный дефибриллятор Klecsh //
-  description: Я не знаю, как ты, но я знаю, станет лучше. Так что помолчи, послушай или уходи. Прячься дома днём и выходи лишь тёмной ночью и тогда, наверное, сможешь ты быть со мной.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -571,7 +651,6 @@
   parent: BaseItem
   id: Hypospraysastr
   name: гипоспрей Klecsh //
-  description: Я не хочу быть здесь, мне надоели тёмные переулки. Я давно бросил свои потуги. Я ещё жив, но умру от скуки.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -613,7 +692,6 @@
   parent: JawsOfLife
   id: JawsOfLifesastr
   name: челюсти жизни Klecsh //
-  description: So, what do you wanna do? What's your point of view?
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -650,7 +728,6 @@
   parent: PowerDrill
   id: PowerDrillsastr
   name: электродрель Klecsh //
-  description: There's a party, screw it, do you wanna go?
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -684,7 +761,6 @@
   parent: WelderExperimental
   id: WelderExperimentalsastr
   name: экспериментальный сварочный пистолет Klecsh //
-  description: A handshake with you, what's your point of view?
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -697,7 +773,6 @@
   parent: Multitool
   id: Multitoolsastr
   name: мультитул mil.PULSE // gen.1
-  description: I'm on top of you, I don't wanna go.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -712,7 +787,6 @@
   parent: GasAnalyzer
   id: GasAnalyzersastr
   name: газан Klecsh //
-  description: But now you're gone and leaving nothing but a sign.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -726,7 +800,6 @@
   parent: HolofanProjector
   id: HolofanProjectorsastr
   name: атмос-проектор Klecsh //
-  description: Cause I really wanna stay at your housе.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -741,7 +814,6 @@
   parent: HoloFan
   id: HoloFansastr
   name: атмос-поле Klecsh //
-  description: And I hopе this works out.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -753,7 +825,6 @@
   parent: RCDCE
   id: RCDsastr
   name: РСУ Klecsh //
-  description: But you know how much you broke me apart. I'm done with you, I'm ignoring you. I don't wanna know.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -768,7 +839,6 @@
   parent: AdvancedMineralScanner
   id: AdvancedMineralScannersastr
   name: сканер минералов Klecsh //
-  description: And I'm awarе that you were lying in the gutter. Cause I did everything to be there by your side.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -785,7 +855,6 @@
   parent: HandHeldMassScanner
   id: HandHeldMassScannersastr
   name: сканер массы Klecsh //
-  description: So, when you tell me I'm the reason, I just can't believe the lies. And why do I still want to call you?
   categories: [ HideSpawnMenu ]
   components:
   - type: Item
@@ -805,7 +874,6 @@
   parent: AnomalyScanner
   id: AnomalyScannersastr
   name: сканер аномалий Klecsh //
-  description: Another evening, I'll be sitting reading in-between your lines.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -836,7 +904,6 @@
   parent: BaseSword
   id: ResidentAxesastr
   name: томагавк Klecsh //
-  description: Только не надо, осталось недолго. Не надо плакать, недолго осталось.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -859,7 +926,6 @@
   categories: [ HideSpawnMenu ]
   id: WeaponPistolCHIMPsastr
   name: эргономичный излучатель Klecsh //
-  description: В крайней степени модифицированный экземпляр продвинутого прибора R&D М.А.Р.Т.Ы.Х., лишённый любой летальности несмотря на свой вызывающий облик, далеко опередивший оригинальный вид.
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/sastr/chimp.rsi

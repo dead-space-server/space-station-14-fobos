@@ -74,6 +74,9 @@ public sealed class WormSystem : EntitySystem
         if (_timing.ApplyingState)
             return;
 
+        if (TerminatingOrDeleted(ent))
+            return;
+
         EnsureComp<KnockedDownComponent>(ent, out var knocked);
         _stun.SetAutoStand((ent, knocked), false);
         _standing.Down(ent.Owner, playSound: false, dropHeldItems: false, force: true);

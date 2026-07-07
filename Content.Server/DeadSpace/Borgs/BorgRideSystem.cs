@@ -1,3 +1,4 @@
+using System.Linq;
 using Content.Shared.Buckle;
 using Content.Shared.Buckle.Components;
 using Content.Shared.DeadSpace.Borgs;
@@ -7,6 +8,8 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory.VirtualItem;
 using Content.Shared.Item;
+using Content.Shared.Power.Components;
+using Content.Shared.Storage.Components;
 
 namespace Content.Server.DeadSpace.Borgs;
 
@@ -21,6 +24,7 @@ public sealed class BorgRideSystem : EntitySystem
         SubscribeLocalEvent<BorgRideComponent, StrapAttemptEvent>(OnBorgStrapAttempt);
         SubscribeLocalEvent<BorgRideComponent, StrappedEvent>(OnBorgStrapped);
         SubscribeLocalEvent<BorgRideComponent, UnstrappedEvent>(OnBorgUnstrapped);
+        SubscribeLocalEvent<BorgRideComponent, InsertIntoEntityStorageAttemptEvent>(OnBorgInsertIntoEntityStorageAttempt);
         SubscribeLocalEvent<BorgRideComponent, VirtualItemDeletedEvent>(OnBorgVirtualItemDeleted);
         SubscribeLocalEvent<BorgRiderComponent, PickupAttemptEvent>(OnRiderPickupAttempt);
         SubscribeLocalEvent<BorgRiderComponent, AttackAttemptEvent>(OnRiderAttackAttempt);
@@ -28,8 +32,22 @@ public sealed class BorgRideSystem : EntitySystem
 
     private void OnBorgStrapAttempt(Entity<BorgRideComponent> ent, ref StrapAttemptEvent args)
     {
-        if (!HasComp<HandsComponent>(args.Buckle.Owner))
+        if (!HasComp<HandsComponent>(args.Buckle.Owner) ||
+            HasComp<InsideChargerComponent>(ent) ||
+            HasComp<InsideEntityStorageComponent>(ent))
             args.Cancelled = true;
+    }
+
+    private void OnBorgInsertIntoEntityStorageAttempt(Entity<BorgRideComponent> ent, ref InsertIntoEntityStorageAttemptEvent args)
+    {
+        if (args.Cancelled || !TryComp(ent, out StrapComponent? strap))
+            return;
+
+        foreach (var rider in strap.BuckledEntities.ToArray())
+        {
+            if (TryComp(rider, out BuckleComponent? buckle))
+                _buckle.Unbuckle((rider, (BuckleComponent?) buckle), null);
+        }
     }
 
     private void OnBorgStrapped(Entity<BorgRideComponent> ent, ref StrappedEvent args)

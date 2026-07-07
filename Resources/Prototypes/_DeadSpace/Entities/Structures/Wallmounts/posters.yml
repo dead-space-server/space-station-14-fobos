@@ -41,3 +41,222 @@
     - type: Sprite
       sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
       state: hb2
+
+# ОПЗ
+- type: entity
+  parent: PosterBase
+  id: PosterOPZ
+  name: плакат "ОПЗ"
+  description: ОПЗ не просило разрешения - они взяли своё, и звёзды подчинились.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: OPZ
+
+- type: entity
+  parent: PosterBase
+  id: PosterOPZVoice
+  name: плакат "Земля зовёт"
+  description: Плакат направленный на патриотичные нравы жителей ОПЗ, на ней изображена статуя "Родина мать зовёт".
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: OPZvoice
+
+- type: entity
+  parent: PosterBase
+  id: PosterOPZColonial
+  name: плакат "Колониальная пехота"
+  description: Этот плакат говорит, что в Колониальную пехоту всегда открыт набор и какие привелегии даются при вступлении.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: OPZpehota
+
+- type: entity
+  parent: PosterBase
+  id: PosterOPZGalactic
+  name: плакат "Галактика"
+  description: В этой галактике находится Рукав Ориона, в его пределах находится весь изученный космос и наш дом - ОПЗ
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: OPZgalatic
+
+# СНК
+- type: entity
+  parent: PosterBase
+  id: PosterSNK
+  name: плакат "СНК"
+  description: Свободный мир? Присмотрись. Это просто хорошая сделка.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: SNK
+
+# СССП
+- type: entity
+  parent: PosterBase
+  id: PosterUSSP
+  name: плакат "СССП"
+  description: Галактика велика, но она стоит на рабочем плече. Не забывай.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: USSP
+
+# Империя
+- type: entity
+  parent: PosterBase
+  id: PosterEmpire
+  name: плакат "Империя"
+  description: Флаг Империи пахнет победой. Много веков подряд.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: Empire
+
+# СБ
+- type: entity
+  parent: PosterBase
+  id: PosterSECArest
+  name: плакат "Арест"
+  description: Информационный плакат, призывающий граждан к сотрудничеству с СБ. На нём написана инструкция, как правильно вести себя при аресте.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: sec_arest
+
+- type: entity
+  parent: PosterBase
+  id: PosterSECGoodCop
+  name: плакат "Хороший коп"
+  description: Плакат, который изображает сотрудника СБ, которым можно гордиться.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: sec_cop
+
+- type: entity
+  parent: PosterBase
+  id: PosterSECKz
+  name: плакат "Космический Закон"
+  description: Перед КЗ все равны. Будь ты Ассистент или Глава Службы Безопасности.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: sec_kz
+
+- type: entity
+  parent: PosterBase
+  id: PosterSECPropaganda1
+  name: плакат "Вступай в СБ"
+  description: На плакате изображён сотрудник СБ, который призывает вступать в ряды Службы Безопасности.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: sec_prop1
+
+- type: entity
+  parent: PosterBase
+  id: PosterSECPropaganda2
+  name: плакат "Вступай в СБ"
+  description: На плакате изображён сотрудник СБ, который призывает вступать в ряды Службы Безопасности.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: sec_prop2
+
+- type: entity
+  parent: PosterBase
+  id: PosterSECSpace
+  name: плакат "Срочно в космос"
+  description: Информационный плакат, который рассказывает о том, как быстро одеться в скафандр и выйти в открытый космос.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: sec_space
+
+# НИО
+- type: entity
+  parent: PosterBase
+  id: PosterScienceAnomalyReport
+  name: плакат "Сообщай!"
+  description: Плакат, который призывает сотрудников станции сообщать о всех замечанных аномалиях в отдел Исследований.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: science_anom
+
+# Сервис
+- type: entity
+  parent: PosterBase
+  id: PosterClownFun
+  name: плакат "Веселье с Клоуном"
+  description: Плакат, который призывает сотрудников станции веселиться от души с клоуном.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: clown
+
+- type: entity
+  parent: PosterBase
+  id: PosterMimeQuiet
+  name: плакат "Тишина с Мимом"
+  description: Плакат, который призывает сотрудников станции уважать тишину во время гениальных выступлений мима.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: mime
+
+- type: entity
+  parent: PosterBase
+  id: PosterHydrpGuide
+  name: плакат "Как правильно собирать урожай"
+  description: Пояснительный плакат, объясняющий правильные методы сбора урожая на станции.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: hydro
+
+# Генетика
+- type: entity
+  parent: PosterBase
+  id: PosterGenetic
+  name: плакат "Генетика"
+  description: Плакат, указывающий на отделение генетики.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: genetic
+
+# ИНЖ
+- type: entity
+  parent: PosterBase
+  id: PosterEngineeringHelmet
+  name: плакат "Носи каску"
+  description: Плакат, который настоятельно рекомендует носить каску в отделе инженерии.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: helmet
+
+- type: entity
+  parent: PosterBase
+  id: PosterEngineeringAME
+  name: плакат "Не забудь перезарядить топливо ДАМ"
+  description: Плакат, который напоминает сотрудникам инженерного отдела об обязанности перезарядки топлива ДАМ.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: dam
+
+- type: entity
+  parent: PosterBase
+  id: PosterMultitoolGuide
+  name: плакат "Используй мультитул"
+  description: Обучающий плакат, который объясняет, как правильно использовать мультитул для манипуляций с электропитанием.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Wallmounts/posters.rsi
+      state: multitool

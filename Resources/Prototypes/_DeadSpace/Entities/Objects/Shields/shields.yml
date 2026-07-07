@@ -34,3 +34,13 @@
                 SheetGlass:
                   min: 2
                   max: 2
+    - type: ShieldDash
+      damage: 
+        types:
+          Blunt: 15
+          Piercing: 5
+      damageToShield: 
+        types:
+            Blunt: 95
+      staminaDamage: 60
+      staminaDamageToUser: 30  

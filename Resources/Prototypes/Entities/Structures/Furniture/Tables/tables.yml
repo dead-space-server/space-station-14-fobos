@@ -54,6 +54,8 @@
   - type: Construction
     graph: Table
     node: TableFrame
+  - type: FlippableTable
+    flippedTableId: FlippedTableFrame
 
 - type: entity
   id: CounterWoodFrame
@@ -195,6 +197,8 @@
   - type: Construction
     graph: Table
     node: Table
+  - type: FlippableTable
+    flippedTableId: FlippedTableSteel
 
 - type: entity
   id: TableReinforced
@@ -240,6 +244,8 @@
       types:
         Blunt: 8
     bonkTime: 3
+  - type: FlippableTable
+    flippedTableId: FlippedTableReinforced
 
 - type: entity
   id: TableGlass
@@ -347,6 +353,8 @@
   - type: FootstepModifier
     footstepSoundCollection:
       collection: FootstepTile
+  - type: FlippableTable
+    flippedTableId: FlippedTableCard
 
 - type: entity
   id: TableReinforcedGlass
@@ -545,6 +553,8 @@
   - type: FootstepModifier
     footstepSoundCollection:
       collection: FootstepWood
+  - type: FlippableTable
+    flippedTableId: FlippedTableWood
 
 - type: entity
   id: TableCarpet

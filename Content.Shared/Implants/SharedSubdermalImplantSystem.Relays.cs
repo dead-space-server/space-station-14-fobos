@@ -1,4 +1,5 @@
 using Content.Shared.Chat;
+using Content.Shared.Corvax.TTS;
 using Content.Shared.IdentityManagement.Components;
 using Content.Shared.Implants.Components;
 using Content.Shared.Interaction;
@@ -16,6 +17,7 @@ public abstract partial class SharedSubdermalImplantSystem
         SubscribeLocalEvent<ImplantedComponent, SuicideEvent>(RelayToImplantEvent);
         SubscribeLocalEvent<ImplantedComponent, TransformSpeakerNameEvent>(RelayToImplantEvent);
         SubscribeLocalEvent<ImplantedComponent, TransformSpeechEvent>(RelayToImplantEvent);
+        SubscribeLocalEvent<ImplantedComponent, TransformSpeakerVoiceEvent>(RelayToImplantEvent); // DS14
         SubscribeLocalEvent<ImplantedComponent, SeeIdentityAttemptEvent>(RelayToImplantEvent);
     }
 

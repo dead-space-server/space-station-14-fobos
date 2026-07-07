@@ -76,6 +76,9 @@ public sealed partial class LavalandPlanetPrototype : IPrototype
     public Vector2 TerminalGridOffset = Vector2.Zero;
 
     [DataField]
+    public Vector2 JaunterDestinationOffset = Vector2.Zero;
+
+    [DataField]
     public string? TerminalGridName = "Lavaland Mining Outpost";
 
     [DataField]

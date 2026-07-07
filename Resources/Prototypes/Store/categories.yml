@@ -166,6 +166,11 @@
 
 # DS14-Start
 - type: storeCategory
+  id: LavalandMiningUtilityTaipan
+  name: store-category-lavaland-mining-utility
+  priority: 2
+
+- type: storeCategory
   id: CargoTechMagTaipan
   name: store-category-cargotechmag-taipan
   priority: 3

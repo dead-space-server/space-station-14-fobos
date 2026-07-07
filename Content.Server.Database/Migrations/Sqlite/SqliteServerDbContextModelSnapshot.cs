@@ -15,7 +15,7 @@ namespace Content.Server.Database.Migrations.Sqlite
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.0");
 
             modelBuilder.Entity("Content.Server.Database.Admin", b =>
                 {
@@ -505,14 +505,14 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("INTEGER")
                         .HasColumnName("enabled");
 
-                    b.Property<int>("LargeMaxPlayers")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("large_max_players");
-
                     b.Property<string>("LargeMaps")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("large_maps");
+
+                    b.Property<int>("LargeMaxPlayers")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("large_max_players");
 
                     b.Property<string>("LargePlayedMaps")
                         .IsRequired()
@@ -524,14 +524,14 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .HasColumnName("large_pool_queue_maps");
 
-                    b.Property<int>("MediumMaxPlayers")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("medium_max_players");
-
                     b.Property<string>("MediumMaps")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("medium_maps");
+
+                    b.Property<int>("MediumMaxPlayers")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("medium_max_players");
 
                     b.Property<string>("MediumPlayedMaps")
                         .IsRequired()
@@ -543,14 +543,14 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .HasColumnName("medium_pool_queue_maps");
 
-                    b.Property<int>("SmallMaxPlayers")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("small_max_players");
-
                     b.Property<string>("SmallMaps")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("small_maps");
+
+                    b.Property<int>("SmallMaxPlayers")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("small_max_players");
 
                     b.Property<string>("SmallPlayedMaps")
                         .IsRequired()
@@ -570,53 +570,6 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasName("PK_auto_map_vote_config");
 
                     b.ToTable("auto_map_vote_config", (string)null);
-                });
-
-            modelBuilder.Entity("Content.Server.Database.GamePresetConfigEntity", b =>
-                {
-                    b.Property<string>("ServerId")
-                        .HasMaxLength(128)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("server_id");
-
-                    b.Property<string>("ActivePresetIdsJson")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("active_preset_ids_json");
-
-                    b.Property<string>("CustomPresetsJson")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("custom_presets_json");
-
-                    b.Property<int>("CurrentPresetIndex")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("current_preset_index");
-
-                    b.Property<bool>("DisableOocDuringVote")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("disable_ooc_during_vote");
-
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("enabled");
-
-                    b.Property<int>("MaxRdmDay")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("max_rdm_day");
-
-                    b.Property<int>("MaxRdmRow")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("max_rdm_row");
-
-                    b.Property<int>("VoteDurationSeconds")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("vote_duration_seconds");
-
-                    b.HasKey("ServerId")
-                        .HasName("PK_game_preset_config");
-
-                    b.ToTable("game_preset_config", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.Ban", b =>
@@ -959,6 +912,53 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.ToTable("connection_log", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.GamePresetConfigEntity", b =>
+                {
+                    b.Property<string>("ServerId")
+                        .HasMaxLength(128)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("server_id");
+
+                    b.Property<string>("ActivePresetIdsJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("active_preset_ids_json");
+
+                    b.Property<int>("CurrentPresetIndex")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("current_preset_index");
+
+                    b.Property<string>("CustomPresetsJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("custom_presets_json");
+
+                    b.Property<bool>("DisableOocDuringVote")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("disable_ooc_during_vote");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("enabled");
+
+                    b.Property<int>("MaxRdmDay")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("max_rdm_day");
+
+                    b.Property<int>("MaxRdmRow")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("max_rdm_row");
+
+                    b.Property<int>("VoteDurationSeconds")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("vote_duration_seconds");
+
+                    b.HasKey("ServerId")
+                        .HasName("PK_game_preset_config");
+
+                    b.ToTable("game_preset_config", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.IPIntelCache", b =>
                 {
                     b.Property<int>("Id")
@@ -1179,6 +1179,15 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .HasColumnName("hair_color");
 
+                    b.Property<string>("HairGradientColor")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("hair_gradient_color");
+
+                    b.Property<bool>("HairGradientEnabled")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("hair_gradient_enabled");
+
                     b.Property<string>("HairName")
                         .IsRequired()
                         .HasColumnType("TEXT")
@@ -1336,10 +1345,6 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("INTEGER")
                         .HasColumnName("round_id");
 
-                    b.Property<int>("ServerId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("server_id");
-
                     b.Property<string>("GamePresetName")
                         .HasColumnType("TEXT")
                         .HasColumnName("game_preset_name");
@@ -1347,6 +1352,10 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.Property<string>("MapName")
                         .HasColumnType("TEXT")
                         .HasColumnName("map_name");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("server_id");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("TEXT")

@@ -169,7 +169,7 @@ public sealed partial class RevenantSystem
             return;
         }
 
-        if(_physics.GetEntitiesIntersectingBody(uid, (int) CollisionGroup.Impassable).Count > 0)
+        if (_physics.GetEntitiesIntersectingBody(uid, (int)CollisionGroup.Impassable).Count > 0)
         {
             _popup.PopupEntity(Loc.GetString("revenant-in-solid"), uid, uid);
             return;
@@ -440,6 +440,19 @@ public sealed partial class RevenantSystem
         _mobThresholdSystem.SetMobStateThreshold(args.Target, dead.Value * args.ThresholdModifier, MobState.Dead);
         _mobThresholdSystem.SetMobStateThreshold(args.Target, crit.Value * args.ThresholdModifier, MobState.Critical);
 
+        //DS-14 Start
+        if (TryComp<DamageableComponent>(args.Target, out damageable))
+        {
+            var healSpec = new DamageSpecifier();
+
+            foreach (var (type, _) in damageable.Damage.DamageDict)
+            {
+                healSpec.DamageDict.Add(type, -damageable.Damage.DamageDict[type]);
+            }
+
+            _damage.TryChangeDamage(args.Target, healSpec, ignoreResistances: true, origin: uid);
+        }
+        //DS-14 End
         _mobState.ChangeMobState(args.Target, MobState.Alive);
 
         if (TryComp<LanguageComponent>(args.Target, out var targetLanguage) && TryComp<LanguageComponent>(uid, out var revLanguage))

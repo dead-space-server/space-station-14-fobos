@@ -25,7 +25,6 @@ using Content.Shared.Mobs.Systems;
 using Content.Shared.Physics;
 using Content.Shared.Popups;
 using Content.Shared.StatusEffect;
-using Content.Shared.Stunnable;
 using Content.Shared.Weapons.Melee.Components;
 using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Weapons.Ranged.Components;
@@ -376,7 +375,7 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
             return false;
 
         // DS14-start
-        if (IsMeleeBlockedByStandup(user))
+        if (attack is HeavyAttackEvent && IsMeleeSuppressedAfterStand(user))
             return false;
         // DS14-end
 
@@ -489,7 +488,7 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
     }
 
     // DS14-start
-    protected bool IsMeleeBlockedByStandup(EntityUid user)
+    protected bool IsMeleeSuppressedAfterStand(EntityUid user)
     {
         if (TryComp<SuppressMeleeAfterStandComponent>(user, out var suppressMelee))
         {
@@ -499,11 +498,9 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
             RemCompDeferred<SuppressMeleeAfterStandComponent>(user);
         }
 
-        if (HasComp<KnockedDownComponent>(user))
-            return true;
-
         return false;
     }
+
     // DS14-end
 
     protected abstract bool InRange(EntityUid user, EntityUid target, float range, ICommonSession? session);
