@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Linq;
+using Content.Server.Guardian;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
@@ -453,6 +454,9 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
     public void InfectEntity(VirusData data, EntityUid target)
     {
+        if (HasComp<GuardianComponent>(target))
+            return;
+
         if (TryComp<VirusComponent>(target, out var targetVirus)
             && targetVirus.Data.StrainId == data.StrainId)
         {
@@ -507,7 +511,8 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
     public bool CanInfect(EntityUid target, VirusData data)
     {
-        if (HasComp<ZombieComponent>(target)
+        if (HasComp<GuardianComponent>(target)
+            || HasComp<ZombieComponent>(target)
             || HasComp<NecromorfComponent>(target)
             || HasComp<InfectionDeadComponent>(target)
             || HasComp<PendingZombieComponent>(target))

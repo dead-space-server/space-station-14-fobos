@@ -314,6 +314,7 @@
     receiveFrequencyId: CrewMonitorTaipan
   - type: WirelessNetworkConnection
     range: 1200
+  - type: StationLimitedNetwork
 
 - type: entity
   parent: BaseComputerAiAccess

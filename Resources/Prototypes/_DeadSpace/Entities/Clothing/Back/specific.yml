@@ -91,7 +91,7 @@
   parent: ClothingBackpackTailbag
   id: ClothingBackpackTailbagAtmospherics
   name: атмосферный подсумок на хвост плафеимов
-  description: Удобный подсумок на хвост. Пахнет плазмой
+  description: Удобный подсумок на хвост. Пахнет плазмой.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Tailbag/atmospherics.rsi
@@ -104,7 +104,7 @@
   parent: ClothingBackpackTailbag
   id: ClothingBackpackTailbagCaptain
   name: подсумок на хвост плафеимов капитана
-  description: Удобный подсумок на хвост. Выглядит дорого
+  description: Удобный подсумок на хвост. Выглядит дорого.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Tailbag/captain.rsi
@@ -139,7 +139,7 @@
   parent: ClothingBackpackTailbag
   id: ClothingBackpackTailbagChemistry
   name: подсумок на хвост плафеимов химика
-  description: Удобный подсумок на хвост. Пропитан химией
+  description: Удобный подсумок на хвост. Пропитан химией.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Tailbag/chemistry.rsi
@@ -150,7 +150,7 @@
   parent: ClothingBackpackTailbag
   id: ClothingBackpackTailbagEngineering
   name: инженерный подсумок на хвост плафеимов
-  description: Удобный подсумок на хвост. Грязный на вид
+  description: Удобный подсумок на хвост. Грязный на вид.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Tailbag/engineering.rsi
@@ -161,7 +161,7 @@
   parent: ClothingBackpackTailbag
   id: ClothingBackpackTailbagMedical
   name: медицинский подсумок на хвост плафеимов
-  description: Удобный подсумок на хвост. Стерилен
+  description: Удобный подсумок на хвост. Стерилен.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Tailbag/medical.rsi
@@ -205,7 +205,7 @@
   parent: ClothingBackpackTailbag
   id: ClothingBackpackTailbagSecurity
   name: подсумок сб на хвост плафеимов
-  description: Удобный подсумок на хвост. Сб любят свободные карманы
+  description: Удобный подсумок на хвост. Сб любят свободные карманы.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Tailbag/security.rsi
@@ -216,7 +216,7 @@
   parent: [ClothingBackpackTailbag, BaseSyndicateContraband]
   id: ClothingBackpackTailbagSyndicate
   name: черно-красный подсумок на хвост плафеимов
-  description: Удобный, черно-красный подсумок на хвост. Пахнет приключениями
+  description: Удобный, черно-красный подсумок на хвост. Пахнет приключениями.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Tailbag/syndicate.rsi
@@ -254,7 +254,7 @@
   parent: ClothingBackpackTailbag
   id: ClothingBackpackTailbagCoroner
   name: подсумок коронера на хвост плафеимов
-  description: Удобный подсумок на хвост. Не для трупов
+  description: Удобный подсумок на хвост. Не для трупов.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Tailbag/coroner.rsi

@@ -214,7 +214,7 @@
   parent: ClothingUniformJumpsuitCaptain
   id: ClothingUniformJumpsuitCaptainBlack
   name: чёрный комбинезон капитана
-  description: Чёрный комбинезон с золотыми вставками, идеально подходящий для человека, вершащего жёсткий порядок.
+  description: Чёрный комбинезон с золотыми вставками, идеально подходящий для человека, что вершит жёсткий порядок.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/captain_black.rsi

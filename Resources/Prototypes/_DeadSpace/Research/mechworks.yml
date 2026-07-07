@@ -73,6 +73,7 @@
   - ProtolatheHyperConvectionMachineCircuitboardTaipan
   - CircuitImprinterHyperConvectionMachineCircuitboardTaipan
   - SheetifierMachineCircuitboard
+  - TaipanHandCuttingMachineRecipe
 
 - type: technology
   id: TaipanPowerGeneration

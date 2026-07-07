@@ -210,6 +210,11 @@ namespace Content.Server.Communications
 
         private bool CanCallOrRecall(CommunicationsConsoleComponent comp)
         {
+            //DS14-start
+            if (_cfg.GetCVar(CCVars.EvacLocked))
+                return false;
+            //DS14-end
+
             // Defer to what the round end system thinks we should be able to do.
             if (_emergency.EmergencyShuttleArrived || !_roundEndSystem.CanCallOrRecall())
                 return false;
@@ -509,7 +514,13 @@ namespace Content.Server.Communications
             if(args.Password.Length > _cfg.GetCVar(CCVars.ChatMaxAnnouncementLength))
                 return;
             component.PassWord = args.Password;
-        }//DS14-end
+        }
+        public void ToggleLockEvac()
+        {
+            _cfg.SetCVar(CCVars.EvacLocked, !_cfg.GetCVar(CCVars.EvacLocked));
+            UpdateCommsConsoleInterface();
+        }
+        //DS14-end
     }
 
     /// <summary>

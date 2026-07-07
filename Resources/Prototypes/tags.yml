@@ -486,6 +486,11 @@
   id: DoorElectronics  # ConstructionGraph: PinionAirlock, BlastDoor, Windoor
                        # Used interchangeably with DoorElectronicsComponent, sometimes even in the same graph. TODO pick one
 
+# DS14-start
+- type: Tag
+  id: TaipanDoorElectronics
+# DS14-end
+
 - type: Tag
   id: DoorElectronicsConfigurator # Used by ActivatableUIComponent on entity DoorElectronics to whitelist a tagged tool to open the UI.
 

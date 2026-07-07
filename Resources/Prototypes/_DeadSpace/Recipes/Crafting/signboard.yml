@@ -1,0 +1,8 @@
+- type: construction
+  id: SignBoard
+  graph: SignBoard
+  startNode: start
+  targetNode: signboard
+  category: construction-category-misc
+  objectType: Item
+  description: signboard-recipe-desc

@@ -95,7 +95,7 @@
     soundHit:
         path: /Audio/Weapons/bladeslice.ogg
   - type: Reflect
-    reflectProb: .1
+    reflectProb: .2 #DS14
     spread: 90
   - type: Item
     storedSprite:

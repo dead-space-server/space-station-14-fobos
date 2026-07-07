@@ -494,6 +494,7 @@
     receiveFrequencyId: CrewMonitor
   - type: WirelessNetworkConnection
     range: 1200
+  - type: StationLimitedNetwork # DS14
 
 - type: entity
   parent: BaseComputerAiAccess

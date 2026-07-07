@@ -94,7 +94,7 @@
     # DS14-end
     maxOccurrences: 2 # should be the same as [copies] in shuttle_incoming_event.yml
   - type: LoadMapRule
-    preloadedGrid: SyndieEvacPod
+    gridPath: /Maps/Shuttles/Gx-Helper.yml # DS14
 
 - type: entity
   id: UnknownShuttleNTQuark

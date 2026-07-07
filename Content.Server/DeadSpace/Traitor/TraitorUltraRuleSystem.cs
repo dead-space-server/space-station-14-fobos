@@ -50,6 +50,7 @@ using Content.Shared.Random.Helpers;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Components;
 using Content.Shared.Roles.Jobs;
+using Content.Shared.Store;
 using Content.Shared.Store.Components;
 using Robust.Server.Player;
 using Robust.Shared.Player;
@@ -457,6 +458,83 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         if (changed)
             _store.RefreshAllListings(store);
+    }
+
+    private void ApplyCorporateDiscounts(StoreComponent store, TraitorUltraRuleComponent component, TraitorUltraMindState state)
+    {
+        foreach (var listing in store.FullListingsCatalog)
+        {
+            listing.RemoveCostModifier(component.CorporateDiscountModifierSourceId);
+        }
+
+        if (!HasCorporateDiscountsStage(state) ||
+            string.IsNullOrWhiteSpace(state.NewCorporation) ||
+            !TryFindCorporateDiscountSet(component, state.NewCorporation, out var discountSet))
+        {
+            return;
+        }
+
+        foreach (var discount in discountSet.Listings)
+        {
+            if (discount.TelecrystalDiscount <= FixedPoint2.Zero)
+                continue;
+
+            if (!TryFindStoreListing(store, discount.Listing, out var listing))
+            {
+                Log.Warning($"TraitorUltra corporate discount listing {discount.Listing} does not exist in the store catalog.");
+                continue;
+            }
+
+            listing.AddCostModifier(
+                component.CorporateDiscountModifierSourceId,
+                new Dictionary<ProtoId<CurrencyPrototype>, FixedPoint2>
+                {
+                    { component.TelecrystalCurrency, -discount.TelecrystalDiscount },
+                });
+        }
+    }
+
+    private bool HasCorporateDiscountsStage(TraitorUltraMindState state)
+    {
+        return state.Stage == TraitorUltraStage.Upgraded ||
+               state.Stage == TraitorUltraStage.BountyAnnounced ||
+               state.Stage == TraitorUltraStage.Resolved;
+    }
+
+    private bool TryFindCorporateDiscountSet(
+        TraitorUltraRuleComponent component,
+        string corporation,
+        out TraitorUltraCorporateDiscountSet discountSet)
+    {
+        foreach (var set in component.CorporateDiscounts)
+        {
+            if (CorporationMatches(set.Corporation, corporation))
+            {
+                discountSet = set;
+                return true;
+            }
+        }
+
+        discountSet = default!;
+        return false;
+    }
+
+    private bool TryFindStoreListing(
+        StoreComponent store,
+        ProtoId<ListingPrototype> listingId,
+        out ListingDataWithCostModifiers listing)
+    {
+        foreach (var item in store.FullListingsCatalog)
+        {
+            if (item.ID.Equals(listingId.Id, StringComparison.Ordinal))
+            {
+                listing = item;
+                return true;
+            }
+        }
+
+        listing = default!;
+        return false;
     }
 
     private bool IsReusableUplinkStore(EntityUid entity, TraitorUltraRuleComponent component)
@@ -1190,7 +1268,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             ? Timing.CurTime + component.BountyPreparationTime
             : TimeSpan.Zero;
 
-        UpgradeTraitorRole(mindId, mind);
+        UpgradeTraitorRole(mindId, mind, component);
         if (!EnsureDeathAcidifierImplant((mindId, mind), component))
             Log.Error($"Failed to assign the TraitorUltra death-acidifier implant to {ToPrettyString(mindId)}.");
 
@@ -1464,21 +1542,30 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return TryCreateAndAddObjective(mind, component.PostUpgradeSurviveObjective, issuer, out _);
     }
 
-    private void UpgradeTraitorRole(EntityUid mindId, MindComponent mind)
+    private void UpgradeTraitorRole(EntityUid mindId, MindComponent mind, TraitorUltraRuleComponent component)
     {
-        if (!_roles.MindHasRole<TraitorRoleComponent>(mindId, out var traitorRole))
+        var updated = false;
+        foreach (var roleUid in mind.MindRoleContainer.ContainedEntities)
         {
-            Log.Warning($"TraitorUltra upgrade could not find a TraitorRole on {ToPrettyString(mindId)}; adding Ultra role silently.");
-            _roles.MindAddRole(mindId, "MindRoleTraitorUltra", mind, silent: true);
-            return;
+            if (!HasComp<TraitorRoleComponent>(roleUid) ||
+                !TryComp<MindRoleComponent>(roleUid, out var role))
+            {
+                continue;
+            }
+
+            role.AntagPrototype = "TraitorUltra";
+            role.Subtype = "role-subtype-traitor-ultra";
+            EnsureComp<TraitorUltraRoleComponent>(roleUid);
+            Dirty(roleUid, role);
+            updated = true;
         }
 
-        var roleUid = traitorRole.Value.Owner;
-        var role = traitorRole.Value.Comp1;
-        role.AntagPrototype = "TraitorUltra";
-        role.Subtype = "role-subtype-traitor-ultra";
-        EnsureComp<TraitorUltraRoleComponent>(roleUid);
-        Dirty(roleUid, role);
+        if (!updated)
+        {
+            Log.Warning($"TraitorUltra upgrade could not find a TraitorRole on {ToPrettyString(mindId)}; adding Ultra role silently.");
+            _roles.MindAddRole(mindId, component.UltraMindRole, mind, silent: true);
+        }
+
         _roles.RefreshMindRoleType((mindId, mind));
     }
 
@@ -2018,6 +2105,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             return;
         }
 
+        ApplyCorporateDiscounts(store, component, state);
         _store.TryAddCurrency(new Dictionary<string, FixedPoint2> { { component.TelecrystalCurrency, amount } }, uplink.Value, store);
         _store.UpdateUserInterface(owned, uplink.Value, store);
     }

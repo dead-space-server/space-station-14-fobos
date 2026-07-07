@@ -63,6 +63,7 @@
   productEntity: OreBag
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 80
 
@@ -71,6 +72,7 @@
   productEntity: OreBagOfHolding
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 800
 
@@ -273,6 +275,7 @@
   productEntity: FultonBeacon
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 150
 
@@ -281,6 +284,7 @@
   productEntity: Fulton
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 50
 
@@ -289,6 +293,7 @@
   productEntity: HandheldGPSBasic
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 80
 
@@ -301,10 +306,19 @@
     LavalandMiningPoint: 80
 
 - type: listing
+  id: LavalandMiningRadioTaipan
+  productEntity: RadioHandheldTaipan
+  categories:
+  - LavalandMiningUtilityTaipan
+  cost:
+    LavalandMiningPoint: 80
+
+- type: listing
   id: LavalandMiningLantern
   productEntity: FlashlightSeclite
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 50
 
@@ -313,6 +327,7 @@
   productEntity: Flare
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 20
 
@@ -321,6 +336,7 @@
   productEntity: FireExtinguisherMini
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 90
 
@@ -329,6 +345,7 @@
   productEntity: SurvivalKnife
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 60
 
@@ -337,6 +354,7 @@
   productEntity: WeaponGrapplingGun
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 150
 
@@ -345,6 +363,7 @@
   productEntity: LavalandWormholeJaunter
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 250
 
@@ -353,6 +372,7 @@
   productEntity: LavalandShelterCapsule
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 400
 
@@ -361,6 +381,7 @@
   productEntity: DoubleEmergencyOxygenTankFilled
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 160
 
@@ -369,6 +390,7 @@
   productEntity: PowerCellMedium
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 120
 
@@ -377,6 +399,7 @@
   productEntity: PowerCellHigh
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 280
 
@@ -385,6 +408,7 @@
   productEntity: WelderIndustrialAdvanced
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 250
 
@@ -393,6 +417,7 @@
   productEntity: ClothingHeadHatWelding
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 120
 
@@ -401,6 +426,7 @@
   productEntity: PinpointerUniversal
   categories:
   - LavalandMiningUtility
+  - LavalandMiningUtilityTaipan
   cost:
     LavalandMiningPoint: 650
 

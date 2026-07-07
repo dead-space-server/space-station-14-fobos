@@ -84,16 +84,10 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
         }
 
         // DS14-start
-        var blockedByStandup = IsMeleeBlockedByStandup(entity);
-        if (altDown == BoundKeyState.Down && (_suppressSecondaryAttackUntilRelease || blockedByStandup))
+        if (altDown == BoundKeyState.Down &&
+            (_suppressSecondaryAttackUntilRelease || IsMeleeSuppressedAfterStand(entity)))
         {
             _suppressSecondaryAttackUntilRelease = true;
-            weapon.Attacking = false;
-            return;
-        }
-
-        if (blockedByStandup)
-        {
             weapon.Attacking = false;
             return;
         }
