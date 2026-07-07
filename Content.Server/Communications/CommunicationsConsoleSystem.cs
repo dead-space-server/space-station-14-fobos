@@ -426,7 +426,6 @@ namespace Content.Server.Communications
 
             if (!message.UseMyTTS && TryComp<TTSComponent>(message.Actor, out var tts))
                 voice = tts.VoicePrototypeId;
-            Console.WriteLine($"announcementWithSignature {announcementWithSignature}, sender {sender}, sound {sound}, color {color}, voice {voice!.ToString()}, message.LanguageId {message.LanguageId.ToString()} ");
             _chatSystem.DispatchStationAnnouncement(uid,
                 announcementWithSignature,
                 sender,
