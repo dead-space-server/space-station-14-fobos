@@ -12,7 +12,7 @@ public sealed class GameRulesServerSystem : EntitySystem
     [Dependency] private readonly GameTicker _ticker = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
-    private readonly Dictionary<string, string> _addedByAdmin = new();
+    private readonly Dictionary<(TimeSpan, string), string> _addedByAdmin = new();
 
     public override void Initialize()
     {
@@ -26,8 +26,13 @@ public sealed class GameRulesServerSystem : EntitySystem
         if (!_prototypeManager.HasIndex<EntityPrototype>(msg.RuleId))
             return;
 
+        var currentTime = _ticker.RunLevel == GameRunLevel.PreRoundLobby
+            ? TimeSpan.Zero
+            : _ticker.RoundDuration();
+
         _ticker.AddGameRule(msg.RuleId);
-        _addedByAdmin[msg.RuleId] = msg.AdminName;
+
+        _addedByAdmin[(currentTime, msg.RuleId + " (Pending)")] = msg.AdminName;
     }
 
     private void OnRequestGameRulesList(RequestGameRulesListMessage msg, EntitySessionEventArgs args)
@@ -41,7 +46,7 @@ public sealed class GameRulesServerSystem : EntitySystem
             foreach (var (time, rule) in sorted)
             {
                 var cleanRule = rule.EndsWith(" (Pending)") ? rule[..^9].Trim() : rule.Trim();
-                var admin = _addedByAdmin.GetValueOrDefault(cleanRule);
+                var admin = _addedByAdmin.GetValueOrDefault((time, rule));
                 entries.Add(new RuleEntry(time, rule, admin));
             }
         }
@@ -53,9 +58,19 @@ public sealed class GameRulesServerSystem : EntitySystem
         RaiseNetworkEvent(response, args.SenderSession);
     }
 
-    public void ReportRuleAddedByAdmin(string ruleId, string? adminName)
+    public void RecordAdminForTime(TimeSpan time, string ruleName, string? adminName)
     {
-        if (adminName != null)
-            _addedByAdmin[ruleId] = adminName;
+        if (adminName == null)
+            return;
+
+        _addedByAdmin[(time, ruleName)] = adminName;
+    }
+
+    public void OnRulePendingToActive(TimeSpan oldTime, string oldRuleName, TimeSpan newTime, string newRuleName)
+    {
+        if (_addedByAdmin.Remove((oldTime, oldRuleName), out var admin))
+        {
+            _addedByAdmin[(newTime, newRuleName)] = admin;
+        }
     }
 }

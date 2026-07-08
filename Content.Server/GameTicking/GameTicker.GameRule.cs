@@ -152,8 +152,12 @@ public sealed partial class GameTicker
 
         // Remove the first occurrence of the pending entry before adding the started entry
         var pendingRuleIndex = _allPreviousGameRules.FindIndex(rule => rule.Item2 == id + " (Pending)");
+        TimeSpan? pendingTime = null; // DS14
+        string? pendingRuleName = null; // DS14
         if (pendingRuleIndex >= 0)
         {
+            pendingTime = _allPreviousGameRules[pendingRuleIndex].Item1; // DS14
+            pendingRuleName = _allPreviousGameRules[pendingRuleIndex].Item2; // DS14
             _allPreviousGameRules.RemoveAt(pendingRuleIndex);
         }
 
@@ -161,6 +165,14 @@ public sealed partial class GameTicker
         {
             _allPreviousGameRules.Add((currentTime, id));
         }
+
+        // DS14-start
+        if (pendingTime.HasValue)
+        {
+            var gameRulesSystem = EntityManager.System<GameRulesServerSystem>();
+            gameRulesSystem.OnRulePendingToActive(pendingTime.Value, pendingRuleName!, currentTime, id);
+        }
+        // DS14-end
 
         _sawmill.Info($"Started game rule {ToPrettyString(ruleEntity)}");
         _adminLogger.Add(LogType.EventStarted, $"Started game rule {ToPrettyString(ruleEntity)}");
@@ -352,15 +364,17 @@ public sealed partial class GameTicker
             {
                 _adminLogger.Add(LogType.EventStarted, $"Unknown tried to add game rule [{rule}] via command");
             }
+            var currentTime = RunLevel == GameRunLevel.PreRoundLobby ? TimeSpan.Zero : RoundDuration(); // DS14
             var ent = AddGameRule(rule);
+
+            //DS14-Start
+            var gameRulesSystem = EntityManager.System<GameRulesServerSystem>();
+            gameRulesSystem.RecordAdminForTime(currentTime, rule + " (Pending)", shell.Player?.Name);
+            //DS14-End
 
             // Start rule if we're already in the middle of a round
             if(RunLevel == GameRunLevel.InRound)
                 StartGameRule(ent);
-            //DS14-Start
-            var gameRulesSystem = EntityManager.System<GameRulesServerSystem>();
-            gameRulesSystem.ReportRuleAddedByAdmin(rule, shell.Player?.Name);
-            //DS14-End
         }
     }
 
