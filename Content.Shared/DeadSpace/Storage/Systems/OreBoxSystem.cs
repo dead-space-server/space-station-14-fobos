@@ -17,7 +17,7 @@ public sealed class OreBoxSystem : EntitySystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
 
     [ValidatePrototypeId<TagPrototype>]
-    private const string OreTag = "Ore";
+    private static readonly ProtoId<TagPrototype> OreTag = "Ore";
 
     public override void Initialize()
     {
