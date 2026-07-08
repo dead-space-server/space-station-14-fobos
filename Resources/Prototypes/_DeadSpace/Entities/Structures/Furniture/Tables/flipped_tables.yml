@@ -166,13 +166,13 @@
     thresholds:
     - trigger:
         !type:DamageTrigger
-        damage: 45
+        damage: 5
       behaviors:
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
-        damage: 15
+        damage: 1
       behaviors:
       - !type:PlaySoundBehavior
         sound: /Audio/Weapons/pierce.ogg
