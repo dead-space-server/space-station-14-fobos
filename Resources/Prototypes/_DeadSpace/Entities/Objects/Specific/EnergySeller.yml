@@ -99,6 +99,7 @@
     requirePower: true
     highVoltageNode: input
   - type: EnergySeller
+    account: "Cargo"
   - type: Transform
 
 - type: entity

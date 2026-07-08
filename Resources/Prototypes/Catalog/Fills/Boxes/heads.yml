@@ -20,7 +20,6 @@
     containers:
       storagebase: !type:AllSelector
         children:
-        - id: CargoRequestEngineeringComputerCircuitboard
         - id: AlertsComputerCircuitboard
         - id: AtmosMonitoringComputerCircuitboard
         - id: PowerComputerCircuitboard
@@ -36,7 +35,6 @@
       storagebase: !type:AllSelector
         children:
         - id: MedicalTechFabCircuitboard
-        - id: CargoRequestMedicalComputerCircuitboard
 
 - type: entity
   parent: ToteBase
@@ -49,7 +47,6 @@
         children:
         - id: IDComputerCircuitboard
         - id: FundingAllocationComputerCircuitboard
-        - id: CargoRequestServiceComputerCircuitboard
 
 - type: entity
   parent: BoxStamps
@@ -116,10 +113,9 @@
     containers:
       storagebase: !type:AllSelector
         children:
-        - id: CircuitImprinterMachineCircuitboard 
+        - id: CircuitImprinterMachineCircuitboard
 #       - id: ProtolatheMachineCircuitboard #DS14
         - id: ResearchComputerCircuitboard
-        - id: CargoRequestScienceComputerCircuitboard
         - id: RoboticsConsoleCircuitboard
         - id: AnalysisComputerCircuitboard #Because sometimes round start artis just fucking explode on the pad.
         - id: ArtifactAnalyzerMachineCircuitboard

@@ -1295,8 +1295,19 @@ ADTObjectsSpecificDermalineChemistryBottle: ChemistryBottleDermaline
 # 2026-05-22 - DS14
 ClothingMaskRedNeckGaiter: ClothingMaskNeckGaiterRed
 
-# 2026-05-29 - DS14  
+# 2026-05-29 - DS14
 DesoxyephedrineMedipen: CelestinMedipen
 
 # 2026-07-01 - DS14
 DresserCaptainFilled: VendingMachineCaptainDrobe
+
+# 2026-07-08 - DS14
+CargoRequestEngineeringComputerCircuitboard: null
+CargoRequestMedicalComputerCircuitboard: null
+CargoRequestScienceComputerCircuitboard: null
+CargoRequestServiceComputerCircuitboard: null
+ComputerCargoOrdersEngineering: null
+ComputerCargoOrdersMedical: null
+ComputerCargoOrdersScience: null
+ComputerCargoOrdersService: null
+# p.s зути не дай бог скажешь отменять
