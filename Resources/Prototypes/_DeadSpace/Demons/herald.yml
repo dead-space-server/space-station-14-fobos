@@ -38,7 +38,6 @@
     drawFov: false
     visMask:
       - Normal
-      - Ghost
   - type: ContentEye
     maxZoom: 1.2, 1.2
   - type: DoAfter
@@ -78,6 +77,6 @@
   - type: TTS
     voice: Volibear
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DemonBoss
   #DS14-end

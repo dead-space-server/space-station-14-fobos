@@ -52,3 +52,4 @@
   id: CentralCommandBlueShieldOfficerLoadout
   equipment:
     back: ClothingBackpackBlueShieldCentComFilled
+    socks: ClothingUnderwearSocksBlueShieldOfficer
