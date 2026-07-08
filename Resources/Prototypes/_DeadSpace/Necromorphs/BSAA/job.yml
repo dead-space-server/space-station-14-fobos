@@ -122,6 +122,8 @@
   canBeAntag: false
   accessGroups:
   - AllAccess
+  access:
+  - CentralCommand
   special:
   - !type:AddImplantSpecial
     implants: [ RezervImplant ]
