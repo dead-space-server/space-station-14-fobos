@@ -73,6 +73,7 @@
   - AllAccess
   access:
   - CentralCommand
+  implants: [ RezervImplant ]
 
 - type: job
   id: BSAALeaderJob
@@ -97,6 +98,7 @@
   - AllAccess
   access:
   - CentralCommand
+  implants: [ RezervImplant ]
 
 - type: job
   id: BSAAMedicJob
@@ -118,6 +120,7 @@
   - AllAccess
   access:
   - CentralCommand
+  implants: [ RezervImplant ]
 
 - type: playTimeTracker
   id: JobBSAA
