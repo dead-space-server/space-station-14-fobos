@@ -7,6 +7,7 @@ using Content.Shared.Tag;
 using Content.Shared.Lathe;
 using Robust.Shared.Containers;
 using Content.Shared.DeadSpace.Storage.Components;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Storage.Systems;
 
@@ -14,6 +15,9 @@ public sealed class OreBoxSystem : EntitySystem
 {
     [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
+
+    [ValidatePrototypeId<TagPrototype>]
+    private const string OreTag = "Ore";
 
     public override void Initialize()
     {
@@ -44,7 +48,7 @@ public sealed class OreBoxSystem : EntitySystem
     private void OnCanDropTarget(EntityUid uid, OreBoxComponent comp, ref CanDropTargetEvent args)
     {
         if (args.Handled) return;
-        if (!_tag.HasTag(args.Dragged, "Ore") && !HasComp<MaterialComponent>(args.Dragged)) return;
+        if (!_tag.HasTag(args.Dragged, OreTag) && !HasComp<MaterialComponent>(args.Dragged)) return;
 
         args.CanDrop = true;
         args.Handled = true;
@@ -53,7 +57,7 @@ public sealed class OreBoxSystem : EntitySystem
     private void OnDragDropTarget(EntityUid uid, OreBoxComponent comp, ref DragDropTargetEvent args)
     {
         if (args.Handled) return;
-        if (!_tag.HasTag(args.Dragged, "Ore") && !HasComp<MaterialComponent>(args.Dragged)) return;
+        if (!_tag.HasTag(args.Dragged, OreTag) && !HasComp<MaterialComponent>(args.Dragged)) return;
 
         var container = _container.EnsureContainer<Container>(uid, "storagebase");
         if (_container.Insert(args.Dragged, container))
