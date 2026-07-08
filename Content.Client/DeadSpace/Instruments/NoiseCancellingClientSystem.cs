@@ -3,11 +3,11 @@
 using Content.Client.Instruments;
 using Content.Shared.DeadSpace.Instruments;
 using Content.Shared.Inventory;
+using Content.Shared.Inventory.Events;
 using Content.Shared.Item.ItemToggle.Components;
 using Robust.Client.Audio;
 using Robust.Client.Player;
 using Robust.Shared.Audio.Components;
-using Content.Shared.Inventory.Events;
 
 namespace Content.Client.DeadSpace.Instruments;
 
@@ -17,13 +17,13 @@ public sealed class NoiseCancellingClientSystem : EntitySystem
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly InstrumentSystem _instrumentSystem = default!;
 
-
     private const float MutedMultiplier = 0.5f;
     private const byte MidiVolumeBoost = 110;
+    private const float GainTolerance = 0.001f;
 
     private bool _isActive;
-    private static readonly string[] HeadphonesSlots = ["ears", "head"];
-    private readonly Dictionary<EntityUid, float> _applied = [];
+    private static readonly string[] HeadphonesSlots = ["ears", "head", "neck"];
+    private readonly Dictionary<EntityUid, AppliedAudioGain> _applied = [];
 
     public override void Initialize()
     {
@@ -48,49 +48,20 @@ public sealed class NoiseCancellingClientSystem : EntitySystem
         base.FrameUpdate(frameTime);
 
         var localPlayer = _playerManager.LocalPlayer?.ControlledEntity;
-        var shouldBeActive = false;
-        EntityUid? activeHeadphones = null;
-
-        if (localPlayer != null)
-        {
-            foreach (var slot in HeadphonesSlots)
-            {
-                if (_inventory.TryGetSlotEntity(localPlayer.Value, slot, out var Headphones) &&
-                    HasComp<HeadphonesInstrumentComponent>(Headphones.Value) &&
-                    TryComp<ItemToggleComponent>(Headphones.Value, out var toggle) &&
-                    toggle.Activated)
-                {
-                    shouldBeActive = true;
-                    activeHeadphones = Headphones.Value;
-                    break;
-                }
-            }
-        }
+        var shouldBeActive = localPlayer != null && HasActiveHeadphones(localPlayer.Value);
 
         if (shouldBeActive != _isActive)
         {
             _isActive = shouldBeActive;
 
-            if (_isActive)
+            if (!_isActive)
             {
-                if (activeHeadphones != null)
-                    ApplyMidiBoost(activeHeadphones.Value);
-            }
-            else
-            {
-                _applied.Clear();
+                RestoreAudioGains();
 
                 if (localPlayer != null)
                 {
-                    foreach (var slot in HeadphonesSlots)
-                    {
-                        if (_inventory.TryGetSlotEntity(localPlayer.Value, slot, out var Headphones) &&
-                            HasComp<HeadphonesInstrumentComponent>(Headphones.Value))
-                        {
-                            RemoveMidiBoost(Headphones.Value);
-                            break;
-                        }
-                    }
+                    foreach (var headphones in GetEquippedHeadphones(localPlayer.Value))
+                        RemoveMidiBoost(headphones);
                 }
             }
         }
@@ -98,8 +69,16 @@ public sealed class NoiseCancellingClientSystem : EntitySystem
         if (!_isActive)
             return;
 
-        if (activeHeadphones != null)
-            ApplyMidiBoost(activeHeadphones.Value);
+        if (localPlayer != null)
+        {
+            foreach (var headphones in GetEquippedHeadphones(localPlayer.Value))
+            {
+                if (IsHeadphonesActive(headphones))
+                    ApplyMidiBoost(headphones);
+                else
+                    RemoveMidiBoost(headphones);
+            }
+        }
 
         var query = EntityQueryEnumerator<AudioComponent>();
         while (query.MoveNext(out var uid, out var audioComp))
@@ -125,38 +104,87 @@ public sealed class NoiseCancellingClientSystem : EntitySystem
         if (!_isActive)
             return;
 
-        audioComp.Gain *= MutedMultiplier;
-        _applied[uid] = audioComp.Gain;
+        TryApplyReduction(uid, audioComp);
     }
 
     private void TryApplyReduction(EntityUid uid, AudioComponent audioComp)
     {
         var currentGain = audioComp.Gain;
 
-        if (_applied.TryGetValue(uid, out var lastApplied) &&
-            MathF.Abs(currentGain - lastApplied) < 0.001f)
+        if (_applied.TryGetValue(uid, out var applied) &&
+            MathF.Abs(currentGain - applied.ReducedGain) < GainTolerance)
         {
             return;
         }
 
         var reduced = currentGain * MutedMultiplier;
         audioComp.Gain = reduced;
-        _applied[uid] = reduced;
+        _applied[uid] = new AppliedAudioGain(currentGain, reduced);
     }
 
-    private void ApplyMidiBoost(EntityUid Headphones)
+    private void RestoreAudioGains()
     {
-        if (!TryComp<InstrumentComponent>(Headphones, out var instr) || instr.Renderer == null)
+        foreach (var (uid, applied) in _applied)
+        {
+            if (!TryComp<AudioComponent>(uid, out var audioComp))
+                continue;
+
+            if (MathF.Abs(audioComp.Gain - applied.ReducedGain) < GainTolerance)
+                audioComp.Gain = applied.OriginalGain;
+        }
+
+        _applied.Clear();
+    }
+
+    private bool HasActiveHeadphones(EntityUid wearer)
+    {
+        foreach (var _ in GetActiveHeadphones(wearer))
+            return true;
+
+        return false;
+    }
+
+    private IEnumerable<EntityUid> GetActiveHeadphones(EntityUid wearer)
+    {
+        foreach (var headphones in GetEquippedHeadphones(wearer))
+        {
+            if (IsHeadphonesActive(headphones))
+                yield return headphones;
+        }
+    }
+
+    private bool IsHeadphonesActive(EntityUid headphones)
+    {
+        return TryComp<ItemToggleComponent>(headphones, out var toggle) && toggle.Activated;
+    }
+
+    private IEnumerable<EntityUid> GetEquippedHeadphones(EntityUid wearer)
+    {
+        foreach (var slot in HeadphonesSlots)
+        {
+            if (_inventory.TryGetSlotEntity(wearer, slot, out var headphones) &&
+                HasComp<HeadphonesInstrumentComponent>(headphones.Value))
+            {
+                yield return headphones.Value;
+            }
+        }
+    }
+
+    private void ApplyMidiBoost(EntityUid headphones)
+    {
+        if (!TryComp<InstrumentComponent>(headphones, out var instr) || instr.Renderer == null)
             return;
 
         instr.Renderer.MinVolume = MidiVolumeBoost;
     }
 
-    private void RemoveMidiBoost(EntityUid Headphones)
+    private void RemoveMidiBoost(EntityUid headphones)
     {
-        if (!TryComp<InstrumentComponent>(Headphones, out var instr) || instr.Renderer == null)
+        if (!TryComp<InstrumentComponent>(headphones, out var instr) || instr.Renderer == null)
             return;
 
         instr.Renderer.MinVolume = 0;
     }
+
+    private readonly record struct AppliedAudioGain(float OriginalGain, float ReducedGain);
 }

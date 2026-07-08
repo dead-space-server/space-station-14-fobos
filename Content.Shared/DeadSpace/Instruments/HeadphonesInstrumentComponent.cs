@@ -17,6 +17,5 @@ public sealed partial class HeadphonesInstrumentComponent : Component
 [RegisterComponent]
 public sealed partial class NoiseCancellingWearerComponent : Component
 {
-    [DataField]
-    public EntityUid HeadphonesUid;
+    public readonly HashSet<EntityUid> Headphones = [];
 }
