@@ -27,6 +27,9 @@ trait-paracusia-desc = You hear sounds that aren't really there.
 trait-unrevivable-name = Unrevivable
 trait-unrevivable-desc = You are unable to be revived by defibrillators.
 
+trait-uncloning-name = Unclonable
+trait-uncloning-desc = You are unable to be cloned.
+
 trait-accentless-name = Accentless
 trait-accentless-desc = You don't have the accent that your species would usually have.
 
@@ -65,4 +68,3 @@ trait-hemophilia-desc = Your body fails to make blood clots.
 
 trait-impaired-mobility-name = Impaired Mobility
 trait-impaired-mobility-desc = You have difficulty moving without a mobility aid.
-
