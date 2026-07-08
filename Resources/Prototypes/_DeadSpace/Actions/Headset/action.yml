@@ -1,0 +1,14 @@
+- type: entity
+  id: ToggleNoiseCancellingAction
+  name: Перекл. шумоподавление
+  description: Переключает режим шумоподавления.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    checkCanInteract: false
+    icon:
+      sprite: Clothing/Multiple/headphones.rsi
+      state: icon-on
+    itemIconStyle: BigAction
+  - type: InstantAction
+    event: !type:ToggleNoiseCancellingActionEvent {}

@@ -16,6 +16,17 @@
     - HEAD
     - EARS
     - NECK
+  - type: Instrument # DS14
+    allowPercussion: true
+    allowProgramChange: true
+    program: 0
+  - type: HeadphonesInstrument # DS14
+  - type: UserInterface # DS14
+    interfaces:
+      enum.InstrumentUiKey.Key:
+        type: InstrumentBoundUserInterface
+  - type: ActivatableUI # DS14
+    key: enum.InstrumentUiKey.Key
   - type: ToggleableVisuals
     spriteLayer: enum.ToggleableVisuals.Layer
     clothingVisuals:
@@ -34,6 +45,7 @@
           False: {state: icon}
   - type: ItemToggle
     predictable: false
+    onActivate: false # DS14
     soundActivate:
       path: /Audio/Items/flashlight_on.ogg
     soundDeactivate:
