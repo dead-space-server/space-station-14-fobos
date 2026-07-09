@@ -109,3 +109,4 @@ public sealed class OutfitSystem : EntitySystem
 
         return true;
     }
+}
