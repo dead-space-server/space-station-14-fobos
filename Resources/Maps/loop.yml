@@ -142238,7 +142238,7 @@ entities:
     - type: Transform
       pos: -37.5,73.5
       parent: 2
-- proto: StationAnchorOff
+- proto: StationAnchorIndestructible
   entities:
   - uid: 21911
     components:

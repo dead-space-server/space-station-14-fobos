@@ -185691,7 +185691,7 @@ entities:
     - type: AccessReader
       accessListsOriginal:
       - - ResearchDirector
-- proto: StationAnchorOff
+- proto: StationAnchorIndestructible
   entities:
   - uid: 24703
     components:
