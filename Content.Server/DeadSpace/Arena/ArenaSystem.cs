@@ -1,17 +1,13 @@
-using Content.Server.Clothing.Systems;
 using Content.Server.EUI;
 using Content.Server.Ghost;
 using Content.Server.Mind;
-using Content.Server.Hands.Systems;
 using Content.Shared.Body.Part;
 using Content.Shared.DeadSpace.Arena;
-using Content.Shared.Hands.Components;
-using Content.Shared.Inventory;
-using Content.Shared.Storage.EntitySystems;
 using Content.Shared.Fluids.Components;
 using Content.Shared.Ghost;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
+using Content.Shared.Station;
 using Robust.Server.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -36,9 +32,7 @@ public sealed class ArenaSystem : EntitySystem
     [Dependency] private readonly MetaDataSystem _meta = default!;
     [Dependency] private readonly IRobustRandom _luck = default!;
     [Dependency] private readonly EuiManager _eui = default!;
-    [Dependency] private readonly InventorySystem _invSystem = default!;
-    [Dependency] private readonly HandsSystem _handSystem = default!;
-    [Dependency] private readonly SharedStorageSystem _storageSystem = default!;
+    [Dependency] private readonly SharedStationSpawningSystem _stationSpawning = default!;
 
     private const string ArenaMapFile = "/Maps/_DeadSpace/arena.yml";
 
@@ -166,45 +160,7 @@ public sealed class ArenaSystem : EntitySystem
         if (_presets.Count > 0)
         {
             var idx = Math.Clamp(kitIdx, 0, _presets.Count - 1);
-            var kit = _presets[idx];
-            var coords = Transform(fresh).Coordinates;
-
-            // Equipment slots
-            if (_invSystem.TryGetSlots(fresh, out var slots))
-            {
-                foreach (var slot in slots)
-                {
-                    if (!kit.Equipment.TryGetValue(slot.Name, out var proto))
-                        continue;
-
-                    var item = Spawn(proto, coords);
-                    _invSystem.TryEquip(fresh, item, slot.Name, silent: true, force: true);
-                }
-            }
-
-            // Inhand items
-            if (TryComp<HandsComponent>(fresh, out var hands))
-            {
-                foreach (var proto in kit.Inhand)
-                {
-                    var item = Spawn(proto, coords);
-                    _handSystem.TryPickup(fresh, item, checkActionBlocker: false, handsComp: hands);
-                }
-            }
-
-            // Storage items
-            foreach (var (slotName, items) in kit.Storage)
-            {
-                if (items.Count == 0) continue;
-                if (!_invSystem.TryGetSlotEntity(fresh, slotName, out var slotEnt))
-                    continue;
-
-                foreach (var proto in items)
-                {
-                    var item = Spawn(proto, coords);
-                    _storageSystem.Insert(slotEnt.Value, item, out _, playSound: false);
-                }
-            }
+            _stationSpawning.EquipStartingGear(fresh, _presets[idx], raiseEvent: false);
         }
 
         _minds.TransferTo(mindId, fresh, mind: mind);

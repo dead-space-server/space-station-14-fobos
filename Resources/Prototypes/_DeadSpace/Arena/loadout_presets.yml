@@ -133,9 +133,9 @@
       - Stimpack
 
 - type: arenaLoadoutPreset
-  id: ArenaArcailis
-  nameLoc: arena-loadout-arcailis
-  descLoc: arena-desc-arcailis
+  id: ArenaArkalyse
+  nameLoc: arena-loadout-arkalyse
+  descLoc: arena-desc-arkalyse
   iconPrototype: ClothingHandsGlovesArkalyse
   category: arena-category-melee
   equipment:

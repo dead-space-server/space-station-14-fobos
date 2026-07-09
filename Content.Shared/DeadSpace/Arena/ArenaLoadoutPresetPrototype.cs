@@ -1,9 +1,10 @@
+using Content.Shared.Roles;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Arena;
 
 [Prototype]
-public sealed partial class ArenaLoadoutPresetPrototype : IPrototype
+public sealed partial class ArenaLoadoutPresetPrototype : IPrototype, IEquipmentLoadout
 {
     [IdDataField]
     public string ID { get; private set; } = default!;
@@ -20,21 +21,12 @@ public sealed partial class ArenaLoadoutPresetPrototype : IPrototype
     [DataField]
     public string Category = string.Empty;
 
-    /// <summary>
-    /// Slot → entity prototype ID. E.g. outerClothing: ClothingOuterArmorBasic.
-    /// </summary>
     [DataField]
-    public Dictionary<string, string> Equipment = new();
+    public Dictionary<string, EntProtoId> Equipment { get; set; } = new();
 
-    /// <summary>
-    /// Items placed in hand on spawn.
-    /// </summary>
     [DataField]
-    public List<string> Inhand = new();
+    public List<EntProtoId> Inhand { get; set; } = new();
 
-    /// <summary>
-    /// Slot → list of items to put inside its storage.
-    /// </summary>
     [DataField]
-    public Dictionary<string, List<string>> Storage = new();
+    public Dictionary<string, List<EntProtoId>> Storage { get; set; } = new();
 }
