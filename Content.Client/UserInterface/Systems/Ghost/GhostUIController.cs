@@ -167,7 +167,7 @@ public sealed class GhostUIController : UIController, IOnSystemChanged<GhostSyst
     // DS14-Start
     private void ArenaPressed()
     {
-        var msg = new ArenaJoinRequestEvent();
+        var msg = new ArenaJoinEvent();
         _net.SendSystemNetworkMessage(msg);
     }
     // DS14-End

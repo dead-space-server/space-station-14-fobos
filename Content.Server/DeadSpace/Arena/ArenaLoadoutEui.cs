@@ -7,35 +7,26 @@ namespace Content.Server.DeadSpace.Arena;
 
 public sealed class ArenaLoadoutEui : BaseEui
 {
-    private readonly ArenaRuleSystem _arenaSystem;
-    private readonly IEntityManager _entManager;
-    private readonly EntityUid _ruleEntity;
+    private readonly ArenaSystem _arena;
     private readonly ICommonSession _session;
 
-    public ArenaLoadoutEui(ArenaRuleSystem arenaSystem, EntityUid ruleEntity, ICommonSession session)
+    public ArenaLoadoutEui(ArenaSystem arena, ICommonSession session)
     {
-        _arenaSystem = arenaSystem;
-        _entManager = IoCManager.Resolve<IEntityManager>();
-        _ruleEntity = ruleEntity;
+        _arena = arena;
         _session = session;
     }
 
     public override EuiStateBase GetNewState()
     {
-        if (!_entManager.TryGetComponent<ArenaRuleComponent>(_ruleEntity, out var rule))
-            return new ArenaLoadoutEuiState(new List<ArenaLoadoutOption>());
-
-        return _arenaSystem.GetLoadoutState(rule);
+        return _arena.GetLoadoutState();
     }
 
     public override void HandleMessage(EuiMessageBase msg)
     {
-        switch (msg)
+        if (msg is ArenaLoadoutSelectedMessage selected)
         {
-            case ArenaLoadoutSelectedMessage selected:
-                _arenaSystem.SpawnPlayer(_session, _ruleEntity, selected.WeaponIndex);
-                Close();
-                break;
+            _arena.SpawnPlayer(_session, selected.WeaponIndex);
+            Close();
         }
     }
 
