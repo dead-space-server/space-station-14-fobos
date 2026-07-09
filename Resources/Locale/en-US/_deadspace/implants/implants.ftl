@@ -1,5 +1,5 @@
-sandevistan-implant-activated = The Sandevistan engages. The world slows down as your body starts to shake.
-sandevistan-implant-cooldown = Your nervous system has not recovered yet. { $seconds } s left.
+sandevistan-implant-activated = Strength and energy take hold of your body. Sandevistan is active.
+sandevistan-implant-cooldown = Temporary implant cooldown. { $seconds } s left.
 
 sandevistan-softcap-popup-1 = A migraine starts crushing your skull.
 sandevistan-softcap-popup-2 = Stopping is impossible.
@@ -28,6 +28,6 @@ sandevistan-end-warning-popup-5 = THEY ARE TOO SLOW!
 sandevistan-end-warning-popup-6 = YOUR HEART IS ABOUT TO BURST!
 sandevistan-end-warning-popup-7 = DO NOT STOP!
 
-sandevistan-recovery-popup-1 = Your lungs burn and the air cuts your throat.
-sandevistan-recovery-popup-2 = Your hands shake so badly your fingers refuse to obey.
-sandevistan-recovery-popup-3 = Your nervous system pays back the stolen time.
+sandevistan-recovery-popup-1 = A sharp heat grips your lungs. The air you breathe grows hotter and hotter.
+sandevistan-recovery-popup-2 = Tremors seize your hands, making it hard to make decisions.
+sandevistan-recovery-popup-3 = Your mind boils as thoughts creep in that you must kill everyone.

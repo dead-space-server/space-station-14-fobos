@@ -2,6 +2,7 @@
 
 using Content.Shared.Damage;
 using Content.Shared.FixedPoint;
+using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Maths;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
@@ -188,6 +189,29 @@ public sealed partial class SandevistanImplantComponent : Component
     public string AfterimageFallbackEffect = "MantisDodgeEffect";
 
     [DataField]
+    public List<SoundSpecifier> ActivationSounds = new()
+    {
+        new SoundPathSpecifier("/Audio/_DeadSpace/Sandevistan/sandevistan_activate_1.ogg"),
+    };
+
+    [DataField]
+    public List<float> ActivationSoundDurations = new()
+    {
+        2.9f,
+    };
+
+    [DataField]
+    public float WorkingSoundDelay = 2.9f;
+
+    [DataField]
+    public SoundSpecifier WorkingSound = new SoundPathSpecifier(
+        "/Audio/_DeadSpace/Sandevistan/sandevistan_working.ogg",
+        AudioParams.Default.WithLoop(true));
+
+    [DataField]
+    public SoundSpecifier DeactivationSound = new SoundPathSpecifier("/Audio/_DeadSpace/Sandevistan/sandevistan_off.ogg");
+
+    [DataField]
     public LocId? Popup = "sandevistan-implant-activated";
 }
 
@@ -217,6 +241,22 @@ public sealed partial class ActiveSandevistanComponent : Component
 
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
     public TimeSpan StartTime;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
+    public TimeSpan WorkingSoundStartTime;
+
+    [DataField]
+    public SoundSpecifier WorkingSound = new SoundPathSpecifier(
+        "/Audio/_DeadSpace/Sandevistan/sandevistan_working.ogg",
+        AudioParams.Default.WithLoop(true));
+
+    [DataField]
+    public SoundSpecifier DeactivationSound = new SoundPathSpecifier("/Audio/_DeadSpace/Sandevistan/sandevistan_off.ogg");
+
+    [DataField]
+    public bool WorkingSoundStarted;
+
+    public EntityUid? WorkingSoundStream;
 
     [DataField]
     public float SoftcapPopupInterval = 2f;

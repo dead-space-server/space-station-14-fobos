@@ -17,6 +17,7 @@ using Content.Shared.Stunnable;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Weapons.Ranged.Components;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Maths;
@@ -36,6 +37,7 @@ public sealed class SandevistanSystem : EntitySystem
     [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedActionsSystem _actions = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly SharedJitteringSystem _jittering = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
@@ -76,6 +78,7 @@ public sealed class SandevistanSystem : EntitySystem
                 continue;
             }
 
+            StartWorkingSoundIfReady(uid, active, curTime);
             ApplyJitter(uid, active, frameTime);
             ApplySoftcapFeedback(uid, active, curTime);
             ApplyEndWarningFeedback(uid, active, curTime);
@@ -138,6 +141,11 @@ public sealed class SandevistanSystem : EntitySystem
         active.NextShoutTime = curTime + GetInterval(component.ShoutInitialDelay);
         active.CooldownMultiplier = component.CooldownMultiplier;
         active.StartTime = curTime;
+        active.WorkingSoundStartTime = curTime + PlayActivationSound(target, component);
+        active.WorkingSound = component.WorkingSound;
+        active.DeactivationSound = component.DeactivationSound;
+        active.WorkingSoundStarted = false;
+        active.WorkingSoundStream = null;
         active.SoftcapPopupInterval = component.SoftcapPopupInterval;
         active.ShoutInitialDelay = component.ShoutInitialDelay;
         active.ShoutMinInterval = component.ShoutMinInterval;
@@ -205,6 +213,9 @@ public sealed class SandevistanSystem : EntitySystem
 
     private void OnRejuvenate(EntityUid uid, ImplantedComponent component, RejuvenateEvent args)
     {
+        if (TryComp<ActiveSandevistanComponent>(uid, out var active))
+            StopWorkingSound(active);
+
         RemComp<ActiveSandevistanComponent>(uid);
         RemComp<SandevistanRecoveryComponent>(uid);
         RemComp<SandevistanVisualFadeoutComponent>(uid);
@@ -299,6 +310,9 @@ public sealed class SandevistanSystem : EntitySystem
         if (!manualStop)
             ApplyCompletionStaminaDamage(uid, active, curTime);
 
+        StopWorkingSound(active);
+        _audio.PlayPvs(active.DeactivationSound, uid);
+
         var activeMovementModifier = MathF.Max(active.MovementSpeedModifier, 0.01f);
         active.MovementSpeedModifier = 1f;
         Dirty(uid, active);
@@ -313,6 +327,37 @@ public sealed class SandevistanSystem : EntitySystem
             _movement.RefreshMovementSpeedModifiers(uid);
 
         RemCompDeferred<ActiveSandevistanComponent>(uid);
+    }
+
+    private TimeSpan PlayActivationSound(EntityUid uid, SandevistanImplantComponent component)
+    {
+        if (component.ActivationSounds.Count == 0)
+            return GetInterval(component.WorkingSoundDelay);
+
+        var index = _random.Next(component.ActivationSounds.Count);
+        _audio.PlayPvs(component.ActivationSounds[index], uid);
+
+        var delay = index < component.ActivationSoundDurations.Count
+            ? component.ActivationSoundDurations[index]
+            : component.WorkingSoundDelay;
+
+        return GetInterval(delay);
+    }
+
+    private void StartWorkingSoundIfReady(EntityUid uid, ActiveSandevistanComponent active, TimeSpan curTime)
+    {
+        if (active.WorkingSoundStarted || curTime < active.WorkingSoundStartTime)
+            return;
+
+        active.WorkingSoundStarted = true;
+        active.WorkingSoundStream = _audio
+            .PlayPvs(active.WorkingSound, uid, active.WorkingSound.Params.WithLoop(true))
+            ?.Entity;
+    }
+
+    private void StopWorkingSound(ActiveSandevistanComponent active)
+    {
+        active.WorkingSoundStream = _audio.Stop(active.WorkingSoundStream);
     }
 
     private void StartVisualFadeout(EntityUid uid, ActiveSandevistanComponent active, TimeSpan curTime)

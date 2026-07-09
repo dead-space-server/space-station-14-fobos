@@ -1,7 +1,7 @@
 adrenal-implant-activated = Ваш пульc повысился и вы чувствуете прилив сил
 rezerv-implant-activated = Ваша верность НТ придаёт вам сил!
-sandevistan-implant-activated = Сандевистан включается. Мир вокруг замедляется, а тело начинает дрожать.
-sandevistan-implant-cooldown = Нервная система ещё не восстановилась. Осталось { $seconds } с.
+sandevistan-implant-activated = Силы и энергия завладевают вашим телом, сандевистен активен.
+sandevistan-implant-cooldown = Временный откат импланта. Осталось { $seconds } с.
 
 sandevistan-softcap-popup-1 = Мигрень начала давить на вашу голову.
 sandevistan-softcap-popup-2 = Остановиться невозможно.
@@ -30,6 +30,6 @@ sandevistan-end-warning-popup-5 = ОНИ СЛИШКОМ МЕДЛЕННЫЕ!
 sandevistan-end-warning-popup-6 = СЕРДЦЕ СЕЙЧАС ЛОПНЕТ!
 sandevistan-end-warning-popup-7 = НЕ ОСТАНАВЛИВАЙТЕСЬ!
 
-sandevistan-recovery-popup-1 = Лёгкие горят, воздух режет горло.
-sandevistan-recovery-popup-2 = Руки трясутся так, что пальцы не слушаются.
-sandevistan-recovery-popup-3 = Нервная система отдаёт долг за украденное время.
+sandevistan-recovery-popup-1 = Лёгкие охватывает резкий жар. Воздух, вдыхаемый вами, становится всё жарче.
+sandevistan-recovery-popup-2 = Тремор охватывает ваши руки, вам трудно принимать решения.
+sandevistan-recovery-popup-3 = Разум кипит, а в голову лезут мысли, что вы должны убить всех.
