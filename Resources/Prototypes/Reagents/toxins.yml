@@ -90,7 +90,7 @@
       - !type:PopupMessage
         type: Local
         visualType: Small
-        messages: ["--Ваши глаза слипаются.."]
+        messages: ["chloralhydrate-effect-eyes-closing"]
       # DS14-end
 
 - type: reagent
@@ -684,7 +684,7 @@
       - !type:PopupMessage
         type: Local
         visualType: Small
-        messages: ["--Вы чувствуете, что ваши руки скованы."]
+        messages: ["pax-effect-hands-bound"]
       # DS14-end
 
 - type: reagent

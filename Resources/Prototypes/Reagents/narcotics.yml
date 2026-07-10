@@ -280,7 +280,7 @@
       - !type:PopupMessage
         type: Local
         visualType: Small
-        messages: ["--Вам трудно держать контроль. Пелена затмевает ваш взор."]
+        messages: ["impedrezene-effect-loss-control"]
       # DS14-end
 
 - type: reagent
@@ -302,7 +302,7 @@
       - !type:PopupMessage
         type: Local
         visualType: Small
-        messages: ["--Вы чувствуете жжение в глазах.."]
+        messages: ["spacedrugs-effect-eyes-burning"]
       # DS14-end
 
 - type: reagent

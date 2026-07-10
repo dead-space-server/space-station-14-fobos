@@ -21,7 +21,7 @@
       - !type:PopupMessage
         type: Local
         visualType: Small
-        messages: ["--Вы ощущаете легкое головокружение."]
+        messages: ["cryptobiolin-effect-dizzy"]
       # DS14-end
 
 - type: reagent
@@ -1438,7 +1438,7 @@
       - !type:PopupMessage
         type: Local
         visualType: Small
-        messages: ["--Вы чувствуете снятие напряжения"]
+        messages: ["mannitol-effect-strain-relief"]
       # DS14-end
 
 - type: reagent
@@ -1488,7 +1488,7 @@
       - !type:PopupMessage
         type: Local
         visualType: Small
-        messages: ["--Вы чувствуете, как с ваших плеч сходит гора тяжести."]
+        messages: ["psicodine-effect-weight-off"]
       # DS14-end
 
 - type: reagent

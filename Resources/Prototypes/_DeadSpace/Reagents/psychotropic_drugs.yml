@@ -19,7 +19,7 @@
           max: 5
         type: Local
         visualType: Small
-        messages: ["--Вы ощущаете меланхоличное спокойствие царящее вокруг вас."]
+        messages: ["sentidol-effect-melancholy"]
       - !type:PopupMessage
         conditions:
         - !type:ReagentCondition
@@ -28,7 +28,7 @@
           max: 15
         type: Local
         visualType: Small
-        messages: ["--Вы чувствуете, как ваше тело расслабляется на волнах покоя."]
+        messages: ["sentidol-effect-relaxation"]
       - !type:PopupMessage
         conditions:
         - !type:ReagentCondition
@@ -37,7 +37,7 @@
           max: 20
         type: Local
         visualType: Small
-        messages: ["--Ваше тело обессилено, вы чувствуете, как вас обволакивает сон"]
+        messages: ["sentidol-effect-sleepy"]
       - !type:ModifyStatusEffect
         conditions:
         - !type:ReagentCondition
@@ -53,7 +53,7 @@
           min: 20
         type: Local
         visualType: MediumCaution
-        messages: ["--Ваши мышцы сводит спазм, неконтролируемая улыбка проявляется на вашем лице."]
+        messages: ["sentidol-effect-overdose"]
       - !type:Jitter
         conditions:
         - !type:ReagentCondition
@@ -89,7 +89,7 @@
           max: 7
         type: Local
         visualType: Small
-        messages: ["--Вы чувствуете, как ваш разум погружается в слабую дымку собственных мыслей"]
+        messages: ["gliomorphin-effect-haze"]
       - !type:EyeDamage
         conditions:
         - !type:ReagentCondition
@@ -105,7 +105,7 @@
           max: 15
         type: Local
         visualType: Small
-        messages: ["--Ваш разум словно погряз в зябком песке. Сознание притупляется..."]
+        messages: ["gliomorphin-effect-numb"]
       - !type:EyeDamage
         conditions:
         - !type:ReagentCondition
@@ -121,7 +121,7 @@
           max: 16
         type: Local
         visualType: Small
-        messages: ["--Вы ощущаете звонкую боль у висков. Она нагнетает. Вам неприятно."]
+        messages: ["gliomorphin-effect-pain"]
       - !type:EyeDamage
         conditions:
         - !type:ReagentCondition
@@ -135,7 +135,7 @@
           min: 16
         type: Local
         visualType: MediumCaution
-        messages: ["--Вас переполняет слепая ярость. Вам хочется метать все, крушить и ломать. Никто не вправе вас остановить!"]
+        messages: ["gliomorphin-effect-rage"]
       - !type:GenericStatusEffect
         conditions:
         - !type:ReagentCondition
@@ -175,7 +175,7 @@
           max: 10
         type: Local
         visualType: Small
-        messages: ["--Ваш разум тускнеет. Вы ощущаете небольшое головокружение, пытаясь разглядеть образы, которые мелькают перед вами."]
+        messages: ["illumidol-effect-dizzy"]
       - !type:PopupMessage
         conditions:
         - !type:ReagentCondition
@@ -183,7 +183,7 @@
           min: 10
         type: Local
         visualType: Small
-        messages: ["--Ваше тело дрожит, зрачки сильно расширяются, картинка мелькает перед вами."]
+        messages: ["illumidol-effect-shake"]
       - !type:Jitter
         conditions:
         - !type:ReagentCondition
@@ -225,7 +225,7 @@
           min: 10
         type: Local
         visualType: Small
-        messages: ["--Вы чувствуете мелкую головную боль"]
+        messages: ["synaptodol-effect-headache"]
       - !type:ModifyStatusEffect
         conditions:
         - !type:ReagentCondition
