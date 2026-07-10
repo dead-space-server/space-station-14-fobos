@@ -3,9 +3,9 @@ meta:
   category: Map
   engineVersion: 276.0.0
   forkId: dspublicfobos
-  forkVersion: 75a4a64a8121277a97bb6e8caa5d70731141f757
-  time: 07/09/2026 14:26:29
-  entityCount: 27632
+  forkVersion: cd29c996c5310d4cd10240fcc332960a1863d936
+  time: 07/10/2026 18:33:36
+  entityCount: 27630
 maps:
 - 1
 grids:
@@ -13924,7 +13924,7 @@ entities:
       pos: -78.5,-25.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -24683.338
+      secondsUntilStateChange: -24708.299
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -14863,7 +14863,7 @@ entities:
       pos: -2.5,-36.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -134751.52
+      secondsUntilStateChange: -134776.48
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -14879,7 +14879,7 @@ entities:
       pos: 0.5,-7.5
       parent: 27323
     - type: Door
-      secondsUntilStateChange: -134750.84
+      secondsUntilStateChange: -134775.81
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -15281,7 +15281,7 @@ entities:
       pos: -82.5,-30.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -32303.422
+      secondsUntilStateChange: -32328.383
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -80873,13 +80873,6 @@ entities:
     - type: Transform
       pos: -51.5,-38.5
       parent: 2
-- proto: DresserCaptainFilled
-  entities:
-  - uid: 12571
-    components:
-    - type: Transform
-      pos: -45.5,2.5
-      parent: 2
 - proto: DresserChiefEngineerFilled
   entities:
   - uid: 12572
@@ -144532,16 +144525,6 @@ entities:
     - type: Transform
       pos: -100.5,40.5
       parent: 2
-  - uid: 27631
-    components:
-    - type: Transform
-      pos: -97.5,-60.5
-      parent: 2
-  - uid: 27632
-    components:
-    - type: Transform
-      pos: -62.5,-74.5
-      parent: 2
 - proto: RandomBoard
   entities:
   - uid: 21119
@@ -162445,6 +162428,13 @@ entities:
     components:
     - type: Transform
       pos: -70.5,-33.5
+      parent: 2
+- proto: VendingMachineCaptainDrobe
+  entities:
+  - uid: 12571
+    components:
+    - type: Transform
+      pos: -45.5,2.5
       parent: 2
 - proto: VendingMachineCargoDrobe
   entities:
