@@ -2,15 +2,15 @@
 
 using Content.Shared.Objectives.Components;
 using Content.Server.DeadSpace.Necromorphs.Unitology.Components;
-using Content.Server.Objectives.Systems;
 using Content.Shared.DeadSpace.Necromorphs.Unitology.Components;
 using Content.Shared.Humanoid;
+using Robust.Server.Player;
 
 namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 
 public sealed class UnitologySubmissionConditionSystem : EntitySystem
 {
-    [Dependency] private readonly NumberObjectiveSystem _number = default!;
+    [Dependency] private readonly IPlayerManager _players = default!;
 
     public override void Initialize()
     {
@@ -19,7 +19,8 @@ public sealed class UnitologySubmissionConditionSystem : EntitySystem
 
     private void OnGetProgress(EntityUid uid, UnitologySubmissionConditionComponent component, ref ObjectiveGetProgressEvent args)
     {
-        args.Progress = SubordinationOfEnslavedProgress(component, _number.GetTarget(uid));
+        var target = 3 + Math.Max(0, (_players.PlayerCount - 65) / 35);
+        args.Progress = SubordinationOfEnslavedProgress(component, target);
     }
 
     private float SubordinationOfEnslavedProgress(UnitologySubmissionConditionComponent component, int target)

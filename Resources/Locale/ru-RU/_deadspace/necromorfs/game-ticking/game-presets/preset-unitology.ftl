@@ -56,6 +56,11 @@ objective-condition-submission-title =
         [few] людей
        *[other] людей
     }.
+objective-condition-unitology-slaves-title = Поработить необходимое для текущего онлайна количество людей.
+objective-condition-unitology-assembly-title = Собрать всех порабощённых в радиусе трёх тайлов от пророка.
+unitology-obelisk-summon-conditions-failed = Условия призыва обелиска ещё не выполнены.
+unitology-obelisk-summon-no-splinter = Возьмите осколок обелиска в активную руку.
+unitology-obelisk-summon-interrupted = Ритуал прерван: условия изменились или осколок больше не находится в активной руке.
 objective-condition-infect-title =
     Заразить { $count } { $count ->
         [one] человека

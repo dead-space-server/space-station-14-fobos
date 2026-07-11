@@ -203,6 +203,17 @@
       - id: ObeliskSplinter
 
 - type: entity
+  parent: ObeliskSplinter
+  id: SuperObeliskSplinter
+  name: усиленный осколок обелиска
+  description: Осколок, насыщенный энергией чёрного обелиска.
+  components:
+  - type: NecroobeliskSplinter
+    spawnsBlackObelisk: true
+    soundHeadaches:
+      collection: SoundsHeadaches
+
+- type: entity
   name: пинпоинтер
   suffix: обелиск
   id: PinpointerNecroobelisk

@@ -21,6 +21,7 @@ using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Server.Hands.Systems;
+using Content.Shared.DeadSpace.Necromorphs.PlasmaCutter;
 
 namespace Content.Server.DeadSpace.InfectorDead;
 
@@ -136,6 +137,12 @@ public sealed partial class InfectorDeadSystem : EntitySystem
 
         var target = args.Target;
 
+        if (HasComp<NecromorphMissingHeadComponent>(target))
+        {
+            _popup.PopupEntity(Loc.GetString("Некроморфа без головы невозможно восстановить!"), uid, uid);
+            return;
+        }
+
         if (!HasComp<BodyComponent>(target))
             return;
 
@@ -187,6 +194,9 @@ public sealed partial class InfectorDeadSystem : EntitySystem
     private void OnDoAfter(EntityUid uid, InfectorDeadComponent component, InfectorDeadDoAfterEvent args)
     {
         if (args.Cancelled || args.Handled || args.Args.Target == null)
+            return;
+
+        if (HasComp<NecromorphMissingHeadComponent>(args.Args.Target.Value))
             return;
 
         if (HasComp<NecromorfComponent>(args.Args.Target.Value))

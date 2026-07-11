@@ -55,14 +55,13 @@
   - type: AntagObjectives
     objectives:
     - UniSubmissionObjective
-    - UniInfectObjective
-    - UniInvitationObjective
+    - UniAssemblyObjective
   - type: AntagSelection
     definitions:
     - prefRoles: [ UniHead ]
       fallbackRoles: [ Uni, UniEnslaved ]
-      max: 3
-      min: 3
+      max: 1
+      min: 1
       playerRatio: 10
       briefing:
         text: uni-head-role-greeting
@@ -98,8 +97,8 @@
         requireAll: false
     - prefRoles: [ Uni ]
       fallbackRoles: [ UniHead, UniEnslaved ]
-      max: 0
-      min: 0
+      max: 2
+      min: 2
       playerRatio: 15
       briefing:
         text: uni-role-greeting

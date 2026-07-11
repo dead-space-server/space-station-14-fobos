@@ -16,6 +16,11 @@ public sealed partial class ObeliskActionEvent : InstantActionEvent
 
 }
 
+[Serializable, NetSerializable]
+public sealed partial class SummonUnitologyObeliskDoAfterEvent : SimpleDoAfterEvent
+{
+}
+
 public sealed partial class UnitologyHeadActionEvent : EntityTargetActionEvent
 {
 

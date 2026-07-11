@@ -601,4 +601,15 @@
     proto: PelletShotgunMagnumTrace
     count: 6
     spread: 10
+
+- type: entity
+  id: NecromorphPlasmaCutterTrace
+  parent: BulletTrace
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Heat: 1
+  - type: NecromorphPlasmaCutter
 # DS14-end
