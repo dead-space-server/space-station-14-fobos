@@ -915,6 +915,8 @@ namespace Content.Server.Database
             if (prefs is null)
                 return null;
 
+            await RepairDuplicateJobPreferencesAsync(db.DbContext, prefs, userId, cancel); // DS14
+
             var maxSlot = prefs.Profiles.Max(p => p.Slot) + 1;
             var profiles = new Dictionary<int, ICharacterProfile>(maxSlot);
             foreach (var profile in prefs.Profiles)
@@ -928,6 +930,41 @@ namespace Content.Server.Database
 
             return new PlayerPreferences(profiles, prefs.SelectedCharacterSlot, Color.FromHex(prefs.AdminOOCColor), constructionFavorites);
         }
+
+        // DS14-start
+        private async Task RepairDuplicateJobPreferencesAsync(
+            ServerDbContext db,
+            Preference prefs,
+            NetUserId userId,
+            CancellationToken cancel)
+        {
+            var duplicateJobs = new List<Job>();
+            foreach (var profile in prefs.Profiles)
+            {
+                var seenJobs = new HashSet<string>(StringComparer.Ordinal);
+
+                foreach (var job in profile.Jobs.OrderByDescending(job => job.Id))
+                {
+                    if (!seenJobs.Add(job.JobName))
+                        duplicateJobs.Add(job);
+                }
+            }
+
+            if (duplicateJobs.Count == 0)
+                return;
+
+            var duplicateIds = duplicateJobs.Select(job => job.Id).ToArray();
+            var removed = await db.Set<Job>()
+                .Where(job => duplicateIds.Contains(job.Id))
+                .ExecuteDeleteAsync(cancel);
+
+            var duplicateIdSet = duplicateIds.ToHashSet();
+            foreach (var profile in prefs.Profiles)
+                profile.Jobs.RemoveAll(job => duplicateIdSet.Contains(job.Id));
+
+            _opsLog.Warning($"Found {duplicateJobs.Count} duplicate job preference rows for user {userId}; deleted {removed} rows.");
+        }
+        // DS14-end
 
         public async Task SaveSelectedCharacterIndexAsync(NetUserId userId, int index)
         {
