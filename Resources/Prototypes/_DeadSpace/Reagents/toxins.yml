@@ -47,3 +47,30 @@
         damage:
           groups:
             Airloss: 4
+
+- type: reagent
+  id: Pendrotoxine
+  name: reagent-name-Pendrotoxine
+  group: Toxins
+  slipData:
+    requiredSlipSpeed: 3.5
+  desc: reagent-desc-Pendrotoxine
+  physicalDesc: reagent-physical-desc-reflective
+  flavor: sharp
+  color: "#849244"
+  metabolisms:
+    Poison:
+      metabolismRate : 1
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+             Blunt : 5
+      - !type:PopupMessage
+        type: Local
+        visualType: LargeCaution
+        messages: [ "generic-reagent-effect-bruising-insides"]
+        probability: 0.33
+      - !type:Emote
+        emote: Scream
+        probability: 0.3

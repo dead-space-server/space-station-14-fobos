@@ -58,3 +58,5 @@ reagent-name-toxintrash = мусор
 reagent-desc-toxintrash = Жидкость с ужасным запахом. Смертельна для всех, кроме воксов.
 reagent-name-hemorrhinol = геморринол
 reagent-desc-hemorrhinol = Токсин, вызывающий серьезное повреждение кровеносных сосудов и быстрое кровотечение.
+reagent-name-Pendrotoxine = пендротокин
+reagent-desc-Pendrotoxine = Нестабильный токсин, вызывающий серьёзные повреждения внутренних органов и внешних покровов.
