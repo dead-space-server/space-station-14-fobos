@@ -201,8 +201,8 @@
     baseFriction: 0.8
     friction: 2
     frictionNoInput: 6.2
-    baseWalkSpeed: 5
-    baseSprintSpeed: 6.2
+    baseWalkSpeed: 6
+    baseSprintSpeed: 7.1
   - type: UnpoweredFlashlight
   - type: GenericKeyedVehicle
     containerId: key_slot
@@ -296,8 +296,8 @@
     baseFriction: 0.8
     friction: 2
     frictionNoInput: 8
-    baseWalkSpeed: 5
-    baseSprintSpeed: 8
+    baseWalkSpeed: 8
+    baseSprintSpeed: 11
   - type: UnpoweredFlashlight
   - type: GenericKeyedVehicle
     containerId: key_slot
