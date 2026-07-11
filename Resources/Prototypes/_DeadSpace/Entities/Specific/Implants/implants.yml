@@ -202,6 +202,7 @@
   - type: Item
     sprite: _DeadSpace/Objects/Specific/Medical/sandevistan-implanter.rsi
     heldPrefix: implanter
+    storedRotation: -90
   - type: Sprite
     sprite: _DeadSpace/Objects/Specific/Medical/sandevistan-implanter.rsi
     state: implanter0
@@ -238,9 +239,10 @@
     whitelist:
       components:
       - Implanter
-  - type: StorageFill
-    contents:
-    - id: SandevistanImplanter
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:EntSelector
+        id: SandevistanImplanter
   - type: ItemMapper
     mapLayers:
       c1:

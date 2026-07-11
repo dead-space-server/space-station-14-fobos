@@ -100,7 +100,14 @@ public sealed class SandevistanAfterimageSystem : EntitySystem
             var coordinates = _transform.ToCoordinates(new MapCoordinates(position, current.MapId));
             var (startColor, endColor) = GetTrailColors(visuals, fraction);
 
-            SpawnAfterimage(uid, visuals, coordinates, rotation, startColor, endColor);
+            _afterimages.TrySpawnAfterimage(
+                uid,
+                coordinates,
+                rotation,
+                startColor,
+                visuals.AfterimageLifetime,
+                visuals.AfterimageFallbackEffect,
+                endColor);
         }
 
         _trailStates[uid] = new TrailState(
@@ -108,24 +115,6 @@ public sealed class SandevistanAfterimageSystem : EntitySystem
             current.Position,
             currentRotation,
             curTime + TimeSpan.FromSeconds(MathF.Max(visuals.AfterimageInterval, 0.01f)));
-    }
-
-    private void SpawnAfterimage(
-        EntityUid uid,
-        TrailVisuals visuals,
-        EntityCoordinates coordinates,
-        Angle rotation,
-        Color color,
-        Color endColor)
-    {
-        _afterimages.TrySpawnAfterimage(
-            uid,
-            coordinates,
-            rotation,
-            color,
-            visuals.AfterimageLifetime,
-            visuals.AfterimageFallbackEffect,
-            endColor);
     }
 
     private static (Color Start, Color End) GetTrailColors(TrailVisuals visuals, float proximity)

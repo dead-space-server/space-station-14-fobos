@@ -249,7 +249,7 @@ public sealed partial class ActiveSandevistanComponent : Component
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
     public TimeSpan SoftcapTime;
 
-    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
     public TimeSpan NextOverloadTime;
 
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
@@ -282,9 +282,6 @@ public sealed partial class ActiveSandevistanComponent : Component
 
     [DataField]
     public float SoftcapPopupInterval = 2f;
-
-    [DataField]
-    public float ShoutInitialDelay = 1.25f;
 
     [DataField]
     public float ShoutMinInterval = 3.5f;

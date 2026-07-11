@@ -2,7 +2,6 @@
 
 using System;
 using System.Linq;
-using Content.Shared.DeadSpace.Afterimages;
 using Robust.Client.Animations;
 using Robust.Client.GameObjects;
 using Robust.Shared.Animations;
@@ -21,32 +20,6 @@ public sealed class DeadSpaceAfterimageSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private const string AnimationKey = "deadspace-afterimage";
-
-    public override void Initialize()
-    {
-        base.Initialize();
-
-        SubscribeNetworkEvent<DeadSpaceAfterimageEvent>(OnAfterimage);
-    }
-
-    private void OnAfterimage(DeadSpaceAfterimageEvent ev)
-    {
-        if (ev.Coordinates.Count == 0)
-            return;
-
-        var source = GetEntity(ev.Source);
-
-        for (var i = 0; i < ev.Coordinates.Count; i++)
-        {
-            var netCoordinates = ev.Coordinates[i];
-            var coordinates = GetCoordinates(netCoordinates);
-            var rotation = i < ev.Rotations.Count
-                ? ev.Rotations[i]
-                : GetSourceRotation(source);
-
-            TrySpawnAfterimage(source, coordinates, rotation, ev.Color, ev.Lifetime, ev.FallbackEffect);
-        }
-    }
 
     public bool TrySpawnAfterimage(
         EntityUid source,
@@ -84,14 +57,6 @@ public sealed class DeadSpaceAfterimageSystem : EntitySystem
         _animation.Play((clone, animationPlayer), GetFadeAnimation(color, lifetime, endColor), AnimationKey);
 
         return true;
-    }
-
-    private Angle GetSourceRotation(EntityUid source)
-    {
-        if (Deleted(source) || !TryComp<TransformComponent>(source, out var xform))
-            return Angle.Zero;
-
-        return _transform.GetWorldRotation(xform);
     }
 
     private bool SpawnFallback(EntityCoordinates coordinates, string fallbackEffect)

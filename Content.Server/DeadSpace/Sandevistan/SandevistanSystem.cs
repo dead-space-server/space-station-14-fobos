@@ -87,7 +87,7 @@ public sealed class SandevistanSystem : EntitySystem
                 ApplyOverloadTicks(uid, active, curTime);
         }
 
-        UpdateRecovery(frameTime, curTime);
+        UpdateRecovery(curTime);
         UpdateVisualFadeouts(curTime);
         UpdateSpeedFadeouts(curTime);
     }
@@ -147,7 +147,6 @@ public sealed class SandevistanSystem : EntitySystem
         active.WorkingSoundStarted = false;
         active.WorkingSoundStream = null;
         active.SoftcapPopupInterval = component.SoftcapPopupInterval;
-        active.ShoutInitialDelay = component.ShoutInitialDelay;
         active.ShoutMinInterval = component.ShoutMinInterval;
         active.ShoutMaxInterval = component.ShoutMaxInterval;
         active.SoftcapPopups = new(component.SoftcapPopups);
@@ -252,6 +251,7 @@ public sealed class SandevistanSystem : EntitySystem
     {
         if (!TryComp<SubdermalImplantComponent>(ent.Owner, out var subdermal) ||
             subdermal.ImplantedEntity is not { } target ||
+            TerminatingOrDeleted(target) ||
             !TryComp<ActiveSandevistanComponent>(target, out var active) ||
             active.SourceImplant != ent.Owner)
         {
@@ -311,7 +311,7 @@ public sealed class SandevistanSystem : EntitySystem
             ApplyCompletionStaminaDamage(uid, active, curTime);
 
         StopWorkingSound(active);
-        _audio.PlayPvs(active.DeactivationSound, uid);
+        _audio.PlayEntity(active.DeactivationSound, uid, uid);
 
         var activeMovementModifier = MathF.Max(active.MovementSpeedModifier, 0.01f);
         active.MovementSpeedModifier = 1f;
@@ -335,7 +335,7 @@ public sealed class SandevistanSystem : EntitySystem
             return GetInterval(component.WorkingSoundDelay);
 
         var index = _random.Next(component.ActivationSounds.Count);
-        _audio.PlayPvs(component.ActivationSounds[index], uid);
+        _audio.PlayEntity(component.ActivationSounds[index], uid, uid);
 
         var delay = index < component.ActivationSoundDurations.Count
             ? component.ActivationSoundDurations[index]
@@ -351,7 +351,7 @@ public sealed class SandevistanSystem : EntitySystem
 
         active.WorkingSoundStarted = true;
         active.WorkingSoundStream = _audio
-            .PlayPvs(active.WorkingSound, uid, active.WorkingSound.Params.WithLoop(true))
+            .PlayEntity(active.WorkingSound, uid, uid, active.WorkingSound.Params.WithLoop(true))
             ?.Entity;
     }
 
@@ -606,7 +606,7 @@ public sealed class SandevistanSystem : EntitySystem
         active.NextEndWarningTime = curTime + GetInterval(active.EndWarningInterval);
     }
 
-    private void UpdateRecovery(float frameTime, TimeSpan curTime)
+    private void UpdateRecovery(TimeSpan curTime)
     {
         var query = EntityQueryEnumerator<SandevistanRecoveryComponent>();
         while (query.MoveNext(out var uid, out var recovery))

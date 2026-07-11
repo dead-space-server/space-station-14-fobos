@@ -120,18 +120,12 @@ namespace Content.Shared.Movement.Systems
             var ev = new RefreshMovementSpeedModifiersEvent();
             RaiseLocalEvent(uid, ev);
 
-            // DS14-start
-            var walkSpeedModifier = ev.FinalWalkSpeedModifier;
-            var sprintSpeedModifier = ev.FinalSprintSpeedModifier;
-
-            if (MathHelper.CloseTo(walkSpeedModifier, move.WalkSpeedModifier) &&
-                MathHelper.CloseTo(sprintSpeedModifier, move.SprintSpeedModifier))
+            if (MathHelper.CloseTo(ev.WalkSpeedModifier, move.WalkSpeedModifier) &&
+                MathHelper.CloseTo(ev.SprintSpeedModifier, move.SprintSpeedModifier))
                 return;
 
-            move.WalkSpeedModifier = walkSpeedModifier;
-            move.SprintSpeedModifier = sprintSpeedModifier;
-            // DS14-end
-
+            move.WalkSpeedModifier = ev.WalkSpeedModifier;
+            move.SprintSpeedModifier = ev.SprintSpeedModifier;
             Dirty(uid, move);
         }
 
@@ -198,34 +192,6 @@ namespace Content.Shared.Movement.Systems
 
         public float WalkSpeedModifier { get; private set; } = 1.0f;
         public float SprintSpeedModifier { get; private set; } = 1.0f;
-
-        // DS14-start
-        public float? MaxWalkSpeedModifier { get; private set; }
-        public float? MaxSprintSpeedModifier { get; private set; }
-
-        public float FinalWalkSpeedModifier => MaxWalkSpeedModifier is { } max
-            ? MathF.Min(WalkSpeedModifier, max)
-            : WalkSpeedModifier;
-
-        public float FinalSprintSpeedModifier => MaxSprintSpeedModifier is { } max
-            ? MathF.Min(SprintSpeedModifier, max)
-            : SprintSpeedModifier;
-
-        public void CapSpeed(float walk, float sprint)
-        {
-            MaxWalkSpeedModifier = MaxWalkSpeedModifier is { } maxWalk
-                ? MathF.Min(maxWalk, walk)
-                : walk;
-            MaxSprintSpeedModifier = MaxSprintSpeedModifier is { } maxSprint
-                ? MathF.Min(maxSprint, sprint)
-                : sprint;
-        }
-
-        public void CapSpeed(float mod)
-        {
-            CapSpeed(mod, mod);
-        }
-        // DS14-end
 
         public void ModifySpeed(float walk, float sprint)
         {
