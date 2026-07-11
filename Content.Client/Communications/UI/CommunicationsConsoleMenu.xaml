@@ -39,6 +39,14 @@
                     ToolTip="{Loc 'comms-console-menu-broadcast-button-tooltip'}"
                     StyleClasses="OpenBoth"/>
 
+                <!-- DS14-start -->
+                <Button Name="EmagChannelButton"
+                    Access="Public"
+                    Text="{Loc 'emag-comms-switch-emag'}"
+                    StyleClasses="OpenBoth"
+                    Visible="False"/>
+                <!-- DS14-end -->
+
                 <OptionButton Name="AlertLevelButton"
                     Access="Public"
                     ToolTip="{Loc 'comms-console-menu-alert-level-button-tooltip'}"

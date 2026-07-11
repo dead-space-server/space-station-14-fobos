@@ -22,11 +22,6 @@ comms-console-menu-announcement-placeholder = Текст объявления...
 comms-console-menu-announcement-button = Сделать объявление
 comms-console-menu-broadcast-button = Трансляция
 comms-console-menu-broadcast-button-tooltip = Транслируйте своё сообщение на настенные экраны по всей станции. Примечание: помещается всего десять символов!
-emag-announce-color-placeholder = сюда цвет
-emag-announce-MusicSelector-tooltip = выбирай музыку как крутой, пока синдикат выкачивает её у нт!
-emag-announce-footer = !!ВНИМАНИЕ!! Сотрудники синидката не несут отвественность за ту хуйню что вы напишите
-emag-announce-rightpanel-placeholder = пароль до 10 символов
-emag-announce-confirm = Поттвердить
 # Station code
 comms-console-menu-category-alert-level = Уровень угрозы станции
 comms-console-menu-alert-level-button = Установить код

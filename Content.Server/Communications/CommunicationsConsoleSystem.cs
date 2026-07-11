@@ -1,3 +1,4 @@
+using System.Linq;
 using Content.Server.Administration.Logs;
 using Content.Server.AlertLevel;
 using Content.Server.Chat.Systems;
@@ -12,21 +13,23 @@ using Content.Shared.Access.Systems;
 using Content.Shared.CCVar;
 using Content.Shared.Chat;
 using Content.Shared.Communications;
+using Content.Shared.Corvax.TTS;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.CCCCVars;
+using Content.Shared.DeadSpace.Communications;
+using Content.Shared.DeadSpace.Languages.Components;
+using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.DeviceNetwork;
 using Content.Shared.DeviceNetwork.Components;
+using Content.Shared.Emag.Systems;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Popups;
 using Robust.Server.GameObjects;
-using Robust.Shared.Configuration;
-using Content.Shared.DeadSpace.Languages.Components;
-using Content.Server.DeadSpace.Languages;
-using Content.Shared.Corvax.TTS;
-using Content.Shared.Emag.Systems;
-using Content.Shared.Emag.Components;
 using Robust.Shared.Audio;
+using Robust.Shared.Configuration;
+using Content.Server.DeadSpace.Languages;
 using Robust.Shared.Prototypes;
-using Robust.Shared.ContentPack;
+using Robust.Shared.Utility;
 
 namespace Content.Server.Communications
 {
@@ -43,10 +46,14 @@ namespace Content.Server.Communications
         [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
         [Dependency] private readonly IConfigurationManager _cfg = default!;
         [Dependency] private readonly IAdminLogManager _adminLogger = default!;
-        [Dependency] private readonly EmagSystem _emag = default!; //DS14
-        [Dependency] private readonly IResourceManager _resourceManager = default!; //DS14
-        [Dependency] private readonly IPrototypeManager _prototypeManager = default!; //DS14
+        [Dependency] private readonly EmagSystem _emag = default!; // DS14
+        [Dependency] private readonly IPrototypeManager _prototypeManager = default!; // DS14
         private const float UIUpdateInterval = 5.0f;
+
+        // DS14-start
+        private const string DefaultEmagAnnouncementColor = "#1d8bad";
+        private static readonly ProtoId<SoundCollectionPrototype> EmagAnnouncementSounds = "EmagAnnouncementSounds";
+        // DS14-end
 
         public override void Initialize()
         {
@@ -61,13 +68,19 @@ namespace Content.Server.Communications
             SubscribeLocalEvent<CommunicationsConsoleComponent, CommunicationsConsoleBroadcastMessage>(OnBroadcastMessage);
             SubscribeLocalEvent<CommunicationsConsoleComponent, CommunicationsConsoleCallEmergencyShuttleMessage>(OnCallShuttleMessage);
             SubscribeLocalEvent<CommunicationsConsoleComponent, CommunicationsConsoleRecallEmergencyShuttleMessage>(OnRecallShuttleMessage);
-            SubscribeLocalEvent<CommunicationsConsoleComponent, EmagedAnonce>(OnEmagAnnounceMessage);//DS14
-            SubscribeLocalEvent<CommunicationsConsoleComponent, PasswordSet>(PasswordSet); //DS14
+            // DS14-start
+            SubscribeLocalEvent<CommunicationsConsoleComponent, EmagCommunicationsConsoleAnnounceMessage>(OnEmagAnnounceMessage);
+            SubscribeLocalEvent<CommunicationsConsoleComponent, EmagCommunicationsConsoleRequestAccessStateMessage>(OnRequestEmagAccessState);
+            SubscribeLocalEvent<CommunicationsConsoleComponent, EmagCommunicationsConsoleSetPasswordMessage>(OnSetEmagPassword);
+            SubscribeLocalEvent<CommunicationsConsoleComponent, EmagCommunicationsConsoleUnlockMessage>(OnUnlockEmagInterface);
+            SubscribeLocalEvent<CommunicationsConsoleComponent, BoundUIOpenedEvent>(OnBoundUiOpened);
+            SubscribeLocalEvent<CommunicationsConsoleComponent, BoundUIClosedEvent>(OnBoundUiClosed);
+            // DS14-end
 
             // On console init, set cooldown
             SubscribeLocalEvent<CommunicationsConsoleComponent, MapInitEvent>(OnCommunicationsConsoleMapInit);
 
-            SubscribeLocalEvent<CommunicationsConsoleComponent, GotEmaggedEvent>(OnEmagged); //DS14
+            SubscribeLocalEvent<CommunicationsConsoleComponent, GotEmaggedEvent>(OnEmagged); // DS14
         }
 
         public override void Update(float frameTime)
@@ -143,7 +156,7 @@ namespace Content.Server.Communications
         /// <summary>
         /// Updates the UI for a particular comms console.
         /// </summary>
-        public void UpdateCommsConsoleInterface(EntityUid uid, CommunicationsConsoleComponent comp, bool rightPassword = false)
+        public void UpdateCommsConsoleInterface(EntityUid uid, CommunicationsConsoleComponent comp)
         {
             var stationUid = _stationSystem.GetOwningStation(uid);
             List<string>? levels = null;
@@ -171,27 +184,16 @@ namespace Content.Server.Communications
                     currentDelay = _alertLevelSystem.GetAlertLevelDelay(stationUid.Value, alertComp);
                 }
             }
-            var passWordIsNull = false;
-            if (comp.PassWord == null && HasComp<EmaggedComponent>(uid))
-            {
-                passWordIsNull = true;
-            }
-            string? _password = null;
-            if (rightPassword && HasComp<EmaggedComponent>(uid))
-            {
-                _password = comp.PassWord;
-            }
             _uiSystem.SetUiState(uid, CommunicationsConsoleUiKey.Key, new CommunicationsConsoleInterfaceState(
                 CanAnnounce(comp),
                 CanCallOrRecall(comp),
                 levels,
                 currentLevel,
                 currentDelay,
-                _roundEndSystem.ExpectedCountdownEnd,
-                rightPassword,
-                passWordIsNull,
-                _password
+                _roundEndSystem.ExpectedCountdownEnd
             ));
+            
+            SendEmagAccessStateToOpenActors(uid, comp); // DS14
         }
 
         private static bool CanAnnounce(CommunicationsConsoleComponent comp)
@@ -329,12 +331,13 @@ namespace Content.Server.Communications
 
         private void OnBroadcastMessage(EntityUid uid, CommunicationsConsoleComponent component, CommunicationsConsoleBroadcastMessage message)
         {
-            var msg = SharedChatSystem.SanitizeAnnouncement(message.Message, _cfg.GetCVar(CCVars.ChatMaxAnnouncementLength)); //DS14=start
-            if (HasComp<EmaggedComponent>(uid) && msg == component.PassWord)
-            {
-                UpdateCommsConsoleInterface(uid, component, true);
-                return;
-            } //DS14-end
+            // DS14-start
+            var maxLength = Math.Max(0, _cfg.GetCVar(CCCCVars.MaxBroadcastLength));
+            var msg = SharedChatSystem.SanitizeAnnouncement(message.Message ?? string.Empty, maxLength);
+            if (msg.Length > maxLength)
+                msg = msg[..maxLength];
+            // DS14-end
+
             if (!TryComp<DeviceNetworkComponent>(uid, out var net))
                 return;
 
@@ -389,138 +392,331 @@ namespace Content.Server.Communications
             _roundEndSystem.CancelRoundEndCountdown(mob, uid);
             _adminLogger.Add(LogType.Action, LogImpact.High, $"{ToPrettyString(message.Actor):player} has recalled the shuttle.");
         }
-        public void OnEmagged(EntityUid uid, CommunicationsConsoleComponent component, ref GotEmaggedEvent args) // DS14-start
+        // DS14-start
+        private void OnBoundUiOpened(EntityUid uid, CommunicationsConsoleComponent component, BoundUIOpenedEvent args)
         {
-            if (!_emag.CompareFlag(args.Type, EmagType.Interaction))
+            if (!args.UiKey.Equals(CommunicationsConsoleUiKey.Key))
                 return;
 
-            if (_emag.CheckFlag(uid, EmagType.Interaction))
+            SendEmagAccessState(uid, component, args.Actor);
+        }
+
+        private void OnBoundUiClosed(EntityUid uid, CommunicationsConsoleComponent component, BoundUIClosedEvent args)
+        {
+            if (!args.UiKey.Equals(CommunicationsConsoleUiKey.Key))
                 return;
+
+            component.AuthorizedEmagActors.Remove(args.Actor);
+        }
+
+        private void OnRequestEmagAccessState(
+            EntityUid uid,
+            CommunicationsConsoleComponent component,
+            EmagCommunicationsConsoleRequestAccessStateMessage message)
+        {
+            var actor = message.Actor;
+            if (!actor.Valid || !_uiSystem.IsUiOpen(uid, CommunicationsConsoleUiKey.Key, actor))
+                return;
+
+            SendEmagAccessState(uid, component, actor);
+        }
+
+        public void OnEmagged(EntityUid uid, CommunicationsConsoleComponent component, ref GotEmaggedEvent args)
+        {
+            if (!_emag.CompareFlag(args.Type, EmagType.Interaction) ||
+                _emag.CheckFlag(uid, EmagType.Interaction))
+            {
+                return;
+            }
 
             args.Handled = true;
-        }
-        private void OnEmagAnnounceMessage(EntityUid uid, CommunicationsConsoleComponent comp, EmagedAnonce message)
-        {
-            var (hex, color) = GetAnnouncementColor(message.ColorHex);
-            var sound = GetAnnouncementSound(message.SoundPath, message.SoundVolume);
-            var sender = string.IsNullOrWhiteSpace(message.Announcer)
-                ? Loc.GetString("chat-manager-sender-announcement")
-                : message.Announcer.Trim();
-            var announcementWithSignature = GetAnnouncementWithSignature(message.Announcement, message.Sender);
-            if (message.Actor is { Valid: true } mob)
+
+            foreach (var actor in _uiSystem.GetActors(uid, CommunicationsConsoleUiKey.Key))
             {
-                if (!CanAnnounce(comp))
-                {
-                    return;
-                }
+                SendEmagAccessState(
+                    uid,
+                    component,
+                    actor,
+                    EmagCommunicationsUiMode.PasswordSetup);
+            }
+        }
 
-                if (!CanUse(mob, uid))
-                {
-                    _popupSystem.PopupEntity(Loc.GetString("comms-console-permission-denied"), uid, message.Actor);
-                    return;
-                }
+        private void OnSetEmagPassword(
+            EntityUid uid,
+            CommunicationsConsoleComponent component,
+            EmagCommunicationsConsoleSetPasswordMessage message)
+        {
+            var actor = message.Actor;
+            if (!actor.Valid || !_uiSystem.IsUiOpen(uid, CommunicationsConsoleUiKey.Key, actor))
+                return;
 
-                var tryGetIdentityShortInfoEvent = new TryGetIdentityShortInfoEvent(uid, mob);
-                RaiseLocalEvent(tryGetIdentityShortInfoEvent);
+            if (!_emag.CheckFlag(uid, EmagType.Interaction))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.Unavailable);
+                return;
             }
 
-            comp.AnnouncementCooldownRemaining = comp.Delay;
-            UpdateCommsConsoleInterface(uid, comp, true);
+            if (component.EmagPassword != null)
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.PasswordAlreadySet);
+                return;
+            }
 
-            var voice = string.Empty;
+            if (!IsValidEmagPassword(message.Password))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.InvalidPasswordFormat);
+                return;
+            }
 
-            if (!message.UseMyTTS && TryComp<TTSComponent>(message.Actor, out var tts))
-                voice = tts.VoicePrototypeId;
-            _chatSystem.DispatchStationAnnouncement(uid,
+            component.EmagPassword = message.Password;
+            component.AuthorizedEmagActors.Add(actor);
+            SendEmagAccessStateToOpenActors(uid, component);
+        }
+
+        private void OnUnlockEmagInterface(
+            EntityUid uid,
+            CommunicationsConsoleComponent component,
+            EmagCommunicationsConsoleUnlockMessage message)
+        {
+            var actor = message.Actor;
+            if (!actor.Valid || !_uiSystem.IsUiOpen(uid, CommunicationsConsoleUiKey.Key, actor))
+                return;
+
+            if (!_emag.CheckFlag(uid, EmagType.Interaction))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.Unavailable);
+                return;
+            }
+
+            if (component.EmagPassword == null)
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.InvalidRequest);
+                return;
+            }
+
+            if (!IsValidEmagPassword(message.Password))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.InvalidPasswordFormat);
+                return;
+            }
+
+            if (!string.Equals(component.EmagPassword, message.Password, StringComparison.Ordinal))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.IncorrectPassword);
+                return;
+            }
+
+            component.AuthorizedEmagActors.Add(actor);
+            SendEmagAccessState(uid, component, actor);
+        }
+
+        private void OnEmagAnnounceMessage(
+            EntityUid uid,
+            CommunicationsConsoleComponent component,
+            EmagCommunicationsConsoleAnnounceMessage message)
+        {
+            var actor = message.Actor;
+            if (!actor.Valid || !_uiSystem.IsUiOpen(uid, CommunicationsConsoleUiKey.Key, actor))
+                return;
+
+            if (!_emag.CheckFlag(uid, EmagType.Interaction))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.Unavailable);
+                return;
+            }
+
+            if (!component.AuthorizedEmagActors.Contains(actor))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.InvalidRequest);
+                return;
+            }
+
+            if (!CanAnnounce(component))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.Cooldown);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(message.Announcement))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.InvalidAnnouncement);
+                return;
+            }
+
+            var announcement = SharedChatSystem.SanitizeAnnouncement(
+                message.Announcement,
+                _cfg.GetCVar(CCVars.ChatMaxAnnouncementLength));
+
+            if (string.IsNullOrWhiteSpace(announcement))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.InvalidAnnouncement);
+                return;
+            }
+
+            if (!_prototypeManager.HasIndex<LanguagePrototype>(message.LanguageId))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.InvalidLanguage);
+                return;
+            }
+
+            if (!TryGetEmagAnnouncementSound(message.SoundPath, out var sound, out var soundPath))
+            {
+                SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.InvalidSound);
+                return;
+            }
+
+            string? voice = null;
+            var usePresetTts = false;
+            if (message.EnableTts)
+            {
+                if (message.UseCustomTts)
+                {
+                    voice = message.VoiceId?.Trim();
+                    if (string.IsNullOrEmpty(voice) || !_prototypeManager.HasIndex<TTSVoicePrototype>(voice))
+                    {
+                        SendEmagAccessState(uid, component, actor, error: EmagCommunicationsUiError.InvalidVoice);
+                        return;
+                    }
+                }
+                else
+                {
+                    usePresetTts = true;
+                }
+            }
+
+            var announcer = NormalizeAttribution(message.Announcer);
+            if (string.IsNullOrWhiteSpace(announcer))
+                announcer = Loc.GetString("chat-manager-sender-announcement");
+            var escapedAnnouncer = FormattedMessage.EscapeText(announcer);
+
+            var signature = NormalizeAttribution(message.Signature);
+            var announcementWithSignature = GetAnnouncementWithSignature(announcement, signature);
+            var (hex, color) = GetEmagAnnouncementColor(message.ColorHex);
+
+            component.AnnouncementCooldownRemaining = component.Delay;
+            UpdateCommsConsoleInterface(uid, component);
+
+            _chatSystem.DispatchStationAnnouncement(
+                uid,
                 announcementWithSignature,
-                sender,
+                escapedAnnouncer,
                 playDefaultSound: true,
-                announcementSound:
-                sound,
-                colorOverride:
-                color,
+                announcementSound: sound,
+                colorOverride: color,
                 voice: voice,
-                languageId: message.LanguageId);
+                languageId: message.LanguageId,
+                usePresetTTS: usePresetTts);
 
             _adminLogger.Add(
-                        LogType.Chat,
-                        LogImpact.Low,
-                        $"{message.Actor} has sent emag announcement " +
-                        $"[color={hex}] " +
-                        $"[sound={(sound != null ? message.SoundPath : "none")}] " +
-                        $"[volume={message.SoundVolume}] " +
-                        $"[announcer=\"{message.Announcer}\"] " +
-                        $"[sender=\"{message.Sender}\"] " +
-                        $": {message.Announcement}"
-                    );
+                LogType.Chat,
+                LogImpact.Low,
+                $"{ToPrettyString(actor):player} sent an emag announcement " +
+                $"[color={hex}] [sound={soundPath}] [announcer=\"{announcer}\"] " +
+                $"[signature=\"{signature}\"]: {announcement}");
         }
-        private (string Hex, Color Color) GetAnnouncementColor(string? colorHex)
+
+        private void SendEmagAccessStateToOpenActors(EntityUid uid, CommunicationsConsoleComponent component)
+        {
+            foreach (var actor in _uiSystem.GetActors(uid, CommunicationsConsoleUiKey.Key))
+            {
+                SendEmagAccessState(uid, component, actor);
+            }
+        }
+
+        private void SendEmagAccessState(
+            EntityUid uid,
+            CommunicationsConsoleComponent component,
+            EntityUid actor,
+            EmagCommunicationsUiMode? mode = null,
+            EmagCommunicationsUiError error = EmagCommunicationsUiError.None)
+        {
+            mode ??= GetEmagUiMode(uid, component, actor);
+            _uiSystem.ServerSendUiMessage(
+                uid,
+                CommunicationsConsoleUiKey.Key,
+                new EmagCommunicationsConsoleAccessStateMessage(mode.Value, error, CanAnnounce(component)),
+                actor);
+        }
+
+        private EmagCommunicationsUiMode GetEmagUiMode(
+            EntityUid uid,
+            CommunicationsConsoleComponent component,
+            EntityUid actor)
+        {
+            if (!_emag.CheckFlag(uid, EmagType.Interaction))
+                return EmagCommunicationsUiMode.Unavailable;
+
+            if (component.EmagPassword == null)
+                return EmagCommunicationsUiMode.PasswordSetup;
+
+            return component.AuthorizedEmagActors.Contains(actor)
+                ? EmagCommunicationsUiMode.Authorized
+                : EmagCommunicationsUiMode.Locked;
+        }
+
+        private static bool IsValidEmagPassword(string? password)
+        {
+            return !string.IsNullOrWhiteSpace(password) &&
+                   password.Length <= EmagCommunicationsConsoleConstants.MaxPasswordLength &&
+                   !password.Any(char.IsControl);
+        }
+
+        private static string NormalizeAttribution(string? value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return string.Empty;
+
+            var normalized = new string(value.Where(character => !char.IsControl(character)).ToArray()).Trim();
+            return normalized.Length <= EmagCommunicationsConsoleConstants.MaxAttributionLength
+                ? normalized
+                : normalized[..EmagCommunicationsConsoleConstants.MaxAttributionLength];
+        }
+
+        private static (string Hex, Color Color) GetEmagAnnouncementColor(string? colorHex)
         {
             var hex = colorHex?.Trim();
-
             if (string.IsNullOrWhiteSpace(hex))
-                hex = "1d8bad";
+                hex = DefaultEmagAnnouncementColor;
+            else if (!hex.StartsWith('#'))
+                hex = $"#{hex}";
 
-            if (!hex.StartsWith('#'))
-                hex = "#" + hex;
-
-            try
-            {
-                return (hex, Color.FromHex(hex));
-            }
-            catch (FormatException)
-            {
-                return ("#1d8bad", Color.FromHex("#1d8bad"));
-            }
+            return Color.TryFromHex(hex) is { } color
+                ? (hex, color)
+                : (DefaultEmagAnnouncementColor, Color.FromHex(DefaultEmagAnnouncementColor));
         }
-        private SoundSpecifier? GetAnnouncementSound(string? soundPath, float soundVolume)
-        {
-            if (string.IsNullOrWhiteSpace(soundPath))
-                return null;
 
-            var path = soundPath.Trim();
-            if (!path.StartsWith("/Audio/", StringComparison.OrdinalIgnoreCase) ||
-                !HasAnnouncementAudio(path))
+        private bool TryGetEmagAnnouncementSound(
+            string? requestedPath,
+            out SoundSpecifier sound,
+            out string soundPath)
+        {
+            sound = default!;
+            soundPath = requestedPath?.Trim() ?? string.Empty;
+            var normalizedPath = soundPath;
+
+            if (!_prototypeManager.TryIndex(EmagAnnouncementSounds, out var collection) ||
+                !collection.PickFiles.Any(path => string.Equals(path.ToString(), normalizedPath, StringComparison.Ordinal)))
             {
-                return null;
-            }
-
-            var audioParams = AudioParams.Default.WithVolume(soundVolume).AddVolume(-8);
-            return new SoundPathSpecifier(path)
-            {
-                Params = audioParams
-            };
-        }
-        private string GetAnnouncementWithSignature(string announcement, string? signature)
-        {
-            if (string.IsNullOrWhiteSpace(signature))
-                return announcement;
-
-            return $"{announcement}\n{Loc.GetString("comms-console-announcement-sent-by")} {signature.Trim()}";
-        }
-        private bool HasAnnouncementAudio(string path)
-        {
-            if (_prototypeManager.HasIndex<AudioMetadataPrototype>(path))
-                return true;
-            if (!_resourceManager.TryContentFileRead(path, out var stream))
                 return false;
-            stream.Dispose();
+            }
+
+            sound = new SoundPathSpecifier(soundPath);
             return true;
         }
-        private void PasswordSet(EntityUid uid, CommunicationsConsoleComponent component, ref PasswordSet args)
+
+        private string GetAnnouncementWithSignature(string announcement, string signature)
         {
-            if (args.Password == null || component.PassWord != null)
-                return;
-            if(args.Password.Length > _cfg.GetCVar(CCVars.ChatMaxAnnouncementLength))
-                return;
-            component.PassWord = args.Password;
+            if (string.IsNullOrEmpty(signature))
+                return announcement;
+
+            return $"{announcement}\n{Loc.GetString("comms-console-announcement-sent-by")} {signature}";
         }
         public void ToggleLockEvac()
         {
             _cfg.SetCVar(CCVars.EvacLocked, !_cfg.GetCVar(CCVars.EvacLocked));
             UpdateCommsConsoleInterface();
         }
-        //DS14-end
+        // DS14-end
     }
 
     /// <summary>

@@ -484,8 +484,11 @@ public sealed partial class ChatSystem : SharedChatSystem
         SoundSpecifier? announcementSound = null,
         Color? colorOverride = null,
         string? voice = null,
-        string? languageId = null, // DS14
-        Filter? recipientFilter = null) // DS14
+        // DS14-start
+        string? languageId = null,
+        Filter? recipientFilter = null,
+        bool usePresetTTS = false)
+        // DS14-end
     {
         languageId = string.IsNullOrEmpty(languageId) ? LanguageSystem.DefaultLanguageId : languageId;
 
@@ -527,11 +530,18 @@ public sealed partial class ChatSystem : SharedChatSystem
         _chatManager.ChatMessageToManyFiltered(filterNotUnderstanding, ChatChannel.Radio, lexiconMessage, lexiconWrappedMessage, source, false, true, colorOverride);
 
         // плохая реализация, лучше переписать AnnounceSpoke
-        if (!string.IsNullOrEmpty(voice))
+        // DS14-start
+        if (usePresetTTS)
+        {
+            var ev = new AnnounceSpokeEvent(_centcommTTS, message, lexiconMessage, languageId, filterStation, null);
+            RaiseLocalEvent(ev);
+        }
+        else if (!string.IsNullOrEmpty(voice))
         {
             var ev = new AnnounceSpokeEvent(voice, message, lexiconMessage, languageId, filterStation, null);
             RaiseLocalEvent(ev);
         }
+        // DS14-end
 
         if (playDefaultSound)
         {

@@ -1,5 +1,5 @@
 - type: soundCollection
-  id: SoundAnnoceCollection
+  id: EmagAnnouncementSounds
   files:
     - /Audio/_DeadSpace/Announcements/centcomm.ogg
     - /Audio/_DeadSpace/Announcements/announce.ogg
