@@ -18,9 +18,9 @@ public sealed class ArenaLoadoutEuiState : EuiStateBase
 public sealed class ArenaLoadoutOption
 {
     public int Index { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public string Category { get; set; } = string.Empty;
+    public LocId Name { get; set; } = string.Empty;
+    public LocId Description { get; set; } = string.Empty;
+    public LocId Category { get; set; } = string.Empty;
     public string SpritePrototype { get; set; } = string.Empty;
 }
 

@@ -82,11 +82,12 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
 
         foreach (var option in state.Weapons)
         {
-            if (!categoryMap.TryGetValue(option.Category, out var list))
+            var category = Loc.GetString(option.Category);
+            if (!categoryMap.TryGetValue(category, out var list))
             {
                 list = new List<ArenaLoadoutOption>();
-                categoryMap[option.Category] = list;
-                categories.Add((option.Category, list));
+                categoryMap[category] = list;
+                categories.Add((category, list));
             }
             list.Add(option);
         }
@@ -102,7 +103,11 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
 
             foreach (var option in options)
             {
-                var card = new ArenaWeaponCard(option.Index, option.Name, option.SpritePrototype, option.Description);
+                var card = new ArenaWeaponCard(
+                    option.Index,
+                    Loc.GetString(option.Name),
+                    option.SpritePrototype,
+                    Loc.GetString(option.Description));
                 card.OnSelected += OnCardSelected;
                 _categoriesContainer.AddChild(card);
             }
