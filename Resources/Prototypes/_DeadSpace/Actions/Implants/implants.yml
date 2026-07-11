@@ -72,7 +72,7 @@
 - type: entity
   id: ActionActivateSandevistanImplant
   name: "[color=red]Активировать Сандевистан[/color]"
-  description: Включить имплант боевого ускорения с опасной перегрузкой организма.
+  description: Продашь свою душу за силу?
   components:
   - type: Action
     itemIconStyle: BigAction
@@ -80,6 +80,7 @@
     icon:
       sprite: _DeadSpace/Actions/implants_actions.rsi
       state: sandevistan
+    useDelay: 2
     checkCanInteract: false
   - type: InstantAction
     event: !type:ActivateSandevistanImplantEvent

@@ -69,6 +69,11 @@ public sealed partial class SandevistanImplantComponent : Component
         "sandevistan-softcap-popup-4",
         "sandevistan-softcap-popup-5",
         "sandevistan-softcap-popup-6",
+        "sandevistan-softcap-popup-7",
+        "sandevistan-softcap-popup-8",
+        "sandevistan-softcap-popup-9",
+        "sandevistan-softcap-popup-10",
+        "sandevistan-softcap-popup-11",
     };
 
     [DataField]
@@ -85,6 +90,20 @@ public sealed partial class SandevistanImplantComponent : Component
         "sandevistan-softcap-shout-9",
         "sandevistan-softcap-shout-10",
         "sandevistan-softcap-shout-11",
+        "sandevistan-softcap-shout-12",
+        "sandevistan-softcap-shout-13",
+        "sandevistan-softcap-shout-14",
+        "sandevistan-softcap-shout-15",
+        "sandevistan-softcap-shout-16",
+        "sandevistan-softcap-shout-17",
+        "sandevistan-softcap-shout-18",
+        "sandevistan-softcap-shout-19",
+        "sandevistan-softcap-shout-20",
+        "sandevistan-softcap-shout-21",
+        "sandevistan-softcap-shout-22",
+        "sandevistan-softcap-shout-23",
+        "sandevistan-softcap-shout-24",
+        "sandevistan-softcap-shout-25",
     };
 
     [DataField]
@@ -106,6 +125,9 @@ public sealed partial class SandevistanImplantComponent : Component
         "sandevistan-end-warning-popup-5",
         "sandevistan-end-warning-popup-6",
         "sandevistan-end-warning-popup-7",
+        "sandevistan-end-warning-popup-8",
+        "sandevistan-end-warning-popup-9",
+        "sandevistan-end-warning-popup-10",
     };
 
     [DataField]

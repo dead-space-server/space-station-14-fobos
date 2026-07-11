@@ -195,6 +195,7 @@
   id: SandevistanImplanter
   suffix: Сандевистан
   parent: BaseImplantOnlyImplanter
+  categories: [ HideSpawnMenu ]
   components:
   - type: Implanter
     implant: SandevistanImplant
@@ -210,3 +211,40 @@
     - state: implanter1
       map: [ "implantFull" ]
       visible: true
+
+- type: entity
+  id: SandevistanImplantCase
+  suffix: Дебаг, НЕ СПАВНИТЬ
+  parent: [ BaseStorageItem, BaseBagOpenClose ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Medical/sandevistan-case.rsi
+    layers:
+    - state: open
+      map: [ "openLayer" ]
+      visible: false
+    - state: c1
+      map: [ "c1" ]
+      visible: false
+    - state: closed
+      map: [ "closeLayer" ]
+  - type: Item
+    sprite: _DeadSpace/Objects/Specific/Medical/sandevistan-case.rsi
+    size: Normal
+  - type: Storage
+    maxItemSize: Small
+    grid:
+    - 0,0,1,0
+    whitelist:
+      components:
+      - Implanter
+  - type: StorageFill
+    contents:
+    - id: SandevistanImplanter
+  - type: ItemMapper
+    mapLayers:
+      c1:
+        whitelist:
+          components:
+          - Implanter
+  - type: Appearance
