@@ -89,7 +89,7 @@
   parent: BaseFlatpack
   id: TaipanVehicleHoverbikeFlatpack
   name: упаковка ховербайка
-  description: Горячие колёсики
+  description: Горячие колёсики!
   components:
   - type: Sprite
     layers:

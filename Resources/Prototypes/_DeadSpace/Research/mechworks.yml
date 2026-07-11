@@ -204,9 +204,10 @@
   discipline: TaipanMechworks
   tier: 2
   cost: 7500
+  diskAvailable: false
   recipeUnlocks:
     - TaipanVehicleQuadBikeFlatpack
-    - VehicleKeyUniversal
+    - TaipanVehicleKeyUniversal
 
 - type: technology
   id: TaipanHoverBikeTech
@@ -217,9 +218,10 @@
   discipline: TaipanMechworks
   tier: 2
   cost: 7500
+  diskAvailable: false
   recipeUnlocks:
-    - TaipanVehicleHoverBikeFlatpack
-    - VehicleKeyUniversal
+    - TaipanVehicleHoverbikeFlatpack
+    - TaipanVehicleKeyUniversal
 
 - type: technology
   id: TaipanMassExcavation

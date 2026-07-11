@@ -71,9 +71,6 @@
       "name": "keys"
     },
     {
-      "name": "TaipanKey"
-    },
-    {
       "name": "vehicle",
       "directions": 4
     }
