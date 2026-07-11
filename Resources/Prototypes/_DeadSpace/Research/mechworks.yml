@@ -196,6 +196,32 @@
   - FultonBeacon
 
 - type: technology
+  id: TaipanQuadBikeTech
+  name: research-technology-quad-bike
+  icon:
+    sprite: Objects/Vehicles/atv.rsi
+    state: vehicle
+  discipline: TaipanMechworks
+  tier: 2
+  cost: 7500
+  recipeUnlocks:
+    - TaipanVehicleQuadBikeFlatpack
+    - VehicleKeyUniversal
+
+- type: technology
+  id: TaipanHoverBikeTech
+  name: research-technology-hover-bike
+  icon:
+    sprite: Objects/Vehicles/atv.rsi
+    state: vehicle
+  discipline: TaipanMechworks
+  tier: 2
+  cost: 7500
+  recipeUnlocks:
+    - TaipanVehicleHoverBikeFlatpack
+    - VehicleKeyUniversal
+
+- type: technology
   id: TaipanMassExcavation
   name: research-technology-excavation
   icon:
