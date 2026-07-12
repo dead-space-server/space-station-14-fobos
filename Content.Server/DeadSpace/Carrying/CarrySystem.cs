@@ -25,6 +25,7 @@ using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Movement.Pulling.Systems;
 using Content.Shared.RepulseAttract.Events;
 using Content.Shared.Standing;
+using Content.Shared.IdentityManagement;
 using Content.Shared.Stunnable;
 using Content.Shared.Throwing;
 using Content.Shared.Verbs;
@@ -174,8 +175,12 @@ public sealed class CarrySystem : EntitySystem
             BreakOnMove = true,
             DistanceThreshold = 1.5f,
         };
-
-        return _doAfter.TryStartDoAfter(doAfter);
+        var started = _doAfter.TryStartDoAfter(doAfter);
+        if (started)
+        {
+            _popup.PopupEntity(Loc.GetString("carry-popup-being-picked-up", ("user", Identity.Entity(carrier, EntityManager))), target, target);
+        }
+        return started;
     }
 
     public bool CanCarry(EntityUid carrier, EntityUid target)
