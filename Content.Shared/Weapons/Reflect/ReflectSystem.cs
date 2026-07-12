@@ -170,7 +170,7 @@ public sealed class ReflectSystem : EntitySystem
         return true;
     }
 
-    // DS14-Start
+    // DS14-start
     private bool TryGetReflectProb(Entity<ReflectComponent> reflector, out float prob)
     {
         if (_toggle.IsActivated(reflector.Owner))
@@ -179,7 +179,8 @@ public sealed class ReflectSystem : EntitySystem
             return true;
         }
 
-        if (reflector.Comp.ReflectProbNotToggled > 0)
+        if (reflector.Comp.InRightPlace &&
+            reflector.Comp.ReflectProbNotToggled > 0)
         {
             prob = reflector.Comp.ReflectProbNotToggled;
             return true;
@@ -188,7 +189,7 @@ public sealed class ReflectSystem : EntitySystem
         prob = 0;
         return false;
     }
-    // DS14-End
+    // DS14-end
 
     private void PlayAudioAndPopup(ReflectComponent reflect, EntityUid user)
     {
@@ -229,12 +230,12 @@ public sealed class ReflectSystem : EntitySystem
     {
         // This isn't examine verb or something just because it looks too much bad.
         // Trust me, universal verb for the potential weapons, armor and walls looks awful.
-        // DS14-Start
-        var isActivated = _toggle.IsActivated(ent.Owner);
-        var value = isActivated
-            ? MathF.Round(ent.Comp.ReflectProb * 100, 1)
-            : MathF.Round(ent.Comp.ReflectProbNotToggled * 100, 1);
-        // DS14-End
+        // DS14-start
+        if (!TryGetReflectProb(ent, out var prob))
+            return;
+
+        var value = MathF.Round(prob * 100, 1);
+        // DS14-end
 
         if (value == 0 || ent.Comp.Reflects == ReflectType.None) // DS14
             return;
