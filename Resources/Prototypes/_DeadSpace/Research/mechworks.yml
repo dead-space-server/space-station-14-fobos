@@ -213,7 +213,7 @@
   id: TaipanHoverBikeTech
   name: research-technology-hover-bike
   icon:
-    sprite: Objects/Vehicles/atv.rsi
+    sprite: _DeadSpace/Objects/Vehicles/hoverbike.rsi
     state: vehicle
   discipline: TaipanMechworks
   tier: 2
