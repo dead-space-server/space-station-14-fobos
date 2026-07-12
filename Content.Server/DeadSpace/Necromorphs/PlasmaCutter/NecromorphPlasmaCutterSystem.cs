@@ -116,41 +116,47 @@ public sealed class NecromorphPlasmaCutterSystem : EntitySystem
         if (_mobState.IsDead(target))
             return;
 
-        var state = EnsureComp<NecromorphPlasmaCutterDamageComponent>(target);
-        state.Hits++;
-
-        var hitsToKill = reduced?.HitsToKill ?? 3;
-        if (state.Hits >= hitsToKill)
-        {
-            // DS14: animal necromorphs should not scream when the cutter kills them.
-            var wasMuted = HasComp<MutedComponent>(target);
-            EnsureComp<MutedComponent>(target);
-            _mobState.ChangeMobState(target, MobState.Dead);
-            if (!wasMuted)
-                RemCompDeferred<MutedComponent>(target);
-            return;
-        }
-
         if (!TryComp<DamageableComponent>(target, out var damageable) ||
             !TryComp<MobThresholdsComponent>(target, out var thresholds))
         {
             return;
         }
 
+        var state = EnsureComp<NecromorphPlasmaCutterDamageComponent>(target);
+        state.Hits++;
         var deathThreshold = thresholds.Thresholds
             .Where(pair => pair.Value == MobState.Dead)
             .Select(pair => pair.Key.Float())
             .DefaultIfEmpty(damageable.TotalDamage.Float())
             .Min();
-        var health = Math.Max(0f, deathThreshold - damageable.TotalDamage.Float());
-        var fraction = state.Hits == 1
-            ? reduced?.FirstHitFraction ?? 0.5f
-            : reduced?.LaterHitFraction ?? 0.35f;
+        var criticalThreshold = thresholds.Thresholds
+            .Where(pair => pair.Value == MobState.Critical)
+            .Select(pair => pair.Key.Float())
+            .DefaultIfEmpty(deathThreshold)
+            .Min();
+
+        var hitsToKill = reduced?.HitsToKill ?? 3;
+        float damageAmount;
+
+        if (state.Hits >= hitsToKill)
+        {
+            var toCritical = Math.Max(0f, criticalThreshold - damageable.TotalDamage.Float());
+            damageAmount = toCritical + 1f;
+        }
+        else
+        {
+            var health = Math.Max(0f, deathThreshold - damageable.TotalDamage.Float());
+            var fraction = state.Hits == 1
+                ? reduced?.FirstHitFraction ?? 0.5f
+                : reduced?.LaterHitFraction ?? 0.35f;
+            damageAmount = health * fraction;
+        }
+
         var damage = new DamageSpecifier
         {
-            DamageDict = { ["Cellular"] = FixedPoint2.New(health * fraction) }
+            DamageDict = { ["Heat"] = FixedPoint2.New(damageAmount) }
         };
-        // DS14: suppress pain speech only for this cutter hit.
+
         var wasMutedForDamage = HasComp<MutedComponent>(target);
         EnsureComp<MutedComponent>(target);
         _damage.TryChangeDamage(target, damage, true, false);

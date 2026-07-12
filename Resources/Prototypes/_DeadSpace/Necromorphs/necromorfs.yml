@@ -467,6 +467,12 @@
   state: lvl1
   movementSpeedMultiply: 0.8 # Модификатор скорости
   components: # Доп. компоненты
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      425: PreCritical
+      500: Critical
+      600: Dead
   - type: NecromorphPlasmaCutterReducedDamage
   - type: StunAttack
     paralyzeTime: 1
