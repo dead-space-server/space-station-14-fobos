@@ -16,10 +16,6 @@
   components:
   - type: Objective
     icon: _DeadSpace/Renegade/actions/submission.png
-  - type: NumberObjective
-    min: 3
-    max: 4
-    title: objective-condition-unitology-slaves-title
   - type: UnitologySubmissionCondition
 
 - type: entity

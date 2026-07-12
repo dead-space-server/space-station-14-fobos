@@ -24,6 +24,9 @@ using Content.Server.GameTicking.Rules;
 using Robust.Shared.Prototypes;
 using Content.Server.Hands.Systems;
 using Content.Server.DeadSpace.Necromorphs.Necroobelisk.Components;
+using Content.Shared.Implants;
+using Content.Shared.Implants.Components;
+using Robust.Shared.Containers;
 
 namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 
@@ -44,10 +47,18 @@ public sealed class UnitologyHeadSystem : EntitySystem
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly UnitologyRuleSystem _unitologyRule = default!;
     [Dependency] private readonly HandsSystem _hands = default!;
+    [Dependency] private readonly SharedContainerSystem _containers = default!;
+    [Dependency] private readonly SharedSubdermalImplantSystem _implants = default!;
 
 
     public const float DistanceRecruitmentDetermination = 2f;
     public const string CandleTag = "Candle";
+    private static readonly HashSet<string> HeadImplants =
+    [
+        "StorageImplant",
+        "DnaScramblerImplant",
+        "FreedomImplant",
+    ];
 
     public override void Initialize()
     {
@@ -67,7 +78,6 @@ public sealed class UnitologyHeadSystem : EntitySystem
     {
         _actionsSystem.AddAction(uid, ref component.ActionUnitologyHeadEntity, component.ActionUnitologyHead, uid);
         _actionsSystem.AddAction(uid, ref component.ActionOrderToSlaveEntity, component.ActionOrderToSlave, uid);
-        _actionsSystem.AddAction(uid, ref component.ActionSelectTargetRecruitmentEntity, component.ActionSelectTargetRecruitment, uid);
         _actionsSystem.AddAction(uid, ref component.ActionSummonObeliskEntity, component.ActionSummonObelisk, uid);
     }
 
@@ -278,9 +288,43 @@ public sealed class UnitologyHeadSystem : EntitySystem
 
         args.Handled = true;
 
+        TransferHeadImplants(uid, target);
+
         RemComp<UnitologyHeadComponent>(uid);
 
         AddComp<UnitologyHeadComponent>(target);
+    }
+
+    private void TransferHeadImplants(EntityUid oldHead, EntityUid newHead)
+    {
+        if (!TryComp<ImplantedComponent>(oldHead, out var oldImplanted))
+            return;
+
+        var newImplanted = EnsureComp<ImplantedComponent>(newHead);
+        var existing = newImplanted.ImplantContainer.ContainedEntities
+            .Select(implant => Prototype(implant))
+            .Where(proto => proto != null)
+            .Select(proto => proto!.ID)
+            .ToHashSet();
+
+        foreach (var implant in oldImplanted.ImplantContainer.ContainedEntities.ToArray())
+        {
+            var prototype = Prototype(implant);
+            if (prototype == null || !HeadImplants.Contains(prototype.ID))
+                continue;
+
+            if (existing.Contains(prototype.ID))
+            {
+                _implants.ForceRemove((oldHead, oldImplanted), implant);
+                continue;
+            }
+
+            if (!_containers.Remove(implant, oldImplanted.ImplantContainer, force: true))
+                continue;
+
+            _containers.Insert(implant, newImplanted.ImplantContainer);
+            existing.Add(prototype.ID);
+        }
     }
 
     private bool IsCanTransfer(EntityUid uid, EntityUid target)

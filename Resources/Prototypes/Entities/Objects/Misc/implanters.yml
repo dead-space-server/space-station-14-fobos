@@ -35,6 +35,8 @@
     - TrackingImplant
     - StorageImplant
     - FreedomImplant
+    - UnitologySplinterBladeImplant # DS14
+    - UnitologyWeaponHandHookImplant # DS14
     - UplinkImplant
     - EmpImplant
     - ScramImplant

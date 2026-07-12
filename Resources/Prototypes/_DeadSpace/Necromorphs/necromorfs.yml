@@ -342,6 +342,7 @@
   state: running
   useInventory: false
   components:
+  - type: NecromorphPlasmaCutterReducedDamage
   - type: StunAttack
     paralyzeTime: 1
   - type: Language
@@ -466,6 +467,7 @@
   state: lvl1
   movementSpeedMultiply: 0.8 # Модификатор скорости
   components: # Доп. компоненты
+  - type: NecromorphPlasmaCutterReducedDamage
   - type: StunAttack
     paralyzeTime: 1
   - type: CorpseCollector

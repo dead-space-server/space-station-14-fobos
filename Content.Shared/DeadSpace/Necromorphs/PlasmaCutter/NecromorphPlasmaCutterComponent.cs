@@ -8,7 +8,11 @@ namespace Content.Shared.DeadSpace.Necromorphs.PlasmaCutter;
 /// Makes a hitscan apply progressive dismemberment or percentage damage to necromorphs.
 /// </summary>
 [RegisterComponent, NetworkedComponent]
-public sealed partial class NecromorphPlasmaCutterComponent : Component;
+public sealed partial class NecromorphPlasmaCutterComponent : Component
+{
+    [DataField]
+    public float DetachedPartImpulse = 8f;
+}
 
 /// <summary>
 /// Tracks progressive plasma-cutter injuries on a humanoid necromorph.
@@ -18,6 +22,15 @@ public sealed partial class NecromorphPlasmaCutterWoundsComponent : Component
 {
     [DataField, AutoNetworkedField]
     public int RemovedLegs;
+
+    [DataField, AutoNetworkedField]
+    public float OriginalWalkSpeed;
+
+    [DataField, AutoNetworkedField]
+    public float OriginalSprintSpeed;
+
+    [DataField, AutoNetworkedField]
+    public float OriginalAcceleration;
 }
 
 /// <summary>
@@ -34,4 +47,17 @@ public sealed partial class NecromorphPlasmaCutterDamageComponent : Component
 {
     [DataField]
     public int Hits;
+}
+
+[RegisterComponent]
+public sealed partial class NecromorphPlasmaCutterReducedDamageComponent : Component
+{
+    [DataField]
+    public float FirstHitFraction = 0.25f;
+
+    [DataField]
+    public float LaterHitFraction = 0.2f;
+
+    [DataField]
+    public int HitsToKill = 5;
 }

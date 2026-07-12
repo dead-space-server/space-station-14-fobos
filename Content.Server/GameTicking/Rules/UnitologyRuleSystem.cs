@@ -44,6 +44,8 @@ using Content.Server.Database;
 using Content.Shared.Damage.Components;
 using Robust.Server.Player;
 using Robust.Shared.Player;
+using Content.Shared.Humanoid;
+using Content.Shared.Mobs.Systems;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -70,6 +72,8 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly LoadoutSystem _loadout = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
     private static readonly EntProtoId UnitologyRule = "Unitology";
     public static readonly ProtoId<AntagPrototype> UnitologyAntagRole = "UniHead";
     public static readonly ProtoId<AntagPrototype> RegularUnitologyAntagRole = "Uni";
@@ -237,7 +241,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
                 nearby++;
         }
 
-        return total >= required && nearby == total;
+        return total >= required && nearby == total && GetNearbyHumanCorpses(head).Count > 0;
     }
 
     public bool TrySummonObelisk(EntityUid head, bool black)
@@ -250,6 +254,12 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
 
             var prototype = black ? rule.BlackObeliskPrototype : rule.ObeliskPrototype;
             var obelisk = Spawn(prototype, Transform(head).Coordinates);
+            foreach (var corpse in GetNearbyHumanCorpses(head))
+            {
+                var necromorf = _infectionDead.GetRandomNecromorfPrototypeId();
+                _necromorfSystem.Necrofication(corpse, necromorf, new InfectionDeadStrainData());
+            }
+
             var stageEvent = new StageObeliskEvent(obelisk);
             RaiseLocalEvent(ruleUid, ref stageEvent);
             rule.IsObeliskArrival = true;
@@ -257,6 +267,23 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         }
 
         return false;
+    }
+
+    private HashSet<EntityUid> GetNearbyHumanCorpses(EntityUid head)
+    {
+        var corpses = new HashSet<EntityUid>();
+        foreach (var entity in _lookup.GetEntitiesInRange(Transform(head).Coordinates, 3f))
+        {
+            if (HasComp<HumanoidAppearanceComponent>(entity) &&
+                !HasComp<NecromorfComponent>(entity) &&
+                !HasComp<ZombieComponent>(entity) &&
+                _mobState.IsDead(entity))
+            {
+                corpses.Add(entity);
+            }
+        }
+
+        return corpses;
     }
 
     private EntityCoordinates? GetCoord(EntityUid uid, UnitologyRuleComponent? component = null)

@@ -11,16 +11,33 @@ namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 public sealed class UnitologySubmissionConditionSystem : EntitySystem
 {
     [Dependency] private readonly IPlayerManager _players = default!;
+    [Dependency] private readonly MetaDataSystem _metaData = default!;
 
     public override void Initialize()
     {
+        SubscribeLocalEvent<UnitologySubmissionConditionComponent, ObjectiveAfterAssignEvent>(OnAfterAssign);
         SubscribeLocalEvent<UnitologySubmissionConditionComponent, ObjectiveGetProgressEvent>(OnGetProgress);
+    }
+
+    private void OnAfterAssign(Entity<UnitologySubmissionConditionComponent> ent, ref ObjectiveAfterAssignEvent args)
+    {
+        ent.Comp.Target = GetTarget();
+        _metaData.SetEntityName(ent.Owner,
+            Loc.GetString("objective-condition-unitology-slaves-title", ("count", ent.Comp.Target)),
+            args.Meta);
     }
 
     private void OnGetProgress(EntityUid uid, UnitologySubmissionConditionComponent component, ref ObjectiveGetProgressEvent args)
     {
-        var target = 3 + Math.Max(0, (_players.PlayerCount - 65) / 35);
-        args.Progress = SubordinationOfEnslavedProgress(component, target);
+        if (component.Target <= 0)
+            component.Target = GetTarget();
+
+        args.Progress = SubordinationOfEnslavedProgress(component, component.Target);
+    }
+
+    private int GetTarget()
+    {
+        return 3 + Math.Max(0, (_players.PlayerCount - 65) / 35);
     }
 
     private float SubordinationOfEnslavedProgress(UnitologySubmissionConditionComponent component, int target)
