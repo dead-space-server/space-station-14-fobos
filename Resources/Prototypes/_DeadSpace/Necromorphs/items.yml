@@ -208,6 +208,10 @@
   name: усиленный осколок обелиска
   description: Осколок, насыщенный энергией чёрного обелиска.
   components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/splinter.rsi
+    layers:
+    - state: super_splinter
   - type: NecroobeliskSplinter
     spawnsBlackObelisk: true
     soundHeadaches:
