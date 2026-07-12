@@ -26,16 +26,16 @@
     delay: 1.5
   - type: ComponentToggler
     components:
-    - type: Reflect
-      inRightPlace: True
-      reflectProb: 0.35
-      spread: 90
-      soundOnReflect:
-        collection: MantisReflect
     - type: PointLight
       color: "#a02139"
       radius: 3
       energy: 1.5
+  - type: Reflect
+    reflectProb: 0.35
+    reflectProbNotToggled: 0.15
+    spread: 90
+    soundOnReflect:
+      collection: MantisReflect
   - type: MeleeRequiresWield
   - type: ItemToggle
     onUse: false
