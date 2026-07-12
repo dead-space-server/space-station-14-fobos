@@ -7,4 +7,7 @@ public sealed partial class UnitologyAssemblyConditionComponent : Component
 {
     [DataField]
     public float Range = 3f;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public int Target;
 }

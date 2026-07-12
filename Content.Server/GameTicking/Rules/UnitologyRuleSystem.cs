@@ -245,7 +245,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
                 nearby++;
         }
 
-        return total >= required && nearby == total && GetNearbyHumanCorpses(head).Count > 0;
+        return total >= required && nearby >= required && GetNearbyHumanCorpses(head).Count > 0;
     }
 
     private bool TryGetRequiredSlaves(EntityUid head, out int required)

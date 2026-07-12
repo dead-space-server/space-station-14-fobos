@@ -101,6 +101,7 @@
         text: uni-role-greeting
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
+      startingGear: UnitologGear
       components:
       - type: IntrinsicRadioTransmitter
         channels:

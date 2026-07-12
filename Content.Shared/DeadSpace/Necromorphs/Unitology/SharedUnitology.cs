@@ -6,6 +6,9 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared.DeadSpace.Necromorphs.Unitology;
 
+[ByRefEvent]
+public readonly record struct UnitologyMindShieldAddedEvent;
+
 public sealed partial class TileSpawnActionEvent : InstantActionEvent
 {
 

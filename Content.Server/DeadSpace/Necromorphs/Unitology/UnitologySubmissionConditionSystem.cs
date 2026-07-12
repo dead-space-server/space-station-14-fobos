@@ -35,7 +35,7 @@ public sealed class UnitologySubmissionConditionSystem : EntitySystem
         args.Progress = SubordinationOfEnslavedProgress(component, component.Target);
     }
 
-    private int GetTarget()
+    public int GetTarget()
     {
         return 3 + Math.Max(0, (_players.PlayerCount - 65) / 35);
     }
