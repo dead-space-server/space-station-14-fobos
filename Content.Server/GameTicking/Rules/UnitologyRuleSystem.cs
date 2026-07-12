@@ -41,6 +41,7 @@ using Content.Server.DeadSpace.ERT;
 using Content.Server.AlertLevel;
 using Content.Shared.DeadSpace.ERT.Prototypes;
 using Content.Server.Database;
+using Content.Server.DeadSpace.Necromorphs.Unitology;
 using Content.Shared.Damage.Components;
 using Robust.Server.Player;
 using Robust.Shared.Player;
@@ -74,6 +75,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly LoadoutSystem _loadout = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly UnitologySubmissionConditionSystem _submissionCondition = default!;
     private static readonly EntProtoId UnitologyRule = "Unitology";
     public static readonly ProtoId<AntagPrototype> UnitologyAntagRole = "UniHead";
     public static readonly ProtoId<AntagPrototype> RegularUnitologyAntagRole = "Uni";
@@ -230,7 +232,9 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
 
     public bool AreSummoningConditionsComplete(EntityUid head)
     {
-        var required = 3 + Math.Max(0, (_player.PlayerCount - 65) / 35);
+        if (!TryGetRequiredSlaves(head, out var required))
+            return false;
+
         var total = 0;
         var nearby = 0;
         var slaves = AllEntityQuery<UnitologyEnslavedComponent>();
@@ -242,6 +246,21 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         }
 
         return total >= required && nearby == total && GetNearbyHumanCorpses(head).Count > 0;
+    }
+
+    private bool TryGetRequiredSlaves(EntityUid head, out int required)
+    {
+        required = 0;
+        if (!_mindSystem.TryGetMind(head, out _, out var mind))
+            return false;
+
+        foreach (var objective in mind.Objectives)
+        {
+            if (_submissionCondition.TryGetAssignedTarget(objective, out required))
+                return true;
+        }
+
+        return false;
     }
 
     public bool TrySummonObelisk(EntityUid head, bool black)

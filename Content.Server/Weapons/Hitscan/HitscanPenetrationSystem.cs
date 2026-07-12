@@ -1,8 +1,10 @@
 using Content.Server.Destructible;
 using Content.Shared.Damage.Components;
+using Content.Shared.Damage.Systems;
 using Content.Shared.FixedPoint;
 using Content.Shared.Weapons.Hitscan.Components;
 using Content.Shared.Weapons.Hitscan.Events;
+using Content.Shared.Whitelist;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 
@@ -12,7 +14,11 @@ public sealed class HitscanPenetrationSystem : EntitySystem
 {
     [Dependency] private readonly DestructibleSystem _destructible = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!; // DS14
+    // DS14-start
+    [Dependency] private readonly DamageableSystem _damage = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
+    // DS14-end
 
     public override void Initialize()
     {
@@ -44,7 +50,7 @@ public sealed class HitscanPenetrationSystem : EntitySystem
         if (!ignored.Contains(args.Target))
             ignored.Add(args.Target);
 
-        DestroyNearbyObstacles(ent, args, ignored); // DS14
+        DamageNearbyObstacles(ent, args, ignored); // DS14
 
         var nextCoords = _transform.ToCoordinates(args.Data.HitPosition.Value.Offset(direction * 0.05f));
         var traceEvent = new HitscanTraceEvent
@@ -88,15 +94,16 @@ public sealed class HitscanPenetrationSystem : EntitySystem
         return true; // DS14
     }
 
-    // DS14-start: let a penetrating hit clear a bounded number of adjacent destructible obstructions.
-    private void DestroyNearbyObstacles(
+    // DS14-start: apply regular hitscan damage to nearby parts of a wide obstruction.
+    private void DamageNearbyObstacles(
         Entity<HitscanPenetrationComponent> ent,
         HitscanDamageDealtEvent args,
         List<EntityUid> ignored)
     {
         if (args.Data.HitPosition == null ||
             ent.Comp.MaxDestroyedObstacles <= 0 ||
-            ent.Comp.ObstacleSearchRadius <= 0f)
+            ent.Comp.ObstacleSearchRadius <= 0f ||
+            !TryComp<HitscanBasicDamageComponent>(ent, out var basicDamage))
         {
             return;
         }
@@ -111,20 +118,32 @@ public sealed class HitscanPenetrationSystem : EntitySystem
                 ignored.Contains(obstacle) ||
                 !TryComp<PhysicsComponent>(obstacle, out var physics) ||
                 physics.BodyType != BodyType.Static ||
-                !TryComp<DestructibleComponent>(obstacle, out var destructible))
+                !TryComp<DestructibleComponent>(obstacle, out var destructible) ||
+                !TryComp<DamageableComponent>(obstacle, out var damageable) ||
+                !_whitelist.CheckBoth(obstacle, basicDamage.Blacklist, basicDamage.Whitelist))
             {
                 continue;
             }
 
             var durability = _destructible.DestroyedAt(obstacle, destructible);
-            if (durability <= 0 || ent.Comp.PenetrationAmount + durability > ent.Comp.PenetrationThreshold)
+            var damageRequired = FixedPoint2.Max(durability - damageable.TotalDamage, FixedPoint2.Zero);
+            if (damageRequired <= 0 || ent.Comp.PenetrationAmount + damageRequired > ent.Comp.PenetrationThreshold)
                 continue;
 
-            if (!_destructible.DestroyEntity(obstacle))
+            var damage = basicDamage.Damage * _damage.UniversalHitscanDamageModifier;
+            if (!_damage.TryChangeDamage(
+                    (obstacle, damageable),
+                    damage,
+                    out var damageDealt,
+                    basicDamage.IgnoreResistances,
+                    origin: args.Data.Shooter ?? args.Data.Gun) ||
+                damageDealt.GetTotal() < damageRequired)
+            {
                 continue;
+            }
 
             ignored.Add(obstacle);
-            ent.Comp.PenetrationAmount += durability;
+            ent.Comp.PenetrationAmount += damageRequired;
             destroyed++;
             if (destroyed >= ent.Comp.MaxDestroyedObstacles)
                 break;

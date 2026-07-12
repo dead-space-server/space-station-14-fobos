@@ -40,6 +40,16 @@ public sealed class UnitologySubmissionConditionSystem : EntitySystem
         return 3 + Math.Max(0, (_players.PlayerCount - 65) / 35);
     }
 
+    public bool TryGetAssignedTarget(EntityUid objective, out int target)
+    {
+        target = 0;
+        if (!TryComp<UnitologySubmissionConditionComponent>(objective, out var component) || component.Target <= 0)
+            return false;
+
+        target = component.Target;
+        return true;
+    }
+
     private float SubordinationOfEnslavedProgress(UnitologySubmissionConditionComponent component, int target)
     {
         if (target == 0)

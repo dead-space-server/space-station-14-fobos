@@ -17,6 +17,7 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Systems;
+using Content.Shared.Speech.Muting;
 using Content.Shared.Weapons.Hitscan.Events;
 using Robust.Shared.Containers;
 using Robust.Shared.Physics.Systems;
@@ -122,9 +123,11 @@ public sealed class NecromorphPlasmaCutterSystem : EntitySystem
         if (state.Hits >= hitsToKill)
         {
             // DS14: animal necromorphs should not scream when the cutter kills them.
-            var muted = EnsureComp<Content.Shared.Speech.Muting.MutedComponent>(target);
+            var wasMuted = HasComp<MutedComponent>(target);
+            EnsureComp<MutedComponent>(target);
             _mobState.ChangeMobState(target, MobState.Dead);
-            RemCompDeferred(target, muted);
+            if (!wasMuted)
+                RemCompDeferred<MutedComponent>(target);
             return;
         }
 
@@ -148,8 +151,10 @@ public sealed class NecromorphPlasmaCutterSystem : EntitySystem
             DamageDict = { ["Cellular"] = FixedPoint2.New(health * fraction) }
         };
         // DS14: suppress pain speech only for this cutter hit.
-        var cutterMuted = EnsureComp<Content.Shared.Speech.Muting.MutedComponent>(target);
+        var wasMutedForDamage = HasComp<MutedComponent>(target);
+        EnsureComp<MutedComponent>(target);
         _damage.TryChangeDamage(target, damage, true, false);
-        RemCompDeferred(target, cutterMuted);
+        if (!wasMutedForDamage)
+            RemCompDeferred<MutedComponent>(target);
     }
 }

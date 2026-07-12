@@ -215,6 +215,7 @@ public sealed partial class InfectorDeadSystem : EntitySystem
         if (HasComp<NecromorfComponent>(args.Args.Target.Value))
         {
             _rejuvenate.PerformRejuvenate(args.Args.Target.Value);
+            RemComp<NecromorphPlasmaCutterDamageComponent>(args.Args.Target.Value);
             RestoreMissingLegs(args.Args.Target.Value);
         }
 
