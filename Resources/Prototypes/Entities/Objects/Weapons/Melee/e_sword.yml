@@ -342,6 +342,10 @@
     damage:
       types:
         Blunt: 4.5
+  # DS14-start
+  - type: SandevistanMeleeAttackRate
+    modifier: 1.35
+  # DS14-end
   - type: Sprite
     sprite: Objects/Weapons/Melee/e_sword_double.rsi
     layers:

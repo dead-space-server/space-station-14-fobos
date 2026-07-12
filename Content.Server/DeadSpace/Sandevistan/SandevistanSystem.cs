@@ -10,6 +10,8 @@ using Content.Shared.DeadSpace.Sandevistan;
 using Content.Shared.Implants;
 using Content.Shared.Implants.Components;
 using Content.Shared.Jittering;
+using Content.Shared.Mobs;
+using Content.Shared.Mobs.Components;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Rejuvenate;
@@ -51,6 +53,7 @@ public sealed class SandevistanSystem : EntitySystem
         SubscribeLocalEvent<SandevistanImplantComponent, ActivateSandevistanImplantEvent>(OnActivated);
         SubscribeLocalEvent<SandevistanImplantComponent, ImplantRemovedEvent>(OnImplantRemoved);
         SubscribeLocalEvent<SandevistanImplantComponent, ComponentShutdown>(OnImplantShutdown);
+        SubscribeLocalEvent<ActiveSandevistanComponent, MobStateChangedEvent>(OnMobStateChanged);
         SubscribeLocalEvent<ImplantedComponent, RejuvenateEvent>(OnRejuvenate);
         SubscribeLocalEvent<MeleeWeaponComponent, MeleeHitEvent>(OnMeleeHit);
     }
@@ -65,6 +68,13 @@ public sealed class SandevistanSystem : EntitySystem
         {
             if (Paused(uid))
                 continue;
+
+            if (IsCriticalOrDead(uid))
+            {
+                RequestStop(uid, active, curTime);
+                StopSandevistan(uid, active, curTime);
+                continue;
+            }
 
             if (ShouldStop(uid, active) || curTime >= active.EndTime)
             {
@@ -89,7 +99,6 @@ public sealed class SandevistanSystem : EntitySystem
 
         UpdateRecovery(curTime);
         UpdateVisualFadeouts(curTime);
-        UpdateSpeedFadeouts(curTime);
     }
 
     private void OnActivated(EntityUid uid, SandevistanImplantComponent component, ActivateSandevistanImplantEvent args)
@@ -109,10 +118,7 @@ public sealed class SandevistanSystem : EntitySystem
         {
             if (currentActive.SourceImplant == uid)
             {
-                currentActive.ManualStopRequested = true;
-                currentActive.ManualStopVisualIntensity = GetActiveVisualIntensity(currentActive, curTime);
-                currentActive.EndTime = curTime;
-                Dirty(target, currentActive);
+                RequestStop(target, currentActive, curTime);
 
                 args.Toggle = true;
                 args.Handled = true;
@@ -120,6 +126,9 @@ public sealed class SandevistanSystem : EntitySystem
 
             return;
         }
+
+        if (IsCriticalOrDead(target))
+            return;
 
         if (curTime < component.NextReadyTime)
         {
@@ -182,13 +191,10 @@ public sealed class SandevistanSystem : EntitySystem
         active.AfterimageMinDistance = component.AfterimageMinDistance;
         active.AfterimageLifetime = component.AfterimageLifetime;
         active.DeactivationVisualDuration = component.DeactivationVisualDuration;
-        active.DeactivationMovementDuration = component.DeactivationMovementDuration;
         active.AfterimageColor = component.AfterimageColor;
         active.AfterimageFallbackEffect = component.AfterimageFallbackEffect;
-        active.RecoveryDuration = component.RecoveryDuration;
         active.RecoveryMovementSpeedModifier = component.RecoveryMovementSpeedModifier;
         active.RecoveryTickInterval = component.RecoveryTickInterval;
-        active.RecoveryManualStaminaDamageFraction = component.RecoveryManualStaminaDamageFraction;
         active.RecoveryDamage = new(component.RecoveryDamage);
         active.RecoveryJitterAmplitude = component.RecoveryJitterAmplitude;
         active.RecoveryJitterFrequency = component.RecoveryJitterFrequency;
@@ -198,7 +204,6 @@ public sealed class SandevistanSystem : EntitySystem
 
         RemCompDeferred<SandevistanRecoveryComponent>(target);
         RemCompDeferred<SandevistanVisualFadeoutComponent>(target);
-        RemCompDeferred<SandevistanSpeedFadeoutComponent>(target);
         Dirty(target, active);
         _movement.RefreshMovementSpeedModifiers(target);
         ApplyJitter(target, active, 0f);
@@ -210,6 +215,16 @@ public sealed class SandevistanSystem : EntitySystem
         args.Handled = true;
     }
 
+    private void OnMobStateChanged(Entity<ActiveSandevistanComponent> ent, ref MobStateChangedEvent args)
+    {
+        if (args.NewMobState < MobState.Critical)
+            return;
+
+        var curTime = _timing.CurTime;
+        RequestStop(ent.Owner, ent.Comp, curTime);
+        StopSandevistan(ent.Owner, ent.Comp, curTime);
+    }
+
     private void OnRejuvenate(EntityUid uid, ImplantedComponent component, RejuvenateEvent args)
     {
         if (TryComp<ActiveSandevistanComponent>(uid, out var active))
@@ -218,7 +233,6 @@ public sealed class SandevistanSystem : EntitySystem
         RemComp<ActiveSandevistanComponent>(uid);
         RemComp<SandevistanRecoveryComponent>(uid);
         RemComp<SandevistanVisualFadeoutComponent>(uid);
-        RemComp<SandevistanSpeedFadeoutComponent>(uid);
 
         var query = EntityQueryEnumerator<SandevistanImplantComponent, SubdermalImplantComponent>();
         while (query.MoveNext(out var implant, out var sandevistan, out var subdermal))
@@ -283,6 +297,20 @@ public sealed class SandevistanSystem : EntitySystem
             1f);
     }
 
+    private void RequestStop(EntityUid uid, ActiveSandevistanComponent active, TimeSpan curTime)
+    {
+        active.ManualStopRequested = true;
+        active.ManualStopVisualIntensity = GetActiveVisualIntensity(active, curTime);
+        active.EndTime = curTime;
+        Dirty(uid, active);
+    }
+
+    private bool IsCriticalOrDead(EntityUid uid)
+    {
+        return TryComp<MobStateComponent>(uid, out var mobState) &&
+            mobState.CurrentState >= MobState.Critical;
+    }
+
     private bool ShouldStop(EntityUid uid, ActiveSandevistanComponent active)
     {
         if (active.SourceImplant is not { } implant ||
@@ -313,18 +341,15 @@ public sealed class SandevistanSystem : EntitySystem
         StopWorkingSound(active);
         _audio.PlayEntity(active.DeactivationSound, uid, uid);
 
-        var activeMovementModifier = MathF.Max(active.MovementSpeedModifier, 0.01f);
         active.MovementSpeedModifier = 1f;
         Dirty(uid, active);
 
-        StartCooldown(active, curTime);
+        var downtime = GetDowntime(active, curTime);
+        StartCooldown(active, curTime, downtime);
         StartVisualFadeout(uid, active, curTime);
-        StartRecovery(uid, active, curTime, manualStop);
+        StartRecovery(uid, active, curTime, downtime);
 
-        if (manualStop)
-            StartSpeedFadeout(uid, active, curTime, activeMovementModifier);
-        else
-            _movement.RefreshMovementSpeedModifiers(uid);
+        _movement.RefreshMovementSpeedModifiers(uid);
 
         RemCompDeferred<ActiveSandevistanComponent>(uid);
     }
@@ -385,30 +410,13 @@ public sealed class SandevistanSystem : EntitySystem
         Dirty(uid, fadeout);
     }
 
-    private void StartSpeedFadeout(EntityUid uid, ActiveSandevistanComponent active, TimeSpan curTime, float activeMovementModifier)
+    private static TimeSpan GetDowntime(ActiveSandevistanComponent active, TimeSpan curTime)
     {
-        if (active.DeactivationMovementDuration <= 0f)
-            return;
-
-        var recoveryModifier = active.RecoveryDuration > 0f
-            ? MathF.Max(active.RecoveryMovementSpeedModifier, 0.05f)
-            : 1f;
-        var startModifier = activeMovementModifier / recoveryModifier;
-
-        if (MathF.Abs(startModifier - 1f) <= 0.01f)
-            return;
-
-        var fadeout = EnsureComp<SandevistanSpeedFadeoutComponent>(uid);
-        fadeout.Duration = active.DeactivationMovementDuration;
-        fadeout.EndTime = curTime + TimeSpan.FromSeconds(active.DeactivationMovementDuration);
-        fadeout.StartModifier = startModifier;
-        fadeout.EndModifier = 1f;
-
-        Dirty(uid, fadeout);
-        _movement.RefreshMovementSpeedModifiers(uid);
+        var elapsed = MathF.Max(0f, (float) (curTime - active.StartTime).TotalSeconds);
+        return TimeSpan.FromSeconds(elapsed * MathF.Max(active.CooldownMultiplier, 0f));
     }
 
-    private void StartCooldown(ActiveSandevistanComponent active, TimeSpan curTime)
+    private void StartCooldown(ActiveSandevistanComponent active, TimeSpan curTime, TimeSpan cooldown)
     {
         if (active.SourceImplant is not { } implant ||
             Deleted(implant) ||
@@ -417,8 +425,6 @@ public sealed class SandevistanSystem : EntitySystem
             return;
         }
 
-        var elapsed = MathF.Max(0f, (float) (curTime - active.StartTime).TotalSeconds);
-        var cooldown = TimeSpan.FromSeconds(elapsed * MathF.Max(active.CooldownMultiplier, 0f));
         var cooldownEnd = curTime + cooldown;
         implantComp.NextReadyTime = cooldownEnd;
 
@@ -436,20 +442,23 @@ public sealed class SandevistanSystem : EntitySystem
             _actions.ClearCooldown(action);
     }
 
-    private void StartRecovery(EntityUid uid, ActiveSandevistanComponent active, TimeSpan curTime, bool manualStop)
+    private void StartRecovery(
+        EntityUid uid,
+        ActiveSandevistanComponent active,
+        TimeSpan curTime,
+        TimeSpan duration)
     {
-        if (active.RecoveryDuration <= 0f)
+        if (duration <= TimeSpan.Zero)
             return;
 
+        var durationSeconds = (float) duration.TotalSeconds;
         var recovery = EnsureComp<SandevistanRecoveryComponent>(uid);
-        recovery.Duration = active.RecoveryDuration;
-        recovery.EndTime = curTime + TimeSpan.FromSeconds(active.RecoveryDuration);
+        recovery.Duration = durationSeconds;
+        recovery.EndTime = curTime + duration;
         recovery.NextTickTime = curTime;
         recovery.NextPopupTime = curTime;
         recovery.MovementSpeedModifier = active.RecoveryMovementSpeedModifier;
         recovery.TickInterval = active.RecoveryTickInterval;
-        recovery.ManualStaminaDamageRemaining = 0f;
-        recovery.ManualStaminaDamageTicksRemaining = 0;
         recovery.Damage = new(active.RecoveryDamage);
         recovery.JitterAmplitude = active.RecoveryJitterAmplitude;
         recovery.JitterFrequency = active.RecoveryJitterFrequency;
@@ -458,18 +467,6 @@ public sealed class SandevistanSystem : EntitySystem
         recovery.Popups = new(active.RecoveryPopups);
         recovery.LastPopupIndex = -1;
         recovery.PopupBag.Clear();
-
-        if (manualStop &&
-            active.RecoveryManualStaminaDamageFraction > 0f &&
-            TryComp<StaminaComponent>(uid, out var stamina))
-        {
-            var tickInterval = MathF.Max(active.RecoveryTickInterval, 0.1f);
-            var tickCount = Math.Max(1, (int) MathF.Ceiling(active.RecoveryDuration / tickInterval));
-
-            recovery.ManualStaminaDamageRemaining =
-                stamina.CritThreshold * Math.Clamp(active.RecoveryManualStaminaDamageFraction, 0f, 1f);
-            recovery.ManualStaminaDamageTicksRemaining = tickCount;
-        }
 
         Dirty(uid, recovery);
         _movement.RefreshMovementSpeedModifiers(uid);
@@ -625,7 +622,7 @@ public sealed class SandevistanSystem : EntitySystem
             if (curTime >= recovery.NextTickTime)
                 ApplyRecoveryTick(uid, recovery, curTime);
 
-            if (curTime >= recovery.NextPopupTime)
+            if (!IsCriticalOrDead(uid) && curTime >= recovery.NextPopupTime)
                 ApplyRecoveryPopup(uid, recovery, curTime);
         }
     }
@@ -660,34 +657,7 @@ public sealed class SandevistanSystem : EntitySystem
                 ignoreGlobalModifiers: true);
         }
 
-        ApplyManualRecoveryStaminaDamage(uid, recovery);
         recovery.NextTickTime = curTime + GetInterval(recovery.TickInterval);
-    }
-
-    private void ApplyManualRecoveryStaminaDamage(EntityUid uid, SandevistanRecoveryComponent recovery)
-    {
-        if (recovery.ManualStaminaDamageRemaining <= 0f ||
-            recovery.ManualStaminaDamageTicksRemaining <= 0 ||
-            !TryComp<StaminaComponent>(uid, out var stamina))
-        {
-            return;
-        }
-
-        var damage = recovery.ManualStaminaDamageRemaining / recovery.ManualStaminaDamageTicksRemaining;
-        var adjustedDamage = _stamina.UniversalStaminaDamageModifier > 0f
-            ? damage / _stamina.UniversalStaminaDamageModifier
-            : damage;
-
-        _stamina.TakeStaminaDamage(
-            uid,
-            adjustedDamage,
-            stamina,
-            source: uid,
-            visual: true,
-            ignoreResist: true);
-
-        recovery.ManualStaminaDamageRemaining = MathF.Max(0f, recovery.ManualStaminaDamageRemaining - damage);
-        recovery.ManualStaminaDamageTicksRemaining--;
     }
 
     private void ApplyRecoveryPopup(EntityUid uid, SandevistanRecoveryComponent recovery, TimeSpan curTime)
@@ -713,19 +683,6 @@ public sealed class SandevistanSystem : EntitySystem
 
             if (curTime >= fadeout.EndTime)
                 RemCompDeferred<SandevistanVisualFadeoutComponent>(uid);
-        }
-    }
-
-    private void UpdateSpeedFadeouts(TimeSpan curTime)
-    {
-        var query = EntityQueryEnumerator<SandevistanSpeedFadeoutComponent>();
-        while (query.MoveNext(out var uid, out var fadeout))
-        {
-            if (Paused(uid))
-                continue;
-
-            if (curTime >= fadeout.EndTime)
-                RemCompDeferred<SandevistanSpeedFadeoutComponent>(uid);
         }
     }
 

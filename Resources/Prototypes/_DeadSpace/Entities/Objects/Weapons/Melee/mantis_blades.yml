@@ -55,6 +55,8 @@
       collection: MantisAttack
     soundSwing:
       collection: MantisAttack
+  - type: SandevistanMeleeAttackRate
+    modifier: 1.5
   - type: SolutionContainerManager
     solutions:
       melee:

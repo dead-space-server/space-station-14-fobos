@@ -94,6 +94,10 @@
         Slash: 17 #cmon, it has to be at least BETTER than the rest.
     soundHit:
         path: /Audio/Weapons/bladeslice.ogg
+  # DS14-start
+  - type: SandevistanMeleeAttackRate
+    modifier: 1.35
+  # DS14-end
   - type: Reflect
     reflectProb: .2 #DS14
     spread: 90

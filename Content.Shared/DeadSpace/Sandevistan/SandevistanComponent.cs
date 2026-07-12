@@ -25,7 +25,7 @@ public sealed partial class SandevistanImplantComponent : Component
     public float MovementSpeedModifier = 1.7f;
 
     [DataField]
-    public float AttackRateModifier = 1.35f;
+    public float AttackRateModifier = 1.75f;
 
     [DataField]
     public float OverloadInterval = 1f;
@@ -131,16 +131,10 @@ public sealed partial class SandevistanImplantComponent : Component
     };
 
     [DataField]
-    public float RecoveryDuration = 10f;
-
-    [DataField]
-    public float RecoveryMovementSpeedModifier = 0.65f;
+    public float RecoveryMovementSpeedModifier = 0.75f;
 
     [DataField]
     public float RecoveryTickInterval = 3f;
-
-    [DataField]
-    public float RecoveryManualStaminaDamageFraction = 0.3f;
 
     [DataField]
     public DamageSpecifier RecoveryDamage = new()
@@ -202,9 +196,6 @@ public sealed partial class SandevistanImplantComponent : Component
     public float DeactivationVisualDuration = 1.5f;
 
     [DataField]
-    public float DeactivationMovementDuration = 1.25f;
-
-    [DataField]
     public Color AfterimageColor = Color.FromHex("#00ffd0dd");
 
     [DataField]
@@ -235,6 +226,13 @@ public sealed partial class SandevistanImplantComponent : Component
 
     [DataField]
     public LocId? Popup = "sandevistan-implant-activated";
+}
+
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+public sealed partial class SandevistanMeleeAttackRateComponent : Component
+{
+    [DataField, AutoNetworkedField]
+    public float Modifier = 1f;
 }
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true), AutoGenerateComponentPause]
@@ -322,7 +320,7 @@ public sealed partial class ActiveSandevistanComponent : Component
     public float MovementSpeedModifier = 1.7f;
 
     [DataField, AutoNetworkedField]
-    public float AttackRateModifier = 1.35f;
+    public float AttackRateModifier = 1.75f;
 
     [DataField]
     public float OverloadInterval = 1f;
@@ -385,9 +383,6 @@ public sealed partial class ActiveSandevistanComponent : Component
     [DataField, AutoNetworkedField]
     public float DeactivationVisualDuration = 1.5f;
 
-    [DataField]
-    public float DeactivationMovementDuration = 1.25f;
-
     [DataField, AutoNetworkedField]
     public Color AfterimageColor = Color.FromHex("#00ffd0dd");
 
@@ -395,16 +390,10 @@ public sealed partial class ActiveSandevistanComponent : Component
     public string AfterimageFallbackEffect = "MantisDodgeEffect";
 
     [DataField]
-    public float RecoveryDuration = 10f;
-
-    [DataField]
-    public float RecoveryMovementSpeedModifier = 0.65f;
+    public float RecoveryMovementSpeedModifier = 0.75f;
 
     [DataField]
     public float RecoveryTickInterval = 3f;
-
-    [DataField]
-    public float RecoveryManualStaminaDamageFraction = 0.3f;
 
     [DataField]
     public DamageSpecifier RecoveryDamage = new()
@@ -444,19 +433,13 @@ public sealed partial class SandevistanRecoveryComponent : Component
     public TimeSpan NextPopupTime;
 
     [DataField, AutoNetworkedField]
-    public float MovementSpeedModifier = 0.65f;
+    public float MovementSpeedModifier = 0.75f;
 
     [DataField, AutoNetworkedField]
-    public float Duration = 10f;
+    public float Duration;
 
     [DataField]
     public float TickInterval = 3f;
-
-    [DataField]
-    public float ManualStaminaDamageRemaining;
-
-    [DataField]
-    public int ManualStaminaDamageTicksRemaining;
 
     [DataField]
     public DamageSpecifier Damage = new()
@@ -515,20 +498,4 @@ public sealed partial class SandevistanVisualFadeoutComponent : Component
 
     [DataField, AutoNetworkedField]
     public string AfterimageFallbackEffect = "MantisDodgeEffect";
-}
-
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true), AutoGenerateComponentPause]
-public sealed partial class SandevistanSpeedFadeoutComponent : Component
-{
-    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
-    public TimeSpan EndTime;
-
-    [DataField, AutoNetworkedField]
-    public float Duration = 1.25f;
-
-    [DataField, AutoNetworkedField]
-    public float StartModifier = 1f;
-
-    [DataField, AutoNetworkedField]
-    public float EndModifier = 1f;
 }

@@ -150,7 +150,7 @@
     softcapTime: 12
     cooldownMultiplier: 1.5
     movementSpeedModifier: 1.7
-    attackRateModifier: 1.35
+    attackRateModifier: 1.75
     overloadInterval: 1
     overloadDamage:
       types:
@@ -165,10 +165,8 @@
     endWarningLeadTime: 5
     endWarningInterval: 2.5
     endWarningPopupCount: 1
-    recoveryDuration: 10
-    recoveryMovementSpeedModifier: 0.65
+    recoveryMovementSpeedModifier: 0.75
     recoveryTickInterval: 3
-    recoveryManualStaminaDamageFraction: 0.3
     recoveryDamage:
       types:
         Asphyxiation: 2
@@ -186,7 +184,6 @@
     afterimageMinDistance: 1
     afterimageLifetime: 1.25
     deactivationVisualDuration: 1.5
-    deactivationMovementDuration: 1.25
     afterimageColor: "#00ffd0dd"
     afterimageFallbackEffect: MantisDodgeEffect
     popup: sandevistan-implant-activated
