@@ -137,7 +137,14 @@ public sealed class ArenaSystem : EntitySystem
             return;
         }
 
-        // Player re-attached elsewhere (aghost, role change, etc.) — just clean up the arena body
+        // Visiting another entity (for example via aghost) is temporary. Keep the arena body for the return.
+        if (_minds.TryGetMind(ev.Entity, out _, out var temporaryMind) &&
+            temporaryMind.VisitingEntity != null)
+        {
+            return;
+        }
+
+        // Player re-attached elsewhere (role change, admin takeover, etc.) — just clean up the arena body
         _roster.Remove(GetNetEntity(ev.Entity));
         QueueDel(ev.Entity);
     }
@@ -195,6 +202,9 @@ public sealed class ArenaSystem : EntitySystem
 
     public bool SpawnPlayer(ArenaLoadoutEui eui, ICommonSession who, EntityUid sourceGhost, int kitIdx)
     {
+        if (!Enabled)
+            return false;
+
         if (!_activeEuis.TryGetValue(who, out var currentEui) ||
             !ReferenceEquals(currentEui, eui) ||
             who.AttachedEntity != sourceGhost ||
@@ -272,6 +282,10 @@ public sealed class ArenaSystem : EntitySystem
         }
 
         var userId = temporaryMind.UserId;
+
+        if (temporaryMind.VisitingEntity != null)
+            _minds.UnVisit(temporaryMindId, temporaryMind);
+
         if (userId == null || !TryComp<MindComponent>(arenaPlayer.OriginalMind, out var originalMind))
         {
             if (userId != null)
@@ -381,15 +395,22 @@ public sealed class ArenaSystem : EntitySystem
         var bodyQuery = EntityQueryEnumerator<ArenaPlayerComponent, TransformComponent>();
         while (bodyQuery.MoveNext(out var uid, out _, out var xform))
         {
-            if (xform.MapID == mid && !_roster.Contains(GetNetEntity(uid)))
+            if (xform.MapID == mid &&
+                !_roster.Contains(GetNetEntity(uid)) &&
+                !_minds.TryGetMind(uid, out _, out _))
+            {
                 QueueDel(uid);
+            }
         }
 
         var ghostQuery = EntityQueryEnumerator<GhostComponent, TransformComponent>();
         while (ghostQuery.MoveNext(out var uid, out _, out var xform))
         {
-            if (xform.MapID == mid && !HasComp<ActorComponent>(uid))
+            if (xform.MapID == mid &&
+                !_minds.TryGetMind(uid, out _, out _))
+            {
                 QueueDel(uid);
+            }
         }
     }
 
@@ -410,11 +431,11 @@ public sealed class ArenaSystem : EntitySystem
             if (HasComp<MapGridComponent>(thing))
                 continue;
 
-            if (HasComp<ActorComponent>(thing))
+            if (HasComp<ActorComponent>(thing) ||
+                _minds.TryGetMind(thing, out _, out _))
+            {
                 continue;
-
-            if (HasComp<GhostComponent>(thing) && HasComp<ActorComponent>(thing))
-                continue;
+            }
 
             if (HasComp<BodyPartComponent>(thing))
                 continue;

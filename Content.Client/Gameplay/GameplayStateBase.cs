@@ -242,13 +242,13 @@ namespace Content.Client.Gameplay
                 var transformSystem = _entitySystemManager.GetEntitySystem<SharedTransformSystem>();
                 var mapSystem = _entitySystemManager.GetEntitySystem<MapSystem>();
 
-                // DS14-Start
+                // DS14-start
                 coordinates = !_mapManager.MapExists(mousePosWorld.MapId)
                     ? EntityCoordinates.Invalid
                     : _mapManager.TryFindGridAt(mousePosWorld, out var uid, out _)
                         ? mapSystem.MapToGrid(uid, mousePosWorld)
                         : transformSystem.ToCoordinates(mousePosWorld);
-                // DS4-End
+                // DS14-end
             }
             else
             {
