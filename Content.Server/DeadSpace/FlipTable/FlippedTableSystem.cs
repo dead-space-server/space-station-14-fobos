@@ -37,8 +37,7 @@ public sealed class FlippedTableSystem : EntitySystem
         {
             Act = () => TryFlipTable(uid, component, args.User),
             Text = Loc.GetString("flip-table-verb"),
-            Icon = new Robust.Shared.Utility.SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/fold.svg.192dpi.png")),
-            Priority = 2,
+            Icon = new Robust.Shared.Utility.SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/fold.svg.192dpi.png"))
         };
         args.Verbs.Add(verb);
     }
@@ -52,8 +51,7 @@ public sealed class FlippedTableSystem : EntitySystem
         {
             Act = () => TryUnflipTable(uid, component, args.User),
             Text = Loc.GetString("unflip-table-verb"),
-            Icon = new Robust.Shared.Utility.SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/fold.svg.192dpi.png")),
-            Priority = 2,
+            Icon = new Robust.Shared.Utility.SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/fold.svg.192dpi.png"))
         };
         args.Verbs.Add(verb);
     }
