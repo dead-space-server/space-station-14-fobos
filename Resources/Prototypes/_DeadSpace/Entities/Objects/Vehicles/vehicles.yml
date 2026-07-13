@@ -268,6 +268,7 @@
     containers:
       key_slot: !type:ContainerSlot
       bag: !type:ContainerSlot
+      storagebase: !type:Container
   - type: Appearance
   - type: PointLight
     enabled: false
@@ -351,6 +352,7 @@
   - type: ContainerContainer
     containers:
       key_slot: !type:ContainerSlot
+      storagebase: !type:Container
   - type: SpriteMovement
     movementLayers:
       movement:
