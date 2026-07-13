@@ -117,7 +117,6 @@ public sealed class ColorFlashEffectSystem : SharedColorFlashEffectSystem
 #endif
             }
 
-            _animation.Stop(ent, AnimationKey);
             var animation = GetDamageAnimation(ent, color, sprite);
 
             if (animation == null)
@@ -128,6 +127,8 @@ public sealed class ColorFlashEffectSystem : SharedColorFlashEffectSystem
             var targetEv = new GetFlashEffectTargetEvent(ent);
             RaiseLocalEvent(ent, ref targetEv);
             ent = targetEv.Target;
+
+            _animation.Stop(ent, AnimationKey);
 
             EnsureComp<ColorFlashEffectComponent>(ent, out comp);
             comp.NetSyncEnabled = false;

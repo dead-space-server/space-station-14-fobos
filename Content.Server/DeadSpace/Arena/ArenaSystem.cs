@@ -1,14 +1,20 @@
+using System.Linq;
 using Content.Server.Antag.Components;
 using Content.Server.EUI;
 using Content.Server.Ghost;
+using Content.Server.Hands.Systems;
 using Content.Server.Mind;
 using Content.Server.Preferences.Managers;
+using Content.Server.Stunnable;
 using Content.Shared.Body.Part;
+using Content.Shared.CombatMode.Pacification;
 using Content.Shared.DeadSpace.Arena;
 using Content.Shared.Fluids.Components;
 using Content.Shared.GameTicking;
 using Content.Shared.Ghost;
+using Content.Shared.Hands.Components;
 using Content.Shared.Humanoid;
+using Content.Shared.Inventory;
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Mind;
 using Content.Shared.Mobs;
@@ -46,8 +52,16 @@ public sealed class ArenaSystem : EntitySystem
     [Dependency] private readonly IServerPreferencesManager _prefs = default!;
     [Dependency] private readonly SharedHumanoidAppearanceSystem _humanoid = default!;
     [Dependency] private readonly SharedRoleSystem _roles = default!;
+    [Dependency] private readonly StunSystem _stun = default!;
+    [Dependency] private readonly HandsSystem _hands = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
 
     private const string ArenaMapFile = "/Maps/_DeadSpace/arena.yml";
+
+    private const float DeathmatchDuration = 600f;
+    private const float PropHuntHuntDuration = 300f;
+    private const float PropHuntHidingDuration = 30f;
+    private const float IntermissionDuration = 25f;
 
     public bool Enabled { get; private set; } = true;
 
@@ -56,18 +70,312 @@ public sealed class ArenaSystem : EntitySystem
         Enabled = !Enabled;
     }
 
+    public ArenaMode CurrentMode { get; private set; } = ArenaMode.Deathmatch;
+    public ArenaMode NextMode { get; set; } = ArenaMode.Deathmatch;
+    public ArenaRoundState RoundState { get; private set; } = ArenaRoundState.Intermission;
+    public float RoundTimeRemaining { get; private set; } = IntermissionDuration;
+    public bool RoundStarted { get; private set; }
+
+    private readonly HashSet<NetEntity> _seekerNetEntities = new();
+    private readonly Dictionary<NetEntity, ArenaMode> _votes = new();
+
+    public void EndRound()
+    {
+        if (RoundState != ArenaRoundState.Active && RoundState != ArenaRoundState.Hiding)
+            return;
+
+        StartIntermission();
+    }
+
     private EntityUid? _arenaMap;
     private readonly HashSet<NetEntity> _roster = new();
     private readonly List<ArenaLoadoutPresetPrototype> _presets = new();
     private readonly Dictionary<ICommonSession, ArenaLoadoutEui> _activeEuis = new();
+    private float _broadcastTimer;
 
     public override void Initialize()
     {
         SubscribeNetworkEvent<ArenaJoinEvent>(OnJoin);
         SubscribeNetworkEvent<ArenaLeaveEvent>(OnLeave);
+        SubscribeNetworkEvent<ArenaVoteCastEvent>(OnVoteCast);
         SubscribeLocalEvent<MobStateChangedEvent>(OnDeath);
         SubscribeLocalEvent<PlayerDetachedEvent>(OnPlayerDetached);
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
+    }
+
+    private void StartDeathmatch()
+    {
+        _seekerNetEntities.Clear();
+        RoundState = ArenaRoundState.Active;
+        RoundTimeRemaining = DeathmatchDuration;
+        CurrentMode = ArenaMode.Deathmatch;
+        RoundStarted = true;
+
+        foreach (var netEnt in _roster)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            RemComp<PacifiedComponent>(uid.Value);
+        }
+
+        BroadcastRoundState();
+        Log.Info("Arena deathmatch started");
+    }
+
+    private void StartPropHunt()
+    {
+        CurrentMode = ArenaMode.PropHunt;
+        RoundStarted = true;
+
+        AssignSeekers();
+
+        RoundState = ArenaRoundState.Hiding;
+        RoundTimeRemaining = PropHuntHidingDuration;
+
+        foreach (var netEnt in _roster)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            RemComp<PacifiedComponent>(uid.Value);
+        }
+
+        EquipHiders();
+        ApplyHiderPacifism();
+
+        FreezeSeekers();
+        NotifySeekers();
+
+        BroadcastRoundState();
+        Log.Info("Arena Prop Hunt — hiding phase started");
+    }
+
+    private void EquipHiders()
+    {
+        foreach (var netEnt in _roster)
+        {
+            if (_seekerNetEntities.Contains(netEnt))
+                continue;
+
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+
+            var projector = Spawn("ArenaChameleonProjector", Transform(uid.Value).Coordinates);
+            _hands.TryPickupAnyHand(uid.Value, projector);
+        }
+    }
+
+    private void ApplyHiderPacifism()
+    {
+        foreach (var netEnt in _roster)
+        {
+            if (_seekerNetEntities.Contains(netEnt))
+                continue;
+
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+
+            EnsureComp<PacifiedComponent>(uid.Value);
+        }
+    }
+
+    private void AssignSeekers()
+    {
+        _seekerNetEntities.Clear();
+        var players = _roster.ToList();
+        if (players.Count == 0)
+            return;
+
+        _luck.Shuffle(players);
+
+        var seekerCount = Math.Max(1, (players.Count + 4) / 6);
+        seekerCount = Math.Min(seekerCount, players.Count - 1);
+
+        for (var i = 0; i < seekerCount; i++)
+        {
+            _seekerNetEntities.Add(players[i]);
+            if (TryGetEntity(players[i], out var uid))
+                EquipSeeker(uid.Value);
+        }
+
+        Log.Info($"Prop Hunt: {_seekerNetEntities.Count} seekers, {players.Count - _seekerNetEntities.Count} hiders");
+    }
+
+    private void FreezeSeekers()
+    {
+        foreach (var netEnt in _seekerNetEntities)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+
+            _stun.TryAddParalyzeDuration(uid.Value, TimeSpan.FromSeconds(PropHuntHidingDuration));
+
+            var blindfold = Spawn("ClothingEyesBlindfold", Transform(uid.Value).Coordinates);
+            if (_inventory.TryEquip(uid.Value, blindfold, "eyes", true, true))
+                _seekerBlindfolds[netEnt] = blindfold;
+        }
+    }
+
+    [DataField]
+    public Dictionary<NetEntity, EntityUid> _seekerBlindfolds = new();
+
+    private void NotifySeekers()
+    {
+        foreach (var netEnt in _seekerNetEntities)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+
+            if (!TryComp<ActorComponent>(uid.Value, out var actor))
+                continue;
+
+            RaiseNetworkEvent(new ArenaSeekerFreezeEvent(PropHuntHidingDuration),
+                Filter.SinglePlayer(actor.PlayerSession));
+        }
+    }
+
+    private void StartPropHuntHunt()
+    {
+        RoundState = ArenaRoundState.Active;
+        RoundTimeRemaining = PropHuntHuntDuration;
+
+        UnfreezeSeekers();
+
+        BroadcastRoundState();
+        Log.Info("Arena Prop Hunt — hunt phase started");
+    }
+
+    private void UnfreezeSeekers()
+    {
+        foreach (var netEnt in _seekerNetEntities)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+
+            _stun.TryUnstun(uid.Value);
+
+            RemComp<PacifiedComponent>(uid.Value);
+
+            if (_seekerBlindfolds.TryGetValue(netEnt, out var blindfold))
+            {
+                _inventory.TryUnequip(uid.Value, "eyes");
+                QueueDel(blindfold);
+                _seekerBlindfolds.Remove(netEnt);
+            }
+
+            if (TryComp<ActorComponent>(uid.Value, out var actor))
+                RaiseNetworkEvent(new ArenaSeekerUnfreezeEvent(),
+
+                Filter.SinglePlayer(actor.PlayerSession));
+        }
+    }
+
+    private void StartIntermission()
+    {
+        _seekerNetEntities.Clear();
+        _votes.Clear();
+        RoundState = ArenaRoundState.Intermission;
+        RoundTimeRemaining = IntermissionDuration;
+        RoundStarted = true;
+
+        foreach (var netEnt in _roster)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            EnsureComp<PacifiedComponent>(uid.Value);
+        }
+
+        BroadcastRoundState();
+        BroadcastVoteState();
+        Log.Info("Arena intermission started");
+    }
+
+    private bool CheckPropHuntWinCondition()
+    {
+        if (CurrentMode != ArenaMode.PropHunt || RoundState != ArenaRoundState.Active)
+            return false;
+
+        foreach (var netEnt in _roster)
+        {
+            if (_seekerNetEntities.Contains(netEnt))
+                continue;
+
+            if (TryGetEntity(netEnt, out var uid) && !HasComp<ActorComponent>(uid.Value))
+                continue;
+
+            return false;
+        }
+
+        Log.Info("Prop Hunt: all hiders eliminated, seekers win!");
+        StartIntermission();
+        return true;
+    }
+
+    private void BroadcastRoundState()
+    {
+        var ev = new ArenaRoundUpdateEvent(CurrentMode, RoundState, RoundTimeRemaining);
+        RaiseNetworkEvent(ev, Filter.Broadcast());
+    }
+
+    private void BroadcastVoteState()
+    {
+        var available = new List<ArenaMode> { ArenaMode.Deathmatch };
+        if (_roster.Count >= 2)
+            available.Add(ArenaMode.PropHunt);
+
+        var ev = new ArenaVoteStateEvent(available, new Dictionary<NetEntity, ArenaMode>(_votes));
+        RaiseNetworkEvent(ev, Filter.Broadcast());
+    }
+
+    private void TallyVotes()
+    {
+        var dmVotes = _votes.Values.Count(v => v == ArenaMode.Deathmatch);
+        var phVotes = _votes.Values.Count(v => v == ArenaMode.PropHunt);
+
+        if (phVotes > dmVotes && _roster.Count >= 2)
+            NextMode = ArenaMode.PropHunt;
+        else
+            NextMode = ArenaMode.Deathmatch;
+
+        _votes.Clear();
+    }
+
+    private void TickRound(float frameTime)
+    {
+        if (!RoundStarted || !Enabled || _arenaMap == null)
+            return;
+
+        RoundTimeRemaining -= frameTime;
+
+        _broadcastTimer -= frameTime;
+        if (_broadcastTimer <= 0f)
+        {
+            _broadcastTimer = 1f;
+            BroadcastRoundState();
+        }
+
+        if (RoundTimeRemaining > 0f)
+            return;
+
+        switch (RoundState)
+        {
+            case ArenaRoundState.Intermission:
+                TallyVotes();
+                CurrentMode = NextMode;
+                if (CurrentMode == ArenaMode.PropHunt)
+                    StartPropHunt();
+                else
+                    StartDeathmatch();
+                break;
+            case ArenaRoundState.Hiding:
+                StartPropHuntHunt();
+                break;
+            case ArenaRoundState.Active:
+                // Clean up dead bodies before intermission
+                SweepArenaBodies();
+                ZapArena();
+                StartIntermission();
+                break;
+        }
     }
 
     private void RefreshPresets()
@@ -90,12 +398,32 @@ public sealed class ArenaSystem : EntitySystem
         if (_activeEuis.ContainsKey(who))
             return;
 
+        if (CurrentMode == ArenaMode.PropHunt && RoundState != ArenaRoundState.Intermission)
+            return;
+
         if (_presets.Count == 0)
             RefreshPresets();
 
         var eui = new ArenaLoadoutEui(this, who, ghost);
         _eui.OpenEui(eui, who);
         _activeEuis[who] = eui;
+    }
+
+    private void OnVoteCast(ArenaVoteCastEvent msg, EntitySessionEventArgs args)
+    {
+        var who = (ICommonSession)args.SenderSession;
+        if (RoundState != ArenaRoundState.Intermission)
+            return;
+
+        if (who.AttachedEntity is not { Valid: true } uid ||
+            !TryComp<ArenaPlayerComponent>(uid, out _) ||
+            !_roster.Contains(GetNetEntity(uid)))
+            return;
+
+        var netEnt = GetNetEntity(uid);
+        _votes[netEnt] = msg.Vote;
+
+        BroadcastVoteState();
     }
 
     private void OnLeave(ArenaLeaveEvent msg, EntitySessionEventArgs args)
@@ -117,6 +445,20 @@ public sealed class ArenaSystem : EntitySystem
         if (!TryComp<ArenaPlayerComponent>(ev.Target, out var arenaPlayer) ||
             !_roster.Contains(GetNetEntity(ev.Target)))
             return;
+
+        if (CurrentMode == ArenaMode.PropHunt && RoundState == ArenaRoundState.Active)
+        {
+            var netEnt = GetNetEntity(ev.Target);
+
+            if (!_seekerNetEntities.Contains(netEnt))
+            {
+                _roster.Remove(netEnt);
+                _seekerNetEntities.Remove(netEnt);
+                RestorePlayer(ev.Target, arenaPlayer);
+                CheckPropHuntWinCondition();
+                return;
+            }
+        }
 
         RestorePlayer(ev.Target, arenaPlayer);
     }
@@ -144,8 +486,19 @@ public sealed class ArenaSystem : EntitySystem
             return;
         }
 
+        var netEnt = GetNetEntity(ev.Entity);
+
+        // Prop Hunt: if a seeker ghosts, reassign a new seeker
+        if (CurrentMode == ArenaMode.PropHunt &&
+            _seekerNetEntities.Contains(netEnt) &&
+            _roster.Count - _seekerNetEntities.Count > 0)
+        {
+            _seekerNetEntities.Remove(netEnt);
+            AssignNewSeeker();
+        }
+
         // Player re-attached elsewhere (role change, admin takeover, etc.) — just clean up the arena body
-        _roster.Remove(GetNetEntity(ev.Entity));
+        _roster.Remove(netEnt);
         QueueDel(ev.Entity);
     }
 
@@ -175,7 +528,12 @@ public sealed class ArenaSystem : EntitySystem
 
         _activeEuis.Clear();
         _roster.Clear();
+        _seekerNetEntities.Clear();
         _arenaMap = null;
+        RoundStarted = false;
+        RoundState = ArenaRoundState.Intermission;
+        RoundTimeRemaining = IntermissionDuration;
+        CurrentMode = ArenaMode.Deathmatch;
     }
 
     public ArenaLoadoutEuiState GetLoadoutState()
@@ -259,6 +617,9 @@ public sealed class ArenaSystem : EntitySystem
         arenaPlayer.CanReturnToBody = ghost.CanReturnToBody;
         EnsureComp<AntagImmuneComponent>(fresh);
 
+        if (RoundState == ArenaRoundState.Intermission)
+            EnsureComp<PacifiedComponent>(fresh);
+
         // The disposable arena body must never inherit the round mind's roles or objectives.
         _minds.SetUserId(originalMindId, null, originalMind);
         _minds.TransferTo(originalMindId, null, createGhost: false, mind: originalMind);
@@ -339,10 +700,44 @@ public sealed class ArenaSystem : EntitySystem
             _ghosts.SpawnGhost((arenaPlayer.OriginalMind, originalMind), arenaBody, false);
     }
 
+    private void AssignNewSeeker()
+    {
+        var hiders = _roster
+            .Where(n => !_seekerNetEntities.Contains(n))
+            .ToList();
+
+        if (hiders.Count == 0)
+            return;
+
+        _luck.Shuffle(hiders);
+        var newSeeker = hiders[0];
+        _seekerNetEntities.Add(newSeeker);
+
+        if (TryGetEntity(newSeeker, out var uid) &&
+            TryComp<ActorComponent>(uid, out var actor))
+        {
+            EquipSeeker(uid.Value);
+            var msg = Loc.GetString("arena-seeker-assigned");
+            RaiseNetworkEvent(new ArenaSeekerNotifyEvent(msg),
+                Filter.SinglePlayer(actor.PlayerSession));
+        }
+
+        Log.Info($"Prop Hunt: new seeker assigned");
+    }
+
+    private void EquipSeeker(EntityUid uid)
+    {
+        var sword = Spawn("EnergySwordDouble", Transform(uid).Coordinates);
+        _hands.TryPickupAnyHand(uid, sword);
+    }
+
     private void EnsureMap()
     {
         if (_arenaMap != null && Exists(_arenaMap.Value))
             return;
+
+        if (!RoundStarted)
+            StartIntermission();
 
         var opts = Robust.Shared.EntitySerialization.DeserializationOptions.Default with { InitializeMaps = true };
 
@@ -454,11 +849,13 @@ public sealed class ArenaSystem : EntitySystem
     public override void Update(float frameTime)
     {
         _cleanTick += frameTime;
-        if (_cleanTick < 60f)
-            return;
+        if (_cleanTick >= 60f)
+        {
+            _cleanTick = 0f;
+            ZapArena();
+        }
 
-        _cleanTick = 0f;
-        ZapArena();
+        TickRound(frameTime);
     }
 
     private float _cleanTick;

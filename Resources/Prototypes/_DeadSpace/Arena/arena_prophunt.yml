@@ -1,0 +1,11 @@
+- type: entity
+  parent: ChameleonProjector
+  id: ArenaChameleonProjector
+  name: chameleon projector
+  suffix: Arena Prop Hunt
+  components:
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default
+        startingItem: PowerCellMicroreactor

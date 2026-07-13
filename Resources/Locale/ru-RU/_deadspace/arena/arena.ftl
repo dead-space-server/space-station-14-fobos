@@ -23,3 +23,11 @@ arena-category-smgs = SMGS
 arena-category-rifles = RIFLES
 arena-category-revolvers = PISTOLS
 arena-category-melee = MELEE
+
+## Arena modes
+arena-mode-deathmatch = Deathmatch
+arena-mode-prophunt = PropHunt
+arena-state-intermission = Перерыв
+arena-state-hiding = Прятки
+arena-seeker-title = ВЫ ИСКАТЕЛЬ
+arena-seeker-assigned = Вы были назначены искателем!

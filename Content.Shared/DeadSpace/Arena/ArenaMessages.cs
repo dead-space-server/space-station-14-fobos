@@ -9,33 +9,82 @@ public sealed class ArenaJoinEvent : EntityEventArgs;
 public sealed class ArenaLeaveEvent : EntityEventArgs;
 
 [Serializable, NetSerializable]
-public sealed class ArenaOfferEvent : EntityEventArgs
+public enum ArenaMode : byte
 {
-    public List<ArenaOfferEntry> Catalog { get; }
+    Deathmatch,
+    PropHunt
+}
 
-    public ArenaOfferEvent(List<ArenaOfferEntry> catalog)
+[Serializable, NetSerializable]
+public enum ArenaRoundState : byte
+{
+    Intermission,
+    Hiding,
+    Active
+}
+
+[Serializable, NetSerializable]
+public sealed class ArenaRoundUpdateEvent : EntityEventArgs
+{
+    public ArenaMode Mode { get; }
+    public ArenaRoundState RoundState { get; }
+    public float TimeRemaining { get; }
+
+    public ArenaRoundUpdateEvent(ArenaMode mode, ArenaRoundState roundState, float timeRemaining)
     {
-        Catalog = catalog;
+        Mode = mode;
+        RoundState = roundState;
+        TimeRemaining = timeRemaining;
     }
 }
 
 [Serializable, NetSerializable]
-public sealed class ArenaOfferEntry
+public sealed class ArenaSeekerFreezeEvent : EntityEventArgs
 {
-    public int Idx;
-    public string Title = string.Empty;
-    public string Hint = string.Empty;
-    public string Style = string.Empty;
-    public string Icon = string.Empty;
+    public float FreezeDuration { get; }
+
+    public ArenaSeekerFreezeEvent(float freezeDuration)
+    {
+        FreezeDuration = freezeDuration;
+    }
 }
 
 [Serializable, NetSerializable]
-public sealed class ArenaPickEvent : EntityEventArgs
+public sealed class ArenaSeekerUnfreezeEvent : EntityEventArgs
 {
-    public int Pick { get; }
+}
 
-    public ArenaPickEvent(int pick)
+[Serializable, NetSerializable]
+public sealed class ArenaSeekerNotifyEvent : EntityEventArgs
+{
+    public string Message { get; }
+
+    public ArenaSeekerNotifyEvent(string message)
     {
-        Pick = pick;
+        Message = message;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class ArenaVoteCastEvent : EntityEventArgs
+{
+    public ArenaMode Vote { get; }
+
+    public ArenaVoteCastEvent(ArenaMode vote)
+    {
+        Vote = vote;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class ArenaVoteStateEvent : EntityEventArgs
+{
+    public List<ArenaMode> AvailableModes { get; }
+    public Dictionary<NetEntity, ArenaMode> Votes { get; }
+
+    public ArenaVoteStateEvent(List<ArenaMode> availableModes, Dictionary<NetEntity, ArenaMode> votes)
+    {
+        AvailableModes = availableModes;
+        Votes = votes;
     }
 }
