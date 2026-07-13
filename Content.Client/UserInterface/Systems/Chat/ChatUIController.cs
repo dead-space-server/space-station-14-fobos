@@ -40,6 +40,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Replays;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+using Content.Shared.DeadSpace.CCCCVars;
 
 
 namespace Content.Client.UserInterface.Systems.Chat;
@@ -318,6 +319,28 @@ public sealed partial class ChatUIController : UIController
         }
 
         chatBox.Main = setting;
+        if (_config.GetCVar(CCCCVars.PopOutChat))
+        {
+            _sawmill.Debug("ХЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕРРРРРРР");
+            Logger.Debug("ХЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕРРРРРРР");
+            foreach (var chat in _chats)
+            {
+                _sawmill.Debug("ХУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУЙ");
+                Logger.Debug("ХУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУЙ");
+                if (!chat.Main)
+                {
+                    Logger.Debug("пееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееенис");
+                    chat.Visible = false;
+                }
+                else
+                {
+                    Logger.Debug("ПЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕНИС");
+                    ChatWindow chatpopout = new ChatWindow();
+                    chatpopout.PopOut(chat);
+                    break;
+                }
+            }
+        }
     }
 
     private void SetChatSizing(string sizing, InGameScreen screen, bool setting)

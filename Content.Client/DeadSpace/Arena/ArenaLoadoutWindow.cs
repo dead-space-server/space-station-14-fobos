@@ -89,7 +89,7 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
                 categoryMap[category] = list;
                 categories.Add((category, list));
             }
-            list.Add(option);
+            //list.Add(option); А оно здесь нужно?
         }
 
         foreach (var (category, options) in categories)
