@@ -254,6 +254,15 @@
           path: /Audio/Items/belt_equip.ogg
           params:
             volume: -3
+  - type: Item
+  - type: Storage
+    grid:
+    - 0,0,2,2
+    maxItemSize: Normal
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
   - type: ContainerContainer
     containers:
       key_slot: !type:ContainerSlot
@@ -328,6 +337,15 @@
           path: /Audio/Effects/Vehicle/vehiclestartup.ogg
           params:
             volume: -3
+  - type: Item
+  - type: Storage
+    grid:
+    - 0,0,2,2
+    maxItemSize: Normal
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
   - type: ContainerContainer
     containers:
       key_slot: !type:ContainerSlot
