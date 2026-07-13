@@ -10,7 +10,6 @@ using Content.Server.Stunnable;
 using Content.Shared.Body.Part;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.DeadSpace.Arena;
-using Content.Shared.DeadSpace.Arena.Components;
 using Content.Shared.Doors.Components;
 using Content.Shared.Fluids.Components;
 using Content.Shared.GameTicking;
@@ -88,9 +87,6 @@ public sealed class ArenaSystem : EntitySystem
     private readonly List<EntityCoordinates> _blueSpawns = new();
     private readonly List<EntityCoordinates> _redSpawns = new();
     private readonly List<EntityUid> _tdmDoors = new();
-    private readonly List<EntityUid> _flags = new();
-    private readonly Dictionary<ArenaTeam, int> _scores = new();
-    private float _scoreTimer;
 
     public void EndRound()
     {
@@ -167,9 +163,6 @@ public sealed class ArenaSystem : EntitySystem
     private void StartTDM()
     {
         _playerTeams.Clear();
-        _flags.Clear();
-        _scores.Clear();
-        _scoreTimer = 0f;
         CurrentMode = ArenaMode.TDM;
         RoundStarted = true;
 
@@ -178,7 +171,6 @@ public sealed class ArenaSystem : EntitySystem
         AssignTDTeams();
         RespawnAllForTDM();
         CloseTDMDoors();
-        SpawnFlags();
 
         RoundState = ArenaRoundState.Preparation;
         RoundTimeRemaining = TDMPreparationDuration;
@@ -357,125 +349,7 @@ public sealed class ArenaSystem : EntitySystem
 
         OpenTDMDoors();
         BroadcastRoundState();
-        BroadcastScores();
         Log.Info("Arena TDM — round started");
-    }
-
-    private void SetFlagTeam(EntityUid flag, ArenaTeam team)
-    {
-        if (!TryComp<ArenaFlagComponent>(flag, out var flagComp))
-            return;
-
-        flagComp.Team = team;
-        flagComp.CaptureProgress = 0f;
-        Dirty(flag, flagComp);
-    }
-
-    private void SpawnFlags()
-    {
-        _flags.Clear();
-        if (_arenaMap is not { } map)
-            return;
-
-        var positions = new[]
-        {
-            (0f, 0f),
-            (-4f, 0f),
-            (4f, 0f),
-        };
-
-        foreach (var (x, y) in positions)
-        {
-            var flag = Spawn("ArenaFlag", new EntityCoordinates(map, x, y));
-            SetFlagTeam(flag, ArenaTeam.None);
-            _flags.Add(flag);
-        }
-    }
-
-    private void BroadcastScores()
-    {
-        var blueScore = _scores.GetValueOrDefault(ArenaTeam.Blue);
-        var redScore = _scores.GetValueOrDefault(ArenaTeam.Red);
-        RaiseNetworkEvent(new ArenaScoreEvent(ArenaTeam.None, blueScore, redScore), Filter.Broadcast());
-    }
-
-    private void ProcessFlags(float frameTime)
-    {
-        if (_arenaMap is not { } map)
-            return;
-
-        var mid = Transform(map).MapID;
-        var captureRange = 1.5f;
-
-        foreach (var flag in _flags)
-        {
-            if (!TryComp<ArenaFlagComponent>(flag, out var flagComp) || !TryComp<TransformComponent>(flag, out var flagXform))
-                continue;
-
-            if (flagXform.MapID != mid)
-                continue;
-
-            var flagPos = flagXform.WorldPosition;
-            var capturers = 0;
-            ArenaTeam capturingTeam = ArenaTeam.None;
-
-            foreach (var netEnt in _roster)
-            {
-                if (!TryGetEntity(netEnt, out var uid))
-                    continue;
-
-                if (!TryComp<TransformComponent>(uid.Value, out var playerXform) || playerXform.MapID != mid)
-                    continue;
-
-                if ((playerXform.WorldPosition - flagPos).Length() > captureRange)
-                    continue;
-
-                if (TryComp<MobStateComponent>(uid.Value, out var mobState) && mobState.CurrentState != MobState.Alive)
-                    continue;
-
-                if (!TryComp<ArenaPlayerComponent>(uid.Value, out var ap))
-                    continue;
-
-                capturers++;
-                if (capturingTeam == ArenaTeam.None)
-                    capturingTeam = ap.Team;
-            }
-
-            if (capturers > 0 && capturingTeam != ArenaTeam.None && capturingTeam != flagComp.Team)
-            {
-                flagComp.CaptureProgress += frameTime * capturers / 20f;
-                if (flagComp.CaptureProgress >= 1f)
-                {
-                    flagComp.CaptureProgress = 0f;
-                    SetFlagTeam(flag, capturingTeam);
-                }
-            }
-            else if (capturers == 0)
-            {
-                flagComp.CaptureProgress = Math.Max(0f, flagComp.CaptureProgress - frameTime / 20f);
-            }
-
-            flagComp.CapturersCount = capturers;
-            Dirty(flag, flagComp);
-        }
-
-        _scoreTimer += frameTime;
-        if (_scoreTimer >= 1f)
-        {
-            _scoreTimer -= 1f;
-            foreach (var flag in _flags)
-            {
-                if (!TryComp<ArenaFlagComponent>(flag, out var flagComp))
-                    continue;
-
-                if (flagComp.Team == ArenaTeam.Blue)
-                    _scores[ArenaTeam.Blue] = _scores.GetValueOrDefault(ArenaTeam.Blue) + 1;
-                else if (flagComp.Team == ArenaTeam.Red)
-                    _scores[ArenaTeam.Red] = _scores.GetValueOrDefault(ArenaTeam.Red) + 1;
-            }
-
-            BroadcastScores();
-        }
     }
 
     private void EquipHiders()
@@ -603,15 +477,6 @@ public sealed class ArenaSystem : EntitySystem
         _seekerNetEntities.Clear();
         _playerTeams.Clear();
         _votes.Clear();
-        _scores.Clear();
-        _scoreTimer = 0f;
-
-        foreach (var flag in _flags)
-        {
-            if (Exists(flag))
-                QueueDel(flag);
-        }
-        _flags.Clear();
 
         RoundState = ArenaRoundState.Intermission;
         RoundTimeRemaining = IntermissionDuration;
@@ -695,9 +560,6 @@ public sealed class ArenaSystem : EntitySystem
             _broadcastTimer = 1f;
             BroadcastRoundState();
         }
-
-        if (CurrentMode == ArenaMode.TDM && RoundState == ArenaRoundState.Active)
-            ProcessFlags(frameTime);
 
         if (RoundTimeRemaining > 0f)
             return;
@@ -894,9 +756,6 @@ public sealed class ArenaSystem : EntitySystem
         _blueSpawns.Clear();
         _redSpawns.Clear();
         _tdmDoors.Clear();
-        _flags.Clear();
-        _scores.Clear();
-        _scoreTimer = 0f;
         _arenaMap = null;
         RoundStarted = false;
         RoundState = ArenaRoundState.Intermission;

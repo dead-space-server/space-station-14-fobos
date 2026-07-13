@@ -39,8 +39,6 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
     private int _lastDmVotes;
     private int _lastPhVotes;
     private int _lastTdmVotes;
-    private int _blueScore;
-    private int _redScore;
 
     public override void Initialize()
     {
@@ -49,7 +47,6 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         SubscribeNetworkEvent<ArenaSeekerUnfreezeEvent>(OnSeekerUnfreeze);
         SubscribeNetworkEvent<ArenaSeekerNotifyEvent>(OnSeekerNotify);
         SubscribeNetworkEvent<ArenaVoteStateEvent>(OnVoteState);
-        SubscribeNetworkEvent<ArenaScoreEvent>(OnScoreUpdate);
 
         _seekerFont = new VectorFont(
             _resourceCache.GetResource<FontResource>("/Fonts/NotoSans/NotoSans-Bold.ttf"), 24);
@@ -278,12 +275,6 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         _lastTdmVotes = ev.Votes.Values.Count(v => v == ArenaMode.TDM);
     }
 
-    private void OnScoreUpdate(ArenaScoreEvent ev, EntitySessionEventArgs args)
-    {
-        _blueScore = ev.BlueScore;
-        _redScore = ev.RedScore;
-    }
-
     public override void FrameUpdate(FrameEventArgs args)
     {
         UpdateArenaPanel(args);
@@ -341,12 +332,7 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
 
         var minutes = (int)remaining / 60;
         var seconds = (int)remaining % 60;
-        var main = $"{statePrefix}{modeName} | {minutes:D2}:{seconds:D2}";
-
-        if (_mode == ArenaMode.TDM)
-            main += $"\nСиние: {_blueScore} | Красные: {_redScore}";
-
-        return main;
+        return $"{statePrefix}{modeName} | {minutes:D2}:{seconds:D2}";
     }
 
     private void UpdateVotePanel()

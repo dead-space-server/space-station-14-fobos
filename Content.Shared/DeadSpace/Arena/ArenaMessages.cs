@@ -87,21 +87,6 @@ public sealed class ArenaVoteCastEvent : EntityEventArgs
 }
 
 [Serializable, NetSerializable]
-public sealed class ArenaScoreEvent : EntityEventArgs
-{
-    public ArenaTeam Team { get; }
-    public int BlueScore { get; }
-    public int RedScore { get; }
-
-    public ArenaScoreEvent(ArenaTeam team, int blueScore, int redScore)
-    {
-        Team = team;
-        BlueScore = blueScore;
-        RedScore = redScore;
-    }
-}
-
-[Serializable, NetSerializable]
 public sealed class ArenaVoteStateEvent : EntityEventArgs
 {
     public List<ArenaMode> AvailableModes { get; }
