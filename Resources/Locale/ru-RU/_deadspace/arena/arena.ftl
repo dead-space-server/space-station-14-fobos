@@ -30,6 +30,7 @@ arena-mode-prophunt = PropHunt
 arena-state-intermission = Перерыв
 arena-state-hiding = Прятки
 arena-seeker-title = ВЫ ИСКАТЕЛЬ
+arena-seeker-subtitle = Дабла в вашей сумке
 arena-seeker-assigned = Вы были назначены искателем!
 arena-mode-tdm = TDM
 arena-state-preparation = Подготовка
@@ -39,3 +40,27 @@ arena-category-team-blue = СИНИЕ
 arena-tdm-team-red = Команда Красных
 arena-tdm-desc-red = Тяжелая броня, винтовка.
 arena-category-team-red = КРАСНЫЕ
+
+## Arena manifest (round-end tab)
+arena-manifest-tab-title = Итоги Арены
+arena-manifest-title = Итоги Арены
+arena-manifest-dm-section = Deathmatch (Топ-3):
+arena-manifest-tdm-section = TDM (Топ-3):
+arena-manifest-no-data = Нет данных
+arena-manifest-best-team = Лучшая команда TDM: { $team }
+arena-manifest-tdm-draw = Ничья в TDM
+arena-manifest-overall-title = Лучший игрок арены (DM + TDM):
+arena-manifest-overall-player = { $name } — всего { $kills }/{ $deaths } (K/D: { $kd })
+arena-manifest-overall-detail = DM: { $dmk }/{ $dmd } | TDM: { $tdmk }/{ $tdmd }
+
+## Arena winners
+arena-winner-dm = { $name } победил с K/D { $kills }/{ $deaths }!
+arena-winner-dm-wrap = *{ $name } побеждает в Deathmatch с K/D { $kills }/{ $deaths }!*
+arena-winner-prophunt-seekers = Искатели победили!
+arena-winner-prophunt-seekers-wrap = *Искатели уничтожили всех прячущихся!*
+arena-winner-prophunt-hiders = Прячущиеся победили!
+arena-winner-prophunt-hiders-wrap = *Прячущиеся выжили до конца раунда!*
+arena-winner-tdm-draw = Ничья!
+arena-winner-tdm-draw-wrap = *Ничья в TDM!*
+arena-winner-tdm = { $team } победила!
+arena-winner-tdm-wrap = *{ $team } побеждает в TDM!*

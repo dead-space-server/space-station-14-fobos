@@ -32,6 +32,8 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
     private ArenaRoundState _roundState;
     private float _timeRemaining = -1f;
     private float _localTimer;
+    private int _blueKills;
+    private int _redKills;
     private bool _isSeekerFrozen;
     private Font _seekerFont = default!;
     private List<ArenaMode> _availableModes = new();
@@ -236,6 +238,8 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         _roundState = ev.RoundState;
         _timeRemaining = ev.TimeRemaining;
         _localTimer = 0f;
+        _blueKills = ev.BlueKills;
+        _redKills = ev.RedKills;
     }
 
     private void OnSeekerFreeze(ArenaSeekerFreezeEvent ev, EntitySessionEventArgs args)
@@ -246,7 +250,7 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
 
         if (_seekerLabel != null)
         {
-            _seekerLabel.Text = Loc.GetString("arena-seeker-title");
+            _seekerLabel.Text = $"{Loc.GetString("arena-seeker-title")}\n{Loc.GetString("arena-seeker-subtitle")}";
             _seekerLabel.Visible = true;
         }
     }
@@ -330,9 +334,13 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
             _ => ""
         };
 
+        var score = _mode == ArenaMode.TDM
+            ? $" | Синие: {_blueKills} | Красные: {_redKills}"
+            : "";
+
         var minutes = (int)remaining / 60;
         var seconds = (int)remaining % 60;
-        return $"{statePrefix}{modeName} | {minutes:D2}:{seconds:D2}";
+        return $"{statePrefix}{modeName}{score} | {minutes:D2}:{seconds:D2}";
     }
 
     private void UpdateVotePanel()

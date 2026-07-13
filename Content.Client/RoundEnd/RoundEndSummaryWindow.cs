@@ -3,6 +3,7 @@ using System.Numerics;
 using Content.Client.Message;
 using Content.Client.UserInterface.Controls;
 using Content.Shared.Chat.TypingIndicator;
+using Content.Shared.DeadSpace.Arena;
 using Content.Shared.GameTicking;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
@@ -18,9 +19,10 @@ namespace Content.Client.RoundEnd
 {
     public sealed class RoundEndSummaryWindow : DefaultWindow
     {
-        private readonly IEntityManager _entityManager;
-        private readonly List<RoundEndManifestDollView> _manifestDollViews = new();
-        public int RoundId;
+    private readonly IEntityManager _entityManager;
+    private readonly List<RoundEndManifestDollView> _manifestDollViews = new();
+    private readonly TabContainer _roundEndTabs;
+    public int RoundId;
 
         public RoundEndSummaryWindow(string gm, string roundEnd, TimeSpan roundTimeSpan, int roundId,
             RoundEndMessageEvent.RoundEndPlayerInfo[] info, IEntityManager entityManager)
@@ -42,11 +44,11 @@ namespace Content.Client.RoundEnd
             // Also good for serious info.
 
             RoundId = roundId;
-            var roundEndTabs = new TabContainer();
-            roundEndTabs.AddChild(MakeRoundEndSummaryTab(gm, roundEnd, roundTimeSpan, roundId, info));
-            roundEndTabs.AddChild(MakePlayerManifestTab(info));
+            _roundEndTabs = new TabContainer();
+            _roundEndTabs.AddChild(MakeRoundEndSummaryTab(gm, roundEnd, roundTimeSpan, roundId, info));
+            _roundEndTabs.AddChild(MakePlayerManifestTab(info));
 
-            ContentsContainer.AddChild(roundEndTabs);
+            ContentsContainer.AddChild(_roundEndTabs);
 
             OpenCenteredRight();
             MoveToFront();
@@ -973,6 +975,170 @@ namespace Content.Client.RoundEnd
         private static string LocalizeOrRaw(string value)
         {
             return Loc.TryGetString(value, out var localized) ? localized : value;
+        }
+
+        public void SetArenaManifest(ArenaManifestEvent ev)
+        {
+            // Remove old arena tab if exists
+            for (var i = 0; i < _roundEndTabs.ChildCount; i++)
+            {
+                if (_roundEndTabs.GetChild(i) is BoxContainer tab && tab.Name == "ArenaTab")
+                {
+                    _roundEndTabs.RemoveChild(tab);
+                    tab.Dispose();
+                    break;
+                }
+            }
+
+            _roundEndTabs.AddChild(MakeArenaManifestTab(ev));
+        }
+
+        private BoxContainer MakeArenaManifestTab(ArenaManifestEvent ev)
+        {
+            var tab = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Vertical,
+                Name = Loc.GetString("arena-manifest-tab-title"),
+            };
+
+            var scroll = new ScrollContainer
+            {
+                VerticalExpand = true,
+                HorizontalExpand = true,
+                HScrollEnabled = false,
+                Margin = new Thickness(10),
+            };
+
+            var container = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Vertical,
+                SeparationOverride = 10,
+                HorizontalExpand = true,
+            };
+
+            // Title
+            container.AddChild(new Label
+            {
+                Text = Loc.GetString("arena-manifest-title"),
+                FontColorOverride = Color.White,
+                HorizontalAlignment = Control.HAlignment.Center,
+                Margin = new Thickness(0, 0, 0, 10),
+            });
+
+            // DM section
+            container.AddChild(new Label
+            {
+                Text = Loc.GetString("arena-manifest-dm-section"),
+                FontColorOverride = Color.Orange,
+                HorizontalAlignment = Control.HAlignment.Left,
+            });
+
+            var dmTop = ev.DmPlayers.Take(3).ToList();
+            if (dmTop.Count == 0)
+            {
+                container.AddChild(new Label { Text = Loc.GetString("arena-manifest-no-data"), FontColorOverride = Color.Gray });
+            }
+            else
+            {
+                for (var i = 0; i < dmTop.Count; i++)
+                {
+                    var p = dmTop[i];
+                    container.AddChild(new Label
+                    {
+                        Text = $"{i + 1}. {p.PlayerName} — {p.Kills}/{p.Deaths} (K/D: {p.KD:F2})",
+                        FontColorOverride = Color.White,
+                    });
+                }
+            }
+
+            // TDM section
+            container.AddChild(new Label
+            {
+                Text = Loc.GetString("arena-manifest-tdm-section"),
+                FontColorOverride = Color.LightSkyBlue,
+                Margin = new Thickness(0, 10, 0, 0),
+            });
+
+            var tdmTop = ev.TdmPlayers.Take(3).ToList();
+            if (tdmTop.Count == 0)
+            {
+                container.AddChild(new Label { Text = Loc.GetString("arena-manifest-no-data"), FontColorOverride = Color.Gray });
+            }
+            else
+            {
+                for (var i = 0; i < tdmTop.Count; i++)
+                {
+                    var p = tdmTop[i];
+                    container.AddChild(new Label
+                    {
+                        Text = $"{i + 1}. {p.PlayerName} — {p.Kills}/{p.Deaths} (K/D: {p.KD:F2})",
+                        FontColorOverride = Color.White,
+                    });
+                }
+            }
+
+            // Best TDM team
+            if (ev.BestTdmTeam != null)
+            {
+                var teamName = ev.BestTdmTeam == ArenaTeam.Blue
+                    ? Loc.GetString("arena-tdm-team-blue")
+                    : Loc.GetString("arena-tdm-team-red");
+                container.AddChild(new Label
+                {
+                    Text = Loc.GetString("arena-manifest-best-team", ("team", teamName)),
+                    FontColorOverride = Color.Yellow,
+                    Margin = new Thickness(0, 10, 0, 0),
+                });
+            }
+            else if (ev.TdmPlayers.Count > 0)
+            {
+                container.AddChild(new Label
+                {
+                    Text = Loc.GetString("arena-manifest-tdm-draw"),
+                    FontColorOverride = Color.Yellow,
+                    Margin = new Thickness(0, 10, 0, 0),
+                });
+            }
+
+            // Overall best player
+            if (ev.OverallBest != null)
+            {
+                var o = ev.OverallBest;
+                container.AddChild(new Label
+                {
+                    Text = Loc.GetString("arena-manifest-overall-title"),
+                    FontColorOverride = Color.Gold,
+                    Margin = new Thickness(0, 10, 0, 0),
+                });
+                var kdStr = o.KD.ToString("F2");
+                container.AddChild(new Label
+                {
+                    Text = Loc.GetString("arena-manifest-overall-player",
+                        ("name", o.PlayerName),
+                        ("kills", o.Kills),
+                        ("deaths", o.Deaths),
+                        ("kd", kdStr)),
+                    FontColorOverride = Color.White,
+                });
+                container.AddChild(new Label
+                {
+                    Text = Loc.GetString("arena-manifest-overall-detail",
+                        ("dmk", o.DmKills), ("dmd", o.DmDeaths),
+                        ("tdmk", o.TdmKills), ("tdmd", o.TdmDeaths)),
+                    FontColorOverride = Color.Gray,
+                });
+            }
+
+            tab.AddChild(new PanelContainer
+            {
+                StyleClasses = { "BackgroundPanelDark" },
+                HorizontalExpand = true,
+                VerticalExpand = true,
+                Children = { scroll },
+            });
+            scroll.AddChild(container);
+
+            return tab;
         }
 
         private sealed class RoundEndManifestDollView : SpriteView

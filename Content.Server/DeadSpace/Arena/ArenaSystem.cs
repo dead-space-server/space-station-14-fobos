@@ -1,6 +1,8 @@
 using System.Linq;
 using Content.Server.Antag.Components;
+using Content.Server.Chat.Managers;
 using Content.Server.EUI;
+using Content.Server.GameTicking;
 using Content.Server.Ghost;
 using Content.Server.Hands.Systems;
 using Content.Server.Mind;
@@ -8,6 +10,7 @@ using Content.Server.Preferences.Managers;
 using Content.Server.Doors.Systems;
 using Content.Server.Stunnable;
 using Content.Shared.Body.Part;
+using Content.Shared.Chat;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.DeadSpace.Arena;
 using Content.Shared.Doors.Components;
@@ -24,6 +27,9 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Jobs;
+using Content.Shared.Storage;
+using Content.Shared.Storage.Components;
+using Content.Shared.Storage.EntitySystems;
 using Content.Shared.Station;
 using Robust.Server.GameObjects;
 using Robust.Shared.Map;
@@ -32,6 +38,7 @@ using Robust.Shared.Maths;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Enums;
 using Robust.Shared.Player;
+using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
@@ -58,6 +65,8 @@ public sealed class ArenaSystem : EntitySystem
     [Dependency] private readonly StunSystem _stun = default!;
     [Dependency] private readonly HandsSystem _hands = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly IChatManager _chat = default!;
+    [Dependency] private readonly SharedStorageSystem _storage = default!;
 
     private const string ArenaMapFile = "/Maps/_DeadSpace/arena.yml";
 
@@ -87,6 +96,21 @@ public sealed class ArenaSystem : EntitySystem
     private readonly List<EntityCoordinates> _blueSpawns = new();
     private readonly List<EntityCoordinates> _redSpawns = new();
     private readonly List<EntityUid> _tdmDoors = new();
+    private readonly Dictionary<NetUserId, int> _dmKills = new();
+    private readonly Dictionary<NetUserId, int> _dmDeaths = new();
+    private readonly Dictionary<ArenaTeam, int> _tdmTeamKills = new()
+    {
+        [ArenaTeam.Blue] = 0,
+        [ArenaTeam.Red] = 0,
+    };
+    // Persistent stats across sub-rounds (not cleared between DM/TDM rounds)
+    private readonly Dictionary<NetUserId, int> _persistDmKills = new();
+    private readonly Dictionary<NetUserId, int> _persistDmDeaths = new();
+    private readonly Dictionary<NetUserId, int> _persistTdmKills = new();
+    private readonly Dictionary<NetUserId, int> _persistTdmDeaths = new();
+    private readonly Dictionary<NetUserId, string> _persistPlayerNames = new();
+    private int _persistTdmBlueKills;
+    private int _persistTdmRedKills;
 
     public void EndRound()
     {
@@ -110,12 +134,17 @@ public sealed class ArenaSystem : EntitySystem
         SubscribeLocalEvent<MobStateChangedEvent>(OnDeath);
         SubscribeLocalEvent<PlayerDetachedEvent>(OnPlayerDetached);
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
+        SubscribeLocalEvent<RoundEndTextAppendEvent>(OnRoundEndTextAppend);
     }
 
     private void StartDeathmatch()
     {
         _seekerNetEntities.Clear();
         _playerTeams.Clear();
+        _dmKills.Clear();
+        _dmDeaths.Clear();
+        _tdmTeamKills[ArenaTeam.Blue] = 0;
+        _tdmTeamKills[ArenaTeam.Red] = 0;
         RoundState = ArenaRoundState.Active;
         RoundTimeRemaining = DeathmatchDuration;
         CurrentMode = ArenaMode.Deathmatch;
@@ -135,6 +164,10 @@ public sealed class ArenaSystem : EntitySystem
     private void StartPropHunt()
     {
         _playerTeams.Clear();
+        _dmKills.Clear();
+        _dmDeaths.Clear();
+        _tdmTeamKills[ArenaTeam.Blue] = 0;
+        _tdmTeamKills[ArenaTeam.Red] = 0;
         CurrentMode = ArenaMode.PropHunt;
         RoundStarted = true;
 
@@ -163,6 +196,10 @@ public sealed class ArenaSystem : EntitySystem
     private void StartTDM()
     {
         _playerTeams.Clear();
+        _dmKills.Clear();
+        _dmDeaths.Clear();
+        _tdmTeamKills[ArenaTeam.Blue] = 0;
+        _tdmTeamKills[ArenaTeam.Red] = 0;
         CurrentMode = ArenaMode.TDM;
         RoundStarted = true;
 
@@ -511,13 +548,18 @@ public sealed class ArenaSystem : EntitySystem
         }
 
         Log.Info("Prop Hunt: all hiders eliminated, seekers win!");
+        _chat.ChatMessageToAll(ChatChannel.Server,
+            Loc.GetString("arena-winner-prophunt-seekers"),
+            Loc.GetString("arena-winner-prophunt-seekers-wrap"),
+            EntityUid.Invalid, false, true, Color.OrangeRed);
         StartIntermission();
         return true;
     }
 
     private void BroadcastRoundState()
     {
-        var ev = new ArenaRoundUpdateEvent(CurrentMode, RoundState, RoundTimeRemaining);
+        var ev = new ArenaRoundUpdateEvent(CurrentMode, RoundState, RoundTimeRemaining,
+            _tdmTeamKills[ArenaTeam.Blue], _tdmTeamKills[ArenaTeam.Red]);
         RaiseNetworkEvent(ev, Filter.Broadcast());
     }
 
@@ -529,6 +571,76 @@ public sealed class ArenaSystem : EntitySystem
 
         var ev = new ArenaVoteStateEvent(available, new Dictionary<NetEntity, ArenaMode>(_votes));
         RaiseNetworkEvent(ev, Filter.Broadcast());
+    }
+
+    private void BroadcastRoundEndWinner()
+    {
+        switch (CurrentMode)
+        {
+            case ArenaMode.Deathmatch:
+            {
+                NetUserId? bestPlayer = null;
+                var bestKd = -1.0;
+
+                foreach (var (userId, kills) in _dmKills)
+                {
+                    var deaths = _dmDeaths.GetValueOrDefault(userId, 0);
+                    var kd = deaths == 0 ? kills : (double)kills / deaths;
+                    if (kd > bestKd)
+                    {
+                        bestKd = kd;
+                        bestPlayer = userId;
+                    }
+                }
+
+                if (bestPlayer is { } winner)
+                {
+                    var name = _prefs.GetPreferences(winner).SelectedCharacter?.Name ?? "Unknown";
+                    var kills = _dmKills.GetValueOrDefault(winner, 0);
+                    var deaths = _dmDeaths.GetValueOrDefault(winner, 0);
+                    _chat.ChatMessageToAll(ChatChannel.Server,
+                        Loc.GetString("arena-winner-dm", ("name", name), ("kills", kills), ("deaths", deaths)),
+                        Loc.GetString("arena-winner-dm-wrap", ("name", name), ("kills", kills), ("deaths", deaths)),
+                        EntityUid.Invalid, false, true, Color.OrangeRed);
+                }
+                break;
+            }
+            case ArenaMode.PropHunt:
+            {
+                // Timer expired — hiders win
+                _chat.ChatMessageToAll(ChatChannel.Server,
+                    Loc.GetString("arena-winner-prophunt-hiders"),
+                    Loc.GetString("arena-winner-prophunt-hiders-wrap"),
+                    EntityUid.Invalid, false, true, Color.OrangeRed);
+                break;
+            }
+            case ArenaMode.TDM:
+            {
+                ArenaTeam winner;
+                if (_tdmTeamKills[ArenaTeam.Blue] > _tdmTeamKills[ArenaTeam.Red])
+                    winner = ArenaTeam.Blue;
+                else if (_tdmTeamKills[ArenaTeam.Red] > _tdmTeamKills[ArenaTeam.Blue])
+                    winner = ArenaTeam.Red;
+                else
+                {
+                    // Draw — no winner
+                    _chat.ChatMessageToAll(ChatChannel.Server,
+                        Loc.GetString("arena-winner-tdm-draw"),
+                        Loc.GetString("arena-winner-tdm-draw-wrap"),
+                        EntityUid.Invalid, false, true, Color.OrangeRed);
+                    break;
+                }
+
+                var teamName = winner == ArenaTeam.Blue
+                    ? Loc.GetString("arena-tdm-team-blue")
+                    : Loc.GetString("arena-tdm-team-red");
+                _chat.ChatMessageToAll(ChatChannel.Server,
+                    Loc.GetString("arena-winner-tdm", ("team", teamName)),
+                    Loc.GetString("arena-winner-tdm-wrap", ("team", teamName)),
+                    EntityUid.Invalid, false, true, Color.OrangeRed);
+                break;
+            }
+        }
     }
 
     private void TallyVotes()
@@ -583,6 +695,7 @@ public sealed class ArenaSystem : EntitySystem
                 StartTDMActive();
                 break;
             case ArenaRoundState.Active:
+                BroadcastRoundEndWinner();
                 // Clean up dead bodies before intermission
                 SweepArenaBodies();
                 ZapArena();
@@ -667,22 +780,109 @@ public sealed class ArenaSystem : EntitySystem
             !_roster.Contains(GetNetEntity(ev.Target)))
             return;
 
+        var victimNet = GetNetEntity(ev.Target);
+
+        // Find killer and track kills
+        if (TryGetKillerMind(ev.Origin, out var killerMind, out _) &&
+            killerMind?.UserId is { } killerUserId)
+        {
+            if (CurrentMode == ArenaMode.TDM &&
+                killerMind.OwnedEntity is { } killerEnt &&
+                TryComp<ArenaPlayerComponent>(killerEnt, out var killerArena) &&
+                killerArena.Team != ArenaTeam.None)
+            {
+                _tdmTeamKills[killerArena.Team]++;
+                // Persistent
+                _persistTdmKills.TryAdd(killerUserId, 0);
+                _persistTdmKills[killerUserId]++;
+                if (killerArena.Team == ArenaTeam.Blue)
+                    _persistTdmBlueKills++;
+                else
+                    _persistTdmRedKills++;
+            }
+            else if (CurrentMode == ArenaMode.Deathmatch)
+            {
+                _dmKills.TryAdd(killerUserId, 0);
+                _dmKills[killerUserId]++;
+                // Persistent
+                _persistDmKills.TryAdd(killerUserId, 0);
+                _persistDmKills[killerUserId]++;
+            }
+
+            // Cache player name
+            if (!_persistPlayerNames.ContainsKey(killerUserId))
+            {
+                try { _persistPlayerNames[killerUserId] = _prefs.GetPreferences(killerUserId).SelectedCharacter?.Name ?? "Unknown"; }
+                catch { _persistPlayerNames[killerUserId] = "Unknown"; }
+            }
+        }
+
+        // Track death for Deathmatch K/D
+        if (CurrentMode == ArenaMode.Deathmatch)
+        {
+            _minds.TryGetMind(ev.Target, out var victimMindId, out var victimMind);
+            if (victimMind?.UserId is { } victimUserId)
+            {
+                _dmDeaths.TryAdd(victimUserId, 0);
+                _dmDeaths[victimUserId]++;
+                _persistDmDeaths.TryAdd(victimUserId, 0);
+                _persistDmDeaths[victimUserId]++;
+            }
+        }
+        // Track death for TDM
+        if (CurrentMode == ArenaMode.TDM)
+        {
+            _minds.TryGetMind(ev.Target, out var victimMindId, out var victimMind);
+            if (victimMind?.UserId is { } victimUserId)
+            {
+                _persistTdmDeaths.TryAdd(victimUserId, 0);
+                _persistTdmDeaths[victimUserId]++;
+            }
+        }
+
         if (CurrentMode == ArenaMode.PropHunt && RoundState == ArenaRoundState.Active)
         {
-            var netEnt = GetNetEntity(ev.Target);
-
-            if (!_seekerNetEntities.Contains(netEnt))
+            if (!_seekerNetEntities.Contains(victimNet))
             {
-                _roster.Remove(netEnt);
-                _seekerNetEntities.Remove(netEnt);
+                _roster.Remove(victimNet);
+                _seekerNetEntities.Remove(victimNet);
                 RestorePlayer(ev.Target, arenaPlayer);
                 CheckPropHuntWinCondition();
                 return;
             }
         }
 
-        _playerTeams.Remove(GetNetEntity(ev.Target));
+        _playerTeams.Remove(victimNet);
         RestorePlayer(ev.Target, arenaPlayer);
+    }
+
+    private bool TryGetKillerMind(EntityUid? origin, out MindComponent? mind, out EntityUid mindId)
+    {
+        mind = null;
+        mindId = default;
+
+        if (origin == null)
+            return false;
+
+        if (_minds.TryGetMind(origin.Value, out mindId, out mind) && mind != null)
+            return true;
+
+        // Try parent chain (projectiles, vehicles, etc.)
+        if (TryComp<TransformComponent>(origin.Value, out var xform))
+        {
+            var current = origin.Value;
+            for (var i = 0; i < 5; i++)
+            {
+                var parent = xform.ParentUid;
+                if (!parent.IsValid() || parent == current)
+                    break;
+                if (_minds.TryGetMind(parent, out mindId, out mind) && mind != null)
+                    return true;
+                current = parent;
+            }
+        }
+
+        return false;
     }
 
     private void OnPlayerDetached(PlayerDetachedEvent ev)
@@ -731,6 +931,85 @@ public sealed class ArenaSystem : EntitySystem
             _activeEuis.Remove(session);
     }
 
+    private void OnRoundEndTextAppend(RoundEndTextAppendEvent ev)
+    {
+        if (_persistDmKills.Count == 0 && _persistTdmKills.Count == 0)
+            return;
+
+        // Build DM player records sorted by K/D
+        var dmPlayers = new List<ArenaPlayerRecord>();
+        foreach (var (userId, kills) in _persistDmKills)
+        {
+            var deaths = _persistDmDeaths.GetValueOrDefault(userId, 0);
+            dmPlayers.Add(new ArenaPlayerRecord
+            {
+                PlayerName = _persistPlayerNames.GetValueOrDefault(userId, "Unknown"),
+                Kills = kills,
+                Deaths = deaths,
+                KD = deaths == 0 ? kills : (double)kills / deaths,
+            });
+        }
+        dmPlayers = dmPlayers.OrderByDescending(p => p.KD).Take(10).ToList();
+
+        // Build TDM player records
+        var tdmPlayers = new List<ArenaPlayerRecord>();
+        foreach (var (userId, kills) in _persistTdmKills)
+        {
+            var deaths = _persistTdmDeaths.GetValueOrDefault(userId, 0);
+            tdmPlayers.Add(new ArenaPlayerRecord
+            {
+                PlayerName = _persistPlayerNames.GetValueOrDefault(userId, "Unknown"),
+                Kills = kills,
+                Deaths = deaths,
+                KD = deaths == 0 ? kills : (double)kills / deaths,
+            });
+        }
+        tdmPlayers = tdmPlayers.OrderByDescending(p => p.KD).Take(10).ToList();
+
+        // Determine best TDM team by total kills
+        ArenaTeam? bestTeam = _persistTdmBlueKills > _persistTdmRedKills ? ArenaTeam.Blue :
+                              _persistTdmRedKills > _persistTdmBlueKills ? ArenaTeam.Red : null;
+
+        // Find overall best player across both modes
+        ArenaPlayerRecord? overallBest = null;
+        var allUserIds = new HashSet<NetUserId>(_persistDmKills.Keys);
+        allUserIds.UnionWith(_persistTdmKills.Keys);
+        foreach (var userId in allUserIds)
+        {
+            var dmK = _persistDmKills.GetValueOrDefault(userId, 0);
+            var dmD = _persistDmDeaths.GetValueOrDefault(userId, 0);
+            var tdmK = _persistTdmKills.GetValueOrDefault(userId, 0);
+            var tdmD = _persistTdmDeaths.GetValueOrDefault(userId, 0);
+            var totalK = dmK + tdmK;
+            var totalD = dmD + tdmD;
+            var kd = totalD == 0 ? totalK : (double)totalK / totalD;
+
+            if (overallBest == null || kd > overallBest.KD)
+            {
+                overallBest = new ArenaPlayerRecord
+                {
+                    PlayerName = _persistPlayerNames.GetValueOrDefault(userId, "Unknown"),
+                    Kills = totalK,
+                    Deaths = totalD,
+                    KD = kd,
+                    DmKills = dmK,
+                    DmDeaths = dmD,
+                    TdmKills = tdmK,
+                    TdmDeaths = tdmD,
+                };
+            }
+        }
+
+        var manifest = new ArenaManifestEvent
+        {
+            DmPlayers = dmPlayers,
+            TdmPlayers = tdmPlayers,
+            BestTdmTeam = bestTeam,
+            OverallBest = overallBest,
+        };
+        RaiseNetworkEvent(manifest);
+    }
+
     private void OnRoundRestart(RoundRestartCleanupEvent ev)
     {
         var openEuis = new List<ArenaLoadoutEui>(_activeEuis.Values);
@@ -757,6 +1036,13 @@ public sealed class ArenaSystem : EntitySystem
         _redSpawns.Clear();
         _tdmDoors.Clear();
         _arenaMap = null;
+        _persistDmKills.Clear();
+        _persistDmDeaths.Clear();
+        _persistTdmKills.Clear();
+        _persistTdmDeaths.Clear();
+        _persistPlayerNames.Clear();
+        _persistTdmBlueKills = 0;
+        _persistTdmRedKills = 0;
         RoundStarted = false;
         RoundState = ArenaRoundState.Intermission;
         RoundTimeRemaining = IntermissionDuration;
@@ -978,6 +1264,12 @@ public sealed class ArenaSystem : EntitySystem
     private void EquipSeeker(EntityUid uid)
     {
         var sword = Spawn("EnergySwordDouble", Transform(uid).Coordinates);
+        if (_inventory.TryGetSlotEntity(uid, "back", out var backpack) &&
+            TryComp<StorageComponent>(backpack, out var storageComp) &&
+            _storage.Insert(backpack.Value, sword, out _, storageComp: storageComp, playSound: false))
+        {
+            return;
+        }
         _hands.TryPickupAnyHand(uid, sword);
     }
 

@@ -96,14 +96,10 @@
     back: ClothingBackpack
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
-  inhand:
-    - WeaponRifleLecter
   storage:
     back:
       - MedkitFilled
-      - MagazineRifle
-      - MagazineRifle
-      - MagazineRifleIncendiary
+      - BaseUplinkRadio40TC
 
 - type: arenaLoadoutPreset
   id: ArenaTeamRed
@@ -121,11 +117,7 @@
     back: ClothingBackpack
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
-  inhand:
-    - WeaponRifleLecter
   storage:
     back:
       - MedkitFilled
-      - MagazineRifle
-      - MagazineRifle
-      - MagazineRifleIncendiary
+      - BaseUplinkRadio40TC

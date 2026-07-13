@@ -39,12 +39,16 @@ public sealed class ArenaRoundUpdateEvent : EntityEventArgs
     public ArenaMode Mode { get; }
     public ArenaRoundState RoundState { get; }
     public float TimeRemaining { get; }
+    public int BlueKills { get; }
+    public int RedKills { get; }
 
-    public ArenaRoundUpdateEvent(ArenaMode mode, ArenaRoundState roundState, float timeRemaining)
+    public ArenaRoundUpdateEvent(ArenaMode mode, ArenaRoundState roundState, float timeRemaining, int blueKills = 0, int redKills = 0)
     {
         Mode = mode;
         RoundState = roundState;
         TimeRemaining = timeRemaining;
+        BlueKills = blueKills;
+        RedKills = redKills;
     }
 }
 
@@ -97,4 +101,26 @@ public sealed class ArenaVoteStateEvent : EntityEventArgs
         AvailableModes = availableModes;
         Votes = votes;
     }
+}
+
+[Serializable, NetSerializable]
+public sealed class ArenaPlayerRecord
+{
+    public string PlayerName = "";
+    public int Kills;
+    public int Deaths;
+    public double KD;
+    public int DmKills;
+    public int DmDeaths;
+    public int TdmKills;
+    public int TdmDeaths;
+}
+
+[Serializable, NetSerializable]
+public sealed class ArenaManifestEvent : EntityEventArgs
+{
+    public List<ArenaPlayerRecord> DmPlayers = new();
+    public List<ArenaPlayerRecord> TdmPlayers = new();
+    public ArenaTeam? BestTdmTeam;
+    public ArenaPlayerRecord? OverallBest;
 }
