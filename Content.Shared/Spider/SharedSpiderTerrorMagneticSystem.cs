@@ -1,19 +1,20 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Server.DeadSpace.Spiders.SpiderTerror.Components;
 using Content.Shared.Gravity;
 using Content.Shared.Maps;
-using Content.Shared.Spider;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Timing;
 
-namespace Content.Server.DeadSpace.Spiders.SpiderTerror;
+namespace Content.Shared.Spider;
 
-public sealed class SpiderTerrorMagneticSystem : EntitySystem
+public sealed class SharedSpiderTerrorMagneticSystem : EntitySystem
 {
     [Dependency] private readonly ITileDefinitionManager _tileDef = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly SharedGravitySystem _gravity = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     private ushort _vebTileId;
     private EntityQuery<SpiderWebObjectComponent> _webQuery;
@@ -22,8 +23,8 @@ public sealed class SpiderTerrorMagneticSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<SpiderTerrorComponent, IsWeightlessEvent>(OnIsWeightless);
-        SubscribeLocalEvent<SpiderTerrorComponent, MoveEvent>(OnMove);
+        SubscribeLocalEvent<SpiderComponent, IsWeightlessEvent>(OnIsWeightless);
+        SubscribeLocalEvent<SpiderComponent, MoveEvent>(OnMove);
 
         _webQuery = GetEntityQuery<SpiderWebObjectComponent>();
     }
@@ -39,15 +40,18 @@ public sealed class SpiderTerrorMagneticSystem : EntitySystem
         return _vebTileId;
     }
 
-    private void OnMove(Entity<SpiderTerrorComponent> ent, ref MoveEvent args)
+    private void OnMove(Entity<SpiderComponent> ent, ref MoveEvent args)
     {
+        if (!_timing.IsFirstTimePredicted)
+            return;
+
         if (!TryComp<GravityAffectedComponent>(ent.Owner, out var gravity))
             return;
 
         _gravity.RefreshWeightless((ent.Owner, gravity));
     }
 
-    private void OnIsWeightless(Entity<SpiderTerrorComponent> ent, ref IsWeightlessEvent args)
+    private void OnIsWeightless(Entity<SpiderComponent> ent, ref IsWeightlessEvent args)
     {
         if (args.Handled)
             return;
