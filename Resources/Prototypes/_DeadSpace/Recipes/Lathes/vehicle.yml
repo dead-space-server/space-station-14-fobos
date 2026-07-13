@@ -75,7 +75,6 @@
     Gold: 850
     Silver: 600
     Plastic: 500
-    BluespaceCrystal: 100
 
 - type: latheRecipe
   id: TaipanVehicleKeyUniversal

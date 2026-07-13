@@ -2067,6 +2067,7 @@
   minLimit: 0
   loadouts:
   - LizardPlushieJanitor
+  - GoldPlungerJanitor
 
 - type: loadoutGroup
   id: BotanistJobTrinkets
