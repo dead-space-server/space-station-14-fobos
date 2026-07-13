@@ -414,6 +414,12 @@
     count: 7
 
 - type: localizedDataset
+  id: PlushieBroneslavSpeech
+  values:
+    prefix: plushies-broneslav-
+    count: 3
+
+- type: localizedDataset
   id: Plushie0black_cat0Speech
   values:
     prefix: plushies-blackcat-
