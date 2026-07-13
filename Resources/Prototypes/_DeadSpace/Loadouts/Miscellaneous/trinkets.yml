@@ -663,3 +663,45 @@
     back:
     -  PlushieCyberBobeksRiikka
   groupBy: "plushie"
+
+- type: loadout
+  id:  PlushieAmaliz
+  storage:
+    back:
+    -  PlushieAmaliz
+  groupBy: "plushie"
+
+- type: loadout
+  id:  PlushieNikolVitali
+  storage:
+    back:
+    -  PlushieNikolVitali
+  groupBy: "plushie"
+
+- type: loadout
+  id:  PlushieCovralBroneslav
+  storage:
+    back:
+    -  PlushieCovralBroneslav
+  groupBy: "plushie"
+
+- type: loadout
+  id:  Plushie0black_cat0
+  storage:
+    back:
+    -  Plushie0black_cat0
+  groupBy: "plushie"
+
+- type: loadout
+  id:  PlushieDosDydosYukari
+  storage:
+    back:
+    -  PlushieDosDydosYukari
+  groupBy: "plushie"
+
+- type: loadout
+  id:  PlushieYosugaMarsel
+  storage:
+    back:
+    -  PlushieYosugaMarsel
+  groupBy: "plushie"
