@@ -12,7 +12,16 @@ public sealed class ArenaLeaveEvent : EntityEventArgs;
 public enum ArenaMode : byte
 {
     Deathmatch,
-    PropHunt
+    PropHunt,
+    TDM
+}
+
+[Serializable, NetSerializable]
+public enum ArenaTeam : byte
+{
+    None,
+    Blue,
+    Red
 }
 
 [Serializable, NetSerializable]
@@ -20,6 +29,7 @@ public enum ArenaRoundState : byte
 {
     Intermission,
     Hiding,
+    Preparation,
     Active
 }
 
@@ -73,6 +83,21 @@ public sealed class ArenaVoteCastEvent : EntityEventArgs
     public ArenaVoteCastEvent(ArenaMode vote)
     {
         Vote = vote;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class ArenaScoreEvent : EntityEventArgs
+{
+    public ArenaTeam Team { get; }
+    public int BlueScore { get; }
+    public int RedScore { get; }
+
+    public ArenaScoreEvent(ArenaTeam team, int blueScore, int redScore)
+    {
+        Team = team;
+        BlueScore = blueScore;
+        RedScore = redScore;
     }
 }
 

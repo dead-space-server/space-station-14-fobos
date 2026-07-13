@@ -10,4 +10,5 @@ public sealed partial class ArenaPlayerComponent : Component
     public EntityUid OriginalMind;
     public EntityUid OriginalGhost;
     public bool CanReturnToBody;
+    public ArenaTeam Team = ArenaTeam.None;
 }

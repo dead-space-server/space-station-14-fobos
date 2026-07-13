@@ -1,0 +1,18 @@
+- type: entity
+  id: ArenaFlag
+  name: флаг
+  description: Захватите флаг для своей команды!
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Arena/flag.rsi
+    state: icon
+    color: "#FFD700"
+  - type: Physics
+    bodyType: Static
+  - type: Transform
+    anchored: true
+  - type: Clickable
+  - type: InteractionOutline
+  - type: ArenaFlag

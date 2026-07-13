@@ -5,10 +5,13 @@ using Content.Server.Ghost;
 using Content.Server.Hands.Systems;
 using Content.Server.Mind;
 using Content.Server.Preferences.Managers;
+using Content.Server.Doors.Systems;
 using Content.Server.Stunnable;
 using Content.Shared.Body.Part;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.DeadSpace.Arena;
+using Content.Shared.DeadSpace.Arena.Components;
+using Content.Shared.Doors.Components;
 using Content.Shared.Fluids.Components;
 using Content.Shared.GameTicking;
 using Content.Shared.Ghost;
@@ -52,6 +55,7 @@ public sealed class ArenaSystem : EntitySystem
     [Dependency] private readonly IServerPreferencesManager _prefs = default!;
     [Dependency] private readonly SharedHumanoidAppearanceSystem _humanoid = default!;
     [Dependency] private readonly SharedRoleSystem _roles = default!;
+    [Dependency] private readonly DoorSystem _doorSystem = default!;
     [Dependency] private readonly StunSystem _stun = default!;
     [Dependency] private readonly HandsSystem _hands = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
@@ -61,6 +65,8 @@ public sealed class ArenaSystem : EntitySystem
     private const float DeathmatchDuration = 600f;
     private const float PropHuntHuntDuration = 300f;
     private const float PropHuntHidingDuration = 30f;
+    private const float TDMPreparationDuration = 30f;
+    private const float TDMRoundDuration = 600f;
     private const float IntermissionDuration = 25f;
 
     public bool Enabled { get; private set; } = true;
@@ -78,6 +84,13 @@ public sealed class ArenaSystem : EntitySystem
 
     private readonly HashSet<NetEntity> _seekerNetEntities = new();
     private readonly Dictionary<NetEntity, ArenaMode> _votes = new();
+    private readonly Dictionary<NetEntity, ArenaTeam> _playerTeams = new();
+    private readonly List<EntityCoordinates> _blueSpawns = new();
+    private readonly List<EntityCoordinates> _redSpawns = new();
+    private readonly List<EntityUid> _tdmDoors = new();
+    private readonly List<EntityUid> _flags = new();
+    private readonly Dictionary<ArenaTeam, int> _scores = new();
+    private float _scoreTimer;
 
     public void EndRound()
     {
@@ -106,6 +119,7 @@ public sealed class ArenaSystem : EntitySystem
     private void StartDeathmatch()
     {
         _seekerNetEntities.Clear();
+        _playerTeams.Clear();
         RoundState = ArenaRoundState.Active;
         RoundTimeRemaining = DeathmatchDuration;
         CurrentMode = ArenaMode.Deathmatch;
@@ -124,6 +138,7 @@ public sealed class ArenaSystem : EntitySystem
 
     private void StartPropHunt()
     {
+        _playerTeams.Clear();
         CurrentMode = ArenaMode.PropHunt;
         RoundStarted = true;
 
@@ -147,6 +162,320 @@ public sealed class ArenaSystem : EntitySystem
 
         BroadcastRoundState();
         Log.Info("Arena Prop Hunt — hiding phase started");
+    }
+
+    private void StartTDM()
+    {
+        _playerTeams.Clear();
+        _flags.Clear();
+        _scores.Clear();
+        _scoreTimer = 0f;
+        CurrentMode = ArenaMode.TDM;
+        RoundStarted = true;
+
+        CacheTeamSpawns();
+        CacheTDMDoors();
+        AssignTDTeams();
+        RespawnAllForTDM();
+        CloseTDMDoors();
+        SpawnFlags();
+
+        RoundState = ArenaRoundState.Preparation;
+        RoundTimeRemaining = TDMPreparationDuration;
+
+        BroadcastRoundState();
+        Log.Info("Arena TDM — preparation phase started");
+    }
+
+    private void CacheTeamSpawns()
+    {
+        _blueSpawns.Clear();
+        _redSpawns.Clear();
+
+        if (_arenaMap is not { } map)
+            return;
+
+        var cursor = AllEntityQuery<ArenaTeamSpawnComponent, TransformComponent>();
+        while (cursor.MoveNext(out var comp, out var xform))
+        {
+            if (xform.MapID != Transform(map).MapID)
+                continue;
+
+            if (comp.Team == ArenaTeam.Blue)
+                _blueSpawns.Add(xform.Coordinates);
+            else if (comp.Team == ArenaTeam.Red)
+                _redSpawns.Add(xform.Coordinates);
+        }
+    }
+
+    private void CacheTDMDoors()
+    {
+        _tdmDoors.Clear();
+
+        if (_arenaMap is not { } map)
+            return;
+
+        var mid = Transform(map).MapID;
+        var cursor = AllEntityQuery<DoorComponent, TransformComponent>();
+        while (cursor.MoveNext(out var uid, out _, out var xform))
+        {
+            if (xform.MapID == mid)
+                _tdmDoors.Add(uid);
+        }
+    }
+
+    private void CloseTDMDoors()
+    {
+        foreach (var door in _tdmDoors)
+        {
+            if (TryComp<DoorComponent>(door, out var doorComp) && doorComp.State == DoorState.Open)
+                _doorSystem.StartClosing(door);
+        }
+    }
+
+    private void OpenTDMDoors()
+    {
+        foreach (var door in _tdmDoors)
+        {
+            if (TryComp<DoorComponent>(door, out var doorComp) && doorComp.State != DoorState.Open)
+                _doorSystem.StartOpening(door);
+        }
+    }
+
+    private void AssignTDTeams()
+    {
+        var players = _roster.ToList();
+        _luck.Shuffle(players);
+
+        var half = players.Count / 2;
+        for (var i = 0; i < players.Count; i++)
+        {
+            var team = i < half ? ArenaTeam.Blue : ArenaTeam.Red;
+            _playerTeams[players[i]] = team;
+        }
+
+        Log.Info($"TDM: {_playerTeams.Count(v => v.Value == ArenaTeam.Blue)} blue, {_playerTeams.Count(v => v.Value == ArenaTeam.Red)} red");
+    }
+
+    private void RespawnAllForTDM()
+    {
+        var oldRoster = _roster.ToList();
+        _roster.Clear();
+
+        // Delete old bodies and spawn new ones with team equipment
+        foreach (var netEnt in oldRoster)
+        {
+            if (!TryGetEntity(netEnt, out var oldUid))
+                continue;
+
+            if (!TryComp<ArenaPlayerComponent>(oldUid, out var arenaPlayer))
+                continue;
+
+            if (!_minds.TryGetMind(oldUid.Value, out var mindId, out var mind))
+                continue;
+
+            var team = _playerTeams.GetValueOrDefault(netEnt, ArenaTeam.Blue);
+
+            // Find the preset for this team
+            var preset = _presets.FirstOrDefault(p => p.Team == team && p.Mode == ArenaMode.TDM);
+            if (preset == null)
+            {
+                preset = _presets.FirstOrDefault();
+                if (preset == null)
+                    continue;
+            }
+
+            // Spawn at team spawn
+            var spot = GetTeamSpawn(team);
+            string speciesId;
+            if (mind.UserId != null)
+            {
+                var profile = _prefs.GetPreferences(mind.UserId.Value).SelectedCharacter as HumanoidCharacterProfile;
+                speciesId = profile?.Species ?? SharedHumanoidAppearanceSystem.DefaultSpecies;
+            }
+            else
+            {
+                speciesId = SharedHumanoidAppearanceSystem.DefaultSpecies;
+            }
+
+            var species = _protos.Index<SpeciesPrototype>(speciesId);
+            var fresh = Spawn(species.Prototype, spot);
+
+            var entityName = mind.CharacterName ?? "Unknown";
+            _meta.SetEntityName(fresh, entityName);
+
+            if (mind.UserId != null)
+            {
+                var profile = _prefs.GetPreferences(mind.UserId.Value).SelectedCharacter as HumanoidCharacterProfile;
+                if (profile != null)
+                    _humanoid.LoadProfile(fresh, profile);
+            }
+            _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
+
+            var newArenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
+            newArenaPlayer.OriginalMind = arenaPlayer.OriginalMind;
+            newArenaPlayer.OriginalGhost = arenaPlayer.OriginalGhost;
+            newArenaPlayer.CanReturnToBody = arenaPlayer.CanReturnToBody;
+            newArenaPlayer.Team = team;
+            EnsureComp<AntagImmuneComponent>(fresh);
+            EnsureComp<PacifiedComponent>(fresh);
+
+            _minds.TransferTo(mindId, fresh, mind: mind);
+
+            // Delete old body
+            QueueDel(oldUid.Value);
+
+            var newNetEnt = GetNetEntity(fresh);
+            _roster.Add(newNetEnt);
+            _playerTeams[newNetEnt] = team;
+        }
+    }
+
+    private EntityCoordinates GetTeamSpawn(ArenaTeam team)
+    {
+        var spawns = team == ArenaTeam.Blue ? _blueSpawns : _redSpawns;
+        if (spawns.Count > 0)
+            return _luck.Pick(spawns);
+
+        if (_arenaMap is { } map)
+            return new EntityCoordinates(map, System.Numerics.Vector2.Zero);
+
+        return EntityCoordinates.Invalid;
+    }
+
+    private void StartTDMActive()
+    {
+        RoundState = ArenaRoundState.Active;
+        RoundTimeRemaining = TDMRoundDuration;
+
+        foreach (var netEnt in _roster)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            RemComp<PacifiedComponent>(uid.Value);
+        }
+
+        OpenTDMDoors();
+        BroadcastRoundState();
+        BroadcastScores();
+        Log.Info("Arena TDM — round started");
+    }
+
+    private void SetFlagTeam(EntityUid flag, ArenaTeam team)
+    {
+        if (!TryComp<ArenaFlagComponent>(flag, out var flagComp))
+            return;
+
+        flagComp.Team = team;
+        flagComp.CaptureProgress = 0f;
+        Dirty(flag, flagComp);
+    }
+
+    private void SpawnFlags()
+    {
+        _flags.Clear();
+        if (_arenaMap is not { } map)
+            return;
+
+        var positions = new[]
+        {
+            (0f, 0f),
+            (-4f, 0f),
+            (4f, 0f),
+        };
+
+        foreach (var (x, y) in positions)
+        {
+            var flag = Spawn("ArenaFlag", new EntityCoordinates(map, x, y));
+            SetFlagTeam(flag, ArenaTeam.None);
+            _flags.Add(flag);
+        }
+    }
+
+    private void BroadcastScores()
+    {
+        var blueScore = _scores.GetValueOrDefault(ArenaTeam.Blue);
+        var redScore = _scores.GetValueOrDefault(ArenaTeam.Red);
+        RaiseNetworkEvent(new ArenaScoreEvent(ArenaTeam.None, blueScore, redScore), Filter.Broadcast());
+    }
+
+    private void ProcessFlags(float frameTime)
+    {
+        if (_arenaMap is not { } map)
+            return;
+
+        var mid = Transform(map).MapID;
+        var captureRange = 1.5f;
+
+        foreach (var flag in _flags)
+        {
+            if (!TryComp<ArenaFlagComponent>(flag, out var flagComp) || !TryComp<TransformComponent>(flag, out var flagXform))
+                continue;
+
+            if (flagXform.MapID != mid)
+                continue;
+
+            var flagPos = flagXform.WorldPosition;
+            var capturers = 0;
+            ArenaTeam capturingTeam = ArenaTeam.None;
+
+            foreach (var netEnt in _roster)
+            {
+                if (!TryGetEntity(netEnt, out var uid))
+                    continue;
+
+                if (!TryComp<TransformComponent>(uid.Value, out var playerXform) || playerXform.MapID != mid)
+                    continue;
+
+                if ((playerXform.WorldPosition - flagPos).Length() > captureRange)
+                    continue;
+
+                if (TryComp<MobStateComponent>(uid.Value, out var mobState) && mobState.CurrentState != MobState.Alive)
+                    continue;
+
+                if (!TryComp<ArenaPlayerComponent>(uid.Value, out var ap))
+                    continue;
+
+                capturers++;
+                if (capturingTeam == ArenaTeam.None)
+                    capturingTeam = ap.Team;
+            }
+
+            if (capturers > 0 && capturingTeam != ArenaTeam.None && capturingTeam != flagComp.Team)
+            {
+                flagComp.CaptureProgress += frameTime * capturers / 20f;
+                if (flagComp.CaptureProgress >= 1f)
+                {
+                    flagComp.CaptureProgress = 0f;
+                    SetFlagTeam(flag, capturingTeam);
+                }
+            }
+            else if (capturers == 0)
+            {
+                flagComp.CaptureProgress = Math.Max(0f, flagComp.CaptureProgress - frameTime / 20f);
+            }
+
+            flagComp.CapturersCount = capturers;
+            Dirty(flag, flagComp);
+        }
+
+        _scoreTimer += frameTime;
+        if (_scoreTimer >= 1f)
+        {
+            _scoreTimer -= 1f;
+            foreach (var flag in _flags)
+            {
+                if (!TryComp<ArenaFlagComponent>(flag, out var flagComp))
+                    continue;
+
+                if (flagComp.Team == ArenaTeam.Blue)
+                    _scores[ArenaTeam.Blue] = _scores.GetValueOrDefault(ArenaTeam.Blue) + 1;
+                else if (flagComp.Team == ArenaTeam.Red)
+                    _scores[ArenaTeam.Red] = _scores.GetValueOrDefault(ArenaTeam.Red) + 1;
+            }
+
+            BroadcastScores();
+        }
     }
 
     private void EquipHiders()
@@ -272,7 +601,18 @@ public sealed class ArenaSystem : EntitySystem
     private void StartIntermission()
     {
         _seekerNetEntities.Clear();
+        _playerTeams.Clear();
         _votes.Clear();
+        _scores.Clear();
+        _scoreTimer = 0f;
+
+        foreach (var flag in _flags)
+        {
+            if (Exists(flag))
+                QueueDel(flag);
+        }
+        _flags.Clear();
+
         RoundState = ArenaRoundState.Intermission;
         RoundTimeRemaining = IntermissionDuration;
         RoundStarted = true;
@@ -318,7 +658,7 @@ public sealed class ArenaSystem : EntitySystem
 
     private void BroadcastVoteState()
     {
-        var available = new List<ArenaMode> { ArenaMode.Deathmatch };
+        var available = new List<ArenaMode> { ArenaMode.Deathmatch, ArenaMode.TDM };
         if (_roster.Count >= 2)
             available.Add(ArenaMode.PropHunt);
 
@@ -330,8 +670,11 @@ public sealed class ArenaSystem : EntitySystem
     {
         var dmVotes = _votes.Values.Count(v => v == ArenaMode.Deathmatch);
         var phVotes = _votes.Values.Count(v => v == ArenaMode.PropHunt);
+        var tdmVotes = _votes.Values.Count(v => v == ArenaMode.TDM);
 
-        if (phVotes > dmVotes && _roster.Count >= 2)
+        if (tdmVotes > dmVotes && tdmVotes > phVotes)
+            NextMode = ArenaMode.TDM;
+        else if (phVotes > dmVotes && _roster.Count >= 2)
             NextMode = ArenaMode.PropHunt;
         else
             NextMode = ArenaMode.Deathmatch;
@@ -353,6 +696,9 @@ public sealed class ArenaSystem : EntitySystem
             BroadcastRoundState();
         }
 
+        if (CurrentMode == ArenaMode.TDM && RoundState == ArenaRoundState.Active)
+            ProcessFlags(frameTime);
+
         if (RoundTimeRemaining > 0f)
             return;
 
@@ -363,11 +709,16 @@ public sealed class ArenaSystem : EntitySystem
                 CurrentMode = NextMode;
                 if (CurrentMode == ArenaMode.PropHunt)
                     StartPropHunt();
+                else if (CurrentMode == ArenaMode.TDM)
+                    StartTDM();
                 else
                     StartDeathmatch();
                 break;
             case ArenaRoundState.Hiding:
                 StartPropHuntHunt();
+                break;
+            case ArenaRoundState.Preparation:
+                StartTDMActive();
                 break;
             case ArenaRoundState.Active:
                 // Clean up dead bodies before intermission
@@ -400,6 +751,13 @@ public sealed class ArenaSystem : EntitySystem
 
         if (CurrentMode == ArenaMode.PropHunt && RoundState != ArenaRoundState.Intermission)
             return;
+
+        if (CurrentMode == ArenaMode.TDM && RoundState != ArenaRoundState.Intermission)
+        {
+            // During TDM, joining is only allowed for new ghosts during intermission
+            if (_roster.Contains(GetNetEntity(ghost)))
+                return;
+        }
 
         if (_presets.Count == 0)
             RefreshPresets();
@@ -434,6 +792,7 @@ public sealed class ArenaSystem : EntitySystem
             !_roster.Contains(GetNetEntity(body)))
             return;
 
+        _playerTeams.Remove(GetNetEntity(body));
         RestorePlayer(body, arenaPlayer);
     }
 
@@ -460,6 +819,7 @@ public sealed class ArenaSystem : EntitySystem
             }
         }
 
+        _playerTeams.Remove(GetNetEntity(ev.Target));
         RestorePlayer(ev.Target, arenaPlayer);
     }
 
@@ -499,6 +859,7 @@ public sealed class ArenaSystem : EntitySystem
 
         // Player re-attached elsewhere (role change, admin takeover, etc.) — just clean up the arena body
         _roster.Remove(netEnt);
+        _playerTeams.Remove(netEnt);
         QueueDel(ev.Entity);
     }
 
@@ -529,6 +890,13 @@ public sealed class ArenaSystem : EntitySystem
         _activeEuis.Clear();
         _roster.Clear();
         _seekerNetEntities.Clear();
+        _playerTeams.Clear();
+        _blueSpawns.Clear();
+        _redSpawns.Clear();
+        _tdmDoors.Clear();
+        _flags.Clear();
+        _scores.Clear();
+        _scoreTimer = 0f;
         _arenaMap = null;
         RoundStarted = false;
         RoundState = ArenaRoundState.Intermission;
@@ -545,6 +913,13 @@ public sealed class ArenaSystem : EntitySystem
         for (var i = 0; i < _presets.Count; i++)
         {
             var p = _presets[i];
+
+            // Filter presets by current mode
+            if (CurrentMode == ArenaMode.TDM && p.Mode != ArenaMode.TDM)
+                continue;
+            if (CurrentMode != ArenaMode.TDM && p.Mode == ArenaMode.TDM)
+                continue;
+
             options.Add(new ArenaLoadoutOption
             {
                 Index = i,
@@ -583,17 +958,31 @@ public sealed class ArenaSystem : EntitySystem
         if (_presets.Count == 0)
             RefreshPresets();
 
-        var sites = new List<EntityCoordinates>();
-        var cursor = AllEntityQuery<ArenaSpawnPointComponent, TransformComponent>();
-        while (cursor.MoveNext(out _, out _, out var where))
-        {
-            if (where.MapID == Transform(map).MapID)
-                sites.Add(where.Coordinates);
-        }
+        var kitIdxClamped = Math.Clamp(kitIdx, 0, _presets.Count - 1);
+        var preset = _presets[kitIdxClamped];
 
-        var spot = sites.Count > 0
-            ? _luck.Pick(sites)
-            : new EntityCoordinates(map, System.Numerics.Vector2.Zero);
+        // Determine spawn position based on mode and team
+        EntityCoordinates spot;
+        if (CurrentMode == ArenaMode.TDM)
+        {
+            var team = preset.Team;
+            spot = GetTeamSpawn(team);
+            _playerTeams[GetNetEntity(sourceGhost)] = team;
+        }
+        else
+        {
+            var sites = new List<EntityCoordinates>();
+            var cursor = AllEntityQuery<ArenaSpawnPointComponent, TransformComponent>();
+            while (cursor.MoveNext(out _, out _, out var where))
+            {
+                if (where.MapID == Transform(map).MapID)
+                    sites.Add(where.Coordinates);
+            }
+
+            spot = sites.Count > 0
+                ? _luck.Pick(sites)
+                : new EntityCoordinates(map, System.Numerics.Vector2.Zero);
+        }
 
         var profile = _prefs.GetPreferences(who.UserId).SelectedCharacter as HumanoidCharacterProfile;
         string speciesId = profile?.Species ?? SharedHumanoidAppearanceSystem.DefaultSpecies;
@@ -605,16 +994,13 @@ public sealed class ArenaSystem : EntitySystem
 
         _meta.SetEntityName(fresh, who.Name);
 
-        if (_presets.Count > 0)
-        {
-            var idx = Math.Clamp(kitIdx, 0, _presets.Count - 1);
-            _stationSpawning.EquipStartingGear(fresh, _presets[idx], raiseEvent: false);
-        }
+        _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
 
         var arenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
         arenaPlayer.OriginalMind = originalMindId;
         arenaPlayer.OriginalGhost = sourceGhost;
         arenaPlayer.CanReturnToBody = ghost.CanReturnToBody;
+        arenaPlayer.Team = preset.Team;
         EnsureComp<AntagImmuneComponent>(fresh);
 
         if (RoundState == ArenaRoundState.Intermission)
@@ -628,13 +1014,18 @@ public sealed class ArenaSystem : EntitySystem
         QueueDel(sourceGhost);
         _roles.MindAddJobRole(temporaryMind, silent: true, jobPrototype: "ArenaWarrior");
 
-        _roster.Add(GetNetEntity(fresh));
+        var netEnt = GetNetEntity(fresh);
+        _roster.Add(netEnt);
+        if (CurrentMode == ArenaMode.TDM && preset.Team != ArenaTeam.None)
+            _playerTeams[netEnt] = preset.Team;
+
         return true;
     }
 
     private void RestorePlayer(EntityUid body, ArenaPlayerComponent arenaPlayer)
     {
         _roster.Remove(GetNetEntity(body));
+        _playerTeams.Remove(GetNetEntity(body));
 
         if (!_minds.TryGetMind(body, out var temporaryMindId, out var temporaryMind))
         {

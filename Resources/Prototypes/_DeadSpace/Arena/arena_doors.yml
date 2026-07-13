@@ -1,0 +1,23 @@
+- type: entity
+  id: ArenaDoor
+  parent: BaseShutter
+  name: дверь арены
+  description: Дверь арены, открывается при начале раунда TDM.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Arena/arena_door.rsi
+  - type: Door
+    closeTimeOne: 0.2
+    closeTimeTwo: 1.2
+    openTimeOne: 1.2
+    openTimeTwo: 0.2
+    openingAnimationTime: 1.4
+    closingAnimationTime: 1.4
+    bumpOpen: false
+    clickOpen: false
+    openSound:
+      path: /Audio/Machines/shutter.ogg
+    closeSound:
+      path: /Audio/Machines/shutter.ogg
+  - type: Destructible
+    thresholds: []

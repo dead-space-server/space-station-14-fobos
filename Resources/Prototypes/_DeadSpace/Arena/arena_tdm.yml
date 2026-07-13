@@ -1,0 +1,131 @@
+- type: entity
+  parent: ClothingOuterArmorHeavy
+  id: ArenaOuterArmorBlue
+  name: синяя броня
+  description: Тяжелая броня команды синих.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Arena/armor_blue.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Arena/armor_blue.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
+
+- type: entity
+  parent: ClothingOuterArmorHeavy
+  id: ArenaOuterArmorRed
+  name: красная броня
+  description: Тяжелая броня команды красных.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Arena/armor_red.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Arena/armor_red.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
+
+- type: entity
+  parent: ClothingHeadHardsuitBase
+  id: ArenaHelmetBlue
+  name: синий шлем
+  description: Шлем команды синих.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Arena/helmet_blue.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Arena/helmet_blue.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
+
+- type: entity
+  parent: ClothingHeadHardsuitBase
+  id: ArenaHelmetRed
+  name: красный шлем
+  description: Шлем команды красных.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Arena/helmet_red.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Arena/helmet_red.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
+
+- type: entity
+  parent: ArenaSpawnPoint
+  id: ArenaTeamSpawnBlue
+  components:
+  - type: ArenaTeamSpawn
+    team: Blue
+
+- type: entity
+  parent: ArenaSpawnPoint
+  id: ArenaTeamSpawnRed
+  components:
+  - type: ArenaTeamSpawn
+    team: Red
+
+- type: arenaLoadoutPreset
+  id: ArenaTeamBlue
+  nameLoc: arena-tdm-team-blue
+  descLoc: arena-tdm-desc-blue
+  iconPrototype: ArenaOuterArmorBlue
+  category: arena-category-team-blue
+  mode: TDM
+  team: Blue
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ArenaOuterArmorBlue
+    head: ArenaHelmetBlue
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponRifleLecter
+  storage:
+    back:
+      - MedkitFilled
+      - MagazineRifle
+      - MagazineRifle
+      - MagazineRifleIncendiary
+
+- type: arenaLoadoutPreset
+  id: ArenaTeamRed
+  nameLoc: arena-tdm-team-red
+  descLoc: arena-tdm-desc-red
+  iconPrototype: ArenaOuterArmorRed
+  category: arena-category-team-red
+  mode: TDM
+  team: Red
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ArenaOuterArmorRed
+    head: ArenaHelmetRed
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponRifleLecter
+  storage:
+    back:
+      - MedkitFilled
+      - MagazineRifle
+      - MagazineRifle
+      - MagazineRifleIncendiary

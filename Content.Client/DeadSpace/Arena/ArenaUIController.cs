@@ -25,6 +25,7 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
     private PanelContainer? _votePanel;
     private Button? _voteDmButton;
     private Button? _votePhButton;
+    private Button? _voteTdmButton;
     private Label? _voteStateLabel;
     private Label? _seekerLabel;
     private ArenaMode _mode;
@@ -37,6 +38,9 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
     private Dictionary<NetEntity, ArenaMode> _votes = new();
     private int _lastDmVotes;
     private int _lastPhVotes;
+    private int _lastTdmVotes;
+    private int _blueScore;
+    private int _redScore;
 
     public override void Initialize()
     {
@@ -45,6 +49,7 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         SubscribeNetworkEvent<ArenaSeekerUnfreezeEvent>(OnSeekerUnfreeze);
         SubscribeNetworkEvent<ArenaSeekerNotifyEvent>(OnSeekerNotify);
         SubscribeNetworkEvent<ArenaVoteStateEvent>(OnVoteState);
+        SubscribeNetworkEvent<ArenaScoreEvent>(OnScoreUpdate);
 
         _seekerFont = new VectorFont(
             _resourceCache.GetResource<FontResource>("/Fonts/NotoSans/NotoSans-Bold.ttf"), 24);
@@ -124,6 +129,12 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         };
         _votePhButton.OnPressed += _ => SendVote(ArenaMode.PropHunt);
 
+        _voteTdmButton = new Button
+        {
+            Text = "TDM",
+        };
+        _voteTdmButton.OnPressed += _ => SendVote(ArenaMode.TDM);
+
         _voteStateLabel = new Label
         {
             Text = "",
@@ -164,7 +175,7 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
                             Orientation = BoxContainer.LayoutOrientation.Horizontal,
                             SeparationOverride = 8,
                             HorizontalAlignment = Control.HAlignment.Center,
-                            Children = { _voteDmButton, _votePhButton }
+                            Children = { _voteDmButton, _voteTdmButton, _votePhButton }
                         },
                         _voteStateLabel
                     }
@@ -185,6 +196,7 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         _votePanel = null;
         _voteDmButton = null;
         _votePhButton = null;
+        _voteTdmButton = null;
         _voteStateLabel = null;
     }
 
@@ -263,6 +275,13 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
 
         _lastDmVotes = ev.Votes.Values.Count(v => v == ArenaMode.Deathmatch);
         _lastPhVotes = ev.Votes.Values.Count(v => v == ArenaMode.PropHunt);
+        _lastTdmVotes = ev.Votes.Values.Count(v => v == ArenaMode.TDM);
+    }
+
+    private void OnScoreUpdate(ArenaScoreEvent ev, EntitySessionEventArgs args)
+    {
+        _blueScore = ev.BlueScore;
+        _redScore = ev.RedScore;
     }
 
     public override void FrameUpdate(FrameEventArgs args)
@@ -299,15 +318,16 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
             return;
         }
 
-        _arenaLabel.Text = FormatArenaTime(remaining);
+        _arenaLabel.Text = FormatArenaText(remaining);
     }
 
-    private string FormatArenaTime(float remaining)
+    private string FormatArenaText(float remaining)
     {
         var modeName = _mode switch
         {
             ArenaMode.Deathmatch => "Deathmatch",
             ArenaMode.PropHunt => "PropHunt",
+            ArenaMode.TDM => "TDM",
             _ => "Unknown"
         };
 
@@ -315,17 +335,23 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         {
             ArenaRoundState.Intermission => "[Intermission] ",
             ArenaRoundState.Hiding => "[Hiding] ",
+            ArenaRoundState.Preparation => "[Prep] ",
             _ => ""
         };
 
         var minutes = (int)remaining / 60;
         var seconds = (int)remaining % 60;
-        return $"{statePrefix}{modeName} | {minutes:D2}:{seconds:D2}";
+        var main = $"{statePrefix}{modeName} | {minutes:D2}:{seconds:D2}";
+
+        if (_mode == ArenaMode.TDM)
+            main += $"\nСиние: {_blueScore} | Красные: {_redScore}";
+
+        return main;
     }
 
     private void UpdateVotePanel()
     {
-        if (_votePanel == null || _voteDmButton == null || _votePhButton == null || _voteStateLabel == null)
+        if (_votePanel == null || _voteDmButton == null || _votePhButton == null || _voteTdmButton == null || _voteStateLabel == null)
             return;
 
         if (!IsPlayerOnArena() || _timeRemaining < 0f || _roundState != ArenaRoundState.Intermission)
@@ -337,10 +363,11 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         _votePanel.Visible = true;
         _voteDmButton.Visible = _availableModes.Contains(ArenaMode.Deathmatch);
         _votePhButton.Visible = _availableModes.Contains(ArenaMode.PropHunt);
+        _voteTdmButton.Visible = _availableModes.Contains(ArenaMode.TDM);
 
-        var totalVotes = _lastDmVotes + _lastPhVotes;
+        var totalVotes = _lastDmVotes + _lastPhVotes + _lastTdmVotes;
         _voteStateLabel.Text = totalVotes > 0
-            ? $"Deathmatch: {_lastDmVotes} | PropHunt: {_lastPhVotes}"
+            ? $"Deathmatch: {_lastDmVotes} | TDM: {_lastTdmVotes} | PropHunt: {_lastPhVotes}"
             : "Нажмите на кнопку, чтобы проголосовать";
     }
 
