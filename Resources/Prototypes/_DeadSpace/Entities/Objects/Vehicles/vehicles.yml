@@ -259,6 +259,7 @@
     grid:
     - 0,0,2,2
     maxItemSize: Normal
+    clickInsert: false
   - type: UserInterface
     interfaces:
       enum.StorageUiKey.Key:
@@ -342,6 +343,7 @@
     grid:
     - 0,0,2,2
     maxItemSize: Normal
+    clickInsert: false
   - type: UserInterface
     interfaces:
       enum.StorageUiKey.Key:
