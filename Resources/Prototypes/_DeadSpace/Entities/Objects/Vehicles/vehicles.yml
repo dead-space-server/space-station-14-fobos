@@ -254,10 +254,21 @@
           path: /Audio/Items/belt_equip.ogg
           params:
             volume: -3
+  - type: Item
+  - type: Storage
+    grid:
+    - 0,0,1,1
+    maxItemSize: Normal
+    clickInsert: false
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
   - type: ContainerContainer
     containers:
       key_slot: !type:ContainerSlot
       bag: !type:ContainerSlot
+      storagebase: !type:Container
   - type: Appearance
   - type: PointLight
     enabled: false
@@ -328,9 +339,20 @@
           path: /Audio/Effects/Vehicle/vehiclestartup.ogg
           params:
             volume: -3
+  - type: Item
+  - type: Storage
+    grid:
+    - 0,0,1,1
+    maxItemSize: Normal
+    clickInsert: false
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
   - type: ContainerContainer
     containers:
       key_slot: !type:ContainerSlot
+      storagebase: !type:Container
   - type: SpriteMovement
     movementLayers:
       movement:
