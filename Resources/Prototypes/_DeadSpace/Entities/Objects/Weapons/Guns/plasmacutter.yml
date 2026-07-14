@@ -1,0 +1,43 @@
+- type: entity
+  id: WeaponPlasmaCutter
+  parent: BaseItem
+  name: плазменный резак
+  description: The Love I Lost...
+  components:
+  - type: AmmoCounter
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.AmmoVisuals.HasAmmo:
+        empty-icon:
+          True: { visible: False }
+          False: { visible: True }
+  - type: BasicEntityAmmoProvider
+    proto: NecromorphPlasmaCutterTrace
+    capacity: 1
+    count: 1
+  - type: Gun
+    fireRate: 1.5
+    selectedMode: SemiAuto
+    minAngle: 0
+    maxAngle: 4
+    availableModes:
+    - FullAuto
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/_DeadSpace/Weapons/Guns/Cutter/cutter.ogg
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/cutter.rsi
+    layers:
+    - state: icon
+    - state: animation-icon
+      visible: false
+      map: [ "empty-icon" ]
+  - type: Item
+    sprite: _DeadSpace/Objects/Weapons/Guns/cutter.rsi
+    shape:
+    - 0,0,1,1
+  - type: RechargeBasicEntityAmmo
+    rechargeCooldown: 2.5
+    rechargeSound:
+      path: /Audio/Weapons/Guns/MagIn/energycrossbow_reload.ogg

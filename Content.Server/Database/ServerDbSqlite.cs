@@ -164,35 +164,38 @@ namespace Content.Server.Database
 
         public override async Task<BanDef> AddBanAsync(BanDef ban)
         {
-            await using var db = await GetDbImpl();
-
-            var banEntity = new Ban
+            return await WithUserIdMigrationWriteLockAsync(
+                ban.UserIds.Select(userId => userId.UserId),
+                async (db, ct) =>
             {
-                Type = ban.Type,
-                Addresses = [..ban.Addresses.Select(ba => new BanAddress { Address = ba.ToNpgsqlInet() })],
-                Hwids = [..ban.HWIds.Select(bh => new BanHwid { HWId = bh })],
-                Reason = ban.Reason,
-                Severity = ban.Severity,
-                BanningAdmin = ban.BanningAdmin?.UserId,
-                BanTime = ban.BanTime.UtcDateTime,
-                ExpirationTime = ban.ExpirationTime?.UtcDateTime,
-                Rounds = [..ban.RoundIds.Select(bri => new BanRound { RoundId = bri })],
-                PlaytimeAtNote = ban.PlaytimeAtNote,
-                Players = [..ban.UserIds.Select(bp => new BanPlayer { UserId = bp.UserId })],
-                ExemptFlags = ban.ExemptFlags,
-                Roles = ban.Roles == null
-                    ? []
-                    : ban.Roles.Value.Select(brd => new BanRole
-                        {
-                            RoleType = brd.RoleType,
-                            RoleId = brd.RoleId
-                        })
-                        .ToList(),
-            };
-            db.SqliteDbContext.Ban.Add(banEntity);
+                var banEntity = new Ban
+                {
+                    Type = ban.Type,
+                    Addresses = [..ban.Addresses.Select(ba => new BanAddress { Address = ba.ToNpgsqlInet() })],
+                    Hwids = [..ban.HWIds.Select(bh => new BanHwid { HWId = bh })],
+                    Reason = ban.Reason,
+                    Severity = ban.Severity,
+                    BanningAdmin = ban.BanningAdmin?.UserId,
+                    BanTime = ban.BanTime.UtcDateTime,
+                    ExpirationTime = ban.ExpirationTime?.UtcDateTime,
+                    Rounds = [..ban.RoundIds.Select(bri => new BanRound { RoundId = bri })],
+                    PlaytimeAtNote = ban.PlaytimeAtNote,
+                    Players = [..ban.UserIds.Select(bp => new BanPlayer { UserId = bp.UserId })],
+                    ExemptFlags = ban.ExemptFlags,
+                    Roles = ban.Roles == null
+                        ? []
+                        : ban.Roles.Value.Select(brd => new BanRole
+                            {
+                                RoleType = brd.RoleType,
+                                RoleId = brd.RoleId
+                            })
+                            .ToList(),
+                };
+                db.Ban.Add(banEntity);
 
-            await db.SqliteDbContext.SaveChangesAsync();
-            return ConvertBan(banEntity);
+                await db.SaveChangesAsync(ct);
+                return ConvertBan(banEntity)!;
+            });
         }
 
         public override async Task AddUnbanAsync(UnbanDef unban)

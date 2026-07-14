@@ -182,6 +182,7 @@
     - id: RubberStampCE
 #    - id: MetalFoamGrenade #DS14
     - id: ADTtelescopicBaton # ADT
+    - id: WeaponPlasmaCutter #DS14
     - id: TabletPowerMonitoring #DS14
     - id: EnergySellerMachineCircuitboard #DS14
     - id: PlushieLizardJobChiefengineer

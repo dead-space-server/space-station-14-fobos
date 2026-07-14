@@ -470,6 +470,10 @@
       collection: Punch
     animation: WeaponArcFist
     mustBeEquippedToUse: true
+  # DS14-start
+  - type: SandevistanMeleeAttackRate
+    modifier: 1.35
+  # DS14-end
   - type: Insulated #DS14
   - type: Fiber
     fiberMaterial: fibers-leather

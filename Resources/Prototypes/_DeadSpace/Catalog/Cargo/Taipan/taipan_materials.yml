@@ -49,6 +49,26 @@
   group: taipan_market
 
 - type: cargoProduct
+  id: TaipanMaterialTitanium
+  icon:
+    sprite: Objects/Materials/Sheets/metal.rsi
+    state: titanium_3
+  product: CrateMaterialTitanium
+  cost: 9600
+  category: cargoproduct-category-name-materials
+  group: taipan_market
+
+- type: cargoProduct
+  id: TaipanMaterialPlastitanium
+  icon:
+    sprite: Objects/Materials/Sheets/metal.rsi
+    state: plastitanium_3
+  product: CrateMaterialPlastitanium
+  cost: 12300
+  category: cargoproduct-category-name-materials
+  group: taipan_market
+
+- type: cargoProduct
   id: TaipanMaterialGold
   icon:
     sprite: Objects/Materials/ingots.rsi

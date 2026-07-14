@@ -938,7 +938,7 @@ entities:
       - - TaipanAtmospherics
       - - TaipanEngineering
       - - TaipanResearch
-- proto: AlwaysPoweredlightRed
+- proto: ArenaLightRed
   entities:
   - uid: 107
     components:
@@ -951,7 +951,7 @@ entities:
     - type: Transform
       pos: 11.5,6.5
       parent: 2
-- proto: AlwaysPoweredWallLight
+- proto: ArenaLight
   entities:
   - uid: 108
     components:

@@ -6,5 +6,8 @@ namespace Content.Server.DeadSpace.Necromorphs.Unitology.Components;
 public sealed partial class UnitologySubmissionConditionComponent : Component
 {
     [ViewVariables(VVAccess.ReadOnly)]
+    public int Target;
+
+    [ViewVariables(VVAccess.ReadOnly)]
     public float Progress = 0;
 }

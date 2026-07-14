@@ -1,0 +1,61 @@
+uniform sampler2D SCREEN_TEXTURE;
+uniform highp float Intensity;
+uniform highp float SoftcapIntensity;
+uniform highp float MotionScale;
+
+const highp float Desaturation = 0.38;
+const highp float ChromaticOffset = 0.0038;
+const highp float EdgeMix = 0.95;
+const highp float RainbowMix = 0.35;
+const highp float JitterOffset = 0.0014;
+const highp float SoftcapPulseMix = 0.22;
+
+highp float luminance(highp vec3 color)
+{
+    return dot(color, vec3(0.299, 0.587, 0.114));
+}
+
+void fragment()
+{
+    highp vec2 uv = FRAGCOORD.xy * SCREEN_PIXEL_SIZE.xy;
+    highp float time = TIME * 30.0;
+    highp vec2 jitter = vec2(
+        sin(time * 1.31) + sin(time * 2.43) * 0.45,
+        cos(time * 1.73) + sin(time * 2.09) * 0.35)
+        * JitterOffset * (1.0 + SoftcapIntensity * 1.35) * MotionScale * Intensity;
+    highp vec2 sampleUv = clamp(uv + jitter, vec2(0.0), vec2(1.0));
+
+    highp vec4 base = zTextureSpec(SCREEN_TEXTURE, sampleUv);
+    highp float gray = zGrayscale(base.rgb);
+    highp vec3 desaturated = mix(base.rgb, vec3(gray), Desaturation * Intensity);
+
+    highp float softcapPulse = (0.5 + 0.5 * sin(time * 0.63)) * SoftcapIntensity;
+    highp vec2 chromaticOffset = vec2(ChromaticOffset, ChromaticOffset * 0.65) * Intensity * (1.0 + SoftcapIntensity * 1.8);
+
+    highp vec3 chromatic = vec3(
+        zTextureSpec(SCREEN_TEXTURE, clamp(sampleUv + chromaticOffset, vec2(0.0), vec2(1.0))).r,
+        base.g,
+        zTextureSpec(SCREEN_TEXTURE, clamp(sampleUv - chromaticOffset, vec2(0.0), vec2(1.0))).b);
+
+    highp vec2 pixel = SCREEN_PIXEL_SIZE.xy * 2.0;
+    highp float luma = luminance(base.rgb);
+    highp float edgeLeft = abs(luma - luminance(zTextureSpec(SCREEN_TEXTURE, clamp(sampleUv - vec2(pixel.x, 0.0), vec2(0.0), vec2(1.0))).rgb));
+    highp float edgeRight = abs(luma - luminance(zTextureSpec(SCREEN_TEXTURE, clamp(sampleUv + vec2(pixel.x, 0.0), vec2(0.0), vec2(1.0))).rgb));
+    highp float edgeDown = abs(luma - luminance(zTextureSpec(SCREEN_TEXTURE, clamp(sampleUv - vec2(0.0, pixel.y), vec2(0.0), vec2(1.0))).rgb));
+    highp float edgeUp = abs(luma - luminance(zTextureSpec(SCREEN_TEXTURE, clamp(sampleUv + vec2(0.0, pixel.y), vec2(0.0), vec2(1.0))).rgb));
+    highp float edge = max(max(edgeLeft, edgeRight), max(edgeDown, edgeUp));
+    edge = smoothstep(0.015, 0.09, edge);
+
+    highp float huePhase = time * 0.08 + luma * 4.0;
+    highp vec3 rainbow = vec3(
+        0.5 + 0.5 * sin(huePhase),
+        0.5 + 0.5 * sin(huePhase + 2.094),
+        0.5 + 0.5 * sin(huePhase + 4.188));
+    chromatic = mix(chromatic, max(chromatic, rainbow), edge * RainbowMix * SoftcapIntensity * Intensity);
+
+    highp float scanline = 0.5 + 0.5 * sin((uv.y + TIME * 0.65) * 850.0);
+    highp vec3 fever = vec3(1.0, 0.1, 0.03);
+    chromatic = mix(chromatic, max(chromatic, fever), (edge + scanline * 0.12) * softcapPulse * SoftcapPulseMix * Intensity);
+
+    COLOR = vec4(mix(desaturated, chromatic, edge * EdgeMix * Intensity), base.a);
+}

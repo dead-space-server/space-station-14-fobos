@@ -22,6 +22,11 @@ using Content.Shared.Mobs.Systems;
 using Content.Shared.Mindshield.Components;
 using Content.Server.GameTicking.Rules;
 using Robust.Shared.Prototypes;
+using Content.Server.Hands.Systems;
+using Content.Server.DeadSpace.Necromorphs.Necroobelisk.Components;
+using Content.Shared.Implants;
+using Content.Shared.Implants.Components;
+using Robust.Shared.Containers;
 
 namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 
@@ -41,10 +46,19 @@ public sealed class UnitologyHeadSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly UnitologyRuleSystem _unitologyRule = default!;
+    [Dependency] private readonly HandsSystem _hands = default!;
+    [Dependency] private readonly SharedContainerSystem _containers = default!;
+    [Dependency] private readonly SharedSubdermalImplantSystem _implants = default!;
 
 
     public const float DistanceRecruitmentDetermination = 2f;
     public const string CandleTag = "Candle";
+    private static readonly HashSet<string> HeadImplants =
+    [
+        "StorageImplant",
+        "DnaScramblerImplant",
+        "FreedomImplant",
+    ];
 
     public override void Initialize()
     {
@@ -56,13 +70,15 @@ public sealed class UnitologyHeadSystem : EntitySystem
         SubscribeLocalEvent<UnitologyHeadComponent, OrderToSlaveActionEvent>(OnOrder);
         SubscribeLocalEvent<UnitologyHeadComponent, SelectTargetRecruitmentEvent>(OnSelectTargetRecruitment);
         SubscribeLocalEvent<UnitologyHeadComponent, UnitologistRecruitmentDoAfterEvent>(OnRecruitmentDoAfter);
+        SubscribeLocalEvent<UnitologyHeadComponent, ObeliskActionEvent>(OnSummonObelisk);
+        SubscribeLocalEvent<UnitologyHeadComponent, SummonUnitologyObeliskDoAfterEvent>(OnSummonObeliskDoAfter);
     }
 
     private void OnComponentInit(EntityUid uid, UnitologyHeadComponent component, ComponentInit args)
     {
         _actionsSystem.AddAction(uid, ref component.ActionUnitologyHeadEntity, component.ActionUnitologyHead, uid);
         _actionsSystem.AddAction(uid, ref component.ActionOrderToSlaveEntity, component.ActionOrderToSlave, uid);
-        _actionsSystem.AddAction(uid, ref component.ActionSelectTargetRecruitmentEntity, component.ActionSelectTargetRecruitment, uid);
+        _actionsSystem.AddAction(uid, ref component.ActionSummonObeliskEntity, component.ActionSummonObelisk, uid);
     }
 
     private void OnShutDown(EntityUid uid, UnitologyHeadComponent component, ComponentShutdown args)
@@ -70,6 +86,68 @@ public sealed class UnitologyHeadSystem : EntitySystem
         _actionsSystem.RemoveAction(uid, component.ActionUnitologyHeadEntity);
         _actionsSystem.RemoveAction(uid, component.ActionOrderToSlaveEntity);
         _actionsSystem.RemoveAction(uid, component.ActionSelectTargetRecruitmentEntity);
+        _actionsSystem.RemoveAction(uid, component.ActionSummonObeliskEntity);
+    }
+
+    private void OnSummonObelisk(EntityUid uid, UnitologyHeadComponent component, ObeliskActionEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (!_unitologyRule.AreSummoningConditionsComplete(uid))
+        {
+            _popup.PopupEntity(Loc.GetString("unitology-obelisk-summon-conditions-failed"), uid, uid);
+            return;
+        }
+
+        if (!_hands.TryGetActiveItem(uid, out var splinter) ||
+            !HasComp<NecroobeliskSplinterComponent>(splinter))
+        {
+            _popup.PopupEntity(Loc.GetString("unitology-obelisk-summon-no-splinter"), uid, uid);
+            return;
+        }
+
+        var doAfter = new DoAfterArgs(EntityManager,
+            uid,
+            TimeSpan.FromSeconds(15),
+            new SummonUnitologyObeliskDoAfterEvent(),
+            uid,
+            used: splinter)
+        {
+            BreakOnDamage = true,
+            BreakOnMove = true,
+            BreakOnHandChange = true,
+            BlockDuplicate = true,
+            CancelDuplicate = true,
+        };
+
+        if (!_doAfter.TryStartDoAfter(doAfter))
+            return;
+
+        args.Handled = true;
+    }
+
+    private void OnSummonObeliskDoAfter(EntityUid uid,
+        UnitologyHeadComponent component,
+        SummonUnitologyObeliskDoAfterEvent args)
+    {
+        if (args.Cancelled || args.Handled || args.Args.Used is not { } splinter)
+            return;
+
+        if (!_unitologyRule.AreSummoningConditionsComplete(uid) ||
+            !_hands.TryGetActiveItem(uid, out var activeItem) ||
+            activeItem != splinter ||
+            !TryComp<NecroobeliskSplinterComponent>(splinter, out var splinterComponent))
+        {
+            _popup.PopupEntity(Loc.GetString("unitology-obelisk-summon-interrupted"), uid, uid);
+            return;
+        }
+
+        if (!_unitologyRule.TrySummonObelisk(uid, splinterComponent.SpawnsBlackObelisk))
+            return;
+
+        QueueDel(splinter);
+        args.Handled = true;
     }
 
     private void OnSelectTargetRecruitment(EntityUid uid, UnitologyHeadComponent component, SelectTargetRecruitmentEvent args)
@@ -210,9 +288,43 @@ public sealed class UnitologyHeadSystem : EntitySystem
 
         args.Handled = true;
 
+        TransferHeadImplants(uid, target);
+
         RemComp<UnitologyHeadComponent>(uid);
 
         AddComp<UnitologyHeadComponent>(target);
+    }
+
+    private void TransferHeadImplants(EntityUid oldHead, EntityUid newHead)
+    {
+        if (!TryComp<ImplantedComponent>(oldHead, out var oldImplanted))
+            return;
+
+        var newImplanted = EnsureComp<ImplantedComponent>(newHead);
+        var existing = newImplanted.ImplantContainer.ContainedEntities
+            .Select(implant => Prototype(implant))
+            .Where(proto => proto != null)
+            .Select(proto => proto!.ID)
+            .ToHashSet();
+
+        foreach (var implant in oldImplanted.ImplantContainer.ContainedEntities.ToArray())
+        {
+            var prototype = Prototype(implant);
+            if (prototype == null || !HeadImplants.Contains(prototype.ID))
+                continue;
+
+            if (existing.Contains(prototype.ID))
+            {
+                _implants.ForceRemove((oldHead, oldImplanted), implant);
+                continue;
+            }
+
+            if (!_containers.Remove(implant, oldImplanted.ImplantContainer, force: true))
+                continue;
+
+            _containers.Insert(implant, newImplanted.ImplantContainer);
+            existing.Add(prototype.ID);
+        }
     }
 
     private bool IsCanTransfer(EntityUid uid, EntityUid target)

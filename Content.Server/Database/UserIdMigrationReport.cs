@@ -15,6 +15,7 @@ public sealed class UserIdMigrationReport
     public Guid OldUserId { get; }
     public Guid NewUserId { get; }
     public bool Applied { get; set; }
+    public bool AlreadyProcessed { get; set; }
     public List<string> Warnings { get; } = [];
     public List<string> Errors { get; } = [];
     public List<UserIdMigrationTableReport> Tables { get; } = [];

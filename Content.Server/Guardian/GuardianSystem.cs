@@ -1,5 +1,6 @@
 using Content.Server.Popups;
 using Content.Shared.Actions;
+using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
@@ -23,8 +24,7 @@ namespace Content.Server.Guardian
     /// <summary>
     /// A guardian has a host it's attached to that it fights for. A fighting spirit.
     /// </summary>
-    // DS14-Edit
-    public sealed partial class GuardianSystem : EntitySystem
+    public sealed partial class GuardianSystem : EntitySystem // DS14-Edit
     {
         [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
         [Dependency] private readonly PopupSystem _popupSystem = default!;
@@ -43,6 +43,8 @@ namespace Content.Server.Guardian
             SubscribeLocalEvent<GuardianCreatorComponent, AfterInteractEvent>(OnCreatorInteract);
             SubscribeLocalEvent<GuardianCreatorComponent, ExaminedEvent>(OnCreatorExamine);
             SubscribeLocalEvent<GuardianCreatorComponent, GuardianCreatorDoAfterEvent>(OnDoAfter);
+
+            SubscribeLocalEvent<GuardianComponent, ComponentStartup>(OnGuardianStartup); // DS14
 
             SubscribeLocalEvent<GuardianComponent, ComponentShutdown>(OnGuardianShutdown);
             SubscribeLocalEvent<GuardianComponent, MoveEvent>(OnGuardianMove);
@@ -126,7 +128,7 @@ namespace Content.Server.Guardian
 
         private void OnHostShutdown(EntityUid uid, GuardianHostComponent component, ComponentShutdown args)
         {
-            if (component.HostedGuardian is not {} guardian)
+            if (component.HostedGuardian is not { } guardian)
                 return;
 
             // Ensure held items are dropped before deleting guardian.
@@ -249,6 +251,8 @@ namespace Content.Server.Guardian
             if (TryComp<GuardianComponent>(guardian, out var guardianComp))
             {
                 guardianComp.Host = args.Args.Target.Value;
+
+                OnGuardianCreated(guardian, args.Args.Target.Value); // DS14
                 OnGuardianLooseChanged(guardian, guardianComp); // DS14-Edit
                 _audio.PlayPvs(guardianComp.InjectSound, args.Args.Target.Value);
                 _popupSystem.PopupEntity(Loc.GetString("guardian-created"), args.Args.Target.Value, args.Args.Target.Value);
@@ -296,9 +300,12 @@ namespace Content.Server.Guardian
             if (args.DamageDelta == null || component.Host == null || component.DamageShare == 0)
                 return;
 
+            var hostDamage = new DamageSpecifier();
+            hostDamage.DamageDict.Add("Blunt", args.DamageDelta.GetTotal() * component.DamageShare);
+
             _damageSystem.ChangeDamage(
                 component.Host.Value,
-                args.DamageDelta * component.DamageShare,
+                hostDamage,
                 origin: args.Origin,
                 ignoreResistances: true,
                 interruptsDoAfters: false);
@@ -384,7 +391,7 @@ namespace Content.Server.Guardian
             OnGuardianLooseChanged(guardian, guardianComponent); // DS14s-Edit
         }
 
-        private void RetractGuardian(EntityUid host,GuardianHostComponent hostComponent, EntityUid guardian, GuardianComponent guardianComponent)
+        private void RetractGuardian(EntityUid host, GuardianHostComponent hostComponent, EntityUid guardian, GuardianComponent guardianComponent)
         {
             if (!guardianComponent.GuardianLoose)
             {
@@ -400,6 +407,10 @@ namespace Content.Server.Guardian
             OnGuardianLooseChanged(guardian, guardianComponent); // DS14-Edit
         }
 
+        // DS14-start
         partial void OnGuardianLooseChanged(EntityUid guardian, GuardianComponent guardianComponent); // deadspace
+
+        partial void OnGuardianCreated(EntityUid guardian, EntityUid host);
+        // DS14-end
     }
 }

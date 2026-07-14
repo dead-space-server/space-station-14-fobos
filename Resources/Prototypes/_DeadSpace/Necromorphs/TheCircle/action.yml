@@ -12,3 +12,15 @@
     range: 2
   - type: EntityTargetAction
     event: !type:ObeliskActivateActionEvent
+
+- type: entity
+  id: ActionSummonUnitologyObelisk
+  name: Призвать обелиск
+  description: Использовать осколок в активной руке, чтобы призвать обелиск после выполнения целей.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 3
+    icon: /Textures/_DeadSpace/Interface/Actions/obelisk.png
+  - type: InstantAction
+    event: !type:ObeliskActionEvent

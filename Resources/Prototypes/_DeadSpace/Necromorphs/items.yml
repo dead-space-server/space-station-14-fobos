@@ -203,6 +203,21 @@
       - id: ObeliskSplinter
 
 - type: entity
+  parent: ObeliskSplinter
+  id: SuperObeliskSplinter
+  name: усиленный осколок обелиска
+  description: Осколок, насыщенный энергией чёрного обелиска.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/splinter.rsi
+    layers:
+    - state: super_splinter
+  - type: NecroobeliskSplinter
+    spawnsBlackObelisk: true
+    soundHeadaches:
+      collection: SoundsHeadaches
+
+- type: entity
   name: пинпоинтер
   suffix: обелиск
   id: PinpointerNecroobelisk
@@ -220,6 +235,44 @@
   - type: Pinpointer
     component: Necroobelisk
     targetName: обелиск
+
+- type: entity
+  name: пинпоинтер
+  suffix: обелиск - СМ
+  id: PinpointerSMObelisk
+  parent: [ PinpointerBase, BaseCommandContraband ]
+  description: Портативное устройство слежения. Хотя обычно оно обладает гораздо более широкими возможностями, это устройство настроено на обнаружение определённых сигналов. Держите вертикально для сохранения точности.
+  components:
+  - type: Sprite
+    layers:
+    - state: pinpointer-way
+      map: ["enum.PinpointerLayers.Base"]
+    - state: pinonnull
+      map: ["enum.PinpointerLayers.Screen"]
+      shader: unshaded
+      visible: false
+  - type: Pinpointer
+    component: SuperMatterialNecroObelisk
+    targetName: обелиск - СМ
+
+- type: entity
+  name: пинпоинтер
+  suffix: осколок обелиска
+  id: PinpointerObeliskSplinter
+  parent: PinpointerBase
+  description: Портативное устройство слежения. Хотя обычно оно обладает гораздо более широкими возможностями, это устройство настроено на обнаружение определённых сигналов. Держите вертикально для сохранения точности.
+  components:
+  - type: Sprite
+    layers:
+    - state: pinpointer-way
+      map: ["enum.PinpointerLayers.Base"]
+    - state: pinonnull
+      map: ["enum.PinpointerLayers.Screen"]
+      shader: unshaded
+      visible: false
+  - type: Pinpointer
+    component: NecroobeliskSplinter
+    targetName: осколок обелиска
 
 - type: entity
   id: ChemistryBottleStableMutagenInfectorDead

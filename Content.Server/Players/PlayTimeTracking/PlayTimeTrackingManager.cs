@@ -1,4 +1,6 @@
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,6 +80,9 @@ public sealed class PlayTimeTrackingManager : ISharedPlaytimeManager, IPostInjec
     // List of pending DB save operations.
     // We must block server shutdown on these to avoid losing data.
     private readonly List<Task> _pendingSaveTasks = new();
+    private readonly object _pendingUserSaveTasksLock = new();
+    private readonly Dictionary<NetUserId, HashSet<PendingUserSave>> _pendingUserSaveTasks = new();
+    private readonly ConcurrentDictionary<NetUserId, SemaphoreSlim> _saveLocks = new();
 
     private readonly Dictionary<ICommonSession, PlayTimeData> _playTimeData = new();
 
@@ -260,6 +265,10 @@ public sealed class PlayTimeTrackingManager : ISharedPlaytimeManager, IPostInjec
         {
             await task;
         }
+        catch (Exception e)
+        {
+            _sawmill.Error("Playtime save task failed after retries: {Exception}", e);
+        }
         finally
         {
             _pendingSaveTasks.Remove(task);
@@ -268,27 +277,67 @@ public sealed class PlayTimeTrackingManager : ISharedPlaytimeManager, IPostInjec
 
     private async Task DoSaveAsync()
     {
-        var log = new List<PlayTimeUpdate>();
+        var savedTrackers = new List<(NetUserId User, PlayTimeData Data, string Tracker, TimeSpan Time)>();
 
         foreach (var (player, data) in _playTimeData)
         {
             foreach (var tracker in data.DbTrackersDirty)
             {
-                log.Add(new PlayTimeUpdate(player.UserId, tracker, data.TrackerTimes[tracker]));
+                var time = data.TrackerTimes[tracker];
+                savedTrackers.Add((player.UserId, data, tracker, time));
             }
-
-            data.DbTrackersDirty.Clear();
         }
 
-        if (log.Count == 0)
+        if (savedTrackers.Count == 0)
             return;
+
+        var users = savedTrackers.Select(update => update.User).Distinct().ToArray();
+        var pendingSave = RegisterPendingUserSaveTasks(users);
+        List<SemaphoreSlim>? saveLocks = null;
+        Exception? saveError = null;
+        var savedCount = 0;
 
         // NOTE: we do replace updates here, not incremental additions.
         // This means that if you're playing on two servers at the same time, they'll step on each other's feet.
         // This is considered fine.
-        await _db.UpdatePlayTimes(log);
+        try
+        {
+            saveLocks = await AcquirePlayTimeSaveLocksAsync(users);
+            var currentUpdates = savedTrackers
+                .Where(update => update.Data.TrackerTimes.GetValueOrDefault(update.Tracker) == update.Time)
+                .ToArray();
 
-        _sawmill.Debug($"Saved {log.Count} trackers");
+            if (currentUpdates.Length == 0)
+                return;
+
+            var log = currentUpdates
+                .Select(update => new PlayTimeUpdate(update.User, update.Tracker, update.Time))
+                .ToArray();
+
+            await UpdatePlayTimesWithRetry(log);
+            savedCount = log.Length;
+            foreach (var (_, data, tracker, savedValue) in currentUpdates)
+            {
+                if (data.TrackerTimes.GetValueOrDefault(tracker) == savedValue)
+                {
+                    data.DbTrackersDirty.Remove(tracker);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            saveError = e;
+            throw;
+        }
+        finally
+        {
+            if (saveLocks != null)
+                ReleasePlayTimeSaveLocks(saveLocks);
+
+            CompletePendingUserSaveTasks(users, pendingSave, saveError);
+        }
+
+        _sawmill.Debug($"Saved {savedCount} trackers");
     }
 
     private async Task DoSaveSessionAsync(ICommonSession session)
@@ -302,14 +351,171 @@ public sealed class PlayTimeTrackingManager : ISharedPlaytimeManager, IPostInjec
             log.Add(new PlayTimeUpdate(session.UserId, tracker, data.TrackerTimes[tracker]));
         }
 
-        data.DbTrackersDirty.Clear();
+        if (log.Count == 0)
+            return;
+
+        var savedValues = log.ToDictionary(update => update.Tracker, update => update.Time);
+        var pendingSave = RegisterPendingUserSaveTasks([session.UserId]);
+        List<SemaphoreSlim>? saveLocks = null;
+        Exception? saveError = null;
 
         // NOTE: we do replace updates here, not incremental additions.
         // This means that if you're playing on two servers at the same time, they'll step on each other's feet.
         // This is considered fine.
-        await _db.UpdatePlayTimes(log);
+        try
+        {
+            saveLocks = await AcquirePlayTimeSaveLocksAsync([session.UserId]);
+            log = log
+                .Where(update => data.TrackerTimes.GetValueOrDefault(update.Tracker) == update.Time)
+                .ToList();
+
+            if (log.Count == 0)
+                return;
+
+            await UpdatePlayTimesWithRetry(log);
+            foreach (var tracker in data.DbTrackersDirty.ToArray())
+            {
+                if (savedValues.TryGetValue(tracker, out var savedValue) &&
+                    data.TrackerTimes.GetValueOrDefault(tracker) == savedValue)
+                {
+                    data.DbTrackersDirty.Remove(tracker);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            saveError = e;
+            throw;
+        }
+        finally
+        {
+            if (saveLocks != null)
+                ReleasePlayTimeSaveLocks(saveLocks);
+
+            CompletePendingUserSaveTasks([session.UserId], pendingSave, saveError);
+        }
 
         _sawmill.Debug($"Saved {log.Count} trackers for {session.Name}");
+    }
+
+    private async Task UpdatePlayTimesWithRetry(IReadOnlyCollection<PlayTimeUpdate> updates)
+    {
+        const int maxAttempts = 3;
+        var retryDelay = TimeSpan.FromMilliseconds(250);
+
+        for (var attempt = 1; ; attempt++)
+        {
+            try
+            {
+                await _db.UpdatePlayTimes(updates);
+                return;
+            }
+            catch (Exception e) when (attempt < maxAttempts)
+            {
+                _sawmill.Warning("Playtime save failed on attempt {Attempt}/{MaxAttempts}; retrying in {Delay}ms. Error: {Error}",
+                    attempt,
+                    maxAttempts,
+                    retryDelay.TotalMilliseconds,
+                    e.Message);
+
+                await Task.Delay(retryDelay);
+                retryDelay *= 2;
+            }
+        }
+    }
+
+    private async Task<List<SemaphoreSlim>> AcquirePlayTimeSaveLocksAsync(IEnumerable<NetUserId> users)
+    {
+        var locks = new List<SemaphoreSlim>();
+
+        try
+        {
+            foreach (var user in users.Distinct().OrderBy(user => user.UserId))
+            {
+                var userLock = _saveLocks.GetOrAdd(user, _ => new SemaphoreSlim(1, 1));
+                await userLock.WaitAsync();
+                locks.Add(userLock);
+            }
+
+            return locks;
+        }
+        catch
+        {
+            ReleasePlayTimeSaveLocks(locks);
+            throw;
+        }
+    }
+
+    private static void ReleasePlayTimeSaveLocks(List<SemaphoreSlim> locks)
+    {
+        foreach (var userLock in locks)
+        {
+            userLock.Release();
+        }
+    }
+
+    public Task WaitPendingSaves(NetUserId userId, CancellationToken cancel)
+    {
+        Task[] pendingSaves;
+        lock (_pendingUserSaveTasksLock)
+        {
+            if (!_pendingUserSaveTasks.TryGetValue(userId, out var saves) || saves.Count == 0)
+                return Task.CompletedTask;
+
+            pendingSaves = saves.Select(save => save.Task).ToArray();
+        }
+
+        return Task.WhenAll(pendingSaves).WaitAsync(cancel);
+    }
+
+    private PendingUserSave RegisterPendingUserSaveTasks(IEnumerable<NetUserId> users)
+    {
+        var pendingSave = new PendingUserSave();
+
+        lock (_pendingUserSaveTasksLock)
+        {
+            foreach (var user in users)
+            {
+                ref var saves = ref CollectionsMarshal.GetValueRefOrAddDefault(_pendingUserSaveTasks, user, out _);
+                saves ??= [];
+                saves.Add(pendingSave);
+            }
+        }
+
+        return pendingSave;
+    }
+
+    private void CompletePendingUserSaveTasks(IEnumerable<NetUserId> users, PendingUserSave pendingSave, Exception? error)
+    {
+        lock (_pendingUserSaveTasksLock)
+        {
+            foreach (var user in users)
+            {
+                if (!_pendingUserSaveTasks.TryGetValue(user, out var saves))
+                    continue;
+
+                saves.Remove(pendingSave);
+                if (saves.Count == 0)
+                    _pendingUserSaveTasks.Remove(user);
+            }
+        }
+
+        pendingSave.Complete(error);
+    }
+
+    private sealed class PendingUserSave
+    {
+        private readonly TaskCompletionSource _completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task Task => _completion.Task;
+
+        public void Complete(Exception? error)
+        {
+            if (error == null)
+                _completion.TrySetResult();
+            else
+                _completion.TrySetException(error);
+        }
     }
 
     public async Task LoadData(ICommonSession session, CancellationToken cancel)

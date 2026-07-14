@@ -441,3 +441,11 @@
   - ThrusterMachineCircuitboard
   - GyroscopeMachineCircuitboard
   - MiniGravityGeneratorCircuitboard
+
+## vehicles
+- type: latheRecipePack
+  id: TaipanVehicles
+  recipes:
+  - TaipanVehicleHoverbikeFlatpack
+  - TaipanVehicleQuadBikeFlatpack
+  - TaipanVehicleKeyUniversal
