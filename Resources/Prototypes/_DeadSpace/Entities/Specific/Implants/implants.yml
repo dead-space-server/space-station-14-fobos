@@ -137,3 +137,113 @@
   components:
   - type: Implanter
     implant: RezervImplant
+
+- type: entity
+  parent: BaseSubdermalImplant
+  id: SandevistanImplant
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    implantAction: ActionActivateSandevistanImplant
+  - type: SandevistanImplant
+    duration: 17
+    softcapTime: 12
+    cooldownMultiplier: 1.5
+    movementSpeedModifier: 1.7
+    attackRateModifier: 1.75
+    overloadInterval: 1
+    overloadDamage:
+      types:
+        Slash: 5
+        Piercing: 5
+    exhaustionStaminaDamage: 100
+    softcapPopupInterval: 2
+    softcapPopupInitialDelay: 2
+    shoutInitialDelay: 1.25
+    shoutMinInterval: 3.5
+    shoutMaxInterval: 4.5
+    endWarningLeadTime: 5
+    endWarningInterval: 2.5
+    endWarningPopupCount: 1
+    recoveryMovementSpeedModifier: 0.75
+    recoveryTickInterval: 3
+    recoveryDamage:
+      types:
+        Asphyxiation: 2
+    recoveryJitterAmplitude: 3.5
+    recoveryJitterFrequency: 18
+    recoveryJitterRefreshTime: 0.35
+    recoveryPopupInterval: 5
+    initialJitterProgress: 0.2
+    maxJitterHits: 5
+    maxJitterAmplitude: 5
+    maxJitterFrequency: 30
+    jitterLerpRate: 5
+    jitterRefreshTime: 0.35
+    afterimageInterval: 0.01
+    afterimageMinDistance: 1
+    afterimageLifetime: 1.25
+    deactivationVisualDuration: 1.5
+    afterimageColor: "#00ffd0dd"
+    afterimageFallbackEffect: MantisDodgeEffect
+    popup: sandevistan-implant-activated
+
+- type: entity
+  id: SandevistanImplanter
+  suffix: Сандевистан
+  parent: BaseImplantOnlyImplanter
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Implanter
+    implant: SandevistanImplant
+  - type: Item
+    sprite: _DeadSpace/Objects/Specific/Medical/sandevistan-implanter.rsi
+    heldPrefix: implanter
+    storedRotation: -90
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Medical/sandevistan-implanter.rsi
+    state: implanter0
+    layers:
+    - state: implanter0
+      map: [ "implantOnly" ]
+    - state: implanter1
+      map: [ "implantFull" ]
+      visible: true
+
+- type: entity
+  id: SandevistanImplantCase
+  suffix: Дебаг, НЕ СПАВНИТЬ
+  parent: [ BaseStorageItem, BaseBagOpenClose ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Medical/sandevistan-case.rsi
+    layers:
+    - state: open
+      map: [ "openLayer" ]
+      visible: false
+    - state: c1
+      map: [ "c1" ]
+      visible: false
+    - state: closed
+      map: [ "closeLayer" ]
+  - type: Item
+    sprite: _DeadSpace/Objects/Specific/Medical/sandevistan-case.rsi
+    size: Normal
+  - type: Storage
+    maxItemSize: Small
+    grid:
+    - 0,0,1,0
+    whitelist:
+      components:
+      - Implanter
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:EntSelector
+        id: SandevistanImplanter
+  - type: ItemMapper
+    mapLayers:
+      c1:
+        whitelist:
+          components:
+          - Implanter
+  - type: Appearance

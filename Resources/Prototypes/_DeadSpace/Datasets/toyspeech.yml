@@ -366,6 +366,12 @@
     count: 10
 
 - type: localizedDataset
+  id: PlushieFyrmorEklmnSpeech
+  values:
+    prefix: plushies-eklmn-
+    count: 10
+
+- type: localizedDataset
   id: PlushieDmitrySpeisovSpeech
   values:
     prefix: plushies-speisov-

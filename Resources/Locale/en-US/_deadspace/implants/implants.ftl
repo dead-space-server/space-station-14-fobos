@@ -1,0 +1,55 @@
+sandevistan-implant-activated = Incredible energy courses through your entire body. The world around you slows down.
+sandevistan-implant-cooldown = The spikes have stopped digging into your spine. { $seconds } s remaining.
+
+sandevistan-softcap-popup-1 = A migraine squeezes your head.
+sandevistan-softcap-popup-2 = Stopping is impossible.
+sandevistan-softcap-popup-3 = Your organs melt while your mind boils from what it sees.
+sandevistan-softcap-popup-4 = Obsessive thoughts of stopping keep chasing you.
+sandevistan-softcap-popup-5 = Your eyes begin to lose focus.
+sandevistan-softcap-popup-6 = Your surroundings blur into a wash of colors.
+sandevistan-softcap-popup-7 = You slowly lose your composure.
+sandevistan-softcap-popup-8 = Your legs become weightless, and the dance turns chaotic.
+sandevistan-softcap-popup-9 = Your consciousness begins to drown in euphoria born of pain.
+sandevistan-softcap-popup-10 = Too fast.
+sandevistan-softcap-popup-11 = ENOUGH!
+
+sandevistan-softcap-shout-1 = Shut up! Shut up! Shut up!!
+sandevistan-softcap-shout-2 = There is no way back!!
+sandevistan-softcap-shout-3 = Run, kid, run!!
+sandevistan-softcap-shout-4 = So, shall we play Martinez?!!
+sandevistan-softcap-shout-5 = I will kill everyone so nobody feels left out!!
+sandevistan-softcap-shout-6 = Get up and fight!!
+sandevistan-softcap-shout-7 = So... Hot!!
+sandevistan-softcap-shout-8 = The triumph of form, fuck!!
+sandevistan-softcap-shout-9 = And I am drowning here in a sea of blood!!
+sandevistan-softcap-shout-10 = Everyone at once!!
+sandevistan-softcap-shout-11 = Do you remember this pain?!!
+sandevistan-softcap-shout-12 = What do you think about when you die?!!
+sandevistan-softcap-shout-13 = I have no fucking fear!!
+sandevistan-softcap-shout-14 = Iron does not feel pain!!
+sandevistan-softcap-shout-15 = Do not ask where your friends are!!
+sandevistan-softcap-shout-16 = I will rip every fucking head off!!
+sandevistan-softcap-shout-17 = My brain is against me!!
+sandevistan-softcap-shout-18 = You meet God covered in blood!!
+sandevistan-softcap-shout-19 = Your God heard you, your God has come to you!!!!
+sandevistan-softcap-shout-20 = You do not have what it takes to fly with me, darling!!
+sandevistan-softcap-shout-21 = You cannot hear a thing, come on, dance with me!!
+sandevistan-softcap-shout-22 = Bitch, do not forget! You have to love me!!
+sandevistan-softcap-shout-23 = Do not look down on me!!
+sandevistan-softcap-shout-24 = Lie down and cry, bitch, lie down and cry!!
+sandevistan-softcap-shout-25 = You cannot get away!!
+
+sandevistan-end-warning-popup-1 = KILL THEM ALL!
+sandevistan-end-warning-popup-2 = KILL! KILL! KILL!
+sandevistan-end-warning-popup-3 = YOU ARE GOING INSANE!
+sandevistan-end-warning-popup-4 = YOU WILL DIE!
+sandevistan-end-warning-popup-5 = THEY ARE TOO SLOW!
+sandevistan-end-warning-popup-6 = YOUR HEART IS ABOUT TO BURST!
+sandevistan-end-warning-popup-7 = DO NOT STOP!
+sandevistan-end-warning-popup-8 = TEAR THEM ALL APART!
+sandevistan-end-warning-popup-9 = THEY ARE NO MATCH FOR YOU!
+sandevistan-end-warning-popup-10 = A HUMAN CANNOT KILL A GOD!
+
+sandevistan-recovery-popup-1 = A sharp heat grips your lungs. The air you breathe grows hotter and hotter.
+sandevistan-recovery-popup-2 = Tremors seize your hands, making it hard to make decisions.
+sandevistan-recovery-popup-3 = Your mind boils as thoughts creep in that you must kill everyone.

@@ -237,6 +237,8 @@
         orGroup: GiftPool
       - id: PlushieMagicColonel
         orGroup: GiftPool
+      - id: PlushieFyrmorEklmn
+        orGroup: GiftPool
       - id: PlushieUraniDmitrySpeisov
         orGroup: GiftPool
       - id: PlushieZekalAhmet

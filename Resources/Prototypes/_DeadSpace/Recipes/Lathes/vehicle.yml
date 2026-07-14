@@ -53,3 +53,34 @@
     Silver: 600
     Plastic: 500
     BluespaceCrystal: 225
+
+- type: latheRecipe
+  id: TaipanVehicleQuadBikeFlatpack
+  result: TaipanVehicleQuadBikeFlatpack
+  completetime: 2
+  materials:
+    Steel: 1500
+    Glass: 1000
+    Gold: 550
+    Silver: 500
+    Plastic: 500
+
+- type: latheRecipe
+  id: TaipanVehicleHoverbikeFlatpack
+  result: TaipanVehicleHoverbikeFlatpack
+  completetime: 2
+  materials:
+    Steel: 2250
+    Glass: 1250
+    Gold: 850
+    Silver: 600
+    Plastic: 500
+    BluespaceCrystal: 100
+
+- type: latheRecipe
+  id: TaipanVehicleKeyUniversal
+  result: TaipanVehicleKeyUniversal
+  completetime: 2
+  materials:
+    Steel: 500
+    Gold: 250

@@ -42,7 +42,7 @@ public sealed partial class BankUiFragment : BoxContainer
         LinkedAccountBalanceLabel.SetMarkup(Loc.GetString(
             "bank-program-account-balance",
             ("balance", state.LinkedAccountBalance ?? 0),
-            ("currencySymbol", Loc.GetString(_currencyPrototype?.CurrencySymbol ?? ""))));
+            ("currencySymbol", GetCurrencySymbol())));
     }
 
     private void NoAccount()
@@ -60,7 +60,15 @@ public sealed partial class BankUiFragment : BoxContainer
         if (Bank != null)
             _prototypeManager.TryIndex(Bank.CurrencyType, out _currencyPrototype);
 
-        LinkedAccountBalanceLabel.SetMarkup(Loc.GetString("bank-program-account-balance", ("balance", Bank?.Balance ?? 0), ("currencySymbol", Loc.GetString(_currencyPrototype?.CurrencySymbol ?? ""))));
+        LinkedAccountBalanceLabel.SetMarkup(Loc.GetString("bank-program-account-balance", ("balance", Bank?.Balance ?? 0), ("currencySymbol", GetCurrencySymbol())));
+    }
+
+    private string GetCurrencySymbol()
+    {
+        if (_currencyPrototype == null || string.IsNullOrEmpty(_currencyPrototype.CurrencySymbol))
+            return string.Empty;
+
+        return Loc.GetString(_currencyPrototype.CurrencySymbol);
     }
 
     public void FillFields()

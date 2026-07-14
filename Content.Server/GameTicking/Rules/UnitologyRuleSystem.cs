@@ -41,9 +41,12 @@ using Content.Server.DeadSpace.ERT;
 using Content.Server.AlertLevel;
 using Content.Shared.DeadSpace.ERT.Prototypes;
 using Content.Server.Database;
+using Content.Server.DeadSpace.Necromorphs.Unitology;
 using Content.Shared.Damage.Components;
 using Robust.Server.Player;
 using Robust.Shared.Player;
+using Content.Shared.Humanoid;
+using Content.Shared.Mobs.Systems;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -57,7 +60,6 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly IServerDbManager _db = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
-    [Dependency] private readonly ExplosionSystem _explosion = default!;
     [Dependency] private readonly SharedObjectivesSystem _objectives = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
@@ -69,24 +71,20 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly FaxSystem _faxSystem = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly CargoSystem _cargoSystem = default!;
-    [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
-    [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly LoadoutSystem _loadout = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly UnitologySubmissionConditionSystem _submissionCondition = default!;
     private static readonly EntProtoId UnitologyRule = "Unitology";
     public static readonly ProtoId<AntagPrototype> UnitologyAntagRole = "UniHead";
     public static readonly ProtoId<AntagPrototype> RegularUnitologyAntagRole = "Uni";
     public static readonly ProtoId<AntagPrototype> EnslavedUnitologyAntagRole = "UniEnslaved";
-    private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
-    private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
-    private const int AdditionalSupport = 70000;
     private const float ConvergenceSongLength = 60f + 37.6f;
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<UnitologyRuleComponent, AfterAntagEntitySelectedEvent>(AfterEntitySelected);
         SubscribeLocalEvent<UnitologyRuleComponent, StageObeliskEvent>(OnStageObelisk);
         SubscribeLocalEvent<UnitologyRuleComponent, SpawnNecroMoonEvent>(EndStageConvergence);
         SubscribeLocalEvent<UnitologyRuleComponent, StageConvergenceEvent>(OnStageConvergence);
@@ -160,24 +158,9 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         return false;
     }
 
-    protected override void Started(EntityUid uid, UnitologyRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)
-    {
-        base.Started(uid, component, gameRule, args);
-
-        component.TimeUntilArrivalObelisk = _timing.CurTime + TimeSpan.FromMinutes(component.DurationArrivalObelisk);
-    }
-
     protected override void ActiveTick(EntityUid uid, UnitologyRuleComponent component, GameRuleComponent gameRule, float frameTime)
     {
         base.ActiveTick(uid, component, gameRule, frameTime);
-
-        var time = component.TimeUntilArrivalObelisk;
-        float minutes = (float)time.TotalMinutes;
-        float seconds = (float)time.TotalSeconds;
-
-        TimeSpan obeliskWarningTime = TimeSpan.FromMinutes(minutes - component.TimeUntilObeliskWarning);
-        TimeSpan uniWarningTime = TimeSpan.FromMinutes(minutes - component.TimeUntilUniWarning);
-        TimeSpan spawnObeliskTime = TimeSpan.FromMinutes(seconds + component.TimeAfterTheExplosion);
 
         if (component.IsStageObelisk && component.TimeUtilStopTransformations > _timing.CurTime)
         {
@@ -187,84 +170,6 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         if (!component.IsTransformationEnd && component.IsStageObelisk && component.TimeUtilStopTransformations < _timing.CurTime)
         {
             EndTransformations(uid, component);
-        }
-
-        if (!component.IsObeliskWarningSend && obeliskWarningTime < _timing.CurTime)
-        {
-            _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("unitology-centcomm-announcement-obelisk-arrival"), playSound: true, colorOverride: Color.LightSeaGreen);
-            component.IsObeliskWarningSend = true;
-
-            var query = EntityQueryEnumerator<UnitologyHeadComponent>();
-            EntityUid? station = null;
-
-            while (query.MoveNext(out var ent, out _))
-            {
-                station = _station.GetOwningStation(ent);
-                break;
-            }
-
-            if (station == null)
-                return;
-
-            _alertLevel.SetLevel(station.Value, "sierra", true, true, true);
-
-            if (!TryComp<StationBankAccountComponent>(station, out var stationAccount))
-                return;
-
-            var addMoneyAfterWarDeclared = _ertResponseSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
-
-            _cargoSystem.UpdateBankAccount(
-                                (station.Value, stationAccount),
-                                addMoneyAfterWarDeclared,
-                                Account
-                            );
-        }
-
-        if (!component.IsUniWarningSend && uniWarningTime < _timing.CurTime)
-        {
-            SendOrder();
-            _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("unitology-centcomm-announcement-uni-warn"), playSound: true, colorOverride: Color.LightSeaGreen);
-            component.IsUniWarningSend = true;
-        }
-
-        if (!component.IsObeliskArrival && component.TimeUntilArrivalObelisk < _timing.CurTime)
-        {
-            float multyExp = IsConditionsComplete() ? 2f : 1f;
-
-            EntityCoordinates? landingSite = GetCoord(uid, component);
-
-            if (landingSite == null)
-                return;
-
-            var expCoords = _transform.ToMapCoordinates(landingSite.Value);
-
-            if (!component.ThisExplosionMade)
-            {
-                _explosion.QueueExplosion(expCoords, component.TypeId, component.TotalIntensity * multyExp, 1f, component.MaxTileIntensity * multyExp, null, 1f, int.MaxValue, true, true);
-                component.ThisExplosionMade = true;
-            }
-
-            if (spawnObeliskTime < _timing.CurTime)
-                return;
-
-            EntityUid? obelisk = null;
-
-            if (IsConditionsComplete())
-                obelisk = Spawn(component.BlackObeliskPrototype, landingSite.Value);
-            else
-                obelisk = Spawn(component.ObeliskPrototype, landingSite.Value);
-
-            if (obelisk == null)
-                return;
-
-            var stageObeliskEvent = new StageObeliskEvent(obelisk.Value);
-            var ruleQuery = AllEntityQuery<UnitologyRuleComponent>();
-            while (ruleQuery.MoveNext(out var ruleUid, out _))
-            {
-                RaiseLocalEvent(ruleUid, ref stageObeliskEvent);
-            }
-
-            component.IsObeliskArrival = true;
         }
 
         if (component.IsStageObelisk)
@@ -325,6 +230,81 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         return isConditionsComplete;
     }
 
+    public bool AreSummoningConditionsComplete(EntityUid head)
+    {
+        if (!TryGetRequiredSlaves(head, out var required))
+            return false;
+
+        var total = 0;
+        var nearby = 0;
+        var slaves = AllEntityQuery<UnitologyEnslavedComponent>();
+        while (slaves.MoveNext(out var slave, out _))
+        {
+            total++;
+            if (_transform.InRange(Transform(head).Coordinates, Transform(slave).Coordinates, 3f))
+                nearby++;
+        }
+
+        return total >= required && nearby >= required && GetNearbyHumanCorpses(head).Count > 0;
+    }
+
+    private bool TryGetRequiredSlaves(EntityUid head, out int required)
+    {
+        required = 0;
+        if (!_mindSystem.TryGetMind(head, out _, out var mind))
+            return false;
+
+        foreach (var objective in mind.Objectives)
+        {
+            if (_submissionCondition.TryGetAssignedTarget(objective, out required))
+                return true;
+        }
+
+        return false;
+    }
+
+    public bool TrySummonObelisk(EntityUid head, bool black)
+    {
+        var rules = AllEntityQuery<UnitologyRuleComponent>();
+        while (rules.MoveNext(out var ruleUid, out var rule))
+        {
+            if (rule.IsObeliskArrival || !AreSummoningConditionsComplete(head))
+                return false;
+
+            var prototype = black ? rule.BlackObeliskPrototype : rule.ObeliskPrototype;
+            var obelisk = Spawn(prototype, Transform(head).Coordinates);
+            foreach (var corpse in GetNearbyHumanCorpses(head))
+            {
+                var necromorf = _infectionDead.GetRandomNecromorfPrototypeId();
+                _necromorfSystem.Necrofication(corpse, necromorf, new InfectionDeadStrainData());
+            }
+
+            var stageEvent = new StageObeliskEvent(obelisk);
+            RaiseLocalEvent(ruleUid, ref stageEvent);
+            rule.IsObeliskArrival = true;
+            return true;
+        }
+
+        return false;
+    }
+
+    private HashSet<EntityUid> GetNearbyHumanCorpses(EntityUid head)
+    {
+        var corpses = new HashSet<EntityUid>();
+        foreach (var entity in _lookup.GetEntitiesInRange(Transform(head).Coordinates, 3f))
+        {
+            if (HasComp<HumanoidAppearanceComponent>(entity) &&
+                !HasComp<NecromorfComponent>(entity) &&
+                !HasComp<ZombieComponent>(entity) &&
+                _mobState.IsDead(entity))
+            {
+                corpses.Add(entity);
+            }
+        }
+
+        return corpses;
+    }
+
     private EntityCoordinates? GetCoord(EntityUid uid, UnitologyRuleComponent? component = null)
     {
         if (!Resolve(uid, ref component))
@@ -349,24 +329,6 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         }
 
         return component.ObeliskCoords;
-    }
-
-    private void AfterEntitySelected(Entity<UnitologyRuleComponent> ent, ref AfterAntagEntitySelectedEvent args)
-    {
-        var antag = _antag.ForceGetGameRuleEnt<UnitologyRuleComponent>(UnitologyRule);
-
-        AntagSelectionDefinition? definition = antag.Comp.Definitions.FirstOrDefault(def =>
-        def.PrefRoles.Contains(new ProtoId<AntagPrototype>(UnitologyAntagRole))
-        );
-
-        if (!_mindSystem.TryGetMind(args.EntityUid, out var mindId, out var mind))
-            return;
-
-        var roles = _role.MindGetAllRoleInfo(mindId);
-        var headRoles = roles.Where(x => x.Prototype == UnitologyAntagRole);
-
-        if (headRoles.Count() < 0)
-            _antag.MakeAntag(args.GameRule, args.Session, definition.Value);
     }
 
     private void OnStageObelisk(EntityUid uid, UnitologyRuleComponent component, StageObeliskEvent ev)

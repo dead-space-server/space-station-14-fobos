@@ -4,3 +4,5 @@ ent-ActionRetractableItemMantisBladesImplant = [color=red]Переключить
     .desc = Пустите их под клинок.
 ent-ActionMantisJump = [color=red]Рывок богомола[/color]
     .desc = Набросьтесь на врага со всей ненавистью.
+ent-ActionActivateSandevistanImplant = [color=red]Активировать Сандевистан[/color]
+    .desc = Продашь свою душу за силу?

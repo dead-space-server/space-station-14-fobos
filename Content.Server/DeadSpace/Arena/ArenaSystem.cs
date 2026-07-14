@@ -2,20 +2,27 @@ using Content.Server.Antag.Components;
 using Content.Server.EUI;
 using Content.Server.Ghost;
 using Content.Server.Mind;
+using Content.Server.Preferences.Managers;
 using Content.Shared.Body.Part;
 using Content.Shared.DeadSpace.Arena;
 using Content.Shared.Fluids.Components;
 using Content.Shared.GameTicking;
 using Content.Shared.Ghost;
+using Content.Shared.Humanoid;
+using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Mind;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
+using Content.Shared.Preferences;
+using Content.Shared.Roles;
+using Content.Shared.Roles.Jobs;
 using Content.Shared.Station;
 using Robust.Server.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
 using Robust.Shared.EntitySerialization.Systems;
+using Robust.Shared.Enums;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
@@ -36,8 +43,18 @@ public sealed class ArenaSystem : EntitySystem
     [Dependency] private readonly IRobustRandom _luck = default!;
     [Dependency] private readonly EuiManager _eui = default!;
     [Dependency] private readonly SharedStationSpawningSystem _stationSpawning = default!;
+    [Dependency] private readonly IServerPreferencesManager _prefs = default!;
+    [Dependency] private readonly SharedHumanoidAppearanceSystem _humanoid = default!;
+    [Dependency] private readonly SharedRoleSystem _roles = default!;
 
     private const string ArenaMapFile = "/Maps/_DeadSpace/arena.yml";
+
+    public bool Enabled { get; private set; } = true;
+
+    public void ToggleEnabled()
+    {
+        Enabled = !Enabled;
+    }
 
     private EntityUid? _arenaMap;
     private readonly HashSet<NetEntity> _roster = new();
@@ -63,6 +80,9 @@ public sealed class ArenaSystem : EntitySystem
     private void OnJoin(ArenaJoinEvent msg, EntitySessionEventArgs args)
     {
         var who = (ICommonSession)args.SenderSession;
+
+        if (!Enabled)
+            return;
 
         if (who.AttachedEntity is not { Valid: true } ghost || !HasComp<GhostComponent>(ghost))
             return;
@@ -110,7 +130,23 @@ public sealed class ArenaSystem : EntitySystem
             !_roster.Contains(GetNetEntity(ev.Entity)))
             return;
 
-        RestorePlayer(ev.Entity, arenaPlayer);
+        // Player disconnected — full restore to preserve mind state
+        if (ev.Player.Status == SessionStatus.Disconnected)
+        {
+            RestorePlayer(ev.Entity, arenaPlayer);
+            return;
+        }
+
+        // Visiting another entity (for example via aghost) is temporary. Keep the arena body for the return.
+        if (_minds.TryGetMind(ev.Entity, out _, out var temporaryMind) &&
+            temporaryMind.VisitingEntity != null)
+        {
+            return;
+        }
+
+        // Player re-attached elsewhere (role change, admin takeover, etc.) — just clean up the arena body
+        _roster.Remove(GetNetEntity(ev.Entity));
+        QueueDel(ev.Entity);
     }
 
     public void OnLoadoutEuiClosed(ICommonSession session, ArenaLoadoutEui eui)
@@ -166,6 +202,9 @@ public sealed class ArenaSystem : EntitySystem
 
     public bool SpawnPlayer(ArenaLoadoutEui eui, ICommonSession who, EntityUid sourceGhost, int kitIdx)
     {
+        if (!Enabled)
+            return false;
+
         if (!_activeEuis.TryGetValue(who, out var currentEui) ||
             !ReferenceEquals(currentEui, eui) ||
             who.AttachedEntity != sourceGhost ||
@@ -179,6 +218,9 @@ public sealed class ArenaSystem : EntitySystem
 
         if (_arenaMap is not { } map)
             return false;
+
+        // Clean up old dead bodies from previous lives
+        SweepArenaBodies();
 
         if (_presets.Count == 0)
             RefreshPresets();
@@ -195,7 +237,13 @@ public sealed class ArenaSystem : EntitySystem
             ? _luck.Pick(sites)
             : new EntityCoordinates(map, System.Numerics.Vector2.Zero);
 
-        var fresh = Spawn("MobHuman", spot);
+        var profile = _prefs.GetPreferences(who.UserId).SelectedCharacter as HumanoidCharacterProfile;
+        string speciesId = profile?.Species ?? SharedHumanoidAppearanceSystem.DefaultSpecies;
+        var species = _protos.Index<SpeciesPrototype>(speciesId);
+        var fresh = Spawn(species.Prototype, spot);
+
+        if (profile != null)
+            _humanoid.LoadProfile(fresh, profile);
 
         _meta.SetEntityName(fresh, who.Name);
 
@@ -213,8 +261,11 @@ public sealed class ArenaSystem : EntitySystem
 
         // The disposable arena body must never inherit the round mind's roles or objectives.
         _minds.SetUserId(originalMindId, null, originalMind);
+        _minds.TransferTo(originalMindId, null, createGhost: false, mind: originalMind);
         var temporaryMind = _minds.CreateMind(who.UserId, who.Name);
         _minds.TransferTo(temporaryMind, fresh, mind: temporaryMind.Comp);
+        QueueDel(sourceGhost);
+        _roles.MindAddJobRole(temporaryMind, silent: true, jobPrototype: "ArenaWarrior");
 
         _roster.Add(GetNetEntity(fresh));
         return true;
@@ -231,6 +282,10 @@ public sealed class ArenaSystem : EntitySystem
         }
 
         var userId = temporaryMind.UserId;
+
+        if (temporaryMind.VisitingEntity != null)
+            _minds.UnVisit(temporaryMindId, temporaryMind);
+
         if (userId == null || !TryComp<MindComponent>(arenaPlayer.OriginalMind, out var originalMind))
         {
             if (userId != null)
@@ -330,6 +385,35 @@ public sealed class ArenaSystem : EntitySystem
         _meta.SetEntityName(platform, "Arena Platform");
     }
 
+    private void SweepArenaBodies()
+    {
+        if (_arenaMap is not { } map || !Exists(map))
+            return;
+
+        var mid = Transform(map).MapID;
+
+        var bodyQuery = EntityQueryEnumerator<ArenaPlayerComponent, TransformComponent>();
+        while (bodyQuery.MoveNext(out var uid, out _, out var xform))
+        {
+            if (xform.MapID == mid &&
+                !_roster.Contains(GetNetEntity(uid)) &&
+                !_minds.TryGetMind(uid, out _, out _))
+            {
+                QueueDel(uid);
+            }
+        }
+
+        var ghostQuery = EntityQueryEnumerator<GhostComponent, TransformComponent>();
+        while (ghostQuery.MoveNext(out var uid, out _, out var xform))
+        {
+            if (xform.MapID == mid &&
+                !_minds.TryGetMind(uid, out _, out _))
+            {
+                QueueDel(uid);
+            }
+        }
+    }
+
     private void ZapArena()
     {
         if (_arenaMap is not { } map || !Exists(map))
@@ -347,11 +431,11 @@ public sealed class ArenaSystem : EntitySystem
             if (HasComp<MapGridComponent>(thing))
                 continue;
 
-            if (HasComp<ActorComponent>(thing))
+            if (HasComp<ActorComponent>(thing) ||
+                _minds.TryGetMind(thing, out _, out _))
+            {
                 continue;
-
-            if (HasComp<GhostComponent>(thing))
-                continue;
+            }
 
             if (HasComp<BodyPartComponent>(thing))
                 continue;

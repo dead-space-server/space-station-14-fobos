@@ -1525,6 +1525,32 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.ToTable("uploaded_resource_log", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.UserIdLoginMigration", b =>
+                {
+                    b.Property<Guid>("OldUserId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("old_user_id");
+
+                    b.Property<Guid>("NewUserId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("new_user_id");
+
+                    b.Property<DateTime>("ProcessedAt")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("processed_at");
+
+                    b.HasKey("OldUserId", "NewUserId")
+                        .HasName("PK_user_id_login_migrations");
+
+                    b.HasIndex("NewUserId")
+                        .IsUnique();
+
+                    b.HasIndex("OldUserId")
+                        .IsUnique();
+
+                    b.ToTable("user_id_login_migrations", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.Whitelist", b =>
                 {
                     b.Property<Guid>("UserId")

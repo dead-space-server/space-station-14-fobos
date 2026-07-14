@@ -16,8 +16,9 @@ const highp float darknessAlphaInner = 0.0;
 
 void fragment() {
 	highp vec2 pixelSize = vec2(1.0/SCREEN_PIXEL_SIZE.x, 1.0/SCREEN_PIXEL_SIZE.y);
-	highp vec2 pixelCenter = pixelSize*0.5;
-	highp float distance = length(FRAGCOORD.xy - pixelCenter);
+	highp vec2 centered = FRAGCOORD.xy * SCREEN_PIXEL_SIZE - vec2(0.5);
+	centered.x *= pixelSize.x / pixelSize.y;
+	highp float distance = length(centered);
     
 	highp float innerRadius = innerCircleRadius + time * (innerCircleMaxRadius - innerCircleRadius);
 	highp float outerRadius = outerCircleRadius + time * (outerCircleMaxRadius - outerCircleRadius);

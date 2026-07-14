@@ -261,6 +261,11 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
         var ev = new GetMeleeAttackRateEvent(uid, component.AttackRate, 1, user);
         RaiseLocalEvent(uid, ref ev);
 
+        // DS14-start
+        if (uid != user)
+            RaiseLocalEvent(user, ref ev);
+        // DS14-end
+
         return ev.Rate * ev.Multipliers;
     }
 

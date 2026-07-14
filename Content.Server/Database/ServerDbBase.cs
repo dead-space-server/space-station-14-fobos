@@ -1,9 +1,12 @@
 using System.Collections.Immutable;
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -54,6 +57,8 @@ namespace Content.Server.Database
             Full,
         }
 
+        private static readonly ConcurrentDictionary<Guid, SemaphoreSlim> UserIdMigrationLocalLocks = new();
+
         public async Task<UserIdMigrationReport> DryRunUserIdMigrationAsync(
             Guid oldUserId,
             Guid newUserId,
@@ -85,22 +90,258 @@ namespace Content.Server.Database
             UserIdMigrationMode mode,
             CancellationToken cancel)
         {
-            await using var guard = await GetDb(cancel);
-            await using var transaction = await guard.DbContext.Database.BeginTransactionAsync(cancel);
+            var localLocks = await AcquireUserIdMigrationLocalLocksAsync(oldUserId, newUserId, cancel);
+            try
+            {
+                await using var guard = await GetDb(cancel);
+                await using var transaction = await guard.DbContext.Database.BeginTransactionAsync(cancel);
+                await AcquireUserIdMigrationLocksAsync(guard.DbContext, [oldUserId, newUserId], cancel);
 
-            var report = await BuildUserIdMigrationReportAsync(guard.DbContext, oldUserId, newUserId, mode, cancel);
-            if (!report.CanApply)
+                var processedAt = mode == UserIdMigrationMode.Login
+                    ? await GetUserIdLoginMigrationProcessedAtAsync(guard.DbContext, oldUserId, newUserId, cancel)
+                    : null;
+
+                if (processedAt != null &&
+                    !await HasLoginMigrationTailRowsAsync(guard.DbContext, oldUserId, processedAt.Value, cancel))
+                {
+                    var processedReport = new UserIdMigrationReport(oldUserId, newUserId)
+                    {
+                        AlreadyProcessed = true
+                    };
+                    processedReport.Warnings.Add("Automatic login migration was already processed by this game database.");
+                    return processedReport;
+                }
+
+                var report = await BuildUserIdMigrationReportAsync(guard.DbContext, oldUserId, newUserId, mode, cancel);
+                if (!report.CanApply)
+                    return report;
+
+                if (!report.HasOldData)
+                {
+                    if (mode == UserIdMigrationMode.Login)
+                    {
+                        await RecordUserIdLoginMigrationAsync(guard.DbContext, oldUserId, newUserId, cancel);
+                        await guard.DbContext.SaveChangesAsync(cancel);
+                        await transaction.CommitAsync(cancel);
+                    }
+
+                    return report;
+                }
+
+                await ApplyUserIdMigrationCoreAsync(guard.DbContext, report, mode, cancel);
+                if (mode is UserIdMigrationMode.Login or UserIdMigrationMode.Full)
+                    await RecordUserIdLoginMigrationAsync(guard.DbContext, oldUserId, newUserId, cancel);
+
+                await guard.DbContext.SaveChangesAsync(cancel);
+                await transaction.CommitAsync(cancel);
+
+                report.Applied = true;
                 return report;
+            }
+            finally
+            {
+                ReleaseUserIdMigrationLocalLocks(localLocks);
+            }
+        }
 
-            if (!report.HasOldData)
-                return report;
+        private static async Task<List<SemaphoreSlim>> AcquireUserIdMigrationLocalLocksAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            return await AcquireUserIdMigrationLocalLocksAsync([oldUserId, newUserId], cancel);
+        }
 
-            await ApplyUserIdMigrationCoreAsync(guard.DbContext, report, mode, cancel);
-            await guard.DbContext.SaveChangesAsync(cancel);
-            await transaction.CommitAsync(cancel);
+        private static async Task<List<SemaphoreSlim>> AcquireUserIdMigrationLocalLocksAsync(
+            IEnumerable<Guid> userIds,
+            CancellationToken cancel)
+        {
+            var locks = new List<SemaphoreSlim>();
 
-            report.Applied = true;
-            return report;
+            try
+            {
+                foreach (var userId in userIds
+                             .Where(userId => userId != Guid.Empty)
+                             .Distinct()
+                             .OrderBy(userId => userId))
+                {
+                    var userLock = UserIdMigrationLocalLocks.GetOrAdd(userId, _ => new SemaphoreSlim(1, 1));
+                    await userLock.WaitAsync(cancel);
+                    locks.Add(userLock);
+                }
+
+                return locks;
+            }
+            catch
+            {
+                ReleaseUserIdMigrationLocalLocks(locks);
+                throw;
+            }
+        }
+
+        private static void ReleaseUserIdMigrationLocalLocks(List<SemaphoreSlim> locks)
+        {
+            foreach (var userLock in locks)
+            {
+                userLock.Release();
+            }
+        }
+
+        private static async Task<DateTime?> GetUserIdLoginMigrationProcessedAtAsync(
+            ServerDbContext db,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            return await db.UserIdLoginMigrations
+                .Where(migration =>
+                    migration.OldUserId == oldUserId &&
+                    migration.NewUserId == newUserId)
+                .Select(migration => (DateTime?)migration.ProcessedAt)
+                .SingleOrDefaultAsync(cancel);
+        }
+
+        private static async Task RecordUserIdLoginMigrationAsync(
+            ServerDbContext db,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            var migration = await db.UserIdLoginMigrations.SingleOrDefaultAsync(migration =>
+                migration.OldUserId == oldUserId &&
+                migration.NewUserId == newUserId,
+                cancel);
+
+            if (migration == null)
+            {
+                db.UserIdLoginMigrations.Add(new UserIdLoginMigration
+                {
+                    OldUserId = oldUserId,
+                    NewUserId = newUserId,
+                    ProcessedAt = DateTime.UtcNow
+                });
+                return;
+            }
+
+            migration.ProcessedAt = DateTime.UtcNow;
+        }
+
+        private static async Task<bool> HasLoginMigrationTailRowsAsync(
+            ServerDbContext db,
+            Guid oldUserId,
+            DateTime processedAt,
+            CancellationToken cancel)
+        {
+            return await db.Player.AnyAsync(p => p.UserId == oldUserId && p.LastSeenTime > processedAt, cancel) ||
+                   await db.Preference.AnyAsync(p => p.UserId == oldUserId, cancel) ||
+                   await db.Profile.AnyAsync(p => p.Preference.UserId == oldUserId, cancel) ||
+                   await db.AssignedUserId.AnyAsync(p => p.UserId == oldUserId, cancel) ||
+                   await db.Admin.AnyAsync(p => p.UserId == oldUserId, cancel) ||
+                   await db.Set<AdminFlag>().AnyAsync(p => p.AdminId == oldUserId, cancel) ||
+                   await db.Whitelist.AnyAsync(p => p.UserId == oldUserId, cancel) ||
+                   await db.Blacklist.AnyAsync(p => p.UserId == oldUserId, cancel) ||
+                   await db.BanExemption.AnyAsync(p => p.UserId == oldUserId, cancel) ||
+                   await db.PlayTime.AnyAsync(p => p.PlayerId == oldUserId, cancel) ||
+                   await db.RoleWhitelists.AnyAsync(p => p.PlayerUserId == oldUserId, cancel) ||
+                   await db.BanPlayer.AnyAsync(p => p.UserId == oldUserId, cancel);
+        }
+
+        private static async Task AcquireUserIdMigrationLocksAsync(
+            ServerDbContext db,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            await AcquireUserIdMigrationLocksAsync(db, [oldUserId, newUserId], cancel);
+        }
+
+        private static async Task AcquireUserIdMigrationLocksAsync(
+            ServerDbContext db,
+            IEnumerable<Guid> userIds,
+            CancellationToken cancel)
+        {
+            if (!IsPostgres(db))
+                return;
+
+            var lockKeys = userIds
+                .Where(userId => userId != Guid.Empty)
+                .Select(GetUserIdMigrationLockKey)
+                .Distinct()
+                .OrderBy(key => key);
+
+            foreach (var lockKey in lockKeys)
+            {
+                await db.Database.ExecuteSqlInterpolatedAsync(
+                    $"SELECT pg_advisory_xact_lock({lockKey})",
+                    cancel);
+            }
+        }
+
+        private static bool IsPostgres(ServerDbContext db)
+        {
+            return string.Equals(
+                db.Database.ProviderName,
+                "Npgsql.EntityFrameworkCore.PostgreSQL",
+                StringComparison.Ordinal);
+        }
+
+        private static long GetUserIdMigrationLockKey(Guid userId)
+        {
+            var bytes = Encoding.UTF8.GetBytes($"user-id-migration:{userId:N}");
+            var hash = SHA256.HashData(bytes);
+            return BitConverter.ToInt64(hash, 0);
+        }
+
+        private async Task WithUserIdMigrationWriteLockAsync(
+            Guid userId,
+            Func<ServerDbContext, CancellationToken, Task> action,
+            CancellationToken cancel = default)
+        {
+            var localLocks = await AcquireUserIdMigrationLocalLocksAsync([userId], cancel);
+            try
+            {
+                await using var db = await GetDb(cancel);
+                await using var transaction = await db.DbContext.Database.BeginTransactionAsync(cancel);
+                await AcquireUserIdMigrationLocksAsync(db.DbContext, [userId], cancel);
+
+                await action(db.DbContext, cancel);
+                await transaction.CommitAsync(cancel);
+            }
+            finally
+            {
+                ReleaseUserIdMigrationLocalLocks(localLocks);
+            }
+        }
+
+        private async Task<T> WithUserIdMigrationWriteLockAsync<T>(
+            Guid userId,
+            Func<ServerDbContext, CancellationToken, Task<T>> action,
+            CancellationToken cancel = default)
+        {
+            return await WithUserIdMigrationWriteLockAsync([userId], action, cancel);
+        }
+
+        protected async Task<T> WithUserIdMigrationWriteLockAsync<T>(
+            IEnumerable<Guid> userIds,
+            Func<ServerDbContext, CancellationToken, Task<T>> action,
+            CancellationToken cancel = default)
+        {
+            var userIdList = userIds.ToArray();
+            var localLocks = await AcquireUserIdMigrationLocalLocksAsync(userIdList, cancel);
+            try
+            {
+                await using var db = await GetDb(cancel);
+                await using var transaction = await db.DbContext.Database.BeginTransactionAsync(cancel);
+                await AcquireUserIdMigrationLocksAsync(db.DbContext, userIdList, cancel);
+
+                var result = await action(db.DbContext, cancel);
+                await transaction.CommitAsync(cancel);
+                return result;
+            }
+            finally
+            {
+                ReleaseUserIdMigrationLocalLocks(localLocks);
+            }
         }
 
         private async Task<UserIdMigrationReport> BuildUserIdMigrationReportAsync(
@@ -121,6 +362,8 @@ namespace Content.Server.Database
             if (oldUserId == newUserId)
                 report.Errors.Add("Old and new user ids are the same.");
 
+            await AddConflictingUserIdMigrationErrorsAsync(db, report, oldUserId, newUserId, cancel);
+
             if (_playTimeServer?.UsePlayTimeServer() == true)
             {
                 report.Warnings.Add("External playtime service is active; this migration updates local game database rows only. External playtime data must be migrated separately.");
@@ -135,15 +378,14 @@ namespace Content.Server.Database
                 report.Warnings.Add("Automatic login migration skips large historical audit tables; run the full migration command later to rewrite connection logs, admin logs, notes and round history.");
             }
 
-            if (mode == UserIdMigrationMode.Full)
-            {
-                await AddTableCountAsync(
-                    report,
-                    "player",
-                    () => db.Player.CountAsync(p => p.UserId == oldUserId, cancel),
-                    () => db.Player.CountAsync(p => p.UserId == newUserId, cancel),
-                    "merge old player record into MK player and remove the old record");
-            }
+            await AddTableCountAsync(
+                report,
+                "player",
+                () => db.Player.CountAsync(p => p.UserId == oldUserId, cancel),
+                () => db.Player.CountAsync(p => p.UserId == newUserId, cancel),
+                mode == UserIdMigrationMode.Full
+                    ? "merge old player record into MK player and remove the old record"
+                    : "merge old player record into MK player; keep old record for historical tables");
 
             await AddTableCountAsync(
                 report,
@@ -336,6 +578,39 @@ namespace Content.Server.Database
             return report;
         }
 
+        private static async Task AddConflictingUserIdMigrationErrorsAsync(
+            ServerDbContext db,
+            UserIdMigrationReport report,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            if (oldUserId == Guid.Empty ||
+                newUserId == Guid.Empty ||
+                oldUserId == newUserId)
+            {
+                return;
+            }
+
+            var conflictingMigration = await db.UserIdLoginMigrations
+                .AsNoTracking()
+                .Where(migration =>
+                    (migration.OldUserId == oldUserId ||
+                     migration.NewUserId == oldUserId ||
+                     migration.OldUserId == newUserId ||
+                     migration.NewUserId == newUserId) &&
+                    (migration.OldUserId != oldUserId ||
+                     migration.NewUserId != newUserId))
+                .Select(migration => new { migration.OldUserId, migration.NewUserId })
+                .FirstOrDefaultAsync(cancel);
+
+            if (conflictingMigration == null)
+                return;
+
+            report.Errors.Add(
+                $"User ID migration conflicts with already processed migration {conflictingMigration.OldUserId} -> {conflictingMigration.NewUserId}.");
+        }
+
         private static async Task AddTableCountAsync(
             UserIdMigrationReport report,
             string table,
@@ -439,9 +714,11 @@ namespace Content.Server.Database
                 report.Warnings.Add("Both users have a non-default admin OOC color; MK color was kept.");
             }
 
-            if (!newPrefs.Profiles.Any(p => p.Slot == newPrefs.SelectedCharacterSlot) &&
-                selectedSlotMap.TryGetValue(oldSelectedSlot, out var mappedSelectedSlot))
+            if (selectedSlotMap.TryGetValue(oldSelectedSlot, out var mappedSelectedSlot))
             {
+                if (newPrefs.SelectedCharacterSlot != mappedSelectedSlot)
+                    report.Warnings.Add($"Selected character slot was moved from MK slot {newPrefs.SelectedCharacterSlot} to migrated WizDen slot {mappedSelectedSlot}.");
+
                 newPrefs.SelectedCharacterSlot = mappedSelectedSlot;
             }
 
@@ -968,54 +1245,55 @@ namespace Content.Server.Database
 
         public async Task SaveSelectedCharacterIndexAsync(NetUserId userId, int index)
         {
-            await using var db = await GetDb();
-
-            await SetSelectedCharacterSlotAsync(userId, index, db.DbContext);
-
-            await db.DbContext.SaveChangesAsync();
+            await WithUserIdMigrationWriteLockAsync(userId.UserId, async (db, _) =>
+            {
+                await SetSelectedCharacterSlotAsync(userId, index, db);
+                await db.SaveChangesAsync();
+            });
         }
 
         public async Task SaveCharacterSlotAsync(NetUserId userId, ICharacterProfile? profile, int slot)
         {
-            await using var db = await GetDb();
-
-            if (profile is null)
+            await WithUserIdMigrationWriteLockAsync(userId.UserId, async (db, _) =>
             {
-                await DeleteCharacterSlot(db.DbContext, userId, slot);
-                await db.DbContext.SaveChangesAsync();
-                return;
-            }
+                if (profile is null)
+                {
+                    await DeleteCharacterSlot(db, userId, slot);
+                    await db.SaveChangesAsync();
+                    return;
+                }
 
-            if (profile is not HumanoidCharacterProfile humanoid)
-            {
-                // TODO: Handle other ICharacterProfile implementations properly
-                throw new NotImplementedException();
-            }
+                if (profile is not HumanoidCharacterProfile humanoid)
+                {
+                    // TODO: Handle other ICharacterProfile implementations properly
+                    throw new NotImplementedException();
+                }
 
-            var oldProfile = db.DbContext.Profile
-                .Include(p => p.Preference)
-                .Where(p => p.Preference.UserId == userId.UserId)
-                .Include(p => p.Jobs)
-                .Include(p => p.Antags)
-                .Include(p => p.Traits)
-                .Include(p => p.Loadouts)
-                    .ThenInclude(l => l.Groups)
-                    .ThenInclude(group => group.Loadouts)
-                .AsSplitQuery()
-                .SingleOrDefault(h => h.Slot == slot);
+                var oldProfile = db.Profile
+                    .Include(p => p.Preference)
+                    .Where(p => p.Preference.UserId == userId.UserId)
+                    .Include(p => p.Jobs)
+                    .Include(p => p.Antags)
+                    .Include(p => p.Traits)
+                    .Include(p => p.Loadouts)
+                        .ThenInclude(l => l.Groups)
+                        .ThenInclude(group => group.Loadouts)
+                    .AsSplitQuery()
+                    .SingleOrDefault(h => h.Slot == slot);
 
-            var newProfile = ConvertProfiles(humanoid, slot, oldProfile);
-            if (oldProfile == null)
-            {
-                var prefs = await db.DbContext
-                    .Preference
-                    .Include(p => p.Profiles)
-                    .SingleAsync(p => p.UserId == userId.UserId);
+                var newProfile = ConvertProfiles(humanoid, slot, oldProfile);
+                if (oldProfile == null)
+                {
+                    var prefs = await db
+                        .Preference
+                        .Include(p => p.Profiles)
+                        .SingleAsync(p => p.UserId == userId.UserId);
 
-                prefs.Profiles.Add(newProfile);
-            }
+                    prefs.Profiles.Add(newProfile);
+                }
 
-            await db.DbContext.SaveChangesAsync();
+                await db.SaveChangesAsync();
+            });
         }
 
         private static async Task DeleteCharacterSlot(ServerDbContext db, NetUserId userId, int slot)
@@ -1034,60 +1312,63 @@ namespace Content.Server.Database
 
         public async Task<PlayerPreferences> InitPrefsAsync(NetUserId userId, ICharacterProfile defaultProfile)
         {
-            await using var db = await GetDb();
-
-            var profile = ConvertProfiles((HumanoidCharacterProfile) defaultProfile, 0);
-            var prefs = new Preference
+            return await WithUserIdMigrationWriteLockAsync(userId.UserId, async (db, _) =>
             {
-                UserId = userId.UserId,
-                SelectedCharacterSlot = 0,
-                AdminOOCColor = Color.Red.ToHex(),
-                ConstructionFavorites = [],
-            };
+                var profile = ConvertProfiles((HumanoidCharacterProfile) defaultProfile, 0);
+                var prefs = new Preference
+                {
+                    UserId = userId.UserId,
+                    SelectedCharacterSlot = 0,
+                    AdminOOCColor = Color.Red.ToHex(),
+                    ConstructionFavorites = [],
+                };
 
-            prefs.Profiles.Add(profile);
+                prefs.Profiles.Add(profile);
 
-            db.DbContext.Preference.Add(prefs);
+                db.Preference.Add(prefs);
 
-            await db.DbContext.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
-            return new PlayerPreferences(new[] { new KeyValuePair<int, ICharacterProfile>(0, defaultProfile) }, 0, Color.FromHex(prefs.AdminOOCColor), []);
+                return new PlayerPreferences(new[] { new KeyValuePair<int, ICharacterProfile>(0, defaultProfile) }, 0, Color.FromHex(prefs.AdminOOCColor), []);
+            });
         }
 
         public async Task DeleteSlotAndSetSelectedIndex(NetUserId userId, int deleteSlot, int newSlot)
         {
-            await using var db = await GetDb();
-
-            await DeleteCharacterSlot(db.DbContext, userId, deleteSlot);
-            await SetSelectedCharacterSlotAsync(userId, newSlot, db.DbContext);
-
-            await db.DbContext.SaveChangesAsync();
+            await WithUserIdMigrationWriteLockAsync(userId.UserId, async (db, _) =>
+            {
+                await DeleteCharacterSlot(db, userId, deleteSlot);
+                await SetSelectedCharacterSlotAsync(userId, newSlot, db);
+                await db.SaveChangesAsync();
+            });
         }
 
         public async Task SaveAdminOOCColorAsync(NetUserId userId, Color color)
         {
-            await using var db = await GetDb();
-            var prefs = await db.DbContext
-                .Preference
-                .Include(p => p.Profiles)
-                .SingleAsync(p => p.UserId == userId.UserId);
-            prefs.AdminOOCColor = color.ToHex();
-
-            await db.DbContext.SaveChangesAsync();
-
+            await WithUserIdMigrationWriteLockAsync(userId.UserId, async (db, _) =>
+            {
+                var prefs = await db
+                    .Preference
+                    .Include(p => p.Profiles)
+                    .SingleAsync(p => p.UserId == userId.UserId);
+                prefs.AdminOOCColor = color.ToHex();
+                await db.SaveChangesAsync();
+            });
         }
 
         public async Task SaveConstructionFavoritesAsync(NetUserId userId, List<ProtoId<ConstructionPrototype>> constructionFavorites)
         {
-            await using var db = await GetDb();
-            var prefs = await db.DbContext.Preference.SingleAsync(p => p.UserId == userId.UserId);
+            await WithUserIdMigrationWriteLockAsync(userId.UserId, async (db, _) =>
+            {
+                var prefs = await db.Preference.SingleAsync(p => p.UserId == userId.UserId);
 
-            var favorites = new List<string>(constructionFavorites.Count);
-            foreach (var favorite in constructionFavorites)
-                favorites.Add(favorite.Id);
-            prefs.ConstructionFavorites = favorites;
+                var favorites = new List<string>(constructionFavorites.Count);
+                foreach (var favorite in constructionFavorites)
+                    favorites.Add(favorite.Id);
+                prefs.ConstructionFavorites = favorites;
 
-            await db.DbContext.SaveChangesAsync();
+                await db.SaveChangesAsync();
+            });
         }
 
         private static async Task SetSelectedCharacterSlotAsync(NetUserId userId, int newSlot, ServerDbContext db)
@@ -1385,28 +1666,29 @@ namespace Content.Server.Database
 
         public async Task UpdateBanExemption(NetUserId userId, ServerBanExemptFlags flags)
         {
-            await using var db = await GetDb();
-
-            if (flags == 0)
+            await WithUserIdMigrationWriteLockAsync(userId.UserId, async (db, _) =>
             {
-                // Delete whatever is there.
-                await db.DbContext.BanExemption.Where(u => u.UserId == userId.UserId).ExecuteDeleteAsync();
-                return;
-            }
-
-            var exemption = await db.DbContext.BanExemption.SingleOrDefaultAsync(u => u.UserId == userId.UserId);
-            if (exemption == null)
-            {
-                exemption = new ServerBanExemption
+                if (flags == 0)
                 {
-                    UserId = userId
-                };
+                    // Delete whatever is there.
+                    await db.BanExemption.Where(u => u.UserId == userId.UserId).ExecuteDeleteAsync();
+                    return;
+                }
 
-                db.DbContext.BanExemption.Add(exemption);
-            }
+                var exemption = await db.BanExemption.SingleOrDefaultAsync(u => u.UserId == userId.UserId);
+                if (exemption == null)
+                {
+                    exemption = new ServerBanExemption
+                    {
+                        UserId = userId
+                    };
 
-            exemption.Flags = flags;
-            await db.DbContext.SaveChangesAsync();
+                    db.BanExemption.Add(exemption);
+                }
+
+                exemption.Flags = flags;
+                await db.SaveChangesAsync();
+            });
         }
 
         public async Task<ServerBanExemptFlags> GetBanExemption(NetUserId userId, CancellationToken cancel)
@@ -1455,6 +1737,9 @@ namespace Content.Server.Database
 
         public async Task UpdatePlayTimes(IReadOnlyCollection<PlayTimeUpdate> updates)
         {
+            if (updates.Count == 0)
+                return;
+
             // DS14-play-time-server-support-start
             if (_playTimeServer != null && _playTimeServer.UsePlayTimeServer())
             {
@@ -1474,8 +1759,6 @@ namespace Content.Server.Database
             }
             // DS14-play-time-server-support-end
 
-            await using var db = await GetDb();
-
             // Ideally I would just be able to send a bunch of UPSERT commands, but EFCore is a pile of garbage.
             // So... In the interest of not making this take forever at high update counts...
             // Bulk-load play time objects for all players involved.
@@ -1483,34 +1766,47 @@ namespace Content.Server.Database
             // Then we can update & insert without further round-trips to the DB.
 
             var players = updates.Select(u => u.User.UserId).Distinct().ToArray();
-            var dbTimes = (await db.DbContext.PlayTime
-                    .Where(p => players.Contains(p.PlayerId))
-                    .ToArrayAsync())
-                .GroupBy(p => p.PlayerId)
-                .ToDictionary(g => g.Key, g => g.ToDictionary(p => p.Tracker, p => p));
-
-            foreach (var (user, tracker, time) in updates)
+            var localLocks = await AcquireUserIdMigrationLocalLocksAsync(players, CancellationToken.None);
+            try
             {
-                if (dbTimes.TryGetValue(user.UserId, out var userTimes)
-                    && userTimes.TryGetValue(tracker, out var ent))
+                await using var db = await GetDb();
+                await using var transaction = await db.DbContext.Database.BeginTransactionAsync();
+                await AcquireUserIdMigrationLocksAsync(db.DbContext, players, CancellationToken.None);
+
+                var dbTimes = (await db.DbContext.PlayTime
+                        .Where(p => players.Contains(p.PlayerId))
+                        .ToArrayAsync())
+                    .GroupBy(p => p.PlayerId)
+                    .ToDictionary(g => g.Key, g => g.ToDictionary(p => p.Tracker, p => p));
+
+                foreach (var (user, tracker, time) in updates)
                 {
-                    // Already have a tracker in the database, update it.
-                    ent.TimeSpent = time;
-                    continue;
+                    if (dbTimes.TryGetValue(user.UserId, out var userTimes)
+                        && userTimes.TryGetValue(tracker, out var ent))
+                    {
+                        // Already have a tracker in the database, update it.
+                        ent.TimeSpent = time;
+                        continue;
+                    }
+
+                    // No tracker, make a new one.
+                    var playTime = new PlayTime
+                    {
+                        Tracker = tracker,
+                        PlayerId = user.UserId,
+                        TimeSpent = time
+                    };
+
+                    db.DbContext.PlayTime.Add(playTime);
                 }
 
-                // No tracker, make a new one.
-                var playTime = new PlayTime
-                {
-                    Tracker = tracker,
-                    PlayerId = user.UserId,
-                    TimeSpent = time
-                };
-
-                db.DbContext.PlayTime.Add(playTime);
+                await db.DbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
             }
-
-            await db.DbContext.SaveChangesAsync();
+            finally
+            {
+                ReleaseUserIdMigrationLocalLocks(localLocks);
+            }
         }
 
         #endregion
@@ -1525,24 +1821,25 @@ namespace Content.Server.Database
             IPAddress address,
             ImmutableTypedHwid? hwId)
         {
-            await using var db = await GetDb();
-
-            var record = await db.DbContext.Player.SingleOrDefaultAsync(p => p.UserId == userId.UserId);
-            if (record == null)
+            await WithUserIdMigrationWriteLockAsync(userId.UserId, async (db, _) =>
             {
-                db.DbContext.Player.Add(record = new Player
+                var record = await db.Player.SingleOrDefaultAsync(p => p.UserId == userId.UserId);
+                if (record == null)
                 {
-                    FirstSeenTime = DateTime.UtcNow,
-                    UserId = userId.UserId,
-                });
-            }
+                    db.Player.Add(record = new Player
+                    {
+                        FirstSeenTime = DateTime.UtcNow,
+                        UserId = userId.UserId,
+                    });
+                }
 
-            record.LastSeenTime = DateTime.UtcNow;
-            record.LastSeenAddress = address;
-            record.LastSeenUserName = userName;
-            record.LastSeenHWId = hwId;
+                record.LastSeenTime = DateTime.UtcNow;
+                record.LastSeenAddress = address;
+                record.LastSeenUserName = userName;
+                record.LastSeenHWId = hwId;
 
-            await db.DbContext.SaveChangesAsync();
+                await db.SaveChangesAsync();
+            });
         }
 
         public async Task<PlayerRecord?> GetPlayerRecordByUserName(string userName, CancellationToken cancel)
@@ -1663,47 +1960,46 @@ namespace Content.Server.Database
 
         public async Task RemoveAdminAsync(NetUserId userId, CancellationToken cancel)
         {
-            await using var db = await GetDb(cancel);
-
-            var admin = await db.DbContext.Admin.SingleAsync(a => a.UserId == userId.UserId, cancel);
-            db.DbContext.Admin.Remove(admin);
-
-            await db.DbContext.SaveChangesAsync(cancel);
+            await WithUserIdMigrationWriteLockAsync(userId.UserId, async (db, ct) =>
+            {
+                var admin = await db.Admin.SingleAsync(a => a.UserId == userId.UserId, ct);
+                db.Admin.Remove(admin);
+                await db.SaveChangesAsync(ct);
+            }, cancel);
         }
 
         public async Task AddAdminAsync(Admin admin, CancellationToken cancel)
         {
-            await using var db = await GetDb(cancel);
-
-            db.DbContext.Admin.Add(admin);
-
-            await db.DbContext.SaveChangesAsync(cancel);
+            await WithUserIdMigrationWriteLockAsync(admin.UserId, async (db, ct) =>
+            {
+                db.Admin.Add(admin);
+                await db.SaveChangesAsync(ct);
+            }, cancel);
         }
 
         public async Task UpdateAdminAsync(Admin admin, CancellationToken cancel)
         {
-            await using var db = await GetDb(cancel);
-
-            var existing = await db.DbContext.Admin.Include(a => a.Flags).SingleAsync(a => a.UserId == admin.UserId, cancel);
-            existing.Flags = admin.Flags;
-            existing.Title = admin.Title;
-            existing.AdminRankId = admin.AdminRankId;
-            existing.Deadminned = admin.Deadminned;
-            existing.Suspended = admin.Suspended;
-
-            await db.DbContext.SaveChangesAsync(cancel);
+            await WithUserIdMigrationWriteLockAsync(admin.UserId, async (db, ct) =>
+            {
+                var existing = await db.Admin.Include(a => a.Flags).SingleAsync(a => a.UserId == admin.UserId, ct);
+                existing.Flags = admin.Flags;
+                existing.Title = admin.Title;
+                existing.AdminRankId = admin.AdminRankId;
+                existing.Deadminned = admin.Deadminned;
+                existing.Suspended = admin.Suspended;
+                await db.SaveChangesAsync(ct);
+            }, cancel);
         }
 
         public async Task UpdateAdminDeadminnedAsync(NetUserId userId, bool deadminned, CancellationToken cancel)
         {
-            await using var db = await GetDb(cancel);
-
-            var adminRecord = db.DbContext.Admin.Where(a => a.UserId == userId);
-            await adminRecord.ExecuteUpdateAsync(
-                set => set.SetProperty(p => p.Deadminned, deadminned),
-                cancellationToken: cancel);
-
-            await db.DbContext.SaveChangesAsync(cancel);
+            await WithUserIdMigrationWriteLockAsync(userId.UserId, async (db, ct) =>
+            {
+                var adminRecord = db.Admin.Where(a => a.UserId == userId);
+                await adminRecord.ExecuteUpdateAsync(
+                    set => set.SetProperty(p => p.Deadminned, deadminned),
+                    cancellationToken: ct);
+            }, cancel);
         }
 
         public async Task RemoveAdminRankAsync(int rankId, CancellationToken cancel)
@@ -2152,18 +2448,21 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
 
         public async Task AddToWhitelistAsync(NetUserId player)
         {
-            await using var db = await GetDb();
-
-            db.DbContext.Whitelist.Add(new Whitelist { UserId = player });
-            await db.DbContext.SaveChangesAsync();
+            await WithUserIdMigrationWriteLockAsync(player.UserId, async (db, _) =>
+            {
+                db.Whitelist.Add(new Whitelist { UserId = player });
+                await db.SaveChangesAsync();
+            });
         }
 
         public async Task RemoveFromWhitelistAsync(NetUserId player)
         {
-            await using var db = await GetDb();
-            var entry = await db.DbContext.Whitelist.SingleAsync(w => w.UserId == player);
-            db.DbContext.Whitelist.Remove(entry);
-            await db.DbContext.SaveChangesAsync();
+            await WithUserIdMigrationWriteLockAsync(player.UserId, async (db, _) =>
+            {
+                var entry = await db.Whitelist.SingleAsync(w => w.UserId == player);
+                db.Whitelist.Remove(entry);
+                await db.SaveChangesAsync();
+            });
         }
 
         public async Task<DateTimeOffset?> GetLastReadRules(NetUserId player)
@@ -2178,16 +2477,17 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
 
         public async Task SetLastReadRules(NetUserId player, DateTimeOffset? date)
         {
-            await using var db = await GetDb();
-
-            var dbPlayer = await db.DbContext.Player.Where(dbPlayer => dbPlayer.UserId == player).SingleOrDefaultAsync();
-            if (dbPlayer == null)
+            await WithUserIdMigrationWriteLockAsync(player.UserId, async (db, _) =>
             {
-                return;
-            }
+                var dbPlayer = await db.Player.Where(dbPlayer => dbPlayer.UserId == player).SingleOrDefaultAsync();
+                if (dbPlayer == null)
+                {
+                    return;
+                }
 
-            dbPlayer.LastReadRules = date?.UtcDateTime;
-            await db.DbContext.SaveChangesAsync();
+                dbPlayer.LastReadRules = date?.UtcDateTime;
+                await db.SaveChangesAsync();
+            });
         }
 
         public async Task<bool> GetBlacklistStatusAsync(NetUserId player)
@@ -2199,18 +2499,21 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
 
         public async Task AddToBlacklistAsync(NetUserId player)
         {
-            await using var db = await GetDb();
-
-            db.DbContext.Blacklist.Add(new Blacklist() { UserId = player });
-            await db.DbContext.SaveChangesAsync();
+            await WithUserIdMigrationWriteLockAsync(player.UserId, async (db, _) =>
+            {
+                db.Blacklist.Add(new Blacklist { UserId = player });
+                await db.SaveChangesAsync();
+            });
         }
 
         public async Task RemoveFromBlacklistAsync(NetUserId player)
         {
-            await using var db = await GetDb();
-            var entry = await db.DbContext.Blacklist.SingleAsync(w => w.UserId == player);
-            db.DbContext.Blacklist.Remove(entry);
-            await db.DbContext.SaveChangesAsync();
+            await WithUserIdMigrationWriteLockAsync(player.UserId, async (db, _) =>
+            {
+                var entry = await db.Blacklist.SingleAsync(w => w.UserId == player);
+                db.Blacklist.Remove(entry);
+                await db.SaveChangesAsync();
+            });
         }
 
         #endregion
@@ -2636,23 +2939,25 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
 
         public async Task<bool> AddJobWhitelist(Guid player, ProtoId<JobPrototype> job)
         {
-            await using var db = await GetDb();
-            var exists = await db.DbContext.RoleWhitelists
-                .Where(w => w.PlayerUserId == player)
-                .Where(w => w.RoleId == job.Id)
-                .AnyAsync();
-
-            if (exists)
-                return false;
-
-            var whitelist = new RoleWhitelist
+            return await WithUserIdMigrationWriteLockAsync(player, async (db, _) =>
             {
-                PlayerUserId = player,
-                RoleId = job
-            };
-            db.DbContext.RoleWhitelists.Add(whitelist);
-            await db.DbContext.SaveChangesAsync();
-            return true;
+                var exists = await db.RoleWhitelists
+                    .Where(w => w.PlayerUserId == player)
+                    .Where(w => w.RoleId == job.Id)
+                    .AnyAsync();
+
+                if (exists)
+                    return false;
+
+                var whitelist = new RoleWhitelist
+                {
+                    PlayerUserId = player,
+                    RoleId = job
+                };
+                db.RoleWhitelists.Add(whitelist);
+                await db.SaveChangesAsync();
+                return true;
+            });
         }
 
         public async Task<List<string>> GetJobWhitelists(Guid player, CancellationToken cancel)
@@ -2675,18 +2980,20 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
 
         public async Task<bool> RemoveJobWhitelist(Guid player, ProtoId<JobPrototype> job)
         {
-            await using var db = await GetDb();
-            var entry = await db.DbContext.RoleWhitelists
-                .Where(w => w.PlayerUserId == player)
-                .Where(w => w.RoleId == job.Id)
-                .SingleOrDefaultAsync();
+            return await WithUserIdMigrationWriteLockAsync(player, async (db, _) =>
+            {
+                var entry = await db.RoleWhitelists
+                    .Where(w => w.PlayerUserId == player)
+                    .Where(w => w.RoleId == job.Id)
+                    .SingleOrDefaultAsync();
 
-            if (entry == null)
-                return false;
+                if (entry == null)
+                    return false;
 
-            db.DbContext.RoleWhitelists.Remove(entry);
-            await db.DbContext.SaveChangesAsync();
-            return true;
+                db.RoleWhitelists.Remove(entry);
+                await db.SaveChangesAsync();
+                return true;
+            });
         }
 
         #endregion

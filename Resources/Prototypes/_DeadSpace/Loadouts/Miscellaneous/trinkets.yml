@@ -623,6 +623,13 @@
   groupBy: "plushie"
 
 - type: loadout
+  id: PlushieFyrmorEklmn
+  storage:
+    back:
+    - PlushieFyrmorEklmn
+  groupBy: "plushie"
+
+- type: loadout
   id: PlushieUraniDmitrySpeisov
   storage:
     back:

@@ -6,13 +6,13 @@ namespace Content.Client.DeadSpace.Sanity;
 
 public sealed class SanityOverlay : Overlay
 {
-    private readonly float _outerCircleValue = 80f;
-    private readonly float _innerCircleValue = 40f;
-    private readonly float _outerCircleMaxRadius = 60f;
-    private readonly float _innerCircleMaxRadius = 60f;
+    private readonly float _outerCircleValue = 0.9f;
+    private readonly float _innerCircleValue = 0.65f;
+    private readonly float _outerCircleMaxRadius = 0.08f;
+    private readonly float _innerCircleMaxRadius = 0.04f;
     public float Value = 0f;
     private readonly float _darknessAlphaOuter = 0.94f;
-    public override OverlaySpace Space => OverlaySpace.WorldSpace;
+    public override OverlaySpace Space => OverlaySpace.ScreenSpace;
     private readonly ShaderInstance _circleMaskShader = default!;
     private const string ShaderName = "DeadSpaceGradientCircleMask";
 
@@ -33,11 +33,11 @@ public sealed class SanityOverlay : Overlay
         _circleMaskShader.SetParameter("time", Value);
         _circleMaskShader.SetParameter("darknessAlphaOuter", _darknessAlphaOuter);
 
-        var worldHandle = args.WorldHandle;
-        var viewport = args.WorldBounds;
+        var screenHandle = args.ScreenHandle;
+        var viewport = args.ViewportBounds;
 
-        worldHandle.UseShader(_circleMaskShader);
-        worldHandle.DrawRect(viewport, Color.White);
-        worldHandle.UseShader(null);
+        screenHandle.UseShader(_circleMaskShader);
+        screenHandle.DrawRect(viewport, Color.White);
+        screenHandle.UseShader(null);
     }
 }

@@ -70,23 +70,3 @@
       amount: 1
   products:
     Celestin: 2
-
-- type: reaction
-  id: Derytracine
-  reactants:
-    Puncturase:
-      amount: 1
-    Dermaline:
-      amount: 1
-  products:
-    Derytracine: 2
-
-- type: reaction
-  id: Pendrotoxine
-  reactants:
-    Celestin:
-      amount: 1
-    Derytracine:
-      amount: 1
-  products:
-    Pendrotoxine: 2

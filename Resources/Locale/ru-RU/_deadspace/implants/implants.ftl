@@ -1,2 +1,57 @@
 adrenal-implant-activated = Ваш пульc повысился и вы чувствуете прилив сил
 rezerv-implant-activated = Ваша верность НТ придаёт вам сил!
+sandevistan-implant-activated = Невероятная энергия пронизывает всё ваше тело. Мир вокруг замедляется.
+sandevistan-implant-cooldown = Шипы перестали впиваться вам в позвоночник. Осталось { $seconds } с.
+
+sandevistan-softcap-popup-1 = Мигрень сдавливает вашу голову.
+sandevistan-softcap-popup-2 = Остановиться невозможно.
+sandevistan-softcap-popup-3 = Ваши органы плавятся, а разум кипит от увиденного.
+sandevistan-softcap-popup-4 = Навязчивые мысли об остановке преследуют вас.
+sandevistan-softcap-popup-5 = Фокусировка глаз начинает вас подводить.
+sandevistan-softcap-popup-6 = Окружение вокруг расплывается в красках.
+sandevistan-softcap-popup-7 = Вы медленно теряете самообладание.
+sandevistan-softcap-popup-8 = Ноги теряют вес, танец обретает хаотичность.
+sandevistan-softcap-popup-9 = Ваше сознание начинает тонуть в эйфории от боли.
+sandevistan-softcap-popup-10 = Слишком быстро.
+sandevistan-softcap-popup-11 = ХВАТИТ!
+
+sandevistan-softcap-shout-1 = Заткнись! Заткнись! Заткнись!!
+sandevistan-softcap-shout-2 = Назад пути нет!!
+sandevistan-softcap-shout-3 = Беги, малыш, беги!!
+sandevistan-softcap-shout-4 = Ну что, сыграем в Мартинеса?!!
+sandevistan-softcap-shout-5 = Я убью всех, чтобы никого не обидеть!!
+sandevistan-softcap-shout-6 = Вставай и дерись!!
+sandevistan-softcap-shout-7 = Так... Жарко!!
+sandevistan-softcap-shout-8 = Торжество формы, блять!!
+sandevistan-softcap-shout-9 = А я тону тут в море крови!!
+sandevistan-softcap-shout-10 = Всех и сразу!!
+sandevistan-softcap-shout-11 = Ты помнишь эту боль?!!
+sandevistan-softcap-shout-12 = О чём ты думаешь, когда умираешь?!!
+sandevistan-softcap-shout-13 = Нет у меня, блять, страха!!
+sandevistan-softcap-shout-14 = Не бывает железу больно!!
+sandevistan-softcap-shout-15 = Не спрашивай, где твои друзья!!
+sandevistan-softcap-shout-16 = Бошку оторву каждому, блять!!
+sandevistan-softcap-shout-17 = Мой мозг против меня!!
+sandevistan-softcap-shout-18 = Ты в крови встречаешь бога!!
+sandevistan-softcap-shout-19 = Твой бог тебя услышал, твой бог к тебе пришёл!!!!
+sandevistan-softcap-shout-20 = Летать со мной тебя не хватит, дорогой!!
+sandevistan-softcap-shout-21 = Ты не слышишь ничего, ну же потанцуй со мной!!
+sandevistan-softcap-shout-22 = Сука, не забудь! Ты должна меня любить!!
+sandevistan-softcap-shout-23 = Не смотри на меня сверху вниз!!
+sandevistan-softcap-shout-24 = Ляг и плачь, сука, ляг и плачь!!
+sandevistan-softcap-shout-25 = Тебе ведь не уйти!!
+
+sandevistan-end-warning-popup-1 = УБЕЙ ИХ ВСЕХ!
+sandevistan-end-warning-popup-2 = УБЕЙ! УБЕЙ! УБЕЙ!
+sandevistan-end-warning-popup-3 = ВЫ СХОДИТЕ С УМА!
+sandevistan-end-warning-popup-4 = ВЫ УМРЁТЕ!
+sandevistan-end-warning-popup-5 = ОНИ СЛИШКОМ МЕДЛЕННЫЕ!
+sandevistan-end-warning-popup-6 = СЕРДЦЕ СЕЙЧАС ЛОПНЕТ!
+sandevistan-end-warning-popup-7 = НЕ ОСТАНАВЛИВАЙТЕСЬ!
+sandevistan-end-warning-popup-8 = РАЗОРВИ ВСЕХ НА ЧАСТИ!
+sandevistan-end-warning-popup-9 = ОНИ ТЕБЕ НЕ РОВНЯ!
+sandevistan-end-warning-popup-10 = ЧЕЛОВЕК НЕ СПОСОБЕН УБИТЬ БОГА!
+
+sandevistan-recovery-popup-1 = Лёгкие охватывает резкий жар. Воздух, вдыхаемый вами, становится всё жарче.
+sandevistan-recovery-popup-2 = Тремор охватывает ваши руки, вам трудно принимать решения.
+sandevistan-recovery-popup-3 = Разум кипит, а в голову лезут мысли, что вы должны убить всех.

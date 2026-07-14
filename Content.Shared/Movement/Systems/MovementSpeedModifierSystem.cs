@@ -190,19 +190,37 @@ namespace Content.Shared.Movement.Systems
     {
         public SlotFlags TargetSlots { get; } = ~SlotFlags.POCKET;
 
-        public float WalkSpeedModifier { get; private set; } = 1.0f;
-        public float SprintSpeedModifier { get; private set; } = 1.0f;
+        // DS14-start
+        private float _walkSpeedModifier = 1.0f;
+        private float _sprintSpeedModifier = 1.0f;
+        private float _walkSpeedLimit = float.PositiveInfinity;
+        private float _sprintSpeedLimit = float.PositiveInfinity;
+
+        public float WalkSpeedModifier => MathF.Min(_walkSpeedModifier, _walkSpeedLimit);
+        public float SprintSpeedModifier => MathF.Min(_sprintSpeedModifier, _sprintSpeedLimit);
 
         public void ModifySpeed(float walk, float sprint)
         {
-            WalkSpeedModifier *= walk;
-            SprintSpeedModifier *= sprint;
+            _walkSpeedModifier *= walk;
+            _sprintSpeedModifier *= sprint;
         }
 
         public void ModifySpeed(float mod)
         {
             ModifySpeed(mod, mod);
         }
+
+        public void LimitSpeed(float walk, float sprint)
+        {
+            _walkSpeedLimit = MathF.Min(_walkSpeedLimit, walk);
+            _sprintSpeedLimit = MathF.Min(_sprintSpeedLimit, sprint);
+        }
+
+        public void LimitSpeed(float limit)
+        {
+            LimitSpeed(limit, limit);
+        }
+        // DS14-end
     }
 
     [ByRefEvent]

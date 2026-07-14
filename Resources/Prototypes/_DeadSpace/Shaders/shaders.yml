@@ -2,3 +2,8 @@
   id: DeadSpaceGradientCircleMask
   kind: source
   path: "/Textures/_DeadSpace/Shaders/gradient_circle_mask.swsl"
+
+- type: shader
+  id: SandevistanOverlay
+  kind: source
+  path: "/Textures/_DeadSpace/Shaders/sandevistan_overlay.swsl"

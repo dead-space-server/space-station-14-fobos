@@ -10,24 +10,40 @@
     - UplinkUnitologyInfection
 
 - type: listing
+  id: UnitologyPinpointerSMObeliskList
+  name: Пинпоинтер на Обелиск - Супер Материя
+  productEntity: PinpointerSMObelisk
+  cost:
+    Telecrystal: 2
+  categories:
+    - UplinkUnitologyInfection
+
+- type: listing
+  id: UnitologyPinpointerObeliskSplinterList
+  name: Пинпоинтер на ближайший осколок обелиска
+  productEntity: PinpointerObeliskSplinter
+  cost:
+    Telecrystal: 3
+  categories:
+    - UplinkUnitologyInfection
+
+- type: listing
+  id: UnitologyFakeMindShieldImplanterList
+  name: имплантер - Фейк МЩ
+  productEntity: FakeMindShieldImplanter
+  cost:
+    Telecrystal: 3
+  categories:
+    - UplinkUnitologyInfection
+
+- type: listing
   id: UnitologyInfectionDeadList
   name: Экстракт заразителя
   description: Шприц с экстрактом заразителя, 15 единиц.
   icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: syringe1 }
   productEntity: SyringeExtractInfectorDead
   cost:
-    Telecrystal: 5
-  categories:
-    - UplinkUnitologyInfection
-
-- type: listing
-  id: UnitologyLighthouseList
-  name: Маяк
-  description: Маяк, притягивающий обелиск.
-  icon: { sprite: Objects/Tools/fulton.rsi, state: extraction_point }
-  productEntity: UnitologyLighthouse
-  cost:
-    Telecrystal: 5
+    Telecrystal: 2
   categories:
     - UplinkUnitologyInfection
 
@@ -35,7 +51,6 @@
   id: UnitologyInfectionDeadMutationAnalyzerList
   name: анализатор мутаций
   description: Прибор, обнаруживающий и сообщающий о наличии мутаций в биологических образцах.
-  icon: { sprite: Objects/Specific/Atmos/gasanalyzer.rsi, state: icon }
   productEntity: InfectionDeadMutationAnalyzer
   cost:
     Telecrystal: 1
@@ -53,16 +68,30 @@
   categories:
     - UplinkUnitologyInfection
 
-# - type: listing
-#   id: UnitologySerumList
-#   name: Сыворотка порабощения
-#   description: Шприц с сывороткой порабощения, 15 единиц.
-#   icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: syringe1 }
-#   productEntity: SyringeSerumEnslaved
-#   cost:
-#     Telecrystal: 10
-#   categories:
-#     - UplinkUnitologyInfection
+- type: listing
+  id: UnitologySerumList
+  name: Сыворотка порабощения
+  description: Шприц с сывороткой порабощения, 15 единиц.
+  icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: syringe1 }
+  productEntity: SyringeSerumEnslaved
+  cost:
+    Telecrystal: 5
+  categories:
+    - UplinkUnitologyInfection
+
+- type: listing
+  id: UnitologyUplinkWeaponScytheHook
+  name: Хук-Рука (Можно купить 2 раза)
+  icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/hand-hook.rsi, state: icon }
+  description: "СВЕЖЕЕ МЯСО-!!!"
+  productEntity: UnitologyWeaponHandHookImplanter
+  cost:
+    Telecrystal: 8
+  categories:
+   - UplinkUnitologyInfection
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
 
 - type: listing
   id: SyringeNecromorphMutagenBruteList
@@ -112,7 +141,6 @@
   id: UnitologyStorageImplanterList
   name: Имплант хранилище
   description: Даёт способность встроенного хранилища.
-  icon: { sprite: Objects/Specific/Medical/syndi_implanter.rsi, state: implanter1 }
   productEntity: StorageImplanter
   cost:
     Telecrystal: 5
@@ -140,9 +168,9 @@
 - type: entity
   parent: [ BaseItem, StorePresetUplinkUnitology ]
   id: BaseUplinkRadioUnitology
-  name: линия связи отряда "Круг"
+  name: старое радио
   description: Подозрительно выглядящее старое радио...
-  suffix: Пустое
+  suffix: Круг, Пустое
   components:
   - type: Sprite
     sprite: Objects/Devices/communication.rsi
@@ -164,9 +192,8 @@
 - type: entity
   parent: BaseUplinkRadioUnitology
   id: UplinkRadioUnitology
-  name: линия связи отряда "Круг"
   description: Подозрительно выглядящее старое радио...
-  suffix: 10 тк
+  suffix: 10 тк, Круг
   components:
   - type: Store
     balance:
@@ -175,9 +202,8 @@
 - type: entity
   parent: BaseUplinkRadioUnitology
   id: UplinkRadioLeaderUnitology
-  name: линия связи отряда "Круг"
   description: Подозрительно выглядящее старое радио...
-  suffix: 25 тк
+  suffix: 25 тк, Круг
   components:
   - type: Store
     balance:
@@ -186,9 +212,8 @@
 - type: entity
   parent: BaseUplinkRadioUnitology
   id: UplinkRadioHeadLeaderUnitology
-  name: линия связи отряда "Круг"
   description: Подозрительно выглядящее старое радио...
-  suffix: 50 тк
+  suffix: 50 тк, Круг
   components:
   - type: Store
     balance:

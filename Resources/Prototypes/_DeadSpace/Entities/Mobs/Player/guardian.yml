@@ -38,6 +38,8 @@
             - FlyingMobLayer
     - type: Puller
       needsHands: false
+    - type: Alerts
+    - type: HealthAlertRelay
 
 - type: entity
   parent: BaseStrainsHoloparasiteGuardian
@@ -183,9 +185,9 @@
   - type: StunOnCollide
     stunAmount: 0.5
     knockdownAmount: 2
-    drop: false
   - type: JumpAbility
     action: ActionGuardianCharge
+    collideKnockdown: 0
   - type: MeleeWeapon
     attackRate: 3.6
     damage:

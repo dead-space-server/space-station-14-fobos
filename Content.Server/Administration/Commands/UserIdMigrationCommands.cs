@@ -300,7 +300,13 @@ internal static class UserIdMigrationCommandHelper
 
     public static void WriteReport(IConsoleShell shell, UserIdMigrationReport report)
     {
-        shell.WriteLine($"{(report.Applied ? "Applied" : "Dry-run")} migration {report.OldUserId} -> {report.NewUserId}");
+        var status = report.AlreadyProcessed
+            ? "Already processed"
+            : report.Applied
+                ? "Applied"
+                : "Dry-run";
+
+        shell.WriteLine($"{status} migration {report.OldUserId} -> {report.NewUserId}");
         shell.WriteLine($"CanApply={report.CanApply}, HasOldData={report.HasOldData}");
 
         foreach (var table in report.Tables)
@@ -321,7 +327,13 @@ internal static class UserIdMigrationCommandHelper
     public static void WriteBatchReport(IConsoleShell shell, UserIdMigrationReport report)
     {
         var oldRows = report.Tables.Sum(table => table.OldRows);
-        shell.WriteLine($"{(report.Applied ? "Applied" : "Checked")} {report.OldUserId} -> {report.NewUserId}: CanApply={report.CanApply}, OldRows={oldRows}, Warnings={report.Warnings.Count}, Errors={report.Errors.Count}");
+        var status = report.AlreadyProcessed
+            ? "Already processed"
+            : report.Applied
+                ? "Applied"
+                : "Checked";
+
+        shell.WriteLine($"{status} {report.OldUserId} -> {report.NewUserId}: CanApply={report.CanApply}, OldRows={oldRows}, Warnings={report.Warnings.Count}, Errors={report.Errors.Count}");
 
         foreach (var warning in report.Warnings)
             shell.WriteLine($"Warning: {report.OldUserId} -> {report.NewUserId}: {warning}");
