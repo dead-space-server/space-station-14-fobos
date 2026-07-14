@@ -42628,7 +42628,7 @@ entities:
   - uid: 4
     components:
     - type: MetaData
-      desc: Стандартное хранилище Nanotrasen для станции Barratry.
+      desc: Стандартное хранилище NanoTrasen для станции Barratry.
       name: личный шкаф капитана
     - type: Transform
       pos: -4.5,61.5

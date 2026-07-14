@@ -119,7 +119,7 @@ ert-loadout-category-pistolbsupgradekit-description =
 ert-loadout-category-mk58-name = MK 58 и Станнер
 ert-loadout-category-mk58-description =
     Дешёвый и распространённый пистолет,
-    производимый дочерней компанией Nanotrasen.
+    производимый дочерней компанией NanoTrasen.
     Использует патроны калибра 9х19 мм.
     Содержит два дополнительных магазина.
 ert-loadout-category-berettam92-name = Beretta M92

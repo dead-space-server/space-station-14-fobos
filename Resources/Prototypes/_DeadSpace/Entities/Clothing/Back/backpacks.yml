@@ -2,7 +2,7 @@
   parent: ClothingBackpackCaptain
   id: ClothingBackpackCaptainWhite
   name: белый рюкзак капитана
-  description: Это особый белый рюкзак, изготовляемый исключительно для офицеров Nanotrasen. В нём же не будет чьих-то органов?..
+  description: Это особый белый рюкзак, изготовляемый исключительно для офицеров NanoTrasen. В нём же не будет чьих-то органов?..
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Backpacks/captain_white.rsi
@@ -11,7 +11,7 @@
   parent: ClothingBackpackCaptain
   id: ClothingBackpackCaptainBlack
   name: чёрный рюкзак капитана
-  description: Это особый чёрный рюкзак, изготовляемый исключительно для офицеров Nanotrasen. Не удивлюсь, если он забит оружием.
+  description: Это особый чёрный рюкзак, изготовляемый исключительно для офицеров NanoTrasen. Не удивлюсь, если он забит оружием.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Backpacks/captain_black.rsi

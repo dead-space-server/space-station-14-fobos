@@ -158,7 +158,7 @@
   id: DoubleBedsheetCaptain
   parent: DoubleBedsheetBase
   name: двухспальное капитанское одеяло
-  description: Изысканное одеяло с эмблемой Nanotrasen, соткано из революционных нитей, снижающих проникновение веществ на 99.99%.
+  description: Изысканное одеяло с эмблемой NanoTrasen, соткано из революционных нитей, снижающих проникновение веществ на 99.99%.
   components:
   - type: Sprite
     state: double_sheetcaptain
@@ -326,7 +326,7 @@
   id: DoubleBedsheetNT
   parent: DoubleBedsheetBase
   name: двухспальное одеяло NT
-  description: Одеяло с логотипом Nanotrasen, пропитанное духом корпорации.
+  description: Одеяло с логотипом NanoTrasen, пропитанное духом корпорации.
   components:
   - type: Sprite
     state: double_sheetNT

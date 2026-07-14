@@ -203,7 +203,7 @@
   parent: Paper
   id: PaperPrintedCargo
   description: Лист бумаги с заголовком отдела снабжения.
-  suffix: Nanotrasen, Снабжение
+  suffix: NanoTrasen, Снабжение
   components:
   - type: Sprite
     sprite: Objects/Misc/bureaucracy.rsi
@@ -227,7 +227,7 @@
   parent: Paper
   id: PaperPrintedCivilian
   description: Лист бумаги с заголовком сервисного отдела.
-  suffix: Nanotrasen, Сервис
+  suffix: NanoTrasen, Сервис
   components:
   - type: Sprite
     sprite: Objects/Misc/bureaucracy.rsi
@@ -251,7 +251,7 @@
   parent: Paper
   id: PaperPrintedCommand
   description: Лист бумаги с заголовком командования.
-  suffix: Nanotrasen, Командование
+  suffix: NanoTrasen, Командование
   components:
   - type: Sprite
     sprite: Objects/Misc/bureaucracy.rsi
@@ -275,7 +275,7 @@
   parent: Paper
   id: PaperPrintedEngineering
   description: Лист бумаги с заголовком инженерного отдела.
-  suffix: Nanotrasen, Инженерный
+  suffix: NanoTrasen, Инженерный
   components:
   - type: Sprite
     sprite: Objects/Misc/bureaucracy.rsi
@@ -299,7 +299,7 @@
   parent: Paper
   id: PaperPrintedLaw
   description: Лист бумаги с заголовком юридического отдела.
-  suffix: Nanotrasen, Юридический
+  suffix: NanoTrasen, Юридический
   components:
   - type: Sprite
     sprite: Objects/Misc/bureaucracy.rsi
@@ -323,7 +323,7 @@
   parent: Paper
   id: PaperPrintedMedical
   description: Лист бумаги с заголовком медицинского отдела.
-  suffix: Nanotrasen, Медицинский
+  suffix: NanoTrasen, Медицинский
   components:
   - type: Sprite
     sprite: Objects/Misc/bureaucracy.rsi
@@ -347,7 +347,7 @@
   parent: Paper
   id: PaperPrintedScience
   description: Лист бумаги с заголовком научного отдела.
-  suffix: Nanotrasen, Научный
+  suffix: NanoTrasen, Научный
   components:
   - type: Sprite
     sprite: Objects/Misc/bureaucracy.rsi
@@ -371,7 +371,7 @@
   parent: Paper
   id: PaperPrintedSecurity
   description: Лист бумаги с заголовком отдела службы безопасности.
-  suffix: Nanotrasen, Служба безопасности
+  suffix: NanoTrasen, Служба безопасности
   components:
   - type: Sprite
     sprite: Objects/Misc/bureaucracy.rsi
@@ -395,7 +395,7 @@
   parent: Paper
   id: PaperPrintedCentcomm
   description: Лист бумаги с заголовком центкома. Страшно даже смотреть на него.
-  suffix: Nanotrasen, Центком
+  suffix: NanoTrasen, Центком
   components:
   - type: Sprite
     sprite: Objects/Misc/bureaucracy.rsi
@@ -663,7 +663,7 @@
   parent: Paper
   id: PaperPrintedNukeopsSyndicateToNT
   description: Лист бумаги с заголовком синдиката.
-  suffix: Синдикат-Nanotrasen, Ядерные оперативники
+  suffix: Синдикат-NanoTrasen, Ядерные оперативники
   components:
   - type: Sprite
     sprite: Objects/Misc/bureaucracy.rsi

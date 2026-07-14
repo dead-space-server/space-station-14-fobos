@@ -1,11 +1,11 @@
 ent-ClothingUnderwearTopBase = based underweart
     .desc = Вы не должны его видеть.
 ent-ClothingUnderwearTopBraWhite = бра
-    .desc = Стандартное нижнее белье для женского персонала Nanotrasen.
+    .desc = Стандартное нижнее белье для женского персонала NanoTrasen.
 ent-ClothingUnderwearTopBraSports = спортивное бра
-    .desc = Стандартное нижнее белье для женского персонала Nanotrasen.
+    .desc = Стандартное нижнее белье для женского персонала NanoTrasen.
 ent-ClothingUnderwearTopBraSportsAlternative = альтернативное спортивное бра
-    .desc = Стандартное нижнее белье для женского персонала Nanotrasen.
+    .desc = Стандартное нижнее белье для женского персонала NanoTrasen.
 ent-ClothingUnderwearTopBraNuclearOperative = бра ядерного оперативника
     .desc = Стандартное нижнее бельё ядерного оперативника.
 ent-ClothingUnderwearTopBraPirate = бра капера
