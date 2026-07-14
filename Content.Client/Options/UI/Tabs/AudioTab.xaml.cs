@@ -70,6 +70,14 @@ public sealed partial class AudioTab : Control
             CCCCVars.BossMusicVolume,
             SliderVolumeBossMusic,
             scale: 1f);
+        Control.AddOptionPercentSlider(
+           CCCCVars.AnnonceVolume,
+           SliderVolumeAllertSounds,
+           scale: 1f);
+        Control.AddOptionPercentSlider(
+           CCCCVars.AdminVolume,
+           SliderVolumeAdminSounds,
+           scale: 1f);
         // DS14-end
 
         Control.AddOptionSlider(

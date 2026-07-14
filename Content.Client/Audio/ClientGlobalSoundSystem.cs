@@ -24,6 +24,8 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
 
     // Alert level sounds
     private float _alertLevelVolume = 1f; // DS14
+    private float _annocmentVolume = 1f; // DS14
+    private float _adminVolume = 1f; //DS14
 
     public override void Initialize()
     {
@@ -38,7 +40,10 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
 
         SubscribeNetworkEvent<GameGlobalSoundEvent>(PlayGameSound);
         SubscribeNetworkEvent<AlertLevelSoundEvent>(PlayAlertLevelSound); // DS14
+        SubscribeNetworkEvent<AdminAnnouncmentSoundEvent>(PlayAnnocmentSound); // DS14
         Subs.CVar(_cfg, CCCCVars.AlertLevelVolume, SetAlertLevelVolume, true); // DS-14
+        Subs.CVar(_cfg, CCCCVars.AnnonceVolume, SetAnnocmentVolume, true); // DS-14
+        Subs.CVar(_cfg, CCCCVars.AdminVolume, SetAdminVolume, true); // DS-14
     }
 
     private void OnRoundRestart(RoundRestartCleanupEvent ev)
@@ -72,7 +77,9 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
     {
         if(!_adminAudioEnabled) return;
 
-        var stream = _audio.PlayGlobal(soundEvent.Specifier, Filter.Local(), false, soundEvent.AudioParams);
+        var audioParams = soundEvent.AudioParams ?? AudioParams.Default; //DS14
+        audioParams = audioParams.AddVolume(SharedAudioSystem.GainToVolume(_adminVolume)); //DS14
+        var stream = _audio.PlayGlobal(soundEvent.Specifier, Filter.Local(), false, audioParams);
         _adminAudio.Add(stream?.Entity);
     }
 
@@ -95,6 +102,12 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
     {
         var audioParams = soundEvent.AudioParams ?? AudioParams.Default;
         audioParams = audioParams.AddVolume(SharedAudioSystem.GainToVolume(_alertLevelVolume));
+        _audio.PlayGlobal(soundEvent.Specifier, Filter.Local(), false, audioParams);
+    }
+    private void PlayAnnocmentSound(AdminAnnouncmentSoundEvent soundEvent)
+    {
+        var audioParams = soundEvent.AudioParams ?? AudioParams.Default;
+        audioParams = audioParams.AddVolume(SharedAudioSystem.GainToVolume(_annocmentVolume));
         _audio.PlayGlobal(soundEvent.Specifier, Filter.Local(), false, audioParams);
     }
     // DS14-end
@@ -134,6 +147,14 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
     private void SetAlertLevelVolume(float volume)
     {
         _alertLevelVolume = volume;
+    }
+    private void SetAnnocmentVolume(float volume)
+    {
+        _annocmentVolume = volume;
+    }
+    private void SetAdminVolume(float volume)
+    {
+        _adminVolume = volume;
     }
     // DS14-end
 }

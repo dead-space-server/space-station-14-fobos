@@ -73,6 +73,18 @@ public sealed class CCCCVars
         CVarDef.Create("audio.alert_level_volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
 
     /*
+     * Annocment
+     */
+    public static readonly CVarDef<float> AnnonceVolume =
+        CVarDef.Create("audio.annonce_volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /*
+     * Annocment
+     */
+    public static readonly CVarDef<float> AdminVolume =
+        CVarDef.Create("audio.admin_volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /*
      * Item sounds
      */
 

@@ -192,7 +192,7 @@ namespace Content.Server.Communications
                 currentDelay,
                 _roundEndSystem.ExpectedCountdownEnd
             ));
-            
+
             SendEmagAccessStateToOpenActors(uid, comp); // DS14
         }
 
