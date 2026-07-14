@@ -3,8 +3,8 @@ meta:
   category: Map
   engineVersion: 276.0.0
   forkId: dspublicfobos
-  forkVersion: cd29c996c5310d4cd10240fcc332960a1863d936
-  time: 07/10/2026 18:33:36
+  forkVersion: 755a6cc22b95f0c94ac820f14950d36a444d492f
+  time: 07/14/2026 20:14:26
   entityCount: 27630
 maps:
 - 1
@@ -13924,7 +13924,7 @@ entities:
       pos: -78.5,-25.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -24708.299
+      secondsUntilStateChange: -24650.223
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -14863,7 +14863,7 @@ entities:
       pos: -2.5,-36.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -134776.48
+      secondsUntilStateChange: -134718.4
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -14879,7 +14879,7 @@ entities:
       pos: 0.5,-7.5
       parent: 27323
     - type: Door
-      secondsUntilStateChange: -134775.81
+      secondsUntilStateChange: -134717.73
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -15281,7 +15281,7 @@ entities:
       pos: -82.5,-30.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -32328.383
+      secondsUntilStateChange: -32270.307
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
