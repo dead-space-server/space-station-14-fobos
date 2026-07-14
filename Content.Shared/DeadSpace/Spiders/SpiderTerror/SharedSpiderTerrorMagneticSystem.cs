@@ -2,12 +2,13 @@
 
 using Content.Shared.Gravity;
 using Content.Shared.Maps;
+using Content.Shared.Spider;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
-namespace Content.Shared.Spider;
+namespace Content.Shared.DeadSpace.Spiders.SpiderTerror;
 
 public sealed class SharedSpiderTerrorMagneticSystem : EntitySystem
 {
@@ -42,7 +43,7 @@ public sealed class SharedSpiderTerrorMagneticSystem : EntitySystem
 
     private void OnMove(Entity<SpiderComponent> ent, ref MoveEvent args)
     {
-        if (!_timing.IsFirstTimePredicted)
+        if (_timing.ApplyingState)
             return;
 
         if (!TryComp<GravityAffectedComponent>(ent.Owner, out var gravity))
