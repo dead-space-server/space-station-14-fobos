@@ -28,6 +28,7 @@ public sealed class ToggleableClothingSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedStrippableSystem _strippable = default!;
+    [Dependency] private readonly SharedTransformSystem _transformSystem = default!; // DS14
 
     public override void Initialize()
     {
@@ -200,9 +201,50 @@ public sealed class ToggleableClothingSystem : EntitySystem
         if (toggleComp.LifeStage > ComponentLifeStage.Running)
             return;
 
+        // DS14-start
+        if (!_netMan.IsClient)
+            ReleaseStoredClothing(component.AttachedUid, uid, toggleComp);
+        // DS14-end
+
         _actionsSystem.RemoveAction(toggleComp.ActionEntity);
         RemComp(component.AttachedUid, toggleComp);
     }
+
+    // DS14-start
+    private void ReleaseStoredClothing(EntityUid suit,
+        EntityUid attachedClothing,
+        ToggleableClothingComponent component)
+    {
+        if (!component.StoreExistingItem ||
+            component.StoredClothingContainer?.ContainedEntity is not { } stored)
+        {
+            return;
+        }
+
+        var wearer = Transform(suit).ParentUid;
+        if (HasComp<InventoryComponent>(wearer) &&
+            _inventorySystem.TryGetSlotEntity(wearer, component.Slot, out var equipped) &&
+            equipped == attachedClothing)
+        {
+            _inventorySystem.TryUnequip(wearer,
+                component.Slot,
+                force: true,
+                triggerHandContact: true);
+        }
+
+        if (!_containerSystem.Remove(stored, component.StoredClothingContainer))
+            return;
+
+        if (HasComp<InventoryComponent>(wearer) &&
+            !_inventorySystem.TryGetSlotEntity(wearer, component.Slot, out _) &&
+            _inventorySystem.TryEquip(wearer, wearer, stored, component.Slot, triggerHandContact: true))
+        {
+            return;
+        }
+
+        _transformSystem.DropNextTo(stored, suit);
+    }
+    // DS14-end
 
     /// <summary>
     ///     Called if the helmet was unequipped, to ensure that it gets moved into the suit's container.

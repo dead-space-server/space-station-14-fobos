@@ -3,6 +3,7 @@
 using Content.Server.Backmen.GameTicking.Rules.Components;
 using Content.Server.Mind;
 using Content.Shared.Backmen.Blob.Components;
+using Content.Shared.GameTicking;
 using Robust.Server.Player;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
@@ -20,6 +21,23 @@ public sealed class BlobAntagRollbackSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private readonly Dictionary<NetUserId, BlobBodyBackup> _backups = new();
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
+    }
+
+    private void OnRoundRestartCleanup(RoundRestartCleanupEvent args)
+    {
+        foreach (var backup in _backups.Values)
+        {
+            if (!TerminatingOrDeleted(backup.Body))
+                QueueDel(backup.Body);
+        }
+
+        _backups.Clear();
+    }
 
     public void PreserveBody(NetUserId userId, EntityUid body, MapCoordinates coordinates)
     {

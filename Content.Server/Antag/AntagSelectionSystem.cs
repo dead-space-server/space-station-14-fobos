@@ -530,6 +530,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         // DS14-start
         // Retain exact provenance for the F7 antagonist rollback action.
         var rollback = EnsureComp<AntagRollbackTrackerComponent>(player);
+        SnapshotObjectives(player, rollback);
         var entitiesBeforeAssignment = new HashSet<EntityUid>();
         CollectAttachedEntities(player, entitiesBeforeAssignment);
         entitiesBeforeAssignment.Add(player);
@@ -559,6 +560,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
 
             _mind.TransferTo(curMind.Value, antagEnt, ghostCheckOverride: true);
             // DS14-start
+            SnapshotObjectives(player, rollback);
             rollbackMind = curMind.Value;
             mindComponentsBeforeAssignment = SnapshotComponents([curMind.Value])[curMind.Value];
             // DS14-end
@@ -641,6 +643,18 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         return snapshot;
     }
 
+    private void SnapshotObjectives(EntityUid player, AntagRollbackTrackerComponent rollback)
+    {
+        if (rollback.ObjectiveSnapshotTaken ||
+            !_mind.TryGetMind(player, out _, out var mind))
+        {
+            return;
+        }
+
+        rollback.ObjectivesBeforeAssignment.UnionWith(mind.Objectives);
+        rollback.ObjectiveSnapshotTaken = true;
+    }
+
     /// <summary>
     /// Records an entity granted after the initial antagonist assignment finished.
     /// </summary>
@@ -655,12 +669,14 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
 
     public void EnsureRollbackTracking(EntityUid player)
     {
-        EnsureComp<AntagRollbackTrackerComponent>(player);
+        var rollback = EnsureComp<AntagRollbackTrackerComponent>(player);
+        SnapshotObjectives(player, rollback);
     }
 
     public void TrackGrantedComponent<T>(EntityUid player) where T : Component
     {
         var rollback = EnsureComp<AntagRollbackTrackerComponent>(player);
+        SnapshotObjectives(player, rollback);
         if (!rollback.AddedComponents.TryGetValue(player, out var components))
             rollback.AddedComponents[player] = components = [];
 
@@ -777,8 +793,12 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
             Dirty(player, blobCarrier);
         }
 
+        HashSet<EntityUid>? objectivesBeforeAssignment = null;
         if (TryComp<AntagRollbackTrackerComponent>(player, out var rollback))
         {
+            if (rollback.ObjectiveSnapshotTaken)
+                objectivesBeforeAssignment = rollback.ObjectivesBeforeAssignment;
+
             foreach (var granted in rollback.GrantedEntities)
             {
                 if (Exists(granted))
@@ -802,8 +822,14 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
 
         RemoveOwnedUplinks(mindId);
 
-        while (mind.Objectives.Count > 0)
-            _mind.TryRemoveObjective(mindId, mind, 0);
+        if (objectivesBeforeAssignment != null)
+        {
+            for (var i = mind.Objectives.Count - 1; i >= 0; i--)
+            {
+                if (!objectivesBeforeAssignment.Contains(mind.Objectives[i]))
+                    _mind.TryRemoveObjective(mindId, mind, i);
+            }
+        }
 
         _role.MindRemoveAntagonistRoles((mindId, mind));
 

@@ -13,4 +13,6 @@ public sealed partial class AntagRollbackTrackerComponent : Component
 {
     public readonly Dictionary<EntityUid, HashSet<string>> AddedComponents = [];
     public readonly HashSet<EntityUid> GrantedEntities = [];
+    public readonly HashSet<EntityUid> ObjectivesBeforeAssignment = [];
+    public bool ObjectiveSnapshotTaken;
 }

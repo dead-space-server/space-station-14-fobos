@@ -185,7 +185,11 @@ public sealed partial class AdminVerbSystem
             {
                 if (targetPlayer.AttachedEntity is not { } target) return;
                 _antag.ForceMakeAntag<ShadowlingRuleComponent>(targetPlayer, "ShadowlingRule");
-                EnsureComp<ShadowlingRevealComponent>(target);
+                if (!HasComp<ShadowlingRevealComponent>(target))
+                {
+                    EnsureComp<ShadowlingRevealComponent>(target);
+                    _antag.TrackGrantedComponent<ShadowlingRevealComponent>(target);
+                }
             },
             Impact = LogImpact.High,
             Message = string.Join(": ", shadowlingName, "Сделать скрытым тенеморфом"),
