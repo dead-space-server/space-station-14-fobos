@@ -16,4 +16,12 @@ public sealed partial class PaintableComponent : Component
     /// </summary>
     [DataField(required: true)]
     public ProtoId<PaintableGroupPrototype>? Group;
+
+    // DS14-start
+    /// <summary>
+    /// Additional style groups that can be used when the painter does not support <see cref="Group"/>.
+    /// </summary>
+    [DataField]
+    public List<ProtoId<PaintableGroupPrototype>> CompatibleGroups = [];
+    // DS14-end
 }

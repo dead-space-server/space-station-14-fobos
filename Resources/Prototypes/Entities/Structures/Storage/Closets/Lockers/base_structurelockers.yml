@@ -56,6 +56,10 @@
     - entity_storage
   - type: Paintable
     group: Locker
+    # DS14-start
+    compatibleGroups:
+    - TaipanLocker
+    # DS14-end
 
 - type: entity
   id: LockerBaseSecure
