@@ -1,9 +1,9 @@
 ent-ClothingUnderwearBottomBase = Если ты видишь этот текст, то что то пошло не так...
     .desc = Если ты видишь этот текст, то что то пошло не так...
 ent-ClothingUnderwearBottomBoxersWhite = боксеры
-    .desc = Стандартное нижнее белье для персонала Nanotrasen.
+    .desc = Стандартное нижнее белье для персонала NanoTrasen.
 ent-ClothingUnderwearBottomPantiesWhite = стринги
-    .desc = Стандартное нижнее белье для женского персонала Nanotrasen.
+    .desc = Стандартное нижнее белье для женского персонала NanoTrasen.
 ent-ClothingUnderwearBottomBoxersNuclearOperative = боксеры ядерного оперативника
     .desc = Cтандартное нижнее бельё ядерного оперативника.
 ent-ClothingUnderwearBottomBoxersPirate = боксеры капера

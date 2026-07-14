@@ -249,7 +249,18 @@
         orGroup: GiftPool
       - id: PlushieCyberBobeksRiikka
         orGroup: GiftPool
-
+      - id: PlushieAmaliz
+        orGroup: GiftPool
+      - id: PlushieNikolVitali
+        orGroup: GiftPool
+      - id: PlushieCovralBroneslav
+        orGroup: GiftPool
+      - id: Plushie0black_cat0
+        orGroup: GiftPool
+      - id: PlushieDosDydosYukari
+        orGroup: GiftPool
+      - id: PlushieYosugaMarsel
+        orGroup: GiftPool
 
 - type: entity
   id: PresentFigurine

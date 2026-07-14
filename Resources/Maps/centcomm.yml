@@ -27971,7 +27971,7 @@ entities:
   - uid: 1509
     components:
     - type: MetaData
-      name: как пережить смену на ЦК Nanotrasen
+      name: как пережить смену на ЦК NanoTrasen
     - type: Transform
       pos: 14.33498,-77.386894
       parent: 1

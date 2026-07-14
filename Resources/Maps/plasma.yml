@@ -136887,7 +136887,7 @@ entities:
     components:
     - type: MetaData
       desc: An digital mirror which uses advanced machine learning algorithms to enhance the appearance of those who view it. Despite all that, you don't look any different than normal. You're not sure if you should feel praised or offended.
-      name: Nanotrasen Brand Beauty Enhancing E-Mirror™
+      name: NanoTrasen Brand Beauty Enhancing E-Mirror™
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -69.5,-23.5
@@ -152216,7 +152216,7 @@ entities:
   - uid: 22079
     components:
     - type: MetaData
-      desc: Plasma. The very substance that catapulted Nanotrasen to the place it is today. Its use is so ubiquitous, and found in so many technologies, it's easy to forget how much of an impact it has.
+      desc: Plasma. The very substance that catapulted NanoTrasen to the place it is today. Its use is so ubiquitous, and found in so many technologies, it's easy to forget how much of an impact it has.
       name: Plasma Plaque
     - type: Transform
       rot: -1.5707963267948966 rad
@@ -158407,7 +158407,7 @@ entities:
       setupAvailableNetworks:
       - SurveillanceCameraEntertainment
       nameSet: True
-      id: Classics of Nanotrasen
+      id: Classics of NanoTrasen
   - uid: 22976
     components:
     - type: Transform

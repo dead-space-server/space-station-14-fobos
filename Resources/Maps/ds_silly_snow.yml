@@ -34589,7 +34589,7 @@ entities:
   - uid: 4071
     components:
     - type: MetaData
-      desc: Стандартное хранилище Nanotrasen.
+      desc: Стандартное хранилище NanoTrasen.
       name: оружейный сейф Дрозда
     - type: Transform
       pos: -18.5,28.5
@@ -37308,7 +37308,7 @@ entities:
       - stampTexture: null
         stampedColor: '#006600FF'
         stampedName: stamp-component-stamped-name-centcom
-      content: Приветствуем дорогой Офицер корпуса "Синего Щита". В связи с необычными условиями вашей работы на данной станции, было принято решение оснастить вас дополнительным снаряжением в виде пустотного джетпака. Удачной работы! Слава Nanotrasen!
+      content: Приветствуем дорогой Офицер корпуса "Синего Щита". В связи с необычными условиями вашей работы на данной станции, было принято решение оснастить вас дополнительным снаряжением в виде пустотного джетпака. Удачной работы! Слава NanoTrasen!
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage

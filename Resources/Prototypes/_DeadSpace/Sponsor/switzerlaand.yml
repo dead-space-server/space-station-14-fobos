@@ -92,8 +92,8 @@
 - type: entity
   parent: ClothingNeckBase
   id: ClothingNeckCloakswitzerlaand
-  name: плащ Nanotrasen
-  description: Величественный синий плащ, представляющий Nanotrasen.
+  name: плащ NanoTrasen
+  description: Величественный синий плащ, представляющий NanoTrasen.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -119,8 +119,8 @@
 - type: entity
   parent: ClothingOuterHardsuitBase
   id: ClothingOuterHardsuitswitzerlaand
-  name: скафандр Nanotrasen
-  description: Очень дорогой усиленный скафандр сделанный на заказ. Окрашен в фирменный синий цвет Nanotrasen.
+  name: скафандр NanoTrasen
+  description: Очень дорогой усиленный скафандр сделанный на заказ. Окрашен в фирменный синий цвет NanoTrasen.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -154,7 +154,7 @@
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   id: ClothingHeadHelmetHardsuitswitzerlaand
   categories: [ HideSpawnMenu ]
-  name: шлем скафандра Nanotrasen
+  name: шлем скафандра NanoTrasen
   description: На внутренней стороне шлема нанесена гравировка "switzerlaand".
   components:
   - type: Sprite
@@ -172,7 +172,7 @@
   parent: ClothingHeadBase
   id: ClothingHeadHatswitzerlaand
   name: синяя фуражка
-  description: Фуражка окрашенная в фирменный синий цвет Nanotrasen.
+  description: Фуражка окрашенная в фирменный синий цвет NanoTrasen.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -184,8 +184,8 @@
 - type: entity
   parent: ClothingUniformBase
   id: ClothingUniformJumpsuitswitzerlaand
-  name: комбинезон Nanotrasen
-  description: Комбинезон окрашенный в фирменный синий цвет Nanotrasen.
+  name: комбинезон NanoTrasen
+  description: Комбинезон окрашенный в фирменный синий цвет NanoTrasen.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -217,7 +217,7 @@
   parent: ClothingUnderwearSocksBase
   id: ClothingUnderSocksswitzerlaand
   name: синие носки
-  description: Стандартные носки окрашенные в фирменный цвет Nanotrasen.
+  description: Стандартные носки окрашенные в фирменный цвет NanoTrasen.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -274,7 +274,7 @@
   parent: ClothingUnderwearTopBase
   id: ClothingUnderwearTopBraswitzerlaand
   name: синие бра
-  description: Стандартное нижнее бельё окрашенное в фирменный цвет Nanotrasen.
+  description: Стандартное нижнее бельё окрашенное в фирменный цвет NanoTrasen.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -285,7 +285,7 @@
   parent: ClothingUnderwearBottomBase
   id: ClothingUnderwearBottomPantiesswitzerlaand
   name: синие стринги
-  description: Стандартное нижнее бельё окрашенное в фирменный цвет Nanotrasen.
+  description: Стандартное нижнее бельё окрашенное в фирменный цвет NanoTrasen.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite

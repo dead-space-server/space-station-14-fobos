@@ -20,7 +20,7 @@
   parent: ClothingBackpackSatchelCaptain
   id: ClothingBackpackSatchelCaptainWhite
   name: белая сумка капитана
-  description: Это особая белая сумка, изготовленная исключительно для офицеров Nanotrasen. В ней же не будет оружия в зелёный код?..
+  description: Это особая белая сумка, изготовленная исключительно для офицеров NanoTrasen. В ней же не будет оружия в зелёный код?..
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Satchels/captain_white.rsi
@@ -29,7 +29,7 @@
   parent: ClothingBackpackSatchelCaptain
   id: ClothingBackpackSatchelCaptainBlack
   name: чёрная сумка капитана
-  description: Это особая чёрная сумка, изготовленная исключительно для офицеров Nanotrasen. Странно, если в зелёный код в ней не будет антикварного пистолета.
+  description: Это особая чёрная сумка, изготовленная исключительно для офицеров NanoTrasen. Странно, если в зелёный код в ней не будет антикварного пистолета.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Satchels/captain_black.rsi

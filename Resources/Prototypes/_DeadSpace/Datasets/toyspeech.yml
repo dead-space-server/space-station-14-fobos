@@ -400,3 +400,39 @@
   values:
     prefix: plushies-riikka-
     count: 10
+
+- type: localizedDataset
+  id: PlushieAmalizSpeech
+  values:
+    prefix: plushies-amaliz-
+    count: 10
+
+- type: localizedDataset
+  id: PlushieVitaliSpeech
+  values:
+    prefix: plushies-vitali-
+    count: 7
+
+- type: localizedDataset
+  id: PlushieBroneslavSpeech
+  values:
+    prefix: plushies-broneslav-
+    count: 3
+
+- type: localizedDataset
+  id: Plushie0black_cat0Speech
+  values:
+    prefix: plushies-blackcat-
+    count: 6
+
+- type: localizedDataset
+  id: PlushieYukariSpeech
+  values:
+    prefix: plushies-yukari-
+    count: 10
+
+- type: localizedDataset
+  id: PlushieYosugaSpeech
+  values:
+    prefix: plushies-yosuga-
+    count: 6

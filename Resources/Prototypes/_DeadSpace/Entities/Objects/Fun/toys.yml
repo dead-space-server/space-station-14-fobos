@@ -1413,7 +1413,7 @@
   description: Плюшевый, явно не железный, как могло показаться на первый взгляд, - синтетик. Чистый белоснежный халат и бежевый мониторчик необычной формы. . . Вроде бы милая и яркая игрушка, пока вы не замечаете бирку с надписью на задней стороне халата - "Надеюсь, ты хотя бы помыл руки перед тем, как трогать мою маленькую копию, недоумок".
   components:
   - type: Sprite
-    state: fyrmor
+    state: plushie_fyrmor
     scale: 0.9,0.9
   - type: TTS
     voice: Dick
@@ -1485,3 +1485,83 @@
     voice: Anastasia
   - type: SpeakOnTrigger
     pack: PlushieRiikkaSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieAmaliz
+  name: плюшевая Амализ
+  description: Это плюшевая слаймолюдка, явно напоминающая вам кого-то. На хвосте имеется бирка "For The More", а в волосах плюшки торчат чайные листья. От игрушки пахнет лесными ягодами.
+  components:
+  - type: Sprite
+    state: plushie_amaliz
+  - type: TTS
+    voice: Myron
+  - type: SpeakOnTrigger
+    pack: PlushieAmalizSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieNikolVitali
+  name: плюшевый Виталий Фролов
+  description: Плюшевая игрушка Детектива СБ. Ярко-зеленые волосы пахнут водорослями.
+  components:
+  - type: Sprite
+    state: plushie_nikol
+  - type: TTS
+    voice: Anduin
+  - type: SpeakOnTrigger
+    pack: PlushieVitaliSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieCovralBroneslav
+  name: плюшевый Бронеслав Вал'Корр
+  description: Выглядит как не с нашего времени... Странная броня с указательными знаками Имперского Легиона Нордфолла, к рукам пришит револьвер и сабля. Есть с бирка с надписью " Бронеслав Вал'Корр "
+  components:
+  - type: Sprite
+    state: plushie_covral
+  - type: TTS
+    voice: Vor
+  - type: SpeakOnTrigger
+    pack: PlushieBroneslavSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: Plushie0black_cat0
+  name: плюшевый Черно-красный котик
+  description: Мягкий черно-красный котик. Его глаза светятся тёмным алым светом. Кажется, он видит вас сквозь стены станции. Мурчит... Или что то другое?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Items/Toys/misc.rsi
+    layers:
+    - state: plushie_0black_cat0
+    - state: plushie_0black_cat0_overlay
+      shader: unshaded
+  - type: SpeakOnTrigger
+    pack: Plushie0black_cat0Speech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieDosDydosYukari
+  name: плюшевая Юкари Идзуми Каэро
+  description: Плюшевая офицер специальных операций. Можно заметить, что у неё в ушах находятся совмещённые с гарнитурой наушники, а в карманах завалялся музыкальный плеер, баночка пива, а из бездонной сумки проглядывается бутылочка сакэ.. и христов с скороходами. Туда дальше смотреть страшно, ибо там похоже половина всего арсенала СЦК покоится. И... Разве костюм-карандаш, обычные туфли, колготки и мантия полевого офицера по уставу у неё?
+  components:
+  - type: Sprite
+    state: plushie_yukari
+  - type: TTS
+    voice: Elisif
+  - type: SpeakOnTrigger
+    pack: PlushieYukariSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieYosugaMarsel
+  name: плюшевый Марсель
+  description: Плюшевая игрушка в одежде пилота службы безопасности. На его лице маска пилота, к сожалению, таких больше не выдают. От него исходит легкий холодок бескрайнего космоса. На бирке написано - Марсель Тихонов.
+  components:
+  - type: Sprite
+    state: plushie_yosuga
+  - type: TTS
+    voice: Mission_control
+  - type: SpeakOnTrigger
+    pack: PlushieYosugaSpeech
