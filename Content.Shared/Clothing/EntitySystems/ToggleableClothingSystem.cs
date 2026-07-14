@@ -312,8 +312,10 @@ public sealed class ToggleableClothingSystem : EntitySystem
                 return;
             }
 
-            if (component.StoredClothingContainer == null ||
-                !_inventorySystem.TryUnequip(user, parent, component.Slot, force: true) ||
+            component.StoredClothingContainer ??= _containerSystem.EnsureContainer<ContainerSlot>(target,
+                ToggleableClothingComponent.DefaultStoredClothingContainerId);
+
+            if (!_inventorySystem.TryUnequip(user, parent, component.Slot, force: true) ||
                 !_containerSystem.Insert(existing.Value, component.StoredClothingContainer))
             {
                 _popupSystem.PopupClient(Loc.GetString("toggleable-clothing-remove-first", ("entity", existing)),
@@ -364,10 +366,12 @@ public sealed class ToggleableClothingSystem : EntitySystem
     private void OnInit(EntityUid uid, ToggleableClothingComponent component, ComponentInit args)
     {
         component.Container = _containerSystem.EnsureContainer<ContainerSlot>(uid, component.ContainerId);
-        // DS14: Only create displacement storage for toggleable clothing that opts into it.
-        if (component.StoreExistingItem)
-            component.StoredClothingContainer = _containerSystem.EnsureContainer<ContainerSlot>(uid,
-                ToggleableClothingComponent.DefaultStoredClothingContainerId);
+        // DS14: Reuse saved displacement storage, but create it lazily only when an item needs to be stored.
+        if (component.StoreExistingItem &&
+            _containerSystem.TryGetContainer(uid,
+                ToggleableClothingComponent.DefaultStoredClothingContainerId,
+                out var storedContainer))
+            component.StoredClothingContainer = storedContainer as ContainerSlot;
     }
 
     /// <summary>

@@ -584,7 +584,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
             if (!Exists(existing) || !componentsBeforeAssignment.TryGetValue(existing, out var oldComponents))
                 continue;
 
-            foreach (var component in EntityManager.GetComponents(existing))
+            foreach (var component in AllComps(existing))
             {
                 var componentName = Factory.GetComponentName(component.GetType());
                 if (oldComponents.Contains(componentName))
@@ -600,7 +600,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
             mindComponentsBeforeAssignment is not null &&
             Exists(assignedMind))
         {
-            foreach (var component in EntityManager.GetComponents(assignedMind))
+            foreach (var component in AllComps(assignedMind))
             {
                 var componentName = Factory.GetComponentName(component.GetType());
                 if (mindComponentsBeforeAssignment.Contains(componentName))
@@ -633,7 +633,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         foreach (var entity in entities)
         {
             var components = new HashSet<string>();
-            foreach (var component in EntityManager.GetComponents(entity))
+            foreach (var component in AllComps(entity))
                 components.Add(Factory.GetComponentName(component.GetType()));
             snapshot[entity] = components;
         }
@@ -793,7 +793,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
                 foreach (var componentName in components)
                 {
                     if (Factory.TryGetRegistration(componentName, out var registration))
-                        EntityManager.RemoveComponentDeferred(target, registration.Type);
+                        RemCompDeferred(target, registration.Type);
                 }
             }
 
