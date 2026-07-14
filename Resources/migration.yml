@@ -540,9 +540,9 @@ BlueprintFlare: null
 BaseAdvancedPen: Pen
 
 # 2024-10-08 - DS14
-WeaponTurretNanoSAI: WeaponTurretLaserNanoTrasen
-WeaponTurretLaserOnestar: WeaponTurretLaserHostile
-WeaponTurretLaserNanoTrasenAI: WeaponTurretLaserNanoTrasen
+WeaponTurretNanoSAI: WeaponEnergyTurretAI
+WeaponTurretLaserOnestar: WeaponEnergyTurretTaipanAI
+WeaponTurretLaserNanoTrasenAI: WeaponEnergyTurretAI
 ClothingDeathSquadBackpackFilled: ClothingDeathSquadronBackpack
 ClothingBackpackPsychologistFilled: ClothingBackpackMedical
 ClothingBackpackDuffelPsychologistFilled: ClothingBackpackDuffelMedical
@@ -1311,3 +1311,8 @@ ComputerCargoOrdersMedical: null
 ComputerCargoOrdersScience: null
 ComputerCargoOrdersService: null
 # p.s зути не дай бог скажешь отменять
+
+# 2026-07-14 - DS14
+WeaponTurretLaserNanoTrasen: WeaponEnergyTurretAI
+WeaponTurretLaserHostile: WeaponEnergyTurretTaipanAI
+WeaponTurretLaserTaipan: WeaponEnergyTurretTaipanAI
