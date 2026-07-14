@@ -254,7 +254,6 @@
           path: /Audio/Items/belt_equip.ogg
           params:
             volume: -3
-  - type: Item
   - type: Storage
     grid:
     - 0,0,1,1
@@ -339,7 +338,6 @@
           path: /Audio/Effects/Vehicle/vehiclestartup.ogg
           params:
             volume: -3
-  - type: Item
   - type: Storage
     grid:
     - 0,0,1,1
