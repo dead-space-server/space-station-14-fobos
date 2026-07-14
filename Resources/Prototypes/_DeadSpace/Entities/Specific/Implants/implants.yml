@@ -146,8 +146,8 @@
   - type: SubdermalImplant
     implantAction: ActionActivateSandevistanImplant
   - type: SandevistanImplant
-    duration: 17
-    softcapTime: 12
+    duration: 25
+    softcapTime: 18
     cooldownMultiplier: 1.5
     movementSpeedModifier: 1.7
     attackRateModifier: 1.75

@@ -13,10 +13,10 @@ namespace Content.Shared.DeadSpace.Sandevistan;
 public sealed partial class SandevistanImplantComponent : Component
 {
     [DataField]
-    public float Duration = 17f;
+    public float Duration = 25f;
 
     [DataField]
-    public float SoftcapTime = 12f;
+    public float SoftcapTime = 18f;
 
     [DataField]
     public float CooldownMultiplier = 1.5f;
