@@ -23,8 +23,8 @@ public sealed partial class ChatWindow : FancyWindow
         StyleClasses = { "OpenBoth" },
         Margin = new Thickness(0, 0, 4, 0),
         VerticalAlignment = VAlignment.Center,
-        Disabled = true,
-        Visible = false,
+        Disabled = false,
+        Visible = true,
     };
 
     private IClydeWindow? _poppedOutWindow;
@@ -39,8 +39,6 @@ public sealed partial class ChatWindow : FancyWindow
         CloseButton.Parent!.AddChild(_popOutButton);
         _popOutButton.SetPositionInParent(CloseButton.GetPositionInParent());
         _popOutButton.OnPressed += _ => PopOut();
-        _popOutButton.Disabled = false;
-        _popOutButton.Visible = true;
         // DS14-end
 
         // These are necessary for the controls inside the chatbox to initialize correctly:
@@ -59,6 +57,8 @@ public sealed partial class ChatWindow : FancyWindow
         Title = Loc.GetString("chat-window-admin-title");
         _popOutButton.Text = Loc.GetString("chat-window-pop-out");
         _popOutButton.ToolTip = Loc.GetString("chat-window-pop-out-tooltip");
+        _popOutButton.Disabled = false;
+        _popOutButton.Visible = true;
         // DS14-end
 
         Chatbox.ChatInput.ChannelSelector.Select(ChatSelectChannel.Admin);
@@ -76,7 +76,7 @@ public sealed partial class ChatWindow : FancyWindow
     }
 
     // DS14-start
-    public void PopOut(ChatBox? chat = null)
+    private void PopOut()
     {
         if (_poppedOutWindow != null)
             return;
@@ -92,8 +92,6 @@ public sealed partial class ChatWindow : FancyWindow
             Monitor = monitor,
             Width = width,
             Height = height,
-            Styles = OSWindowStyles.NoTitleOptions,
-            Owner = _clyde.MainWindow,
         });
 
         _poppedOutWindow.RequestClosed += OnPoppedOutWindowRequestClosed;
@@ -114,14 +112,8 @@ public sealed partial class ChatWindow : FancyWindow
         Chatbox.Orphan();
         poppedOutBackground.AddChild(Chatbox);
         poppedOutRoot.CreateRootControls();
-        if (chat is ChatBox && chat is not null)
-        {
-            Chatbox.Visible = false;
-            //Chatbox.Dispose();
-            chat.Orphan();
-            poppedOutBackground.AddChild(chat);
-        }
         MoveChatPopupsTo(poppedOutRoot);
+
         _popOutButton.Disabled = true;
         _popOutButton.Visible = false;
         Close();
@@ -164,4 +156,49 @@ public sealed partial class ChatWindow : FancyWindow
         Chatbox.ChatInput.FilterButton.Popup.Close();
     }
     // DS14-end
+    public void PopOutChatRef(ref ChatBox box)
+    {
+        if (_poppedOutWindow != null)
+            return;
+
+        var monitor = _clyde.EnumerateMonitors().First();
+        var width = Math.Max((int) Size.X, 650);
+        var height = Math.Max((int) Size.Y, 420);
+
+        _poppedOutWindow = _clyde.CreateWindow(new WindowCreateParameters
+        {
+            Maximized = false,
+            Title = Title ?? Loc.GetString("chat-window-admin-title"),
+            Monitor = monitor,
+            Width = width,
+            Height = height,
+            Owner = _clyde.MainWindow,
+            Styles = OSWindowStyles.NoTitleOptions,
+        });
+
+        _poppedOutWindow.RequestClosed += OnPoppedOutWindowRequestClosed;
+
+        var poppedOutRoot = UserInterfaceManager.CreateWindowRoot(_poppedOutWindow);
+        poppedOutRoot.BackgroundColor = Color.FromHex("#25252A");
+
+        var poppedOutBackground = new PanelContainer
+        {
+            StyleClasses = { "BackgroundDark" },
+            HorizontalAlignment = HAlignment.Stretch,
+            VerticalAlignment = VAlignment.Stretch,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+        };
+
+        poppedOutRoot.AddChild(poppedOutBackground);
+        Chatbox.Orphan();
+        Chatbox.SetInputs(ref box);
+        poppedOutBackground.AddChild(Chatbox);
+        poppedOutRoot.CreateRootControls();
+        MoveChatPopupsTo(poppedOutRoot);
+
+        _popOutButton.Disabled = true;
+        _popOutButton.Visible = false;
+        Close();
+    }
 }

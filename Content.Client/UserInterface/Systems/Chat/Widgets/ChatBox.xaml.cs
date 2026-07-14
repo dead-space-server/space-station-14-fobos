@@ -1,3 +1,4 @@
+using System.Numerics;
 using System.Text;
 using Content.Client.DeadSpace.Chat;
 using Content.Client.UserInterface.Systems.Chat.Controls;
@@ -30,12 +31,13 @@ public partial class ChatBox : UIWidget
     public bool Main { get; set; }
 
     public ChatSelectChannel SelectedChannel => ChatInput.ChannelSelector.SelectedChannel;
+    private ChatBox? OwnerChat;
+    public event Action<bool>? OnCycleChatChannel;
 
     public ChatBox()
     {
         RobustXamlLoader.Load(this);
         _sawmill = _log.GetSawmill("chat");
-
         ChatInput.Input.OnTextEntered += OnTextEntered;
         ChatInput.Input.OnKeyBindDown += OnInputKeyBindDown;
         ChatInput.Input.OnTextChanged += OnTextChanged;
@@ -219,9 +221,8 @@ public partial class ChatBox : UIWidget
 
         if (channel != null)
             ChatInput.ChannelSelector.Select(channel.Value);
-
-        input.IgnoreNext = true;
         input.GrabKeyboardFocus();
+        input.IgnoreNext = true;
 
         input.CursorPosition = input.Text.Length;
         input.SelectionStart = selectStart.GetOffset(input.Text.Length);
@@ -238,6 +239,7 @@ public partial class ChatBox : UIWidget
         } while ((_controller.SelectableChannels & ChannelSelectorPopup.ChannelSelectorOrder[idx]) == 0);
 
         SafelySelectChannel(ChannelSelectorPopup.ChannelSelectorOrder[idx]);
+        OnCycleChatChannel?.Invoke(forward);
     }
 
     public void SafelySelectChannel(ChatSelectChannel toSelect)
@@ -304,5 +306,35 @@ public partial class ChatBox : UIWidget
         ChatInput.Input.OnKeyBindDown -= OnInputKeyBindDown;
         ChatInput.Input.OnTextChanged -= OnTextChanged;
         ChatInput.ChannelSelector.OnChannelSelect -= OnChannelSelect;
+    }
+    public void SetInputs(ref ChatBox args)
+    {
+        //args.Contents.Visible = false;
+        OwnerChat = args;
+        args.MinSize = new Vector2(0, 0);
+        args.SetSize = new Vector2(0, 0);
+        args.ChatInput.Input.OnKeyBindDown += OnInputKeyBindDown;
+        args.ChatInput.Input.OnTextChanged += PopOutSetText;
+        args.ChatInput.Input.OnTextEntered += PopOutOnTextEntered;
+        args.ChatInput.FilterButton.Popup.OnChannelFilter += OnChannelFilter;
+        args.ChatInput.FilterButton.Popup.OnNewHighlights += OnNewHighlights;
+        args.OnCycleChatChannel += CycleChatChannel;
+        ChatInput.ChannelSelector.OnChannelSelect += channel => PopOutOnChannelSelect(OwnerChat.ChatInput.ChannelSelector, channel);
+        args.ChatInput.ChannelSelector.OnChannelSelect += channel => PopOutOnChannelSelect(ChatInput.ChannelSelector, channel);
+        args.ChatInput.ChannelSelector.Visible = false;
+        args.ChatInput.FilterButton.Visible = false;
+        _controller.RegisterChat(args);
+    }
+    public void PopOutSetText(LineEditEventArgs args)
+    {
+        ChatInput.Input.SetText(args.Text, false);
+    }
+    public void PopOutOnTextEntered(LineEditEventArgs args)
+    {
+        ChatInput.Input.Clear();
+    }
+    private void PopOutOnChannelSelect(ChannelSelectorButton button, ChatSelectChannel channel)
+    {
+        button.Select(channel);
     }
 }

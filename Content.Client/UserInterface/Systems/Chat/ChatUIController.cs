@@ -319,21 +319,10 @@ public sealed partial class ChatUIController : UIController
         }
 
         chatBox.Main = setting;
-        if (_config.GetCVar(CCCCVars.PopOutChat))
+        if (_config.GetCVar(CCCCVars.PopOutChat) && setting)
         {
-            foreach (var chat in _chats)
-            {
-                if (!chat.Main)
-                {
-                    chat.Visible = false;
-                }
-                else
-                {
-                    ChatWindow chatpopout = new ChatWindow();
-                    chatpopout.PopOut(chat);
-                    break;
-                }
-            }
+            ChatWindow chatpopout = new ChatWindow();
+            chatpopout.PopOutChatRef(ref chatBox);
         }
     }
 
