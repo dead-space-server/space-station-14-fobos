@@ -316,7 +316,13 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         if (TryFindImplant(body, component.DeathAcidifierImplant, out _))
             return true;
 
-        return _subdermalImplant.AddImplant(body, component.DeathAcidifierImplant) != null;
+        var implant = _subdermalImplant.AddImplant(body, component.DeathAcidifierImplant);
+        if (implant == null)
+            return false;
+
+        _antag.EnsureRollbackTracking(body);
+        _antag.TrackGrantedEntity(body, implant.Value);
+        return true;
     }
 
     private bool TryFindImplant(EntityUid body, EntProtoId implantPrototype, out EntityUid implant)
@@ -393,6 +399,8 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         if (created == null)
             return null;
 
+        _antag.EnsureRollbackTracking(body);
+        _antag.TrackGrantedEntity(body, created.Value);
         state.UltraUplinkEntity = created.Value;
         EnsureUltraStoreCategories(created.Value, component);
         return created.Value;

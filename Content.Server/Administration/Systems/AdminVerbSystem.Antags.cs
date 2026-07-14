@@ -110,6 +110,7 @@ public sealed partial class AdminVerbSystem
             Icon = new SpriteSpecifier.Rsi(new("/Textures/_Backmen/Interface/Actions/blob.rsi"), "blobFactory"),
             Act = () =>
             {
+                _antag.TrackGrantedComponent<Shared.Backmen.Blob.Components.BlobCarrierComponent>(args.Target);
                 EnsureComp<Shared.Backmen.Blob.Components.BlobCarrierComponent>(args.Target).HasMind = HasComp<ActorComponent>(args.Target);
             },
             Impact = LogImpact.High,

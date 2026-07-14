@@ -3,6 +3,7 @@ using Content.Server.Backmen.Blob.Components;
 using Content.Shared.Gibbing;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Mind;
+using Content.Server.DeadSpace.Administration;
 using Content.Shared.Backmen.Blob;
 using Content.Shared.Backmen.Blob.Components;
 using Content.Shared.Mind.Components;
@@ -18,6 +19,10 @@ public sealed class BlobCarrierSystem : SharedBlobCarrierSystem
     [Dependency] private readonly MindSystem _mind = default!;
     [Dependency] private readonly GibbingSystem _gibbing = default!;
     [Dependency] private readonly ActionsSystem _action = default!;
+    // DS14-start
+    [Dependency] private readonly BlobAntagRollbackSystem _rollback = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    // DS14-end
 
     public override void Initialize()
     {
@@ -78,12 +83,20 @@ public sealed class BlobCarrierSystem : SharedBlobCarrierSystem
 
         if (_mind.TryGetMind(ent, out _, out var mind) && mind.UserId != null)
         {
+            // DS14-start
+            var userId = mind.UserId.Value;
+            _rollback.PreserveBody(userId, ent, _transform.GetMapCoordinates(ent));
+            // DS14-end
             var core = Spawn(ent.Comp.CoreBlobPrototype, xform.Coordinates);
 
             if (!TryComp<BlobCoreComponent>(core, out var blobCoreComponent))
                 return;
 
-            _blobCoreSystem.CreateBlobObserver(core, mind.UserId.Value, blobCoreComponent);
+            _blobCoreSystem.CreateBlobObserver(core, userId, blobCoreComponent); // DS14
+            // DS14-start
+            _rollback.MovePreservedBodyToNullspace(userId);
+            return;
+            // DS14-end
         }
         else
         {

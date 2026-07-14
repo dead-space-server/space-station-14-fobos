@@ -324,6 +324,29 @@ public abstract class SharedRoleSystem : EntitySystem
         return MindRemoveRoleDo(mind, delete, deleteName);
     }
 
+    // DS14-start
+    /// <summary>
+    /// Removes every role that marks a mind as an antagonist in one update.
+    /// </summary>
+    public bool MindRemoveAntagonistRoles(Entity<MindComponent?> mind)
+    {
+        if (!Resolve(mind.Owner, ref mind.Comp))
+            return false;
+
+        var delete = new List<EntityUid>();
+        foreach (var role in mind.Comp.MindRoleContainer.ContainedEntities)
+        {
+            if (TryComp<MindRoleComponent>(role, out var roleComp) &&
+                (roleComp.Antag || roleComp.ExclusiveAntag))
+            {
+                delete.Add(role);
+            }
+        }
+
+        return MindRemoveRoleDo(mind, delete, "antagonist roles");
+    }
+    // DS14-end
+
     private string RemoveRoleLogNameGeneration(string name, string newName, string original)
     {
         // If there were matches for deletion, this will run, and we get a new name to replace the original input

@@ -120,6 +120,17 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
             break;
         }
 
+        if (session != null)
+        {
+            var rule = _antag.ForceGetGameRuleEnt<UnitologyRuleComponent>(UnitologyRule);
+            var antagSelection = Comp<AntagSelectionComponent>(rule.Owner);
+            if (!TryFindUnitologyDefinition(antagSelection, role, out var activeDefinition))
+                return false;
+
+            _antag.MakeAntag((rule.Owner, antagSelection), session, activeDefinition);
+            return true;
+        }
+
         if (!_proto.TryIndex<EntityPrototype>(UnitologyRule, out var prototype)
             || !prototype.TryGetComponent<AntagSelectionComponent>(out var prototypeSelection, Factory)
             || !TryFindUnitologyDefinition(prototypeSelection, role, out var definition))
