@@ -11,4 +11,5 @@ public sealed partial class ArenaPlayerComponent : Component
     public EntityUid OriginalGhost;
     public bool CanReturnToBody;
     public ArenaTeam Team = ArenaTeam.None;
+    public int SavedPresetIndex = -1;
 }

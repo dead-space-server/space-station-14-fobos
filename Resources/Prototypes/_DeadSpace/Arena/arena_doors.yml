@@ -4,8 +4,6 @@
   name: дверь арены
   description: Дверь арены, открывается при начале раунда TDM.
   components:
-  - type: Sprite
-    sprite: _DeadSpace/Arena/arena_door.rsi
   - type: Door
     closeTimeOne: 0.2
     closeTimeTwo: 1.2

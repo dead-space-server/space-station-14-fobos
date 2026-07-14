@@ -14,6 +14,7 @@
         Blunt: 0.6
         Slash: 0.6
         Piercing: 0.6
+  - type: SelfUnremovableClothing
 
 - type: entity
   parent: ClothingOuterArmorHeavy
@@ -31,9 +32,10 @@
         Blunt: 0.6
         Slash: 0.6
         Piercing: 0.6
+  - type: SelfUnremovableClothing
 
 - type: entity
-  parent: ClothingHeadHardsuitBase
+  parent: ClothingHeadHelmetArmoredBase
   id: ArenaHelmetBlue
   name: синий шлем
   description: Шлем команды синих.
@@ -42,15 +44,10 @@
     sprite: _DeadSpace/Arena/helmet_blue.rsi
   - type: Clothing
     sprite: _DeadSpace/Arena/helmet_blue.rsi
-  - type: Armor
-    modifiers:
-      coefficients:
-        Blunt: 0.6
-        Slash: 0.6
-        Piercing: 0.6
+  - type: SelfUnremovableClothing
 
 - type: entity
-  parent: ClothingHeadHardsuitBase
+  parent: ClothingHeadHelmetArmoredBase
   id: ArenaHelmetRed
   name: красный шлем
   description: Шлем команды красных.
@@ -59,12 +56,14 @@
     sprite: _DeadSpace/Arena/helmet_red.rsi
   - type: Clothing
     sprite: _DeadSpace/Arena/helmet_red.rsi
-  - type: Armor
-    modifiers:
-      coefficients:
-        Blunt: 0.6
-        Slash: 0.6
-        Piercing: 0.6
+  - type: SelfUnremovableClothing
+
+- type: entity
+  parent: BaseUplinkRadio40TC
+  id: ArenaUplinkRadio
+  components:
+  - type: Store
+    expectedFaction:
 
 - type: entity
   parent: ArenaSpawnPoint
@@ -98,8 +97,8 @@
     pocket2: MagazinePistol
   storage:
     back:
-      - MedkitFilled
-      - BaseUplinkRadio40TC
+      - MedkitCombatFilled
+      - ArenaUplinkRadio
 
 - type: arenaLoadoutPreset
   id: ArenaTeamRed
@@ -119,5 +118,5 @@
     pocket2: MagazinePistol
   storage:
     back:
-      - MedkitFilled
-      - BaseUplinkRadio40TC
+      - MedkitCombatFilled
+      - ArenaUplinkRadio

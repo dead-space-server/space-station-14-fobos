@@ -18,8 +18,9 @@
     - WeaponShotgunEnforcer
   storage:
     back:
-      - MedkitFilled
+      - MedkitCombatFilled
       - BoxLethalshot
+      - BoxShotgunSlug
       - BoxShotgunSlug
 
 - type: arenaLoadoutPreset
@@ -40,7 +41,8 @@
     - WeaponSubMachineGunDrozd
   storage:
     back:
-      - MedkitFilled
+      - MedkitCombatFilled
+      - MagazinePistolSubMachineGun
       - MagazinePistolSubMachineGun
       - MagazinePistolSubMachineGun
 
@@ -62,7 +64,8 @@
     - WeaponRifleLecter
   storage:
     back:
-      - MedkitFilled
+      - MedkitCombatFilled
+      - MagazineRifle
       - MagazineRifle
       - MagazineRifle
       - MagazineRifleIncendiary
@@ -85,7 +88,8 @@
     - WeaponPistolDesertEagle
   storage:
     back:
-      - MedkitFilled
+      - MedkitCombatFilled
+      - MagazineEagle
       - MagazineEagle
 
 - type: arenaLoadoutPreset
@@ -106,7 +110,8 @@
     - WeaponSniperHristov
   storage:
     back:
-      - MedkitFilled
+      - MedkitCombatFilled
+      - MagazineHristov
       - MagazineHristov
       - MagazineHristov
 
@@ -128,7 +133,7 @@
     - EnergySword
   storage:
     back:
-      - MedkitFilled
+      - MedkitCombatFilled
       - Stimpack
       - Stimpack
 
@@ -136,7 +141,7 @@
   id: ArenaArkalyse
   nameLoc: arena-loadout-arkalyse
   descLoc: arena-desc-arkalyse
-  iconPrototype: ClothingHandsGlovesArkalyse
+  iconPrototype: BookArkalyse
   category: arena-category-melee
   equipment:
     jumpsuit: ClothingUniformJumpsuitSuitCheckered
@@ -144,12 +149,10 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
-    pocket1: WeaponPistolMk58
-    pocket2: MagazinePistol
   inhand:
-    - ClothingHandsGlovesArkalyse
+    - BookArkalyse
   storage:
     back:
-      - MedkitFilled
+      - MedkitCombatFilled
       - Stimpack
       - Stimpack

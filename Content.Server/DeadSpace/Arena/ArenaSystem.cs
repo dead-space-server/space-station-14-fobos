@@ -32,6 +32,7 @@ using Content.Shared.Storage.Components;
 using Content.Shared.Storage.EntitySystems;
 using Content.Shared.Station;
 using Robust.Server.GameObjects;
+using Robust.Server.Player;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
@@ -67,6 +68,7 @@ public sealed class ArenaSystem : EntitySystem
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly IChatManager _chat = default!;
     [Dependency] private readonly SharedStorageSystem _storage = default!;
+    [Dependency] private readonly IPlayerManager _player = default!;
 
     private const string ArenaMapFile = "/Maps/_DeadSpace/arena.yml";
 
@@ -103,6 +105,12 @@ public sealed class ArenaSystem : EntitySystem
         [ArenaTeam.Blue] = 0,
         [ArenaTeam.Red] = 0,
     };
+    // Lock players to their first chosen team for the current TDM round
+    private readonly Dictionary<NetUserId, ArenaTeam> _tdmTeamLocks = new();
+
+    // Saved inventory snapshot (survives death since it's on the system, not the body)
+    private readonly Dictionary<NetUserId, List<string>> _savedExtraItems = new();
+
     // Persistent stats across sub-rounds (not cleared between DM/TDM rounds)
     private readonly Dictionary<NetUserId, int> _persistDmKills = new();
     private readonly Dictionary<NetUserId, int> _persistDmDeaths = new();
@@ -273,6 +281,7 @@ public sealed class ArenaSystem : EntitySystem
 
     private void AssignTDTeams()
     {
+        _tdmTeamLocks.Clear();
         var players = _roster.ToList();
         _luck.Shuffle(players);
 
@@ -281,6 +290,14 @@ public sealed class ArenaSystem : EntitySystem
         {
             var team = i < half ? ArenaTeam.Blue : ArenaTeam.Red;
             _playerTeams[players[i]] = team;
+
+            // Lock player to their team for this TDM round
+            if (TryGetEntity(players[i], out var uid) &&
+                _minds.TryGetMind(uid.Value, out _, out var mind) &&
+                mind?.UserId is { } userId)
+            {
+                _tdmTeamLocks[userId] = team;
+            }
         }
 
         Log.Info($"TDM: {_playerTeams.Count(v => v.Value == ArenaTeam.Blue)} blue, {_playerTeams.Count(v => v.Value == ArenaTeam.Red)} red");
@@ -305,14 +322,15 @@ public sealed class ArenaSystem : EntitySystem
 
             var team = _playerTeams.GetValueOrDefault(netEnt, ArenaTeam.Blue);
 
-            // Find the preset for this team
-            var preset = _presets.FirstOrDefault(p => p.Team == team && p.Mode == ArenaMode.TDM);
-            if (preset == null)
-            {
-                preset = _presets.FirstOrDefault();
-                if (preset == null)
-                    continue;
-            }
+            // Use team default preset (saved preset is only for mid-round auto-respawn)
+            var nullablePreset = _presets.FirstOrDefault(p => p.Team == team && p.Mode == ArenaMode.TDM);
+            if (nullablePreset == null)
+                nullablePreset = _presets.FirstOrDefault();
+
+            if (nullablePreset == null)
+                continue;
+
+            var preset = nullablePreset;
 
             // Spawn at team spawn
             var spot = GetTeamSpawn(team);
@@ -346,6 +364,7 @@ public sealed class ArenaSystem : EntitySystem
             newArenaPlayer.OriginalGhost = arenaPlayer.OriginalGhost;
             newArenaPlayer.CanReturnToBody = arenaPlayer.CanReturnToBody;
             newArenaPlayer.Team = team;
+            newArenaPlayer.SavedPresetIndex = arenaPlayer.SavedPresetIndex;
             EnsureComp<AntagImmuneComponent>(fresh);
             EnsureComp<PacifiedComponent>(fresh);
 
@@ -384,9 +403,91 @@ public sealed class ArenaSystem : EntitySystem
             RemComp<PacifiedComponent>(uid.Value);
         }
 
+        // Snapshot player inventories for respawn preservation
+        SnapshotTDMLoadouts();
+
         OpenTDMDoors();
         BroadcastRoundState();
         Log.Info("Arena TDM — round started");
+    }
+
+    private void SnapshotTDMLoadouts()
+    {
+        foreach (var netEnt in _roster)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+
+            if (!TryComp<ArenaPlayerComponent>(uid, out var arenaPlayer))
+                continue;
+
+            SaveInventorySnapshot(uid.Value, arenaPlayer);
+        }
+    }
+
+    private void SaveInventorySnapshot(EntityUid uid, ArenaPlayerComponent? arenaPlayer)
+    {
+        if (!TryComp<InventoryComponent>(uid, out var inventory))
+            return;
+
+        if (!_minds.TryGetMind(uid, out _, out var mind) || mind?.UserId is not { } userId)
+            return;
+
+        // Slots that are always provided by the preset – never save their direct items
+        var presetSlots = new HashSet<string>
+        {
+            "shoes", "jumpsuit", "outerClothing", "gloves", "neck", "mask", "eyes", "ears",
+            "head", "socks", "underwearb", "underweart", "id", "suitstorage", "back"
+        };
+
+        // Items inside these containers are saved (backpack, belt)
+        var storageSlots = new HashSet<string> { "back", "belt" };
+
+        // Items to never save (uplink radio and combat medkit from preset)
+        var excludeItems = new HashSet<string> { "ArenaUplinkRadio", "MedkitCombatFilled" };
+
+        var items = new List<string>();
+
+        var slotEnumerator = _inventory.GetSlotEnumerator((uid, inventory));
+        while (slotEnumerator.NextItem(out var item, out var slotDef))
+        {
+            // For storage containers (backpack, belt), save their contents
+            if (storageSlots.Contains(slotDef.Name) && TryComp<StorageComponent>(item, out var storageComp))
+            {
+                foreach (var stored in storageComp.Container.ContainedEntities)
+                {
+                    var storedProto = MetaData(stored).EntityPrototype?.ID;
+                    if (!string.IsNullOrEmpty(storedProto) && !excludeItems.Contains(storedProto))
+                        items.Add(storedProto);
+                }
+                continue;
+            }
+
+            // For preset slots that aren't storage, skip entirely
+            if (presetSlots.Contains(slotDef.Name))
+                continue;
+
+            // Pocket slots and anything else – save the item directly
+            var protoId = MetaData(item).EntityPrototype?.ID;
+            if (!string.IsNullOrEmpty(protoId) && !excludeItems.Contains(protoId))
+                items.Add(protoId);
+        }
+
+        // Collect in-hand items
+        if (TryComp<HandsComponent>(uid, out var handsComp))
+        {
+            foreach (var handName in _hands.EnumerateHands((uid, handsComp)))
+            {
+                if (!_hands.TryGetHeldItem((uid, handsComp), handName, out var held))
+                    continue;
+
+                var protoId = MetaData(held.Value).EntityPrototype?.ID;
+                if (!string.IsNullOrEmpty(protoId) && !excludeItems.Contains(protoId))
+                    items.Add(protoId);
+            }
+        }
+
+        _savedExtraItems[userId] = items;
     }
 
     private void EquipHiders()
@@ -809,12 +910,7 @@ public sealed class ArenaSystem : EntitySystem
                 _persistDmKills[killerUserId]++;
             }
 
-            // Cache player name
-            if (!_persistPlayerNames.ContainsKey(killerUserId))
-            {
-                try { _persistPlayerNames[killerUserId] = _prefs.GetPreferences(killerUserId).SelectedCharacter?.Name ?? "Unknown"; }
-                catch { _persistPlayerNames[killerUserId] = "Unknown"; }
-            }
+            CachePlayerName(killerUserId);
         }
 
         // Track death for Deathmatch K/D
@@ -827,6 +923,7 @@ public sealed class ArenaSystem : EntitySystem
                 _dmDeaths[victimUserId]++;
                 _persistDmDeaths.TryAdd(victimUserId, 0);
                 _persistDmDeaths[victimUserId]++;
+                CachePlayerName(victimUserId);
             }
         }
         // Track death for TDM
@@ -853,6 +950,14 @@ public sealed class ArenaSystem : EntitySystem
         }
 
         _playerTeams.Remove(victimNet);
+
+        // TDM auto-respawn with saved preset
+        if (CurrentMode == ArenaMode.TDM && arenaPlayer.SavedPresetIndex >= 0 && arenaPlayer.SavedPresetIndex < _presets.Count)
+        {
+            RespawnWithSavedPreset(ev.Target, arenaPlayer);
+            return;
+        }
+
         RestorePlayer(ev.Target, arenaPlayer);
     }
 
@@ -1036,6 +1141,8 @@ public sealed class ArenaSystem : EntitySystem
         _redSpawns.Clear();
         _tdmDoors.Clear();
         _arenaMap = null;
+        _tdmTeamLocks.Clear();
+        _savedExtraItems.Clear();
         _persistDmKills.Clear();
         _persistDmDeaths.Clear();
         _persistTdmKills.Clear();
@@ -1110,6 +1217,17 @@ public sealed class ArenaSystem : EntitySystem
         EntityCoordinates spot;
         if (CurrentMode == ArenaMode.TDM)
         {
+            // Enforce team lock: player must use the same team they were first assigned
+            if (_tdmTeamLocks.TryGetValue(who.UserId, out var lockedTeam))
+            {
+                if (preset.Team != lockedTeam)
+                    return false;
+            }
+            else
+            {
+                _tdmTeamLocks[who.UserId] = preset.Team;
+            }
+
             var team = preset.Team;
             spot = GetTeamSpawn(team);
             _playerTeams[GetNetEntity(sourceGhost)] = team;
@@ -1118,10 +1236,14 @@ public sealed class ArenaSystem : EntitySystem
         {
             var sites = new List<EntityCoordinates>();
             var cursor = AllEntityQuery<ArenaSpawnPointComponent, TransformComponent>();
-            while (cursor.MoveNext(out _, out _, out var where))
+            while (cursor.MoveNext(out var uid, out _, out var where))
             {
-                if (where.MapID == Transform(map).MapID)
-                    sites.Add(where.Coordinates);
+                if (where.MapID != Transform(map).MapID)
+                    continue;
+                // Don't use TDM team spawns in non-TDM modes
+                if (CurrentMode != ArenaMode.TDM && HasComp<ArenaTeamSpawnComponent>(uid))
+                    continue;
+                sites.Add(where.Coordinates);
             }
 
             spot = sites.Count > 0
@@ -1141,11 +1263,15 @@ public sealed class ArenaSystem : EntitySystem
 
         _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
 
+        // Restore saved extra items from the TDM prep snapshot
+        RestoreSavedExtraItems(fresh, who.UserId);
+
         var arenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
         arenaPlayer.OriginalMind = originalMindId;
         arenaPlayer.OriginalGhost = sourceGhost;
         arenaPlayer.CanReturnToBody = ghost.CanReturnToBody;
         arenaPlayer.Team = preset.Team;
+        arenaPlayer.SavedPresetIndex = kitIdxClamped;
         EnsureComp<AntagImmuneComponent>(fresh);
 
         if (RoundState == ArenaRoundState.Intermission)
@@ -1171,6 +1297,9 @@ public sealed class ArenaSystem : EntitySystem
     {
         _roster.Remove(GetNetEntity(body));
         _playerTeams.Remove(GetNetEntity(body));
+
+        // Save inventory before deletion so it survives into next spawn
+        SaveInventorySnapshot(body, arenaPlayer);
 
         if (!_minds.TryGetMind(body, out var temporaryMindId, out var temporaryMind))
         {
@@ -1349,6 +1478,136 @@ public sealed class ArenaSystem : EntitySystem
                 QueueDel(uid);
             }
         }
+    }
+
+    private void CachePlayerName(NetUserId userId)
+    {
+        try
+        {
+            if (_player.TryGetSessionById(userId, out var session))
+                _persistPlayerNames[userId] = session.Name;
+            else
+                _persistPlayerNames[userId] = "Unknown";
+        }
+        catch { _persistPlayerNames[userId] = "Unknown"; }
+    }
+
+    private void RestoreSavedExtraItems(EntityUid fresh, NetUserId userId)
+    {
+        if (!_savedExtraItems.TryGetValue(userId, out var items) || items.Count == 0)
+            return;
+
+        if (!_inventory.TryGetSlotEntity(fresh, "back", out var backpack) ||
+            !TryComp<StorageComponent>(backpack, out var storage))
+            return;
+
+        // Collect all existing proto IDs on the character to avoid dupes
+        var existingItems = new HashSet<string>();
+
+        // Check all inventory slots
+        if (TryComp<InventoryComponent>(fresh, out var inv))
+        {
+            var checkEnumerator = _inventory.GetSlotEnumerator((fresh, inv));
+            while (checkEnumerator.NextItem(out var equipItem, out _))
+            {
+                var protoId = MetaData(equipItem).EntityPrototype?.ID;
+                if (!string.IsNullOrEmpty(protoId))
+                    existingItems.Add(protoId);
+
+                // Check storage contents for this item
+                if (TryComp<StorageComponent>(equipItem, out var eqStorage))
+                {
+                    foreach (var stored in eqStorage.Container.ContainedEntities)
+                    {
+                        var storedProto = MetaData(stored).EntityPrototype?.ID;
+                        if (!string.IsNullOrEmpty(storedProto))
+                            existingItems.Add(storedProto);
+                    }
+                }
+            }
+        }
+
+        // Check hands
+        if (TryComp<HandsComponent>(fresh, out var hands))
+        {
+            foreach (var hand in _hands.EnumerateHands((fresh, hands)))
+            {
+                if (!_hands.TryGetHeldItem((fresh, hands), hand, out var held))
+                    continue;
+                var protoId = MetaData(held.Value).EntityPrototype?.ID;
+                if (!string.IsNullOrEmpty(protoId))
+                    existingItems.Add(protoId);
+            }
+        }
+
+        var coords = Transform(fresh).Coordinates;
+        foreach (var protoId in items)
+        {
+            if (existingItems.Contains(protoId))
+                continue;
+
+            var item = Spawn(protoId, coords);
+            _storage.Insert(backpack.Value, item, out _, storageComp: storage, playSound: false);
+        }
+    }
+
+    private void RespawnWithSavedPreset(EntityUid oldBody, ArenaPlayerComponent arenaPlayer)
+    {
+        if (!_minds.TryGetMind(oldBody, out var mindId, out var mind))
+        {
+            QueueDel(oldBody);
+            return;
+        }
+
+        var preset = _presets[arenaPlayer.SavedPresetIndex];
+        var team = preset.Team;
+        if (team == ArenaTeam.None)
+            team = arenaPlayer.Team;
+
+        var spot = GetTeamSpawn(team);
+
+        var speciesId = SharedHumanoidAppearanceSystem.DefaultSpecies;
+        HumanoidCharacterProfile? profile = null;
+        if (mind.UserId != null)
+        {
+            profile = _prefs.GetPreferences(mind.UserId.Value).SelectedCharacter as HumanoidCharacterProfile;
+            if (profile != null)
+                speciesId = profile.Species;
+        }
+
+        var species = _protos.Index<SpeciesPrototype>(speciesId);
+        var fresh = Spawn(species.Prototype, spot);
+
+        if (profile != null)
+            _humanoid.LoadProfile(fresh, profile);
+
+        _meta.SetEntityName(fresh, mind.CharacterName ?? "Unknown");
+        _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
+
+        // Restore saved extra items
+        if (mind.UserId is { } userId)
+            RestoreSavedExtraItems(fresh, userId);
+
+        var newArenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
+        newArenaPlayer.OriginalMind = arenaPlayer.OriginalMind;
+        newArenaPlayer.OriginalGhost = arenaPlayer.OriginalGhost;
+        newArenaPlayer.CanReturnToBody = arenaPlayer.CanReturnToBody;
+        newArenaPlayer.Team = team;
+        newArenaPlayer.SavedPresetIndex = arenaPlayer.SavedPresetIndex;
+        EnsureComp<AntagImmuneComponent>(fresh);
+
+        if (RoundState == ArenaRoundState.Intermission)
+            EnsureComp<PacifiedComponent>(fresh);
+
+        _minds.TransferTo(mindId, fresh, mind: mind);
+        QueueDel(oldBody);
+
+        _roster.Remove(GetNetEntity(oldBody));
+        _playerTeams.Remove(GetNetEntity(oldBody));
+
+        var newNetEnt = GetNetEntity(fresh);
+        _roster.Add(newNetEnt);
+        _playerTeams[newNetEnt] = team;
     }
 
     private void ZapArena()
