@@ -13,6 +13,9 @@ using Content.Shared.Body.Part;
 using Content.Shared.Chat;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.DeadSpace.Arena;
+using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Doors.Components;
 using Content.Shared.FixedPoint;
 using Content.Shared.Fluids.Components;
@@ -72,6 +75,7 @@ public sealed class ArenaSystem : EntitySystem
     [Dependency] private readonly IChatManager _chat = default!;
     [Dependency] private readonly SharedStorageSystem _storage = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
 
     private const string ArenaMapFile = "/Maps/_DeadSpace/arena.yml";
 
@@ -364,12 +368,15 @@ public sealed class ArenaSystem : EntitySystem
             }
             _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
 
+            if (mind.UserId is { } tdmUserId)
+                ApplyTdmPurchases(fresh, tdmUserId);
+
             var newArenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
             newArenaPlayer.OriginalMind = arenaPlayer.OriginalMind;
             newArenaPlayer.OriginalGhost = arenaPlayer.OriginalGhost;
             newArenaPlayer.CanReturnToBody = arenaPlayer.CanReturnToBody;
             newArenaPlayer.Team = team;
-            newArenaPlayer.SavedPresetIndex = arenaPlayer.SavedPresetIndex;
+            newArenaPlayer.SavedPresetIndex = _presets.IndexOf(preset);
             EnsureComp<AntagImmuneComponent>(fresh);
             EnsureComp<PacifiedComponent>(fresh);
 
@@ -834,6 +841,10 @@ public sealed class ArenaSystem : EntitySystem
             }
 
             CachePlayerName(killerUserId);
+
+            // Heal the killer on kill
+            if (killerMind.OwnedEntity is { } healKillerEnt && Exists(healKillerEnt) && TryComp<DamageableComponent>(healKillerEnt, out var damageable))
+                _damageable.SetAllDamage(healKillerEnt, FixedPoint2.Zero);
         }
 
         // Track death for Deathmatch K/D
@@ -877,8 +888,8 @@ public sealed class ArenaSystem : EntitySystem
         // TDM auto-respawn with saved preset
         if (CurrentMode == ArenaMode.TDM && arenaPlayer.SavedPresetIndex >= 0 && arenaPlayer.SavedPresetIndex < _presets.Count)
         {
-            RespawnWithSavedPreset(ev.Target, arenaPlayer);
-            return;
+            if (RespawnWithSavedPreset(ev.Target, arenaPlayer))
+                return;
         }
 
         RestorePlayer(ev.Target, arenaPlayer);
@@ -896,7 +907,7 @@ public sealed class ArenaSystem : EntitySystem
             return true;
 
         // Try parent chain (projectiles, vehicles, etc.)
-        if (TryComp<TransformComponent>(origin.Value, out var xform))
+        if (TryComp(origin.Value, out TransformComponent? xform))
         {
             var current = origin.Value;
             for (var i = 0; i < 5; i++)
@@ -1241,8 +1252,8 @@ public sealed class ArenaSystem : EntitySystem
 
         _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
 
-        // Apply TDM store purchases
-        ApplyTdmPurchases(fresh, who.UserId);
+        if (CurrentMode == ArenaMode.TDM)
+            ApplyTdmPurchases(fresh, who.UserId);
 
         var arenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
         arenaPlayer.OriginalMind = originalMindId;
@@ -1526,18 +1537,26 @@ public sealed class ArenaSystem : EntitySystem
         }
     }
 
-    private void RespawnWithSavedPreset(EntityUid oldBody, ArenaPlayerComponent arenaPlayer)
+    private bool RespawnWithSavedPreset(EntityUid oldBody, ArenaPlayerComponent arenaPlayer)
     {
         if (!_minds.TryGetMind(oldBody, out var mindId, out var mind))
         {
             QueueDel(oldBody);
-            return;
+            return false;
         }
 
         var preset = _presets[arenaPlayer.SavedPresetIndex];
         var team = preset.Team;
         if (team == ArenaTeam.None)
             team = arenaPlayer.Team;
+
+        // Safety: if team lock exists and preset doesn't match, ghost instead of spawning on wrong team
+        if (mind.UserId is { } lockUserId &&
+            _tdmTeamLocks.TryGetValue(lockUserId, out var lockedTeam) &&
+            lockedTeam != team)
+        {
+            return false;
+        }
 
         var spot = GetTeamSpawn(team);
 
@@ -1584,6 +1603,7 @@ public sealed class ArenaSystem : EntitySystem
         var newNetEnt = GetNetEntity(fresh);
         _roster.Add(newNetEnt);
         _playerTeams[newNetEnt] = team;
+        return true;
     }
 
     private void ZapArena()

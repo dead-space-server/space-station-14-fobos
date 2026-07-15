@@ -417,7 +417,7 @@ entities:
       parent: 2
     missingComponents:
     - Destructible
-- proto: AlwaysPoweredLightExterior
+- proto: ArenaLight
   entities:
   - uid: 902
     components:
@@ -429,7 +429,7 @@ entities:
     - type: Transform
       pos: 0.5,30.5
       parent: 2
-- proto: AlwaysPoweredWallLight
+- proto: ArenaLight
   entities:
   - uid: 419
     components:
@@ -630,12 +630,6 @@ entities:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 10.5,2.5
-      parent: 2
-  - uid: 1046
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 16.5,-2.5
       parent: 2
   - uid: 1047
     components:
@@ -2643,7 +2637,7 @@ entities:
       parent: 2
     missingComponents:
     - Destructible
-- proto: LightPostSmall
+- proto: ArenaLight
   entities:
   - uid: 782
     components:
@@ -2854,7 +2848,7 @@ entities:
       bodyType: Static
     missingComponents:
     - Destructible
-- proto: PoweredlightLED
+- proto: ArenaLight
   entities:
   - uid: 422
     components:
@@ -2903,7 +2897,7 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -5.5,-1.5
       parent: 2
-- proto: PoweredWarmSmallLight
+- proto: ArenaLight
   entities:
   - uid: 417
     components:
@@ -3247,7 +3241,7 @@ entities:
       fixtures: {}
     missingComponents:
     - Destructible
-- proto: SmallLight
+- proto: ArenaLight
   entities:
   - uid: 898
     components:

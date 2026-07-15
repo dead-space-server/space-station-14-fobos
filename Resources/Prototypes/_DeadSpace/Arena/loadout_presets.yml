@@ -4,7 +4,7 @@
   id: ArenaShotgun
   nameLoc: arena-loadout-shotgun
   descLoc: arena-desc-shotgun
-  iconPrototype: WeaponShotgunEnforcer
+  iconPrototype: WeaponShotgunBulldog
   category: arena-category-shotguns
   equipment:
     jumpsuit: ClothingUniformJumpsuitSuitCheckered
@@ -15,13 +15,13 @@
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
-    - WeaponShotgunEnforcer
+    - WeaponShotgunBulldog
   storage:
     back:
       - MedkitCombatFilled
-      - BoxLethalshot
-      - BoxShotgunSlug
-      - BoxShotgunSlug
+      - MagazineShotgun
+      - MagazineShotgunSlug
+      - MagazineShotgunSlug
 
 - type: arenaLoadoutPreset
   id: ArenaSmg
