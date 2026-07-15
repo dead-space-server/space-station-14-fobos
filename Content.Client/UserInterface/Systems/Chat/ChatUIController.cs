@@ -319,7 +319,7 @@ public sealed partial class ChatUIController : UIController
         }
 
         chatBox.Main = setting;
-        if (_config.GetCVar(CCCCVars.PopOutChat) && setting)
+        if (_config.GetCVar(CCCCVars.PopOutChat) && setting) //DS14-start
         {
             ChatWindow chatpopout = new ChatWindow();
             chatpopout.PopOutChatRef(ref chatBox);
@@ -349,7 +349,7 @@ public sealed partial class ChatUIController : UIController
 
 
         screen.SetChatSize(chatSize);
-    }
+    } //DS14-end
 
     private void StoreChatSize(Vector2 size)
     {

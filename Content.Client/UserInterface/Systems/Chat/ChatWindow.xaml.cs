@@ -155,7 +155,6 @@ public sealed partial class ChatWindow : FancyWindow
         Chatbox.ChatInput.ChannelSelector.Popup.Close();
         Chatbox.ChatInput.FilterButton.Popup.Close();
     }
-    // DS14-end
     public void PopOutChatRef(ref ChatBox box)
     {
         if (_poppedOutWindow != null)
@@ -201,4 +200,5 @@ public sealed partial class ChatWindow : FancyWindow
         _popOutButton.Visible = false;
         Close();
     }
+    // DS14-end
 }

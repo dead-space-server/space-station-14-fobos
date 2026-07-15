@@ -367,7 +367,7 @@ public sealed partial class ChatSystem : SharedChatSystem
                 if (sender == Loc.GetString("chat-manager-sender-announcement")) announcementSound = CentComAnnouncementSound; // Corvax-Announcements: Support custom alert sound from admin panel
             }
 
-            _sound.PlayAnnonceGlobal(Filter.Broadcast(), announcementSound ?? DefaultAnnouncementSound, announcementSound?.Params ?? AudioParams.Default.WithVolume(-2f), true);
+            _sound.PlayAnnonceGlobal(Filter.Broadcast(), announcementSound ?? DefaultAnnouncementSound, announcementSound?.Params ?? AudioParams.Default.WithVolume(-2f), true); //DS14
 
             if (author != null && TryComp<TTSComponent>(author.Value, out var tts) && tts.VoicePrototypeId != null) // For comms console announcements
             {
@@ -437,7 +437,7 @@ public sealed partial class ChatSystem : SharedChatSystem
                     announcementSound = CentComAnnouncementSound;
             }
 
-            _sound.PlayAnnonceGlobal(filter, announcementSound ?? DefaultAnnouncementSound, announcementSound?.Params ?? AudioParams.Default.WithVolume(-2f), true);
+            _sound.PlayAnnonceGlobal(filter, announcementSound ?? DefaultAnnouncementSound, announcementSound?.Params ?? AudioParams.Default.WithVolume(-2f), true);//DS14
 
             if (usePresetTTS && sender == Loc.GetString("chat-manager-sender-announcement"))
             {
@@ -472,7 +472,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         _chatManager.ChatMessageToManyFiltered(filter, ChatChannel.Radio, message, wrappedMessage, source ?? default, false, true, colorOverride);
         if (playSound)
         {
-            _sound.PlayAnnonceGlobal(filter, announcementSound ?? DefaultAnnouncementSound, AudioParams.Default.WithVolume(-2f), true);
+            _sound.PlayAnnonceGlobal(filter, announcementSound ?? DefaultAnnouncementSound, AudioParams.Default.WithVolume(-2f), true);//DS14
         }
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Station Announcement from {sender}: {message}");
     }
@@ -547,7 +547,7 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         if (playDefaultSound)
         {
-            _sound.PlayAnnonceGlobal(filterStation, announcementSound ?? DefaultAnnouncementSound, AudioParams.Default.WithVolume(-2f), true);
+            _sound.PlayAnnonceGlobal(filterStation, announcementSound ?? DefaultAnnouncementSound, AudioParams.Default.WithVolume(-2f), true); //DS14
         }
 
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Station Announcement on {station} from {sender}: {message}");
