@@ -33,6 +33,15 @@
           Piercing: 0.3
         flatReductions:
           Piercing: 1
+    - type: ShieldDash
+      damage: 
+        types:
+          Blunt: 25
+      damageToShield: 
+        types:
+            Blunt: 55
+      staminaDamage: 60
+      staminaDamageToUser: 30  
 
 # Синабир-410
 

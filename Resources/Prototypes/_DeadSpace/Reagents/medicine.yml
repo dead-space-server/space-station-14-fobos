@@ -1,0 +1,34 @@
+- type: reagent
+  id: Derytracine
+  name: reagent-name-derytracine
+  group: Medicine
+  desc: reagent-desc-derytracine
+  physicalDesc: reagent-physical-desc-translucent
+  flavor: medicine
+  color: "#63214a"
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Heat: -1.5
+            Shock: -1.5
+            Cold: -1.5
+            Piercing: -3.5
+            Poison: 0.05
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentCondition
+          reagent: Derytracine
+          min: 22
+        damage:
+          types:
+            Asphyxiation: 1
+            Cold: 2
+            Blunt: 3
+      - !type:Jitter
+        conditions:
+        - !type:ReagentCondition
+          reagent: Derytracine
+          min: 22

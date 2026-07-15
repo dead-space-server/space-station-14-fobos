@@ -176,6 +176,9 @@
   parent: EnergyBoltTrace
   categories: [ HideSpawnMenu ]
   components:
+  - type: HitscanBasicRaycast
+    collisionMask: Opaque
+    maxDistance: 40
   - type: HitscanBasicVisuals
     speed: 260
     bullet:
@@ -210,9 +213,11 @@
       sprite:
         sprite: Objects/Weapons/Guns/Projectiles/projectiles_magnum.rsi
         state: magnum
-  - type: PointLight
-    enabled: true
-    color: "#ff4300"
+#DS14-start
+#   - type: PointLight
+#     enabled: true
+#     color: "#ff4300"
+#DS14-end
   - type: HitscanBasicDamage
     damage:
       types:

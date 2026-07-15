@@ -69,6 +69,20 @@
 
 - type: entity
   parent: BaseTraitorObjective
+  id: TraitorUltraDestroyStationAiCoreObjective
+  components:
+  - type: Objective
+    difficulty: 5
+    unique: true
+    icon:
+      sprite: Interface/Actions/actions_ai.rsi
+      state: ai_core
+  - type: TraitorUltraDestroyStationAiCoreCondition
+    title: traitor-ultra-objective-destroy-station-ai-core-title
+    description: traitor-ultra-objective-destroy-station-ai-core-description
+
+- type: entity
+  parent: BaseTraitorObjective
   id: TraitorUltraDestroyAtmosGasMinersObjective
   components:
   - type: Objective
@@ -85,10 +99,16 @@
       - GasMinerOxygen
       - GasMinerOxygenStation
       - GasMinerOxygenStationLarge
-    - prototypes:
       - GasMinerNitrogen
       - GasMinerNitrogenStation
       - GasMinerNitrogenStationLarge
+      - GasMinerCarbonDioxide
+      - GasMinerPlasma
+      - GasMinerTritium
+      - GasMinerFrezon
+      - GasMinerWaterVapor
+      - GasMinerAmmonia
+      - GasMinerNitrousOxide
 
 - type: entity
   parent: BaseTraitorObjective
@@ -118,6 +138,20 @@
       sprite: Objects/Tools/emag.rsi
       state: icon
   - type: TraitorUltraHijackShuttleCondition
+
+- type: entity
+  parent: BaseTraitorObjective
+  id: TraitorUltraHijackTradeObjective
+  components:
+  - type: Objective
+    difficulty: 4.5
+    unique: true
+    icon:
+      sprite: _DeadSpace/Objects/Tools/trade_interdiction_beacon.rsi
+      state: extraction_point
+  - type: TraitorUltraHijackTradeCondition
+    title: traitor-ultra-objective-hijack-trade-title
+    description: traitor-ultra-objective-hijack-trade-description
 
 - type: entity
   parent: [BaseTraitorObjective, BaseSurviveObjective]

@@ -126,12 +126,22 @@ public abstract class SharedEmitSoundSystem : EntitySystem
 
     private void OnEmitSoundOnPickup(EntityUid uid, EmitSoundOnPickupComponent component, GotEquippedHandEvent args)
     {
-        TryEmitSound(uid, component, args.User, itemSound: true); // DS14
+        // DS14-start
+        if (HasComp<SuppressPickupDropSoundComponent>(uid))
+            return;
+
+        TryEmitSound(uid, component, args.User, itemSound: true);
+        // DS14-end
     }
 
     private void OnEmitSoundOnDrop(EntityUid uid, EmitSoundOnDropComponent component, DroppedEvent args)
     {
-        TryEmitSound(uid, component, args.User, itemSound: true); // DS14
+        // DS14-start
+        if (HasComp<SuppressPickupDropSoundComponent>(uid))
+            return;
+
+        TryEmitSound(uid, component, args.User, itemSound: true);
+        // DS14-end
     }
 
     private void OnEmitSoundOnInteractUsing(Entity<EmitSoundOnInteractUsingComponent> ent, ref InteractUsingEvent args)
@@ -152,19 +162,23 @@ public abstract class SharedEmitSoundSystem : EntitySystem
         if (component.Positional)
         {
             var coords = Transform(uid).Coordinates;
+            // DS14-start
             if (predict)
-                audio = _audioSystem.PlayPredicted(component.Sound, coords, user); // DS14
+                audio = _audioSystem.PlayPredicted(component.Sound, coords, user);
             else if (_netMan.IsServer)
                 // don't predict sounds that client couldn't have played already
-                audio = _audioSystem.PlayPvs(component.Sound, coords); // DS14
+                audio = _audioSystem.PlayPvs(component.Sound, coords);
+            // DS14-end
         }
         else
         {
+            // DS14-start
             if (predict)
-                audio = _audioSystem.PlayPredicted(component.Sound, uid, user); // DS14
+                audio = _audioSystem.PlayPredicted(component.Sound, uid, user);
             else if (_netMan.IsServer)
                 // don't predict sounds that client couldn't have played already
-                audio = _audioSystem.PlayPvs(component.Sound, uid); // DS14
+                audio = _audioSystem.PlayPvs(component.Sound, uid);
+            // DS14-end
         }
 
         // DS14-start

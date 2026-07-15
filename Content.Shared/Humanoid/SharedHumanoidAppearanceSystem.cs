@@ -439,10 +439,38 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         var facialHairColor = _markingManager.MustMatchSkin(profile.Species, HumanoidVisualLayers.FacialHair, out var facialHairAlpha, _proto)
             ? profile.Appearance.SkinColor.WithAlpha(facialHairAlpha) : profile.Appearance.FacialHairColor;
 
-        if (_markingManager.Markings.TryGetValue(profile.Appearance.HairStyleId, out var hairPrototype) &&
+        // DS14-start
+        var hairStyleId = profile.Appearance.HairStyleId;
+        if (profile.Appearance.HairGradientEnabled)
+        {
+            var gradientId = hairStyleId.EndsWith("Gradient") ? hairStyleId : hairStyleId + "Gradient";
+            if (_markingManager.Markings.ContainsKey(gradientId))
+                hairStyleId = gradientId;
+        }
+        else if (hairStyleId.EndsWith("Gradient"))
+        {
+            var baseId = hairStyleId[..^"Gradient".Length];
+            if (_markingManager.Markings.ContainsKey(baseId))
+                hairStyleId = baseId;
+        }
+        // DS14-end
+
+        if (_markingManager.Markings.TryGetValue(hairStyleId, out var hairPrototype) &&
             _markingManager.CanBeApplied(profile.Species, profile.Sex, hairPrototype, _proto))
         {
-            AddMarking(uid, profile.Appearance.HairStyleId, hairColor, false);
+            // DS14-start
+            if (profile.Appearance.HairGradientEnabled)
+            {
+                var gradientColor = _markingManager.MustMatchSkin(profile.Species, HumanoidVisualLayers.Hair, out _, _proto)
+                    ? profile.Appearance.SkinColor.WithAlpha(hairAlpha)
+                    : profile.Appearance.HairGradientColor;
+                AddMarking(uid, hairStyleId, new[] { hairColor, gradientColor }, false);
+            }
+            else
+            {
+                AddMarking(uid, hairStyleId, hairColor, false);
+            }
+            // DS14-end
         }
 
         if (_markingManager.Markings.TryGetValue(profile.Appearance.FacialHairStyleId, out var facialHairPrototype) &&
@@ -467,6 +495,10 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
         EnsureDefaultMarkings(uid, humanoid);
         SetTTSVoice(uid, profile.Voice, humanoid); // Corvax-TTS
+        // DS14-start
+        humanoid.HairGradientEnabled = profile.Appearance.HairGradientEnabled;
+        humanoid.HairGradientColor = profile.Appearance.HairGradientColor;
+        // DS14-end
 
         humanoid.Gender = profile.Gender;
         if (TryComp<GrammarComponent>(uid, out var grammar))

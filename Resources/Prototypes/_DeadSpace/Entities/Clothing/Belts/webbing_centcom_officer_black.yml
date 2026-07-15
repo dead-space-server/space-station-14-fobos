@@ -49,7 +49,10 @@
       storagebase: !type:AllSelector
         children:
         - id: Truncheon
+        - id: Truncheonsec
         - id: ADTtelescopicBaton
         - id: Handcuffs
+          amount: 2
+        - id: TelescopicShield
           amount: 2
         - id: SmokeGrenade

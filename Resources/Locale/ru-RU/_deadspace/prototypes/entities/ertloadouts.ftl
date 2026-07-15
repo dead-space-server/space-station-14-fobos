@@ -119,7 +119,7 @@ ert-loadout-category-pistolbsupgradekit-description =
 ert-loadout-category-mk58-name = MK 58 и Станнер
 ert-loadout-category-mk58-description =
     Дешёвый и распространённый пистолет,
-    производимый дочерней компанией Nanotrasen.
+    производимый дочерней компанией NanoTrasen.
     Использует патроны калибра 9х19 мм.
     Содержит два дополнительных магазина.
 ert-loadout-category-berettam92-name = Beretta M92
@@ -256,3 +256,9 @@ ert-loadout-category-combatmedicine-name = Набор автоинъекторо
 ert-loadout-category-combatmedicine-description =
     Состоит из четырёх боевых, двух пунктураза, двух пиразина и двух автоинъекторов от яда.
     Помогут вам залатать свои раны прямо в бою.
+ert-loadout-category-truncheon-name = Дубинка
+ert-loadout-category-truncheon-description =
+    Содержит жёсткую дубинку со стальным сердечником, предназначенная причинять боль.
+ert-loadout-category-truncheonsec-name = Боевое мачете
+ert-loadout-category-truncheonsec-description =
+    Содержит электрошоковое мачете для обездвиживания или убийства людей. Имеет нелетальный и летальный режимы. Является улучшением шоковой дубинки для действительно трудных ситуаций

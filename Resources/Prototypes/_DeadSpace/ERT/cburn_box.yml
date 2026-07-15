@@ -413,7 +413,6 @@
   components:
   - type: StorageFill
     contents:
-      - id: Truncheon
       - id: ADTtelescopicBaton
       - id: Handcuffs
       - id: Handcuffs
@@ -431,7 +430,6 @@
   components:
   - type: StorageFill
     contents:
-      - id: Truncheonsec
       - id: ADTtelescopicBaton
       - id: Handcuffs
       - id: Handcuffs

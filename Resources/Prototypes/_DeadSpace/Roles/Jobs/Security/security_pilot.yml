@@ -42,11 +42,11 @@
   equipment:
     eyes: ClothingEyesGlassesSecurity
     id: SecurityPilotPDA
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer
   storage:
     back:
     - Flash
-    - ERTloadoutSecuritySecondary # DS14
+    - ERTloadoutSecuritySecondary
 
 - type: chameleonOutfit
   id: SecurityPilotChameleonOutfit
@@ -55,4 +55,4 @@
     eyes: ClothingEyesGlassesSecurity
     head: ClothingHeadHatBeretSecurity
     outerClothing: ClothingOuterWinterSec
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer

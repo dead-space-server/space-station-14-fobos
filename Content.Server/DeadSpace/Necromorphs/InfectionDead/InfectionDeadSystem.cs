@@ -7,6 +7,7 @@ using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Humanoid;
+using Content.Shared.DeadSpace.Necromorphs.PlasmaCutter;
 
 namespace Content.Server.DeadSpace.Necromorphs.InfectionDead;
 
@@ -33,6 +34,9 @@ public sealed class InfectionDeadSystem : SharedInfectionDeadSystem
 
     private void OnState(EntityUid uid, InfectionDeadComponent component, InfectionNecroficationEvent args)
     {
+        if (HasComp<NecromorphMissingHeadComponent>(uid))
+            return;
+
         if (!_mobState.IsDead(uid))
             return;
 

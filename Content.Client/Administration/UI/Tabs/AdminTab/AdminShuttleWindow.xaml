@@ -10,6 +10,7 @@
             <!-- Corvax: Move button -->
             <cc:CommandButton Command="recallshuttle" Name="_recallShuttleButton" Text="{Loc 'comms-console-menu-recall-shuttle'}" HorizontalAlignment="Center" SizeFlagsStretchRatio="3" />
         </BoxContainer>
+        <cc:CommandButton Command="lockshuttle" Name="_lockShuttleButton" Text="{Loc 'comms-console-menu-block-shuttle'}" HorizontalExpand="True" StyleClasses="DangerButton" /> <!--DS14-->
     </BoxContainer>
 
 </DefaultWindow>

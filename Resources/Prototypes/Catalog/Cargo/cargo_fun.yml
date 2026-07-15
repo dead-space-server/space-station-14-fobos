@@ -377,3 +377,15 @@
   cost: 1000
   category: cargoproduct-category-name-fun
   group: service # DS14
+
+#DS14-Start
+- type: cargoProduct
+  id: FunToyCars
+  icon:
+    sprite: _DeadSpace/Mobs/Toys/car.rsi
+    state: full
+  product: CrateFunToyCars
+  cost: 1500
+  category: cargoproduct-category-name-fun
+  group: service
+#DS14-End

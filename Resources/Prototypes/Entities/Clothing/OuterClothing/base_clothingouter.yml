@@ -146,6 +146,7 @@
         Radiation: 0.25
   - type: ToggleableClothing
     slot: head
+    storeExistingItem: true # DS14
   - type: ContainerContainer
     containers:
       toggleable-clothing: !type:ContainerSlot {}

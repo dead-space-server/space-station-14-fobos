@@ -2,10 +2,17 @@
 
 using System.Linq;
 using Content.Server.Ame.Components;
+using Content.Server.Cargo.Components;
 using Content.Server.Medical.CrewMonitoring;
+using Content.Server.Salvage.Expeditions;
+using Content.Server.Salvage.Magnet;
+using Content.Server.Shuttles.Components;
 using Content.Server.Station.Systems;
 using Content.Server.SurveillanceCamera;
+using Content.Server.Worldgen.Components.Debris;
 using Content.Shared.Atmos.Components;
+using Content.Shared.Cargo.Components;
+using Content.Shared.DeadSpace.Lavaland.Components;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Components;
 using Content.Shared.Objectives.Systems;
@@ -108,6 +115,8 @@ public sealed class TraitorUltraSabotageConditionSystem : EntitySystem
 
     private void CollectTargets(TraitorUltraSabotageGroup group, TraitorUltraSabotageGroupState state, EntityUid station)
     {
+        var targetGasMiners = GroupTargetsGasMiners(group);
+
         var query = AllEntityQuery<MetaDataComponent>();
         while (query.MoveNext(out var uid, out var metadata))
         {
@@ -125,15 +134,48 @@ public sealed class TraitorUltraSabotageConditionSystem : EntitySystem
                 continue;
             }
 
+            if (targetGasMiners && !IsTargetStationGasMiner(xform))
+                continue;
+
             state.Targets.Add(uid);
         }
     }
 
+    private bool IsTargetStationGasMiner(TransformComponent xform)
+    {
+        if (xform.GridUid is not { } grid)
+            return false;
+
+        if (HasComp<TradeStationComponent>(grid) ||
+            HasComp<CargoShuttleComponent>(grid) ||
+            HasComp<EmergencyShuttleComponent>(grid) ||
+            HasComp<ArrivalsShuttleComponent>(grid) ||
+            HasComp<LavalandShuttleComponent>(grid) ||
+            HasComp<SalvageMagnetTargetComponent>(grid) ||
+            HasComp<OwnedDebrisComponent>(grid))
+        {
+            return false;
+        }
+
+        return xform.MapUid == null || !HasComp<SalvageExpeditionComponent>(xform.MapUid.Value);
+    }
+
     private EntityUid? GetObjectiveStation(MindComponent mind)
     {
-        return mind.OwnedEntity is { } owned && !TerminatingOrDeleted(owned)
-            ? _station.GetOwningStation(owned)
-            : null;
+        if (mind.OwnedEntity is { } owned && !TerminatingOrDeleted(owned))
+        {
+            if (_station.GetOwningStation(owned) is { } owningStation)
+                return owningStation;
+
+            if (TryComp(owned, out TransformComponent? xform) &&
+                _station.GetStationInMap(xform.MapID) is { } mapStation)
+            {
+                return mapStation;
+            }
+        }
+
+        var stations = _station.GetStations();
+        return stations.Count == 1 ? stations[0] : null;
     }
 
     private bool IsSabotaged(EntityUid target, TraitorUltraSabotageGroup group)

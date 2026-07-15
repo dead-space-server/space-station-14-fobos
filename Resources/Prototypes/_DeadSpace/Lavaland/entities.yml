@@ -74,7 +74,9 @@
     layers:
     - state: off
     - state: normal-unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
       shader: unshaded
+      visible: false
     - state: panel
       visible: false
   - type: LavalandMiningShop
@@ -143,6 +145,13 @@
     radius: 1.5
     color: "#b89f25"
   - type: LitOnPowered
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: { visible: true }
+          False: { visible: false }
   - type: StaticPrice
     price: 500
 
@@ -161,7 +170,7 @@
     categories:
     - LavalandMiningEquipment
     - LavalandMiningTools
-    - LavalandMiningUtility
+    - LavalandMiningUtilityTaipan
     - CargoTechMagTaipan
     - LavalandMiningMedical
     - LavalandMiningDetails

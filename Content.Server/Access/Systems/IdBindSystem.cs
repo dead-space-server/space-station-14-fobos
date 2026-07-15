@@ -1,6 +1,7 @@
 using Content.Server.Access.Components;
 using Content.Server.Humanoid.Systems;
 using Content.Server.PDA;
+using Content.Shared.Clothing;
 using Content.Shared.Inventory;
 using Content.Shared.PDA;
 
@@ -16,7 +17,7 @@ public sealed class IdBindSystem : EntitySystem
     {
         base.Initialize();
         //Activate on mind being added
-        SubscribeLocalEvent<IdBindComponent, MapInitEvent>(TryBind, after: [typeof(RandomHumanoidSystem)]);
+        SubscribeLocalEvent<IdBindComponent, MapInitEvent>(TryBind, after: [typeof(RandomHumanoidSystem), typeof(LoadoutSystem)]); // DS14
     }
 
     private void TryBind(Entity<IdBindComponent> ent, ref MapInitEvent args)

@@ -189,6 +189,23 @@ namespace Content.Server.Administration.Systems
                         Act = () => _console.ExecuteCommand(player, $"playerpanel \"{targetActor.PlayerSession.UserId}\""),
                         Impact = LogImpact.Low
                     });
+
+                    // DS14-start
+                    if (_adminManager.HasAdminFlag(player, AdminFlags.Fun) &&
+                        _mindSystem.TryGetMind(args.Target, out var antagMind, out _) &&
+                        (_role.MindIsAntagonist(antagMind) ||
+                         HasComp<Content.Server.DeadSpace.Administration.AntagRollbackTrackerComponent>(args.Target)))
+                    {
+                        args.Verbs.Add(new Verb
+                        {
+                            Text = Loc.GetString("player-panel-rollback-antag"),
+                            Category = VerbCategory.Admin,
+                            Act = () => _antag.RollbackAntagonist(targetActor.PlayerSession),
+                            ConfirmationPopup = true,
+                            Impact = LogImpact.High,
+                        });
+                    }
+                    // DS14-end
                 }
 
                 if (_mindSystem.TryGetMind(args.Target, out var mindId, out var mindComp) && mindComp.UserId != null)

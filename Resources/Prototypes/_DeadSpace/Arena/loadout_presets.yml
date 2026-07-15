@@ -1,0 +1,155 @@
+# == Наборы для арены. ==
+
+- type: arenaLoadoutPreset
+  id: ArenaShotgun
+  nameLoc: arena-loadout-shotgun
+  descLoc: arena-desc-shotgun
+  iconPrototype: WeaponShotgunEnforcer
+  category: arena-category-shotguns
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponShotgunEnforcer
+  storage:
+    back:
+      - MedkitFilled
+      - BoxLethalshot
+      - BoxShotgunSlug
+
+- type: arenaLoadoutPreset
+  id: ArenaSmg
+  nameLoc: arena-loadout-smg
+  descLoc: arena-desc-smg
+  iconPrototype: WeaponSubMachineGunDrozd
+  category: arena-category-smgs
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponSubMachineGunDrozd
+  storage:
+    back:
+      - MedkitFilled
+      - MagazinePistolSubMachineGun
+      - MagazinePistolSubMachineGun
+
+- type: arenaLoadoutPreset
+  id: ArenaRifle
+  nameLoc: arena-loadout-rifle
+  descLoc: arena-desc-rifle
+  iconPrototype: WeaponRifleLecter
+  category: arena-category-rifles
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponRifleLecter
+  storage:
+    back:
+      - MedkitFilled
+      - MagazineRifle
+      - MagazineRifle
+      - MagazineRifleIncendiary
+
+- type: arenaLoadoutPreset
+  id: ArenaRevolver
+  nameLoc: arena-loadout-revolver
+  descLoc: arena-desc-revolver
+  iconPrototype: WeaponPistolDesertEagle
+  category: arena-category-revolvers
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponPistolDesertEagle
+  storage:
+    back:
+      - MedkitFilled
+      - MagazineEagle
+
+- type: arenaLoadoutPreset
+  id: ArenaHristov
+  nameLoc: arena-loadout-hristov
+  descLoc: arena-desc-hristov
+  iconPrototype: WeaponSniperHristov
+  category: arena-category-rifles
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponSniperHristov
+  storage:
+    back:
+      - MedkitFilled
+      - MagazineHristov
+      - MagazineHristov
+
+- type: arenaLoadoutPreset
+  id: ArenaMelee
+  nameLoc: arena-loadout-melee
+  descLoc: arena-desc-melee
+  iconPrototype: EnergySword
+  category: arena-category-melee
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - EnergySword
+  storage:
+    back:
+      - MedkitFilled
+      - Stimpack
+      - Stimpack
+
+- type: arenaLoadoutPreset
+  id: ArenaArkalyse
+  nameLoc: arena-loadout-arkalyse
+  descLoc: arena-desc-arkalyse
+  iconPrototype: ClothingHandsGlovesArkalyse
+  category: arena-category-melee
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - ClothingHandsGlovesArkalyse
+  storage:
+    back:
+      - MedkitFilled
+      - Stimpack
+      - Stimpack

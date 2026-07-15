@@ -1,0 +1,79 @@
+- type: storeCategory
+  id: CaptainDrobeBerets
+  name: Береты
+  priority: 0
+
+- type: storeCategory
+  id: CaptainDrobeHats
+  name: Фуражки
+  priority: 1
+
+- type: storeCategory
+  id: CaptainDrobeCloaks
+  name: Плащи
+  priority: 2
+
+- type: storeCategory
+  id: CaptainDrobeMantles
+  name: Мантии
+  priority: 3
+
+- type: storeCategory
+  id: CaptainDrobeOuter
+  name: Верхняя одежда
+  priority: 4
+
+- type: storeCategory
+  id: CaptainDrobeJumpsuits
+  name: Комбинезоны
+  priority: 5
+
+- type: storeCategory
+  id: CaptainDrobeJumpskirts
+  name: Юбки-комбинезоны
+  priority: 6
+
+- type: storeCategory
+  id: CaptainDrobeTurtlenecks
+  name: Водолазки
+  priority: 7
+
+- type: storeCategory
+  id: CaptainDrobeTurtlenecksSkirts
+  name: Юбки-водолазки
+  priority: 8
+
+- type: storeCategory
+  id: CaptainDrobeBackpacks
+  name: Рюкзаки
+  priority: 9
+
+- type: storeCategory
+  id: CaptainDrobeSatchels
+  name: Сумки
+  priority: 10
+
+- type: storeCategory
+  id: CaptainDrobeDuffels
+  name: Вещмешки
+  priority: 11
+
+- type: storeCategory
+  id: CaptainDrobeTailbags
+  name: Хвост
+  priority: 12
+
+- type: storeCategory
+  id: CaptainDrobeGloves
+  name: Перчатки
+  priority: 13
+
+- type: storeCategory
+  id: CaptainDrobeShoes
+  name: Обувь
+  priority: 14
+
+- type: storeCategory
+  id: CaptainDrobeSocks
+  name: Носки
+  priority: 15

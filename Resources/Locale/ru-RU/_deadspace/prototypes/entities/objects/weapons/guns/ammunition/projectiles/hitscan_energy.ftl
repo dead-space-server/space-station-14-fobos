@@ -1,0 +1,10 @@
+ent-BulletDisablerTrace = станнер
+ent-BulletDisablerShotgunTrace = парализатор
+ent-BulletLaserTrace = лазерный заряд
+ent-BulletLaserMagnumTrace = лазерный заряд
+ent-BulletLaserWindowPiercingMagnumTrace = структурный заряд
+ent-DominatorBulletTrace = лазерный заряд
+ent-DominatorDisablerTrace = парализатор
+ent-DominatorEliminatorTrace = лазерный заряд
+ent-LaserRifleBulletTrace = плазменный заряд
+ent-LaserRifleBulletSpreadTrace = лазерный залп

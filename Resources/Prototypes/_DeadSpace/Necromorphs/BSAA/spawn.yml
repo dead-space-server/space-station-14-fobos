@@ -17,8 +17,9 @@
     pocket2: DoubleEmergencyOxygenTankFilled
   storage:
     back:
-    - BSAACombatKitFilled
+    - MedkitCombatFilled
     - InjectorCaseStimFilled
+    - InjectorCaseERTFilled
     - BSAAloadout
     - DoorRemoteCustom
     - PinpointerNecroobelisk
@@ -46,8 +47,9 @@
     pocket1: DoubleEmergencyOxygenTankFilled
   storage:
     back:
-    - BSAACombatKitFilled
+    - MedkitCombatFilled
     - InjectorCaseStimFilled
+    - InjectorCaseERTFilled
     - BSAAloadout
     - KukriKnife
     - PinpointerNecroobelisk
@@ -70,13 +72,13 @@
     outerClothing: BSAAMedicHardSuit
     shoes: ClothingShoesBootsMagBSAA
     id: BSAAMedicPDA
-    belt: ClothingBeltBSAA
+    belt: ClothingBeltBSAAMedicFilled
     pocket1: BSAAHypo
     pocket2: DoubleEmergencyOxygenTankFilled
   storage:
     back:
-    - BSAACombatKitFilled
-    - InjectorCaseFilled
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
     - InjectorCaseStimFilled
     - BSAAloadout
     - KukriKnife
@@ -87,6 +89,8 @@
     - WeaponPulsePistol
     - EmergencyMedipen
     - BoxMRE
+    - JugTheCircleOmnizine
+    - JugDexPlusSaline
 
 # Спавн
 - type: entity

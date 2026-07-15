@@ -50,6 +50,7 @@ using Content.Shared.Random.Helpers;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Components;
 using Content.Shared.Roles.Jobs;
+using Content.Shared.Store;
 using Content.Shared.Store.Components;
 using Robust.Server.Player;
 using Robust.Shared.Player;
@@ -62,6 +63,8 @@ namespace Content.Server.DeadSpace.Traitor;
 public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComponent>
 {
     private const int SourceParentSearchDepth = 8;
+    private const string DefaultTraitorUltraRule = "TraitorUltra";
+    private const string StandardUplinkImplant = "UplinkImplant";
 
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
@@ -91,6 +94,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
     private readonly List<TraitorUltraDelayedAction> _delayedActions = new();
     private readonly Dictionary<EntityUid, TraitorUltraOfferEui> _openUpgradeOfferEuis = new();
+    private readonly Dictionary<EntityUid, TraitorUltraExtraObjectiveOfferEui> _openExtraObjectiveOfferEuis = new();
 
     public override void Initialize()
     {
@@ -98,6 +102,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         SubscribeLocalEvent<TraitorUltraRuleComponent, AfterAntagEntitySelectedEvent>(OnAfterAntagSelected, after: [typeof(TraitorRuleSystem)]);
         SubscribeLocalEvent<TraitorUltraOpenContractActionEvent>(OnOpenContractAction);
+        SubscribeLocalEvent<TraitorUltraOpenExtraObjectiveOfferActionEvent>(OnOpenExtraObjectiveOfferAction);
         SubscribeLocalEvent<TraitorUltraBountyTargetComponent, DamageChangedEvent>(OnBountyDamageChanged, before: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<TraitorUltraBountyTargetComponent, MobStateChangedEvent>(OnBountyMobStateChanged);
         SubscribeLocalEvent<TraitorUltraBountyTargetComponent, GibbedBeforeDeletionEvent>(OnBountyGibbedBeforeDeletion);
@@ -109,6 +114,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
     {
         _delayedActions.Clear();
         CloseAllUpgradeOfferEuis();
+        CloseAllExtraObjectiveOfferEuis();
     }
 
     private void OnAfterAntagSelected(Entity<TraitorUltraRuleComponent> ent, ref AfterAntagEntitySelectedEvent args)
@@ -129,6 +135,118 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         if (target.AttachedEntity is { } attached)
             EnsureInitialTraitorUltraSetup((rule.Owner, rule.Comp1), attached, logMissingMind: true);
+
+        if (!_mind.TryGetMind(target, out mindId, out var mind))
+            return;
+
+        TrackAdminTraitorUltraMind(rule, target, mindId, mind);
+    }
+
+    public bool MakeAdminTraitorUltra(ICommonSession target, bool announceBounty)
+    {
+        var rule = GetOrCreateAdminTraitorUltraRule();
+
+        if (!_mind.TryGetMind(target, out var mindId, out var mind))
+        {
+            Log.Error($"Failed to make admin TraitorUltra for {target.Name}: no mind was attached.");
+            return false;
+        }
+
+        if (_roles.MindHasRole<TraitorUltraRoleComponent>(mindId))
+            return false;
+
+        var alreadyTraitor = _roles.MindHasRole<TraitorRoleComponent>(mindId);
+
+        var state = EnsureTraitorUltraState(rule.Owner, rule.Comp1, mindId);
+
+        if (!alreadyTraitor &&
+            !PrepareAdminDirectUltraTraitor(rule, target, mindId, mind, state))
+        {
+            return false;
+        }
+
+        TrackAdminTraitorUltraMind(rule, target, mindId, mind);
+        UpgradeTraitor(rule.Owner, rule.Comp1, mindId, mind, state, announceBounty);
+        return true;
+    }
+
+    private bool PrepareAdminDirectUltraTraitor(
+        Entity<TraitorUltraRuleComponent, AntagSelectionComponent> rule,
+        ICommonSession target,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state)
+    {
+        if (mind.OwnedEntity is not { } body || TerminatingOrDeleted(body))
+        {
+            Log.Error($"Failed to prepare admin TraitorUltra for {target.Name}: mind has no owned entity.");
+            return false;
+        }
+
+        if (rule.Comp2.Definitions.Count > 0)
+            EntityManager.AddComponents(body, rule.Comp2.Definitions[^1].Components);
+
+        _roles.MindAddRole(mindId, rule.Comp1.TraitorMindRole, mind, silent: true);
+
+        if (!_roles.MindHasRole<TraitorRoleComponent>(mindId))
+        {
+            Log.Error($"Failed to prepare admin TraitorUltra for {target.Name}: traitor role was not assigned.");
+            return false;
+        }
+
+        if (!TryComp<TraitorRuleComponent>(rule.Owner, out var traitorRule) ||
+            !_traitorRule.MakeTraitor(body, traitorRule))
+        {
+            Log.Error($"Failed to prepare admin TraitorUltra for {target.Name}: base traitor setup failed.");
+            return false;
+        }
+
+        state.OriginalCorporation ??= GetOriginalCorporation(rule.Owner, mindId);
+
+        if (!EnsureDeathAcidifierImplant((mindId, mind), rule.Comp1))
+            Log.Error($"Failed to assign the TraitorUltra death-acidifier implant to {ToPrettyString(mindId)}.");
+
+        if (state.UltraUplinkInitialized)
+            return true;
+
+        if (EnsureInitialUltraUplink(rule.Owner, rule.Comp1, (mindId, mind), state))
+        {
+            state.UltraUplinkInitialized = true;
+            return true;
+        }
+
+        Log.Error($"Failed to assign the TraitorUltra uplink implant to {ToPrettyString(mindId)}.");
+        return false;
+    }
+
+    private Entity<TraitorUltraRuleComponent, AntagSelectionComponent> GetOrCreateAdminTraitorUltraRule()
+    {
+        var rule = _antag.ForceGetGameRuleEnt<TraitorUltraRuleComponent>(DefaultTraitorUltraRule);
+        return (rule.Owner, Comp<TraitorUltraRuleComponent>(rule.Owner), rule.Comp);
+    }
+
+    private TraitorUltraMindState EnsureTraitorUltraState(
+        EntityUid rule,
+        TraitorUltraRuleComponent component,
+        EntityUid mindId)
+    {
+        if (!component.Minds.TryGetValue(mindId, out var state))
+        {
+            state = new TraitorUltraMindState();
+            component.Minds[mindId] = state;
+        }
+
+        state.OriginalCorporation ??= GetOriginalCorporation(rule, mindId);
+        return state;
+    }
+
+    private void TrackAdminTraitorUltraMind(
+        Entity<TraitorUltraRuleComponent, AntagSelectionComponent> rule,
+        ICommonSession target,
+        EntityUid mindId,
+        MindComponent mind)
+    {
+        _antag.AddAntagIdentifier(rule.Owner, mindId, GetMindCharacterName(mind) ?? target.Name, target);
     }
 
     private bool EnsureInitialTraitorUltraSetup(
@@ -198,7 +316,13 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         if (TryFindImplant(body, component.DeathAcidifierImplant, out _))
             return true;
 
-        return _subdermalImplant.AddImplant(body, component.DeathAcidifierImplant) != null;
+        var implant = _subdermalImplant.AddImplant(body, component.DeathAcidifierImplant);
+        if (implant == null)
+            return false;
+
+        _antag.EnsureRollbackTracking(body);
+        _antag.TrackGrantedEntity(body, implant.Value);
+        return true;
     }
 
     private bool TryFindImplant(EntityUid body, EntProtoId implantPrototype, out EntityUid implant)
@@ -256,8 +380,12 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         if (TryFindUltraUplink(body, component, state, out var uplink))
         {
+            EnsureUltraStoreCategories(uplink, component);
+
             if (balance != null)
                 _uplink.SetupUplink(body, uplink, balance.Value, giveDiscounts: true);
+            else if (TryComp<StoreComponent>(uplink, out var store))
+                _store.UpdateUserInterface(body, uplink, store);
 
             return uplink;
         }
@@ -271,7 +399,10 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         if (created == null)
             return null;
 
+        _antag.EnsureRollbackTracking(body);
+        _antag.TrackGrantedEntity(body, created.Value);
         state.UltraUplinkEntity = created.Value;
+        EnsureUltraStoreCategories(created.Value, component);
         return created.Value;
     }
 
@@ -282,20 +413,29 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         out EntityUid uplink)
     {
         uplink = default;
-        if (!TryComp<ImplantedComponent>(body, out var implanted))
-            return false;
+
+        if (_uplink.FindUplinkTarget(body) is { } pdaUplink &&
+            HasComp<UplinkComponent>(pdaUplink) &&
+            TryComp<StoreComponent>(pdaUplink, out _))
+        {
+            state.UltraUplinkEntity = pdaUplink;
+            uplink = pdaUplink;
+            return true;
+        }
 
         if (state.UltraUplinkEntity is { } tracked &&
-            implanted.ImplantContainer.ContainedEntities.Contains(tracked) &&
-            IsUltraUplinkPrototype(tracked, component))
+            IsReusableUplinkStore(tracked, component))
         {
             uplink = tracked;
             return true;
         }
 
+        if (!TryComp<ImplantedComponent>(body, out var implanted))
+            return false;
+
         foreach (var implant in implanted.ImplantContainer.ContainedEntities)
         {
-            if (!IsUltraUplinkPrototype(implant, component))
+            if (!IsReusableUplinkStore(implant, component))
                 continue;
 
             state.UltraUplinkEntity = implant;
@@ -306,10 +446,118 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return false;
     }
 
-    private bool IsUltraUplinkPrototype(EntityUid entity, TraitorUltraRuleComponent component)
+    private void EnsureUltraStoreCategories(EntityUid uplink, TraitorUltraRuleComponent component)
     {
-        return !TerminatingOrDeleted(entity) &&
-               MetaData(entity).EntityPrototype?.ID == component.UltraUplinkImplant.Id;
+        if (!TryComp<StoreComponent>(uplink, out var store))
+            return;
+
+        if (!_proto.TryIndex<EntityPrototype>(component.UltraUplinkImplant, out var uplinkPrototype) ||
+            !uplinkPrototype.TryGetComponent<StoreComponent>(out var presetStore, EntityManager.ComponentFactory))
+        {
+            Log.Error($"Failed to find TraitorUltra store categories from {component.UltraUplinkImplant}.");
+            return;
+        }
+
+        var changed = false;
+        foreach (var category in presetStore.Categories)
+        {
+            changed |= store.Categories.Add(category);
+        }
+
+        if (changed)
+            _store.RefreshAllListings(store);
+    }
+
+    private void ApplyCorporateDiscounts(StoreComponent store, TraitorUltraRuleComponent component, TraitorUltraMindState state)
+    {
+        foreach (var listing in store.FullListingsCatalog)
+        {
+            listing.RemoveCostModifier(component.CorporateDiscountModifierSourceId);
+        }
+
+        if (!HasCorporateDiscountsStage(state) ||
+            string.IsNullOrWhiteSpace(state.NewCorporation) ||
+            !TryFindCorporateDiscountSet(component, state.NewCorporation, out var discountSet))
+        {
+            return;
+        }
+
+        foreach (var discount in discountSet.Listings)
+        {
+            if (discount.TelecrystalDiscount <= FixedPoint2.Zero)
+                continue;
+
+            if (!TryFindStoreListing(store, discount.Listing, out var listing))
+            {
+                Log.Warning($"TraitorUltra corporate discount listing {discount.Listing} does not exist in the store catalog.");
+                continue;
+            }
+
+            listing.AddCostModifier(
+                component.CorporateDiscountModifierSourceId,
+                new Dictionary<ProtoId<CurrencyPrototype>, FixedPoint2>
+                {
+                    { component.TelecrystalCurrency, -discount.TelecrystalDiscount },
+                });
+        }
+    }
+
+    private bool HasCorporateDiscountsStage(TraitorUltraMindState state)
+    {
+        return state.Stage == TraitorUltraStage.Upgraded ||
+               state.Stage == TraitorUltraStage.BountyAnnounced ||
+               state.Stage == TraitorUltraStage.Resolved;
+    }
+
+    private bool TryFindCorporateDiscountSet(
+        TraitorUltraRuleComponent component,
+        string corporation,
+        out TraitorUltraCorporateDiscountSet discountSet)
+    {
+        foreach (var set in component.CorporateDiscounts)
+        {
+            if (CorporationMatches(set.Corporation, corporation))
+            {
+                discountSet = set;
+                return true;
+            }
+        }
+
+        discountSet = default!;
+        return false;
+    }
+
+    private bool TryFindStoreListing(
+        StoreComponent store,
+        ProtoId<ListingPrototype> listingId,
+        out ListingDataWithCostModifiers listing)
+    {
+        foreach (var item in store.FullListingsCatalog)
+        {
+            if (item.ID.Equals(listingId.Id, StringComparison.Ordinal))
+            {
+                listing = item;
+                return true;
+            }
+        }
+
+        listing = default!;
+        return false;
+    }
+
+    private bool IsReusableUplinkStore(EntityUid entity, TraitorUltraRuleComponent component)
+    {
+        if (TerminatingOrDeleted(entity) ||
+            !TryComp<StoreComponent>(entity, out _))
+        {
+            return false;
+        }
+
+        if (HasComp<UplinkComponent>(entity))
+            return true;
+
+        return MetaData(entity).EntityPrototype?.ID is { } prototype &&
+               (prototype == StandardUplinkImplant || prototype == component.UltraUplinkImplant.Id);
     }
 
     protected override void ActiveTick(EntityUid uid, TraitorUltraRuleComponent component, GameRuleComponent gameRule, float frameTime)
@@ -361,6 +609,9 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
                     break;
 
                 case TraitorUltraStage.Upgraded:
+                    if (state.BountyAnnouncementSuppressed)
+                        break;
+
                     if (Timing.CurTime >= state.NextEventTime)
                         AnnounceBounty(uid, component, mindId, mind, state);
                     break;
@@ -369,6 +620,8 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
                     EnsureBountyBody(uid, mindId, mind, state, replaceExisting: true);
                     break;
             }
+
+            UpdateExtraObjectiveOffer(uid, component, mindId, mind, state);
         }
     }
 
@@ -399,6 +652,30 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             }
 
             OpenUpgradeOfferEui(rule, mindId, mind);
+            return;
+        }
+    }
+
+    private void OnOpenExtraObjectiveOfferAction(TraitorUltraOpenExtraObjectiveOfferActionEvent args)
+    {
+        if (args.Handled ||
+            !_mind.TryGetMind(args.Performer, out var mindId, out var mind))
+        {
+            return;
+        }
+
+        var query = EntityQueryEnumerator<TraitorUltraRuleComponent>();
+        while (query.MoveNext(out var rule, out var component))
+        {
+            if (!component.Minds.TryGetValue(mindId, out var state) ||
+                state.ExtraObjectiveOfferStatus != TraitorUltraExtraObjectiveOfferStatus.Open ||
+                state.ExtraObjectiveOfferActionEntity != args.Action.Owner)
+            {
+                continue;
+            }
+
+            args.Handled = true;
+            OpenExtraObjectiveOfferEui(rule, mindId, mind);
             return;
         }
     }
@@ -523,6 +800,165 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             Loc.GetString("traitor-ultra-offer-losses"),
             Loc.GetString("traitor-ultra-offer-accept"),
             Loc.GetString("traitor-ultra-offer-decline"));
+    }
+
+    private bool EnsureExtraObjectiveOfferAction(
+        TraitorUltraRuleComponent component,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state)
+    {
+        if (mind.OwnedEntity is not { } body || !Exists(body))
+            return false;
+
+        return _actions.AddAction(body, ref state.ExtraObjectiveOfferActionEntity, component.ExtraObjectiveOfferAction, mindId);
+    }
+
+    private void RemoveExtraObjectiveOfferAction(TraitorUltraMindState state)
+    {
+        if (state.ExtraObjectiveOfferActionEntity is not { } action)
+            return;
+
+        _actions.RemoveAction(action);
+        QueueDel(action);
+        state.ExtraObjectiveOfferActionEntity = null;
+    }
+
+    private bool OpenExtraObjectiveOfferEui(EntityUid rule, EntityUid mindId, MindComponent mind)
+    {
+        if (!TryGetSession(mind, out var session))
+            return false;
+
+        CloseExtraObjectiveOfferEui(mindId);
+
+        var eui = new TraitorUltraExtraObjectiveOfferEui(rule, mindId, this);
+        _openExtraObjectiveOfferEuis[mindId] = eui;
+        _eui.OpenEui(eui, session);
+        return true;
+    }
+
+    private void CloseExtraObjectiveOfferEui(EntityUid mindId)
+    {
+        if (!_openExtraObjectiveOfferEuis.Remove(mindId, out var eui))
+            return;
+
+        if (!eui.IsShutDown)
+            eui.Close();
+    }
+
+    private void CloseAllExtraObjectiveOfferEuis()
+    {
+        foreach (var mindId in _openExtraObjectiveOfferEuis.Keys.ToArray())
+        {
+            CloseExtraObjectiveOfferEui(mindId);
+        }
+    }
+
+    public void OnExtraObjectiveOfferEuiClosed(EntityUid mindId, TraitorUltraExtraObjectiveOfferEui eui)
+    {
+        if (_openExtraObjectiveOfferEuis.TryGetValue(mindId, out var openEui) &&
+            ReferenceEquals(openEui, eui))
+        {
+            _openExtraObjectiveOfferEuis.Remove(mindId);
+        }
+    }
+
+    public TraitorUltraExtraObjectiveOfferEuiState GetExtraObjectiveOfferState(EntityUid rule, EntityUid mindId)
+    {
+        var objectiveName = Loc.GetString("traitor-ultra-extra-objective-offer-objective-pending");
+        var reward = FixedPoint2.Zero;
+        string? newCorp = null;
+        var body = "traitor-ultra-extra-objective-offer-body";
+
+        if (TryComp<TraitorUltraRuleComponent>(rule, out var component) &&
+            component.Minds.TryGetValue(mindId, out var state))
+        {
+            reward = component.ExtraObjectiveTelecrystals;
+            newCorp = state.NewCorporation;
+            body = OpensExtraObjectiveOfferImmediately(state.FirstPostUpgradeObjectivePrototype, component)
+                ? "traitor-ultra-extra-objective-offer-body-immediate"
+                : "traitor-ultra-extra-objective-offer-body";
+
+            if (state.ExtraObjectiveOfferStatus == TraitorUltraExtraObjectiveOfferStatus.Open &&
+                TryComp<MindComponent>(mindId, out var mind))
+            {
+                TryEnsurePendingExtraObjective((mindId, mind), component, state);
+            }
+
+            if (state.PendingExtraObjective is { } objective &&
+                !TerminatingOrDeleted(objective))
+            {
+                objectiveName = Name(objective);
+            }
+        }
+
+        return new TraitorUltraExtraObjectiveOfferEuiState(
+            Loc.GetString("traitor-ultra-extra-objective-offer-title"),
+            Loc.GetString(
+                body,
+                ("corp", LocalizeCorporation(newCorp))),
+            Loc.GetString("traitor-ultra-extra-objective-offer-objective", ("objective", objectiveName)),
+            Loc.GetString("traitor-ultra-extra-objective-offer-reward", ("amount", reward)),
+            Loc.GetString("traitor-ultra-extra-objective-offer-accept"),
+            Loc.GetString("traitor-ultra-extra-objective-offer-decline"));
+    }
+
+    public void HandleExtraObjectiveOffer(EntityUid rule, EntityUid mindId, bool accepted)
+    {
+        if (!TryComp<TraitorUltraRuleComponent>(rule, out var component) ||
+            !component.Minds.TryGetValue(mindId, out var state) ||
+            !TryComp<MindComponent>(mindId, out var mind) ||
+            state.ExtraObjectiveOfferStatus != TraitorUltraExtraObjectiveOfferStatus.Open)
+        {
+            return;
+        }
+
+        if (!accepted)
+        {
+            DeclineExtraObjectiveOffer(mindId, mind, state);
+            return;
+        }
+
+        if (!TryEnsurePendingExtraObjective((mindId, mind), component, state))
+        {
+            ShowPopup(mind, "traitor-ultra-extra-objective-offer-failed-popup", PopupType.Large);
+            return;
+        }
+
+        var objective = state.PendingExtraObjective!.Value;
+        if (!string.IsNullOrWhiteSpace(state.NewCorporation))
+            _sharedObjectives.SetIssuer(objective, state.NewCorporation);
+
+        CloseExtraObjectiveOfferEui(mindId);
+        RemoveExtraObjectiveOfferAction(state);
+
+        var added = false;
+        if (!mind.Objectives.Contains(objective))
+        {
+            _mind.AddObjective(mindId, mind, objective);
+            if (!string.IsNullOrWhiteSpace(state.NewCorporation))
+                _sharedObjectives.SetIssuer(objective, state.NewCorporation);
+
+            added = true;
+        }
+
+        state.PendingExtraObjective = null;
+        state.PendingExtraObjectivePrototype = null;
+        state.ExtraObjectiveOfferStatus = TraitorUltraExtraObjectiveOfferStatus.Accepted;
+
+        if (added)
+            AddTelecrystals(mindId, mind, component.ExtraObjectiveTelecrystals, component);
+
+        ShowPopup(mind, "traitor-ultra-extra-objective-offer-accepted-popup", PopupType.Large);
+    }
+
+    private void DeclineExtraObjectiveOffer(EntityUid mindId, MindComponent mind, TraitorUltraMindState state)
+    {
+        state.ExtraObjectiveOfferStatus = TraitorUltraExtraObjectiveOfferStatus.Declined;
+        CloseExtraObjectiveOfferEui(mindId);
+        RemoveExtraObjectiveOfferAction(state);
+        DeletePendingExtraObjective(state);
+        ShowPopup(mind, "traitor-ultra-extra-objective-offer-declined-popup", PopupType.Large);
     }
 
     public void HandleRecruitOffer(EntityUid rule, EntityUid mindId, bool accepted)
@@ -822,23 +1258,33 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return false;
     }
 
-    private void UpgradeTraitor(EntityUid rule, TraitorUltraRuleComponent component, EntityUid mindId, MindComponent mind, TraitorUltraMindState state)
+    private void UpgradeTraitor(
+        EntityUid rule,
+        TraitorUltraRuleComponent component,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state,
+        bool announceBounty = true)
     {
         state.OriginalCorporation ??= GetOriginalCorporation(rule, mindId);
         state.NewCorporation = PickNewCorporation(component, state.OriginalCorporation, state.NewCorporation);
         state.AgentName = GetMindCharacterName(mind);
         state.BountyReward = component.TraitorKillRewardTelecrystals;
         state.Stage = TraitorUltraStage.Upgraded;
-        state.NextEventTime = Timing.CurTime + component.BountyPreparationTime;
+        state.BountyAnnouncementSuppressed = !announceBounty;
+        state.NextEventTime = announceBounty
+            ? Timing.CurTime + component.BountyPreparationTime
+            : TimeSpan.Zero;
 
-        UpgradeTraitorRole(mindId, mind);
+        UpgradeTraitorRole(mindId, mind, component);
         if (!EnsureDeathAcidifierImplant((mindId, mind), component))
             Log.Error($"Failed to assign the TraitorUltra death-acidifier implant to {ToPrettyString(mindId)}.");
 
-        if (TryComp<TraitorRuleComponent>(rule, out var traitorRule))
-            traitorRule.TraitorMinds.Remove(mindId);
+        RemoveTraitorMindFromAllRules(mindId);
 
-        if (!TryAssignPostUpgradeObjective((mindId, mind), component, state))
+        if (TryAssignPostUpgradeObjective((mindId, mind), component, state, out var firstPostUpgradeObjective))
+            InitializeExtraObjectiveOfferState(rule, component, mindId, mind, state, firstPostUpgradeObjective);
+        else
             Log.Error($"Failed to assign a post-upgrade TraitorUltra objective to {ToPrettyString(mindId)}.");
 
         if (!TryAssignPostUpgradeSurviveObjective((mindId, mind), component, state.NewCorporation))
@@ -848,7 +1294,19 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         SendUpgradeBriefing(mind, component, state);
         AppendUpgradeBriefing(mindId, state);
         LogTraitorUltraUpgrade(mindId, mind, state);
-        QueueDelayedAction(component.BountyPreparationTime, rule, mindId, TraitorUltraDelayedActionType.AnnounceBounty);
+
+        if (announceBounty)
+            QueueDelayedAction(component.BountyPreparationTime, rule, mindId, TraitorUltraDelayedActionType.AnnounceBounty);
+    }
+
+    private void RemoveTraitorMindFromAllRules(EntityUid mindId)
+    {
+        var query = EntityQueryEnumerator<TraitorRuleComponent>();
+        while (query.MoveNext(out _, out var traitorRule))
+        {
+            traitorRule.TraitorMinds.Remove(mindId);
+            traitorRule.ObjectiveIssuersByMind.Remove(mindId);
+        }
     }
 
     private void LogTraitorUltraUpgrade(EntityUid mindId, MindComponent mind, TraitorUltraMindState state)
@@ -863,18 +1321,228 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         _adminLogger.Add(LogType.AntagSelection, LogImpact.High, $"{ToPrettyString(mindId)} became TraitorUltra. Player: {playerName}, character: {characterName}, corporation: {oldCorporation} -> {newCorporation}.");
     }
 
-    private bool TryAssignPostUpgradeObjective(Entity<MindComponent> mind, TraitorUltraRuleComponent component, TraitorUltraMindState state)
+    private void InitializeExtraObjectiveOfferState(
+        EntityUid rule,
+        TraitorUltraRuleComponent component,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state,
+        EntityUid firstPostUpgradeObjective)
     {
-        if (_random.Prob(component.RarePostUpgradeObjectiveProbability))
+        state.FirstPostUpgradeObjective = firstPostUpgradeObjective;
+        state.FirstPostUpgradeObjectivePrototype = MetaData(firstPostUpgradeObjective).EntityPrototype?.ID;
+
+        if (OpensExtraObjectiveOfferImmediately(state.FirstPostUpgradeObjectivePrototype, component))
+            TryOpenExtraObjectiveOffer(rule, component, mindId, mind, state);
+        else
+            state.ExtraObjectiveOfferStatus = TraitorUltraExtraObjectiveOfferStatus.WaitingForPrimaryCompletion;
+    }
+
+    private void UpdateExtraObjectiveOffer(
+        EntityUid rule,
+        TraitorUltraRuleComponent component,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state)
+    {
+        switch (state.ExtraObjectiveOfferStatus)
         {
-            if (TryPickObjective(mind, component.RarePostUpgradeObjectives, state.NewCorporation, out _))
+            case TraitorUltraExtraObjectiveOfferStatus.WaitingForPrimaryCompletion:
+                if (IsFirstPostUpgradeObjectiveCompleted((mindId, mind), state))
+                    TryOpenExtraObjectiveOffer(rule, component, mindId, mind, state);
+                return;
+
+            case TraitorUltraExtraObjectiveOfferStatus.Open:
+                EnsureExtraObjectiveOfferAction(component, mindId, mind, state);
+                TryEnsurePendingExtraObjective((mindId, mind), component, state);
+                return;
+
+            default:
+                return;
+        }
+    }
+
+    private bool TryOpenExtraObjectiveOffer(
+        EntityUid rule,
+        TraitorUltraRuleComponent component,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state)
+    {
+        if (state.ExtraObjectiveOfferStatus is
+            TraitorUltraExtraObjectiveOfferStatus.Accepted or
+            TraitorUltraExtraObjectiveOfferStatus.Declined ||
+            state.FirstPostUpgradeObjective == null)
+        {
+            return false;
+        }
+
+        if (state.ExtraObjectiveOfferStatus == TraitorUltraExtraObjectiveOfferStatus.Open)
+            return true;
+
+        TryEnsurePendingExtraObjective((mindId, mind), component, state);
+
+        state.ExtraObjectiveOfferStatus = TraitorUltraExtraObjectiveOfferStatus.Open;
+        EnsureExtraObjectiveOfferAction(component, mindId, mind, state);
+        ShowPopup(mind, "traitor-ultra-extra-objective-offer-ready-popup", PopupType.Large);
+        OpenExtraObjectiveOfferEui(rule, mindId, mind);
+        return true;
+    }
+
+    private bool OpensExtraObjectiveOfferImmediately(string? prototype, TraitorUltraRuleComponent component)
+    {
+        if (prototype == null)
+            return false;
+
+        foreach (var eligible in component.ExtraObjectiveEligibleFirstObjectives)
+        {
+            if (eligible == prototype)
                 return true;
         }
 
-        if (TryPickObjective(mind, component.PostUpgradeObjectives, state.NewCorporation, out _))
+        return false;
+    }
+
+    private bool IsFirstPostUpgradeObjectiveCompleted(Entity<MindComponent> mind, TraitorUltraMindState state)
+    {
+        return state.FirstPostUpgradeObjective is { } objective &&
+               !TerminatingOrDeleted(objective) &&
+               _objectives.IsCompleted(objective, mind);
+    }
+
+    private bool TryEnsurePendingExtraObjective(
+        Entity<MindComponent> mind,
+        TraitorUltraRuleComponent component,
+        TraitorUltraMindState state)
+    {
+        if (state.PendingExtraObjective is { } existing &&
+            !TerminatingOrDeleted(existing))
+        {
+            return true;
+        }
+
+        state.PendingExtraObjective = null;
+        state.PendingExtraObjectivePrototype = null;
+
+        if (!TryPickExtraObjective(mind, component, state, out var objective))
+            return false;
+
+        state.PendingExtraObjective = objective;
+        state.PendingExtraObjectivePrototype = MetaData(objective).EntityPrototype?.ID;
+        return true;
+    }
+
+    private bool TryPickExtraObjective(
+        Entity<MindComponent> mind,
+        TraitorUltraRuleComponent component,
+        TraitorUltraMindState state,
+        out EntityUid objective)
+    {
+        var excluded = GetAssignedObjectivePrototypes(mind.Comp);
+
+        if (!string.IsNullOrWhiteSpace(state.FirstPostUpgradeObjectivePrototype))
+            excluded.Add(state.FirstPostUpgradeObjectivePrototype);
+
+        if (_random.Prob(component.RarePostUpgradeObjectiveProbability) &&
+            TryPickObjectiveForOffer(mind, component.RarePostUpgradeObjectives, state.NewCorporation, excluded, out objective))
+        {
+            return true;
+        }
+
+        if (TryPickObjectiveForOffer(mind, component.PostUpgradeObjectives, state.NewCorporation, excluded, out objective))
             return true;
 
-        return TryPickObjective(mind, component.RarePostUpgradeObjectives, state.NewCorporation, out _);
+        return TryPickObjectiveForOffer(mind, component.RarePostUpgradeObjectives, state.NewCorporation, excluded, out objective);
+    }
+
+    private HashSet<string> GetAssignedObjectivePrototypes(MindComponent mind)
+    {
+        var prototypes = new HashSet<string>();
+        foreach (var objective in mind.Objectives)
+        {
+            if (!TerminatingOrDeleted(objective) &&
+                MetaData(objective).EntityPrototype?.ID is { } prototype)
+            {
+                prototypes.Add(prototype);
+            }
+        }
+
+        return prototypes;
+    }
+
+    private bool TryPickObjectiveForOffer(
+        Entity<MindComponent> mind,
+        IReadOnlyList<EntProtoId> prototypes,
+        string? issuer,
+        HashSet<string> excluded,
+        out EntityUid objective)
+    {
+        var available = prototypes.ToList();
+        while (available.Count > 0)
+        {
+            var proto = _random.PickAndTake(available);
+            if (excluded.Contains(proto.Id))
+                continue;
+
+            if (!TryCreateObjectiveForOffer(mind, proto, issuer, out objective))
+                continue;
+
+            excluded.Add(proto.Id);
+            return true;
+        }
+
+        objective = default;
+        return false;
+    }
+
+    private bool TryCreateObjectiveForOffer(Entity<MindComponent> mind, EntProtoId prototype, string? issuer, out EntityUid objective)
+    {
+        objective = default;
+        if (!_proto.HasIndex<EntityPrototype>(prototype))
+        {
+            Log.Warning($"TraitorUltra objective prototype {prototype} does not exist.");
+            return false;
+        }
+
+        var created = _sharedObjectives.TryCreateObjective(mind.Owner, mind.Comp, prototype);
+        if (created == null)
+            return false;
+
+        objective = created.Value;
+        if (!string.IsNullOrWhiteSpace(issuer))
+            _sharedObjectives.SetIssuer(objective, issuer);
+
+        return true;
+    }
+
+    private void DeletePendingExtraObjective(TraitorUltraMindState state)
+    {
+        if (state.PendingExtraObjective is { } objective &&
+            !TerminatingOrDeleted(objective))
+        {
+            Del(objective);
+        }
+
+        state.PendingExtraObjective = null;
+        state.PendingExtraObjectivePrototype = null;
+    }
+
+    private bool TryAssignPostUpgradeObjective(
+        Entity<MindComponent> mind,
+        TraitorUltraRuleComponent component,
+        TraitorUltraMindState state,
+        out EntityUid objective)
+    {
+        if (_random.Prob(component.RarePostUpgradeObjectiveProbability))
+        {
+            if (TryPickObjective(mind, component.RarePostUpgradeObjectives, state.NewCorporation, out objective))
+                return true;
+        }
+
+        if (TryPickObjective(mind, component.PostUpgradeObjectives, state.NewCorporation, out objective))
+            return true;
+
+        return TryPickObjective(mind, component.RarePostUpgradeObjectives, state.NewCorporation, out objective);
     }
 
     private bool TryAssignPostUpgradeSurviveObjective(Entity<MindComponent> mind, TraitorUltraRuleComponent component, string? issuer)
@@ -882,21 +1550,30 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return TryCreateAndAddObjective(mind, component.PostUpgradeSurviveObjective, issuer, out _);
     }
 
-    private void UpgradeTraitorRole(EntityUid mindId, MindComponent mind)
+    private void UpgradeTraitorRole(EntityUid mindId, MindComponent mind, TraitorUltraRuleComponent component)
     {
-        if (!_roles.MindHasRole<TraitorRoleComponent>(mindId, out var traitorRole))
+        var updated = false;
+        foreach (var roleUid in mind.MindRoleContainer.ContainedEntities)
         {
-            Log.Warning($"TraitorUltra upgrade could not find a TraitorRole on {ToPrettyString(mindId)}; adding Ultra role silently.");
-            _roles.MindAddRole(mindId, "MindRoleTraitorUltra", mind, silent: true);
-            return;
+            if (!HasComp<TraitorRoleComponent>(roleUid) ||
+                !TryComp<MindRoleComponent>(roleUid, out var role))
+            {
+                continue;
+            }
+
+            role.AntagPrototype = "TraitorUltra";
+            role.Subtype = "role-subtype-traitor-ultra";
+            EnsureComp<TraitorUltraRoleComponent>(roleUid);
+            Dirty(roleUid, role);
+            updated = true;
         }
 
-        var roleUid = traitorRole.Value.Owner;
-        var role = traitorRole.Value.Comp1;
-        role.AntagPrototype = "TraitorUltra";
-        role.Subtype = "role-subtype-traitor-ultra";
-        EnsureComp<TraitorUltraRoleComponent>(roleUid);
-        Dirty(roleUid, role);
+        if (!updated)
+        {
+            Log.Warning($"TraitorUltra upgrade could not find a TraitorRole on {ToPrettyString(mindId)}; adding Ultra role silently.");
+            _roles.MindAddRole(mindId, component.UltraMindRole, mind, silent: true);
+        }
+
         _roles.RefreshMindRoleType((mindId, mind));
     }
 
@@ -1436,6 +2113,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             return;
         }
 
+        ApplyCorporateDiscounts(store, component, state);
         _store.TryAddCurrency(new Dictionary<string, FixedPoint2> { { component.TelecrystalCurrency, amount } }, uplink.Value, store);
         _store.UpdateUserInterface(owned, uplink.Value, store);
     }
@@ -1506,10 +2184,20 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
     private string? GetOriginalCorporation(EntityUid rule, EntityUid mindId)
     {
-        if (!TryComp<TraitorRuleComponent>(rule, out var traitorRule))
-            return null;
+        if (TryComp<TraitorRuleComponent>(rule, out var traitorRule) &&
+            traitorRule.ObjectiveIssuersByMind.TryGetValue(mindId, out var issuer))
+        {
+            return issuer;
+        }
 
-        return traitorRule.ObjectiveIssuersByMind.GetValueOrDefault(mindId);
+        var query = EntityQueryEnumerator<TraitorRuleComponent>();
+        while (query.MoveNext(out _, out traitorRule))
+        {
+            if (traitorRule.ObjectiveIssuersByMind.TryGetValue(mindId, out issuer))
+                return issuer;
+        }
+
+        return null;
     }
 
     private string? PickNewCorporation(TraitorUltraRuleComponent component, string? original, string? current = null)

@@ -6,10 +6,10 @@
 using Content.Shared.Damage;
 using Content.Shared.Whitelist;
 using JetBrains.Annotations;
-using Robust.Shared.Audio;      //DS14
-using Robust.Shared.Prototypes; //DS14
+using Robust.Shared.Audio;
+using Robust.Shared.Prototypes;
 using Robust.Shared.GameStates;
-using Robust.Shared.Map;        //DS14
+using Robust.Shared.Map;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.Vehicle.Components;
@@ -54,12 +54,25 @@ public sealed partial class VehicleComponent : Component
     [DataField, AutoNetworkedField]
     public bool RequiresHands = true;
 
-    //DS14-start
+    // DS14-start
     /// <summary>
     /// If true, the vehicle requires an operator to run.
     /// </summary>
     [DataField, AutoNetworkedField]
     public bool RequiresOperator = true;
+
+    /// <summary>
+    /// If true, only the current operator can manually eject keys from this vehicle.
+    /// System removals, such as destruction, are still allowed.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool KeyEjectRequiresOperator;
+
+    /// <summary>
+    /// If true, other users cannot unstrap the operator unless the operator is incapacitated.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool ProtectOperatorUnstrap;
 
     /// <summary>
     /// Cooldown for the "no key" popup to prevent spam.
@@ -96,7 +109,7 @@ public sealed partial class VehicleComponent : Component
 
     [DataField]
     public List<EntProtoId> BreakOnCollideWith = new();
-    //DS14-end
+    // DS14-end
 }
 
 [Serializable, NetSerializable]

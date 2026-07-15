@@ -34,6 +34,7 @@ namespace Content.Server.Administration.Managers
         [Dependency] private readonly IChatManager _chat = default!;
         [Dependency] private readonly ToolshedManager _toolshed = default!;
         [Dependency] private readonly ILogManager _logManager = default!;
+        [Dependency] private readonly UserDbDataManager _userDb = default!;
 
         private readonly Dictionary<ICommonSession, AdminReg> _admins = new();
         private readonly HashSet<NetUserId> _promotedPlayers = new();
@@ -318,6 +319,7 @@ namespace Content.Server.Administration.Managers
         void IPostInjectInit.PostInject()
         {
             _playerManager.PlayerStatusChanged += PlayerStatusChanged;
+            _userDb.AddOnFinishLoad(LoginAdminMaybe);
             _conGroup.Implementation = this;
         }
 
@@ -348,10 +350,6 @@ namespace Content.Server.Administration.Managers
             {
                 // Run this so that available commands list gets sent.
                 UpdateAdminStatus(e.Session);
-            }
-            else if (e.NewStatus == SessionStatus.InGame)
-            {
-                LoginAdminMaybe(e.Session);
             }
             else if (e.NewStatus == SessionStatus.Disconnected)
             {
@@ -387,6 +385,9 @@ namespace Content.Server.Administration.Managers
                 IsSpecialLogin = specialLogin,
                 RankId = rankId
             };
+
+            if (_admins.ContainsKey(session))
+                return;
 
             _admins.Add(session, reg);
 

@@ -107,7 +107,9 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
 
         // Alerts
 
-        var showAlerts = state.Unrevivable == true || state.Bleeding == true;
+        // DS14-start
+        var showAlerts = state.Unrevivable == true || state.Bleeding == true || state.Unclonable == true;
+        // DS14-end
 
         AlertsDivider.Visible = showAlerts;
         AlertsContainer.Visible = showAlerts;
@@ -130,6 +132,16 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
                 Margin = new Thickness(0, 4),
                 MaxWidth = 300
             });
+
+        // DS14-start
+        if (state.Unclonable == true)
+            AlertsContainer.AddChild(new RichTextLabel
+            {
+                Text = Loc.GetString("health-analyzer-window-entity-uncloning-text"),
+                Margin = new Thickness(0, 4),
+                MaxWidth = 300
+            });
+        // DS14-end
 
         // Damage Groups
 

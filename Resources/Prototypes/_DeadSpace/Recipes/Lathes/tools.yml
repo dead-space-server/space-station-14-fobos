@@ -5,7 +5,7 @@
     Steel: 1000
     Plastic: 250
     BluespaceCrystal: 750
-    
+
 - type: latheRecipe
   parent: BaseToolRecipe
   id: HoloprojectorRND
@@ -15,3 +15,12 @@
     Steel: 500
     Plasma: 200
     Glass: 100
+
+- type: latheRecipe
+  id: HandCuttingMachineRecipe
+  result: HandCuttingMachine
+  completetime: 10
+  materials:
+    Steel: 800
+    Plastic: 300
+    Gold: 50

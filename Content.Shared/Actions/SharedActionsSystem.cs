@@ -284,7 +284,7 @@ public abstract partial class SharedActionsSystem : EntitySystem
     /// <param name="ev">The Request Perform Action Event</param>
     /// <param name="user">The user/performer of the action</param>
     /// <param name="skipDoActionRequest">Should this skip the initial doaction request?</param>
-    private bool TryPerformAction(RequestPerformActionEvent ev, EntityUid user, bool skipDoActionRequest = false)
+    internal bool TryPerformAction(RequestPerformActionEvent ev, EntityUid user, bool skipDoActionRequest = false) // DS14
     {
         if (!_actionsQuery.TryComp(user, out var component))
             return false;

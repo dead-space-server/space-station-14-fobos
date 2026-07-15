@@ -16,3 +16,4 @@ carry-popup-carrier-buckled = Вы не можете поднимать суще
 carry-popup-carrier-carrying = Вы не можете пристегнуться, пока несёте кого-то на руках.
 carry-popup-escape-victim = Вы пытаетесь вырваться
 carry-popup-escape-carrier = Объект пытается вырваться из рук
+carry-popup-being-picked-up = { $user } пытается вас поднять.

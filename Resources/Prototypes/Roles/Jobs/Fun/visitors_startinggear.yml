@@ -224,7 +224,7 @@
     id: VisitorPDA
     belt: ClothingBeltSecurityFilled
     back: ClothingBackpackSecurity
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     eyes: ClothingEyesGlassesSecurity
     outerClothing: ClothingOuterVestArmorSec # DS14
     pocket1: WeaponPistolMk58
@@ -242,7 +242,7 @@
     id: VisitorPDA
     belt: ClothingBeltSecurityFilled
     back: ClothingBackpackSatchelSecurity
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     eyes: ClothingEyesGlassesSecurity
     outerClothing: ClothingOuterArmorBasicSlim
     pocket1: WeaponPistolMk58
@@ -259,7 +259,7 @@
     id: VisitorPDA
     belt: ClothingBeltSecurityWebbingFilled
     back: ClothingBackpackSecurity
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     eyes: ClothingEyesGlassesSecurity
     outerClothing: ClothingOuterVestArmorSec # DS14
     pocket1: WeaponPistolMk58
@@ -277,7 +277,7 @@
     id: VisitorPDA
     belt: ClothingBeltSecurityFilled
     back: ClothingBackpackSatchelSecurity
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     eyes: ClothingEyesGlassesSecurity
     outerClothing: ClothingOuterArmorBasicSlim
     pocket1: WeaponPistolMk58
@@ -295,7 +295,7 @@
     id: VisitorPDA
     belt: ClothingBeltHolsterFilled
     back: ClothingBackpackSecurity
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     eyes: ClothingEyesGlassesSecurity
     outerClothing: ClothingOuterCoatDetectiveLoadout
     pocket1: ForensicScanner
@@ -313,7 +313,7 @@
     id: VisitorPDA
     belt: ClothingBeltHolsterFilled
     back: ClothingBackpackSatchelSecurity
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     eyes: ClothingEyesGlassesSecurity
     outerClothing: ClothingOuterVestDetective
     pocket1: ForensicScanner
@@ -332,7 +332,7 @@
     id: VisitorPDA
     belt: ClothingBeltSecurityWebbingFilled
     back: ClothingBackpackSecurity
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     eyes: ClothingEyesGlassesSecurity
     outerClothing: ClothingOuterCoatWarden
     pocket1: WeaponDisabler
@@ -351,7 +351,7 @@
     id: VisitorPDA
     belt: ClothingBeltSecurityFilled
     back: ClothingBackpackSatchelSecurity
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     eyes: ClothingEyesGlassesSecurity
     outerClothing: ClothingOuterWinterWarden
     pocket1: WeaponDisabler
@@ -1120,7 +1120,7 @@
     neck: ClothingNeckLawyerbadge
     id: VisitorPDA
     back: ClothingBackpackSatchelLeather
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     # pocket1: RubberStampLawyer # DS14-disabled due to LawyerStampProviderComponent
     pocket2: LuxuryPen
   inhand:
@@ -1135,7 +1135,7 @@
     neck: ClothingNeckLawyerbadge
     id: VisitorPDA
     back: ClothingBackpackSatchelLeather
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     # pocket1: RubberStampLawyer # DS14-disabled due to LawyerStampProviderComponent
     pocket2: SmokingPipeFilledTobacco
   inhand:
@@ -1151,7 +1151,7 @@
     id: VisitorPDA
     back: ClothingBackpackSatchelLeather
     belt: ClothingBeltStorageWaistbag
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     # pocket1: RubberStampLawyer # DS14-disabled due to LawyerStampProviderComponent
     pocket2: SmokingPipeFilledTobacco
   inhand:
@@ -1168,7 +1168,7 @@
     mask: CigarGold
     id: VisitorPDA
     back: ClothingBackpackSatchelLeather
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     outerClothing: ClothingOuterCoatExpensive
     # pocket1: RubberStampLawyer # DS14-disabled due to LawyerStampProviderComponent
     pocket2: LuxuryPen
@@ -1185,7 +1185,7 @@
     id: VisitorPDA
     back: ClothingBackpackSatchelLeather
     belt: ClothingBeltStorageWaistbag
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     # pocket1: RubberStampLawyer # DS14-disabled due to LawyerStampProviderComponent
     pocket2: LuxuryPen
   inhand:

@@ -22,6 +22,7 @@
       prototype: ProjectileFireball
   - type: SpeakOnAction
     sentence: action-speech-spell-fireball
+  - type: NonSwapMagic #DS14
   - type: ActionUpgrade
     effectedLevels:
       2: ActionFireballII

@@ -30,6 +30,14 @@ public sealed partial class StunOnContactComponent : Component
     [DataField]
     public bool AutoStand = true;
 
+    // DS14-start
+    /// <summary>
+    /// Prevents repeated contacts from extending the stun while the target is already knocked down.
+    /// </summary>
+    [DataField]
+    public bool IgnoreKnockedDown;
+    // DS14-end
+
     [DataField]
     public EntityWhitelist Blacklist = new();
 }

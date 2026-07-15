@@ -475,7 +475,7 @@
   id: PlushieawksSPEKTER
   name: плюшевый ситх
   categories: [ HideSpawnMenu ]
-  description: Ренегат, ситх, обрыган с мечом - это именно он стоял за уничтожением станции. Неловкость?...
+  description: Ренегат, ситх, обрыган с мечом - это именно он стоял за уничтожением станции. Неловкость?..
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/awksSPEKTER/toy.rsi

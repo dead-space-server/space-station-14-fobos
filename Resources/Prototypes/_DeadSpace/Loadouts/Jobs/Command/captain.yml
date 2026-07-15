@@ -1,0 +1,317 @@
+# For tailbags
+- type: loadoutEffectGroup
+  id: Tailbag
+  effects:
+  - !type:SpeciesLoadoutEffect
+    species:
+    - Shark
+
+# Head
+## Blue
+- type: loadout
+  id: CaptainBeret
+  equipment:
+    head: ClothingHeadHatBeretCaptain
+  groupBy: "CaptainBlue"
+
+## White
+- type: loadout
+  id: CaptainBeretWhite
+  equipment:
+    head: ClothingHeadHatBeretCaptainWhite
+  groupBy: "CaptainWhite"
+
+- type: loadout
+  id: CaptainCapWhite
+  equipment:
+    head: ClothingHeadHatCapcapWhite
+  groupBy: "CaptainWhite"
+
+## Black
+- type: loadout
+  id: CaptainBeretBlack
+  equipment:
+    head: ClothingHeadHatBeretCaptainBlack
+  groupBy: "CaptainBlack"
+
+- type: loadout
+  id: CaptainCapBlack
+  equipment:
+    head: ClothingHeadHatCapcapBlack
+  groupBy: "CaptainBlack"
+
+# Neck
+## Blue
+- type: loadout
+  id: CaptainShoulderMantle
+  equipment:
+    neck: ClothingNeckMantleCaptainShoulder
+  groupBy: "CaptainBlue"
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: MasterCap
+
+- type: loadout
+  id: CaptainShoulderMantleFormal
+  equipment:
+    neck: ClothingNeckMantleCaptainShoulderFormal
+  groupBy: "CaptainBlue"
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: MasterCap
+
+## White
+- type: loadout
+  id: CaptainShoulderMantleWhite
+  equipment:
+    neck: ClothingNeckMantleCaptainShoulderWhite
+  groupBy: "CaptainWhite"
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: MasterCap
+
+## Black
+- type: loadout
+  id: CaptainShoulderMantleBlack
+  equipment:
+    neck: ClothingNeckMantleCaptainShoulderBlack
+  groupBy: "CaptainBlack"
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: MasterCap
+
+# Jumpsuit
+## Blue
+- type: loadout
+  id: CaptainJumpsuitTurtleneck
+  equipment:
+    jumpsuit: ClothingUniformTurtleneckCaptain
+  groupBy: "CaptainBlue"
+
+- type: loadout
+  id: CaptainJumpskirtTurtleneck
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtTurtleneckCaptain
+  groupBy: "CaptainBlue"
+
+- type: loadout
+  id: CaptainJumpskirtPencil
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilCaptain
+  groupBy: "CaptainBlue"
+
+## White
+- type: loadout
+  id: CaptainJumpsuitWhite
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCaptainWhite
+  groupBy: "CaptainWhite"
+
+- type: loadout
+  id: CaptainJumpskirtWhite
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtCaptainWhite
+  groupBy: "CaptainWhite"
+
+- type: loadout
+  id: CaptainJumpsuitTurtleneckWhite
+  equipment:
+    jumpsuit: ClothingUniformTurtleneckCaptainWhite
+  groupBy: "CaptainWhite"
+
+- type: loadout
+  id: CaptainJumpskirtTurtleneckWhite
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtTurtleneckCaptainWhite
+  groupBy: "CaptainWhite"
+
+- type: loadout
+  id: CaptainFormalSuitWhite
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCapFormalWhite
+  groupBy: "CaptainWhite"
+
+- type: loadout
+  id: CaptainJumpskirtPencilWhite
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilCaptainWhite
+  groupBy: "CaptainWhite"
+
+## Black
+- type: loadout
+  id: CaptainJumpsuitBlack
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCaptainBlack
+  groupBy: "CaptainBlack"
+
+- type: loadout
+  id: CaptainJumpskirtBlack
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtCaptainBlack
+  groupBy: "CaptainBlack"
+
+- type: loadout
+  id: CaptainJumpsuitTurtleneckBlack
+  equipment:
+    jumpsuit: ClothingUniformTurtleneckCaptainBlack
+  groupBy: "CaptainBlack"
+
+- type: loadout
+  id: CaptainJumpskirtTurtleneckBlack
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtTurtleneckCaptainBlack
+  groupBy: "CaptainBlack"
+
+- type: loadout
+  id: CaptainFormalSuitBlack
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCapFormalBlack
+  groupBy: "CaptainBlack"
+
+- type: loadout
+  id: CaptainJumpskirtPencilBlack
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilCaptainBlack
+  groupBy: "CaptainBlack"
+
+# Back
+## White
+- type: loadout
+  id: CaptainBackpackWhite
+  equipment:
+    back: ClothingBackpackCaptainWhite
+  groupBy: "CaptainWhite"
+
+- type: loadout
+  id: CaptainSatchelWhite
+  equipment:
+    back: ClothingBackpackSatchelCaptainWhite
+  groupBy: "CaptainWhite"
+
+- type: loadout
+  id: CaptainDuffelWhite
+  equipment:
+    back: ClothingBackpackDuffelCaptainWhite
+  groupBy: "CaptainWhite"
+
+## Black
+- type: loadout
+  id: CaptainBackpackBlack
+  equipment:
+    back: ClothingBackpackCaptainBlack
+  groupBy: "CaptainBlack"
+
+- type: loadout
+  id: CaptainSatchelBlack
+  equipment:
+    back: ClothingBackpackSatchelCaptainBlack
+  groupBy: "CaptainBlack"
+
+- type: loadout
+  id: CaptainDuffelBlack
+  equipment:
+    back: ClothingBackpackDuffelCaptainBlack
+  groupBy: "CaptainBlack"
+
+# Tailbag
+## Blue
+- type: loadout
+  id: CaptainTailbag
+  equipment:
+    tailbag: ClothingBackpackTailbagCaptain
+  groupBy: "CaptainBlue"
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: Tailbag
+
+## White
+- type: loadout
+  id: CaptainTailbagWhite
+  equipment:
+    tailbag: ClothingBackpackTailbagCaptainWhite
+  groupBy: "CaptainWhite"
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: Tailbag
+
+## Black
+- type: loadout
+  id: CaptainTailbagBlack
+  equipment:
+    tailbag: ClothingBackpackTailbagCaptainBlack
+  groupBy: "CaptainBlack"
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: Tailbag
+
+# OuterClothing
+## Blue
+- type: loadout
+  id: CaptainCoat
+  equipment:
+    outerClothing: ClothingOuterCoatCaptain
+  groupBy: "CaptainBlue"
+
+## White
+- type: loadout
+  id: CaptainOuterClothingWhite
+  equipment:
+    outerClothing: ClothingOuterArmorCaptainCarapaceWhite
+  groupBy: "CaptainWhite"
+
+- type: loadout
+  id: CaptainWintercoatWhite
+  equipment:
+    outerClothing: ClothingOuterWinterCoatCaptainWhite
+  groupBy: "CaptainWhite"
+
+## Black
+- type: loadout
+  id: CaptainOuterClothingBlack
+  equipment:
+    outerClothing: ClothingOuterArmorCaptainCarapaceBlack
+  groupBy: "CaptainBlack"
+
+- type: loadout
+  id: CaptainWintercoatBlack
+  equipment:
+    outerClothing: ClothingOuterWinterCoatCaptainBlack
+  groupBy: "CaptainBlack"
+
+# Gloves
+## Blue
+- type: loadout
+  id: CaptainGlovesBlue
+  equipment:
+    gloves: ClothingHandsGlovesCaptain
+
+## White
+- type: loadout
+  id: CaptainGlovesWhite
+  equipment:
+    gloves: ClothingHandsGlovesCaptainWhite
+
+## Black
+- type: loadout
+  id: CaptainGlovesBlack
+  equipment:
+    gloves: ClothingHandsGlovesCaptainBlack
+
+# Socks
+## Blue
+- type: loadout
+  id: CaptainSocksBlue
+  equipment:
+    socks: ClothingUnderwearSocksCaptain
+
+## Blue
+- type: loadout
+  id: CaptainSocksWhite
+  equipment:
+    socks: ClothingUnderwearSocksCaptainWhite
+
+## Black
+- type: loadout
+  id: CaptainSocksBlack
+  equipment:
+    socks: ClothingUnderwearSocksCaptainBlack

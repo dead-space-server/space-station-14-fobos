@@ -52,6 +52,7 @@ namespace Content.Server.Database
         public DbSet<BiStat> BiStats { get; set; } = null!; // DS14
         public DbSet<AutoMapVoteConfig> AutoMapVoteConfigs { get; set; } = null!; // DS14
         public DbSet<GamePresetConfigEntity> GamePresetConfig { get; set; } = null!; // DS14
+        public DbSet<UserIdLoginMigration> UserIdLoginMigrations { get; set; } = null!; // DS14
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -312,6 +313,17 @@ namespace Content.Server.Database
 
             modelBuilder.Entity<GamePresetConfigEntity>()
                 .HasKey(config => config.ServerId);
+
+            modelBuilder.Entity<UserIdLoginMigration>()
+                .HasKey(migration => new { migration.OldUserId, migration.NewUserId });
+
+            modelBuilder.Entity<UserIdLoginMigration>()
+                .HasIndex(migration => migration.OldUserId)
+                .IsUnique();
+
+            modelBuilder.Entity<UserIdLoginMigration>()
+                .HasIndex(migration => migration.NewUserId)
+                .IsUnique();
             // DS14-End
         }
 
@@ -356,6 +368,10 @@ namespace Content.Server.Database
         public string FacialHairColor { get; set; } = null!;
         public string EyeColor { get; set; } = null!;
         public string SkinColor { get; set; } = null!;
+        // DS14-start
+        public bool HairGradientEnabled { get; set; }
+        public string HairGradientColor { get; set; } = null!;
+        // DS14-end
         public int SpawnPriority { get; set; } = 0;
         public List<Job> Jobs { get; } = new();
         public List<Antag> Antags { get; } = new();
@@ -780,7 +796,9 @@ namespace Content.Server.Database
         /// Results from rejected connections with external API checking tools
         IPChecks = 5,
         /// Results from rejected connections who are authenticated but have no modern hwid associated with them.
-        NoHwid = 6
+        NoHwid = 6,
+        /// Results from failed automatic user ID migration checks.
+        UserIdMigration = 7
     }
 
     public class ServerBanHit
@@ -1155,6 +1173,15 @@ namespace Content.Server.Database
         public string CustomPresetsJson { get; set; } = string.Empty;
 
         public bool DisableOocDuringVote { get; set; }
+    }
+
+    public sealed class UserIdLoginMigration
+    {
+        public Guid OldUserId { get; set; }
+
+        public Guid NewUserId { get; set; }
+
+        public DateTime ProcessedAt { get; set; }
     }
     // DS14-End
 }

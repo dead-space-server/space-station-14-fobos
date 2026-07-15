@@ -45,6 +45,12 @@ public sealed partial class MessengerCartridgeUi : UIFragment
             var msg = new MessengerBlockUserEvent(targetUserId, block);
             _userInterface?.SendMessage(new CartridgeUiMessage(msg));
         };
+
+        _fragment.OnSetIncomingDisabled += (disabled) =>
+        {
+            var msg = new MessengerSetIncomingDisabledEvent(disabled);
+            _userInterface?.SendMessage(new CartridgeUiMessage(msg));
+        };
         // DS14-End
     }
 
@@ -53,6 +59,6 @@ public sealed partial class MessengerCartridgeUi : UIFragment
         if (state is not MessengerCartridgeUiState messengerState)
             return;
 
-        _fragment?.UpdateState(messengerState.Status, messengerState.Users, messengerState.Messages, messengerState.IsBlocked, messengerState.IsBlocking); //DS14
+        _fragment?.UpdateState(messengerState.Status, messengerState.Users, messengerState.Messages, messengerState.IsBlocked, messengerState.IsBlocking, messengerState.IncomingMessagesDisabled); //DS14
     }
 }

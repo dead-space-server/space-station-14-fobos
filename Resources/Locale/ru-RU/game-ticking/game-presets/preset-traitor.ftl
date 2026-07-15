@@ -25,7 +25,7 @@ traitor-role-greeting =
     Вы - контрактный агент организации { $corporation }.
     Ваши цели и кодовые слова перечислены в меню персонажа.
     Воспользуйтесь своим аплинком, чтобы приобрести всё необходимое для выполнения работы.
-    Смерть Nanotrasen!
+    Смерть NanoTrasen!
 traitor-role-codewords =
     Кодовые слова следующие: [color = lightgray]
     { $codewords }.[/color]

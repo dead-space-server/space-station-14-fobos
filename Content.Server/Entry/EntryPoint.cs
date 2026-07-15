@@ -89,6 +89,7 @@ namespace Content.Server.Entry
         [Dependency] private readonly ServerInfoManager _serverInfo = default!;
         [Dependency] private readonly ServerUpdateManager _updateManager = default!;
         [Dependency] private readonly ServerFeedbackManager _feedbackManager = null!;
+        [Dependency] private readonly UserIdAutoMigrationManager _userIdMigration = default!;
 
         public override void PreInit()
         {
@@ -133,6 +134,7 @@ namespace Content.Server.Entry
             _adminLog.Initialize();
             _connection.Initialize();
             _dbManager.Init();
+            _userIdMigration.Initialize();
             _preferences.Init();
             _nodeFactory.Initialize();
             _netResMan.Initialize();

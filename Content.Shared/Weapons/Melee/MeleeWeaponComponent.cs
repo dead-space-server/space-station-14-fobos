@@ -177,3 +177,11 @@ public sealed class GetMeleeWeaponEvent : HandledEntityEventArgs
 {
     public EntityUid? Weapon;
 }
+
+// DS14-start
+[RegisterComponent]
+public sealed partial class SuppressMeleeAfterStandComponent : Component
+{
+    public TimeSpan SuppressedUntil;
+}
+// DS14-end

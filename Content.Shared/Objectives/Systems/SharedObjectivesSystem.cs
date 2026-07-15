@@ -70,6 +70,7 @@ public abstract class SharedObjectivesSystem : EntitySystem
 
         if (!force && !CanBeAssigned(uid, mindId, mind, comp)) // DS14
         {
+            Del(uid);
             Log.Warning($"Objective {proto} did not match the requirements for {_mind.MindOwnerLoggingString(mind)}, deleted it");
             return null;
         }

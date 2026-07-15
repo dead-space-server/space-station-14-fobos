@@ -146,6 +146,18 @@ public sealed partial class AntagSelectionSystem
             return;
         }
     }
+
+    public void AddAntagIdentifier(EntityUid rule, EntityUid mind, string name, ICommonSession? session = null)
+    {
+        if (!TryComp<AntagSelectionComponent>(rule, out var component))
+            return;
+
+        if (component.AssignedMinds.All(entry => entry.Item1 != mind))
+            component.AssignedMinds.Add((mind, name));
+
+        if (session != null)
+            component.AssignedSessions.Add(session);
+    }
     // DS14-end
 
     /// <summary>

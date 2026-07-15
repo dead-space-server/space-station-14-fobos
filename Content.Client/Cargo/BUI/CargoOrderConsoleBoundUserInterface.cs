@@ -38,6 +38,9 @@ namespace Content.Client.Cargo.BUI
         [ViewVariables]
         public int OrderCount { get; private set; }
 
+        [ViewVariables]
+        public bool TradeHijacked { get; private set; } // DS14
+
         /// <summary>
         /// Currently selected product
         /// </summary>
@@ -134,6 +137,7 @@ namespace Content.Client.Cargo.BUI
 
             OrderCapacity = cState.Capacity;
             OrderCount = cState.Count;
+            TradeHijacked = cState.TradeHijacked; // DS14
             BankBalance = _cargoSystem.GetBalanceFromAccount(station, orderConsole.Account);
 
             AccountName = cState.Name;
@@ -142,6 +146,7 @@ namespace Content.Client.Cargo.BUI
                 return;
 
             _menu.ProductCatalogue = cState.Products;
+            _menu.TradeHijacked = TradeHijacked; // DS14
 
             _menu?.UpdateStation(station);
             Populate(cState.Orders);
@@ -160,6 +165,11 @@ namespace Content.Client.Cargo.BUI
 
         private bool AddOrder()
         {
+            // DS14-start
+            if (TradeHijacked)
+                return false;
+            // DS14-end
+
             var orderAmt = _orderMenu?.Amount.Value ?? 0;
             if (orderAmt < 1 || orderAmt > OrderCapacity)
             {
@@ -187,6 +197,11 @@ namespace Content.Client.Cargo.BUI
         {
             if (order == null)
                 return;
+
+            // DS14-start
+            if (TradeHijacked)
+                return;
+            // DS14-end
 
             if (OrderCount >= OrderCapacity)
                 return;

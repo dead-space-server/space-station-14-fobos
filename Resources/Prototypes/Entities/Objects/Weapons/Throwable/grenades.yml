@@ -33,6 +33,11 @@
     keysIn:
     - timer
     range: 7
+  #DS14-Start
+  - type: Flashbang
+    keysIn:
+    - timer
+  #DS14-End
   - type: EmitSoundOnTrigger
     keysIn:
     - timer

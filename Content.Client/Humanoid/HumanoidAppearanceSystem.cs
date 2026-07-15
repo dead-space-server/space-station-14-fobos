@@ -173,8 +173,32 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         var hairColor = _markingManager.MustMatchSkin(profile.Species, HumanoidVisualLayers.Hair, out var hairAlpha, _prototypeManager)
             ? profile.Appearance.SkinColor.WithAlpha(hairAlpha)
             : profile.Appearance.HairColor;
-        var hair = new Marking(profile.Appearance.HairStyleId,
-            new[] { hairColor });
+        // DS14-start
+        var hairStyleId = profile.Appearance.HairStyleId;
+        Color[] hairColors;
+        if (profile.Appearance.HairGradientEnabled)
+        {
+            var gradientId = hairStyleId.EndsWith("Gradient") ? hairStyleId : hairStyleId + "Gradient";
+            if (_markingManager.Markings.ContainsKey(gradientId))
+                hairStyleId = gradientId;
+
+            var gradientColor = _markingManager.MustMatchSkin(profile.Species, HumanoidVisualLayers.Hair, out _, _prototypeManager)
+                ? profile.Appearance.SkinColor.WithAlpha(hairAlpha)
+                : profile.Appearance.HairGradientColor;
+            hairColors = new[] { hairColor, gradientColor };
+        }
+        else
+        {
+            if (hairStyleId.EndsWith("Gradient"))
+            {
+                var baseId = hairStyleId[..^"Gradient".Length];
+                if (_markingManager.Markings.ContainsKey(baseId))
+                    hairStyleId = baseId;
+            }
+            hairColors = new[] { hairColor };
+        }
+        var hair = new Marking(hairStyleId, hairColors);
+        // DS14-end
 
         var facialHairColor = _markingManager.MustMatchSkin(profile.Species, HumanoidVisualLayers.FacialHair, out var facialHairAlpha, _prototypeManager)
             ? profile.Appearance.SkinColor.WithAlpha(facialHairAlpha)
@@ -222,6 +246,10 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         humanoid.Species = profile.Species;
         humanoid.SkinColor = profile.Appearance.SkinColor;
         humanoid.EyeColor = profile.Appearance.EyeColor;
+        // DS14-start
+        humanoid.HairGradientEnabled = profile.Appearance.HairGradientEnabled;
+        humanoid.HairGradientColor = profile.Appearance.HairGradientColor;
+        // DS14-end
 
         UpdateSprite((uid, humanoid, Comp<SpriteComponent>(uid)));
     }
@@ -354,7 +382,10 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
 
         for (var j = 0; j < markingPrototype.Sprites.Count; j++)
         {
-            var markingSprite = markingPrototype.Sprites[j];
+            // DS14-start
+            var markingLayer = markingPrototype.SpriteLayers[j];
+            var markingSprite = markingLayer.Sprite;
+            // DS14-end
 
             if (markingSprite is not SpriteSpecifier.Rsi rsi)
                 return;
@@ -369,6 +400,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             }
 
             _sprite.LayerSetVisible((entity.Owner, sprite), layerId, visible);
+            _sprite.LayerSetScale((entity.Owner, sprite), layerId, markingLayer.Scale); // DS14
 
             if (!visible || setting == null) // this is kinda implied
                 continue;

@@ -243,6 +243,7 @@
     buckleOffset: 0, 0.25
     lockBuckleOffset: true
   - type: BorgRide
+  - type: RenegadeCANTLightningAbility
   # DS14-End
   - type: StandingState
   - type: Tag

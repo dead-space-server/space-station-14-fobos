@@ -2,6 +2,7 @@ using System.Numerics;
 using Content.Shared.CombatMode;
 using Content.Shared.Interaction;
 using Content.Shared.Stunnable;
+using Content.Shared.Weapons.Melee;
 using Robust.Client.Animations;
 using Robust.Client.GameObjects;
 using Robust.Shared.Animations;
@@ -43,6 +44,11 @@ public sealed class StunSystem : SharedStunSystem
 
         if (!_timing.InPrediction || !_timing.IsFirstTimePredicted)
             return true;
+
+        // DS14-start
+        var suppressMelee = EnsureComp<SuppressMeleeAfterStandComponent>(uid);
+        suppressMelee.SuppressedUntil = _timing.CurTime + ForceStandMeleeSuppressionTime;
+        // DS14-end
 
         RaisePredictiveEvent(new ForceStandUpEvent());
         return true;

@@ -87,6 +87,36 @@
 
 - type: entity
   parent: BaseFlatpack
+  id: TaipanVehicleHoverbikeFlatpack
+  name: упаковка ховербайка
+  description: Горячие колёсики!
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+    - state: overlay
+      color: "#8B0000"
+    - state: icon-default
+  - type: Flatpack
+    entity: TaipanVehicleHoverbike
+
+- type: entity
+  parent: BaseFlatpack
+  id: TaipanVehicleQuadBikeFlatpack
+  name: упаковка квадроцикла
+  description: Горячие колёсики!
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+    - state: overlay
+      color: "#8B0000"
+    - state: icon-default
+  - type: Flatpack
+    entity: TaipanVehicleQuadBike
+
+- type: entity
+  parent: BaseFlatpack
   id: VehicleJanicartFlatpack
   name: упаковка уборочной машины
   description: Hot wheels!
@@ -99,3 +129,18 @@
     - state: icon-default
   - type: Flatpack
     entity: VehicleJanicart
+
+- type: entity
+  parent: BaseFlatpack
+  id: SMObeliskFlatpack
+  name: упакованный обелиск - Супер Материя
+  description: Fuck.
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+    - state: overlay
+      color: "#EFB341"
+    - state: icon-default
+  - type: Flatpack
+    entity: SMObelisk

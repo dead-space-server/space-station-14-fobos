@@ -29,6 +29,8 @@
     slots:
     - Snout
   #DS14-Start
+  - type: FlashbangProtection
+    reduction: 1
   - type: EmitSoundOnPickup
     sound:
       path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_pickup.ogg

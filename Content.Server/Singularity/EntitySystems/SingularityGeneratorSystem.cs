@@ -11,6 +11,8 @@ using Robust.Shared.Timing;
 using Content.Server.Chat.Systems;
 using Content.Server.DeadSpace.Taipan.Components;
 using Content.Server.Station.Systems;
+using Robust.Shared.Map;
+using Robust.Shared.Player;
 // DS14-end
 
 namespace Content.Server.Singularity.EntitySystems;
@@ -22,6 +24,8 @@ public sealed class SingularityGeneratorSystem : SharedSingularityGeneratorSyste
     private const string EngineStartupAnnouncement = "comp-generator-engine-startup-announcement";
     private const string SingularityEngineName = "comp-generator-engine-singularity";
     private const string TeslaEngineName = "comp-generator-engine-tesla";
+    private const string EngineStartupAnnouncementSender = "Автоматические Системы Станции";
+    private const string EngineStartupAnnouncementVoice = "Glados";
     // DS14-end
 
     #region Dependencies
@@ -79,6 +83,10 @@ public sealed class SingularityGeneratorSystem : SharedSingularityGeneratorSyste
 
     private void AnnounceEngineStartup(EntityUid uid, SingularityGeneratorComponent comp)
     {
+        var xform = Transform(uid);
+        if (xform.MapID == MapId.Nullspace)
+            return;
+
         var station = _station.GetOwningStation(uid);
         if (station == null)
             return;
@@ -92,9 +100,14 @@ public sealed class SingularityGeneratorSystem : SharedSingularityGeneratorSyste
             ? Loc.GetString(TeslaEngineName)
             : Loc.GetString(SingularityEngineName);
 
-        _chat.DispatchStationAnnouncement(
-            station.Value,
-            Loc.GetString(EngineStartupAnnouncement, ("engine", engineName)));
+        var announcement = Loc.GetString(EngineStartupAnnouncement, ("engine", engineName));
+
+        _chat.DispatchAdminFilteredAnnouncement(
+            Filter.Empty().AddInMap(xform.MapID, EntityManager),
+            announcement,
+            sender: EngineStartupAnnouncementSender,
+            originalMessage: announcement,
+            voice: EngineStartupAnnouncementVoice);
     }
     // DS14-end
 

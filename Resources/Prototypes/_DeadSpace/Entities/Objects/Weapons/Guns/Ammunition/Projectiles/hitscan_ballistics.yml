@@ -557,6 +557,9 @@
     staminaDamage: 60
   - type: HitscanPenetration
     penetrationThreshold: 360
+    maxPenetratedTargets: 3
+    maxDestroyedObstacles: 1
+    obstacleSearchRadius: 0.35
     penetrationDamageTypeRequirement:
     - Structural
 
@@ -578,6 +581,9 @@
     staminaDamage: 40
   - type: HitscanPenetration
     penetrationThreshold: 360
+    maxPenetratedTargets: 3
+    maxDestroyedObstacles: 1
+    obstacleSearchRadius: 0.35
     penetrationDamageTypeRequirement:
     - Structural
 
@@ -601,4 +607,40 @@
     proto: PelletShotgunMagnumTrace
     count: 6
     spread: 10
+
+- type: entity
+  id: NecromorphPlasmaCutterTrace
+  parent: BulletTrace
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Heat: 1
+        Structural: 50
+  - type: NecromorphPlasmaCutter
+  - type: HitscanPenetration
+    penetrationThreshold: 1008
+    maxPenetratedTargets: 7
+    maxDestroyedObstacles: 3
+    obstacleSearchRadius: 1
+    penetrationDamageTypeRequirement:
+    - Structural
+  - type: HitscanBasicVisuals
+    muzzleFlash:
+      sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/traces.rsi
+      state: pd_muzzle
+    travelFlash:
+      sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/traces.rsi
+      state: pd_trace
+    impactFlash:
+      sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/traces.rsi
+      state: pd_impact
+    bullet:
+      sprite:
+        sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/traces.rsi
+        state: empty
+  - type: HitscanBasicEffects
+    sound:
+      path: /Audio/Weapons/Guns/Hits/laser_sear_wall.ogg
 # DS14-end

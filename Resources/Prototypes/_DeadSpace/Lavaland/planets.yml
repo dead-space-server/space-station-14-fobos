@@ -17,6 +17,7 @@
   terminalTile: FloorBasalt
   terminalGridPath: /Maps/_DeadSpace/Lavaland/LavaLandBase.yml
   terminalGridName: Lavaland Mining Outpost
+  jaunterDestinationOffset: -10,-0.15
   minStructureDistance: 140
   maxStructureDistance: 310
   minStructureSeparation: 95

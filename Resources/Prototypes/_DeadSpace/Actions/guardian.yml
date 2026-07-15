@@ -1,0 +1,90 @@
+- type: entity
+  parent: BaseAction
+  id: ActionGuardianCharge
+  name: guardian charge
+  description: Leap to the selected point.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 5
+    priority: 2
+    icon:
+      sprite: Interface/Actions/actions_mecha.rsi
+      state: mech_savannah
+    itemIconStyle: NoItem
+  - type: InstantAction
+    event: !type:GravityJumpEvent {}
+
+- type: entity
+  parent: BaseAction
+  id: ActionGuardianForceWall
+  name: forcewall
+  description: Creates a magical barrier.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 15
+    itemIconStyle: BigAction
+    sound: !type:SoundPathSpecifier
+      path: /Audio/Magic/forcewall.ogg
+    icon:
+      sprite: Objects/Magic/magicactions.rsi
+      state: shield
+  - type: InstantAction
+    event: !type:InstantSpawnSpellEvent
+      prototype: WallForce
+      posData: !type:TargetInFront
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionGuardianRangedShot
+  name: hard-light bolt
+  description: Fire a rapid hard-light bolt.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: Objects/Weapons/Guns/Projectiles/projectiles_tg.rsi
+      state: heavylaser
+    itemIconStyle: BigAction
+    useDelay: 0.6
+    priority: 2
+  - type: TargetAction
+    checkCanAccess: false
+    range: 0
+  - type: WorldTargetAction
+    event: !type:ActionGunShootEvent
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionGuardianHealingBolt
+  name: healing bolt
+  description: Fire a small healing bolt.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: Objects/Weapons/Guns/Projectiles/magic.rsi
+      state: spell
+    itemIconStyle: BigAction
+    useDelay: 12
+    priority: 2
+  - type: TargetAction
+    checkCanAccess: false
+    range: 0
+  - type: WorldTargetAction
+    event: !type:ActionGunShootEvent
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionGuardianEvict
+  name: evict guardian
+  description: Sever the link to your holoparasite.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon: Interface/Actions/harm.png
+    useDelay: 5
+    priority: 1
+  - type: InstantAction
+    event: !type:GuardianEvictActionEvent
