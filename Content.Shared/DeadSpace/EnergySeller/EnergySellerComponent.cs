@@ -21,6 +21,6 @@ public sealed partial class EnergySellerComponent : Component
     public int MaxChargeRate = 1000000;
     [DataField]
     public int MaxLimit = 150000;
-
+    public DateTime LastSell = DateTime.Now;
     public Dictionary<ProtoId<CargoAccountPrototype>, double> Distribution = new();
 }
