@@ -45,6 +45,7 @@
                 <BoxContainer Name="RolesContainer"  Orientation="Vertical" />
             </ScrollContainer>
         </TabContainer>
+        <Button Name="TemplatesButton" Text="{Loc ban-panel-templates}" HorizontalExpand="True" /> <!-- DS14 -->
         <Button Name="SubmitButton" Text="{Loc ban-panel-submit}" HorizontalExpand="True" />
     </BoxContainer>
 </DefaultWindow>

@@ -18,6 +18,7 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+using Content.Client.DeadSpace.Administration.UI.BanPanel; //DS14
 
 namespace Content.Client.Administration.UI.BanPanel;
 
@@ -118,6 +119,17 @@ public sealed partial class BanPanel : DefaultWindow
             OnHwidChanged();
         };
         SubmitButton.OnPressed += SubmitButtonOnOnPressed;
+        // DS14-start
+        TemplatesButton.OnPressed += _ =>
+        {
+            var templatesWindow = new BanTemplatesWindow();
+            templatesWindow.OnTemplateSelected += reason =>
+            {
+                ReasonTextEdit.TextRope = new Rope.Leaf(reason);
+            };
+            templatesWindow.OpenCentered();
+        };
+        // DS14-end
 
         IpCheckbox.Pressed = _cfg.GetCVar(CCVars.ServerBanIpBanDefault);
         HwidCheckbox.Pressed = _cfg.GetCVar(CCVars.ServerBanHwidBanDefault);
