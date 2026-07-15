@@ -9,8 +9,6 @@ namespace Content.Client.DeadSpace.Administration.UI.BanPanel;
 public sealed partial class BanTemplatesWindow : DefaultWindow
 {
     public event Action<string>? OnTemplateSelected;
-
-    // DS14 — список шаблонов
     private readonly List<(string Name, string Reason)> _templates = new()
     {
         ("Перманентная", "Перманентная блокировка, Правило X, рецидив(если имеется): [краткое, понятное описание ситуации]. Обжалование в Discord."),
