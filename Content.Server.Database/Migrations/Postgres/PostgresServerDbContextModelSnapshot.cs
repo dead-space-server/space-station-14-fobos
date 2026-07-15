@@ -977,6 +977,10 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text")
                         .HasColumnName("active_preset_ids_json");
 
+                    b.Property<bool>("CheckPlayerLimit")
+                        .HasColumnType("boolean")
+                        .HasColumnName("check_player_limit");
+
                     b.Property<int>("CurrentPresetIndex")
                         .HasColumnType("integer")
                         .HasColumnName("current_preset_index");
@@ -994,17 +998,22 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("boolean")
                         .HasColumnName("enabled");
 
-                    b.Property<int>("MaxRdmDay")
-                        .HasColumnType("integer")
-                        .HasColumnName("max_rdm_day");
-
                     b.Property<int>("MaxRdmRow")
                         .HasColumnType("integer")
                         .HasColumnName("max_rdm_row");
 
+                    b.Property<bool>("PreventRepeatMode")
+                        .HasColumnType("boolean")
+                        .HasColumnName("prevent_repeat_mode");
+
                     b.Property<int>("VoteDurationSeconds")
                         .HasColumnType("integer")
                         .HasColumnName("vote_duration_seconds");
+
+                    b.Property<string>("WhitelistModesJson")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("whitelist_modes_json");
 
                     b.HasKey("ServerId")
                         .HasName("PK_game_preset_config");
