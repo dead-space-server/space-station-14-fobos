@@ -14,6 +14,7 @@ using Content.Shared.Chat;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.DeadSpace.Arena;
 using Content.Shared.Doors.Components;
+using Content.Shared.FixedPoint;
 using Content.Shared.Fluids.Components;
 using Content.Shared.GameTicking;
 using Content.Shared.Ghost;
@@ -31,6 +32,8 @@ using Content.Shared.Storage;
 using Content.Shared.Storage.Components;
 using Content.Shared.Storage.EntitySystems;
 using Content.Shared.Station;
+using Content.Shared.Store;
+using Content.Shared.Store.Components;
 using Robust.Server.GameObjects;
 using Robust.Server.Player;
 using Robust.Shared.Map;
@@ -108,8 +111,8 @@ public sealed class ArenaSystem : EntitySystem
     // Lock players to their first chosen team for the current TDM round
     private readonly Dictionary<NetUserId, ArenaTeam> _tdmTeamLocks = new();
 
-    // Saved inventory snapshot (survives death since it's on the system, not the body)
-    private readonly Dictionary<NetUserId, List<string>> _savedExtraItems = new();
+    // TDM pre-round purchases (listing IDs chosen from the store tab)
+    private readonly Dictionary<NetUserId, List<string>> _tdmPurchases = new();
 
     // Persistent stats across sub-rounds (not cleared between DM/TDM rounds)
     private readonly Dictionary<NetUserId, int> _persistDmKills = new();
@@ -216,6 +219,8 @@ public sealed class ArenaSystem : EntitySystem
         AssignTDTeams();
         RespawnAllForTDM();
         CloseTDMDoors();
+
+        _cleanTick = 0f;
 
         RoundState = ArenaRoundState.Preparation;
         RoundTimeRemaining = TDMPreparationDuration;
@@ -403,91 +408,9 @@ public sealed class ArenaSystem : EntitySystem
             RemComp<PacifiedComponent>(uid.Value);
         }
 
-        // Snapshot player inventories for respawn preservation
-        SnapshotTDMLoadouts();
-
         OpenTDMDoors();
         BroadcastRoundState();
         Log.Info("Arena TDM — round started");
-    }
-
-    private void SnapshotTDMLoadouts()
-    {
-        foreach (var netEnt in _roster)
-        {
-            if (!TryGetEntity(netEnt, out var uid))
-                continue;
-
-            if (!TryComp<ArenaPlayerComponent>(uid, out var arenaPlayer))
-                continue;
-
-            SaveInventorySnapshot(uid.Value, arenaPlayer);
-        }
-    }
-
-    private void SaveInventorySnapshot(EntityUid uid, ArenaPlayerComponent? arenaPlayer)
-    {
-        if (!TryComp<InventoryComponent>(uid, out var inventory))
-            return;
-
-        if (!_minds.TryGetMind(uid, out _, out var mind) || mind?.UserId is not { } userId)
-            return;
-
-        // Slots that are always provided by the preset – never save their direct items
-        var presetSlots = new HashSet<string>
-        {
-            "shoes", "jumpsuit", "outerClothing", "gloves", "neck", "mask", "eyes", "ears",
-            "head", "socks", "underwearb", "underweart", "id", "suitstorage", "back"
-        };
-
-        // Items inside these containers are saved (backpack, belt)
-        var storageSlots = new HashSet<string> { "back", "belt" };
-
-        // Items to never save (uplink radio and combat medkit from preset)
-        var excludeItems = new HashSet<string> { "ArenaUplinkRadio", "MedkitCombatFilled" };
-
-        var items = new List<string>();
-
-        var slotEnumerator = _inventory.GetSlotEnumerator((uid, inventory));
-        while (slotEnumerator.NextItem(out var item, out var slotDef))
-        {
-            // For storage containers (backpack, belt), save their contents
-            if (storageSlots.Contains(slotDef.Name) && TryComp<StorageComponent>(item, out var storageComp))
-            {
-                foreach (var stored in storageComp.Container.ContainedEntities)
-                {
-                    var storedProto = MetaData(stored).EntityPrototype?.ID;
-                    if (!string.IsNullOrEmpty(storedProto) && !excludeItems.Contains(storedProto))
-                        items.Add(storedProto);
-                }
-                continue;
-            }
-
-            // For preset slots that aren't storage, skip entirely
-            if (presetSlots.Contains(slotDef.Name))
-                continue;
-
-            // Pocket slots and anything else – save the item directly
-            var protoId = MetaData(item).EntityPrototype?.ID;
-            if (!string.IsNullOrEmpty(protoId) && !excludeItems.Contains(protoId))
-                items.Add(protoId);
-        }
-
-        // Collect in-hand items
-        if (TryComp<HandsComponent>(uid, out var handsComp))
-        {
-            foreach (var handName in _hands.EnumerateHands((uid, handsComp)))
-            {
-                if (!_hands.TryGetHeldItem((uid, handsComp), handName, out var held))
-                    continue;
-
-                var protoId = MetaData(held.Value).EntityPrototype?.ID;
-                if (!string.IsNullOrEmpty(protoId) && !excludeItems.Contains(protoId))
-                    items.Add(protoId);
-            }
-        }
-
-        _savedExtraItems[userId] = items;
     }
 
     private void EquipHiders()
@@ -1142,7 +1065,7 @@ public sealed class ArenaSystem : EntitySystem
         _tdmDoors.Clear();
         _arenaMap = null;
         _tdmTeamLocks.Clear();
-        _savedExtraItems.Clear();
+        _tdmPurchases.Clear();
         _persistDmKills.Clear();
         _persistDmDeaths.Clear();
         _persistTdmKills.Clear();
@@ -1156,7 +1079,7 @@ public sealed class ArenaSystem : EntitySystem
         CurrentMode = ArenaMode.Deathmatch;
     }
 
-    public ArenaLoadoutEuiState GetLoadoutState()
+    public ArenaLoadoutEuiState GetLoadoutState(NetUserId userId)
     {
         if (_presets.Count == 0)
             RefreshPresets();
@@ -1182,7 +1105,62 @@ public sealed class ArenaSystem : EntitySystem
             });
         }
 
-        return new ArenaLoadoutEuiState(options);
+        List<ArenaTdmListingData> storeListings;
+        List<string> purchased;
+        int remaining;
+
+        storeListings = GetTdmStoreListings();
+        purchased = _tdmPurchases.TryGetValue(userId, out var list) ? list : new List<string>();
+        var spent = storeListings
+            .Where(l => purchased.Contains(l.Id))
+            .Sum(l => l.Cost);
+        remaining = 40 - spent;
+
+        return new ArenaLoadoutEuiState(options, storeListings, purchased, remaining);
+    }
+
+    private List<ArenaTdmListingData> GetTdmStoreListings()
+    {
+        var uplinkCategories = new HashSet<ProtoId<StoreCategoryPrototype>>
+        {
+            "UplinkWeaponry", "UplinkAmmo", "UplinkExplosives", "UplinkChemicals",
+            "UplinkDeception", "UplinkDisruption", "UplinkImplants", "UplinkAllies",
+            "UplinkWearables", "UplinkJob", "UplinkPointless", "UplinkPresets",
+        };
+
+        var result = new List<ArenaTdmListingData>();
+        foreach (var listing in _protos.EnumeratePrototypes<ListingPrototype>())
+        {
+            if (!listing.Categories.Overlaps(uplinkCategories))
+                continue;
+
+            var cost = listing.Cost?.GetValueOrDefault("Telecrystal", FixedPoint2.Zero) ?? FixedPoint2.Zero;
+            if (cost == 0)
+                continue;
+
+            result.Add(new ArenaTdmListingData
+            {
+                Id = listing.ID,
+                Name = listing.Name ?? string.Empty,
+                Description = listing.Description ?? string.Empty,
+                Cost = (int)cost.Int(),
+                SpritePrototype = listing.ProductEntity ?? string.Empty,
+                Category = listing.Categories.Count > 0 ? listing.Categories.First().Id : string.Empty,
+            });
+        }
+
+        return result;
+    }
+
+    public void SetTdmPurchases(NetUserId userId, List<string> listingIds)
+    {
+        // Validate that all IDs are real store listings
+        var validIds = new HashSet<string>(GetTdmStoreListings().Select(l => l.Id));
+        var filtered = listingIds.Where(id => validIds.Contains(id)).ToList();
+        if (filtered.Count > 0)
+            _tdmPurchases[userId] = filtered;
+        else
+            _tdmPurchases.Remove(userId);
     }
 
     public bool SpawnPlayer(ArenaLoadoutEui eui, ICommonSession who, EntityUid sourceGhost, int kitIdx)
@@ -1263,8 +1241,8 @@ public sealed class ArenaSystem : EntitySystem
 
         _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
 
-        // Restore saved extra items from the TDM prep snapshot
-        RestoreSavedExtraItems(fresh, who.UserId);
+        // Apply TDM store purchases
+        ApplyTdmPurchases(fresh, who.UserId);
 
         var arenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
         arenaPlayer.OriginalMind = originalMindId;
@@ -1297,9 +1275,6 @@ public sealed class ArenaSystem : EntitySystem
     {
         _roster.Remove(GetNetEntity(body));
         _playerTeams.Remove(GetNetEntity(body));
-
-        // Save inventory before deletion so it survives into next spawn
-        SaveInventorySnapshot(body, arenaPlayer);
 
         if (!_minds.TryGetMind(body, out var temporaryMindId, out var temporaryMind))
         {
@@ -1492,19 +1467,17 @@ public sealed class ArenaSystem : EntitySystem
         catch { _persistPlayerNames[userId] = "Unknown"; }
     }
 
-    private void RestoreSavedExtraItems(EntityUid fresh, NetUserId userId)
+    private void ApplyTdmPurchases(EntityUid fresh, NetUserId userId)
     {
-        if (!_savedExtraItems.TryGetValue(userId, out var items) || items.Count == 0)
+        if (!_tdmPurchases.TryGetValue(userId, out var listingIds) || listingIds.Count == 0)
             return;
 
         if (!_inventory.TryGetSlotEntity(fresh, "back", out var backpack) ||
             !TryComp<StorageComponent>(backpack, out var storage))
             return;
 
-        // Collect all existing proto IDs on the character to avoid dupes
+        // Collect proto IDs already on the character for dedup
         var existingItems = new HashSet<string>();
-
-        // Check all inventory slots
         if (TryComp<InventoryComponent>(fresh, out var inv))
         {
             var checkEnumerator = _inventory.GetSlotEnumerator((fresh, inv));
@@ -1514,7 +1487,6 @@ public sealed class ArenaSystem : EntitySystem
                 if (!string.IsNullOrEmpty(protoId))
                     existingItems.Add(protoId);
 
-                // Check storage contents for this item
                 if (TryComp<StorageComponent>(equipItem, out var eqStorage))
                 {
                     foreach (var stored in eqStorage.Container.ContainedEntities)
@@ -1526,8 +1498,6 @@ public sealed class ArenaSystem : EntitySystem
                 }
             }
         }
-
-        // Check hands
         if (TryComp<HandsComponent>(fresh, out var hands))
         {
             foreach (var hand in _hands.EnumerateHands((fresh, hands)))
@@ -1541,13 +1511,18 @@ public sealed class ArenaSystem : EntitySystem
         }
 
         var coords = Transform(fresh).Coordinates;
-        foreach (var protoId in items)
+        foreach (var listingId in listingIds)
         {
-            if (existingItems.Contains(protoId))
+            var listing = _protos.Index<ListingPrototype>(listingId);
+            if (listing.ProductEntity is not { } product)
                 continue;
 
-            var item = Spawn(protoId, coords);
+            if (existingItems.Contains(product))
+                continue;
+
+            var item = Spawn(product, coords);
             _storage.Insert(backpack.Value, item, out _, storageComp: storage, playSound: false);
+            existingItems.Add(product);
         }
     }
 
@@ -1584,9 +1559,10 @@ public sealed class ArenaSystem : EntitySystem
         _meta.SetEntityName(fresh, mind.CharacterName ?? "Unknown");
         _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
 
-        // Restore saved extra items
         if (mind.UserId is { } userId)
-            RestoreSavedExtraItems(fresh, userId);
+        {
+            ApplyTdmPurchases(fresh, userId);
+        }
 
         var newArenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
         newArenaPlayer.OriginalMind = arenaPlayer.OriginalMind;
@@ -1650,10 +1626,12 @@ public sealed class ArenaSystem : EntitySystem
     public override void Update(float frameTime)
     {
         _cleanTick += frameTime;
-        if (_cleanTick >= 60f)
+        var threshold = CurrentMode == ArenaMode.TDM ? 180f : 60f;
+        if (_cleanTick >= threshold)
         {
             _cleanTick = 0f;
-            ZapArena();
+            if (!(CurrentMode == ArenaMode.TDM && RoundState == ArenaRoundState.Preparation))
+                ZapArena();
         }
 
         TickRound(frameTime);

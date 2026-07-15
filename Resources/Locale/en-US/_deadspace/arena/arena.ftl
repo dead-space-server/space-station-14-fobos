@@ -21,3 +21,12 @@ arena-category-smgs = SMGS
 arena-category-rifles = RIFLES
 arena-category-revolvers = PISTOLS
 arena-category-melee = MELEE
+
+## Arena store tab
+arena-tab-presets = Presets
+arena-tab-store = TDM Store
+arena-store-title = TDM Store — choose items ({ $balance } TC)
+arena-store-balance = Remaining: { $remaining } TC
+arena-store-search-placeholder = Search...
+arena-store-save = Save
+arena-store-cost-format = { $cost } TC

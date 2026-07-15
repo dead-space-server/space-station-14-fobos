@@ -18,6 +18,10 @@ public sealed class ArenaLoadoutEui : BaseEui
         {
             SendMessage(new ArenaLoadoutSelectedMessage(weaponIdx));
         };
+        _window.OnStorePurchaseConfirm += listingIds =>
+        {
+            SendMessage(new ArenaTdmPurchaseConfirmMessage(listingIds));
+        };
     }
 
     public override void Opened()

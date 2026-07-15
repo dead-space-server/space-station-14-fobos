@@ -20,7 +20,7 @@ public sealed class ArenaLoadoutEui : BaseEui
 
     public override EuiStateBase GetNewState()
     {
-        return _arena.GetLoadoutState();
+        return _arena.GetLoadoutState(_session.UserId);
     }
 
     public override void HandleMessage(EuiMessageBase msg)
@@ -34,6 +34,11 @@ public sealed class ArenaLoadoutEui : BaseEui
             _arena.SpawnPlayer(this, _session, SourceGhost, selected.WeaponIndex);
             if (!IsShutDown)
                 Close();
+        }
+        else if (msg is ArenaTdmPurchaseConfirmMessage purchase)
+        {
+            _arena.SetTdmPurchases(_session.UserId, purchase.ListingIds);
+            StateDirty();
         }
     }
 

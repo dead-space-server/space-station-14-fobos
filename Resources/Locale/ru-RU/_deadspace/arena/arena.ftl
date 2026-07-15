@@ -53,6 +53,15 @@ arena-manifest-overall-title = Лучший игрок арены (DM + TDM):
 arena-manifest-overall-player = { $name } — всего { $kills }/{ $deaths } (K/D: { $kd })
 arena-manifest-overall-detail = DM: { $dmk }/{ $dmd } | TDM: { $tdmk }/{ $tdmd }
 
+## Arena store tab
+arena-tab-presets = Пресеты
+arena-tab-store = Закуп ТДМ
+arena-store-title = Выберите предметы ({ $balance } ТК)
+arena-store-balance = Остаток: { $remaining } ТК
+arena-store-search-placeholder = Поиск...
+arena-store-save = Сохранить
+arena-store-cost-format = { $cost } ТК
+
 ## Arena winners
 arena-winner-dm = { $name } победил с K/D { $kills }/{ $deaths }!
 arena-winner-dm-wrap = *{ $name } побеждает в Deathmatch с K/D { $kills }/{ $deaths }!*

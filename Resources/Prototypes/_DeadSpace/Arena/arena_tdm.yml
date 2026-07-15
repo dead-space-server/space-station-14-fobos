@@ -59,13 +59,6 @@
   - type: SelfUnremovableClothing
 
 - type: entity
-  parent: BaseUplinkRadio40TC
-  id: ArenaUplinkRadio
-  components:
-  - type: Store
-    expectedFaction:
-
-- type: entity
   parent: ArenaSpawnPoint
   id: ArenaTeamSpawnBlue
   components:
@@ -98,7 +91,6 @@
   storage:
     back:
       - MedkitCombatFilled
-      - ArenaUplinkRadio
 
 - type: arenaLoadoutPreset
   id: ArenaTeamRed
@@ -119,4 +111,3 @@
   storage:
     back:
       - MedkitCombatFilled
-      - ArenaUplinkRadio
