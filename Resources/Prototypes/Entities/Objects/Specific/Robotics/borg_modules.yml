@@ -1018,27 +1018,33 @@
     hands:
     - item: HandheldHealthAnalyzer
     - item: BorgHypo
-    - item: Gauze
+    - item: LargeBeaker
       hand:
-        emptyLabel: borg-slot-topicals-empty
-        emptyRepresentative: Gauze
+        emptyLabel: borg-slot-chemical-containers-empty
+        emptyRepresentative: LargeBeaker
         whitelist:
           components:
-          - Healing
-    - item: Brutepack
+          - FitsInDispenser
+          tags:
+          - ChemDispensable
+    - item: Beaker
       hand:
-        emptyLabel: borg-slot-topicals-empty
-        emptyRepresentative: Brutepack
+        emptyLabel: borg-slot-chemical-containers-empty
+        emptyRepresentative: Beaker
         whitelist:
           components:
-          - Healing
-    - item: Ointment
+          - FitsInDispenser
+          tags:
+          - ChemDispensable
+    - item: Beaker
       hand:
-        emptyLabel: borg-slot-topicals-empty
-        emptyRepresentative: Ointment
+        emptyLabel: borg-slot-chemical-containers-empty
+        emptyRepresentative: Beaker
         whitelist:
           components:
-          - Healing
+          - FitsInDispenser
+          tags:
+          - ChemDispensable
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: adv-chem-module }
 
