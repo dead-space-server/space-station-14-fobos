@@ -13,6 +13,8 @@ using Content.Shared.Mind.Components;
 using Content.Shared.DeadSpace.Languages.Components;
 using Robust.Shared.Containers;
 using Content.Shared.Mobs;
+using Content.Shared.Actions; //DS14
+using Content.Shared.Revenant.Components; //DS14
 
 namespace Content.Server.Revenant.EntitySystems;
 
@@ -23,6 +25,7 @@ public sealed class RevenantMindCapturedSystem : EntitySystem
     [Dependency] private readonly SharedMindSystem _mind = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly GhostSystem _ghost = default!;
+    [Dependency] private readonly SharedActionsSystem _actions = default!; //DS14
 
     public override void Initialize()
     {
@@ -87,6 +90,13 @@ public sealed class RevenantMindCapturedSystem : EntitySystem
             language.CantSpeakLanguages = comp.ReturnCantSpeakLanguages;
             language.KnownLanguages = comp.ReturnKnownLanguages;
         }
+
+        //DS14-Start
+        if (TryComp<RevenantComponent>(comp.RevenantUid, out var revenantComp))
+        {
+            _actions.RemoveAction(uid, revenantComp.HackActionEntity);
+        }
+        //DS14-End
 
         if (_mind.TryGetMind(comp.RevenantUid, out var mindId, out var mind) && mind.VisitingEntity == uid)
             _mind.UnVisit(mindId, mind);

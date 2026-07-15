@@ -80,4 +80,29 @@
   - !type:ListingLimitedStockCondition
     stock: 1
 
+- type: listing
+  id: RevenantScream
+  name: Крик
+  description: Издаёт пронзительный крик привлекающий людей
+  productAction: ActionRevenantScream
+  cost:
+    StolenEssence: 30
+  categories:
+  - RevenantAbilities
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: RevenantHack
+  name: Взлом
+  description: Открывает выбранный вами шлюз или шкаф
+  productAction: ActionRevenantHack
+  cost:
+    StolenEssence: 50
+  categories:
+  - RevenantAbilities
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
 #DS14-end

@@ -72,6 +72,13 @@ public sealed partial class RevenantMindCaptureActionEvent : EntityTargetActionE
 public sealed partial class RevenantBeamFireActionEvent : EntityTargetActionEvent
 {
 }
+public sealed partial class RevenantScreamActionEvent : InstantActionEvent
+{
+}
+
+public sealed partial class RevenantHackActionEvent : EntityTargetActionEvent
+{
+}
 //DS14-end
 
 [NetSerializable, Serializable]
