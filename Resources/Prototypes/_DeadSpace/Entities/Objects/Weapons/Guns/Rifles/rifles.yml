@@ -365,3 +365,10 @@
     steps: 1
     zeroVisible: true
   - type: Appearance
+  - type: UnpoweredFlashlight
+  - type: PointLight
+    enabled: false
+    mask: /Textures/Effects/LightMasks/cone.png
+    autoRot: true
+    radius: 6
+    netsync: false
