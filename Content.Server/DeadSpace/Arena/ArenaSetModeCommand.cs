@@ -16,7 +16,7 @@ public sealed class ArenaSetModeCommand : LocalizedCommands
     {
         if (args.Length < 1)
         {
-            shell.WriteLine("Usage: arenasetmode <deathmatch|prophunt>");
+            shell.WriteLine("Usage: arenasetmode <deathmatch|prophunt|tdm>");
             return;
         }
 
@@ -39,8 +39,11 @@ public sealed class ArenaSetModeCommand : LocalizedCommands
             case "prophunt":
                 mode = ArenaMode.PropHunt;
                 break;
+            case "tdm":
+                mode = ArenaMode.TDM;
+                break;
             default:
-                shell.WriteLine("Unknown mode. Use: deathmatch, prophunt");
+                shell.WriteLine("Unknown mode. Use: deathmatch, prophunt, tdm");
                 return;
         }
 

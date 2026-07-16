@@ -344,14 +344,23 @@ public sealed class ArenaSystem : EntitySystem
             // Spawn at team spawn
             var spot = GetTeamSpawn(team);
             string speciesId;
+            HumanoidCharacterProfile? profile = null;
             if (mind.UserId != null)
             {
-                var profile = _prefs.GetPreferences(mind.UserId.Value).SelectedCharacter as HumanoidCharacterProfile;
+                profile = _prefs.GetPreferences(mind.UserId.Value).SelectedCharacter as HumanoidCharacterProfile;
                 speciesId = profile?.Species ?? SharedHumanoidAppearanceSystem.DefaultSpecies;
             }
             else
             {
                 speciesId = SharedHumanoidAppearanceSystem.DefaultSpecies;
+            }
+
+            // Force human species for Vox/IPC
+            if (profile != null && (profile.Species == "Vox" || profile.Species == "IPC"))
+            {
+                profile = profile.WithSpecies("Human")
+                    .WithCharacterAppearance(HumanoidCharacterAppearance.DefaultWithSpecies("Human"));
+                speciesId = "Human";
             }
 
             var species = _protos.Index<SpeciesPrototype>(speciesId);
@@ -360,12 +369,8 @@ public sealed class ArenaSystem : EntitySystem
             var entityName = mind.CharacterName ?? "Unknown";
             _meta.SetEntityName(fresh, entityName);
 
-            if (mind.UserId != null)
-            {
-                var profile = _prefs.GetPreferences(mind.UserId.Value).SelectedCharacter as HumanoidCharacterProfile;
-                if (profile != null)
-                    _humanoid.LoadProfile(fresh, profile);
-            }
+            if (profile != null)
+                _humanoid.LoadProfile(fresh, profile);
             _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
 
             if (mind.UserId is { } tdmUserId)
@@ -597,7 +602,7 @@ public sealed class ArenaSystem : EntitySystem
     private void BroadcastVoteState()
     {
         var available = new List<ArenaMode> { ArenaMode.Deathmatch, ArenaMode.TDM };
-        if (_roster.Count >= 2)
+        if (_roster.Count >= 999) // пропхант пока под перепилкой, вместо удаления пока мягкий блок
             available.Add(ArenaMode.PropHunt);
 
         var ev = new ArenaVoteStateEvent(available, new Dictionary<NetEntity, ArenaMode>(_votes));
@@ -682,7 +687,7 @@ public sealed class ArenaSystem : EntitySystem
 
         if (tdmVotes > dmVotes && tdmVotes > phVotes)
             NextMode = ArenaMode.TDM;
-        else if (phVotes > dmVotes && _roster.Count >= 2)
+        else if (phVotes > dmVotes && _roster.Count >= 999) // пропхант пока под перепилкой, вместо удаления пока мягкий блок
             NextMode = ArenaMode.PropHunt;
         else
             NextMode = ArenaMode.Deathmatch;
@@ -1242,6 +1247,16 @@ public sealed class ArenaSystem : EntitySystem
 
         var profile = _prefs.GetPreferences(who.UserId).SelectedCharacter as HumanoidCharacterProfile;
         string speciesId = profile?.Species ?? SharedHumanoidAppearanceSystem.DefaultSpecies;
+
+        // Force human species for Vox/IPC
+        if (profile != null && (profile.Species == "Vox" || profile.Species == "IPC"))
+        {
+            profile = profile
+                .WithSpecies("Human")
+                .WithCharacterAppearance(HumanoidCharacterAppearance.DefaultWithSpecies("Human"));
+            speciesId = "Human";
+        }
+
         var species = _protos.Index<SpeciesPrototype>(speciesId);
         var fresh = Spawn(species.Prototype, spot);
 

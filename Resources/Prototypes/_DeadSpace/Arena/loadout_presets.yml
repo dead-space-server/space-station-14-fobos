@@ -12,6 +12,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -19,6 +20,9 @@
   storage:
     back:
       - MedkitCombatFilled
+    belt:
+      - MagazineShotgun
+      - MagazineShotgun
       - MagazineShotgun
       - MagazineShotgunSlug
       - MagazineShotgunSlug
@@ -35,6 +39,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -42,6 +47,9 @@
   storage:
     back:
       - MedkitCombatFilled
+    belt:
+      - MagazinePistolSubMachineGun
+      - MagazinePistolSubMachineGun
       - MagazinePistolSubMachineGun
       - MagazinePistolSubMachineGun
       - MagazinePistolSubMachineGun
@@ -58,6 +66,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -65,6 +74,8 @@
   storage:
     back:
       - MedkitCombatFilled
+    belt:
+      - MagazineRifle
       - MagazineRifle
       - MagazineRifle
       - MagazineRifle
@@ -82,6 +93,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -89,6 +101,9 @@
   storage:
     back:
       - MedkitCombatFilled
+    belt:
+      - MagazineEagle
+      - MagazineEagle
       - MagazineEagle
       - MagazineEagle
 
@@ -104,6 +119,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -111,6 +127,8 @@
   storage:
     back:
       - MedkitCombatFilled
+    belt:
+      - MagazineHristov
       - MagazineHristov
       - MagazineHristov
       - MagazineHristov
@@ -127,6 +145,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -134,6 +153,8 @@
   storage:
     back:
       - MedkitCombatFilled
+    belt:
+      - Stimpack
       - Stimpack
       - Stimpack
 
@@ -149,10 +170,13 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
   inhand:
     - BookArkalyse
   storage:
     back:
       - MedkitCombatFilled
+    belt:
+      - Stimpack
       - Stimpack
       - Stimpack

@@ -86,11 +86,15 @@
     head: ArenaHelmetBlue
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   storage:
     back:
       - MedkitCombatFilled
+    belt:
+      - MagazinePistol
+      - MagazinePistol
 
 - type: arenaLoadoutPreset
   id: ArenaTeamRed
@@ -106,8 +110,12 @@
     head: ArenaHelmetRed
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   storage:
     back:
       - MedkitCombatFilled
+    belt:
+      - MagazinePistol
+      - MagazinePistol
