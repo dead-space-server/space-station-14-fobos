@@ -32,3 +32,8 @@
   id: spike
   flavorType: Base
   description: flavor-complex-spike
+
+- type: flavor
+  id: durf
+  flavorType: Base
+  description: flavor-complex-durf
