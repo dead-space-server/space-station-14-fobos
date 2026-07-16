@@ -948,6 +948,7 @@
     hands:
     - item: HandheldHealthAnalyzer
     - item: DefibrillatorOneHandedUnpowered
+    # DS14-start
     - item: EmergencyMedipen
       hand:
         emptyLabel: borg-slot-injector-dropper-empty
@@ -955,6 +956,7 @@
         whitelist:
           tags:
           - Medipen
+    # DS14-end
     - item: Crowbar
     - item: BorgFireExtinguisher
     - item: BorgHandheldGPSBasic
@@ -1025,6 +1027,7 @@
     hands:
     - item: HandheldHealthAnalyzer
     - item: BorgHypo
+    #DS14-start
     - item: LargeBeaker
       hand:
         emptyLabel: borg-slot-chemical-containers-empty
@@ -1052,6 +1055,28 @@
           - FitsInDispenser
           tags:
           - ChemDispensable
+    #- item: Gauze
+    #  hand:
+    #    emptyLabel: borg-slot-topicals-empty
+    #    emptyRepresentative: Gauze
+    #    whitelist:
+    #      components:
+    #      - Healing
+    #- item: Brutepack
+    #  hand:
+    #    emptyLabel: borg-slot-topicals-empty
+    #    emptyRepresentative: Brutepack
+    #    whitelist:
+    #      components:
+    #      - Healing
+    #- item: Ointment
+    #  hand:
+    #    emptyLabel: borg-slot-topicals-empty
+    #    emptyRepresentative: Ointment
+    #    whitelist:
+    #      components:
+    #      - Healing
+    #DS14-end
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: adv-chem-module }
 
