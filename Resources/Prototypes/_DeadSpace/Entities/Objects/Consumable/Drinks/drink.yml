@@ -146,3 +146,24 @@
   - type: Icon
     sprite: _DeadSpace/Objects/Consumable/Drinks/oasiscactus.rsi
     state: icon
+
+- type: entity
+  parent: [DrinkVisualsAllFilled, DrinkBottleGlassSmallBaseFull]
+  id: DrinkDurfBottleFull
+  name: Бутылка Дурфа
+  description: Напиток для настоящих дворфов!
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 50
+        reagents:
+        - ReagentId: Durf
+          Quantity: 50
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Drinks/durfbottle.rsi
+    state: icon
+  - type: Tag
+    tags:
+    - Bottle
+    - Durf
