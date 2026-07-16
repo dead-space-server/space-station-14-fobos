@@ -948,6 +948,13 @@
     hands:
     - item: HandheldHealthAnalyzer
     - item: DefibrillatorOneHandedUnpowered
+    - item: EmergencyMedipen
+      hand:
+        emptyLabel: borg-slot-injector-dropper-empty
+        emptyRepresentative: EmergencyMedipen
+        whitelist:
+          tags:
+          - Medipen
     - item: Crowbar
     - item: BorgFireExtinguisher
     - item: BorgHandheldGPSBasic
