@@ -619,7 +619,7 @@
   parent: ClothingShoesBootsWinterSecFilled
   id: ClothingShoesBootsJackAkiDeltaSand
   name: подкованные сапоги
-  description: Обувь военных Nanotrasen для боевых операций почти в любых условиях.
+  description: Обувь военных NanoTrasen для боевых операций почти в любых условиях.
   suffix: Akitovsky, Песок
   components:
   - type: Sprite
@@ -634,7 +634,7 @@
   parent: ClothingShoesBootsWinterSecFilled
   id: ClothingShoesBootsJackAkiDeltaBlack
   name: подкованные сапоги
-  description: Обувь военных Nanotrasen для боевых операций почти в любых условиях.
+  description: Обувь военных NanoTrasen для боевых операций почти в любых условиях.
   suffix: Akitovsky
   components:
   - type: Sprite
@@ -1064,7 +1064,7 @@
   parent: VendingMachine
   id: VendingMachineSpecDrobeAki
   name: СпецназМат
-  description: Торговый автомат одежды спецназа Nanotrasen.
+  description: Торговый автомат одежды спецназа NanoTrasen.
   suffix: Akitovsky
   components:
   - type: VendingMachine
@@ -1393,6 +1393,26 @@
         - ShellShotgun
     capacity: 8
 
+# Магазин 12х70 дробь Пиранья Extended
+- type: entity
+  id: Magazine12x70PiranhaExtended
+  name: барабан (Расширенный 12х70 дробь Пиранья)
+  parent: ADTBaseMagazineShotgunXL
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge12x70Piranha
+    mayTransfer: true
+    whitelist:
+      tags:
+        - ShellShotgun
+    capacity: 16
+  - type: Sprite
+    layers:
+    - state: pellets
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
 # Беретта
 - type: entity
   name: Beretta M92
@@ -1425,6 +1445,7 @@
   parent: BaseMagazinePistol
   id: Magazine9x19AP63
   name: пистолетный магазин (9х19 мм AP 6.3)
+  suffix: Akitovsky
   components:
   - type: BallisticAmmoProvider
     proto: Cartridge9x19AP63
@@ -1450,6 +1471,10 @@
   description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении спецназа. Переработан под 9х19 мм.
   suffix: Akitovsky, Оружие
   components:
+  - type: Item
+    size: Large
+    shape:
+    - 0,0,2,1
   - type: ItemSlots
     slots:
       gun_magazine:
@@ -1478,6 +1503,10 @@
   components:
   - type: BallisticAmmoProvider
     proto: Cartridge9x19AP63
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgePistol
   - type: Sprite
     scale: 1.2, 1.2 # DS-14
     layers:
@@ -1495,7 +1524,7 @@
     tags: 
     - MagazinePistolTochmash
 
-# Вектор
+# CRISS Vector
 - type: entity
   name: KRISS Vector
   parent: WeaponTochmash
@@ -1503,6 +1532,10 @@
   description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении спецназа. Переработан под 9х19 мм.
   suffix: Akitovsky, Оружие
   components:
+  - type: Item
+    size: Large
+    shape:
+    - 0,0,2,1
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/KRISS_Vector.rsi
     layers:
@@ -1532,6 +1565,93 @@
     soundGunshot:
       path: /Audio/_DeadSpace/TEMP_FOR_EVENT/Akitovsky/sfx/vector.ogg
     fireRate: 9.5
+
+# CheyTac M200 «Intervention»
+- type: entity 
+  name: CheyTac M200 «Intervention»
+  parent: BaseWeaponRifle
+  id: WeaponCheyTacM200Aki
+  description: Высокоточная крупнокалиберная снайперская винтовка, выпускаемая компанией CheyTac LLC.
+  suffix: Akitovsky
+  components:
+  - type: CursorOffsetRequiresWield
+  - type: EyeCursorOffset
+    maxOffset: 40
+    pvsIncrease: 2.3
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/M200_CheyTac.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/M200_CheyTac.rsi
+  - type: Item
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/M200_CheyTac.rsi
+    size: Ginormous
+  - type: Gun
+    fireRate: 0.2
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/_DeadSpace/TEMP_FOR_EVENT/Akitovsky/sfx/cheytac.ogg
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazineCheyTacM200Aki408CT
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+          - MagazineCheyTac
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: Cartridge408CT
+        priority: 1
+        whitelist:
+          tags:
+          - Cartridge408CT
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance
+  - type: UseDelay
+    delay: 3
+  - type: GunRequiresWield
+
+# Магазин CheyTac M200 «Intervention» .408 CT
+- type: entity
+  id: MagazineCheyTacM200Aki408CT
+  name: магазин (.408 CT)
+  suffix: Akitovsky
+  description: ""
+  parent: MagazineRifle
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge408CT
+    capacity: 5
+    whitelist:
+      tags:
+      - Cartridge408CT
+  - type: Tag
+    tags:
+    - MagazineCheyTac
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Magazine/magazine_heavy_sniper.rsi
+    layers:
+    - state: base
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
 
 # Иконки работ
 - type: jobIcon
@@ -1606,6 +1726,68 @@
     airBlockedDirection:
     - South
     fixVacuum: true
+
+# Обозначения улицы
+- type: entity
+  parent: BaseSign
+  id: SignStreetNameBaseAki
+  name: улица N
+  description: Синяя табличка с обозначением улицы.
+  suffix: Akitovsky, Маппинг, Улица
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/signs.rsi
+    state: street_sign
+    snapCardinals: false
+
+- type: entity
+  parent: SignStreetNameBaseAki
+  id: SignStreetSouyzaAki
+  name: улица Союза
+  description: Синяя табличка с обозначением улицы.
+
+- type: entity
+  parent: SignStreetNameBaseAki
+  id: SignStreetVolnykhStarateleyAki
+  name: улица Вольных Старателей
+  description: Синяя табличка с обозначением улицы.
+
+- type: entity
+  parent: SignStreetNameBaseAki
+  id: SignStreetRynochnayaPloshchadAki
+  name: Рыночная площадь
+  description: Синяя табличка с обозначением улицы.
+
+- type: entity
+  parent: SignStreetNameBaseAki
+  id: SignStreetKaktusovyProezdAki
+  name: Кактусовый проезд
+  description: Синяя табличка с обозначением улицы.
+
+- type: entity
+  parent: SignStreetNameBaseAki
+  id: SignStreetKrasnoyZvezdyAki
+  name: улица Красной Звезды
+  description: Синяя табличка с обозначением улицы.
+
+- type: entity
+  parent: SignStreetNameBaseAki
+  id: SignStreetInternatsionalaAki
+  name: улица Интернационала
+  description: Синяя табличка с обозначением улицы.
+
+- type: entity
+  parent: SignStreetNameBaseAki
+  id: SignStreetPereulokIskryAki
+  name: переулок Искры
+  description: Синяя табличка с обозначением улицы.
+
+- type: entity
+  parent: SignStreetNameBaseAki
+  id: SignStreetPervogoMayaAki
+  name: улица Первого Мая
+  description: Синяя табличка с обозначением улицы.
 
 ################# RMC
 # Мешки с песком

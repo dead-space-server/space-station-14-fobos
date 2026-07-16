@@ -19,7 +19,7 @@
 
 - type: job
   id: JobLieutenantSpecialForceKaisanenSand
-  name: Лейтенант «Дельта-6»
+  name: Офицер «Дельта-6»
   description: job-description-soo
   playTimeTracker: PlayTimeTrackerSpecialForceLieutenantKaisanenSand
   setPreference: false
@@ -54,36 +54,34 @@
     head: ClothingHeadHatPanamaAkiSand
     id: AkiDeltaIDCard
     belt: ClothingBeltMilitaryWebbingAkiDeltaSand
-    pocket1: WeaponPistolDesertEagleAki
     pocket2: DrinkMREFlask
     outerClothing: ClothingOuterArmorDeltaAkiSand
     back: ClothingMilitaryBackpackDeltaAkiSand
-    suitstorage: WeaponVSKAki
+    suitstorage: WeaponCheyTacM200Aki
   storage:
     back:
-    - MagazineBoxVSKAki
-    - MagazineBoxVSKAki
-    - MagazineBoxVSKAki
     - CrowbarRed
+    - MagazineBox408CT
+    - MagazineBox408CT
+    - MagazineBox9x19AP63
+    - AutosurgeonRevive
     - EmergencyMedipen
+    - WeaponKRISSVectorAki
     - BoxMRE
     - Flare
-    - PowerCellMedium
-    - AutosurgeonRevive
     - CombatMedipen
     - CombatMedipen
     - PinpointerUniversal
     belt:
     - Handcuffs
     - Handcuffs
-    - MagazineVSK9x39SP6
-    - MagazineVSK9x39SP6
-    - MagazineVSK9x39SP6
-    - MagazineVSK9x39SP6
-    - MagazineVSK9x39SP6
-    - MagazineVSK9x39SP6
-    - MagazineEagle357MagnumFMJ
-    - MagazineEagle357MagnumFMJ
+    - MagazineCheyTacM200Aki408CT
+    - MagazineCheyTacM200Aki408CT
+    - MagazineCheyTacM200Aki408CT
+    - MagazineCheyTacM200Aki408CT
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
 
 
 # Спавнеры
@@ -107,7 +105,7 @@
 
 - type: job
   id: JobLieutenantSpecialForceKaisanenBlack
-  name: Лейтенант «Дельта-6»
+  name: Офицер «Дельта-6»
   description: job-description-soo
   playTimeTracker: PlayTimeTrackerSpecialForceLieutenantKaisanenBlack
   setPreference: false
@@ -155,7 +153,6 @@
     - EmergencyMedipen
     - BoxMRE
     - Flare
-    - PowerCellMedium
     - AutosurgeonRevive
     - CombatMedipen
     - CombatMedipen
@@ -196,7 +193,7 @@
 
 - type: job
   id: JobLieutenantSpecialForceMirs
-  name: Лейтенант «Дельта-6»
+  name: Офицер «Дельта-6»
   description: job-description-soo
   playTimeTracker: PlayTimeTrackerSpecialForceLieutenantMirs
   setPreference: false
@@ -231,21 +228,20 @@
     shoes: ClothingShoesBootsJackAkiDeltaSand
     id: AkiDeltaIDCard
     belt: ClothingBeltAkiDeltaSand
-    pocket1: WeaponRevolverRSh12
-    pocket2: WeaponRevolverRSh12
+    #pocket1: WeaponRevolverRSh12
+    #pocket2: WeaponRevolverRSh12
     outerClothing: ClothingOuterArmorDeltaAkiSand
     back: ClothingMilitaryBackpackDeltaAkiSand
   storage:
     back:
-    - WeaponShotgunBulldog
-    - BoxLethalshot
-    - BoxLethalshot
-    - BoxLethalshot
+    - WeaponShotgunBulldogAki
+    - MagazineBox12x70Piranha
+    - MagazineBox12x70Piranha
+    - MagazineBox12x70Piranha
     - CrowbarRed
     - EmergencyMedipen
     - BoxMRE
     - Flare
-    - PowerCellMedium
     - AutosurgeonRevive
     - CombatMedipen
     - CombatMedipen
@@ -254,12 +250,12 @@
     belt:
     - Handcuffs
     - Handcuffs
-    - ADTMagazineShotgunXL
-    - ADTMagazineShotgunXL
-    - ADTMagazineShotgunXL
-    - MagazineShotgun
-    - MagazineShotgun
-    - MagazineShotgun
+    - Magazine12x70PiranhaExtended
+    - Magazine12x70PiranhaExtended
+    - Magazine12x70PiranhaExtended
+    - Magazine12x70Piranha
+    - Magazine12x70Piranha
+    - Magazine12x70Piranha
 
 # Генерал ВСН
 - type: entity
@@ -338,7 +334,7 @@
 
 - type: job
   id: JobCaptainSpecialForceMylo
-  name: Капитан «Дельта-6»
+  name: Старший Офицер «Дельта-6»
   description: job-description-soo
   playTimeTracker: PlayTimeTrackerSpecialForceCaptainMylo
   setPreference: false
@@ -371,37 +367,36 @@
     gloves: ClothingHandsGlovesCombatAkiDeltaSand
     shoes: ClothingShoesBootsJackAkiDeltaSand
     id: AkiDeltaIDCard
-    belt: ClothingBeltAkiDeltaSand
-    pocket1: WeaponPistolDesertEagle
+    belt: ClothingBeltMilitaryWebbingAkiDeltaSand
+    pocket1: WeaponPistolDesertEagleAki
     pocket2: DrinkMREFlask
     outerClothing: ClothingOuterArmorDeltaAkiSand
     back: ClothingMilitaryBackpackDeltaAkiSand
+    suitstorage: WeaponRifleHK416Aki
   storage:
     back:
-    - WeaponRifleAsVal
-    - MagazineBoxLightRifleBig
-    - MagazineBoxLightRifleBig
+    - MagazineBox556x45AP
+    - MagazineBox556x45AP
     - CrowbarRed
     - EmergencyMedipen
     - BoxMRE
     - Flare
-    - PowerCellMedium
     - CombatMedipen
     - PinpointerUniversal
-    - MagazineEagle
-    - MagazineEagle
+    - MagazineEagle357MagnumFMJ
+    - MagazineEagle357MagnumFMJ
     - ClothingMaskNeckGaiter
     - CigarGoldCase
     - FlippoEngravedLighter
     belt:
+    - Magazine556x45APExtended
+    - Magazine556x45APExtended
+    - Magazine556x45APExtended
+    - Magazine556x45AP
+    - Magazine556x45AP
+    - Magazine556x45AP
     - Handcuffs
     - Handcuffs
-    - MagazineLightRifleAsVal
-    - MagazineLightRifleAsVal
-    - MagazineLightRifleAsVal
-    - MagazineLightRifleAsVal
-    - MagazineLightRifleAsVal
-    - MagazineLightRifleAsVal
 
 # Боец СпецНаз НТ Дельта-6
 - type: entity

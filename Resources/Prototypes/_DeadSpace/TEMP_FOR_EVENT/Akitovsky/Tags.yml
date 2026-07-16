@@ -1,2 +1,8 @@
 - type: Tag
   id: MagazinePistolTochmash
+
+- type: Tag
+  id: MagazineCheyTac
+
+- type: Tag
+  id: Cartridge408CT

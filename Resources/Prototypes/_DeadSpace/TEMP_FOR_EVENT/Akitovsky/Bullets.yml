@@ -232,3 +232,59 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
+    
+# Катридж .408 CT
+- type: entity
+  parent: BaseCartridge
+  id: Cartridge408CT
+  name: патрон (.408 CT)
+  suffix: Akitovsky
+  components:
+  - type: Tag
+    tags:
+    - Cartridge408CT
+  - type: CartridgeAmmo
+    proto: Bullet408CT
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/large_casing.rsi
+    layers:
+    - state: base
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Appearance
+  - type: SpentAmmoVisuals
+
+# Проджектайл .408 CT
+- type: entity
+  parent: BulletTrace
+  id: Bullet408CT
+  categories: [ HideSpawnMenu ]
+  name: патрон (.408 CT)
+  components:
+  - type: HitscanBasicRaycast
+    collisionMask: BulletImpassable
+    maxDistance: 120
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Piercing: 175
+        Blunt: 70
+
+# Коробка патронов .408 CT
+- type: entity
+  parent: BaseMagazineBoxAntiMateriel
+  id: MagazineBox408CT
+  name: коробка патронов (.408 CT)
+  suffix: Akitovsky
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge408CT
+    mayTransfer: true
+    whitelist:
+      tags:
+        - Cartridge408CT
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
