@@ -131,6 +131,9 @@
   id: Demon
 
 - type: Tag
+  id: Durf
+
+- type: Tag
   id: EnergyCartridge
 
 - type: Tag
