@@ -1,0 +1,16 @@
+- type: startingGear
+  id: PrisonerGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitPrisoner
+    shoes: ClothingShoesColorBlack
+    back: ClothingBackpackPrisoner
+  storage:
+    back:
+    - BoxSurvival
+    - FlashlightLantern
+    - FoodSnackNutribrick
+    - FoodSnackMREBrownie
+    - DrinkWaterBottleFull
+    - Brutepack
+    - Ointment
+    - Gauze

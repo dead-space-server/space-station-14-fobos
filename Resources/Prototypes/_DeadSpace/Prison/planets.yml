@@ -9,8 +9,11 @@
   boundaryTile: FloorChromite
   boundaryWallEntity: WallRockChromitePrisonBoundary
   residenceReservationEnabled: true
-  residenceReservationSize: 48
+  residenceReservationSize: 64
   residenceTile: FloorSnowDug
+  residenceGridPath: /Maps/_DeadSpace/Prison/jail.yml
+  residenceGridOffset: 8,16
+  residenceGridName: Prison Quarters
   markerLayers:
   - PrisonOreIron
   - PrisonOreCoal

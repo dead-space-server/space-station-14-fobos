@@ -36,6 +36,7 @@ using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
@@ -63,6 +64,7 @@ public sealed class PrisonSystem : EntitySystem
 
     private readonly HashSet<NetUserId> _prisonUsers = [];
     private readonly Dictionary<EntityUid, Dictionary<EntityUid, FixedPoint2>> _prisonDamageByTarget = new();
+    private static readonly ProtoId<StartingGearPrototype> PrisonerGear = "PrisonerGear";
     private const int SourceParentSearchDepth = 6;
     private bool _enabled;
     private int _murderPenaltyMinutes;
@@ -364,6 +366,7 @@ public sealed class PrisonSystem : EntitySystem
         _mind.TransferTo(newMind, mob);
 
         EnsureComp<PrisonBoundComponent>(mob);
+        EquipPrisoner(mob);
         _prisonUsers.Add(session.UserId);
     }
 
@@ -388,6 +391,12 @@ public sealed class PrisonSystem : EntitySystem
         _transform.AttachToGridOrMap(entity);
 
         EnsureComp<PrisonBoundComponent>(entity);
+        EquipPrisoner(entity);
+    }
+
+    private void EquipPrisoner(EntityUid entity)
+    {
+        _spawning.EquipStartingGear(entity, PrisonerGear, raiseEvent: false);
     }
 
     private void DropInventory(EntityUid entity)

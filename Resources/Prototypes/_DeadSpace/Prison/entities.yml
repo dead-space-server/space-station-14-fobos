@@ -4,3 +4,15 @@
   name: prison boundary rock
   description: It looks impossible to destroy.
   suffix: Prison Boundary, Indestructible
+
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackPrisoner
+  name: prison backpack
+  description: A rough backpack issued to prisoners for off-station survival.
+  components:
+  - type: Sprite
+    sprite: Clothing/Back/Backpacks/backpack.rsi
+    layers:
+    - state: icon
+      color: "#A45A22"
