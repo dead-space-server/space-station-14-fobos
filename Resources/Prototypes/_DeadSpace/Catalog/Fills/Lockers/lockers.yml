@@ -241,7 +241,7 @@
     - id: ClothingEyesHudTaipanAdvanced
     - id: DoorRemoteTaipan
     - id: TaipanMessengerCartridge
-      amout: 2
+      amount: 2
     - id: EmagTaipan
     - id: ClothingHeadHelmetSwatSyndicate
     - id: ClothingMaskGasSyndicate
