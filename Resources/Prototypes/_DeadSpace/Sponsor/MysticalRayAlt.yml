@@ -295,14 +295,9 @@
     delay: 3
   - type: EmitSoundOnUse
     sound:
-      collection: WhistleMysticalRayAlt
+      collection: WhistleMysticalRay
   - type: Whistle
     distance: 10
-
-- type: soundCollection
-  id: WhistleMysticalRayAlt
-  files:
-    - /Audio/_DeadSpace/Sponsor/MysticalRayAlt/whistle.ogg
 
 - type: entity
   parent: ClothingUnderwearSocksBase
