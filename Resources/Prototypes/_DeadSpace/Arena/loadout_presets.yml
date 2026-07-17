@@ -12,6 +12,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -19,6 +20,11 @@
   storage:
     back:
       - MedkitFilled
+      - BoxLethalshot
+      - BoxLethalshot
+      - BoxShotgunSlug
+      - BoxShotgunSlug
+    belt:
       - BoxLethalshot
       - BoxShotgunSlug
 
@@ -34,6 +40,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -41,6 +48,10 @@
   storage:
     back:
       - MedkitFilled
+      - MagazinePistolSubMachineGun
+      - MagazinePistolSubMachineGun
+      - MagazinePistolSubMachineGun
+    belt:
       - MagazinePistolSubMachineGun
       - MagazinePistolSubMachineGun
 
@@ -56,6 +67,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -65,7 +77,11 @@
       - MedkitFilled
       - MagazineRifle
       - MagazineRifle
+      - MagazineRifle
       - MagazineRifleIncendiary
+    belt:
+      - MagazineRifle
+      - MagazineRifle
 
 - type: arenaLoadoutPreset
   id: ArenaRevolver
@@ -79,6 +95,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -86,6 +103,11 @@
   storage:
     back:
       - MedkitFilled
+      - MagazineEagle
+      - MagazineEagle
+      - MagazineEagle
+    belt:
+      - MagazineEagle
       - MagazineEagle
 
 - type: arenaLoadoutPreset
@@ -100,6 +122,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -107,6 +130,10 @@
   storage:
     back:
       - MedkitFilled
+      - MagazineHristov
+      - MagazineHristov
+      - MagazineHristov
+    belt:
       - MagazineHristov
       - MagazineHristov
 
@@ -122,6 +149,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -129,6 +157,10 @@
   storage:
     back:
       - MedkitFilled
+      - Stimpack
+      - Stimpack
+      - Stimpack
+    belt:
       - Stimpack
       - Stimpack
 
@@ -144,6 +176,7 @@
     head: ClothingHeadHelmetBasic
     shoes: ClothingShoesBootsCombatFilled
     back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
@@ -153,3 +186,63 @@
       - MedkitFilled
       - Stimpack
       - Stimpack
+      - Stimpack
+    belt:
+      - Stimpack
+      - Stimpack
+
+- type: arenaLoadoutPreset
+  id: ArenaBulldog
+  nameLoc: arena-loadout-bulldog
+  descLoc: arena-desc-bulldog
+  iconPrototype: WeaponShotgunBulldog
+  category: arena-category-shotguns
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponShotgunBulldog
+  storage:
+    back:
+      - MedkitFilled
+      - MagazineShotgun
+      - MagazineShotgun
+      - MagazineShotgun
+    belt:
+      - MagazineShotgun
+      - MagazineShotgun
+      - MagazineShotgun
+      - MagazineShotgun
+
+- type: arenaLoadoutPreset
+  id: ArenaMkShield
+  nameLoc: arena-loadout-mkshield
+  descLoc: arena-desc-mkshield
+  iconPrototype: WeaponPistolMk58
+  category: arena-category-revolvers
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - EnergyShield
+  storage:
+    back:
+      - MedkitFilled
+      - MagazinePistol
+      - MagazinePistol
+      - MagazinePistol
+    belt:
+      - MagazinePistol
+      - MagazinePistol
