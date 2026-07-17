@@ -54,7 +54,8 @@ public sealed class SandevistanOverlay : Overlay
         var player = _playerManager.LocalEntity;
         if (player != null &&
             !_entityManager.HasComponent<ActiveSandevistanComponent>(player.Value) &&
-            _entityManager.HasComponent<SandevistanVisualFadeoutComponent>(player.Value))
+            _entityManager.TryGetComponent<SandevistanVisualFadeoutComponent>(player.Value, out var fadeout) &&
+            !fadeout.AllowRampIn)
         {
             return;
         }

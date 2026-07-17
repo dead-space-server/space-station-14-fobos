@@ -495,6 +495,9 @@ public sealed partial class SandevistanVisualFadeoutComponent : Component
     public float StartIntensity = 1f;
 
     [DataField, AutoNetworkedField]
+    public bool AllowRampIn;
+
+    [DataField, AutoNetworkedField]
     public float SoftcapProgress;
 
     [DataField, AutoNetworkedField]

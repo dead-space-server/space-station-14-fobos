@@ -95,10 +95,30 @@ public sealed partial class ImplanterSystem : SharedImplanterSystem
         if (!_doAfter.TryStartDoAfter(args))
             return;
 
-        _popup.PopupEntity(Loc.GetString("injector-component-needle-injecting-user"), target, user);
+        // DS14-start
+        if (user == target)
+        {
+            _popup.PopupEntity(
+                Loc.GetString("implanter-component-implanting-self"),
+                target,
+                user,
+                PopupType.LargeCaution);
+            return;
+        }
+
+        var targetName = Identity.Entity(target, EntityManager);
+        _popup.PopupEntity(
+            Loc.GetString("implanter-component-implanting-user", ("target", targetName)),
+            target,
+            user);
 
         var userName = Identity.Entity(user, EntityManager);
-        _popup.PopupEntity(Loc.GetString("implanter-component-implanting-target", ("user", userName)), user, target, PopupType.LargeCaution);
+        _popup.PopupEntity(
+            Loc.GetString("implanter-component-implanting-target", ("user", userName)),
+            user,
+            target,
+            PopupType.LargeCaution);
+        // DS14-end
     }
 
     /// <summary>
