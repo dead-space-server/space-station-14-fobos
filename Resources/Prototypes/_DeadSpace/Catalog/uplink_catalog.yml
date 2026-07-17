@@ -21,6 +21,57 @@
       - SurplusBundle
 
 - type: listing
+  id: UplinkSandevistanLone
+  name: uplink-sandevistan-misanthropy-name
+  description: uplink-sandevistan-misanthropy-desc
+  icon: { sprite: _DeadSpace/Actions/implants_actions.rsi, state: sandevistan }
+  productEntity: SandevistanImplantCase
+  cost:
+    Telecrystal: 15
+  categories:
+  - UplinkImplants
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - LoneOpsUplink
+  - !type:PopulationLimitedStockCondition
+    stock: 1
+    highPopulationStock: 1
+    highPopulationThreshold: 110
+  - !type:BuyerWhitelistCondition
+    blacklist:
+      components:
+      - SurplusBundle
+
+- type: listing
+  id: UplinkSandevistanNukeopsCommander
+  name: uplink-sandevistan-misanthropy-name
+  description: uplink-sandevistan-misanthropy-desc
+  icon: { sprite: _DeadSpace/Actions/implants_actions.rsi, state: sandevistan }
+  productEntity: SandevistanImplantCase
+  cost:
+    Telecrystal: 15
+  categories:
+  - UplinkImplants
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsCommanderUplink
+  - !type:BuyerAntagCondition
+    whitelist:
+    - NukeopsCommander
+  - !type:PopulationLimitedStockCondition
+    stock: 1
+    highPopulationStock: 2
+    highPopulationThreshold: 110
+  - !type:BuyerWhitelistCondition
+    blacklist:
+      components:
+      - SurplusBundle
+
+- type: listing
   id: UplinkEswordDoubleAgents
   name: uplink-esword-double-name
   description: uplink-esword-double-desc

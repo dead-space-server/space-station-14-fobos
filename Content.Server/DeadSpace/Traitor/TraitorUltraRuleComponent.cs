@@ -260,7 +260,6 @@ public sealed partial class TraitorUltraRuleComponent : Component
                 new TraitorUltraListingDiscount("UplinkTraitorUltraStimpack2", 1),
                 new TraitorUltraListingDiscount("UplinkTraitorUltraStimkit", 2),
                 new TraitorUltraListingDiscount("UplinkTraitorUltraCombatBakery", 1),
-                new TraitorUltraListingDiscount("UplinkTraitorUltraReinforcementRadioSyndicate", 2),
                 new TraitorUltraListingDiscount("UplinkTraitorUltraSurplusBundle", 2),
             },
         },
@@ -339,6 +338,7 @@ public sealed class TraitorUltraMindState
 {
     public TraitorUltraStage Stage = TraitorUltraStage.Initial;
     public List<EntityUid> InitialObjectives = new();
+    public EntityUid? EligibleBody;
     public string? OriginalCorporation;
     public string? NewCorporation;
     public string? AgentName;

@@ -16,6 +16,7 @@ public sealed class SuicideEvent : HandledEntityEventArgs
 
     public DamageSpecifier? DamageSpecifier;
     public ProtoId<DamageTypePrototype>? DamageType;
+    public bool SuppressDefaultPopup; // DS14
     public EntityUid Victim { get; private set; }
 }
 

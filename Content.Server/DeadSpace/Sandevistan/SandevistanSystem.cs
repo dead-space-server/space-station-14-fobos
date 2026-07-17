@@ -4,9 +4,12 @@ using System.Linq;
 using Content.Server.Chat.Systems;
 using Content.Shared.Actions;
 using Content.Shared.Chat;
+using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.Sandevistan;
+using Content.Shared.DoAfter;
+using Content.Shared.FixedPoint;
 using Content.Shared.Implants;
 using Content.Shared.Implants.Components;
 using Content.Shared.Jittering;
@@ -31,8 +34,13 @@ namespace Content.Server.DeadSpace.Sandevistan;
 public sealed class SandevistanSystem : EntitySystem
 {
     private static readonly TimeSpan ExhaustionStaminaCritBufferTime = TimeSpan.FromSeconds(3f);
+    private static readonly TimeSpan ImplantTraumaDuration = TimeSpan.FromSeconds(10f);
+    private static readonly TimeSpan ImplantEmoteInterval = TimeSpan.FromSeconds(2.5f);
+    private static readonly TimeSpan ImplantAttemptJitterRefresh = TimeSpan.FromSeconds(0.2f);
     private const float VisualFadeDuration = 2.5f;
     private const float SoftcapRampLeadTime = 2f;
+    private const float ImplantJitterAmplitude = 7.5f;
+    private const float ImplantJitterFrequency = 10f;
 
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
@@ -51,8 +59,12 @@ public sealed class SandevistanSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<SandevistanImplantComponent, ActivateSandevistanImplantEvent>(OnActivated);
+        SubscribeLocalEvent<SandevistanImplantComponent, ImplantImplantedEvent>(OnImplanted);
         SubscribeLocalEvent<SandevistanImplantComponent, ImplantRemovedEvent>(OnImplantRemoved);
         SubscribeLocalEvent<SandevistanImplantComponent, ComponentShutdown>(OnImplantShutdown);
+        SubscribeLocalEvent<SandevistanImplanterComponent, DoAfterAttemptEvent<ImplantEvent>>(OnImplantAttempt);
+        SubscribeLocalEvent<SandevistanImplanterComponent, ImplantEvent>(OnImplantAttemptFinished);
+        SubscribeLocalEvent<SandevistanImplantTraumaComponent, RejuvenateEvent>(OnImplantTraumaRejuvenated);
         SubscribeLocalEvent<ActiveSandevistanComponent, MobStateChangedEvent>(OnMobStateChanged);
         SubscribeLocalEvent<ImplantedComponent, RejuvenateEvent>(OnRejuvenate);
         SubscribeLocalEvent<MeleeWeaponComponent, MeleeHitEvent>(OnMeleeHit);
@@ -99,6 +111,128 @@ public sealed class SandevistanSystem : EntitySystem
 
         UpdateRecovery(curTime);
         UpdateVisualFadeouts(curTime);
+        UpdateImplantTrauma(curTime);
+    }
+
+    private void OnImplantAttempt(
+        Entity<SandevistanImplanterComponent> ent,
+        ref DoAfterAttemptEvent<ImplantEvent> args)
+    {
+        if (args.DoAfter.Args.Target is not { } target || Deleted(target))
+            return;
+
+        var curTime = _timing.CurTime;
+        if (ent.Comp.ActiveDoAfter != args.DoAfter.Id)
+        {
+            ent.Comp.ActiveDoAfter = args.DoAfter.Id;
+            ent.Comp.NextScreamTime = curTime;
+        }
+
+        var duration = Math.Max(args.DoAfter.Args.Delay.TotalSeconds, 0.1);
+        var progress = Math.Clamp((curTime - args.DoAfter.StartTime).TotalSeconds / duration, 0d, 1d);
+        var amplitude = MathF.Max(1f, ImplantJitterAmplitude * (float) progress);
+
+        _jittering.DoJitter(
+            target,
+            ImplantAttemptJitterRefresh,
+            true,
+            amplitude,
+            ImplantJitterFrequency,
+            true);
+
+        if (TryComp<JitteringComponent>(target, out var jittering))
+            Dirty(target, jittering);
+
+        if (curTime < ent.Comp.NextScreamTime)
+            return;
+
+        _chat.TryEmoteWithChat(target, "Scream", ignoreActionBlocker: true, forceEmote: true);
+        ent.Comp.NextScreamTime = curTime + ImplantEmoteInterval;
+    }
+
+    private void OnImplantAttemptFinished(Entity<SandevistanImplanterComponent> ent, ref ImplantEvent args)
+    {
+        if (ent.Comp.ActiveDoAfter == args.DoAfter.Id)
+            ent.Comp.ActiveDoAfter = null;
+    }
+
+    private void OnImplanted(Entity<SandevistanImplantComponent> ent, ref ImplantImplantedEvent args)
+    {
+        var target = args.Implanted;
+        if (Deleted(target))
+            return;
+
+        if (TryComp<DamageableComponent>(target, out var damageable))
+        {
+            var damage = new DamageSpecifier
+            {
+                DamageDict = new Dictionary<string, FixedPoint2>
+                {
+                    { "Slash", 5 },
+                    { "Piercing", 5 },
+                },
+            };
+
+            _damageable.TryChangeDamage(
+                (target, damageable),
+                damage,
+                ignoreResistances: true,
+                interruptsDoAfters: false,
+                origin: ent.Owner,
+                ignoreGlobalModifiers: true);
+        }
+
+        _stun.TryUpdateParalyzeDuration(target, ImplantTraumaDuration);
+
+        var trauma = EnsureComp<SandevistanImplantTraumaComponent>(target);
+        trauma.EndTime = _timing.CurTime + ImplantTraumaDuration;
+        trauma.NextEmoteTime = _timing.CurTime;
+        trauma.LaughNext = false;
+    }
+
+    private void OnImplantTraumaRejuvenated(
+        Entity<SandevistanImplantTraumaComponent> ent,
+        ref RejuvenateEvent args)
+    {
+        RemCompDeferred<SandevistanImplantTraumaComponent>(ent);
+    }
+
+    private void UpdateImplantTrauma(TimeSpan curTime)
+    {
+        var query = EntityQueryEnumerator<SandevistanImplantTraumaComponent>();
+        while (query.MoveNext(out var uid, out var trauma))
+        {
+            if (Paused(uid))
+                continue;
+
+            if (curTime >= trauma.EndTime)
+            {
+                RemCompDeferred<SandevistanImplantTraumaComponent>(uid);
+                continue;
+            }
+
+            _jittering.DoJitter(
+                uid,
+                TimeSpan.FromSeconds(0.35f),
+                true,
+                ImplantJitterAmplitude,
+                ImplantJitterFrequency,
+                true);
+
+            if (TryComp<JitteringComponent>(uid, out var jittering))
+                Dirty(uid, jittering);
+
+            if (curTime < trauma.NextEmoteTime)
+                continue;
+
+            _chat.TryEmoteWithChat(
+                uid,
+                trauma.LaughNext ? "Laugh" : "Scream",
+                ignoreActionBlocker: true,
+                forceEmote: true);
+            trauma.LaughNext = !trauma.LaughNext;
+            trauma.NextEmoteTime = curTime + ImplantEmoteInterval;
+        }
     }
 
     private void OnActivated(EntityUid uid, SandevistanImplantComponent component, ActivateSandevistanImplantEvent args)

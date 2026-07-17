@@ -137,6 +137,11 @@ public abstract class SharedObjectivesSystem : EntitySystem
     /// </summary>
     public float? GetProgress(EntityUid uid, Entity<MindComponent> mind)
     {
+        // DS14-start
+        if (TryComp<ObjectiveComponent>(uid, out var objective) && objective.CompletionLocked)
+            return 1f;
+        // DS14-end
+
         var ev = new ObjectiveGetProgressEvent(mind, mind.Comp);
         RaiseLocalEvent(uid, ref ev);
         if (ev.Progress != null)
@@ -153,6 +158,20 @@ public abstract class SharedObjectivesSystem : EntitySystem
     {
         return (GetProgress(uid, mind) ?? 0f) >= 0.999f;
     }
+
+    // DS14-start
+    /// <summary>
+    /// Irreversibly marks an objective as completed for every progress consumer.
+    /// </summary>
+    public bool LockCompletion(EntityUid uid, ObjectiveComponent? component = null)
+    {
+        if (!Resolve(uid, ref component))
+            return false;
+
+        component.CompletionLocked = true;
+        return true;
+    }
+    // DS14-end
 
     /// <summary>
     /// Sets the objective's icon to the one specified.

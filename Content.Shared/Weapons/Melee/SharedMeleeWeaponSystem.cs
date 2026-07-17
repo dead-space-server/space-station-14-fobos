@@ -625,6 +625,8 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
 
         var damage = GetDamage(meleeUid, user, component);
         var resistanceBypass = GetResistanceBypass(meleeUid, user, component);
+        if (component.HeavyAttackResistanceBypass is { } heavyAttackResistanceBypass) // DS14
+            resistanceBypass = heavyAttackResistanceBypass; // DS14
         var entities = GetEntityList(ev.Entities);
 
         if (entities.Count == 0)

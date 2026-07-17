@@ -71,6 +71,14 @@ public sealed partial class MeleeWeaponComponent : Component
     [DataField, AutoNetworkedField]
     public bool ResistanceBypass = false;
 
+    // DS14-start
+    /// <summary>
+    /// Optional armor-bypass override used only by the right-click heavy attack.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool? HeavyAttackResistanceBypass;
+    // DS14-end
+
     /// <summary>
     /// Base damage for this weapon. Can be modified via heavy damage or other means.
     /// </summary>
