@@ -37,7 +37,7 @@
     inHandsFillBaseName: -fill-
   - type: SolutionContainerManager
     solutions:
-      drink:
+      beaker:
         maxVol: 300
 
 - type: entity
