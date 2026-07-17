@@ -168,7 +168,7 @@
   id: ArenaArkalyse
   nameLoc: arena-loadout-arkalyse
   descLoc: arena-desc-arkalyse
-  iconPrototype: ClothingHandsGlovesArkalyse
+  iconPrototype: BookArkalyse
   category: arena-category-melee
   equipment:
     jumpsuit: ClothingUniformJumpsuitSuitCheckered
@@ -180,7 +180,7 @@
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
   inhand:
-    - ClothingHandsGlovesArkalyse
+    - BookArkalyse
   storage:
     back:
       - MedkitFilled
