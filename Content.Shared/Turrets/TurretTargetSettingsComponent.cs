@@ -1,4 +1,5 @@
 using Content.Shared.Access;
+using Content.Shared.NPC.Prototypes;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
@@ -16,4 +17,13 @@ public sealed partial class TurretTargetSettingsComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public HashSet<ProtoId<AccessLevelPrototype>> ExemptAccessLevels = new();
+
+    // DS14-start
+    /// <summary>
+    /// Factions used to determine whether another turret is friendly.
+    /// Falls back to the turret's NPC factions when empty.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public HashSet<ProtoId<NpcFactionPrototype>> TurretFactions = new();
+    // DS14-end
 }
