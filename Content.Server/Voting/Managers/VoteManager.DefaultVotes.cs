@@ -36,6 +36,11 @@ namespace Content.Server.Voting.Managers
         private RoleSystem? _roleSystem;
         private GameTicker? _gameTicker;
 
+        // DS14-start
+        private static readonly TimeSpan PresetRunoffDuration = TimeSpan.FromSeconds(20);
+        private string[]? _pendingPresetRunoff;
+        // DS14-end
+
         public bool VoteStarted;
 
         private static readonly Dictionary<StandardVoteType, CVarDef<bool>> VoteTypesToEnableCVars = new()
@@ -225,27 +230,50 @@ namespace Content.Server.Voting.Managers
             if (VoteStarted)
                 return;
 
-            var presets = GetGamePresets(false);
-            if (args is { Length: > 0 })
-            {
-                presets = presets
-                    .Where(allPreset => args.Contains(allPreset.Key))
-                    .ToDictionary(preset => preset.Key, preset => preset.Value);
+        // DS14-start
+            CreatePresetVoteRound(initiator, args, false);
+        }
 
-                presets = presets.Count > 0 ? presets : GetGamePresets(true);
+        private void CreatePresetVoteRound(ICommonSession? initiator, string[]? args, bool runoff)
+        {
+            Dictionary<string, string> presets;
+            if (runoff && args is { Length: > 0 })
+            {
+                presets = new Dictionary<string, string>();
+                foreach (var presetId in args.Distinct())
+                {
+                    if (_prototypeManager.TryIndex<GamePresetPrototype>(presetId, out var preset))
+                        presets[presetId] = preset.ModeTitle;
+                }
             }
             else
             {
-                presets = GetGamePresets(true);
+                presets = GetGamePresets(false);
+                if (args is { Length: > 0 })
+                {
+                    presets = presets
+                        .Where(allPreset => args.Contains(allPreset.Key))
+                        .ToDictionary(preset => preset.Key, preset => preset.Value);
+
+                    presets = presets.Count > 0 ? presets : GetGamePresets(true);
+                }
+                else
+                {
+                    presets = GetGamePresets(true);
+                }
             }
 
-            var alone = _playerManager.PlayerCount == 1 && initiator != null;
+            var alone = !runoff && _playerManager.PlayerCount == 1 && initiator != null;
             var options = new VoteOptions
             {
                 Title = Loc.GetString("ui-vote-gamemode-title"),
-                Duration = alone
-                    ? TimeSpan.FromSeconds(_cfg.GetCVar(CCVars.VoteTimerAlone))
-                    : TimeSpan.FromSeconds(_cfg.GetCVar(CCVars.VoteTimerPreset)),
+
+                Duration = runoff
+                    ? PresetRunoffDuration
+                    : alone
+                        ? TimeSpan.FromSeconds(_cfg.GetCVar(CCVars.VoteTimerAlone))
+                        : TimeSpan.FromSeconds(_cfg.GetCVar(CCVars.VoteTimerPreset)),
+            // DS14-end
                 DisplayVotes = false,
             };
 
@@ -262,27 +290,60 @@ namespace Content.Server.Voting.Managers
             var vote = CreateVote(options);
             VoteStarted = true;
 
-            vote.OnFinished += (_, args) =>
+            // DS14-start
+            vote.OnFinished += (_, result) =>
             {
                 string picked;
-                if (args.Winner == null)
+                if (result.Winner == null)
                 {
-                    picked = (string) _random.Pick(args.Winners);
-                    _chatManager.DispatchServerAnnouncement(
-                        Loc.GetString("ui-vote-gamemode-tie", ("picked", Loc.GetString(presets[picked]))));
+                    var runoffTicker = _gameTicker ??= _entityManager.EntitySysManager.GetEntitySystem<GameTicker>();
+                    if (runoffTicker.TimeUntilMapChangeCloses() > PresetRunoffDuration)
+                    {
+                        _pendingPresetRunoff = result.Winners.Cast<string>().ToArray();
+                        var tiedModes = string.Join(", ",
+                            _pendingPresetRunoff.Select(preset => Loc.GetString(presets[preset])));
+                        _chatManager.DispatchServerAnnouncement(Loc.GetString(
+                            "ui-vote-gamemode-runoff",
+                            ("modes", tiedModes),
+                            ("seconds", (int) PresetRunoffDuration.TotalSeconds)));
+                        _adminLogger.Add(
+                            LogType.Vote,
+                            LogImpact.Medium,
+                            $"Preset vote tied; scheduling runoff between: {string.Join(", ", _pendingPresetRunoff)}");
+                        return;
+                    }
+
+                    picked = (string) _random.Pick(result.Winners);
+
+                    _chatManager.DispatchServerAnnouncement(Loc.GetString(
+                        "ui-vote-gamemode-tie-timeout",
+                        ("picked", Loc.GetString(presets[picked]))));
+                    // DS14-end
                 }
                 else
                 {
-                    picked = (string) args.Winner;
+                    picked = (string) result.Winner; // DS14
                     _chatManager.DispatchServerAnnouncement(
                         Loc.GetString("ui-vote-gamemode-win", ("winner", Loc.GetString(presets[picked]))));
                 }
+
                 _adminLogger.Add(LogType.Vote, LogImpact.Medium, $"Preset vote finished: {picked}");
-                var ticker = _entityManager.EntitySysManager.GetEntitySystem<GameTicker>();
+                var ticker = _gameTicker ??= _entityManager.EntitySysManager.GetEntitySystem<GameTicker>(); // DS14
                 ticker.SetGamePreset(picked);
                 VoteStarted = false;
             };
         }
+
+        // DS14-start
+        private void TryStartPendingPresetRunoff()
+        {
+            if (_pendingPresetRunoff is not { Length: > 0 } presets)
+                return;
+
+            _pendingPresetRunoff = null;
+            CreatePresetVoteRound(null, presets, true);
+        }
+        // DS14-end
 
         private void CreateMapVote(ICommonSession? initiator)
         {

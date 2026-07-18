@@ -40,6 +40,11 @@ sandevistan-softcap-shout-22 = Сука, не забудь! Ты должна м
 sandevistan-softcap-shout-23 = Не смотри на меня сверху вниз!!
 sandevistan-softcap-shout-24 = Ляг и плачь, сука, ляг и плачь!!
 sandevistan-softcap-shout-25 = Тебе ведь не уйти!!
+sandevistan-softcap-shout-26 = Я вырву твой ничтожный мозг из черепа!!
+sandevistan-softcap-shout-27 = Я тебя помню, сука!!
+sandevistan-softcap-shout-28 = Ты всего лишь человек!!
+sandevistan-softcap-shout-29 = Ну давай, бодрей! Тактику смени, я не знаю!!
+sandevistan-softcap-shout-30 = Давай, стреляй! Уебу щас, сука!!
 
 sandevistan-end-warning-popup-1 = УБЕЙ ИХ ВСЕХ!
 sandevistan-end-warning-popup-2 = УБЕЙ! УБЕЙ! УБЕЙ!

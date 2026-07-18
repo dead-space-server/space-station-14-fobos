@@ -196,6 +196,10 @@
   components:
   - type: Implanter
     implant: SandevistanImplant
+    implantTime: 10
+    instantSelfImplant: false
+    implantAttemptFrequency: EveryTick
+  - type: SandevistanImplanter
   - type: Item
     sprite: _DeadSpace/Objects/Specific/Medical/sandevistan-implanter.rsi
     heldPrefix: implanter
@@ -212,7 +216,8 @@
 
 - type: entity
   id: SandevistanImplantCase
-  suffix: Дебаг, НЕ СПАВНИТЬ
+  name: кейс Сандевистана «Мизантропия»
+  description: Фирменный кейс Cybersun с имплантером Сандевистана.
   parent: [ BaseStorageItem, BaseBagOpenClose ]
   components:
   - type: Sprite

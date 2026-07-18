@@ -38,6 +38,11 @@ sandevistan-softcap-shout-22 = Bitch, do not forget! You have to love me!!
 sandevistan-softcap-shout-23 = Do not look down on me!!
 sandevistan-softcap-shout-24 = Lie down and cry, bitch, lie down and cry!!
 sandevistan-softcap-shout-25 = You cannot get away!!
+sandevistan-softcap-shout-26 = I will rip your pathetic brain out of your skull!!
+sandevistan-softcap-shout-27 = I remember you, bitch!!
+sandevistan-softcap-shout-28 = You are only human!!
+sandevistan-softcap-shout-29 = Come on, pick it up! Change your tactics or something, I do not know!!
+sandevistan-softcap-shout-30 = Come on, shoot! I will fuck you up right now, bitch!!
 
 sandevistan-end-warning-popup-1 = KILL THEM ALL!
 sandevistan-end-warning-popup-2 = KILL! KILL! KILL!

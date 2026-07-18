@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Shared.Damage;
+using Content.Shared.DoAfter;
 using Content.Shared.FixedPoint;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
@@ -8,6 +9,13 @@ using Robust.Shared.Maths;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Shared.DeadSpace.Sandevistan;
+
+[RegisterComponent]
+public sealed partial class SandevistanImplanterComponent : Component
+{
+    public DoAfterId? ActiveDoAfter;
+    public TimeSpan NextScreamTime;
+}
 
 [RegisterComponent]
 public sealed partial class SandevistanImplantComponent : Component
@@ -104,6 +112,11 @@ public sealed partial class SandevistanImplantComponent : Component
         "sandevistan-softcap-shout-23",
         "sandevistan-softcap-shout-24",
         "sandevistan-softcap-shout-25",
+        "sandevistan-softcap-shout-26",
+        "sandevistan-softcap-shout-27",
+        "sandevistan-softcap-shout-28",
+        "sandevistan-softcap-shout-29",
+        "sandevistan-softcap-shout-30",
     };
 
     [DataField]
@@ -480,6 +493,9 @@ public sealed partial class SandevistanVisualFadeoutComponent : Component
 
     [DataField, AutoNetworkedField]
     public float StartIntensity = 1f;
+
+    [DataField, AutoNetworkedField]
+    public bool AllowRampIn;
 
     [DataField, AutoNetworkedField]
     public float SoftcapProgress;

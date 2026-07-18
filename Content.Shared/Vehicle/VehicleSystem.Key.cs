@@ -91,7 +91,7 @@ public sealed partial class VehicleSystem
             return;
 
         args.Cancelled = true;
-        _popup.PopupPredicted(
+        _popup.PopupClient(
             Loc.GetString("vehicle-key-eject-requires-operator"),
             ent.Owner,
             args.User,
