@@ -1,11 +1,12 @@
 - type: entity
   parent: BaseItem
   id: CQCManual
-  name: свиток "Sucking Carp"
-  description: На нём содержатся знания о древнем боевом искусстве, которые нельзя прочитать, но можно почувствовать. Ну, вам так кажется. Улёт в общем.
+  name: мануал по технике CQC
+  description: Мануал по технике боя CQC. CQC — это стиль борьбы, который ориентирован на рукопашный бой. Это искусство разработано для того, чтобы быстро усмирять противников и одолевать их техникой прессинга и сокрушительных ударов. Оно требует высокий уровень концентрации, поэтому иногда трудно одновременно стрелять и сражаться врукопашную.
+  suffix: Не использовать без разрешения Non_stop_smetana!
   components:
     - type: Sprite
-      sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi
+      sprite: _DeadSpace/Objects/Misc/cqc_manual.rsi
       layers:
       - state: icon
     - type: MartialArtsTrainingCQC
@@ -24,18 +25,10 @@
           pushStrength: 4000
           maxPushDistance: 3.5
           packMessageOnHit:
-            - voice-message-carp-1
-            - voice-message-carp-2
-            - voice-message-carp-3
-            - voice-message-carp-4
-            - voice-message-carp-5
-            - voice-message-carp-6
-            - voice-message-carp-7
-            - voice-message-carp-8
-            - voice-message-carp-9
-            - voice-message-carp-10
-            - voice-message-carp-11
-            - voice-message-carp-12
+            - voice-message-cqc-1
+            - voice-message-cqc-2
+            - voice-message-cqc-3
+
     - type: EmitSoundOnPickup
       sound:
         path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
@@ -49,11 +42,11 @@
 - type: entity
   parent: BaseItem
   id: CQCManualAfter
-  name: порванный чёрный папирус
-  description: Оставшийся текст гласит "Sucking Carp". Кажется он вытягивает из вас силы, когда вы его держите.
+  name: обугленная страница
+  description: Просто страничка, которую сожгли. Более ничего.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi
+    sprite: _DeadSpace/Objects/Misc/cqc_manual.rsi
     layers:
     - state: icon_after
     - type: EmitSoundOnPickup

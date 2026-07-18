@@ -1,22 +1,22 @@
 - type: entity
   id: ActionPowerPunchCQCAttack
-  name: Болевой удар в залупу
-  description: Молниеносный удар кулаком в залупу противника, наносит чистый урон.
+  name: Удар в печень
+  description: Молниеносный удар кулаком в печень противника, наносит 25 чистого урона.
   categories: [ HideSpawnMenu ]
   components:
   - type: Action
     icon:
-      sprite: _DeadSpace/Actions/arkalyse_actions.rsi
-      state: punch
+      sprite: _DeadSpace/Actions/cqc_actions.rsi
+      state: power_punch
     priority: -8
-    useDelay: 2
+    useDelay: 5
   - type: InstantAction
     event: !type:CQCPowerPunchEvent {}
 
 - type: entity
   id: ActionMutedCQCAttack
-  name: Вкрутить хуй в горло
-  description: Вкручивает хуй в горло, перекрывающий дыхательные пути.
+  name: Удар поддых
+  description: Точный удар поддых, который перекрывает дыхательные пути и мешает координации противника.
   categories: [ HideSpawnMenu ]
   components:
   - type: Action
@@ -24,27 +24,27 @@
       sprite: _DeadSpace/Actions/arkalyse_actions.rsi
       state: mute
     priority: -6
-    useDelay: 1.5
+    useDelay: 2
   - type: InstantAction
     event: !type:CQCMuteEvent {}
 
 - type: entity
   id: ActionCQCStepPunch
-  name: "[color=red]Удар залупой по батарее[/color]"
-  description: Мощный удар залупой, который сбивает всех с ног на секунду вокруг вас.
+  name: Круговой удар по ногам
+  description: Мощный удар по ногам противника, который сбивает всех с ног на секунду вокруг вас.
   components:
   - type: Action
     icon:
-      sprite: _DeadSpace/Actions/smoking_carp_actions.rsi
+      sprite: _DeadSpace/Actions/cqc_actions.rsi
       state: trip_punch
-    useDelay: 5
+    useDelay: 2
     priority: -6
   - type: InstantAction
     event: !type:CQCStepPunchEvent {}
 
 - type: entity
   id: ActionRelaxCQC
-  name: Расслабить залупу
+  name: Расслабление
   description: Отмена всех эффектов на удар.
   categories: [ HideSpawnMenu ]
   components:
@@ -64,11 +64,12 @@
   components:
   - type: Action
     icon:
-      sprite: _DeadSpace/Items/Toys/misc.rsi
-      state: gold_ship
+      sprite: _DeadSpace/Actions/cqc_actions.rsi
+      state: concentration_off
     iconOn: 
-      sprite: _DeadSpace/Items/Toys/misc.rsi
-      state: agnes
+      sprite: _DeadSpace/Actions/cqc_actions.rsi
+      state: concentration_on
     priority: -4
+    useDelay: 60
   - type: InstantAction
     event: !type:CQCConcentrationEvent {}
