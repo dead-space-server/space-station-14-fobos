@@ -1172,11 +1172,13 @@ namespace Content.Server.Database
 
         public bool DisableOocDuringVote { get; set; }
 
+        // DS14-start
         public bool PreventRepeatMode { get; set; }
 
         public bool CheckPlayerLimit { get; set; }
 
         public string WhitelistModesJson { get; set; } = string.Empty;
+        // DS14-end
     }
 
     public sealed class UserIdLoginMigration

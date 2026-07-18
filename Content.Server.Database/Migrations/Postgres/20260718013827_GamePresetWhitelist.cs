@@ -56,6 +56,13 @@ namespace Content.Server.Database.Migrations.Postgres
             migrationBuilder.DropColumn(
                 name: "prevent_repeat_mode",
                 table: "game_preset_config");
+
+            migrationBuilder.AddColumn<int>(
+                name: "max_rdm_day",
+                table: "game_preset_config",
+                type: "integer",
+                nullable: false,
+                defaultValue: 0);
         }
     }
 }
