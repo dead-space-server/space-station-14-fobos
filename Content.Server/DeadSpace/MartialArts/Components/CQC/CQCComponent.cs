@@ -27,29 +27,39 @@ public sealed partial class CQCComponent : Component
     [DataField]
     public CQCList? SelectedCombo; // Выбранное комбо, которое меняется при вызове события
 
-    public readonly List<EntProtoId> BaseCQC = new() // Список всех Action, которые будут выдаваться пользователю
+    public readonly List<EntProtoId> BaseCQC = new() // Список всех Action, которые будут выдаваться пользователю при концентрации
     {
-        "ActionPowerPunchCarp",
-        "ActionSmokePunchCarp",
-        "ActionTripPunchCarp",
+        "ActionPowerPunchCQCAttack",
+        "ActionMutedCQCAttack",
+        "ActionRelaxCQC",
+        "ActionCQCStepPunch",
     };
 
     [DataField]
-    public EntProtoId CQCConcentrationAction = " ";
+    public List<EntityUid> BaseCQCActionEntities = new();
 
     [DataField]
-    public bool CQCConcentration = false;
+    public EntProtoId CQCConcentrationAction = "ActionConcentrationCQC";
+
+    [DataField]
+    public EntityUid? CQCConcentrationActionEntity;
+
+    [DataField]
+    public bool Concentrated;
 
     [DataField]
     public CQCParams Params; // Передача всех переменных и хранение всех переменных, хранится в MartialArtsTrainingComponent
 }
 
 [RegisterComponent]
-public sealed partial class CQCPacifiedComponent : Component { }
+public sealed partial class CQCMutedComponent : Component
+{
+    [ViewVariables]
+    public TimeSpan MuteEndTime; // Переменная, которая отвечает за длительность наложения MutedComponent на цель
+}
 
 public enum CQCList
 {
     PowerPunch,
     MuteAttack,
-    RelaxHand,
 }

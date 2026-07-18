@@ -1,0 +1,74 @@
+- type: entity
+  id: ActionPowerPunchCQCAttack
+  name: Болевой удар в залупу
+  description: Молниеносный удар кулаком в залупу противника, наносит чистый урон.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/arkalyse_actions.rsi
+      state: punch
+    priority: -8
+    useDelay: 2
+  - type: InstantAction
+    event: !type:CQCPowerPunchEvent {}
+
+- type: entity
+  id: ActionMutedCQCAttack
+  name: Вкрутить хуй в горло
+  description: Вкручивает хуй в горло, перекрывающий дыхательные пути.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/arkalyse_actions.rsi
+      state: mute
+    priority: -6
+    useDelay: 1.5
+  - type: InstantAction
+    event: !type:CQCMuteEvent {}
+
+- type: entity
+  id: ActionCQCStepPunch
+  name: "[color=red]Удар залупой по батарее[/color]"
+  description: Мощный удар залупой, который сбивает всех с ног на секунду вокруг вас.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/smoking_carp_actions.rsi
+      state: trip_punch
+    useDelay: 5
+    priority: -6
+  - type: InstantAction
+    event: !type:CQCStepPunchEvent {}
+
+- type: entity
+  id: ActionRelaxCQC
+  name: Расслабить залупу
+  description: Отмена всех эффектов на удар.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/arkalyse_actions.rsi
+      state: relax
+    priority: -5
+  - type: InstantAction
+    event: !type:CQCRelaxEvent {}
+
+- type: entity
+  id: ActionConcentrationCQC
+  name: Сконцентрироваться
+  description: Вы сосредотачиваетесь на технике ударов, ввиду чего не способны использовать обычное вооружение.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Items/Toys/misc.rsi
+      state: gold_ship
+    iconOn: 
+      sprite: _DeadSpace/Items/Toys/misc.rsi
+      state: agnes
+    priority: -4
+  - type: InstantAction
+    event: !type:CQCConcentrationEvent {}

@@ -1,0 +1,67 @@
+- type: entity
+  parent: BaseItem
+  id: CQCManual
+  name: свиток "Sucking Carp"
+  description: На нём содержатся знания о древнем боевом искусстве, которые нельзя прочитать, но можно почувствовать. Ну, вам так кажется. Улёт в общем.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi
+      layers:
+      - state: icon
+    - type: MartialArtsTrainingCQC
+      addAtackRate: 1.15
+      itemAfterLerning: CQCManualAfter
+      params:
+        - hitDamageForPowerPunch: 20
+          hitDamageForMuteAtack: 5
+          paralyzeTimeStunAtack: 0.5
+          ignoreResist: true
+          damageTypeForPowerPunch: "Blunt"
+          effectPowerPunch: EffectPowerPunchCarp
+          effectSmokePunch: WeaponArcBite
+          hitSoundForPowerPunch: 
+            path: /Audio/Weapons/genhit1.ogg
+          pushStrength: 4000
+          maxPushDistance: 3.5
+          packMessageOnHit:
+            - voice-message-carp-1
+            - voice-message-carp-2
+            - voice-message-carp-3
+            - voice-message-carp-4
+            - voice-message-carp-5
+            - voice-message-carp-6
+            - voice-message-carp-7
+            - voice-message-carp-8
+            - voice-message-carp-9
+            - voice-message-carp-10
+            - voice-message-carp-11
+            - voice-message-carp-12
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+
+- type: entity
+  parent: BaseItem
+  id: CQCManualAfter
+  name: порванный чёрный папирус
+  description: Оставшийся текст гласит "Sucking Carp". Кажется он вытягивает из вас силы, когда вы его держите.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi
+    layers:
+    - state: icon_after
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg

@@ -7,8 +7,10 @@ using Content.Server.DeadSpace.MartialArts.Arkalyse.Components;
 using Content.Server.DeadSpace.MartialArts.SmokingCarp.Components;
 using Robust.Server.GameObjects;
 using Content.Shared.DeadSpace.MartialArts.SmokingCarp.Components;
+using Content.Server.DeadSpace.MartialArts.CQC.Components;
 
 namespace Content.Server.DeadSpace.MartialArts.CQC;
+
 public sealed class UseManualCQCSystem : EntitySystem
 {
     [Dependency] private readonly SharedActionsSystem _action = default!;
@@ -16,24 +18,23 @@ public sealed class UseManualCQCSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
-        SubscribeLocalEvent<MartialArtsTrainingCarpComponent, UseInHandEvent>(OnUseManualCQC);
+        SubscribeLocalEvent<MartialArtsTrainingCQCComponent, UseInHandEvent>(OnUseManualCQC);
     }
 
-    private void OnUseManualCQC(Entity<MartialArtsTrainingCarpComponent> ent, ref UseInHandEvent args)
+    private void OnUseManualCQC(Entity<MartialArtsTrainingCQCComponent> ent, ref UseInHandEvent args)
     {
-        if (args.Handled || TryComp<ArkalyseComponent>(args.User, out _))
+        if (args.Handled || TryComp<ArkalyseComponent>(args.User, out _) || TryComp<SmokingCarpComponent>(args.User, out _))
             return;
 
-        if (HasComp<SmokingCarpComponent>(args.User))
+        if (HasComp<CQCComponent>(args.User))
             return;
 
-        EnsureComp<SmokingCarpTripPunchComponent>(args.User);
-        EnsureComp<SmokingCarpNotShotComponent>(args.User);
-        var userSmokingCarp = EnsureComp<SmokingCarpComponent>(args.User);
-        userSmokingCarp.Params = ent.Comp.Params[0];
+        EnsureComp<CQCComponent>(args.User);
+        EnsureComp<CQCStepPunchComponent>(args.User);
+        var userCQCC = EnsureComp<CQCComponent>(args.User);
+        userCQCC.Params = ent.Comp.Params[0];
 
-        foreach (var actionId in userSmokingCarp.BaseSmokingCarp)
-            _action.AddAction(args.User, actionId);
+        _action.AddAction(args.User, ref userCQCC.CQCConcentrationActionEntity, userCQCC.CQCConcentrationAction);
 
         if (TryComp<MeleeWeaponComponent>(args.User, out var melee))
             melee.AttackRate = ent.Comp.AddAtackRate;

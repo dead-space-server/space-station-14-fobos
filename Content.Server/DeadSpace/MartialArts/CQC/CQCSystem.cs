@@ -1,15 +1,9 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
-using Content.Server.DeadSpace.MartialArts.SmokingCarp.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Weapons.Melee.Events;
 using Robust.Shared.Audio;
 using Robust.Shared.Physics.Components;
-using Content.Shared.Damage.Components;
-using Content.Shared.Damage.Prototypes;
 using Content.Shared.Damage.Systems;
-using Content.Shared.CombatMode.Pacification;
-using Content.Shared.Weapons.Reflect;
-using Content.Shared.DeadSpace.MartialArts.SmokingCarp;
 using Content.Shared.Damage;
 using Content.Shared.Popups;
 using Content.Shared.Stunnable;
@@ -20,11 +14,16 @@ using Content.Shared.Mobs.Systems;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Random;
 using Robust.Server.GameObjects;
-using System.Numerics;
+using Content.Server.DeadSpace.MartialArts.CQC.Components;
+using Content.Shared.DeadSpace.MartialArts.CQC;
+using Content.Shared.Actions;
+using Content.Shared.Speech.Muting;
+using Robust.Shared.Timing;
+using Content.Shared.DeadSpace.MartialArts.CQC.Components;
 
 namespace Content.Server.DeadSpace.MartialArts.CQC;
 
-public sealed class CQCSystem : EntitySystem
+public sealed class CQCSystem : CQCSharedSystem
 {
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly StaminaSystem _stamina = default!;
@@ -36,46 +35,75 @@ public sealed class CQCSystem : EntitySystem
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
+    [Dependency] private readonly SharedActionsSystem _action = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     private readonly HashSet<EntityUid> _receivers = new();
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<SmokingCarpComponent, SmokingCarpPowerPunchEvent>(OnPowerPunchAction);
-        SubscribeLocalEvent<SmokingCarpComponent, SmokingCarpSmokePunchEvent>(OnSmokePunchAction);
-        SubscribeLocalEvent<SmokingCarpComponent, MeleeHitEvent>(OnMeleeHitEvent);
-        SubscribeLocalEvent<SmokingCarpComponent, ReflectCarpEvent>(SmokingCarpReflect);
-        SubscribeLocalEvent<SmokingCarpTripPunchComponent, SmokingCarpTripPunchEvent>(SmokingCarpTripPunch);
+        SubscribeLocalEvent<CQCComponent, CQCPowerPunchEvent>(OnPowerPunchAction);
+        SubscribeLocalEvent<CQCComponent, CQCMuteEvent>(OnMutePunchAction);
+        SubscribeLocalEvent<CQCComponent, CQCRelaxEvent>(OnRelaxAction);
+        SubscribeLocalEvent<CQCComponent, MeleeHitEvent>(OnMeleeHitEvent);
+        SubscribeLocalEvent<CQCComponent, CQCConcentrationEvent>(CQCConcentration);
+        SubscribeLocalEvent<CQCStepPunchComponent, CQCStepPunchEvent>(CQCStepPunch);
     }
 
-    private void SelectCombo(Entity<SmokingCarpComponent> ent, SmokingCarpList combo)
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        var query = EntityQueryEnumerator<CQCMutedComponent, MutedComponent>();
+        while (query.MoveNext(out var uid, out var arkMuted, out _))
+        {
+            if (_timing.CurTime < arkMuted.MuteEndTime)
+                continue;
+
+            RemComp<MutedComponent>(uid);
+            RemComp<CQCMutedComponent>(uid);
+        }
+    }
+
+    private void SelectCombo(Entity<CQCComponent> ent, CQCList combo)
     {
         ent.Comp.SelectedCombo = combo;
         _popup.PopupEntity(Loc.GetString("active-martial-ability"), ent, ent);
     }
 
-    private void OnPowerPunchAction(Entity<SmokingCarpComponent> ent, ref SmokingCarpPowerPunchEvent args)
+    private void OnPowerPunchAction(Entity<CQCComponent> ent, ref CQCPowerPunchEvent args)
     {
         if (args.Handled)
             return;
 
-        SelectCombo(ent, SmokingCarpList.PowerPunch);
+        SelectCombo(ent, CQCList.PowerPunch);
 
         args.Handled = true;
     }
 
-    private void OnSmokePunchAction(Entity<SmokingCarpComponent> ent, ref SmokingCarpSmokePunchEvent args)
+    private void OnMutePunchAction(Entity<CQCComponent> ent, ref CQCMuteEvent args)
     {
         if (args.Handled)
             return;
 
-        SelectCombo(ent, SmokingCarpList.SmokePunch);
+        SelectCombo(ent, CQCList.MuteAttack);
 
         args.Handled = true;
     }
 
-    private void OnMeleeHitEvent(Entity<SmokingCarpComponent> ent, ref MeleeHitEvent args)
+    private void OnRelaxAction(Entity<CQCComponent> ent, ref CQCRelaxEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        ent.Comp.SelectedCombo = null;
+        _popup.PopupEntity(Loc.GetString("relax-martial-ability"), ent, ent);
+
+        args.Handled = true;
+    }
+
+    private void OnMeleeHitEvent(Entity<CQCComponent> ent, ref MeleeHitEvent args)
     {
         if (!args.HitEntities.Any())
             return;
@@ -85,16 +113,17 @@ public sealed class CQCSystem : EntitySystem
             if (!HasComp<MobStateComponent>(hitEntity))
                 continue;
 
-            DoHitCarp(ent, hitEntity);
+            DoCQCHit(ent, hitEntity);
         }
     }
-    private void DoHitCarp(Entity<SmokingCarpComponent> ent, EntityUid hitEntity)    {
+    private void DoCQCHit(Entity<CQCComponent> ent, EntityUid hitEntity)
+    {
         if (ent.Comp.SelectedCombo is not { } combo)
             return;
 
         switch (combo)
         {
-            case SmokingCarpList.PowerPunch:
+            case CQCList.PowerPunch:
                 DamageHit(hitEntity, ent.Comp.Params.DamageTypeForPowerPunch, ent.Comp.Params.HitDamageForPowerPunch, ent.Comp.Params.IgnoreResist, out _);
                 SpawnAttachedTo(ent.Comp.Params.EffectPowerPunch, Transform(hitEntity).Coordinates);
                 _audio.PlayPvs(ent.Comp.Params.HitSoundForPowerPunch, ent, AudioParams.Default.WithVolume(3.0f));
@@ -102,56 +131,60 @@ public sealed class CQCSystem : EntitySystem
                 if (ent.Comp.Params.PackMessageOnHit is { Count: > 0 } pack)
                 {
                     var saying = pack[_random.Next(pack.Count)];
-                    var ev = new SmokingCarpSaying(saying);
+                    var ev = new CQCSaying(saying);
                     RaiseLocalEvent(ent, ev);
                 }
 
                 OnPowerPunch(ent, hitEntity, ent.Comp.Params.MaxPushDistance, ent.Comp.Params.PushStrength);
                 break;
 
-            case SmokingCarpList.SmokePunch:
-                DamageHit(hitEntity, ent.Comp.Params.DamageTypeForSmokePunch, ent.Comp.Params.HitDamageForSmokePunch, ent.Comp.Params.IgnoreResist, out _);
-                _stamina.TakeStaminaDamage(hitEntity, ent.Comp.Params.StaminaDamageSmokePunch);
-                _audio.PlayPvs(ent.Comp.Params.HitSoundForSmokePunch, ent, AudioParams.Default.WithVolume(3.0f));
-                SpawnAttachedTo(ent.Comp.Params.EffectSmokePunch, Transform(hitEntity).Coordinates);
+            case CQCList.MuteAttack:
+                var muted = EnsureComp<CQCMutedComponent>(hitEntity);
+                EnsureComp<MutedComponent>(hitEntity);
+                muted.MuteEndTime = _timing.CurTime + ent.Comp.Params.ParalyzeTimeMuteAtack;
+                DamageHit(hitEntity, ent.Comp.Params.DamageTypeForMuteAtack, ent.Comp.Params.HitDamageForMuteAtack, ent.Comp.Params.IgnoreResist, out _);
+                _stamina.TakeStaminaDamage(hitEntity, ent.Comp.Params.StaminaDamageMuteAtack);
                 break;
         }
         ent.Comp.SelectedCombo = null;
     }
 
-    private void SmokingCarpReflect(Entity<SmokingCarpComponent> ent, ref ReflectCarpEvent args)
+    private void CQCConcentration(Entity<CQCComponent> ent, ref CQCConcentrationEvent args)
     {
-        if (HasComp<ReflectComponent>(ent))
-        {
-            _popup.PopupEntity(Loc.GetString("unreflect-smoking-carp"), ent, ent);
-            RemComp<ReflectComponent>(ent);
-
-            if (HasComp<SmokingCarpPacifiedComponent>(ent))
-            {
-                RemComp<PacifiedComponent>(ent);
-                RemComp<SmokingCarpPacifiedComponent>(ent);
-            }
-            return;
-        }
-
         if (args.Handled)
             return;
 
         args.Handled = true;
 
-        if (!HasComp<PacifiedComponent>(ent))
+        if (ent.Comp.Concentrated)
         {
-            AddComp<PacifiedComponent>(ent);
-            AddComp<SmokingCarpPacifiedComponent>(ent);
+            RemComp<CQCCantUseWeaponComponent>(ent);
+            ent.Comp.SelectedCombo = null;
+            foreach (var action in ent.Comp.BaseCQC)
+            {
+                foreach (var actionEnt in ent.Comp.BaseCQCActionEntities)
+                {
+                    _action.RemoveAction(ent.Owner, actionEnt);
+                }
+            }
         }
+        else
+        {
+            EnsureComp<CQCCantUseWeaponComponent>(ent);
+            foreach (var action in ent.Comp.BaseCQC)
+            {
+                EntityUid? actionEnt = null;
+                _action.AddAction(ent.Owner, ref actionEnt, action);
 
-        var reflectComponent = EnsureComp<ReflectComponent>(ent);
-        _popup.PopupEntity(Loc.GetString("reflect-smoking-carp"), ent, ent);
-        reflectComponent.ReflectProb = 1.0f;
-        reflectComponent.Spread = 360f;
+                if (actionEnt != null)
+                    ent.Comp.BaseCQCActionEntities.Add(actionEnt.Value);
+            }
+        }
+        ent.Comp.Concentrated = !ent.Comp.Concentrated;
+        _action.SetToggled(ent.Comp.CQCConcentrationActionEntity, ent.Comp.Concentrated);
     }
 
-    private void SmokingCarpTripPunch(Entity<SmokingCarpTripPunchComponent> ent, ref SmokingCarpTripPunchEvent args)
+    private void CQCStepPunch(Entity<CQCStepPunchComponent> ent, ref CQCStepPunchEvent args)
     {
         if (args.Handled)
             return;
@@ -167,7 +200,7 @@ public sealed class CQCSystem : EntitySystem
             if (target == args.Performer)
                 continue;
 
-            if (HasComp<SmokingCarpComponent>(target))
+            if (HasComp<CQCComponent>(target))
                 continue;
 
             if (!HasComp<MobStateComponent>(target))
@@ -175,7 +208,7 @@ public sealed class CQCSystem : EntitySystem
 
             _receivers.Add(target);
         }
-        _audio.PlayPvs(ent.Comp.TripSound, args.Performer);
+        _audio.PlayPvs(ent.Comp.StepSound, args.Performer);
 
         foreach (var receiver in _receivers)
         {

@@ -124,9 +124,6 @@ public sealed partial class CQCParams // Список переменных, ко
     public int HitDamageForMuteAtack = 5;
 
     [DataField]
-    public float ParalyzeTimeStunAtack = 0.5f;
-
-    [DataField]
     public string DamageTypeForMuteAtack = "Blunt";
 
     [DataField]
@@ -169,5 +166,5 @@ public sealed partial class MartialArtsTrainingCQCComponent : Component
     public EntProtoId? ItemAfterLerning; // Прототип объекта, в который будет преобразован предмет при использовании
 
     [DataField]
-    public List<CQCParams> Params { get; set; } = new(); // Хранение параметров из CQC
+    public List<CQCParams> Params { get; set; } = new(); // Хранение параметров из CQCParams
 }
