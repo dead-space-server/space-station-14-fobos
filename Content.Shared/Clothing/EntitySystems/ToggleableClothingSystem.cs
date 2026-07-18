@@ -14,6 +14,7 @@ using Robust.Shared.Network;
 using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+using Content.Shared.Backmen.Blob.Components; //DS14
 
 namespace Content.Shared.Clothing.EntitySystems;
 
@@ -52,7 +53,7 @@ public sealed class ToggleableClothingSystem : EntitySystem
         SubscribeLocalEvent<ToggleableClothingComponent, ToggleClothingDoAfterEvent>(OnDoAfterComplete);
         SubscribeLocalEvent<ToggleableClothingComponent, SelfToggleClothingDoAfterEvent>(OnSelfDoAfterComplete); //DS14
 
-    }   
+    }
 
     private void GetRelayedVerbs(EntityUid uid, ToggleableClothingComponent component, InventoryRelayedEvent<GetVerbsEvent<EquipmentVerb>> args)
     {
@@ -312,7 +313,7 @@ public sealed class ToggleableClothingSystem : EntitySystem
             uid,
             args.Performer)
         {
-            BreakOnMove    = false,
+            BreakOnMove = false,
         };
 
         _doAfter.TryStartDoAfter(doAfterArgs);
@@ -325,6 +326,17 @@ public sealed class ToggleableClothingSystem : EntitySystem
             return;
 
         var parent = Transform(target).ParentUid;
+        //DS14-start
+        if (_inventorySystem.TryGetSlotEntity(parent, component.Slot, out var currentHeadItem))
+        {
+            if (currentHeadItem != component.ClothingUid &&
+                (HasComp<ToggleableClothingStorageBlockerComponent>(currentHeadItem) || HasComp<BlobPodComponent>(currentHeadItem)))
+            {
+                _popupSystem.PopupClient(Loc.GetString("toggleable-clothing-remove-first", ("entity", currentHeadItem)), user, user);
+                return;
+            }
+        }
+        //DS14-end
         if (component.Container.ContainedEntity == null)
         {
             _inventorySystem.TryUnequip(user, parent, component.Slot, force: true);
@@ -422,7 +434,7 @@ public sealed class ToggleableClothingSystem : EntitySystem
     /// </summary>
     private void OnMapInit(EntityUid uid, ToggleableClothingComponent component, MapInitEvent args)
     {
-        if (component.Container!.ContainedEntity is {} ent)
+        if (component.Container!.ContainedEntity is { } ent)
         {
             DebugTools.Assert(component.ClothingUid == ent, "Unexpected entity present inside of a toggleable clothing container.");
             return;
@@ -448,6 +460,20 @@ public sealed class ToggleableClothingSystem : EntitySystem
         if (_actionContainer.EnsureAction(uid, ref component.ActionEntity, out var action, component.Action))
             _actionsSystem.SetEntityIcon((component.ActionEntity.Value, action), component.ClothingUid);
     }
+
+    //DS14-start
+    public void ForceRetractHelmet(EntityUid suitUid, ToggleableClothingComponent? component = null)
+    {
+        if (!Resolve(suitUid, ref component))
+            return;
+
+        if (component.Container?.ContainedEntity == null)
+        {
+            var wearer = Transform(suitUid).ParentUid;
+            ToggleClothing(wearer, suitUid, component);
+        }
+    }
+    //DS14-end
 }
 
 public sealed partial class ToggleClothingEvent : InstantActionEvent
