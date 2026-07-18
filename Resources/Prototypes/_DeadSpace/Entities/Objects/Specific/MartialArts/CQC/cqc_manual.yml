@@ -15,11 +15,9 @@
       params:
         - hitDamageForPowerPunch: 20
           hitDamageForMuteAtack: 5
-          paralyzeTimeStunAtack: 0.5
           ignoreResist: true
           damageTypeForPowerPunch: "Blunt"
           effectPowerPunch: EffectPowerPunchCarp
-          effectSmokePunch: WeaponArcBite
           hitSoundForPowerPunch: 
             path: /Audio/Weapons/genhit1.ogg
           pushStrength: 4000
