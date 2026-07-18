@@ -82,8 +82,8 @@
 
 - type: listing
   id: RevenantScream
-  name: Крик
-  description: Издаёт пронзительный крик привлекающий людей
+  name: revenant-scream-name
+  description: revenant-scream-desc
   productAction: ActionRevenantScream
   cost:
     StolenEssence: 30
@@ -95,8 +95,8 @@
 
 - type: listing
   id: RevenantHack
-  name: Взлом
-  description: Открывает выбранный вами шлюз или шкаф
+  name: revenant-hack-name
+  description: revenant-hack-desc
   productAction: ActionRevenantHack
   cost:
     StolenEssence: 50

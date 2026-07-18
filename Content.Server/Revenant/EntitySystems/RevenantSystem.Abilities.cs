@@ -573,13 +573,22 @@ public sealed partial class RevenantSystem
     {
         if (args.Handled)
             return;
-        if (!TryUseAbility(uid, component, component.HackCost, component.HackDebuffs))
+        if (!CanUseAbility(uid, component, component.HackCost))
             return;
-        args.Handled = true;
+
         var target = args.Target;
-        _emagSystem.TryEmagEffect(uid, uid, target);
+        var effectApplied = _emagSystem.TryEmagEffect(uid, uid, target);
         if (TryComp<EntityStorageComponent>(target, out var storage))
+        {
             _entityStorage.OpenStorage(target, storage);
+            effectApplied = true;
+        }
+
+        if (!effectApplied)
+            return;
+
+        ApplyAbilityCostAndDebuffs(uid, component, component.HackCost, component.HackDebuffs);
+        args.Handled = true;
     }
     //DS14-end
 }

@@ -180,6 +180,16 @@ public sealed partial class RevenantSystem : EntitySystem
 
     private bool TryUseAbility(EntityUid uid, RevenantComponent component, FixedPoint2 abilityCost, Vector2 debuffs)
     {
+        if (!CanUseAbility(uid, component, abilityCost)) // DS14
+            return false;
+
+        ApplyAbilityCostAndDebuffs(uid, component, abilityCost, debuffs); // DS14
+        return true;
+    }
+
+    // DS14-start
+    private bool CanUseAbility(EntityUid uid, RevenantComponent component, FixedPoint2 abilityCost)
+    {
         if (component.Essence <= abilityCost)
         {
             _popup.PopupEntity(Loc.GetString("revenant-not-enough-essence"), uid, uid);
@@ -196,13 +206,20 @@ public sealed partial class RevenantSystem : EntitySystem
             }
         }
 
+        return true;
+    }
+
+    private void ApplyAbilityCostAndDebuffs(EntityUid uid,
+        RevenantComponent component,
+        FixedPoint2 abilityCost,
+        Vector2 debuffs)
+    {
         ChangeEssenceAmount(uid, -abilityCost, component, false);
 
         _statusEffects.TryAddStatusEffect<CorporealComponent>(uid, "Corporeal", TimeSpan.FromSeconds(debuffs.Y), false);
         _stun.TryAddStunDuration(uid, TimeSpan.FromSeconds(debuffs.X));
-
-        return true;
     }
+    // DS14-end
 
     public void MakeVisible(bool visible)
     {
