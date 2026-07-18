@@ -50,6 +50,7 @@ ban-panel-hwid = HWID
 ban-panel-reason = Причина
 ban-panel-last-conn = Использовать IP и HWID с последнего подключения?
 ban-panel-submit = Забанить
+ban-panel-submit-watchlist = Установить наблюдение
 ban-panel-confirm = Уверены?
 ban-panel-tabs-basic = Основная инфа
 ban-panel-tabs-reason = Причина
