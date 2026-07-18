@@ -11,6 +11,10 @@ namespace Content.Server.Database.Migrations.Sqlite
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "max_rdm_day",
+                table: "game_preset_config");
+
             migrationBuilder.AddColumn<bool>(
                 name: "prevent_repeat_mode",
                 table: "game_preset_config",
