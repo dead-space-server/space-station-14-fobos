@@ -55,13 +55,15 @@ public sealed class CQCSystem : CQCSharedSystem
     {
         base.Update(frameTime);
 
-        var query = EntityQueryEnumerator<CQCMutedComponent, MutedComponent>();
-        while (query.MoveNext(out var uid, out var arkMuted, out _))
+        var query = EntityQueryEnumerator<CQCMutedComponent>();
+        while (query.MoveNext(out var uid, out var cqcMuted))
         {
-            if (_timing.CurTime < arkMuted.MuteEndTime)
+            if (_timing.CurTime < cqcMuted.MuteEndTime)
                 continue;
 
-            RemComp<MutedComponent>(uid);
+            if (cqcMuted.AddedMutedComponent)
+                RemComp<MutedComponent>(uid);
+
             RemComp<CQCMutedComponent>(uid);
         }
     }
@@ -139,7 +141,12 @@ public sealed class CQCSystem : CQCSharedSystem
                 break;
 
             case CQCList.MuteAttack:
-                var muted = EnsureComp<CQCMutedComponent>(hitEntity);
+                if (!TryComp<CQCMutedComponent>(hitEntity, out var muted))
+                {
+                    muted = AddComp<CQCMutedComponent>(hitEntity);
+                    muted.AddedMutedComponent = !HasComp<MutedComponent>(hitEntity);
+                }
+
                 EnsureComp<MutedComponent>(hitEntity);
                 muted.MuteEndTime = _timing.CurTime + ent.Comp.Params.ParalyzeTimeMuteAtack;
                 DamageHit(hitEntity, ent.Comp.Params.DamageTypeForMuteAtack, ent.Comp.Params.HitDamageForMuteAtack, ent.Comp.Params.IgnoreResist, out _);
@@ -160,13 +167,14 @@ public sealed class CQCSystem : CQCSharedSystem
         {
             RemComp<CQCCantUseWeaponComponent>(ent);
             ent.Comp.SelectedCombo = null;
-            foreach (var action in ent.Comp.BaseCQC)
+
+            foreach (var actionEnt in ent.Comp.BaseCQCActionEntities)
             {
-                foreach (var actionEnt in ent.Comp.BaseCQCActionEntities)
-                {
-                    _action.RemoveAction(ent.Owner, actionEnt);
-                }
+                _action.RemoveAction(ent.Owner, actionEnt);
+                QueueDel(actionEnt);
             }
+
+            ent.Comp.BaseCQCActionEntities.Clear();
         }
         else
         {

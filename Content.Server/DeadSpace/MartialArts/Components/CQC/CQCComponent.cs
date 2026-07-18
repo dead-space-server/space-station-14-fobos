@@ -56,6 +56,9 @@ public sealed partial class CQCMutedComponent : Component
 {
     [ViewVariables]
     public TimeSpan MuteEndTime; // Переменная, которая отвечает за длительность наложения MutedComponent на цель
+
+    [ViewVariables]
+    public bool AddedMutedComponent;
 }
 
 public enum CQCList

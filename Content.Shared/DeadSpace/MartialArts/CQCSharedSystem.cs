@@ -39,7 +39,7 @@ public abstract class CQCSharedSystem : EntitySystem
         if (_timing.CurTime < user.Comp.NextPopupTime)
             return;
 
-        _popup.PopupClient(Loc.GetString("weapon-disabled"), user, user);
+        _popup.PopupClient(Loc.GetString("gun-disabled"), user, user);
         user.Comp.NextPopupTime = _timing.CurTime + user.Comp.PopupCooldown;
     }
 }
