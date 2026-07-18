@@ -138,6 +138,7 @@ public sealed partial class ChatUIController : UIController
 
     private readonly HashSet<ChatBox> _chats = new();
     public IReadOnlySet<ChatBox> Chats => _chats;
+    private ChatWindow? _mainChatPopOut; // DS14
 
     /// <summary>
     ///     The max amount of characters an entity can send in one message
@@ -256,6 +257,7 @@ public sealed partial class ChatUIController : UIController
 
     public void OnScreenUnload()
     {
+        CloseMainChatPopOut(); // DS14
         SetMainChat(false);
     }
 
@@ -319,12 +321,37 @@ public sealed partial class ChatUIController : UIController
         }
 
         chatBox.Main = setting;
-        if (_config.GetCVar(CCCCVars.PopOutChat) && setting) //DS14-start
+        // DS14-start
+        if (_config.GetCVar(CCCCVars.PopOutChat) && setting && _mainChatPopOut == null)
         {
-            ChatWindow chatpopout = new ChatWindow();
-            chatpopout.PopOutChatRef(ref chatBox);
+            var popOut = new ChatWindow();
+            _mainChatPopOut = popOut;
+            popOut.PoppedOutClosed += OnMainChatPopOutClosed;
+            popOut.PopOutChatRef(ref chatBox);
         }
+        // DS14-end
     }
+
+    // DS14-start
+    private void OnMainChatPopOutClosed()
+    {
+        if (_mainChatPopOut is not { } popOut)
+            return;
+
+        popOut.PoppedOutClosed -= OnMainChatPopOutClosed;
+        _mainChatPopOut = null;
+    }
+
+    private void CloseMainChatPopOut()
+    {
+        if (_mainChatPopOut is not { } popOut)
+            return;
+
+        popOut.PoppedOutClosed -= OnMainChatPopOutClosed;
+        _mainChatPopOut = null;
+        popOut.ClosePoppedOutWindow();
+    }
+    // DS14-end
 
     private void SetChatSizing(string sizing, InGameScreen screen, bool setting)
     {
@@ -349,7 +376,7 @@ public sealed partial class ChatUIController : UIController
 
 
         screen.SetChatSize(chatSize);
-    } //DS14-end
+    }
 
     private void StoreChatSize(Vector2 size)
     {

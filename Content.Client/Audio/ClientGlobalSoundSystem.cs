@@ -16,7 +16,7 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
 
     // Admin music
     private bool _adminAudioEnabled = true;
-    private List<EntityUid?> _adminAudio = new(1);
+    private Dictionary<EntityUid, float> _adminAudio = new(1); // DS14
 
     // Event sounds (e.g. nuke timer)
     private bool _eventAudioEnabled = true;
@@ -59,7 +59,7 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
 
     private void ClearAudio()
     {
-        foreach (var stream in _adminAudio)
+        foreach (var stream in _adminAudio.Keys) // DS14
         {
             _audio.Stop(stream);
         }
@@ -77,10 +77,13 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
     {
         if(!_adminAudioEnabled) return;
 
-        var audioParams = soundEvent.AudioParams ?? AudioParams.Default; //DS14
-        audioParams = audioParams.AddVolume(SharedAudioSystem.GainToVolume(_adminVolume)); //DS14
+        // DS14-start
+        var baseAudioParams = soundEvent.AudioParams ?? AudioParams.Default;
+        var audioParams = baseAudioParams.AddVolume(SharedAudioSystem.GainToVolume(_adminVolume));
         var stream = _audio.PlayGlobal(soundEvent.Specifier, Filter.Local(), false, audioParams);
-        _adminAudio.Add(stream?.Entity);
+        if (stream != null)
+            _adminAudio[stream.Value.Entity] = baseAudioParams.Volume;
+        // DS14-end
     }
 
     private void PlayStationEventMusic(StationEventMusicEvent soundEvent)
@@ -125,7 +128,7 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
     {
         _adminAudioEnabled = enabled;
         if (_adminAudioEnabled) return;
-        foreach (var stream in _adminAudio)
+        foreach (var stream in _adminAudio.Keys) // DS14
         {
             _audio.Stop(stream);
         }
@@ -155,6 +158,11 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
     private void SetAdminVolume(float volume)
     {
         _adminVolume = volume;
+        var volumeOffset = SharedAudioSystem.GainToVolume(volume);
+        foreach (var (stream, baseVolume) in _adminAudio)
+        {
+            _audio.SetVolume(stream, baseVolume + volumeOffset);
+        }
     }
     // DS14-end
 }

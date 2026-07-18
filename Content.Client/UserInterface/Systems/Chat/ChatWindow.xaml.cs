@@ -28,6 +28,7 @@ public sealed partial class ChatWindow : FancyWindow
     };
 
     private IClydeWindow? _poppedOutWindow;
+    public event Action? PoppedOutClosed;
     // DS14-end
 
     public ChatWindow()
@@ -129,11 +130,18 @@ public sealed partial class ChatWindow : FancyWindow
         if (_poppedOutWindow == null)
             return;
 
+        Chatbox.ClearInputs();
         CloseChatPopups();
         _poppedOutWindow.RequestClosed -= OnPoppedOutWindowRequestClosed;
         ((IDisposable)Chatbox).Dispose();
         _poppedOutWindow.Dispose();
         _poppedOutWindow = null;
+        PoppedOutClosed?.Invoke();
+    }
+
+    public void ClosePoppedOutWindow()
+    {
+        DisposePoppedOutWindow();
     }
 
     private void MoveChatPopupsTo(WindowRoot root)
@@ -172,7 +180,6 @@ public sealed partial class ChatWindow : FancyWindow
             Width = width,
             Height = height,
             Owner = _clyde.MainWindow,
-            Styles = OSWindowStyles.NoTitleOptions,
         });
 
         _poppedOutWindow.RequestClosed += OnPoppedOutWindowRequestClosed;
