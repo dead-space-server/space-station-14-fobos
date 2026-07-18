@@ -19,7 +19,7 @@
     - WeaponShotgunEnforcer
   storage:
     back:
-      - MedkitCombat
+      - MedkitCombatFilled
       - BoxLethalshot
       - BoxLethalshot
       - BoxShotgunSlug
@@ -47,7 +47,7 @@
     - WeaponSubMachineGunDrozd
   storage:
     back:
-      - MedkitCombat
+      - MedkitCombatFilled
       - MagazinePistolSubMachineGun
       - MagazinePistolSubMachineGun
       - MagazinePistolSubMachineGun
@@ -74,7 +74,7 @@
     - WeaponRifleLecter
   storage:
     back:
-      - MedkitCombat
+      - MedkitCombatFilled
       - MagazineRifle
       - MagazineRifle
       - MagazineRifle
@@ -102,7 +102,7 @@
     - WeaponPistolDesertEagle
   storage:
     back:
-      - MedkitCombat
+      - MedkitCombatFilled
       - MagazineEagle
       - MagazineEagle
       - MagazineEagle
@@ -129,7 +129,7 @@
     - WeaponSniperHristov
   storage:
     back:
-      - MedkitCombat
+      - MedkitCombatFilled
       - MagazineHristov
       - MagazineHristov
       - MagazineHristov
@@ -156,7 +156,7 @@
     - EnergySword
   storage:
     back:
-      - MedkitCombat
+      - MedkitCombatFilled
       - Stimpack
       - Stimpack
       - Stimpack
@@ -183,7 +183,7 @@
     - BookArkalyse
   storage:
     back:
-      - MedkitCombat
+      - MedkitCombatFilled
       - Stimpack
       - Stimpack
       - Stimpack
@@ -210,7 +210,7 @@
     - WeaponShotgunBulldog
   storage:
     back:
-      - MedkitCombat
+      - MedkitCombatFilled
       - MagazineShotgun
       - MagazineShotgun
       - MagazineShotgun
@@ -239,7 +239,7 @@
     - EnergyShield
   storage:
     back:
-      - MedkitCombat
+      - MedkitCombatFilled
       - MagazinePistol
       - MagazinePistol
       - MagazinePistol
