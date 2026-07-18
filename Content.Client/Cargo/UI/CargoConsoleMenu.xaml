@@ -52,6 +52,13 @@
                               Margin="4 0"/>
                       </GridContainer>
 
+                      <!-- DS14-start -->
+                      <RichTextLabel Name="TradeHijackStatus"
+                          Text="{Loc 'cargo-console-menu-trade-hijacked'}"
+                          StyleClasses="LabelKeyText"
+                          Margin="0 4 0 0" />
+                      <!-- DS14-end -->
+
                       <PanelContainer StyleClasses="LowDivider" Margin="0 4.5 -8 0"/>
                   </BoxContainer>
 

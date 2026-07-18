@@ -2,6 +2,7 @@ using Content.Shared.Alert;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
+using Content.Shared.DeadSpace.Sandevistan;
 using Content.Shared.DoAfter;
 using Content.Shared.Ensnaring.Components;
 using Content.Shared.Hands.EntitySystems;
@@ -14,6 +15,7 @@ using Content.Shared.Throwing;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Serialization;
+using Robust.Shared.Timing;
 using Content.Shared.Lube; // DS14-hotfix-lubed-bola
 
 namespace Content.Shared.Ensnaring;
@@ -25,6 +27,8 @@ public sealed partial class EnsnareableDoAfterEvent : SimpleDoAfterEvent
 
 public abstract class SharedEnsnareableSystem : EntitySystem
 {
+    private const float SandevistanRemovalDurationMultiplier = 0.25f; // DS14
+
     [Dependency] private   readonly AlertsSystem _alerts = default!;
     [Dependency] private   readonly MovementSpeedModifierSystem _speedModifier = default!;
     [Dependency] protected readonly SharedAppearanceSystem Appearance = default!;
@@ -34,6 +38,7 @@ public abstract class SharedEnsnareableSystem : EntitySystem
     [Dependency] private   readonly SharedHandsSystem _hands = default!;
     [Dependency] protected readonly SharedPopupSystem Popup = default!;
     [Dependency] private   readonly SharedStaminaSystem _stamina = default!;
+    [Dependency] private   readonly IGameTiming _timing = default!; // DS14
 
     public override void Initialize()
     {
@@ -158,6 +163,15 @@ public abstract class SharedEnsnareableSystem : EntitySystem
             return;
 
         var freeTime = user == target ? component.BreakoutTime : component.FreeTime;
+        // DS14-start
+        if (TryComp<ActiveSandevistanComponent>(user, out var sandevistan) &&
+            sandevistan.LifeStage <= ComponentLifeStage.Running &&
+            _timing.CurTime < sandevistan.EndTime)
+        {
+            freeTime *= SandevistanRemovalDurationMultiplier;
+        }
+        // DS14-end
+
         var breakOnMove = !component.CanMoveBreakout;
 
         var doAfterEventArgs = new DoAfterArgs(EntityManager, user, freeTime, new EnsnareableDoAfterEvent(), target, target: target, used: ensnare)

@@ -1,0 +1,103 @@
+<controls:FancyWindow xmlns="https://spacestation14.io"
+                      xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                      Title="{Loc 'energy-seller-ui-window-title'}"
+                      HeaderClass="DS14MenuHeader"
+                      TitleClass="DS14MenuTitle"
+                      MinWidth="580"
+                      Resizable="False">
+    <PanelContainer StyleClasses="DS14MenuFlatBody">
+        <BoxContainer Orientation="Vertical"
+                      HorizontalExpand="True"
+                      SeparationOverride="14">
+            <BoxContainer Orientation="Vertical"
+                          HorizontalExpand="True"
+                          SeparationOverride="6">
+                <Label Text="{Loc 'energy-seller-ui-charge-rate'}"
+                       StyleClasses="DS14MenuListHeader" />
+                <BoxContainer Orientation="Horizontal"
+                              HorizontalExpand="True"
+                              SeparationOverride="8">
+                    <Slider Name="ChargeSpeedSlider"
+                            HorizontalExpand="True"
+                            Rounded="true"
+                            MinValue="5000"/>
+                    <Label Name="ChargeSpeedMaxLabel"
+                           Text="100"
+                           MinWidth="118"
+                           Align="Right"
+                           StyleClasses="DS14MenuProfileLabel" />
+                </BoxContainer>
+                <BoxContainer Orientation="Horizontal"
+                              HorizontalExpand="True">
+                    <Label Text="{Loc 'energy-seller-ui-current-rate'}"
+                           StyleClasses="DS14MenuProfileLabel" />
+                    <Label Name="ChargeSpeedValue"
+                           Text="50"
+                           HorizontalExpand="True"
+                           HorizontalAlignment="Right"
+                           Align="Right"
+                           StyleClasses="DS14MenuProfileLabel" />
+                </BoxContainer>
+                <BoxContainer Orientation="Horizontal"
+                              HorizontalExpand="True"
+                              SeparationOverride="6">
+                    <LineEdit Name="ChargeSpeedLineEdit"
+                              PlaceHolder="{Loc 'energy-seller-ui-value-placeholder'}"
+                              HorizontalExpand="True"
+                              SetHeight="32"
+                              StyleClasses="DS14MenuInput" />
+                    <Button Name="SpeedChargeConfirm"
+                            Text="{Loc 'energy-seller-ui-apply'}"
+                            MinWidth="120"
+                            TextAlign="Center"
+                            StyleClasses="DS14MenuAction" />
+                </BoxContainer>
+            </BoxContainer>
+
+            <BoxContainer Orientation="Vertical"
+                          HorizontalExpand="True"
+                          SeparationOverride="6">
+                <Label Text="{Loc 'energy-seller-ui-sell-volume'}"
+                       StyleClasses="DS14MenuListHeader" />
+                <BoxContainer Orientation="Horizontal"
+                              HorizontalExpand="True"
+                              SeparationOverride="8">
+                    <Slider Name="MaxChargeSlider"
+                            HorizontalExpand="True"
+                            Rounded="true"
+                            MinValue="5000"/>
+                    <Label Name="MaxChargeMaxLabel"
+                           Text="200"
+                           MinWidth="118"
+                           Align="Right"
+                           StyleClasses="DS14MenuProfileLabel" />
+                </BoxContainer>
+                <BoxContainer Orientation="Horizontal"
+                              HorizontalExpand="True">
+                    <Label Text="{Loc 'energy-seller-ui-current-volume'}"
+                           StyleClasses="DS14MenuProfileLabel" />
+                    <Label Name="LimitSellValue"
+                           Text="50"
+                           HorizontalExpand="True"
+                           HorizontalAlignment="Right"
+                           Align="Right"
+                           StyleClasses="DS14MenuProfileLabel" />
+                </BoxContainer>
+                <BoxContainer Orientation="Horizontal"
+                              HorizontalExpand="True"
+                              SeparationOverride="6">
+                    <LineEdit Name="MaxChargeLineEdit"
+                              PlaceHolder="{Loc 'energy-seller-ui-value-placeholder'}"
+                              HorizontalExpand="True"
+                              SetHeight="32"
+                              StyleClasses="DS14MenuInput" />
+                    <Button Name="SellLimitConfirm"
+                            Text="{Loc 'energy-seller-ui-apply'}"
+                            MinWidth="120"
+                            TextAlign="Center"
+                            StyleClasses="DS14MenuAction" />
+                </BoxContainer>
+            </BoxContainer>
+        </BoxContainer>
+    </PanelContainer>
+</controls:FancyWindow>

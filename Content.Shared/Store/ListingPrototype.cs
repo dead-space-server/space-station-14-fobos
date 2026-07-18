@@ -41,7 +41,8 @@ public partial class ListingData : IEquatable<ListingData>
         other.RestockTime,
         other.DiscountDownTo,
         other.DisableRefund,
-        other.ApplyToMob
+        other.ApplyToMob,
+        other.RemainingStock // DS14 - show limited stock in the store UI.
     )
     {
 
@@ -67,7 +68,8 @@ public partial class ListingData : IEquatable<ListingData>
         TimeSpan restockTime,
         Dictionary<ProtoId<CurrencyPrototype>, FixedPoint2> dataDiscountDownTo,
         bool disableRefund,
-        bool applyToMob
+        bool applyToMob,
+        int? remainingStock = null // DS14 - show limited stock in the store UI.
     )
     {
         Name = name;
@@ -90,6 +92,7 @@ public partial class ListingData : IEquatable<ListingData>
         DiscountDownTo = new Dictionary<ProtoId<CurrencyPrototype>, FixedPoint2>(dataDiscountDownTo);
         DisableRefund = disableRefund;
         ApplyToMob = applyToMob;
+        RemainingStock = remainingStock; // DS14 - show limited stock in the store UI.
     }
 
     [ViewVariables]
@@ -187,6 +190,14 @@ public partial class ListingData : IEquatable<ListingData>
     /// </summary>
     [DataField]
     public int PurchaseAmount;
+
+    // DS14-start
+    /// <summary>
+    /// Remaining purchases shown to the user for listings that explicitly expose their stock.
+    /// </summary>
+    [DataField]
+    public int? RemainingStock;
+    // DS14-end
 
     /// <summary>
     /// Used to delay purchase of some items.
@@ -308,7 +319,8 @@ public sealed partial class ListingDataWithCostModifiers : ListingData
             listingData.RestockTime,
             listingData.DiscountDownTo,
             listingData.DisableRefund,
-            listingData.ApplyToMob
+            listingData.ApplyToMob,
+            listingData.RemainingStock // DS14 - show limited stock in the store UI.
         )
     {
     }

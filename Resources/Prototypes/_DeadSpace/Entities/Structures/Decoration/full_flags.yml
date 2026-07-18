@@ -1,0 +1,103 @@
+- type: entity
+  id: FullFlagOPZ
+  parent: BaseStructure
+  name: Флаг ОПЗ
+  suffix: На шесте
+  description: Олицетворяет собой государство, чья гегемония перекроила карту галактики благодаря военной и политической силе.
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Structures/Decoration/full_flags.rsi
+    state: opz
+    drawdepth: Mobs
+    offset: "0.0,0.5"
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.06,-0.4,0.06,0.9"
+        density: 190
+        hard: true
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+
+- type: entity
+  id: FullFlagSNK
+  parent: BaseStructure
+  name: Флаг СНК
+  suffix: На шесте
+  description: Пестрый символ свободного мира, который, однако, стал удобной кормушкой для мегакорпораций и сброда.
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Structures/Decoration/full_flags.rsi
+    state: snk
+    drawdepth: Mobs
+    offset: "0.0,0.5"
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.06,-0.4,0.06,0.9"
+        density: 190
+        hard: true
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+
+- type: entity
+  id: FullFlagUSSP
+  parent: BaseStructure
+  name: Флаг СССП
+  suffix: На шесте
+  description: Лаконичное напоминание о том, что даже в 3-е тысячелетие нельзя забывать про рабочий класс.
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Structures/Decoration/full_flags.rsi
+    state: ussp
+    drawdepth: Mobs
+    offset: "0.0,0.5"
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.06,-0.4,0.06,0.9"
+        density: 190
+        hard: true
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+
+- type: entity
+  id: FullFlagEmpire
+  parent: BaseStructure
+  name: Флаг Империи
+  suffix: На шесте
+  description: Пропитан духом многовековой войны, и даже его внешний вид дышит сражением.
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Structures/Decoration/full_flags.rsi
+    state: empire
+    drawdepth: Mobs
+    offset: "0.0,0.5"
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.06,-0.4,0.06,0.9"
+        density: 190
+        hard: true
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer

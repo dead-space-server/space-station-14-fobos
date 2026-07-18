@@ -8,6 +8,8 @@ namespace Content.Shared.DeadSpace.Traitor;
 
 public sealed partial class TraitorUltraOpenContractActionEvent : InstantActionEvent;
 
+public sealed partial class TraitorUltraOpenExtraObjectiveOfferActionEvent : InstantActionEvent;
+
 [Serializable, NetSerializable]
 public enum TraitorUltraOfferButton : byte
 {
@@ -48,6 +50,51 @@ public sealed class TraitorUltraOfferEuiState : EuiStateBase
         Body = body;
         Gains = gains;
         Losses = losses;
+        Accept = accept;
+        Decline = decline;
+    }
+}
+
+[Serializable, NetSerializable]
+public enum TraitorUltraExtraObjectiveOfferButton : byte
+{
+    Decline,
+    Accept,
+}
+
+[Serializable, NetSerializable]
+public sealed class TraitorUltraExtraObjectiveOfferChoiceMessage : EuiMessageBase
+{
+    public readonly TraitorUltraExtraObjectiveOfferButton Button;
+
+    public TraitorUltraExtraObjectiveOfferChoiceMessage(TraitorUltraExtraObjectiveOfferButton button)
+    {
+        Button = button;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class TraitorUltraExtraObjectiveOfferEuiState : EuiStateBase
+{
+    public string Title = string.Empty;
+    public string Body = string.Empty;
+    public string ObjectiveName = string.Empty;
+    public string Reward = string.Empty;
+    public string Accept = string.Empty;
+    public string Decline = string.Empty;
+
+    public TraitorUltraExtraObjectiveOfferEuiState(
+        string title,
+        string body,
+        string objectiveName,
+        string reward,
+        string accept,
+        string decline)
+    {
+        Title = title;
+        Body = body;
+        ObjectiveName = objectiveName;
+        Reward = reward;
         Accept = accept;
         Decline = decline;
     }

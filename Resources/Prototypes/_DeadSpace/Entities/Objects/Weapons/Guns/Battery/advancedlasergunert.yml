@@ -2,12 +2,8 @@
   name: продвинутый лазерный пистолет ОБР
   parent: [BaseWeaponBatterySmall, BaseCentcommContraband]
   id: WeaponAdvancedLaserERT
-  description: Эксперементальная разработка КСО на основе микро-ядерного синтеза. Благодарю этому данное оружие может самозаряжаться, и хранить намного больше заряда
+  description: Экспериментальная разработка КСО на основе микроядерного синтеза, благодаря которому данное оружие может автономно восполнять свой боезапас и хранить намного больше заряда.
   components:
-  - type: Item
-    size: Normal
-    shape:
-    - 0,0,1,1
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Battery/advancedlasergunert.rsi
     layers:

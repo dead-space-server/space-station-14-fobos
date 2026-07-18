@@ -242,6 +242,9 @@
   id: LoneOpsUplink
 
 - type: Tag
+  id: NukeOpsCommanderUplink
+
+- type: Tag
   id: MagazineCarbineSKS
 
 - type: Tag

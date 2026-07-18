@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "all states made by ss14fan(discord) for Мёртвый Космос",
+    "size": {
+        "x": 8,
+        "y": 8
+    },
+    "states": [
+        { "name": "alpha" },
+        { "name": "beta" },
+        { "name": "gamma" },
+        { "name": "delta" },
+        { "name": "epsilon" },
+        { "name": "heta" },
+        { "name": "iota" },
+        { "name": "kappa" },
+        { "name": "lambda" },
+        { "name": "fi" },
+        { "name": "hi" }
+    ]
+}

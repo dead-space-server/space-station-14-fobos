@@ -130,6 +130,8 @@
   components:
 #DS14-start
   - type: Vehicle
+    keyEjectRequiresOperator: true
+    protectOperatorUnstrap: true
     movementSound:
       collection: FootstepBorg
     movementSoundDistance: 1.5

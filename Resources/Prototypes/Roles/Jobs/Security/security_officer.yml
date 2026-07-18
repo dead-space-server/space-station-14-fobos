@@ -40,7 +40,7 @@
   equipment:
     id: SecurityPDA # DS14
     eyes: ClothingEyesGlassesSecurity
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # DS14
   storage:
     back:
     - Flash

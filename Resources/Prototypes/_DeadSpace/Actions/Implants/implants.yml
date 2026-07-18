@@ -68,3 +68,19 @@
     checkCanInteract: false
   - type: InstantAction
     event: !type:UseInjectReagentsImplantEvent
+
+- type: entity
+  id: ActionActivateSandevistanImplant
+  name: "[color=red]Активировать Сандевистан[/color]"
+  description: Продашь свою душу за силу?
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    priority: -20
+    icon:
+      sprite: _DeadSpace/Actions/implants_actions.rsi
+      state: sandevistan
+    useDelay: 2
+    checkCanInteract: false
+  - type: InstantAction
+    event: !type:ActivateSandevistanImplantEvent

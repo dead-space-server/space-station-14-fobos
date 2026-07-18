@@ -1,0 +1,24 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+               Title="{Loc game-preset-window-title}"
+               MinSize="1050 500"
+               SetSize="1250 600">
+    <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="8">
+        <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+            <CheckBox Name="SystemToggle" Text="{Loc game-preset-system-toggle}" HorizontalExpand="True" />
+            <Button Name="RefreshButton" Text="{Loc game-preset-refresh-button}" />
+            <Button Name="InitiateVoteButton" Text="{Loc game-preset-initiate-vote-button}" ToolTip="{Loc game-preset-initiate-vote-tooltip}" />
+            <Button Name="SkipPresetButton" Text="{Loc game-preset-skip-button}" ToolTip="{Loc game-preset-skip-tooltip}" />
+            <Button Name="SettingsButton" Text="⚙" ToolTip="{Loc game-preset-settings-button}" />
+            <Button Name="SaveButton" Text="{Loc game-preset-save-changes}" ModulateSelfOverride="#2ea043" />
+            <Label Name="RdmCounterLabel" Text="0/0 РДМ" VerticalAlignment="Center" Margin="4 0" Visible="False" />
+        </BoxContainer>
+        <Label Text="{Loc game-preset-active-tab}" StyleClasses="LabelSubText" />
+        <ScrollContainer VerticalExpand="True" HScrollEnabled="True">
+            <BoxContainer Name="ActivePresetRows" Orientation="Vertical" SeparationOverride="4" />
+        </ScrollContainer>
+        <Label Text="{Loc game-preset-custom-presets}" StyleClasses="LabelSubText" Margin="0 10 0 0" />
+        <ScrollContainer VerticalExpand="True" HScrollEnabled="True">
+            <BoxContainer Name="CustomPresetPanel" Orientation="Horizontal" SeparationOverride="8" />
+        </ScrollContainer>
+    </BoxContainer>
+</DefaultWindow>

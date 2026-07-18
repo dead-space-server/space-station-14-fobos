@@ -13,6 +13,8 @@ admin-verb-make-spider-terror = Засунуть яйцо паука ужаса.
 admin-verb-make-thief = Сделать цель вором.
 admin-verb-make-blob = Сделать носителем Блоба.
 admin-verb-make-event-role = Выдать/забрать ивентовую роль.
+admin-verb-make-traitor-ultra-announced = Сделать цель ультра-предателем. Публичный контракт будет объявлен после штатной задержки.
+admin-verb-make-traitor-ultra-silent = Сделать цель ультра-предателем без публичного объявления контракта.
 admin-verb-text-make-traitor = Сделать предателем
 admin-verb-text-make-initial-infected = Сделать нулевым пациентом
 admin-verb-text-make-zombie = Сделать зомби
@@ -27,6 +29,8 @@ admin-verb-text-make-spider-terror = Сделать пуком ужаса
 admin-verb-text-make-thief = Сделать вором
 admin-verb-text-make-blob = Сделать носителем Блоба
 admin-verb-text-make-event-role = Ивентовая роль
+admin-verb-text-make-traitor-ultra-announced = Сделать ультра-предателем с объявлением
+admin-verb-text-make-traitor-ultra-silent = Сделать ультра-предателем без объявления
 admin-overlay-antag-classic = АНТАГ
 #DS14-start
 admin-verb-text-make-dragon = Сделать цель Драконом

@@ -16,10 +16,17 @@
       "directions": 4
     },
     {
+      "name": "h-equipped-FEET",
+      "directions": 4
+    },
+    {
       "name": "icon"
     },
     {
       "name": "icon-on"
+    },
+    {
+      "name": "h-icon"
     }
   ]
 }

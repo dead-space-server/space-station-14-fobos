@@ -27,6 +27,7 @@
   - type: ShowMindShieldIcons
   - type: ShowCriminalRecordIcons
   - type: ShowContrabandDetails
+  - type: ShowPatrolIcons
 
 - type: entity
   id: ShowMedicalIcons

@@ -11,6 +11,7 @@ using Content.Server.Inventory;
 using Content.Server.Mind;
 using Content.Server.NPC;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
+using Content.Shared.DeadSpace.Necromorphs.PlasmaCutter;
 using Content.Shared.NPC.Prototypes;
 using Content.Server.NPC.HTN;
 using Content.Server.NPC.Systems;
@@ -91,6 +92,9 @@ public sealed partial class NecromorfSystem
 
     public void Necrofication(EntityUid target, string prototypeId, InfectionDeadStrainData strainData, MobStateComponent? mobState = null)
     {
+        if (HasComp<NecromorphMissingHeadComponent>(target))
+            return;
+
         if (HasComp<NecromorfComponent>(target))
             return;
 

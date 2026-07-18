@@ -7,4 +7,4 @@ ent-TurnstileGenpopEnter = { ent-Turnstile }
     .desc = { ent-Turnstile.desc }
 ent-TurnstileGenpopLeave = { ent-Turnstile }
     .suffix = Общий блок Выход
-    .desc = { ent-Turnstile.desc }ъ
+    .desc = { ent-Turnstile.desc }

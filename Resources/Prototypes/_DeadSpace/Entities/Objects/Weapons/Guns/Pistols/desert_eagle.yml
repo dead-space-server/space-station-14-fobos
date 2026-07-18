@@ -161,3 +161,27 @@
   - type: Tag
     tags:
     - PistolDesertEagle
+
+- type: entity
+  parent: DesertEagleBase
+  id: WeaponPistolGoldDesertEagleSOD
+  name: золотой пустынный орёл «Джонита»
+  description: крутое описание от ex1stenz.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/golddeserteagle.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/golddeserteagle.rsi
+  - type: Gun
+    fireRate: 2
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/deserteagle.ogg
+      params:
+        volume: 2
+  - type: Tag
+    tags:
+    - PistolDesertEagle
+  - type: StaticPrice
+    price: 198400

@@ -1,10 +1,13 @@
 ﻿using Content.Server.Backmen.Blob;
 using Content.Shared.Mind;
+using Content.Server.DeadSpace.Administration;
 using Robust.Shared.Audio;
 
 namespace Content.Server.Backmen.GameTicking.Rules.Components;
 
-[RegisterComponent, Access(typeof(BlobRuleSystem), typeof(BlobCoreSystem), typeof(BlobObserverSystem))]
+// DS14-start
+[RegisterComponent, Access(typeof(BlobRuleSystem), typeof(BlobCoreSystem), typeof(BlobObserverSystem), typeof(BlobAntagRollbackSystem))]
+// DS14-end
 public sealed partial class BlobRuleComponent : Component
 {
     public List<(EntityUid mindId, MindComponent mind)> Blobs = new(); //BlobRoleComponent

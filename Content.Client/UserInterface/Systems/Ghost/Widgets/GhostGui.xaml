@@ -5,5 +5,8 @@
         <Button Name="ReturnToBodyButton" Text="{Loc ghost-gui-return-to-body-button}" />
         <Button Name="GhostWarpButton" Text="{Loc ghost-gui-ghost-warp-button}" />
         <Button Name="GhostRolesButton" />
+        <!-- DS14-Start -->
+        <Button Name="ArenaButton" Text="{Loc arena-ghost-button-default}" />
+        <!-- DS14-End -->
     </BoxContainer>
 </widgets:GhostGui>

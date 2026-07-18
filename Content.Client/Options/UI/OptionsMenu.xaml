@@ -2,35 +2,18 @@
                xmlns:tabs="clr-namespace:Content.Client.Options.UI.Tabs"
                Title="{Loc 'ui-options-title'}"
                MinSize="800 570">
-    <!-- DS14-start: KSO-styled options shell -->
-    <PanelContainer StyleClasses="DS14MenuShell"
-                    VerticalExpand="True"
-                    HorizontalExpand="True">
-        <BoxContainer Orientation="Vertical"
-                      SeparationOverride="8"
-                      VerticalExpand="True"
-                      HorizontalExpand="True">
-            <PanelContainer StyleClasses="DS14MenuHeader">
-                <Label Text="{Loc 'ui-options-title'}"
-                       StyleClasses="DS14MenuTitle" />
-            </PanelContainer>
-            <PanelContainer StyleClasses="DS14MenuInset"
-                            VerticalExpand="True"
-                            HorizontalExpand="True">
-                <TabContainer Name="Tabs"
-                              Access="Public"
-                              VerticalExpand="True"
-                              HorizontalExpand="True">
-                    <tabs:MiscTab Name="MiscTab" />
-                    <tabs:GraphicsTab Name="GraphicsTab" />
-                    <tabs:KeyRebindTab Name="KeyRebindTab" />
-                    <tabs:AudioTab Name="AudioTab" />
-                    <tabs:AccessibilityTab Name="AccessibilityTab" />
-                    <tabs:PingTab Name="PingTab"/><!--DS14-->
-                    <tabs:AdminOptionsTab Name="AdminOptionsTab" />
-                </TabContainer>
-            </PanelContainer>
-        </BoxContainer>
-    </PanelContainer>
-    <!-- DS14-end -->
+    <TabContainer Name="Tabs"
+                  Access="Public"
+                  VerticalExpand="True"
+                  HorizontalExpand="True">
+        <tabs:MiscTab Name="MiscTab" />
+        <tabs:GraphicsTab Name="GraphicsTab" />
+        <tabs:KeyRebindTab Name="KeyRebindTab" />
+        <tabs:AudioTab Name="AudioTab" />
+        <tabs:AccessibilityTab Name="AccessibilityTab" />
+        <!-- DS14-start -->
+        <tabs:PingTab Name="PingTab"/>
+        <!-- DS14-end -->
+        <tabs:AdminOptionsTab Name="AdminOptionsTab" />
+    </TabContainer>
 </DefaultWindow>

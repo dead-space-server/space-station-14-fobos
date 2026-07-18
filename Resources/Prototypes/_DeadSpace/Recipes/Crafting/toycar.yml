@@ -1,0 +1,7 @@
+- type: construction
+  id: ToyCarWithCamera
+  graph: ToyCarWithCamera
+  startNode: start
+  targetNode: toyCarWithCamera
+  category: construction-category-misc
+  objectType: Item

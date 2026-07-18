@@ -462,3 +462,21 @@
         - id: ClothingHeadHatHardhatYellow
         - id: ClothingNeckMantleQM
         - id: ClothingHeadsetCargo
+
+#DS14-Start
+- type: entity
+  parent: CratePlastic
+  id: CrateFunToyCars
+  name: ящик игрушечных машинок
+  description: Коробка со всем необходимым для незабываемых заездов по отделу.
+  components:
+  - type: StorageFill
+    contents:
+      - id: ToyCarRemoteController
+        amount: 3
+      - id: MobToyCar
+        amount: 3
+      - id: AdvancedRemoteController
+        amount: 1
+        prob: 0.05
+#DS14-End

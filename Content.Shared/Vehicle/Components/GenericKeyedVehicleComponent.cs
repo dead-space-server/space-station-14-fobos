@@ -32,7 +32,7 @@ public sealed partial class GenericKeyedVehicleComponent : Component
     /// </summary>
     [DataField]
     public bool PreventInvalidInsertion = true;
-    //DS14-start
+    // DS14-start
     /// <summary>
     /// The key that was first inserted into this vehicle.
     /// Once set, only this specific key will be accepted.
@@ -42,5 +42,5 @@ public sealed partial class GenericKeyedVehicleComponent : Component
 
     [ViewVariables]
     public TimeSpan NextWrongKeyPopup = TimeSpan.Zero;
-    //DS14-end
+    // DS14-end
 }

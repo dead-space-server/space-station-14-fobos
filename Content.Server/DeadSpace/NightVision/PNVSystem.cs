@@ -42,6 +42,7 @@ public sealed class PNVSystem : EntitySystem
                 ActivateSound = existingNightVision.ActivateSound,
                 Duration = existingNightVision.Duration,
                 Animation = existingNightVision.Animation,
+                Desaturation = existingNightVision.Desaturation,
                 ActionToggleNightVision = existingNightVision.ActionToggleNightVision,
                 ActionToggleNightVisionEntity = existingNightVision.ActionToggleNightVisionEntity,
             };
@@ -50,7 +51,7 @@ public sealed class PNVSystem : EntitySystem
             return;
         }
 
-        var nightVisionComp = new NightVisionComponent(comp.Color, comp.ActivateSound, comp.Animation);
+        var nightVisionComp = new NightVisionComponent(comp.Color, comp.ActivateSound, comp.Animation, comp.Desaturation);
         nightVisionComp.ActionToggleNightVision = comp.ActionToggleNightVision;
         comp.HasNightVision = true;
 
@@ -91,11 +92,12 @@ public sealed class PNVSystem : EntitySystem
         _actions.RemoveAction(equipee, nightVision.ActionToggleNightVisionEntity);
         nightVision.ActionToggleNightVisionEntity = null;
 
-        var pnvNightVision = new NightVisionComponent(pnv.Color, pnv.ActivateSound, pnv.Animation);
+        var pnvNightVision = new NightVisionComponent(pnv.Color, pnv.ActivateSound, pnv.Animation, pnv.Desaturation);
         nightVision.Color = pnvNightVision.Color;
         nightVision.ActivateSound = pnvNightVision.ActivateSound;
         nightVision.Duration = pnvNightVision.Duration;
         nightVision.Animation = pnvNightVision.Animation;
+        nightVision.Desaturation = pnvNightVision.Desaturation;
         nightVision.ActionToggleNightVision = pnv.ActionToggleNightVision;
         nightVision.IsNightVision = false;
         nightVision.RemainingTime = null;
@@ -116,6 +118,7 @@ public sealed class PNVSystem : EntitySystem
         nightVision.ActivateSound = previous.ActivateSound;
         nightVision.Duration = previous.Duration;
         nightVision.Animation = previous.Animation;
+        nightVision.Desaturation = previous.Desaturation;
         nightVision.ActionToggleNightVision = previous.ActionToggleNightVision;
         nightVision.ActionToggleNightVisionEntity = previous.ActionToggleNightVisionEntity;
         nightVision.IsNightVision = false;

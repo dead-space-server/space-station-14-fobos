@@ -5,3 +5,8 @@
   params:
     Color: "#31bd1522"
     TransitionProgress: 0
+
+- type: shader
+  id: DesaturateFullscreen
+  kind: source
+  path: "/Textures/_DeadSpace/Shaders/desaturate_fullscreen.swsl"

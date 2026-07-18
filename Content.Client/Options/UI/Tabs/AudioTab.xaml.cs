@@ -62,6 +62,11 @@ public sealed partial class AudioTab : Control
             scale: 1f);
 
         Control.AddOptionPercentSlider(
+            CCCCVars.ItemSoundsVolume,
+            SliderVolumeItemSounds,
+            scale: 1f);
+
+        Control.AddOptionPercentSlider(
             CCCCVars.BossMusicVolume,
             SliderVolumeBossMusic,
             scale: 1f);

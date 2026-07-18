@@ -1,3 +1,4 @@
+using Content.Shared.Actions.Components;
 using Content.Shared.Actions;
 using Content.Shared.DeadSpace.Triggers.Components;
 using Content.Shared.Trigger;
@@ -6,45 +7,34 @@ namespace Content.Shared.DeadSpace.Triggers.Systems;
 
 public sealed class TriggerOnActionSystem : TriggerOnXSystem
 {
-    [Dependency] private readonly SharedActionsSystem _actions = default!;
-
+    [Dependency] private readonly SharedActionsSystem _action = default!;
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<TriggerOnActionComponent, MapInitEvent>(OnMapInit);
-        SubscribeLocalEvent<TriggerOnActionComponent, ComponentShutdown>(OnComponentShutdown);
-        SubscribeLocalEvent<TriggerOnActionComponent, TriggerActionEvent>(OnTriggerAction);
-        SubscribeLocalEvent<TriggerOnActionComponent, GetItemActionsEvent>(OnGetActions);
+        SubscribeLocalEvent<TriggerActionEvent>(OnTriggerAction);
     }
 
-    private void OnMapInit(Entity<TriggerOnActionComponent> ent, ref MapInitEvent args)
+    private void OnTriggerAction(TriggerActionEvent args)
     {
-        var (uid, comp) = ent;
-
-        _actions.AddAction(uid, ref comp.ActionEntity, comp.Action);
-    }
-
-    private void OnGetActions(Entity<TriggerOnActionComponent> ent, ref GetItemActionsEvent args)
-    {
-        if (!ent.Comp.Parent)
+        if (args.Handled)
             return;
 
-        args.AddAction(ent.Comp.ActionEntity);
-    }
+        if (!TryComp<TriggerOnActionComponent>(args.Action, out var comp))
+            return;
 
-    private void OnTriggerAction(Entity<TriggerOnActionComponent> ent, ref TriggerActionEvent args)
-    {
-        Trigger.Trigger(ent.Owner, args.Performer, ent.Comp.KeyOut);
-        if (ent.Comp.DeleteComponentAfterTrigger)
-        {
-            RemComp<TriggerOnActionComponent>(ent.Owner);
-        }
+        if (!TryComp<ActionComponent>(args.Action, out var action))
+            return;
+
+        var target = action.Container ?? action.AttachedEntity ?? args.Performer;
+
+        Trigger.Trigger(target, args.Performer, comp.KeyOut);
         args.Handled = true;
-    }
 
-    private void OnComponentShutdown(Entity<TriggerOnActionComponent> ent, ref ComponentShutdown args)
-    {
-        _actions.RemoveAction(ent.Comp.ActionEntity);
+        if (comp.RemoveAfterActive)
+        {
+            _action.RemoveAction((args.Action, action));
+            PredictedQueueDel(args.Action);
+        }
     }
 }

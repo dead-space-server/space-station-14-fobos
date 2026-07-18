@@ -10,6 +10,76 @@
   - type: Clothing
     sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_tactic.rsi
 
+# Captain
+## Blue
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformTurtleneckCaptain
+  name: водолазка капитана
+  description: Синяя водолазка с золотыми элементами, удобно и стильно.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_captain.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_captain.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtTurtleneckCaptain
+  name: юбка-водолазка капитана
+  description: Синяя юбка-водолазка с золотыми элементами, удобно и стильно.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_captain.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_captain.rsi
+
+## White
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformTurtleneckCaptainWhite
+  name: белая водолазка капитана
+  description: Белая водолазка с золотыми элементами, удобно и стильно. Не смейте пачкать её в крови!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_captain_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_captain_white.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtTurtleneckCaptainWhite
+  name: белая юбка-водолазка капитана
+  description: Белая юбка-водолазка с золотыми элементами, удобно и стильно. Не смейте пачкать её в крови!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_captain_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_captain_white.rsi
+
+## Black
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformTurtleneckCaptainBlack
+  name: чёрная водолазка капитана
+  description: Чёрная водолазка с золотыми элементами, удобно и стильно. Крови видно не будет.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_captain_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_captain_black.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtTurtleneckCaptainBlack
+  name: чёрная юбка-водолазка капитана
+  description: Чёрная юбка-водолазка с золотыми элементами, удобно и стильно. Крови видно не будет.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_captain_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_captain_black.rsi
+
 #Mercenary
 - type: entity
   parent: ClothingUniformBase

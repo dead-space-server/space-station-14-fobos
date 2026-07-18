@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Content.Server.DeviceNetwork.Components;
 using Content.Server.Medical.CrewMonitoring;
-using Content.Server.Station.Systems;
 using Content.Shared.Power;
 using Content.Shared.DeviceNetwork.Components;
 
@@ -14,7 +13,7 @@ namespace Content.Server.DeviceNetwork.Systems;
 public sealed class SingletonDeviceNetServerSystem : EntitySystem
 {
     [Dependency] private readonly DeviceNetworkSystem _deviceNetworkSystem = default!;
-    [Dependency] private readonly StationSystem _stationSystem = default!;
+    [Dependency] private readonly StationLimitedNetworkSystem _stationLimitedNetwork = default!; // DS14
 
     public override void Initialize()
     {
@@ -40,7 +39,7 @@ public sealed class SingletonDeviceNetServerSystem : EntitySystem
     /// <param name="address">The address of the active server if it exists</param>
     /// <typeparam name="TComp">The component type that determines what type of server you're getting the address of</typeparam>
     /// <returns>True if there is an active serve. False otherwise</returns>
-    public bool TryGetActiveServerAddress<TComp>(EntityUid stationId, [NotNullWhen(true)] out string? address) where TComp : IComponent
+    public bool TryGetActiveServerAddress<TComp>(EntityUid stationId, [NotNullWhen(true)] out string? address, uint? receiveFrequency = null) where TComp : IComponent // DS14
     {
         var servers = EntityQueryEnumerator<
             SingletonDeviceNetServerComponent,
@@ -52,8 +51,13 @@ public sealed class SingletonDeviceNetServerSystem : EntitySystem
 
         while (servers.MoveNext(out var uid, out var server, out var device, out _))
         {
-            if (!_stationSystem.GetOwningStation(uid)?.Equals(stationId) ?? true)
+            // DS14-start
+            if (_stationLimitedNetwork.GetNetworkStation(uid) != stationId)
                 continue;
+
+            if (receiveFrequency != null && device.ReceiveFrequency != receiveFrequency)
+                continue;
+            // DS14-end
 
             if (!server.Available)
             {

@@ -14,6 +14,8 @@ ui-vote-restart-abstain = Abstain
 ui-vote-gamemode-title = Next gamemode
 ui-vote-gamemode-tie = Tie for gamemode vote! Picking... { $picked }
 ui-vote-gamemode-win = { $winner } won the gamemode vote!
+ui-vote-gamemode-runoff = Tie between gamemodes: { $modes }. A new vote has started for { $seconds } seconds.
+ui-vote-gamemode-tie-timeout = There is not enough time for another vote because map generation is imminent. Randomly selected mode: { $picked }
 
 ui-vote-map-title = Next map
 ui-vote-map-tie = Tie for map vote! Picking... { $picked }

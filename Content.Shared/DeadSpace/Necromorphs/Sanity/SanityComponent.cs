@@ -40,6 +40,12 @@ public sealed partial class SanityComponent : Component
 
     [ViewVariables]
     public string OldTask;
+    [ViewVariables]
+    public TimeSpan NextCheckCrazyMob = TimeSpan.Zero;
+    [ViewVariables]
+    public TimeSpan NextCheckPopup = TimeSpan.Zero;
+    [ViewVariables(VVAccess.ReadWrite)]
+    public HashSet<string> LowSanityMessages = ["Братская луна поможет тебе", "Не бойся, мы всё равно станем все едины", "Смерть дарует новую жизнь", "Мы поможем тебе, просто впусти маркер истинный в себя", "МЫ. БУДЕМ. ЕДИНЫ"];
 }
 
 [ByRefEvent]

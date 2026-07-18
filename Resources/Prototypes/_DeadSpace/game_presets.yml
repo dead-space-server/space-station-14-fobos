@@ -285,3 +285,88 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
+
+- type: gamePreset
+  id: SecretShadowling
+  alias:
+    - secretshadowling
+  name: secret-title
+  description: secret-description
+  showInVote: false #Admin Use
+  showInAdminVote: false # DS14
+  voteType: rdm # DS14
+  rules:
+  - WageScheduler # backmen: currency
+  - ShadowlingRule
+  - BasicStationEventScheduler
+  - MeteorSwarmScheduler
+  - SpaceTrafficControlEventScheduler
+  - BasicRoundstartVariation
+
+- type: gamePreset
+  id: SecretXenoborgs
+  alias:
+    - secretxenoborgs
+  name: secret-title
+  description: secret-description
+  showInVote: false
+  showInAdminVote: false
+  voteType: rdm # DS14
+  rules:
+  - Xenoborgs
+  - DummyNonAntagChance
+  - SubGamemodesRuleNoWizardNoXenoborg
+  - BasicStationEventScheduler
+  - MeteorSwarmScheduler
+  - SpaceTrafficControlEventScheduler
+  - BasicRoundstartVariation
+
+- type: gamePreset
+  id: SecretBlob
+  alias:
+    - secretblob
+  name: secret-title
+  description: secret-description
+  showInVote: false
+  showInAdminVote: false
+  voteType: rdm # DS14
+  rules:
+    - WageScheduler # backmen: currency
+    - BlobGameMode
+    - BasicStationEventScheduler
+    - BasicRoundstartVariation
+    - SubGamemodesRuleNoWizard # DS14
+
+- type: gamePreset
+  id: SecretDynamic
+  alias:
+  - secretdynamic
+  - secretmultiantag
+  - secretdirector
+  name: secret-title
+  showInVote: false # DS14
+  showInAdminVote: false # DS14
+  voteType: rdm # DS14
+  description: secret-description
+  rules:
+  - DynamicRule
+  - DummyNonAntag
+  - DynamicStationEventScheduler
+  - MeteorSwarmScheduler
+  - SpaceTrafficControlEventScheduler
+  - BasicRoundstartVariation
+
+- type: gamePreset
+  id: SecretDeathmatch
+  alias:
+    - secretdeathmatch
+  name: secret-title
+  description: secret-description
+  maxPlayers: 15
+  showInVote: false
+  showInAdminVote: false # DS14
+  voteType: admin # DS14
+  supportedMaps: DeathMatchMapPool
+  rules:
+    - DeathMatch31
+

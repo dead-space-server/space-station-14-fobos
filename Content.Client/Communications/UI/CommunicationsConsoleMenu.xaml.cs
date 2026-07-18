@@ -28,6 +28,7 @@ namespace Content.Client.Communications.UI
         public event Action<string>? OnAlertLevel;
         public event Action<string>? OnAnnounce;
         public event Action<string>? OnBroadcast;
+        public event Action? OnEmagChannel; // DS14
 
         public CommunicationsConsoleMenu()
         {
@@ -57,6 +58,8 @@ namespace Content.Client.Communications.UI
 
             BroadcastButton.OnPressed += _ => OnBroadcast?.Invoke(Rope.Collapse(MessageInput.TextRope));
             BroadcastButton.Disabled = !CanBroadcast;
+
+            EmagChannelButton.OnPressed += _ => OnEmagChannel?.Invoke(); // DS14
 
             AlertLevelButton.OnItemSelected += args =>
             {

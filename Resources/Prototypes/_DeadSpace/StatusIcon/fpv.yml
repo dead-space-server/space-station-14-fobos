@@ -1,0 +1,7 @@
+- type: fpvIcon
+  id: FPVIcon
+  locationPreference: Right
+  isShaded: true
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/drone.rsi
+    state: controling

@@ -1,0 +1,25 @@
+- type: constructionGraph
+  id: ToyCarWithCamera
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: toyCarWithCamera
+      steps:
+      - tag: ToyCar
+        name: construction-graph-tag-toy-car
+        icon:
+          sprite: _DeadSpace/Mobs/Toys/car.rsi
+          state: full
+        doAfter: 2
+      - tag: BodyCamera
+        name: construction-graph-tag-body-camera
+        icon:
+          sprite: _DeadSpace/Clothing/Neck/body_camera.rsi
+          state: icon
+        doAfter: 2
+      - material: Cable
+        amount: 10
+        doAfter: 3
+  - node: toyCarWithCamera
+    entity: MobToyCarWithCamera

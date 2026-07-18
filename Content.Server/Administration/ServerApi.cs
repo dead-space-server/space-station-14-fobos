@@ -71,6 +71,9 @@ public sealed partial class ServerApi : IPostInjectInit
         RegisterHandler(HttpMethod.Get, "/admin/game_rules", GetGameRules);
         RegisterHandler(HttpMethod.Get, "/admin/presets", GetPresets);
         RegisterHandler(HttpMethod.Get, "/admin/players", GetPlayers); // DS14
+        RegisterHandler(HttpMethod.Get, "/admin/stats/rounds", GetRoundStats); // DS14
+        RegisterHandler(HttpMethod.Get, "/admin/playtime", GetPlaytime); // DS14
+        RegisterHandler(HttpMethod.Get, "/admin/playtime/jobs", GetPlaytimeJobs); // DS14
 
         // Post
         RegisterActorHandler(HttpMethod.Post, "/admin/actions/round/start", ActionRoundStart);
@@ -81,6 +84,7 @@ public sealed partial class ServerApi : IPostInjectInit
         RegisterActorHandler(HttpMethod.Post, "/admin/actions/end_game_rule", ActionEndGameRule);
         RegisterActorHandler(HttpMethod.Post, "/admin/actions/force_preset", ActionForcePreset);
         RegisterActorHandler(HttpMethod.Post, "/admin/actions/set_motd", ActionForceMotd);
+        RegisterActorHandler(HttpMethod.Post, "/admin/actions/playtime/add", ActionPlaytimeAdd); // DS14
         RegisterActorHandler(HttpMethod.Patch, "/admin/actions/panic_bunker", ActionPanicPunker);
     }
 

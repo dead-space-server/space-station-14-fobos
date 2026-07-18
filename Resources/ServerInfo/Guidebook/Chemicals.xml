@@ -33,5 +33,6 @@
 <GuideReagentGroupEmbed Group="Special"/>
 
 ## Разное
+<GuideReagentGroupEmbed Group="Other"/>
 <GuideReagentGroupEmbed Group="Unknown"/>
 </Document>

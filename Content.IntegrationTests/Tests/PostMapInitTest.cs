@@ -55,7 +55,6 @@ namespace Content.IntegrationTests.Tests
         /// </remarks>
         private static readonly Dictionary<string, HashSet<EntProtoId>> DoNotMapWhitelistSpecific = new()
         {
-            {"/Maps/bagel.yml", ["RubberStampMime"]},
             {"/Maps/Shuttles/ShuttleEvent/honki.yml", ["GoldenBikeHorn", "RubberStampClown"]},
             {"/Maps/Shuttles/ShuttleEvent/syndie_evacpod.yml", ["RubberStampSyndicate"]},
             // DS14-start: Add our custom maps to whitelist
@@ -132,7 +131,7 @@ namespace Content.IntegrationTests.Tests
             "Omega",
             "Origin",
             "Packed",
-            // "Plasma", // map load failure
+            "Plasma",
             "Reach",
             "Saltern",
             "Snowball",
@@ -146,7 +145,6 @@ namespace Content.IntegrationTests.Tests
             "Cluster", // invalid EntityUid reference in Storage
             "Loop", // invalid EntityUid reference in Storage
             "Gemini", // map load failure
-            "Plasma", // map load failure
         };
         /// <summary>
         /// Jobs whose dedicated spawn points were removed (migrated to null) but are still listed

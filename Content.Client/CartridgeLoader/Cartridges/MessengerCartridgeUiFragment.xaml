@@ -4,12 +4,19 @@
     <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
         <!-- Connected status -->
         <BoxContainer Name="ConnectedContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Visible="False">
-            <LineEdit Name="SearchBar"
-                      PlaceHolder="{Loc 'messenger-search-placeholder'}"
-                      HorizontalExpand="True"
-                      SetHeight="32"
-                      Margin="4 4 4 2"
-                      StyleClasses="DS14MenuInput"/>
+            <BoxContainer Name="SearchHeader" Orientation="Horizontal" HorizontalExpand="True" Margin="4 4 4 2">
+                <LineEdit Name="SearchBar"
+                          PlaceHolder="{Loc 'messenger-search-placeholder'}"
+                          HorizontalExpand="True"
+                          SetHeight="32"
+                          StyleClasses="DS14MenuInput"/>
+                <Button Name="ChatToggleButton"
+                        Text="{Loc messenger-disable-chat}"
+                        SetWidth="145"
+                        SetHeight="32"
+                        Margin="4 0 0 0"
+                        StyleClasses="DS14MenuProfileControl"/>
+            </BoxContainer>
             <Label Name="NoUsers"
                    Text="{Loc 'messenger-no-users'}"
                    HorizontalAlignment="Center"

@@ -10,6 +10,7 @@
   - UnderwearBottomPantiesWhite
 
 # Command
+## Blueshield
 - type: loadoutGroup
   id: BlueShieldOfficerBackpack
   name: loadout-group-blue-shield-officer-backpack
@@ -40,6 +41,41 @@
   - UnderwearBottomBoxersBlueShield
   - UnderwearBottomPantiesBlueShield
   - UnderwearTopBraBlueShield
+
+## Captain
+- type: loadoutGroup
+  id: CaptainGloves
+  name: loadout-group-captain-gloves
+  loadouts:
+  - CaptainGlovesBlue
+  - CaptainGlovesWhite
+  - CaptainGlovesBlack
+
+- type: loadoutGroup
+  id: CaptainTailbag
+  name: loadout-group-captain-tailbag
+  minLimit: 0
+  loadouts:
+  - CaptainTailbag
+  - CaptainTailbagWhite
+  - CaptainTailbagBlack
+
+- type: loadoutGroup
+  id: CaptainShoes
+  name: loadout-group-captain-shoes
+  loadouts:
+  - ShoesBootsLaceup
+  - Kirzachi
+
+- type: loadoutGroup
+  id: CaptainSocks
+  name: loadout-group-captain-socks
+  loadouts:
+  - CaptainSocksBlue
+  - CaptainSocksWhite
+  - CaptainSocksBlack
+  - SocksNylon
+  - SocksNylonWhite
 
 # Civilian
 - type: loadoutGroup

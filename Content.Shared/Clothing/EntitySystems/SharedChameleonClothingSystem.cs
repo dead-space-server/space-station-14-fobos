@@ -14,6 +14,14 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+// DS14-START
+using Content.Shared.Movement.Components;
+using Content.Shared.Radio.Components;
+using Content.Shared.Flash.Components;
+using Content.Shared.Damage.Components;
+using Content.Shared.DeadSpace.FakeDescription;
+using Content.Shared.Electrocution;
+// DS14-END
 
 namespace Content.Shared.Clothing.EntitySystems;
 
@@ -127,6 +135,66 @@ public abstract class SharedChameleonClothingSystem : EntitySystem
         {
             RemComp<ContrabandComponent>(uid);
         }
+        // DS14-start
+        // footsteps sound
+        if (proto.TryGetComponent(out FootstepModifierComponent? footsteps, Factory))
+        {
+            EnsureComp<FootstepModifierComponent>(uid, out var current);
+            current.FootstepSoundCollection = footsteps.FootstepSoundCollection;
+        }
+        else
+        {
+            RemComp<FootstepModifierComponent>(uid);
+        }
+
+        // headset color
+        if (proto.TryGetComponent(out HeadsetComponent? radio, Factory))
+        {
+            EnsureComp<HeadsetComponent>(uid, out var current);
+            current.Color = radio.Color;
+        }
+
+        // glasses flash description
+        if (proto.TryGetComponent(out FlashImmunityComponent? glasses, Factory))
+        {
+            if (TryComp(uid, out FlashImmunityComponent? immunity))
+            {
+                immunity.ShowInExamine = glasses.ShowInExamine;
+            }
+            else
+            {
+                EnsureComp<FlashImmunityComponent>(uid, out var current);
+                current.ShowInExamine = glasses.ShowInExamine;
+                current.Enabled = false;
+            }
+        }
+        else
+        {
+            if (TryComp(uid, out FlashImmunityComponent? immunity))
+                immunity.ShowInExamine = false;
+        }
+
+        // fake slow on damage modifier
+        if (proto.TryGetComponent(out ClothingSlowOnDamageModifierComponent? boots, Factory))
+        {
+            EnsureComp<FakeClothingSlowOnDamageModifierComponent>(uid, out var current);
+            current.Modifier = boots.Modifier;
+        }
+        else
+        {
+            RemComp<FakeClothingSlowOnDamageModifierComponent>(uid);
+        }
+
+        // fake insulated
+        if (proto.TryGetComponent(out InsulatedComponent? imagineThatIsNull, Factory))
+        {
+            EnsureComp<FakeInsulatedComponent>(uid);
+        }
+        else
+        {
+            RemComp<FakeInsulatedComponent>(uid);
+        }
+        // DS14-end
     }
 
     private void OnVerb(Entity<ChameleonClothingComponent> ent, ref GetVerbsEvent<InteractionVerb> args)

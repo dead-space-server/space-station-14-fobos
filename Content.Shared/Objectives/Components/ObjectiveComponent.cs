@@ -41,6 +41,14 @@ public sealed partial class ObjectiveComponent : Component
     /// </summary>
     [DataField]
     public SpriteSpecifier? Icon;
+
+    // DS14-start
+    /// <summary>
+    /// Permanently reports this objective as completed once latched by game logic.
+    /// </summary>
+    [ViewVariables(VVAccess.ReadOnly)]
+    public bool CompletionLocked;
+    // DS14-end
 }
 
 /// <summary>

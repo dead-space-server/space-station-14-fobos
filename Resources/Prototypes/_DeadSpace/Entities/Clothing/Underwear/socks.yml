@@ -267,6 +267,8 @@
   - type: Sprite
     sprite: _DeadSpace/Clothing/Underwear/Civilian/zoo/socks.rsi
 
+## Captain
+# Blue
 - type: entity
   parent: ClothingUnderwearSocksBase
   id: ClothingUnderwearSocksCaptain
@@ -276,6 +278,27 @@
   - type: Sprite
     sprite: _DeadSpace/Clothing/Underwear/Command/captain/socks.rsi
 
+# White
+- type: entity
+  parent: ClothingUnderwearSocksBase
+  id: ClothingUnderwearSocksCaptainWhite
+  name: белые носки капитана
+  description: Стандартные белые носки капитана.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Underwear/Command/captain/socks_white.rsi
+
+# Black
+- type: entity
+  parent: ClothingUnderwearSocksBase
+  id: ClothingUnderwearSocksCaptainBlack
+  name: чёрные носки капитана
+  description: Стандартные чёрные носки капитана.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Underwear/Command/captain/socks_black.rsi
+
+## Blueshield
 - type: entity
   parent: ClothingUnderwearSocksBase
   id: ClothingUnderwearSocksBlueShieldOfficer

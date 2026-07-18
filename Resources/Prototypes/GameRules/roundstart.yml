@@ -152,6 +152,10 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+        # DS14-start
+      - type: CustomNameOnSpawn
+        namePrefix: "Командир"
+      # DS14-end
       - type: Skill
         group: ALL
       - type: NukeOperative
@@ -172,6 +176,10 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+        # DS14-start
+      - type: CustomNameOnSpawn
+        namePrefix: "Агент"
+      # DS14-end
       - type: NukeOperative
       - type: Skill
         group: ALL
@@ -194,6 +202,10 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+        # DS14-start
+      - type: CustomNameOnSpawn
+        namePrefix: "Оператор"
+      # DS14-end
       - type: NukeOperative
       - type: Skill
         group: ALL
@@ -270,8 +282,8 @@
       max: 420
     definitions:
     - prefRoles: [ Traitor ]
-      max: 12
-      playerRatio: 7
+      max: 15
+      playerRatio: 5
       components:
       - type: Skill
         group: ALL

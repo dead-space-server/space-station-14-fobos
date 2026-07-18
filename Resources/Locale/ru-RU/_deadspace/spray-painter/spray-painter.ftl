@@ -34,7 +34,9 @@ spray-painter-style-taipanairlockglass-virology = Вирусология
 spray-painter-style-taipanairlockglass-service = Сервис
 # Lockers
 spray-painter-style-taipanlocker-basic = Обычный
+spray-painter-style-taipanlocker-secure = Защищённый
 spray-painter-style-taipanlocker-botanist = Ботаник
+spray-painter-style-taipanlocker-chef = Повар
 spray-painter-style-taipanlocker-electrical = Электрический
 spray-painter-style-taipanlocker-welding = Сварочный
 spray-painter-style-taipanlocker-technical = Руководитель техобеспечения

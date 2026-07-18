@@ -37,6 +37,7 @@ public sealed class TTSManager
     private readonly HttpClient _httpClient = new();
 
     private ISawmill _sawmill = default!;
+    private readonly object _cacheLock = new(); // DS14
     private readonly Dictionary<string, byte[]> _cache = new();
     private readonly List<string> _cacheKeysSeq = new();
     private int _maxCachedCount = 200;
@@ -65,12 +66,17 @@ public sealed class TTSManager
     {
         WantedCount.Inc();
         var cacheKey = GenerateCacheKey(speaker, text);
-        if (_cache.TryGetValue(cacheKey, out var data))
+        // DS14-start
+        lock (_cacheLock)
         {
-            ReusedCount.Inc();
-            _sawmill.Verbose($"Use cached sound for '{text}' speech by '{speaker}' speaker");
-            return data;
+            if (_cache.TryGetValue(cacheKey, out var data))
+            {
+                ReusedCount.Inc();
+                _sawmill.Verbose($"Use cached sound for '{text}' speech by '{speaker}' speaker");
+                return data;
+            }
         }
+        // DS14-end
 
         _sawmill.Verbose($"Generate new audio for '{text}' speech by '{speaker}' speaker");
 
@@ -102,19 +108,45 @@ public sealed class TTSManager
             var json = await response.Content.ReadFromJsonAsync<GenerateVoiceResponse>(cancellationToken: cts.Token);
             var soundData = Convert.FromBase64String(json.Results.First().Audio);
 
-            _cache.Add(cacheKey, soundData);
-            _cacheKeysSeq.Add(cacheKey);
-            if (_cache.Count > _maxCachedCount)
+            // DS14-start
+            var cachedAfterRequest = false;
+            byte[] returnData;
+            lock (_cacheLock)
             {
-                var firstKey = _cacheKeysSeq.First();
-                _cache.Remove(firstKey);
-                _cacheKeysSeq.Remove(firstKey);
+                if (_cache.TryGetValue(cacheKey, out var cachedData))
+                {
+                    cachedAfterRequest = true;
+                    returnData = cachedData;
+                }
+                else
+                {
+                    _cache[cacheKey] = soundData;
+                    _cacheKeysSeq.Add(cacheKey);
+                    if (_cache.Count > _maxCachedCount)
+                    {
+                        var firstKey = _cacheKeysSeq.First();
+                        _cache.Remove(firstKey);
+                        _cacheKeysSeq.Remove(firstKey);
+                    }
+
+                    returnData = soundData;
+                }
             }
 
-            _sawmill.Debug($"Generated new audio for '{text}' speech by '{speaker}' speaker ({soundData.Length} bytes)");
+            if (cachedAfterRequest)
+            {
+                ReusedCount.Inc();
+                _sawmill.Verbose($"Use cached sound for '{text}' speech by '{speaker}' speaker after concurrent request");
+            }
+            else
+            {
+                _sawmill.Debug($"Generated new audio for '{text}' speech by '{speaker}' speaker ({soundData.Length} bytes)");
+            }
+            // DS14-end
+
             RequestTimings.WithLabels("Success").Observe((DateTime.UtcNow - reqTime).TotalSeconds);
 
-            return soundData;
+            return returnData; // DS14
         }
         catch (TaskCanceledException)
         {
@@ -132,8 +164,13 @@ public sealed class TTSManager
 
     public void ResetCache()
     {
-        _cache.Clear();
-        _cacheKeysSeq.Clear();
+        // DS14-start
+        lock (_cacheLock)
+        {
+            _cache.Clear();
+            _cacheKeysSeq.Clear();
+        }
+        // DS14-end
     }
 
     private string GenerateCacheKey(string speaker, string text)

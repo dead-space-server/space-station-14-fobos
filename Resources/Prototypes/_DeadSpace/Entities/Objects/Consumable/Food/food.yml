@@ -696,3 +696,37 @@
           Quantity: 2
         - ReagentId: Septomycin
           Quantity: 1
+
+- type: entity
+  name: манго
+  parent: FoodProduceBase
+  id: FoodMango
+  description: Но никто не пришёл.
+  components:
+  - type: FlavorProfile
+    flavors:
+      - sweet
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 14
+        reagents:
+        - ReagentId: Nutriment
+          Quantity: 8
+        - ReagentId: Vitamin
+          Quantity: 4
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Hydroponics/mango.rsi
+    scale: 1, 1
+  - type: Item
+    heldPrefix: produce
+  - type: Produce
+    seedId: MangoPlant
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: Happiness
+        Quantity: 4
+  - type: Tag
+    tags:
+    - Fruit

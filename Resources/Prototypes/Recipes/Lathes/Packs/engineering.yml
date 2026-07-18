@@ -67,6 +67,7 @@
   - Fulton
   - FultonBeacon
   - BluespaceHandHeldMassScannerEmpty #DS14
+  - InsulatedGloves #DS14
 
 - type: latheRecipePack
   id: AtmosTools

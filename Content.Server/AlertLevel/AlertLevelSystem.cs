@@ -3,7 +3,9 @@ using Content.Server.Audio; // DS14
 using Content.Server.Chat.Systems;
 using Content.Server.Station.Systems;
 using Content.Shared.CCVar;
+using Content.Shared.Station.Components;
 using Robust.Shared.Configuration;
+using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server.AlertLevel;
@@ -14,7 +16,6 @@ public sealed class AlertLevelSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly ServerGlobalSoundSystem _sound = default!; // DS14
-    [Dependency] private readonly StationSystem _stationSystem = default!;
 
     // Until stations are a prototype, this is how it's going to have to be.
     public const string DefaultAlertLevelSet = "stationAlerts";
@@ -185,13 +186,14 @@ public sealed class AlertLevelSystem : EntitySystem
         // The full announcement to be spat out into chat.
         var announcementFull = Loc.GetString("alert-level-announcement", ("name", name), ("announcement", announcement));
 
+        var stationMapFilter = GetStationMapFilter(station); // DS14
+
         var playDefault = false;
         if (playSound)
         {
             if (detail.Sound != null)
             {
-                var filter = _stationSystem.GetInOwningStation(station);
-                _sound.PlayAlertLevelGlobal(filter, detail.Sound, detail.Sound.Params); // DS14
+                _sound.PlayAlertLevelGlobal(stationMapFilter, detail.Sound, detail.Sound.Params); // DS14
             }
             else
             {
@@ -202,11 +204,28 @@ public sealed class AlertLevelSystem : EntitySystem
         if (announce)
         {
             _chatSystem.DispatchStationAnnouncement(station, announcementFull, playDefaultSound: playDefault,
-                colorOverride: detail.Color, sender: stationName);
+                colorOverride: detail.Color, sender: stationName, recipientFilter: stationMapFilter); // DS14
         }
 
         RaiseLocalEvent(new AlertLevelChangedEvent(station, level));
     }
+
+    // DS14-start
+    private Filter GetStationMapFilter(EntityUid station)
+    {
+        if (!TryComp<StationDataComponent>(station, out var stationData))
+            return Filter.Empty();
+
+        var filter = Filter.Empty();
+
+        foreach (var mapId in stationData.Grids.Select(grid => Transform(grid).MapID).Distinct())
+        {
+            filter.AddInMap(mapId);
+        }
+
+        return filter;
+    }
+    // DS14-end
 }
 
 public sealed class AlertLevelDelayFinishedEvent : EntityEventArgs

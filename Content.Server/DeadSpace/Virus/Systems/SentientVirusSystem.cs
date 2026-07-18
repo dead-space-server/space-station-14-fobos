@@ -152,7 +152,7 @@ public sealed class SentientVirusSystem : EntitySystem
         if (component.Data == null)
             return;
 
-        component.Data.MutationPoints += component.Data.RegenMutationPoints + _virusSystem.GetQuantityInfected(component.Data.StrainId) * ModifyPointsRegenPerInfected;
+        component.Data.MutationPoints += component.Data.RegenMutationPoints + _virusSystem.GetInfectedCount(component.Data.StrainId) * ModifyPointsRegenPerInfected;
     }
 
     private void OnButtonPressed(EntityUid uid, SentientVirusComponent component, EvolutionConsoleUiButtonPressedMessage args)
@@ -379,7 +379,7 @@ public sealed class SentientVirusSystem : EntitySystem
 
         var data = console.Comp.Data;
         var infectivity = 0f;
-        var infectedCount = data != null ? _virusSystem.GetQuantityInfected(data.StrainId) : 0;
+        var infectedCount = data != null ? _virusSystem.GetInfectedCount(data.StrainId) : 0;
         var pointsPerSecond = data != null ? data.RegenMutationPoints + infectedCount * ModifyPointsRegenPerInfected : 0;
 
         if (data != null)

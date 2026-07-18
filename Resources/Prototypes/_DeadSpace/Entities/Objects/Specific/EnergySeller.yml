@@ -1,0 +1,127 @@
+- type: entity
+  id: EnergySellerBeacon
+  parent: [BaseMachine, ConstructibleMachine]
+  components:
+  # Core power behavior
+  - type: Battery
+    maxCharge: 150000
+    startingCharge: 0
+    netsync: false
+  - type: Sprite # TODO: add sprite for maintenance panel open
+    sprite: _DeadSpace/Objects/Devices/EnergySellerBeacon.rsi
+    snapCardinals: true
+    layers:
+    - state: EnergyBeaconWithEnergy
+  - type: ExaminableBattery
+  - type: NodeContainer
+    examinable: true
+    nodes:
+      input:
+        !type:CableDeviceNode
+        nodeGroupID: HVPower
+  - type: BatteryCharger
+    voltage: High
+  - type: PowerNetworkBattery
+    canDischarge: false
+    maxSupply: 150000
+    maxChargeRate: 5000
+    supplyRampTolerance: 5000
+    supplyRampRate: 1000
+
+  # Interface
+  - type: UserInterface
+    interfaces:
+      enum.ESBControllerUiKey.Key:
+        type: EnergySellerBoundUserInterface
+  - type: ActivatableUI
+    key: enum.ESBControllerUiKey.Key
+
+  # Damage
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallicStrong
+  - type: PacifismDangerousAttack
+
+
+  # Ambient sound
+  - type: AmbientOnPowered
+  - type: AmbientSound
+    volume: 3
+    sound:
+      path: /Audio/Ambience/Objects/buzzing.ogg
+
+  - type: PointLight
+    radius: 1.5
+    energy: 1
+    color: "#ff6900"
+    castShadows: false
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalGlassBreak
+      - !type:ExplodeBehavior
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          MachineFrameDestroyed:
+            min: 1
+            max: 1
+      - !type:SpawnGasBehavior
+        gasMixture:
+          volume: 1000
+          moles:
+            CarbonDioxide: 340.5701689 # carbon dioxide
+          temperature: 373.15
+  - type: Explosive
+    explosionType: Default
+    maxIntensity: 100
+    intensitySlope: 2
+    totalIntensity: 200
+  - type: WiresPanel
+  - type: Machine
+    board: EnergySellerMachineCircuitboard
+  - type: Electrified
+    onHandInteract: false
+    onInteractUsing: false
+    onBump: false
+    requirePower: true
+    highVoltageNode: input
+  - type: EnergySeller
+    account: "Cargo"
+    additionalCoefficient: 10000000
+  - type: Transform
+
+- type: entity
+  id: EnergySellerMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: машинная плата маяка продажи энергии
+  description: Машинная плата постройки маяка продажи энрергии
+  components:
+    - type: MachineBoard
+      prototype: EnergySellerBeacon
+      stackRequirements:
+        Manipulator: 1
+        CableHV: 30
+      componentRequirements:
+        PowerCell:
+          amount: 5
+          defaultPrototype: PowerCellSmall
+    - type: PhysicalComposition
+      materialComposition:
+        Glass: 200
+      chemicalComposition:
+        Silicon: 20
+    - type: StaticPrice
+      price: 58

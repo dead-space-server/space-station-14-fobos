@@ -2,7 +2,6 @@
   save: false
   parent:
   - MobFlammable
-  - MobBloodstream
   - BaseMobSpecies
   id: BaseMobSpeciesComputer
   abstract: true
@@ -54,20 +53,6 @@
       Critical:
       - ActionCritSuccumb
       - ActionCritFakeDeath
-  - type: Bloodstream
-    bloodlossDamage:
-      types:
-        Bloodloss:
-          1
-    bloodlossHealDamage:
-      types:
-        Bloodloss:
-          -1
-    maxBleedAmount: 0
-    bloodReferenceSolution:
-      reagents:
-      - ReagentId: WeldingFuel
-        Quantity: 300
   - type: MobThresholds
     thresholds:
       0: Alive

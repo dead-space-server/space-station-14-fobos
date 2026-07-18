@@ -9,7 +9,7 @@ namespace Content.Server.Objectives.Components;
 /// <remarks>
 /// Don't copy paste this for a new objective, if you need a new filter just make a new filter and set it in YAML.
 /// </remarks>
-[RegisterComponent, Access(typeof(PickObjectiveTargetSystem))]
+[RegisterComponent, Access(typeof(PickObjectiveTargetSystem), typeof(KillPersonConditionSystem))] // DS14
 public sealed partial class PickRandomPersonComponent : Component
 {
     /// <summary>
