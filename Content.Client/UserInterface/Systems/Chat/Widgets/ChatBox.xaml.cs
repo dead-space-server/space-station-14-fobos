@@ -37,6 +37,8 @@ public partial class ChatBox : UIWidget
     private Vector2 _ownerSetSize;
     private bool _ownerChannelSelectorVisible;
     private bool _ownerFilterButtonVisible;
+    private bool _ownerVisible;
+    private bool _ownerMain;
     public event Action<bool>? OnCycleChatChannel;
     // DS14-end
 
@@ -324,6 +326,11 @@ public partial class ChatBox : UIWidget
         _ownerSetSize = args.SetSize;
         _ownerChannelSelectorVisible = args.ChatInput.ChannelSelector.Visible;
         _ownerFilterButtonVisible = args.ChatInput.FilterButton.Visible;
+        _ownerVisible = args.Visible;
+        _ownerMain = args.Main;
+        Main = args.Main;
+        args.Main = false;
+        args.Visible = false;
         args.MinSize = new Vector2(0, 0);
         args.SetSize = new Vector2(0, 0);
         args.ChatInput.Input.OnKeyBindDown += OnInputKeyBindDown;
@@ -355,6 +362,9 @@ public partial class ChatBox : UIWidget
         owner.SetSize = _ownerSetSize;
         owner.ChatInput.ChannelSelector.Visible = _ownerChannelSelectorVisible;
         owner.ChatInput.FilterButton.Visible = _ownerFilterButtonVisible;
+        owner.Visible = _ownerVisible;
+        owner.Main = _ownerMain;
+        Main = false;
         _ownerChat = null;
     }
 

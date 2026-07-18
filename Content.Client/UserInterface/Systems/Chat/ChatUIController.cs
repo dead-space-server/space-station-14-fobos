@@ -9,6 +9,7 @@ using Content.Client.Chat.UI;
 using Content.Client.Examine;
 using Content.Client.Gameplay;
 using Content.Client.Ghost;
+using Content.Client.Lobby;
 using Content.Client.Mind;
 using Content.Client.Roles;
 using Content.Client.Stylesheets;
@@ -257,7 +258,6 @@ public sealed partial class ChatUIController : UIController
 
     public void OnScreenUnload()
     {
-        CloseMainChatPopOut(); // DS14
         SetMainChat(false);
     }
 
@@ -291,6 +291,11 @@ public sealed partial class ChatUIController : UIController
 
     public void SetMainChat(bool setting)
     {
+        // DS14-start
+        if (!setting)
+            _mainChatPopOut?.DetachMainChat();
+        // DS14-end
+
         if (UIManager.ActiveScreen == null)
         {
             return;
@@ -322,11 +327,16 @@ public sealed partial class ChatUIController : UIController
 
         chatBox.Main = setting;
         // DS14-start
-        if (_config.GetCVar(CCCCVars.PopOutChat) && setting && _mainChatPopOut == null)
+        if (_config.GetCVar(CCCCVars.PopOutChat) && setting)
         {
-            var popOut = new ChatWindow();
-            _mainChatPopOut = popOut;
-            popOut.PoppedOutClosed += OnMainChatPopOutClosed;
+            var popOut = _mainChatPopOut;
+            if (popOut == null)
+            {
+                popOut = new ChatWindow();
+                _mainChatPopOut = popOut;
+                popOut.PoppedOutClosed += OnMainChatPopOutClosed;
+            }
+
             popOut.PopOutChatRef(ref chatBox);
         }
         // DS14-end
@@ -441,6 +451,11 @@ public sealed partial class ChatUIController : UIController
 
     private void StateChanged(StateChangedEventArgs args)
     {
+        // DS14-start
+        if (args.NewState is not GameplayStateBase and not LobbyState)
+            CloseMainChatPopOut();
+        // DS14-end
+
         if (args.NewState is GameplayState)
         {
             PreferredChannel = ChatSelectChannel.Local;

@@ -166,7 +166,10 @@ public sealed partial class ChatWindow : FancyWindow
     public void PopOutChatRef(ref ChatBox box)
     {
         if (_poppedOutWindow != null)
+        {
+            Chatbox.SetInputs(ref box);
             return;
+        }
 
         var monitor = _clyde.EnumerateMonitors().First();
         var width = Math.Max((int) Size.X, 650);
@@ -179,7 +182,7 @@ public sealed partial class ChatWindow : FancyWindow
             Monitor = monitor,
             Width = width,
             Height = height,
-            Owner = _clyde.MainWindow,
+            Styles = OSWindowStyles.NoTitleOptions,
         });
 
         _poppedOutWindow.RequestClosed += OnPoppedOutWindowRequestClosed;
@@ -206,6 +209,11 @@ public sealed partial class ChatWindow : FancyWindow
         _popOutButton.Disabled = true;
         _popOutButton.Visible = false;
         Close();
+    }
+
+    public void DetachMainChat()
+    {
+        Chatbox.ClearInputs();
     }
     // DS14-end
 }
