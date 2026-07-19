@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Content.Client.Administration.Managers;
 using Content.Client.Administration.UI.GamePreset;
 using Content.Shared.Administration;
@@ -19,6 +20,10 @@ public sealed class GamePresetClientSystem : EntitySystem
     [Dependency] private readonly IUserInterfaceManager _uiManager = default!;
 
     public event Action<GamePresetsResponseMessage>? PresetsUpdated;
+
+    public List<string> AvailableModes { get; private set; } = new();
+    public Dictionary<string, string> ModeNames { get; private set; } = new();
+    public Dictionary<string, string> PresetNames { get; private set; } = new();
 
     private static bool _commandRegistered;
 
@@ -51,6 +56,9 @@ public sealed class GamePresetClientSystem : EntitySystem
 
     private void OnPresetsResponse(GamePresetsResponseMessage msg)
     {
+        AvailableModes = msg.ModeNames.Keys.ToList();
+        ModeNames = msg.ModeNames;
+        PresetNames = msg.PresetNames;
         PresetsUpdated?.Invoke(msg);
     }
 
@@ -99,9 +107,9 @@ public sealed class GamePresetClientSystem : EntitySystem
         RaiseNetworkEvent(new MovePresetInQueueMessage(fromIndex, toIndex));
     }
 
-    public void UpdatePresetSettings(int maxRdmRow, int maxRdmDay, int voteDurationSeconds, bool disableOoc)
+    public void UpdatePresetSettings(int maxRdmRow, int voteDurationSeconds, bool disableOoc, bool preventRepeat, bool checkPlayerLimit, List<string> whitelistModeIds)
     {
-        RaiseNetworkEvent(new UpdatePresetSettingsMessage(maxRdmRow, maxRdmDay, voteDurationSeconds, disableOoc));
+        RaiseNetworkEvent(new UpdatePresetSettingsMessage(maxRdmRow, voteDurationSeconds, disableOoc, preventRepeat, checkPlayerLimit, whitelistModeIds));
     }
 
     public void InitiateVoteNow()

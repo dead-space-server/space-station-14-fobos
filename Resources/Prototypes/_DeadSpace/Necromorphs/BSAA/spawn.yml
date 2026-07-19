@@ -6,7 +6,7 @@
     back: ClothingBSAABackpack
     mask: ClothingMaskBSAA
     eyes: ClothingEyesBSAA
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     neck: BSAALeaderShoulder
     gloves: ClothingHandsGlovesBSAA
     outerClothing: BSAALeaderHardSuit
@@ -38,7 +38,7 @@
     back: ClothingBSAABackpack
     mask: ClothingMaskBSAA
     eyes: ClothingEyesBSAA
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     gloves: ClothingHandsGlovesBSAA
     outerClothing: BSAAFighterHardSuit
     shoes: ClothingShoesBootsMagBSAA
@@ -67,7 +67,7 @@
     back: ClothingBSAABackpack
     mask: ClothingMaskBSAA
     eyes: ClothingEyesBSAA
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     gloves: ClothingHandsGlovesBSAA
     outerClothing: BSAAMedicHardSuit
     shoes: ClothingShoesBootsMagBSAA

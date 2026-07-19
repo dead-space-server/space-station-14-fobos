@@ -54,8 +54,8 @@ public sealed partial class EnergySellerSystem : EntitySystem
 
         if (!TryGetStationBank(uid, out var stationBank))
             return;
-
         _cargo.UpdateBankAccount(stationBank, GetEnergyPrice(comp, compSell, compNetBatt), compSell.Distribution, false);
+        compSell.LastSell = DateTime.Now;
         _battery.SetCharge((uid, comp), 0);
         Dirty(stationBank);
     }
@@ -136,7 +136,8 @@ public sealed partial class EnergySellerSystem : EntitySystem
 
     private static int GetEnergyPrice(BatteryComponent battery, EnergySellerComponent seller, PowerNetworkBatteryComponent netBatt)
     {
-        var multi = (battery.MaxCharge / seller.AdditionalCoefficient + 1) * (netBatt.MaxChargeRate >= battery.MaxCharge ? 1 : (netBatt.MaxChargeRate / battery.MaxCharge));
+        var timeMulty = (seller.LastSell - DateTime.Now).TotalMinutes > 2f ? (seller.LastSell - DateTime.Now).Minutes * 1.5 : 1;
+        var multi = ((battery.MaxCharge / seller.AdditionalCoefficient + 1) * (netBatt.MaxChargeRate >= battery.MaxCharge ? 1 : (netBatt.MaxChargeRate / battery.MaxCharge)) / timeMulty);
         return (int)Math.Round(battery.PricePerJoule * battery.MaxCharge * (multi > 10 ? 10 : multi));
     }
 

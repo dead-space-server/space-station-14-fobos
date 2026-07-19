@@ -12,6 +12,7 @@
       types:
         Piercing: 17
     resistanceBypass: true
+    heavyAttackResistanceBypass: false
     soundHit:
         path: /Audio/Weapons/bladeslice.ogg
     wideAnimationRotation: -135

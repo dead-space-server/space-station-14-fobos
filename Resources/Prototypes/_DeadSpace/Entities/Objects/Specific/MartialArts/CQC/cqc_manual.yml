@@ -1,0 +1,58 @@
+- type: entity
+  parent: BaseItem
+  id: CQCManual
+  name: мануал по технике CQC
+  description: Мануал по технике боя CQC. CQC — это стиль борьбы, который ориентирован на рукопашный бой. Это искусство разработано для того, чтобы быстро усмирять противников и одолевать их техникой прессинга и сокрушительных ударов. Оно требует высокий уровень концентрации, поэтому иногда трудно одновременно стрелять и сражаться врукопашную.
+  suffix: Не использовать без разрешения Non_stop_smetana!
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Misc/cqc_manual.rsi
+      layers:
+      - state: icon
+    - type: MartialArtsTrainingCQC
+      addAtackRate: 1.15
+      itemAfterLerning: CQCManualAfter
+      params:
+        - hitDamageForPowerPunch: 20
+          hitDamageForMuteAtack: 5
+          ignoreResist: true
+          damageTypeForPowerPunch: "Blunt"
+          effectPowerPunch: EffectPowerPunchCarp
+          hitSoundForPowerPunch: 
+            path: /Audio/Weapons/genhit1.ogg
+          pushStrength: 4000
+          maxPushDistance: 3.5
+          packMessageOnHit:
+            - voice-message-cqc-1
+            - voice-message-cqc-2
+            - voice-message-cqc-3
+
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+
+- type: entity
+  parent: BaseItem
+  id: CQCManualAfter
+  name: обугленная страница
+  description: Просто страничка, которую сожгли. Более ничего.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/cqc_manual.rsi
+    layers:
+    - state: icon_after
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg

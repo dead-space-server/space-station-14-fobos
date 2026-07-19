@@ -18,6 +18,7 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+using Content.Client.DeadSpace.Administration.UI.BanPanel; //DS14
 
 namespace Content.Client.Administration.UI.BanPanel;
 
@@ -26,6 +27,11 @@ public sealed partial class BanPanel : DefaultWindow
 {
     public event Action<Ban>? BanSubmitted;
     public event Action<string>? PlayerChanged;
+    // DS14-start
+    public event Action<string, string>? WatchlistSubmitted;
+    private BanTemplatesWindow? _templatesWindow;
+    private bool _submitAsWatchlist;
+    // DS14-end
     private string? PlayerUsername { get; set; }
     private (IPAddress, int)? IpAddress { get; set; }
     private ImmutableTypedHwid? Hwid { get; set; }
@@ -118,6 +124,10 @@ public sealed partial class BanPanel : DefaultWindow
             OnHwidChanged();
         };
         SubmitButton.OnPressed += SubmitButtonOnOnPressed;
+        // DS14-start
+        TemplatesButton.OnPressed += OpenTemplatesWindow;
+        OnClose += CloseTemplatesWindow;
+        // DS14-end
 
         IpCheckbox.Pressed = _cfg.GetCVar(CCVars.ServerBanIpBanDefault);
         HwidCheckbox.Pressed = _cfg.GetCVar(CCVars.ServerBanHwidBanDefault);
@@ -491,6 +501,14 @@ public sealed partial class BanPanel : DefaultWindow
 
     private void OnTypeChanged()
     {
+        // DS14-start
+        if (_submitAsWatchlist)
+        {
+            _submitAsWatchlist = false;
+            ResetSubmitConfirmation();
+        }
+        // DS14-end
+
         TypeOption.ModulateSelfOverride = null;
         Tabs.SetTabVisible((int) TabNumbers.Roles, TypeOption.SelectedId == (int) Types.Role);
             NoteSeverity? newSeverity = null;
@@ -559,6 +577,14 @@ public sealed partial class BanPanel : DefaultWindow
 
     private void SubmitButtonOnOnPressed(BaseButton.ButtonEventArgs obj)
     {
+        // DS14-start
+        if (_submitAsWatchlist)
+        {
+            SubmitWatchlist();
+            return;
+        }
+        // DS14-end
+
         ProtoId<JobPrototype>[]? jobs = null;
         ProtoId<AntagPrototype>[]? antags = null;
 
@@ -651,6 +677,79 @@ public sealed partial class BanPanel : DefaultWindow
         BanSubmitted?.Invoke(ban);
     }
 
+    // DS14-start
+    private void OpenTemplatesWindow(BaseButton.ButtonEventArgs _)
+    {
+        if (_templatesWindow is { Disposed: false })
+        {
+            _templatesWindow.OpenCentered();
+            _templatesWindow.MoveToFront();
+            return;
+        }
+
+        if (_templatesWindow != null)
+            _templatesWindow.OnTemplateSelected -= OnTemplateSelected;
+
+        _templatesWindow = new BanTemplatesWindow();
+        _templatesWindow.OnTemplateSelected += OnTemplateSelected;
+        _templatesWindow.OpenCentered();
+    }
+
+    private void OnTemplateSelected(string reason, bool isWatchlist)
+    {
+        _submitAsWatchlist = isWatchlist;
+        ReasonTextEdit.TextRope = new Rope.Leaf(reason);
+        ResetSubmitConfirmation();
+    }
+
+    private void SubmitWatchlist()
+    {
+        var reason = Rope.Collapse(ReasonTextEdit.TextRope);
+        if (string.IsNullOrWhiteSpace(reason))
+        {
+            Tabs.CurrentTab = (int) TabNumbers.BasicInfo;
+            ReasonTextEdit.GrabKeyboardFocus();
+            ReasonTextEdit.ModulateSelfOverride = Color.Red;
+            ReasonTextEdit.OnKeyBindDown += ResetTextEditor;
+            return;
+        }
+
+        var playerUsername = PlayerNameLine.Text;
+        if (string.IsNullOrWhiteSpace(playerUsername))
+        {
+            PlayerNameLine.ModulateSelfOverride = Color.Red;
+            ErrorLevel |= ErrorLevelEnum.PlayerName;
+            UpdateSubmitEnabled();
+            return;
+        }
+
+        if (ButtonResetOn is null)
+        {
+            ButtonResetOn = _gameTiming.CurTime.Add(TimeSpan.FromSeconds(3));
+            SubmitButton.ModulateSelfOverride = Color.Red;
+            SubmitButton.Text = Loc.GetString("ban-panel-confirm");
+            return;
+        }
+
+        WatchlistSubmitted?.Invoke(playerUsername, reason);
+    }
+
+    private void CloseTemplatesWindow()
+    {
+        if (_templatesWindow is { Disposed: false, IsOpen: true })
+            _templatesWindow.Close();
+    }
+
+    private void ResetSubmitConfirmation()
+    {
+        ButtonResetOn = null;
+        SubmitButton.ModulateSelfOverride = null;
+        SubmitButton.Text = Loc.GetString(_submitAsWatchlist
+            ? "ban-panel-submit-watchlist"
+            : "ban-panel-submit");
+    }
+    // DS14-end
+
     protected override void FrameUpdate(FrameEventArgs args)
     {
         base.FrameUpdate(args);
@@ -658,9 +757,28 @@ public sealed partial class BanPanel : DefaultWindow
         // This checks for null for free, do not invert it as null always produces a false value
         if (_gameTiming.CurTime > ButtonResetOn)
         {
-            ButtonResetOn = null;
-            SubmitButton.ModulateSelfOverride = null;
-            SubmitButton.Text = Loc.GetString("ban-panel-submit");
+            ResetSubmitConfirmation(); // DS14
         }
     }
+
+    // DS14-start
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            TemplatesButton.OnPressed -= OpenTemplatesWindow;
+            OnClose -= CloseTemplatesWindow;
+
+            if (_templatesWindow is { } templatesWindow)
+            {
+                templatesWindow.OnTemplateSelected -= OnTemplateSelected;
+                if (!templatesWindow.Disposed)
+                    templatesWindow.Dispose();
+                _templatesWindow = null;
+            }
+        }
+
+        base.Dispose(disposing);
+    }
+    // DS14-end
 }

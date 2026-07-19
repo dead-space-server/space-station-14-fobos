@@ -458,12 +458,14 @@ WHERE to_tsvector('english'::regconfig, a.message) @@ websearch_to_tsquery('engl
                 ServerId = entity.ServerId,
                 Enabled = entity.Enabled,
                 MaxRdmRow = entity.MaxRdmRow,
-                MaxRdmDay = entity.MaxRdmDay,
                 VoteDurationSeconds = entity.VoteDurationSeconds,
                 CurrentPresetIndex = entity.CurrentPresetIndex,
                 ActivePresetIds = JsonSerializer.Deserialize<List<string>>(entity.ActivePresetIdsJson) ?? new List<string>(),
                 CustomPresetsJson = entity.CustomPresetsJson,
-                DisableOocDuringVote = entity.DisableOocDuringVote
+                DisableOocDuringVote = entity.DisableOocDuringVote,
+                PreventRepeatMode = entity.PreventRepeatMode,
+                CheckPlayerLimit = entity.CheckPlayerLimit,
+                WhitelistModesJson = entity.WhitelistModesJson
             };
         }
 
@@ -480,12 +482,14 @@ WHERE to_tsvector('english'::regconfig, a.message) @@ websearch_to_tsquery('engl
 
             entity.Enabled = config.Enabled;
             entity.MaxRdmRow = config.MaxRdmRow;
-            entity.MaxRdmDay = config.MaxRdmDay;
             entity.VoteDurationSeconds = config.VoteDurationSeconds;
             entity.CurrentPresetIndex = config.CurrentPresetIndex;
             entity.ActivePresetIdsJson = JsonSerializer.Serialize(config.ActivePresetIds);
             entity.CustomPresetsJson = config.CustomPresetsJson;
             entity.DisableOocDuringVote = config.DisableOocDuringVote;
+            entity.PreventRepeatMode = config.PreventRepeatMode;
+            entity.CheckPlayerLimit = config.CheckPlayerLimit;
+            entity.WhitelistModesJson = config.WhitelistModesJson;
             await db.DbContext.SaveChangesAsync(cancel);
         }
         // DS14-end

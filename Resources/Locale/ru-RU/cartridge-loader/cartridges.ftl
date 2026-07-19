@@ -95,6 +95,7 @@ wanted-list-history-table-reason-col = Преступление
 wanted-list-history-table-initiator-col = Инициатор
 
 messenger-cartridge-program-name = NanoChat
+messenger-cartridge-taipan-program-name = SyndiChat
 messenger-status-connecting = Подключение...
 messenger-status-connection-lost = Ошибка!
 messenger-search-placeholder = Поиск по имени или должности

@@ -131,7 +131,7 @@ namespace Content.IntegrationTests.Tests
             "Omega",
             "Origin",
             "Packed",
-            // "Plasma", // map load failure
+            "Plasma",
             "Reach",
             "Saltern",
             "Snowball",
@@ -145,7 +145,6 @@ namespace Content.IntegrationTests.Tests
             "Cluster", // invalid EntityUid reference in Storage
             "Loop", // invalid EntityUid reference in Storage
             "Gemini", // map load failure
-            "Plasma", // map load failure
         };
         /// <summary>
         /// Jobs whose dedicated spawn points were removed (migrated to null) but are still listed

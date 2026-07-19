@@ -42,6 +42,9 @@ using Robust.Shared.Containers;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Shared.Beam.Components;
 using Content.Shared.Damage.Components;
+using Robust.Shared.Audio.Systems; //DS14
+using Robust.Shared.Player; //DS14
+using Content.Shared.Actions; //DS14
 
 namespace Content.Server.Revenant.EntitySystems;
 
@@ -61,6 +64,8 @@ public sealed partial class RevenantSystem
     [Dependency] private readonly LightningSystem _lightning = default!;
     [Dependency] private readonly IonStormSystem _ionStorm = default!;
     [Dependency] private readonly SharedMindSystem _mind = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!; //DS14
+    [Dependency] private readonly SharedActionsSystem _actions = default!; //DS14
 
     private static readonly ProtoId<TagPrototype> WindowTag = "Window";
 
@@ -78,6 +83,8 @@ public sealed partial class RevenantSystem
         SubscribeLocalEvent<RevenantComponent, RevenantSleepActionEvent>(OnSleepAction);
         SubscribeLocalEvent<RevenantComponent, RevenantMindCaptureActionEvent>(OnMindCaptureAction);
         SubscribeLocalEvent<RevenantComponent, RevenantBeamFireActionEvent>(OnBeamFireAction);
+        SubscribeLocalEvent<RevenantComponent, RevenantScreamActionEvent>(OnScreamAction); //DS14
+        SubscribeLocalEvent<RevenantComponent, RevenantHackActionEvent>(OnHackAction); //DS14
         //DS14-end
     }
 
@@ -498,6 +505,10 @@ public sealed partial class RevenantSystem
         comp.RevenantContainer = _container.EnsureContainer<Container>(args.Target, component.Container);
         _container.Insert(uid, comp.RevenantContainer);
         _mind.Visit(perMind, args.Target);
+        if (TryComp<RevenantComponent>(uid, out var revenantComp))
+        {
+            _actions.AddAction(args.Target, ref revenantComp.HackActionEntity, revenantComp.HackAction, uid);
+        }
     }
 
     private void OnBeamFireAction(EntityUid uid, RevenantComponent component, RevenantBeamFireActionEvent args)
@@ -544,6 +555,40 @@ public sealed partial class RevenantSystem
         }
 
         _lightning.ShootLightning(uid, args.Target, component.BeamEntityId);
+    }
+
+    private void OnScreamAction(EntityUid uid, RevenantComponent component, RevenantScreamActionEvent args)
+    {
+        if (args.Handled)
+            return;
+        if (!TryUseAbility(uid, component, component.ScreamCost, component.ScreamDebuffs))
+            return;
+        args.Handled = true;
+
+        var coords = Transform(uid).Coordinates;
+        _audio.PlayStatic(component.ScreamSounds, Filter.Pvs(uid), coords, true);
+    }
+
+    private void OnHackAction(EntityUid uid, RevenantComponent component, RevenantHackActionEvent args)
+    {
+        if (args.Handled)
+            return;
+        if (!CanUseAbility(uid, component, component.HackCost))
+            return;
+
+        var target = args.Target;
+        var effectApplied = _emagSystem.TryEmagEffect(uid, uid, target);
+        if (TryComp<EntityStorageComponent>(target, out var storage))
+        {
+            _entityStorage.OpenStorage(target, storage);
+            effectApplied = true;
+        }
+
+        if (!effectApplied)
+            return;
+
+        ApplyAbilityCostAndDebuffs(uid, component, component.HackCost, component.HackDebuffs);
+        args.Handled = true;
     }
     //DS14-end
 }

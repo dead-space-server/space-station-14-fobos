@@ -8,6 +8,13 @@
   programId: MessengerCartridge
 
 - type: appCatalogEntry
+  id: app-messenger-taipan
+  name: app-catalog-entry-messenger-taipan-name
+  description: app-catalog-entry-messenger-taipan-desc
+  category: Tools
+  programId: TaipanMessengerCartridge
+
+- type: appCatalogEntry
   id: app-wanted-list
   name: app-catalog-entry-wanted-list-name
   description: app-catalog-entry-wanted-list-desc

@@ -1224,7 +1224,7 @@
 - type: thiefBackpackSet
   id: AdvancedLaserERTSet
   name: ert-loadout-category-advancedlaserert-name
-  description: ert-loadout-category-advancedlaser-description
+  description: ert-loadout-category-energymagnum-description
   sprite:
     sprite: _DeadSpace/Objects/Weapons/Guns/Battery/advancedlasergunert.rsi
     state: icon

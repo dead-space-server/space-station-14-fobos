@@ -196,13 +196,11 @@
   name: SCRAM!
   description: Randomly teleports you within a large distance.
   components:
-# DS14-start
-#  - type: LimitedCharges
-#    maxCharges: 2
-# DS14-end
+  - type: LimitedCharges
+    maxCharges: 3 # DS14-value
   - type: Action
     checkCanInteract: false
-    useDelay: 120 #DS14-value
+    useDelay: 90 #DS14-value
     itemIconStyle: BigAction
     priority: -20
     icon:

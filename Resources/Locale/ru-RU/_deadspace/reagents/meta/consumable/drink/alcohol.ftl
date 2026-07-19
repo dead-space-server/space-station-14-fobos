@@ -14,3 +14,5 @@ reagent-name-cactusjuice = сок кактуса
 reagent-desc-cactusjuice = Попробуйте сок кактуса - он охладит вас! Он охладительный! САМЫЙ ОХЛАДИТЕЛЬНЫЙ!
 reagent-name-oasiscactus = долгожданный оазис
 reagent-desc-oasiscactus = После него, все ваши проблемы кажутся лишь одной иголкой на кактусе.
+reagent-name-durf = Дурф
+reagent-desc-durf = Золотой отвар жизни

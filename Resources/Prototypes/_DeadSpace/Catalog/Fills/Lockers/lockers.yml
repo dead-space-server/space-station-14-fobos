@@ -240,6 +240,8 @@
     - id: ClothingBeltSyndieHolster
     - id: ClothingEyesHudTaipanAdvanced
     - id: DoorRemoteTaipan
+    - id: TaipanMessengerCartridge
+      amount: 2
     - id: EmagTaipan
     - id: ClothingHeadHelmetSwatSyndicate
     - id: ClothingMaskGasSyndicate

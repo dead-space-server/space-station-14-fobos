@@ -3,6 +3,8 @@ using Content.Server.Chat.Systems;
 using Content.Shared.Chat;
 using Content.Server.DeadSpace.MartialArts.SmokingCarp.Components;
 using Content.Shared.DeadSpace.MartialArts.SmokingCarp;
+using Content.Server.DeadSpace.MartialArts.CQC.Components;
+using Content.Shared.DeadSpace.MartialArts.CQC;
 
 namespace Content.Server.DeadSpace.MartialArts;
 
@@ -15,9 +17,15 @@ public sealed class MartialArtsChatMessageSystem : SharedMartialArtsSystem
         base.Initialize();
 
         SubscribeLocalEvent<SmokingCarpComponent, SmokingCarpSaying>(OnSmokingCarpSaying);
+        SubscribeLocalEvent<CQCComponent, CQCSaying>(OnCQCSaying);
     }
 
     private void OnSmokingCarpSaying(Entity<SmokingCarpComponent> ent, ref SmokingCarpSaying args)
+    {
+        _chat.TrySendInGameICMessage(ent, Loc.GetString(args.Saying), InGameICChatType.Speak, false);
+    }
+
+    private void OnCQCSaying(Entity<CQCComponent> ent, ref CQCSaying args)
     {
         _chat.TrySendInGameICMessage(ent, Loc.GetString(args.Saying), InGameICChatType.Speak, false);
     }

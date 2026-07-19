@@ -50,6 +50,7 @@ ban-panel-hwid = HWID
 ban-panel-reason = Причина
 ban-panel-last-conn = Использовать IP и HWID с последнего подключения?
 ban-panel-submit = Забанить
+ban-panel-submit-watchlist = Установить наблюдение
 ban-panel-confirm = Уверены?
 ban-panel-tabs-basic = Основная инфа
 ban-panel-tabs-reason = Причина
@@ -69,6 +70,8 @@ ban-panel-years = Лет
 ban-panel-permanent = Постоянный
 ban-panel-ip-hwid-tooltip = Оставьте пустым и установите флажок ниже, чтобы использовать данные последнего подключения
 ban-panel-severity = Тяжесть:
+ban-panel-templates = Шаблоны
+ban-templates-title = Шаблоны банов
 # Ban string
 server-ban-string = { $admin } created a { $severity } severity server ban that expires { $expires } for [{ $name }, { $ip }, { $hwid }], with reason: { $reason }
 ban-panel-expiry-error = err

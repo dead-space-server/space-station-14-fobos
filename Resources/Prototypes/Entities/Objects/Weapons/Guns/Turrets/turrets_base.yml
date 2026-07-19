@@ -60,6 +60,7 @@
           SheetSteel1:
             min: 3
             max: 5
+  - type: TurretTargetSettings # DS14
   - type: HTN
     rootTask:
       task: TurretCompound
