@@ -1,0 +1,103 @@
+- type: entity
+  id: TramTrack
+  name: tram track
+  description: A section of tram track. The tram moves along these.
+  placement:
+    snap:
+    - Tile
+  components:
+  - type: TramTrack
+    allowedDirections:
+    - East
+    - West
+  - type: Sprite
+    sprite: /Textures/Structures/Tram/tram_railing.rsi
+    state: rail
+    layers:
+    - state: rail
+  - type: Damageable
+    damageContainer: Inorganic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts:
+        - Destruction
+  - type: Appearance
+
+- type: entity
+  id: TramTrackFloor
+  parent: TramTrack
+  name: tram track (floor)
+  description: A floor section of tram track.
+  components:
+  - type: Sprite
+    sprite: /Textures/Structures/Tram/tram_railing.rsi
+    state: rail_floor
+
+- type: entity
+  id: TramTrackEnd
+  parent: TramTrack
+  name: tram track end
+  description: The end of a tram track section.
+  components:
+  - type: Sprite
+    sprite: /Textures/Structures/Tram/tram_railing.rsi
+    state: railend
+
+- type: entity
+  id: TramTrackAnchor
+  parent: TramTrack
+  name: tram track anchor
+  description: An anchor point for the tram track.
+  components:
+  - type: Sprite
+    sprite: /Textures/Structures/Tram/tram_railing.rsi
+    state: anchor
+
+- type: entity
+  id: TramStation
+  name: tram station
+  description: A tram station stop.
+  placement:
+    snap:
+    - Tile
+  components:
+  - type: TramStation
+    stationId: station_a
+    stationName: Station A
+    stationIcons:
+      Arrivals: plane-arrival
+  - type: Sprite
+    sprite: /Textures/Structures/Tram/tram_railing.rsi
+    state: rail
+    layers:
+    - state: rail
+  - type: Appearance
+
+- type: entity
+  id: TramStationB
+  parent: TramStation
+  name: tram station B
+  components:
+  - type: TramStation
+    stationId: station_b
+    stationName: Station B
+    stationIcons:
+      Command: bullhorn
+      Security: gavel
+
+- type: entity
+  id: TramStationC
+  parent: TramStation
+  name: tram station C
+  components:
+  - type: TramStation
+    stationId: station_c
+    stationName: Station C
+    stationIcons:
+      Cargo: box
+      Departures: plane-departure

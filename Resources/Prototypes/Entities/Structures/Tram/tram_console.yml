@@ -1,0 +1,44 @@
+- type: entity
+  id: TramConsole
+  parent: BaseComputer
+  name: tram console
+  description: A console for controlling the tram. Shows current location and allows calling the tram.
+  components:
+  - type: TramConsole
+    isCallOnly: true
+  - type: ActivatableUI
+    key: enum.TramConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+    enum.TramConsoleUiKey.Key:
+      type: TramConsoleBoundUserInterface
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: shuttle
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+  - type: Damageable
+    damageContainer: Inorganic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts:
+        - Destruction
+
+- type: entity
+  id: TramConsoleInside
+  parent: TramConsole
+  name: tram control console
+  description: The internal control console of the tram. Select your destination here.
+  components:
+  - type: TramConsole
+    isCallOnly: false
