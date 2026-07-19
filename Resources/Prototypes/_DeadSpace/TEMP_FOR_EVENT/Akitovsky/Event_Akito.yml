@@ -50,6 +50,10 @@
       tags:
       - Gauze
       - Tourniquet
+      - Medipen
+      - CigPack
+      - Cigarette
+      - Cigar
   - type: ContainerContainer
     containers:
       storagebase: !type:Container
@@ -1653,6 +1657,18 @@
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
 
+# РПГ-70
+- type: entity
+  name: РПГ-70
+  parent: WeaponLauncherRPG70
+  id: WeaponLauncherRPG70Aki
+  suffix: Akitovsky
+  components:
+  - type: CursorOffsetRequiresWield
+  - type: EyeCursorOffset
+    maxOffset: 10
+    pvsIncrease: 0.1
+
 # Иконки работ
 - type: jobIcon
   parent: JobIcon
@@ -1768,8 +1784,8 @@
 - type: entity
   parent: SignStreetNameBaseAki
   id: SignStreetKrasnoyZvezdyAki
-  name: улица Красной Звезды
-  description: Синяя табличка с обозначением улицы.
+  name: проспект Красной Звезды
+  description: Синяя табличка с обозначением проспекта.
 
 - type: entity
   parent: SignStreetNameBaseAki
@@ -1871,7 +1887,8 @@
     damageContainer: Inorganic
   - type: PointLight
     enabled: true
-    radius: 7
+    radius: 5
+    energy: 1
     netsync: false
     offset: "0,0.5"
     color: "#ECFFFF"
