@@ -1,16 +1,3 @@
-antag-menu-category-syndicate = Синдикат
-antag-menu-category-station-threats = Угрозы станции
-antag-menu-category-the-circle = Круг
-antag-menu-subcategory-infiltrators = Агенты и диверсанты
-antag-menu-subcategory-nuclear-operatives = Ядерные оперативники
-antag-menu-subcategory-infections = Заражения
-antag-menu-subcategory-invasion = Вторжение и переворот
-antag-menu-subcategory-spider-terror = Пауки ужаса
-antag-menu-subcategory-circle-squad = Ударный отряд Круга
-antag-menu-subcategory-nukeops-squad = Состав отряда
-antag-menu-subcategory-command = Командование
-antag-menu-subcategory-combat-roles = Боевые роли
-antag-menu-subcategory-support-roles = Роли поддержки
 antag-menu-search-placeholder = Поиск антагониста по названию или ID...
 antag-menu-category-favorites = Избранное
 antag-menu-add-favorite = Добавить в избранное

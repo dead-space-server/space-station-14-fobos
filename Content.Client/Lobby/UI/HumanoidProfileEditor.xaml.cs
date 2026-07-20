@@ -696,7 +696,7 @@ namespace Content.Client.Lobby.UI
                     // Label
                     TraitsList.AddChild(new Label
                     {
-                        Text = Loc.GetString(category.Name),
+                        Text = category.Name,
                         Margin = new Thickness(0, 10, 0, 0),
                         StyleClasses = { "DS14MenuProfileSection" }, // DS14
                     });
@@ -883,7 +883,7 @@ namespace Content.Client.Lobby.UI
                     }
 
                     AntagList.AddChild(CreateAntagCategory(
-                        Loc.GetString(category.Name),
+                        category.Name,
                         category.Icon,
                         category.OutlineColor,
                         category.Antags,
@@ -1101,7 +1101,7 @@ namespace Content.Client.Lobby.UI
             foreach (var subcategory in subcategories)
             {
                 contents.AddChild(CreateAntagCategory(
-                    Loc.GetString(subcategory.Name),
+                    subcategory.Name,
                     subcategory.Icon,
                     subcategory.OutlineColor ?? outlineColor,
                     subcategory.Antags,

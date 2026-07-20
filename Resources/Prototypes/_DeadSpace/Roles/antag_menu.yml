@@ -10,38 +10,40 @@
 
 - type: antagCategory
   id: Syndicate
-  name: antag-menu-category-syndicate
+  displayName: Синдикат
   icon: /Textures/Interface/VerbIcons/antag-e_sword-temp.192dpi.png
   outlineColor: "#d13b3b"
   subcategories:
-  - name: antag-menu-subcategory-infiltrators
-    icon: /Textures/Interface/Misc/job_icons.rsi/Syndicate.png
+  - displayName: Агенты
+    icon:
+      sprite: Interface/Misc/job_icons.rsi
+      state: Syndicate
     antags:
     - Traitor
     - TraitorSleeper
-  - name: antag-menu-subcategory-nuclear-operatives
-    icon: /Textures/Interface/Misc/job_icons.rsi/SyndicateOperative.png
+  - displayName: Ядерные оперативники
+    icon:
+      sprite: Interface/Misc/job_icons.rsi
+      state: SyndicateOperative
     outlineColor: "#8f1f2d"
-    subcategories:
-    - name: antag-menu-subcategory-nukeops-squad
-      antags:
-      - Nukeops
-      - NukeopsMedic
-    - name: antag-menu-subcategory-command
-      antags:
-      - NukeopsCommander
+    antags:
+    - Nukeops
+    - NukeopsMedic
+    - NukeopsCommander
 
 - type: antagCategory
   id: Other
-  name: Другие
-  icon: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi/Event.png
+  displayName: Другие
+  icon:
+    sprite: _DeadSpace/Interface/Misc/antag_icons.rsi
+    state: Event
   outlineColor: "#4995ff"
   antags:
   - Thief
   - HeadRev
   - Shadowling
   subcategories:
-  - name: Ксеноборги
+  - displayName: Ксеноборги
     outlineColor: "#020096"
     antags:
     - MothershipCore
@@ -49,15 +51,17 @@
 
 - type: antagCategory
   id: Biohazard
-  name: Биоугроза
-  icon: /Textures/Interface/Misc/job_icons.rsi/InitialInfected.png
+  displayName: Биоугроза
+  icon:
+    sprite: Interface/Misc/job_icons.rsi
+    state: InitialInfected
   outlineColor: "#b05ad9"
   antags:
   - InitialInfected
   - SentientVirus
   - Blob
   subcategories:
-  - name: antag-menu-subcategory-spider-terror
+  - displayName: Пауки ужаса
     outlineColor: "#8928ff"
     icon: /Textures/_DeadSpace/LanguageIcons/spider.png
     antags:
@@ -67,24 +71,26 @@
 
 - type: antagCategory
   id: TheCircle
-  name: antag-menu-category-the-circle
-  icon: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi/Unitology.png
+  displayName: Круг
+  icon:
+    sprite: _DeadSpace/Interface/Misc/antag_icons.rsi
+    state: Unitology
   outlineColor: "#b80564"
   antags:
   - Uni
   - UniHead
   subcategories:
-  - name: antag-menu-subcategory-circle-squad
+  - displayName: Ударный отряд Круга
     outlineColor: "#720303"
     subcategories:
-    - name: antag-menu-subcategory-combat-roles
+    - displayName: Обычные труперы
       antags:
       - CircleFighterLight
       - CircleFighterHeavy
-    - name: antag-menu-subcategory-support-roles
+    - displayName: Сапорт труперы
       antags:
       - CircleMedic
       - CircleEngineer
-    - name: antag-menu-subcategory-command
+    - displayName: Кардинал / Шок труперы
       antags:
       - CircleCommander

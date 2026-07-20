@@ -28,8 +28,8 @@ public sealed partial class AntagCategoryPrototype : IPrototype
     [IdDataField]
     public string ID { get; private set; } = default!;
 
-    [DataField(required: true)]
-    public LocId Name { get; private set; }
+    [DataField("displayName", required: true)]
+    public string Name { get; private set; } = string.Empty;
 
     [DataField]
     public SpriteSpecifier? Icon { get; private set; }
@@ -50,8 +50,8 @@ public sealed partial class AntagCategoryPrototype : IPrototype
 [DataDefinition]
 public sealed partial class AntagSubcategory
 {
-    [DataField(required: true)]
-    public LocId Name { get; private set; }
+    [DataField("displayName", required: true)]
+    public string Name { get; private set; } = string.Empty;
 
     [DataField]
     public SpriteSpecifier? Icon { get; private set; }
