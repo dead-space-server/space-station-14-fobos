@@ -1,5 +1,0 @@
-using Content.Shared.DoAfter;
-using Robust.Shared.Serialization;
-namespace Content.Shared._CM14.Scoping;
-[Serializable, NetSerializable]
-public sealed partial class ScopeDoAfterEvent : SimpleDoAfterEvent;

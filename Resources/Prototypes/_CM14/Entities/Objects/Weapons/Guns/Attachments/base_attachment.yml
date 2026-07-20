@@ -1,7 +1,0 @@
-- type: entity
-  abstract: true
-  id: CMBaseAttachable
-  components:
-  - type: Item
-    size: Small
-  - type: Attachable
