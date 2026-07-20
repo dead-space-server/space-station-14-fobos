@@ -1902,7 +1902,7 @@
   - type: PointLight
     enabled: true
     radius: 5
-    energy: 1
+    energy: 0.7
     netsync: false
     offset: "0,0.5"
     color: "#ECFFFF"
@@ -2051,7 +2051,32 @@
             min: 2
             max: 4
 
-
+# Статуя ленина 
+- type: entity
+  id: StatueLeninAki
+  parent: StatueVenusRed
+  name: статуя Ленина
+  description: Слава СССП, Товарищ!
+  suffix: Akitovsky
+  components:
+  - type: SpriteFade
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/lenin.rsi
+    state: lenin
+    drawdepth: Mobs
+    offset: "0.0, 2.5"
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-1,-1,1,1"
+        density: 55
+        mask:
+        - Impassable
+        layer:
+        - Impassable
 
 ################# Nuclear 14
 # Base дорожный знак
