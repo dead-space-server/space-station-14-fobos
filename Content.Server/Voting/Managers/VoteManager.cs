@@ -161,6 +161,8 @@ namespace Content.Server.Voting.Managers
                 _voteHandles.Remove(id);
             }
 
+            TryStartPendingPresetRunoff(); // DS14
+
             // Handle player timeouts.
             var timeoutRemQueue = new RemQueue<NetUserId>();
             foreach (var (userId, timeout) in _voteTimeout)

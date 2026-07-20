@@ -1,0 +1,47 @@
+using Content.Shared.DeadSpace.Guardian;
+using Robust.Client.UserInterface;
+using JetBrains.Annotations;
+
+namespace Content.Client.DeadSpace.Guardian.UI;
+
+[UsedImplicitly]
+public sealed class GuardianCreatorSelectorBoundUserInterface(EntityUid owner, Enum uiKey)
+    : BoundUserInterface(owner, uiKey)
+{
+    private GuardianCreatorSelectorWindow? _window;
+
+    protected override void Open()
+    {
+        if (IsOpened)
+            return;
+
+        base.Open();
+
+        _window = this.CreateWindow<GuardianCreatorSelectorWindow>();
+        _window.Confirmed += OnConfirmed;
+    }
+
+    protected override void UpdateState(BoundUserInterfaceState state)
+    {
+        base.UpdateState(state);
+
+        if (_window == null || state is not GuardianCreatorSelectorBuiState selectorState)
+            return;
+
+        _window.UpdateState(selectorState);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing && _window != null)
+        {
+            _window.Confirmed -= OnConfirmed;
+            _window = null;
+        }
+
+        base.Dispose(disposing);
+    }
+
+    private void OnConfirmed(string prototype) =>
+        SendMessage(new GuardianCreatorSelectorConfirmMessage(prototype));
+}

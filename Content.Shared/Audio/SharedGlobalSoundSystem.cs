@@ -50,6 +50,14 @@ public sealed class AlertLevelSoundEvent : GlobalSoundEvent
 {
     public AlertLevelSoundEvent(ResolvedSoundSpecifier specifier, AudioParams? audioParams = null) : base(specifier, audioParams){}
 }
+/// <summary>
+/// Нагло скопирован с верхнего примера, спектрум обожаю, но пожалуйста не играй на яо.
+/// </summary>
+[Serializable, NetSerializable]
+public sealed class AdminAnnouncmentSoundEvent : GlobalSoundEvent
+{
+    public AdminAnnouncmentSoundEvent(ResolvedSoundSpecifier specifier, AudioParams? audioParams = null) : base(specifier, audioParams){}
+}
 // DS14-end
 
 public enum StationEventMusicType : byte

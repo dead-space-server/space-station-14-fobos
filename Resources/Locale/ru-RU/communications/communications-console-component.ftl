@@ -1,6 +1,7 @@
 # Comms console variant titles
 comms-console-announcement-title-station = Консоль связи
 comms-console-announcement-title-centcom = Центральное командование
+comms-console-announcement-title-soc = Корпус Специальных Операций
 comms-console-announcement-title-nukie = Ядерные оперативники
 comms-console-announcement-title-taipan = ННКСС Тайпан
 comms-console-announcement-title-station-ai-syndicate = Станционный ИИ Синдиката
@@ -32,6 +33,7 @@ comms-console-menu-call-shuttle = Вызвать
 comms-console-menu-recall-shuttle = Отозвать
 comms-console-menu-emergency-shuttle-button-tooltip = Вызывает или отзывает эвакуационный шаттл. Вы можете отозвать шаттл, только если осталось достаточно времени.
 comms-console-menu-time-remaining = Оставшееся время: { $time }
+comms-console-menu-block-shuttle = Заблокировать вызов/отзыв
 # ERT call
 comms-console-menu-category-ert = Вызов ОБР
 comms-console-menu-call-ert = Запросить ОБР

@@ -1,0 +1,49 @@
+- type: entity
+  id: ShuttleGunRailgun
+  parent: [ ShuttleGunBase, ConstructibleMachine]
+  name: Двойной Масс-Драйвер "Танатос"
+  description: Когда Charon встречает старшего брата —Thanatos, — это сила, с которой нужно считаться. Если вы это читаете... Не стойте на пути. Этот экземпляр питается от автоматического заряжающего устройства и не требует ручной перезарядки.
+  categories: [ DoNotMap ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Shuttles/railgun.rsi
+    layers:
+    - state: railgun
+  - type: ContainerContainer
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 5000
+      behaviors:
+        - !type:ChangeConstructionNodeBehavior
+          node: machineFrame
+        - !type:DoActsBehavior
+          acts: ["Destruction"]
+  - type: Gun
+    projectileSpeed: 100
+    fireRate: 0.1
+    selectedMode: SemiAuto
+    angleDecay: 45
+    minAngle: 0
+    maxAngle: 1
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/Monorailgun.ogg
+      params:
+        variation: 0.12
+  - type: RechargeBasicEntityAmmo
+    rechargeCooldown: 120
+    rechargeSound:
+      path: /Audio/Weapons/Guns/Bolt/lmg_bolt_closed.ogg
+      params:
+        pitch: 1.2
+        variation: 0.08
+  - type: BasicEntityAmmoProvider
+    proto: BulletRailgun
+    capacity: 1
+    count: 1

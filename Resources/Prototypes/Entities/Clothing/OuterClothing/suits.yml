@@ -114,6 +114,7 @@
   - type: HideLayerClothing
     slots:
     - Tail
+  - type: IgnoreContactDamage #DS14
 
 - type: entity
   parent: [ClothingOuterBaseLarge, GeigerCounterClothing, AllowSuitStorageClothing]

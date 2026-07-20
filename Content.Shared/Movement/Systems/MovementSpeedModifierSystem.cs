@@ -90,18 +90,22 @@ namespace Content.Shared.Movement.Systems
 
             RaiseLocalEvent(uid, ref ev);
 
-            if (MathHelper.CloseTo(ev.WeightlessAcceleration, move.WeightlessAcceleration) &&
+            var acceleration = ev.WeightlessAcceleration * ev.WeightlessAccelerationMod;
+            var friction = _airDamping * ev.WeightlessFriction * ev.WeightlessFrictionMod;
+            var frictionNoInput = _airDamping * ev.WeightlessFrictionNoInput * ev.WeightlessFrictionNoInputMod;
+
+            if (MathHelper.CloseTo(acceleration, move.WeightlessAcceleration) &&
                 MathHelper.CloseTo(ev.WeightlessModifier, move.WeightlessModifier) &&
-                MathHelper.CloseTo(ev.WeightlessFriction, move.WeightlessFriction) &&
-                MathHelper.CloseTo(ev.WeightlessFrictionNoInput, move.WeightlessFrictionNoInput))
+                MathHelper.CloseTo(friction, move.WeightlessFriction) &&
+                MathHelper.CloseTo(frictionNoInput, move.WeightlessFrictionNoInput))
             {
                 return;
             }
 
-            move.WeightlessAcceleration = ev.WeightlessAcceleration * ev.WeightlessAccelerationMod;
+            move.WeightlessAcceleration = acceleration;
             move.WeightlessModifier = ev.WeightlessModifier;
-            move.WeightlessFriction = _airDamping * ev.WeightlessFriction * ev.WeightlessFrictionMod;
-            move.WeightlessFrictionNoInput = _airDamping * ev.WeightlessFrictionNoInput * ev.WeightlessFrictionNoInputMod;
+            move.WeightlessFriction = friction;
+            move.WeightlessFrictionNoInput = frictionNoInput;
             Dirty(uid, move);
         }
 
@@ -132,6 +136,7 @@ namespace Content.Shared.Movement.Systems
 
             move.BaseWalkSpeed = baseWalkSpeed;
             move.BaseSprintSpeed = baseSprintSpeed;
+            move.BaseAcceleration = acceleration;
             move.Acceleration = acceleration;
             Dirty(uid, move);
         }
@@ -185,19 +190,37 @@ namespace Content.Shared.Movement.Systems
     {
         public SlotFlags TargetSlots { get; } = ~SlotFlags.POCKET;
 
-        public float WalkSpeedModifier { get; private set; } = 1.0f;
-        public float SprintSpeedModifier { get; private set; } = 1.0f;
+        // DS14-start
+        private float _walkSpeedModifier = 1.0f;
+        private float _sprintSpeedModifier = 1.0f;
+        private float _walkSpeedLimit = float.PositiveInfinity;
+        private float _sprintSpeedLimit = float.PositiveInfinity;
+
+        public float WalkSpeedModifier => MathF.Min(_walkSpeedModifier, _walkSpeedLimit);
+        public float SprintSpeedModifier => MathF.Min(_sprintSpeedModifier, _sprintSpeedLimit);
 
         public void ModifySpeed(float walk, float sprint)
         {
-            WalkSpeedModifier *= walk;
-            SprintSpeedModifier *= sprint;
+            _walkSpeedModifier *= walk;
+            _sprintSpeedModifier *= sprint;
         }
 
         public void ModifySpeed(float mod)
         {
             ModifySpeed(mod, mod);
         }
+
+        public void LimitSpeed(float walk, float sprint)
+        {
+            _walkSpeedLimit = MathF.Min(_walkSpeedLimit, walk);
+            _sprintSpeedLimit = MathF.Min(_sprintSpeedLimit, sprint);
+        }
+
+        public void LimitSpeed(float limit)
+        {
+            LimitSpeed(limit, limit);
+        }
+        // DS14-end
     }
 
     [ByRefEvent]
@@ -217,7 +240,7 @@ namespace Content.Shared.Movement.Systems
         public void ModifyFriction(float friction, float noInput)
         {
             WeightlessFrictionMod *= friction;
-            WeightlessFrictionNoInput *= noInput;
+            WeightlessFrictionNoInputMod *= noInput;
         }
 
         public void ModifyFriction(float friction)

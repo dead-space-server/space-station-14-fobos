@@ -74,7 +74,9 @@
     layers:
     - state: off
     - state: normal-unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
       shader: unshaded
+      visible: false
     - state: panel
       visible: false
   - type: LavalandMiningShop
@@ -143,5 +145,33 @@
     radius: 1.5
     color: "#b89f25"
   - type: LitOnPowered
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: { visible: true }
+          False: { visible: false }
   - type: StaticPrice
     price: 500
+
+- type: entity
+  parent: LavalandMiningShop
+  id: AdvancedCargoTechMag
+  name: продвинутый карготехмаг
+  description: Нагло украденный и перекрашенный утильмаг из базы утилизаторов... Зато, на левом боку красуется рисунок боевого слона синдиката.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Machines/VendingMachines/mining.rsi
+  - type: LavalandMiningShop
+    miningAccess:
+    - TaipanCargo
+  - type: Store
+    categories:
+    - LavalandMiningEquipment
+    - LavalandMiningTools
+    - LavalandMiningUtilityTaipan
+    - CargoTechMagTaipan
+    - LavalandMiningMedical
+    - LavalandMiningDetails
+    - LavalandMiningCash

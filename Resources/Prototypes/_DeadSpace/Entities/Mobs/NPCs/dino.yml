@@ -1,0 +1,120 @@
+- type: entity
+  name: динозавр
+  parent: SimpleMobBase
+  id: MobDino
+  description: "У нас тут юрский период? Выглядит... Почти дружелюбно."
+  components:
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2
+    baseSprintSpeed: 3
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base", "movement"]
+      state: icon
+      sprite: _DeadSpace/Mobs/Animals/Dino.rsi
+  - type: SpriteMovement
+    movementLayers:
+      movement: 
+        state: move
+    noMovementLayers:
+      movement:
+        state: icon
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.2
+        density: 50
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: icon
+      Critical:
+        Base: dead
+      Dead:
+        Base: dead
+  - type: Butcherable
+    spawned:
+    - id: FoodMeatLizard
+      amount: 4
+  - type: InteractionPopup
+    successChance: 0.3
+    interactSuccessString: petting-success-reptile
+    interactFailureString: petting-failure-generic
+    interactSuccessSpawn: EffectHearts
+    interactSuccessSound:
+      path: /Audio/_DeadSpace/Animals/dino_cute.ogg
+    interactFailureSound:
+      path: /Audio/_DeadSpace/Animals/dino_angry.ogg
+  - type: Bloodstream
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 150
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      150: Critical
+      200: Dead
+  - type: Damageable
+    damageContainer: Biological
+    damageModifierSet: Scale
+  - type: MeleeWeapon
+    angle: 0
+    attackRate: 0.75
+    damage:
+      types:
+        Slash: 15
+        Pierce: 15
+        Structural: 50
+  - type: NPCRetaliation
+    attackMemoryLength: 10
+  - type: FactionException
+  - type: NpcFactionMember
+    factions:
+      - Passive
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+  - type: Vocal
+    sounds:
+      Male: DinoRoar
+      Female: DinoRoar
+      Unsexed: DinoRoar
+
+
+- type: soundCollection
+  id: DinoScream
+  files:
+  - /Audio/_DeadSpace/Animals/dino_roar.ogg
+
+- type: emoteSounds
+  id: DinoRoar
+  params:
+    variation: 0.125
+    volume: 2
+  sounds:
+    Scream:
+      collection: DinoScream
+
+- type: entity
+  name: спавнер динозавра
+  description: Спавнер крутого динозавра.
+  id: SpawnMobDino
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: green
+    - state: icon
+      sprite: _DeadSpace/Mobs/Animals/Dino.rsi
+  - type: ConditionalSpawner
+    prototypes:
+    - MobDino

@@ -18,6 +18,9 @@
     },
     {
       "name": "nano_chat"
+    },
+    {
+      "name": "syndi_chat"
     }
   ]
 }

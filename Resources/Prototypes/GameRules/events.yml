@@ -54,6 +54,7 @@
     - id: LoneOpsSpawn
     - id: WizardSpawn
     # DS14-start
+    - id: SyndicateRaid
     - id: PirateRaid
     - id: ZaratanaSpawn
     - id: RenegadeSpawn
@@ -671,6 +672,10 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+      # DS14-start
+      - type: CustomNameOnSpawn
+        namePrefix: "Оперативник"
+      # DS14-end
       - type: NukeOperative
       - type: RandomMetadata
         nameSegments:

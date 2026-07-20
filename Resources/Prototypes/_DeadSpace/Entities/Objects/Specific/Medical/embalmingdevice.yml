@@ -45,6 +45,15 @@
     - type: StaticPrice
       price: 100
     - type: Label
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
 
 - type: entity
   parent: EmbalmingDevice

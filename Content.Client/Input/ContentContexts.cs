@@ -94,7 +94,7 @@ namespace Content.Client.Input
             human.AddFunction(ContentKeyFunctions.Arcade2);
             human.AddFunction(ContentKeyFunctions.Arcade3);
             human.AddFunction(ContentKeyFunctions.OpenLanguageMenu); // DS14
-
+            human.AddFunction(ContentKeyFunctions.UseWorldTargetAction); // DS14
 
             // actions should be common (for ghosts, mobs, etc)
             common.AddFunction(ContentKeyFunctions.OpenActionsMenu);

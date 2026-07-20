@@ -212,6 +212,13 @@ public abstract class SharedRoleSystem : EntitySystem
         return true;
     }
 
+    // DS14-start
+    public bool RefreshMindRoleType(Entity<MindComponent?> ent)
+    {
+        return MindRolesUpdate(ent);
+    }
+    // DS14-end
+
     /// <summary>
     ///     Return the most recently specified role type and subtype, or Neutral
     /// </summary>
@@ -316,6 +323,29 @@ public abstract class SharedRoleSystem : EntitySystem
 
         return MindRemoveRoleDo(mind, delete, deleteName);
     }
+
+    // DS14-start
+    /// <summary>
+    /// Removes every role that marks a mind as an antagonist in one update.
+    /// </summary>
+    public bool MindRemoveAntagonistRoles(Entity<MindComponent?> mind)
+    {
+        if (!Resolve(mind.Owner, ref mind.Comp))
+            return false;
+
+        var delete = new List<EntityUid>();
+        foreach (var role in mind.Comp.MindRoleContainer.ContainedEntities)
+        {
+            if (TryComp<MindRoleComponent>(role, out var roleComp) &&
+                (roleComp.Antag || roleComp.ExclusiveAntag))
+            {
+                delete.Add(role);
+            }
+        }
+
+        return MindRemoveRoleDo(mind, delete, "antagonist roles");
+    }
+    // DS14-end
 
     private string RemoveRoleLogNameGeneration(string name, string newName, string original)
     {

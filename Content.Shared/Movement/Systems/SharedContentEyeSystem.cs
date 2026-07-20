@@ -160,6 +160,19 @@ public abstract class SharedContentEyeSystem : EntitySystem
         _eye.SetOffset(eye, ev.Offset + evRelayed.Offset, eye);
     }
 
+    public void UpdateEyeRotation(Entity<EyeComponent> eye)
+    {
+        var baseRotation = eye.Comp.Rotation;
+
+        if (TryComp<ContentEyeComponent>(eye, out var contentEye))
+            baseRotation = contentEye.BaseRotation;
+
+        var ev = new GetEyeRotationEvent();
+        RaiseLocalEvent(eye, ref ev);
+
+        _eye.SetRotation(eye, baseRotation + ev.Rotation, eye);
+    }
+
     public void UpdatePvsScale(EntityUid uid, ContentEyeComponent? contentEye = null, EyeComponent? eye = null)
     {
         if (!Resolve(uid, ref contentEye) || !Resolve(uid, ref eye))

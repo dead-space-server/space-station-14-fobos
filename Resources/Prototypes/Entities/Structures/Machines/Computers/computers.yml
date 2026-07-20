@@ -98,6 +98,17 @@
   name: emergency shuttle console
   description: Handles authorization to early launch the shuttle.
   components:
+  # DS14-start
+  - type: Tag
+    tags:
+    - Structure
+    - EmagImmune
+    - AccessBreakerImmune
+  - type: Destructible
+    thresholds: []
+  - type: Anchorable
+    flags: Anchorable
+  # DS14-end
   - type: AccessReader
     access:
     - [ Command ]
@@ -483,6 +494,7 @@
     receiveFrequencyId: CrewMonitor
   - type: WirelessNetworkConnection
     range: 1200
+  - type: StationLimitedNetwork # DS14
 
 - type: entity
   parent: BaseComputerAiAccess

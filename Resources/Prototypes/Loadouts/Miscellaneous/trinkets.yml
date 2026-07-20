@@ -41,12 +41,14 @@
   storage:
     back:
     - PlushieLizard
+  groupBy: "plushie" #DS-14
 
 - type: loadout
   id: PlushieSpaceLizard
   storage:
     back:
     - PlushieSpaceLizard
+  groupBy: "plushie" #DS-14
 
 - type: loadout
   id: ThreeCandles

@@ -19,6 +19,10 @@
           density: 190
           mask:
             - MachineMask
+          # DS14-start
+          layer:
+            - MachineLayer
+          # DS14-end
     - type: Transform
       anchored: true
     - type: Anchorable
@@ -32,6 +36,22 @@
     - type: GasMiner
       maxExternalPressure: 300
       spawnAmount: 400
+    # DS14-start
+    - type: Damageable
+      damageContainer: StructuralInorganic
+      damageModifierSet: Metallic
+    - type: Destructible
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 1200
+          behaviors:
+            - !type:PlaySoundBehavior
+              sound:
+                collection: MetalBreak
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+    # DS14-end
     - type: GuideHelp
       guides:
       - GasMiningAndStorage
@@ -44,6 +64,17 @@
   placement:
     mode: SnapgridCenter
   components:
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeCircle
+            radius: .4
+          density: 190
+          mask:
+            - MachineMask
+          layer:
+            - MachineLayer
     - type: GasMiner
       spawnGas: Oxygen
 
@@ -71,6 +102,17 @@
   id: GasMinerNitrogen
   suffix: Shuttle, 300kPa
   components:
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeCircle
+            radius: .4
+          density: 190
+          mask:
+            - MachineMask
+          layer:
+            - MachineLayer
     - type: GasMiner
       spawnGas: Nitrogen
 

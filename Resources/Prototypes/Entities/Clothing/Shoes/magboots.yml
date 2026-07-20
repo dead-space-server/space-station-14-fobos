@@ -152,6 +152,8 @@
           tags:
           - Knife
           - Sidearm
+  - type: ClothingSlowOnDamageModifier
+    modifier: 0.3
 
 - type: entity
   parent: [ClothingShoesBootsMagBase, BaseJetpack, BaseSyndicateContraband]
@@ -186,6 +188,8 @@
     weightlessModifier: 1.2
   - type: StaticPrice
     price: 5000
+  - type: ClothingSlowOnDamageModifier
+    modifier: 0.3
 
 - type: entity
   parent: [BaseCentcommContraband, ClothingShoesBootsMagSyndie]

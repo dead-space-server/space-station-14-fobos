@@ -40,7 +40,7 @@ public sealed partial class StoreListingControl : Control
         _price = price;
         _discount = discount;
 
-        StoreItemName.Text = ListingLocalisationHelpers.GetLocalisedNameOrEntityName(_data, _prototype);
+        StoreItemName.Text = GetName(); // DS14
         StoreItemDescription.SetMessage(ListingLocalisationHelpers.GetLocalisedDescriptionOrEntityDescription(_data, _prototype));
 
         UpdateBuyButtonText();
@@ -104,7 +104,17 @@ public sealed partial class StoreListingControl : Control
 
     private void UpdateName()
     {
+        StoreItemName.Text = GetName(); // DS14
+    }
+
+    private string GetName() // DS14
+    {
         var name = ListingLocalisationHelpers.GetLocalisedNameOrEntityName(_data, _prototype);
+
+        // DS14-start
+        if (_data.RemainingStock is { } remaining)
+            name += Loc.GetString("store-ui-remaining-stock", ("remaining", remaining));
+        // DS14-end
 
         var stationTime = _timing.CurTime.Subtract(_ticker.RoundStartTimeSpan);
         if (_data.RestockTime > stationTime)
@@ -112,7 +122,7 @@ public sealed partial class StoreListingControl : Control
             name += Loc.GetString("store-ui-button-out-of-stock");
         }
 
-        StoreItemName.Text = name;
+        return name; // DS14
     }
 
     protected override void FrameUpdate(FrameEventArgs args)

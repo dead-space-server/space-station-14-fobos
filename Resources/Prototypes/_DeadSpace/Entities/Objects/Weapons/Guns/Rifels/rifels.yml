@@ -65,6 +65,15 @@
       path: /Audio/Weapons/Guns/Gunshots/batrifle.ogg
   - type: Item
     size: Large
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/rifle/rifle_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/rifle/rifle_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/rifle/rifle_drop.ogg
 
 - type: entity
   parent: BaseWeaponRifle

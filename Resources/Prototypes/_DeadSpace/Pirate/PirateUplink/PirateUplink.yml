@@ -525,6 +525,17 @@
     - PirateUplinkWearables
 
 - type: listing
+  id: ClothingBackpackTailbagSyndicateList
+  name: clothing-backpack-tailbag-syndicate-name
+  description: clothing-backpack-tailbag-syndicate-description
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Tailbag/syndicate.rsi, state: icon }
+  productEntity: ClothingBackpackTailbagSyndicate
+  cost:
+    SpaceCash: 3000
+  categories:
+  - PirateUplinkWearables
+
+- type: listing
   id: ClothingBeltMilitaryWebbingList
   name: uplink-pirate-clothing-belt-military-webbing-name
   icon: { sprite: Clothing/Belt/militarywebbing.rsi, state: icon }

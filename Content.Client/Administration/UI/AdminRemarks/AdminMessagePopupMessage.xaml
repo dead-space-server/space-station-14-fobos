@@ -1,6 +1,13 @@
-﻿<Control xmlns="https://spacestation14.io" Margin="0 0 0 8">
-    <BoxContainer Orientation="Vertical">
-        <RichTextLabel Name="Admin" Margin="0 0 0 4" />
-        <RichTextLabel Name="Message" Margin="2 0 0 0" />
-    </BoxContainer>
+<Control xmlns="https://spacestation14.io">
+    <!-- DS14-start -->
+    <PanelContainer StyleClasses="DS14MenuListRow"
+                    HorizontalExpand="True">
+        <BoxContainer Orientation="Vertical"
+                      Margin="2"
+                      SeparationOverride="4">
+            <RichTextLabel Name="Admin" />
+            <RichTextLabel Name="Message" />
+        </BoxContainer>
+    </PanelContainer>
+    <!-- DS14-end -->
 </Control>

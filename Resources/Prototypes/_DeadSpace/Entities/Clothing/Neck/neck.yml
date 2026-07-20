@@ -54,3 +54,51 @@
     sprite: _DeadSpace/Clothing/Neck/technical_supervisormantle.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
+
+# Captain
+## Blue
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleCaptainShoulder
+  name: наплечная мантия капитана
+  description: Синяя мантия с золотой окантовкой. Красивое.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Neck/captain_mantle.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Neck/captain_mantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleCaptainShoulderFormal
+  name: торжественная наплечная мантия капитана
+  description: Синяя мантия с золотой окантовкой и медалью за превосходную работу. Красивое.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Neck/captain_formal_mantle.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Neck/captain_formal_mantle.rsi
+
+## White
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleCaptainShoulderWhite
+  name: белая наплечная мантия капитана
+  description: Белая мантия c чёрным элементом и золотой окантовкой. Не упадите в грязь лицом в ней!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Neck/captain_mantle_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Neck/captain_mantle_white.rsi
+
+## Black
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleCaptainShoulderBlack
+  name: чёрная наплечная мантия капитана
+  description: Чёрная мантия с золотой окантовкой и дополнительными элементами. Объёмная и шикарная.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Neck/captain_mantle_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Neck/captain_mantle_black.rsi

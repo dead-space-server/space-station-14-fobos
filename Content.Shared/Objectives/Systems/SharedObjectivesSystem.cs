@@ -55,7 +55,7 @@ public abstract class SharedObjectivesSystem : EntitySystem
     /// The objective is not added to the mind's objectives, mind system does that in TryAddObjective.
     /// If the objective could not be assigned the objective is deleted and null is returned.
     /// </summary>
-    public EntityUid? TryCreateObjective(EntityUid mindId, MindComponent mind, string proto)
+    public EntityUid? TryCreateObjective(EntityUid mindId, MindComponent mind, string proto, bool force = false) // DS14
     {
         if (!_protoMan.HasIndex<EntityPrototype>(proto))
             return null;
@@ -68,15 +68,16 @@ public abstract class SharedObjectivesSystem : EntitySystem
             return null;
         }
 
-        if (!CanBeAssigned(uid, mindId, mind, comp))
+        if (!force && !CanBeAssigned(uid, mindId, mind, comp)) // DS14
         {
+            Del(uid);
             Log.Warning($"Objective {proto} did not match the requirements for {_mind.MindOwnerLoggingString(mind)}, deleted it");
             return null;
         }
 
         var ev = new ObjectiveAssignedEvent(mindId, mind);
         RaiseLocalEvent(uid, ref ev);
-        if (ev.Cancelled)
+        if (ev.Cancelled && !force) // DS14
         {
             Del(uid);
             Log.Warning($"Could not assign objective {proto}, deleted it");
@@ -96,9 +97,9 @@ public abstract class SharedObjectivesSystem : EntitySystem
     /// The objective is not added to the mind's objectives, mind system does that in TryAddObjective.
     /// If the objective could not be assigned the objective is deleted and false is returned.
     /// </summary>
-    public bool TryCreateObjective(Entity<MindComponent> mind, EntProtoId proto, [NotNullWhen(true)] out EntityUid? objective)
+    public bool TryCreateObjective(Entity<MindComponent> mind, EntProtoId proto, [NotNullWhen(true)] out EntityUid? objective, bool force = false) // DS14
     {
-        objective = TryCreateObjective(mind.Owner, mind.Comp, proto);
+        objective = TryCreateObjective(mind.Owner, mind.Comp, proto, force); // DS14
         return objective != null;
     }
 
@@ -136,6 +137,11 @@ public abstract class SharedObjectivesSystem : EntitySystem
     /// </summary>
     public float? GetProgress(EntityUid uid, Entity<MindComponent> mind)
     {
+        // DS14-start
+        if (TryComp<ObjectiveComponent>(uid, out var objective) && objective.CompletionLocked)
+            return 1f;
+        // DS14-end
+
         var ev = new ObjectiveGetProgressEvent(mind, mind.Comp);
         RaiseLocalEvent(uid, ref ev);
         if (ev.Progress != null)
@@ -153,6 +159,20 @@ public abstract class SharedObjectivesSystem : EntitySystem
         return (GetProgress(uid, mind) ?? 0f) >= 0.999f;
     }
 
+    // DS14-start
+    /// <summary>
+    /// Irreversibly marks an objective as completed for every progress consumer.
+    /// </summary>
+    public bool LockCompletion(EntityUid uid, ObjectiveComponent? component = null)
+    {
+        if (!Resolve(uid, ref component))
+            return false;
+
+        component.CompletionLocked = true;
+        return true;
+    }
+    // DS14-end
+
     /// <summary>
     /// Sets the objective's icon to the one specified.
     /// Intended for <see cref="ObjectiveAfterAssignEvent"/> handlers to set an icon.
@@ -164,4 +184,14 @@ public abstract class SharedObjectivesSystem : EntitySystem
 
         comp.Icon = icon;
     }
+
+    // DS14-start
+    public void SetIssuer(EntityUid uid, LocId issuer, ObjectiveComponent? comp = null)
+    {
+        if (!Resolve(uid, ref comp))
+            return;
+
+        comp.Issuer = issuer;
+    }
+    // DS14-end
 }

@@ -73,6 +73,17 @@
   - type: Reflect
   - type: IgnitionSource
     temperature: 700
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
+  #DS14-End
 
 - type: entity
   name: energy sword
@@ -331,6 +342,10 @@
     damage:
       types:
         Blunt: 4.5
+  # DS14-start
+  - type: SandevistanMeleeAttackRate
+    modifier: 1.35
+  # DS14-end
   - type: Sprite
     sprite: Objects/Weapons/Melee/e_sword_double.rsi
     layers:

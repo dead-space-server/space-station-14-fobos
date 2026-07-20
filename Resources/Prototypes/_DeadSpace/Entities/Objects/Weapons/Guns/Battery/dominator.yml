@@ -27,15 +27,15 @@
       params:
         volume: -2
   - type: BatteryAmmoProvider
-    proto: BulletDisabler
+    proto: DominatorDisablerTrace
     fireCost: 50
   - type: Dominator
     fireModes:
-    - proto: BulletDisabler
+    - proto: DominatorDisablerTrace
       fireCost: 50
       switchSound:
         path: /Audio/_DeadSpace/Weapons/Guns/Dominator/nonlethal-paralyzer.ogg
-    - proto: DominatorBullet
+    - proto: DominatorEliminatorTrace
       fireCost: 50
       switchSound:
         path: /Audio/_DeadSpace/Weapons/Guns/Dominator/lethal-eliminator.ogg
@@ -56,7 +56,7 @@
 - type: entity
   name: лазерный заряд
   id: DominatorBullet
-  parent: EmitterBolt
+  parent: BaseEmitterProjectile
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite

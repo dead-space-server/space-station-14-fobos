@@ -25,6 +25,15 @@
     interfaces:
       enum.ThiefBackpackUIKey.Key:
         type: ThiefBackpackBoundUserInterface
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -51,6 +60,15 @@
     interfaces:
       enum.ThiefBackpackUIKey.Key:
         type: ThiefBackpackBoundUserInterface
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_drop.ogg
 
 ## Security
 - type: entity
@@ -209,6 +227,26 @@
     - PulsePistolSet
     - Mk79tacticalSet
     - EnergyMagnumrERTSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+- type: entity
+  id: ERTloadoutMelee
+  name: коробка неопределённости ближнего оружия
+  description: Коробка с оружием ближнего кода. Принадлежит отряду "Красный" и "Гамма".
+  suffix: ОБР, Гамма, Милишка
+  parent: BaseERTloadoutSecondary
+  components:
+  - type: Sprite
+    state: ml
+  - type: ThiefUndeterminedBackpack
+    possibleSets:
+    - TruncheonsecSet
+    - TruncheonSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -487,6 +525,9 @@
     - BerettaM92BlueShieldSet
     - ScarLBlueShieldSet
     - MP5SDBlueShieldSet
+    - AresSWCBlueShieldSet
+    - TruncheonsecBlueShieldSet
+    - PistolBlueShieldUpgradeKitSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -522,6 +563,19 @@
   - BoxLethalshot
   - BoxShotgunSlug
   - BoxBeanbag
+
+- type: thiefBackpackSet
+  id: AresSWCBlueShieldSet
+  name: ert-loadout-category-ares-swcbs-name
+  description: ert-loadout-category-ares-swcbs-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Shotguns/ares.rsi
+    state: icon
+  content:
+  - WeaponShotgunAresSWC
+  - MagazineShotgun
+  - MagazineShotgun
+  - MagazineShotgun
 
 - type: thiefBackpackSet
   id: AresSWCIncendiarySet
@@ -930,6 +984,31 @@
   content:
   - WeaponPulseRifle
 
+### Иное
+
+- type: thiefBackpackSet
+  id: TruncheonsecBlueShieldSet
+  name: ert-loadout-category-truncheonsecbs-name
+  description: ert-loadout-category-truncheonsecbs-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Melee/truncheon_sec.rsi
+    state: stunbaton_off
+  content:
+  - TruncheonBlueShield
+  - BulletShieldBlueShield
+  - TelescopicShield
+  - RezervImplanter
+
+- type: thiefBackpackSet
+  id: PistolBlueShieldUpgradeKitSet
+  name: ert-loadout-category-pistolbsupgradekit-name
+  description: ert-loadout-category-pistolbsupgradekit-description
+  sprite:
+    sprite: Objects/Misc/module.rsi
+    state: ssd
+  content:
+  - WeaponPistolBlueShieldUpgradeKit
+
 ## Secondary
 ### Огнестрельное
 - type: thiefBackpackSet
@@ -995,6 +1074,8 @@
   content:
   - WeaponPistolMk58
   - WeaponDisabler
+  - MagazinePistol
+  - MagazinePistol
 
 - type: thiefBackpackSet
   id: VerdictDisablerSet
@@ -1006,6 +1087,8 @@
   content:
   - WeaponRevolverVerdict
   - WeaponDisabler
+  - SpeedLoaderMagnum
+  - SpeedLoaderMagnum
 
 - type: thiefBackpackSet
   id: VerdictSet
@@ -1141,7 +1224,7 @@
 - type: thiefBackpackSet
   id: AdvancedLaserERTSet
   name: ert-loadout-category-advancedlaserert-name
-  description: ert-loadout-category-advancedlaser-description
+  description: ert-loadout-category-energymagnum-description
   sprite:
     sprite: _DeadSpace/Objects/Weapons/Guns/Battery/advancedlasergunert.rsi
     state: icon
@@ -1305,3 +1388,25 @@
   - PyraAutoInjector
   - AntiPoisonMedipen
   - AntiPoisonMedipen
+
+# милишка
+
+- type: thiefBackpackSet
+  id: TruncheonSet
+  name: ert-loadout-category-truncheon-name
+  description: ert-loadout-category-truncheon-description
+  sprite:
+    sprite: Objects/Weapons/Melee/truncheon.rsi
+    state: icon
+  content:
+  - Truncheon
+
+- type: thiefBackpackSet
+  id: TruncheonsecSet
+  name: ert-loadout-category-truncheonsec-name
+  description: ert-loadout-category-truncheonsec-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Melee/truncheon_sec.rsi
+    state: stunbaton_nocell
+  content:
+  - Truncheonsec

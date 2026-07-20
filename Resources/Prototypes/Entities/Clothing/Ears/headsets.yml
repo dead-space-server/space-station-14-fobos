@@ -26,6 +26,17 @@
   - type: GuideHelp
     guides:
     - Radio
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: ClothingHeadset
@@ -96,6 +107,25 @@
   - type: Headset
     color: "#2681a5"
     #deleted the Central Committee encryption key by DS14
+
+#DS-14 START
+- type: entity
+  parent: [ ClothingHeadsetAlt, BaseCentcommContraband ] #DS-14
+  id: ClothingHeadsetAltAERT
+  name: CentComm headset
+  description: A headset used by the upper echelons of Nanotrasen.
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyStationMaster
+  - type: Sprite
+    sprite: Clothing/Ears/Headsets/centcom.rsi
+  - type: Clothing
+    sprite: Clothing/Ears/Headsets/centcom.rsi
+  - type: Headset
+    color: "#2681a5"
+#DS-14 END
 
 - type: entity
   parent: [ClothingHeadset, BaseCommandContraband]

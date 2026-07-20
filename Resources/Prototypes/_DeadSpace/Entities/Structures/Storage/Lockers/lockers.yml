@@ -68,6 +68,8 @@
       offset: "-0.065,0"
       map: ["enum.PaperLabelVisuals.Layer"]
   - type: Appearance
+  - type: Paintable
+    group: TaipanLocker
 
 - type: entity
   id: ClosetTaipanSteel
@@ -220,6 +222,8 @@
     stateDoorClosed: med_door
   - type: AccessReader
     access: [["TaipanMedical"]]
+  - type: Paintable
+    group: TaipanLocker
 
 # Medic
 - type: entity
@@ -261,6 +265,8 @@
     stateDoorClosed: chemical_door
   - type: AccessReader
     access: [["TaipanMedical"], ["TaipanResearch"]]
+  - type: Paintable
+    group: TaipanLocker
 
 # Research Director
 - type: entity

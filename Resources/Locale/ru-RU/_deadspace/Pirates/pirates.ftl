@@ -77,6 +77,8 @@ uplink-pirate-weapon-revolver-python-name = Питон .45
 uplink-pirate-weapon-revolver-python-description = Надёжный револьвер, предпочитаемый агентами Синдиката. Данный вариант использует патроны калибра .45 магнум.
 uplink-pirate-weapon-grappling-gun-name = Крюк-пушка
 uplink-pirate-weapon-grappling-gun-description = Отлично подходит для абордажа.
+clothing-backpack-tailbag-syndicate-name = Подсумок на хвост плафеимов
+clothing-backpack-tailbag-syndicate-description = Всё для своих.
 
 name-format-pirate = { $part0 } { $part1 }
 

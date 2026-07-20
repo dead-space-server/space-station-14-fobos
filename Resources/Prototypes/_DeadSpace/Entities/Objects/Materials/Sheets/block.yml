@@ -23,6 +23,15 @@
     sprite: _DeadSpace/Objects/Materials/Blocks/snow.rsi
     heldPrefix: snow
   - type: Appearance
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/snow_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/snow_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/snow_drop.ogg
 
 - type: entity
   parent: BlockSnow

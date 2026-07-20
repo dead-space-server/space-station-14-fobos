@@ -16,11 +16,16 @@
   components:
   - type: Objective
     icon: _DeadSpace/Renegade/actions/submission.png
-  - type: NumberObjective
-    min: 1
-    max: 3
-    title: objective-condition-submission-title
   - type: UnitologySubmissionCondition
+
+- type: entity
+  parent: BaseUnitologyObjective
+  id: UniAssemblyObjective
+  name: Собрать всех порабощённых рядом с пророком
+  components:
+  - type: Objective
+    icon: _DeadSpace/Interface/Actions/obelisk.png
+  - type: UnitologyAssemblyCondition
 
 - type: entity
   parent: BaseUnitologyObjective

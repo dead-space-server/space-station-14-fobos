@@ -1,0 +1,17 @@
+- type: entity
+  parent: ClothingBackpackDuffelCaptain
+  id: ClothingBackpackDuffelCaptainWhite
+  name: белый вещмешок капитана
+  description: Большой белый вещмешок для хранения дополнительных капитанских вещей. Лишь бы не банки с кровью...
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Duffels/captain_white.rsi
+
+- type: entity
+  parent: ClothingBackpackDuffelCaptain
+  id: ClothingBackpackDuffelCaptainBlack
+  name: чёрный вещмешок капитана
+  description: Большой чёрный вещмешок для хранения дополнительных капитанских вещей. Можно засунуть больше оружия.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Duffels/captain_black.rsi

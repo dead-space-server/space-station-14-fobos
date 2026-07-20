@@ -3,7 +3,7 @@ using Robust.Shared.Console;
 
 namespace Content.Server.Administration.Commands
 {
-    [AdminCommand(AdminFlags.Spawn)]
+    [AdminCommand(AdminFlags.VarEdit)]
     public sealed class DeleteComponent : LocalizedEntityCommands
     {
         [Dependency] private readonly IComponentFactory _compFactory = default!;

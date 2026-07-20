@@ -20,3 +20,35 @@
         Heat: 0.90
   - type: ExplosionResistance
     damageCoefficient: 0.95
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+
+- type: entity
+  parent: ClothingOuterArmorCaptainCarapace
+  id: ClothingOuterArmorCaptainCarapaceWhite
+  name: белый панцирь капитана
+  description: Белый бронированный нагрудник, обеспечивающий защиту и повышенный стиль. Блеск.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/OuterClothing/Armor/captain_carapace_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/OuterClothing/Armor/captain_carapace_white.rsi
+
+
+- type: entity
+  parent: ClothingOuterArmorCaptainCarapace
+  id: ClothingOuterArmorCaptainCarapaceBlack
+  name: чёрный панцирь капитана
+  description: Чёрный бонированный нагрудник, обеспечивающий защиту и повышенный стиль. Lorica musculata.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/OuterClothing/Armor/captain_carapace_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/OuterClothing/Armor/captain_carapace_black.rsi

@@ -63,6 +63,21 @@
     knownLanguages:
     - DemonLanguage
   - type: Demon
+  - type: HandheldLight
+    toggleOnInteract: false
+    wattage: 0
+  - type: ItemTogglePointLight
+  - type: ToggleableVisuals
+    spriteLayer: light
+  - type: PointLight
+    enabled: false
+    color: "#ff0000"
+    radius: 5.0
+    energy: 5.0
+    netsync: false
+  - type: Battery
+    maxCharge: 1000
+    startingCharge: 1000
   - type: Damageable
     damageModifierSet: Demon
     damageContainer: BiologicalMetaphysical
@@ -151,7 +166,7 @@
         Blunt: 6
         Piercing: 3
         Heat: 5
-        Structural: 25
+        Structural: 60
   - type: GhostRole
     allowMovement: true
     makeSentient: true
@@ -219,6 +234,7 @@
         Blunt: 3
         Piercing: 1
         Heat: 5.5
+        Structural: 40
   - type: FootstepModifier
     footstepSoundCollection:
       collection: FootstepClownFast
@@ -254,6 +270,16 @@
     thresholds:
       0: Alive
       100: Dead
+  - type: MeleeWeapon
+    altDisarm: false
+    hidden: true
+    angle: 45
+    soundHit:
+        path: /Audio/Effects/demon_attack1.ogg
+    animation: WeaponArcClaw
+    damage:
+      types:
+        Structural: 35
   - type: GhostRole
     allowMovement: true
     makeSentient: true
@@ -318,6 +344,7 @@
         Blunt: 5
         Piercing: 2
         Heat: 4
+        Structural: 40
   #DS14-start
   - type: GhostRoleNotifys
     groupPrototype: DemonJaunt
@@ -369,6 +396,7 @@
       types:
         Slash: 5
         Piercing: 4
+        Structural: 45
   - type: Prying
     speedModifier: 4
   - type: JumpAbility
@@ -418,6 +446,7 @@
         Blunt: 3
         Piercing: 1
         Heat: 5
+        Structural: 35
   - type: NPCUseActionOnTarget
     actionId: ActionDemonTentacle
 
@@ -547,6 +576,7 @@
         Slash: 5
         Blunt: 3
         Piercing: 1
+        Structural: 50
   - type: Devourer
     whitelist:
       components:

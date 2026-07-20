@@ -49,7 +49,7 @@
   minBankBalance: 800
   maxBankBalance: 1200
   wageDepartment: Specific
-  wage: 190
+  wage: 950 # DS14-value
   #end-backmen: currency
   traitsBlacklist:
     - Blindness
@@ -70,13 +70,14 @@
   equipment:
     head: ClothingHeadHatBeretBlueShield
     # back: ClothingBackpackBlueShield
-    eyes: ClothingEyesGlassesSecurity
+    mask: ClothingMaskGasBlueShield
+    eyes: ClothingEyesHudBlueShield
     ears: ClothingHeadsetAltCommand
-    shoes: ClothingShoesBootsJackFilled
+    shoes: ClothingShoesBootsBlueShield
     socks: ClothingUnderwearSocksBlueShieldOfficer
     outerClothing: ClothingOuterArmorBasicBlueShield
     belt: ClothingBeltMilitaryWebbingBlueShieldFilled
-    gloves: ClothingHandsGlovesCombat
+    gloves: ClothingHandsGlovesBlueShield
     id: BlueShieldOfficerPDA
     pocket1: PistolBlueShield
 
@@ -99,6 +100,13 @@
     state: pda-ert
   - type: HealthAnalyzer
     scanDelay: 1
+  - type: ErtTrackerPda
+    allowedDepartments:
+    - SpecialOperationsCorps
+    allowedJobs:
+    - BlueShieldOfficer
+    - CentralCommandBlueShieldOfficer
+    - CentralCommandSpecialOperationsOfficer
 
 - type: entity
   parent: IDCardStandard
@@ -140,9 +148,6 @@
         ents: []
   - type: StorageFill
     contents:
-      - id: Zipties
-        amount: 4
-      - id: ADTtelescopicBaton # ADT
       - id: ERTloadoutBlueShieldPrimary
       - id: HandheldCrewMonitor
   - type: ExplosionResistance

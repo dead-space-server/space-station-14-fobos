@@ -19,6 +19,17 @@
       storagebase: !type:Container
   - type: StaticPrice
     price: 10
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_drop.ogg
+  #DS14-End
 
 - type: entity
   abstract: true

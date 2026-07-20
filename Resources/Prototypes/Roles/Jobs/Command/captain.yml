@@ -1,4 +1,4 @@
-﻿- type: job
+- type: job
   id: Captain
   name: job-name-captain
   description: job-description-captain
@@ -32,10 +32,10 @@
   accessGroups:
   - AllAccess
   #start-backmen: currency
-  minBankBalance: 400
-  maxBankBalance: 600
+  minBankBalance: 1300 # DS14-value
+  maxBankBalance: 1500 # DS14-value
   wageDepartment: Command
-  wage: 200
+  wage: 1000 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddImplantSpecial
@@ -47,17 +47,17 @@
       - type: Skill
         group: Captain
       # DS14-End
-    
+
 
 - type: startingGear
   id: CaptainGear
   equipment:
-    shoes: ClothingShoesBootsLaceup
+    #shoes: ClothingShoesBootsLaceup # DS14: moved to loadout
     eyes: ClothingEyesGlassesCommand
-    gloves: ClothingHandsGlovesCaptain
+    #gloves: ClothingHandsGlovesCaptain # DS14: moved to loadout
     id: CaptainPDA
     ears: ClothingHeadsetAltCommand
-    socks: ClothingUnderwearSocksCaptain
+    #socks: ClothingUnderwearSocksCaptain # DS14: moved to loadout
   storage:
     back:
     - Flash

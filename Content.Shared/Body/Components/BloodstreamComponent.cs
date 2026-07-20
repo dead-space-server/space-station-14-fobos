@@ -104,7 +104,7 @@ public sealed partial class BloodstreamComponent : Component
     /// How much blood needs to be in the temporary solution in order to create a puddle?
     /// </summary>
     [DataField, AutoNetworkedField]
-    public FixedPoint2 BleedPuddleThreshold = 1.0f;
+    public FixedPoint2 BleedPuddleThreshold = 3.0f; // DS14: reduce decorative blood puddle churn.
 
     /// <summary>
     /// A modifier set prototype ID corresponding to how damage should be modified
@@ -142,6 +142,14 @@ public sealed partial class BloodstreamComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public float MaxVolumeModifier = 2f;
+
+    // DS14-start
+    /// <summary>
+    /// Whether medicine and refresh logic may restore or regulate the reference blood reagents.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool AllowBloodLevelModification = true;
+    // DS14-end
 
     /// <summary>
     /// Defines which reagents are considered as 'blood' and how much of it is normal.

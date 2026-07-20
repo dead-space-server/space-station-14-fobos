@@ -47,6 +47,7 @@ internal sealed partial class ChatManager : IChatManager
     [Dependency] private readonly PlayerRateLimitManager _rateLimitManager = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
     [Dependency] private readonly DiscordChatLink _discordLink = default!;
+    [Dependency] private readonly DiscordChatWebhook _discordChatWebhook = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
 
     private ISawmill _sawmill = default!;
@@ -368,6 +369,7 @@ internal sealed partial class ChatManager : IChatManager
         }
 
         _discordLink.SendMessage(message, player.Name, ChatChannel.AdminChat);
+        _discordChatWebhook.SendAdminChatMessage(message, player.Name);
         _adminLogger.Add(LogType.Chat, $"Admin chat from {player:Player}: {message}");
     }
 

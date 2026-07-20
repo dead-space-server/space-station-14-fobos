@@ -1,0 +1,67 @@
+- type: entity
+  categories: [ HideSpawnMenu ]
+  id: GuardianRangedGun
+  name: holoparasite hard-light projector
+  components:
+  - type: RechargeBasicEntityAmmo
+    rechargeCooldown: 0.6
+  - type: BasicEntityAmmoProvider
+    proto: ProjectileGuardianHardlight
+    capacity: 1
+    count: 1
+  - type: Gun
+    soundGunshot:
+      collection: EnergyMiss
+    soundEmpty: null
+    projectileSpeed: 18
+
+- type: entity
+  parent: BulletLaser
+  id: ProjectileGuardianHardlight
+  name: holoparasite hard-light bolt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    impactEffect: BulletImpactEffectDisabler
+    damage:
+      types:
+        Blunt: 18
+    ignoreResistances: true
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles_tg.rsi
+    layers:
+    - state: heavylaser
+      color: "#40a7d7"
+      shader: unshaded
+
+- type: entity
+  categories: [ HideSpawnMenu ]
+  id: GuardianHealingGun
+  name: holoparasite medical projector
+  components:
+  - type: RechargeBasicEntityAmmo
+    rechargeCooldown: 6
+  - type: BasicEntityAmmoProvider
+    proto: ProjectileGuardianHealingBolt
+    capacity: 1
+    count: 1
+  - type: Gun
+    soundGunshot:
+      collection: WeakHit
+    soundEmpty: null
+    projectileSpeed: 12
+
+- type: entity
+  parent: ProjectileHealingBolt
+  id: ProjectileGuardianHealingBolt
+  name: holoparasite healing bolt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      groups:
+        Brute: -35 # Heals approximately 15 HP
+        Burn: -35
+        Airloss: -35
+        Toxin: -35
+    ignoreResistances: true

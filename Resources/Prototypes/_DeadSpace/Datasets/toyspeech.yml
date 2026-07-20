@@ -351,3 +351,88 @@
   values:
     prefix: plushies-walkflis-
     count: 3
+
+- type: localizedDataset
+  id: Plushiei750
+  values:
+    prefix: plushies-i750-
+    count: 4
+
+# IV класс
+- type: localizedDataset
+  id: PlushieColonelSpeech
+  values:
+    prefix: plushies-colone-
+    count: 10
+
+- type: localizedDataset
+  id: PlushieFyrmorEklmnSpeech
+  values:
+    prefix: plushies-eklmn-
+    count: 10
+
+- type: localizedDataset
+  id: PlushieDmitrySpeisovSpeech
+  values:
+    prefix: plushies-speisov-
+    count: 9
+
+- type: localizedDataset
+  id: PlushieAhmetSpeech
+  values:
+    prefix: plushies-ahmet-
+    count: 3
+
+- type: localizedDataset
+  id: PlushieValeniyaSatoSpeech
+  values:
+    prefix: plushies-sato-
+    count: 7
+
+- type: localizedDataset
+  id: PlushieViytSpeech
+  values:
+    prefix: plushies-viyt-
+    count: 10
+
+- type: localizedDataset
+  id: PlushieRiikkaSpeech
+  values:
+    prefix: plushies-riikka-
+    count: 10
+
+- type: localizedDataset
+  id: PlushieAmalizSpeech
+  values:
+    prefix: plushies-amaliz-
+    count: 10
+
+- type: localizedDataset
+  id: PlushieVitaliSpeech
+  values:
+    prefix: plushies-vitali-
+    count: 7
+
+- type: localizedDataset
+  id: PlushieBroneslavSpeech
+  values:
+    prefix: plushies-broneslav-
+    count: 3
+
+- type: localizedDataset
+  id: Plushie0black_cat0Speech
+  values:
+    prefix: plushies-blackcat-
+    count: 6
+
+- type: localizedDataset
+  id: PlushieYukariSpeech
+  values:
+    prefix: plushies-yukari-
+    count: 10
+
+- type: localizedDataset
+  id: PlushieYosugaSpeech
+  values:
+    prefix: plushies-yosuga-
+    count: 6

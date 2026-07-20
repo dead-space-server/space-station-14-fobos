@@ -186,6 +186,14 @@
     stampedColor: "#006600"
 
 - type: stationGoal
+  id: KartHall
+  text: "/Paperwork/StationGoal/KartHall.xml"
+  extraStamps:
+  - stampedName: stamp-component-stamped-name-centcom
+    stampTexture: /Textures/Interface/Stamps/centralcommand_print.png
+    stampedColor: "#006600"
+
+- type: stationGoal
   id: Satellite
   text: "/Paperwork/StationGoal/Satellite.xml"
   extraStamps:

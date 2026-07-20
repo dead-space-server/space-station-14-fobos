@@ -102,8 +102,8 @@ public sealed class ReflectSystem : EntitySystem
     {
         if (!TryComp<ReflectiveComponent>(projectile, out var reflective) ||
             (reflector.Comp.Reflects & reflective.Reflective) == 0x0 ||
-            !_toggle.IsActivated(reflector.Owner) ||
-            !_random.Prob(reflector.Comp.ReflectProb) ||
+            !TryGetReflectProb(reflector, out var prob) || // DS14
+            !_random.Prob(prob) || // DS14
             !TryComp<PhysicsComponent>(projectile, out var physics))
         {
             return false;
@@ -150,8 +150,8 @@ public sealed class ReflectSystem : EntitySystem
         [NotNullWhen(true)] out Vector2? newDirection)
     {
         if ((reflector.Comp.Reflects & hitscanReflectType) == 0x0 ||
-            !_toggle.IsActivated(reflector.Owner) ||
-            !_random.Prob(reflector.Comp.ReflectProb))
+            !TryGetReflectProb(reflector, out var prob) || // DS14
+            !_random.Prob(prob)) // DS14
         {
             newDirection = null;
             return false;
@@ -169,6 +169,27 @@ public sealed class ReflectSystem : EntitySystem
 
         return true;
     }
+
+    // DS14-start
+    private bool TryGetReflectProb(Entity<ReflectComponent> reflector, out float prob)
+    {
+        if (_toggle.IsActivated(reflector.Owner))
+        {
+            prob = reflector.Comp.ReflectProb;
+            return true;
+        }
+
+        if (reflector.Comp.InRightPlace &&
+            reflector.Comp.ReflectProbNotToggled > 0)
+        {
+            prob = reflector.Comp.ReflectProbNotToggled;
+            return true;
+        }
+
+        prob = 0;
+        return false;
+    }
+    // DS14-end
 
     private void PlayAudioAndPopup(ReflectComponent reflect, EntityUid user)
     {
@@ -209,9 +230,14 @@ public sealed class ReflectSystem : EntitySystem
     {
         // This isn't examine verb or something just because it looks too much bad.
         // Trust me, universal verb for the potential weapons, armor and walls looks awful.
-        var value = MathF.Round(ent.Comp.ReflectProb * 100, 1);
+        // DS14-start
+        if (!TryGetReflectProb(ent, out var prob))
+            return;
 
-        if (!_toggle.IsActivated(ent.Owner) || value == 0 || ent.Comp.Reflects == ReflectType.None)
+        var value = MathF.Round(prob * 100, 1);
+        // DS14-end
+
+        if (value == 0 || ent.Comp.Reflects == ReflectType.None) // DS14
             return;
 
         var compTypes = ent.Comp.Reflects.ToString().Split(", ");

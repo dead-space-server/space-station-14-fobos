@@ -93,6 +93,7 @@
   parent: SyndicateOperativeGearFull
   equipment:
     id: SyndiCommanderPDA
+    pocket2: BaseUplinkRadio40TCCommander # DS14
     neck: SyndicateWhistle
     outerClothing: ClothingOuterHardsuitSyndieCommander
   inhand:
@@ -150,5 +151,5 @@
     - WeaponPistolViper
     - PinpointerSyndicateNuclearBomb
     - PinpointerSyndicateNuclear
-    - PinpointerUniversal 
+    - PinpointerUniversal
     - DeathAcidifierImplanter #DS14-end

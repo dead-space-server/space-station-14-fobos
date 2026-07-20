@@ -270,9 +270,19 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
             result.AppendLine(summary);
         }
     }
-    // DS14-end
 
     public EntityUid? GetRandomObjective(EntityUid mindId, MindComponent mind, ProtoId<WeightedRandomPrototype> objectiveGroupProto, float maxDifficulty)
+    {
+        return GetRandomObjective(mindId, mind, objectiveGroupProto, maxDifficulty, null);
+    }
+
+    public EntityUid? GetRandomObjective(
+        EntityUid mindId,
+        MindComponent mind,
+        ProtoId<WeightedRandomPrototype> objectiveGroupProto,
+        float maxDifficulty,
+        IReadOnlySet<string>? excludedPrototypes)
+    // DS14-end
     {
         if (!_prototypeManager.TryIndex(objectiveGroupProto, out var groupsProto))
         {
@@ -294,6 +304,11 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
             var objectives = group.Weights.ShallowClone();
             while (_random.TryPickAndTake(objectives, out var objectiveProto))
             {
+                // DS14-start
+                if (excludedPrototypes != null && excludedPrototypes.Contains(objectiveProto))
+                    continue;
+                // DS14-end
+
                 if (!_prototypeManager.Index(objectiveProto).TryGetComponent<ObjectiveComponent>(out var objectiveComp, EntityManager.ComponentFactory))
                     continue;
 
@@ -308,7 +323,7 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
     /// <summary>
     /// Returns whether a target is considered 'in custody' (cuffed on the shuttle).
     /// </summary>
-    private bool IsInCustody(EntityUid mindId, MindComponent? mind = null)
+    public bool IsInCustody(EntityUid mindId, MindComponent? mind = null) // DS14. did public
     {
         if (!Resolve(mindId, ref mind))
             return false;

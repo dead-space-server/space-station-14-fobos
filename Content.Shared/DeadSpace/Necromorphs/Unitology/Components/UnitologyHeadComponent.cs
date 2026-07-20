@@ -31,6 +31,12 @@ public sealed partial class UnitologyHeadComponent : Component
     public EntityUid? ActionOrderToSlaveEntity;
 
     [DataField]
+    public EntProtoId ActionSummonObelisk = "ActionSummonUnitologyObelisk";
+
+    [DataField]
+    public EntityUid? ActionSummonObeliskEntity;
+
+    [DataField]
     public float VerbDuration = 10f;
 
     [DataField]

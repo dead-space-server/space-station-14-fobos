@@ -20,6 +20,17 @@
     size: Normal
   - type: StaticPrice
     price: 200
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/telescopic_baton_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/telescopic_baton_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/telescopic_baton_drop.ogg
+  #DS14-End
 
 #These are for instruments that are larger, can't be picked up, or have collision
 - type: entity

@@ -9,7 +9,7 @@
     capacity: 45
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/LightRifleEx.rsi
-    scale: 1.1, 1.1 # DS-14
+    scale: 1.1, 1.1
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -54,6 +54,15 @@
     steps: 2
     zeroVisible: false
   - type: Appearance
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_drop.ogg
 
 - type: entity
   parent: MagazineLightRifleAMD

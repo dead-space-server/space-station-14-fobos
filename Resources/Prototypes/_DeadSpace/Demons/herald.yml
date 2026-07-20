@@ -38,7 +38,6 @@
     drawFov: false
     visMask:
       - Normal
-      - Ghost
   - type: ContentEye
     maxZoom: 1.2, 1.2
   - type: DoAfter
@@ -51,6 +50,12 @@
         type: StoreBoundUserInterface
   - type: Visibility
     layer: 2
+  - type: NightVision
+    isNightVision: true
+    animation: true
+    transitionSpeed: 100
+    color: "#80008011"
+    actionToggleNightVision: ActionToggleNightVision
   - type: Speech
     speechVerb: Ghost
   - type: HeraldGhost
@@ -72,6 +77,6 @@
   - type: TTS
     voice: Volibear
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DemonBoss
   #DS14-end

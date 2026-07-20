@@ -22,10 +22,10 @@
   - External
   - Cryogenics
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 250 # DS14-value
+  maxBankBalance: 350 # DS14-value
   wageDepartment: Security
-  wage: 65
+  wage: 200 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddImplantSpecial
@@ -41,14 +41,12 @@
   id: SecurityPilotGear
   equipment:
     eyes: ClothingEyesGlassesSecurity
-    head: ClothingHeadHatBeretSecurity
-    outerClothing: ClothingOuterWinterSec
     id: SecurityPilotPDA
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer
   storage:
     back:
     - Flash
-    - ERTloadoutSecuritySecondary # DS14
+    - ERTloadoutSecuritySecondary
 
 - type: chameleonOutfit
   id: SecurityPilotChameleonOutfit
@@ -57,4 +55,4 @@
     eyes: ClothingEyesGlassesSecurity
     head: ClothingHeadHatBeretSecurity
     outerClothing: ClothingOuterWinterSec
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer

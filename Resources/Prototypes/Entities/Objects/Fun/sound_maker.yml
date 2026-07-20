@@ -48,6 +48,14 @@
     qualities:
     - Honking
     useSound: *SoundBikeHorn
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -89,6 +97,14 @@
     damage:
       types:
         Blunt: 5
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BikeHorn
@@ -192,8 +208,30 @@
   - type: SpawnOnTrigger
     proto: EffectGravityPulse
     predicted: true
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  #DS14-End
 
 ## Whistles
+
+#DS14-start
+- type: entity
+  parent: BaseAction
+  id: WhistleAction
+  name: посвистеть
+  description: Посвистеть в вашу свистелку.
+  components:
+  - type: Action
+    useDelay: 3
+  - type: InstantAction
+    event: !type:TriggerActionEvent
+  - type: TriggerOnAction
+#DS14-end
 
 - type: entity
   abstract: true
@@ -211,6 +249,21 @@
     sprite: Objects/Fun/whistles.rsi
     quickEquip: false
     slots: neck
+  #DS14-start
+  - type: ActionGrant
+    actions: 
+    - WhistleAction
+  - type: ItemActionGrant
+    actions: 
+    - WhistleAction
+    activeIfWorn: true
+  - type: UseDelayOnTrigger
+  - type: EmitSoundOnTrigger
+    sound:
+      collection: BaseWhistle
+  - type: WhistleOnTrigger
+    targetUser: true
+  #DS14-end
   - type: UseDelay
     delay: 3
   - type: EmitSoundOnUse
@@ -218,6 +271,17 @@
       collection: BaseWhistle
   - type: Whistle
     distance: 3
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseWhistle
@@ -251,6 +315,11 @@
   - type: EmitSoundOnUse
     sound:
       collection: TrenchWhistle
+  #DS4-start
+  - type: EmitSoundOnTrigger
+    sound:
+      collection: TrenchWhistle
+  #DS4-end
   - type: Whistle
     distance: 15 # Let your enemies hear the sound of death approaching
 
@@ -279,6 +348,14 @@
       Plastic: 25
   - type: StaticPrice
     price: 5
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseRubberToy
@@ -367,6 +444,17 @@
       params:
         volume: -9
         maxDistance: 3
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -394,6 +482,14 @@
     tags:
     - ClownRecorder
     - Payload
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -457,6 +553,14 @@
         density: 30
         mask:
         - ItemMask
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glove_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glove_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -491,3 +595,11 @@
     hidden: true
   - type: UseDelay
     delay: 2.0
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glove_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glove_drop.ogg
+  #DS14-End

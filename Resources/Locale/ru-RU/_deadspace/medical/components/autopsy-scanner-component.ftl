@@ -1,4 +1,4 @@
-autopsy-scanner-window-no-patient-data-text = Нет данных о пациенте.
+autopsy-scanner-window-no-patient-data-text = Данные отсутствуют или загружаются...
 autopsy-scanner-window-entity-unknown-text = неизвестно
 autopsy-scanner-window-entity-health-text = Пациент { $entityName }:
 autopsy-scanner-window-entity-blood-level-text = Время прошедшее после смерти: { $timeOfDeath }

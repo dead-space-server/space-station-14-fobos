@@ -2,6 +2,7 @@ using System.Linq;
 using Content.Server.Actions;
 using Content.Server.Administration.Logs;
 using Content.Server.Stack;
+using Content.Server.DeadSpace.Administration;
 using Content.Server.Store.Components;
 using Content.Shared.Actions;
 using Content.Shared.Database;
@@ -199,6 +200,11 @@ public sealed partial class StoreSystem
 
             HandleRefundComp(uid, component, product);
 
+            // DS14-start
+            if (component.AccountOwner is { } antagMind)
+                EnsureComp<AntagPurchasedEntityComponent>(product).MindId = antagMind;
+            // DS14-end
+
             var xForm = Transform(product);
 
             if (xForm.ChildCount > 0)
@@ -207,6 +213,10 @@ public sealed partial class StoreSystem
                 while (childEnumerator.MoveNext(out var child))
                 {
                     component.BoughtEntities.Add(child);
+                    // DS14-start
+                    if (component.AccountOwner is { } childAntagMind)
+                        EnsureComp<AntagPurchasedEntityComponent>(child).MindId = childAntagMind;
+                    // DS14-end
                 }
             }
         }

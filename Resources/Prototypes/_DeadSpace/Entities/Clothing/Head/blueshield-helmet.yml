@@ -17,3 +17,14 @@
     - Snout
     - HeadTop
     - HeadSide
+
+- type: entity
+  parent: ClothingHeadHelmetSwat
+  id: ClothingHeadHelmetBlueShield
+  name: шлем Офицера "Синий Щит"
+  description: Очень прочный шлем, широко используемый военизированными организациями. На его верхней части выгравирован логотип Корпуса "Синий Щит".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Helmets/blueshieldhelmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Helmets/blueshieldhelmet.rsi

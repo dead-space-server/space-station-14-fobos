@@ -28,6 +28,23 @@
       department: Security
       time: 10h
 
+# DS14-start
+- type: antag
+  id: TraitorUltra
+  name: roles-antag-syndicate-agent-ultra-name
+  antagonist: true
+  setPreference: false
+  objective: roles-antag-syndicate-agent-ultra-objective
+  guides: [ Traitors ]
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 10h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 10h
+# DS14-end
+
 # Syndicate Operative Outfit - Monkey
 - type: startingGear
   id: SyndicateOperativeGearMonkey

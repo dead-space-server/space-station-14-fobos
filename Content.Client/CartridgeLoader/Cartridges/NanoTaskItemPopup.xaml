@@ -1,25 +1,27 @@
 <DefaultWindow xmlns="https://spacestation14.io"
                Title="{Loc nano-task-ui-item-title}"
                MinSize="300 300">
-    <PanelContainer StyleClasses="AngleRect">
+    <PanelContainer StyleClasses="DS14MenuShell">
         <BoxContainer Orientation="Vertical" Margin="4">
             <!-- Task Description Input -->
             <BoxContainer Orientation="Vertical" Margin="0 4">
                 <Label Text="{Loc nano-task-ui-description-label}"
-                       StyleClasses="LabelHeading" />
-                <PanelContainer StyleClasses="ButtonSquare">
+                       StyleClasses="DS14MenuProfileSection" />
+                <PanelContainer StyleClasses="DS14MenuInset">
                     <LineEdit Name="DescriptionInput"
-                              PlaceHolder="{Loc nano-task-ui-description-placeholder}" />
+                              PlaceHolder="{Loc nano-task-ui-description-placeholder}"
+                              StyleClasses="DS14MenuInput" />
                 </PanelContainer>
             </BoxContainer>
 
             <!-- Task Requester Input -->
             <BoxContainer Orientation="Vertical" Margin="0 4">
                 <Label Text="{Loc nano-task-ui-requester-label}"
-                       StyleClasses="LabelHeading" />
-                <PanelContainer StyleClasses="ButtonSquare">
+                       StyleClasses="DS14MenuProfileSection" />
+                <PanelContainer StyleClasses="DS14MenuInset">
                     <LineEdit Name="RequesterInput"
-                              PlaceHolder="{Loc nano-task-ui-requester-placeholder}" />
+                              PlaceHolder="{Loc nano-task-ui-requester-placeholder}"
+                              StyleClasses="DS14MenuInput" />
                 </PanelContainer>
             </BoxContainer>
 
@@ -29,15 +31,15 @@
                           Margin="0 8 0 0">
                 <Button Name="LowButton"
                         Text="{Loc nano-task-ui-priority-low}"
-                        StyleClasses="OpenRight"
+                        StyleClasses="DS14MenuProfileControl"
                         MinSize="60 0" />
                 <Button Name="MediumButton"
                         Text="{Loc nano-task-ui-priority-medium}"
-                        StyleClasses="ButtonSquare"
+                        StyleClasses="DS14MenuProfileControl"
                         MinSize="60 0" />
                 <Button Name="HighButton"
                         Text="{Loc nano-task-ui-priority-high}"
-                        StyleClasses="OpenLeft"
+                        StyleClasses="DS14MenuProfileControl"
                         MinSize="60 0" />
             </BoxContainer>
 
@@ -47,19 +49,19 @@
                           Margin="0 8 0 0">
                 <Button Name="CancelButton"
                         Text="{Loc nano-task-ui-cancel}"
-                        StyleClasses="OpenRight"
+                        StyleClasses="DS14MenuProfileControl"
                         MinSize="60 0" />
                 <Button Name="DeleteButton"
                         Text="{Loc nano-task-ui-delete}"
-                        StyleClasses="ButtonSquare"
+                        StyleClasses="DS14MenuProfileControl negative"
                         MinSize="60 0" />
                 <Button Name="PrintButton"
                         Text="{Loc nano-task-ui-print}"
-                        StyleClasses="ButtonSquare"
+                        StyleClasses="DS14MenuProfileControl"
                         MinSize="60 0" />
                 <Button Name="SaveButton"
                         Text="{Loc nano-task-ui-save}"
-                        StyleClasses="OpenLeft"
+                        StyleClasses="DS14MenuAction"
                         MinSize="60 0" />
             </BoxContainer>
         </BoxContainer>

@@ -152,6 +152,10 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+        # DS14-start
+      - type: CustomNameOnSpawn
+        namePrefix: "Командир"
+      # DS14-end
       - type: Skill
         group: ALL
       - type: NukeOperative
@@ -172,6 +176,10 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+        # DS14-start
+      - type: CustomNameOnSpawn
+        namePrefix: "Агент"
+      # DS14-end
       - type: NukeOperative
       - type: Skill
         group: ALL
@@ -194,6 +202,10 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+        # DS14-start
+      - type: CustomNameOnSpawn
+        namePrefix: "Оператор"
+      # DS14-end
       - type: NukeOperative
       - type: Skill
         group: ALL
@@ -252,6 +264,42 @@
       mindRoles:
       - MindRoleTraitor
       sponsorsPriority: true
+
+# DS14-start
+- type: entity
+  parent: BaseGameRule
+  id: TraitorUltra
+  components:
+  - type: TraitorRule
+    startingBalance: 30
+    giveUplink: false
+  - type: TraitorUltraRule
+  - type: AntagSelection
+    agentName: traitor-ultra-round-end-agent-name
+    selectionTime: IntraPlayerSpawn
+    assignmentDelay:
+      min: 240
+      max: 420
+    definitions:
+    - prefRoles: [ Traitor ]
+      max: 15
+      playerRatio: 5
+      components:
+      - type: Skill
+        group: ALL
+      blacklist:
+        components:
+        - AntagImmune
+      lateJoinAdditional: false
+      mindRoles:
+      - MindRoleTraitor
+      sponsorsPriority: true
+      sponsorsPriorityRatio: 0.3
+  - type: GameRule
+    minPlayers: 20
+  - type: DynamicRuleCost
+    cost: 150
+# DS14-end
 
 - type: entity
   id: TraitorReinforcement
@@ -425,14 +473,14 @@
   - type: GameRule
     minPlayers: 25 # DS14
     delay:
-      min: 600
-      max: 900
+      min: 60 # DS14
+      max: 90 # DS14
   - type: ZombieRule
   - type: AntagSelection
     selectionTime: IntraPlayerSpawn
     definitions:
     - prefRoles: [ InitialInfected ]
-      max: 6
+      max: 8 # DS14
       playerRatio: 10
       blacklist:
         components:
@@ -442,8 +490,7 @@
         text: zombie-patientzero-role-greeting
         color: Plum
         sound: "/Audio/Ambience/Antag/zombie_start.ogg"
-      components:
-      - type: PendingZombie
+      components: # DS14
       - type: ZombifyOnDeath
       - type: IncurableZombie
       - type: InitialInfected

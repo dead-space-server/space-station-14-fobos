@@ -22,6 +22,8 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
+using Robust.Shared.Physics.Components;
+using Robust.Shared.Physics.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
@@ -43,6 +45,7 @@ public abstract partial class SharedPuddleSystem : EntitySystem
     [Dependency] private readonly StepTriggerSystem _stepTrigger = default!;
     [Dependency] private readonly TileFrictionController _tile = default!;
     [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
 
     private ProtoId<ReagentPrototype>[] _standoutReagents = [];
 
@@ -130,6 +133,7 @@ public abstract partial class SharedPuddleSystem : EntitySystem
         UpdateSlow(entity, args.Solution);
         UpdateEvaporation(entity, args.Solution);
         UpdateAppearance((entity, entity.Comp));
+        UpdateDecorativePuddlePhysics((entity, entity.Comp), args.Solution);
     }
 
     private void OnGetFootstepSound(Entity<PuddleComponent> entity, ref GetFootstepSoundEvent args)
@@ -199,7 +203,15 @@ public abstract partial class SharedPuddleSystem : EntitySystem
                 ref puddle.Solution,
                 out var solution))
         {
-            volume = solution.Volume / puddle.OverflowVolume;
+            // DS14-start: keep decorative puddles visually full without forcing them to physically spread.
+            var visualOverflowVolume = IsDecorativePuddleSolution(solution)
+                ? puddle.VisualOverflowVolume
+                : puddle.OverflowVolume;
+            if (visualOverflowVolume <= FixedPoint2.Zero)
+                visualOverflowVolume = FixedPoint2.New(1);
+
+            volume = FixedPoint2.Clamp(solution.Volume / visualOverflowVolume, FixedPoint2.Zero, FixedPoint2.New(1));
+            // DS14-end
 
             // Make blood stand out more
             // Kinda EH
@@ -224,6 +236,33 @@ public abstract partial class SharedPuddleSystem : EntitySystem
         _appearance.SetData(ent, PuddleVisuals.CurrentVolume, volume.Float(), appearance);
         _appearance.SetData(ent, PuddleVisuals.SolutionColor, color, appearance);
     }
+
+    // DS14-start: reduce physics load from decorative puddles.
+    protected bool IsDecorativePuddleSolution(Solution solution)
+    {
+        if (solution.Volume <= FixedPoint2.Zero || solution.Contents.Count == 0)
+            return false;
+
+        foreach (var (reagent, _) in solution.Contents)
+        {
+            if (!_prototypeManager.TryIndex(reagent.Prototype, out ReagentPrototype? prototype) ||
+                !prototype.DecorativePuddle)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void UpdateDecorativePuddlePhysics(Entity<PuddleComponent> entity, Solution solution)
+    {
+        if (!_net.IsServer || !TryComp<PhysicsComponent>(entity, out var physics))
+            return;
+
+        _physics.SetCanCollide(entity, !IsDecorativePuddleSolution(solution), body: physics);
+    }
+    // DS14-end
 
     private void UpdateSlip(Entity<PuddleComponent> entity, Solution solution)
     {

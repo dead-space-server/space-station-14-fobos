@@ -163,8 +163,30 @@
       - PosterLegitOppenhopper
       - PosterLegitTyrone
       - PosterLegitHelio
-      - PosterMeow # DS14
-      - PosterABSK # DS14
-      - PosterDiesLiberatis # DS14
+      # DS14-start
+      - PosterMeow
+      - PosterABSK
+      - PosterDiesLiberatis
+      - PosterOPZ
+      - PosterOPZVoice
+      - PosterOPZColonial
+      - PosterOPZGalactic
+      - PosterSNK
+      - PosterUSSP
+      - PosterEmpire
+      - PosterSECArest
+      - PosterSECGoodCop
+      - PosterSECKz
+      - PosterSECPropaganda1
+      - PosterSECPropaganda2
+      - PosterSECSpace
+      - PosterScienceAnomalyReport
+      - PosterClownFun
+      - PosterMimeQuiet
+      - PosterHydrpGuide
+      - PosterEngineeringHelmet
+      - PosterEngineeringAME
+      - PosterMultitoolGuide
+      # DS14-end
       - PosterLegitBotanyFear
     chance: 1

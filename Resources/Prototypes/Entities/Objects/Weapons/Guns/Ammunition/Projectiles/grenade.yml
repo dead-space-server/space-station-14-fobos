@@ -59,3 +59,17 @@
         Piercing: 5
   - type: TimedDespawn
     lifetime: 0.25
+
+- type: entity
+  parent: BaseBullet
+  id: PelletClusterRubberLethal
+  categories: [ HideSpawnMenu ]
+  name: pellet (ball, rubber)
+  components:
+  - type: Projectile
+    deleteOnCollide: false
+    damage:
+      types:
+        Piercing: 5
+  - type: TimedDespawn
+    lifetime: 0.25

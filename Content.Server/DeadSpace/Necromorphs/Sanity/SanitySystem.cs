@@ -20,6 +20,9 @@ using Content.Shared.Jittering;
 using Content.Server.Speech.EntitySystems;
 using Robust.Shared.Player;
 using System.Linq;
+using Content.Shared.DeadSpace.Necromorphs.Unitology.Components;
+using Robust.Shared.Timing;
+using Robust.Shared.Random;
 
 namespace Content.Server.DeadSpace.Necromorphs.Sanity
 {
@@ -36,12 +39,13 @@ namespace Content.Server.DeadSpace.Necromorphs.Sanity
         [Dependency] private readonly SharedJitteringSystem _sharedJittering = default!;
         [Dependency] private readonly SlurredSystem _slurred = default!;
         [Dependency] private readonly ISharedPlayerManager _player = default!;
+        [Dependency] private readonly IGameTiming _time = default!;
+        [Dependency] private readonly IRobustRandom _random = default!;
 
-        private const string HighSanityMessage = "Вы чувствуете головную боль";
-        private const string MediumSanityMessage = "У вас болит голова, кости будто ломаются на части";
-        private const string LowSanityMessage = "Вы теряете рассудок, вам совсем плохо!";
-        private const string LostSanityMessage = "Вы теряете сознание.";
-
+        // private const string HighSanityMessage = "Вы чувствуете головную боль";
+        // private const string MediumSanityMessage = "У вас болит голова, кости будто ломаются на части";
+        // private const string LowSanityMessage = "Вы теряете рассудок, вам совсем плохо!";
+        private const string LostSanityMessage = "Вы теряете сознание. Власть над вашим телом вам не принадлежит.";
         public static readonly ProtoId<StatusEffectPrototype> SlowedDownKey = "SlowedDown";
         public static readonly ProtoId<NpcFactionPrototype> SimpleHostileFaction = "SimpleHostile";
         public static readonly ProtoId<HTNCompoundPrototype> SimpleHostileCompound = "SimpleHostileCompound";
@@ -54,7 +58,31 @@ namespace Content.Server.DeadSpace.Necromorphs.Sanity
             SubscribeLocalEvent<SanityComponent, CheckCrazyMobEvent>(CheckCrazyMob);
             SubscribeLocalEvent<SanityComponent, ComponentShutdown>(OnSanityShutdown);
         }
+        public override void Update(float frameTime)
+        {
+            base.Update(frameTime);
 
+            var query = EntityQueryEnumerator<SanityComponent>();
+            while (query.MoveNext(out var uid, out var comp))
+            {
+                if (comp.NextCheckCrazyMob != TimeSpan.Zero && comp.NextCheckCrazyMob <= _time.CurTime)
+                {
+                    if (comp.SanityLevel <= 0)
+                        Crazy(uid, comp);
+                    else
+                        comp.NextCheckCrazyMob = TimeSpan.Zero;
+                }
+
+                if (comp.NextCheckPopup == TimeSpan.Zero)
+                    comp.NextCheckPopup = _time.CurTime + TimeSpan.FromSeconds(10);
+
+                if (comp.NextCheckPopup > _time.CurTime) continue;
+                if (_random.Prob(0.5f) && comp.SanityLevel < 60f)
+                    _popup.PopupEntity(_random.Pick(comp.LowSanityMessages), uid, uid, PopupType.LargeCaution);
+
+                comp.NextCheckPopup = _time.CurTime + TimeSpan.FromSeconds(10);
+            }
+        }
         private void OnSanityShutdown(EntityUid uid, SanityComponent comp, ComponentShutdown args)
         {
             if (!TryComp<GhostComponent>(comp.Ghost, out _))
@@ -73,26 +101,26 @@ namespace Content.Server.DeadSpace.Necromorphs.Sanity
             if (comp.SanityLevel >= comp.MaxSanityLevel)
                 return;
 
-            float highSanityThreshold = comp.MaxSanityLevel * 0.66f;   // Верхние 33%
-            float mediumSanityThreshold = comp.MaxSanityLevel * 0.33f; // Средние 33%
-            float lowSanityThreshold = 0;                              // Нижние 33%
+            var highSanityThreshold = comp.MaxSanityLevel * 0.66f;   // Верхние 33%
+            var mediumSanityThreshold = comp.MaxSanityLevel * 0.33f; // Средние 33%
+            var lowSanityThreshold = (float)0;                              // Нижние 33%
 
             switch (comp.SanityLevel)
             {
                 case float sanityLevel when sanityLevel > highSanityThreshold:
-                    _popup.PopupEntity(HighSanityMessage, uid, uid);
+                    // _popup.PopupEntity(HighSanityMessage, uid, uid);
                     HighSanity(uid, comp);
                     break;
                 case float sanityLevel when sanityLevel <= highSanityThreshold && sanityLevel > mediumSanityThreshold:
-                    _popup.PopupEntity(MediumSanityMessage, uid, uid);
+                    // _popup.PopupEntity(MediumSanityMessage, uid, uid);
                     MediumSanity(uid, comp);
                     break;
                 case float sanityLevel when sanityLevel <= mediumSanityThreshold && sanityLevel > lowSanityThreshold:
-                    _popup.PopupEntity(LowSanityMessage, uid, uid);
+                    // _popup.PopupEntity(LowSanityMessage, uid, uid);
                     LowSanity(uid, comp);
                     break;
                 case float sanityLevel when sanityLevel <= 0:
-                    _popup.PopupEntity(LostSanityMessage, uid, uid);
+                    // _popup.PopupEntity(LostSanityMessage, uid, uid);
                     break;
                 default:
                     break;
@@ -125,6 +153,7 @@ namespace Content.Server.DeadSpace.Necromorphs.Sanity
             }
             else
             {
+                comp.NextCheckCrazyMob = TimeSpan.Zero;
                 UnCrazy(uid, comp);
             }
         }
@@ -133,6 +162,19 @@ namespace Content.Server.DeadSpace.Necromorphs.Sanity
         {
             if (comp.IsCrazy)
                 return;
+
+            if (comp.NextCheckCrazyMob == TimeSpan.Zero)
+            {
+                _popup.PopupEntity(LostSanityMessage, uid, uid);
+                comp.NextCheckCrazyMob = _time.CurTime + TimeSpan.FromSeconds(30);
+                return;
+            }
+
+            if (comp.NextCheckCrazyMob > _time.CurTime)
+                return;
+
+            EnsureComp<UnitologyEnslavedComponent>(uid);
+            comp.NextCheckCrazyMob = TimeSpan.Zero;
 
             if (TryComp<NpcFactionMemberComponent>(uid, out var factionComp))
                 comp.OldFaction = factionComp.Factions.FirstOrDefault();
@@ -161,7 +203,7 @@ namespace Content.Server.DeadSpace.Necromorphs.Sanity
                 var entity = Spawn(GameTicker.ObserverPrototypeName, position);
                 EnsureComp<MindContainerComponent>(entity);
                 var ghostComponent = Comp<GhostComponent>(entity);
-                _ghosts.SetCanReturnToBody(ghostComponent, false);
+                _ghosts.SetCanReturnToBody((entity, ghostComponent), false);
 
                 _mindSystem.Visit(mindId, entity, mind);
                 comp.Ghost = entity;
@@ -206,6 +248,8 @@ namespace Content.Server.DeadSpace.Necromorphs.Sanity
 
             if (_player.TryGetSessionById(mind.UserId, out var session))
                 _chatMan.DispatchServerMessage(session, Loc.GetString("Вы можете вернуться в своё тело."));
+
+            // RemComp<UnitologyEnslavedComponent>(uid); // если нужно раскомментировать
 
             comp.IsCrazy = false;
         }

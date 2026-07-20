@@ -16880,17 +16880,17 @@ entities:
           id: docking33846
           localAnchorB: 4,2.5
           localAnchorA: -75,4.5
-          damping: 492.979
-          stiffness: 4424.9697
+          damping: 0
+          stiffness: 0
         docking169116: !type:WeldJoint
           bodyB: 42599
           bodyA: 2
           id: docking169116
           localAnchorB: 0.49999997,-8
           localAnchorA: 31.5,72
-          referenceAngle: 12.566371
-          damping: 1015.5064
-          stiffness: 9115.164
+          referenceAngle: 0
+          damping: 0
+          stiffness: 0
     - type: NavMap
     - type: ImplicitRoof
     - type: TileHistory
@@ -17137,8 +17137,8 @@ entities:
           id: docking33846
           localAnchorB: 4,2.5
           localAnchorA: -75,4.5
-          damping: 492.9181
-          stiffness: 4424.4224
+          damping: 0
+          stiffness: 0
     - type: ImplicitRoof
     - type: TileHistory
       chunkHistory: {}
@@ -21994,7 +21994,7 @@ entities:
     - type: MetaData
       name: NT-Raven-GE 12
     - type: Transform
-      rot: 12.566370614359172 rad
+      rot: 0 rad
       pos: 31.360065,79.4987
       parent: 1
     - type: MapGrid
@@ -22257,9 +22257,9 @@ entities:
           id: docking169116
           localAnchorB: 0.49999997,-8
           localAnchorA: 31.5,72
-          referenceAngle: 12.566371
-          damping: 1015.4516
-          stiffness: 9114.673
+          referenceAngle: 0
+          damping: 0
+          stiffness: 0
     - type: TileHistory
       chunkHistory: {}
     - type: ExplosionAirtightGrid
@@ -185354,7 +185354,7 @@ entities:
   - uid: 17
     components:
     - type: MetaData
-      desc: Шкаф, содержащий 3 инъекции лексорина. Слава Nanotrasen™!
+      desc: Шкаф, содержащий 3 инъекции лексорина. Слава NanoTrasen™!
       name: настенный шкаф со смертельной инъекцией
     - type: Transform
       rot: -1.5707963267948966 rad

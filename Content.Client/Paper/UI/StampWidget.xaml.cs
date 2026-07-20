@@ -6,7 +6,7 @@ using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
-using System.Text; // DS14
+using System.Text;
 
 namespace Content.Client.Paper.UI;
 
@@ -101,14 +101,18 @@ public sealed partial class StampWidget : PanelContainer
     {
         set
         {
-            ClearStampVisuals(); // DS14
-            Orientation = value.StampRotation; // DS14
+            // DS14-start
+            ClearStampVisuals();
+            Orientation = value.StampRotation;
+            // DS14-end
 
             if (!string.IsNullOrEmpty(value.StampTexture))
             {
                 _stampTexture = _resCache.GetResource<TextureResource>(value.StampTexture);
-                _stampScale = GetPrototypeStampScale(value.StampScale); // DS14
-                PanelOverride = null; // DS14
+                // DS14-start
+                _stampScale = GetPrototypeStampScale(value.StampScale);
+                PanelOverride = null;
+                // DS14-end
                 StampedByLabel.Visible = false;
             }
             // DS14-start

@@ -6,7 +6,7 @@
     back: ClothingBSAABackpack
     mask: ClothingMaskBSAA
     eyes: ClothingEyesBSAA
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     neck: BSAALeaderShoulder
     gloves: ClothingHandsGlovesBSAA
     outerClothing: BSAALeaderHardSuit
@@ -17,8 +17,9 @@
     pocket2: DoubleEmergencyOxygenTankFilled
   storage:
     back:
-    - BSAACombatKitFilled
+    - MedkitCombatFilled
     - InjectorCaseStimFilled
+    - InjectorCaseERTFilled
     - BSAAloadout
     - DoorRemoteCustom
     - PinpointerNecroobelisk
@@ -37,7 +38,7 @@
     back: ClothingBSAABackpack
     mask: ClothingMaskBSAA
     eyes: ClothingEyesBSAA
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     gloves: ClothingHandsGlovesBSAA
     outerClothing: BSAAFighterHardSuit
     shoes: ClothingShoesBootsMagBSAA
@@ -46,8 +47,9 @@
     pocket1: DoubleEmergencyOxygenTankFilled
   storage:
     back:
-    - BSAACombatKitFilled
+    - MedkitCombatFilled
     - InjectorCaseStimFilled
+    - InjectorCaseERTFilled
     - BSAAloadout
     - KukriKnife
     - PinpointerNecroobelisk
@@ -65,18 +67,18 @@
     back: ClothingBSAABackpack
     mask: ClothingMaskBSAA
     eyes: ClothingEyesBSAA
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     gloves: ClothingHandsGlovesBSAA
     outerClothing: BSAAMedicHardSuit
     shoes: ClothingShoesBootsMagBSAA
     id: BSAAMedicPDA
-    belt: ClothingBeltBSAA
+    belt: ClothingBeltBSAAMedicFilled
     pocket1: BSAAHypo
     pocket2: DoubleEmergencyOxygenTankFilled
   storage:
     back:
-    - BSAACombatKitFilled
-    - InjectorCaseFilled
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
     - InjectorCaseStimFilled
     - BSAAloadout
     - KukriKnife
@@ -87,6 +89,8 @@
     - WeaponPulsePistol
     - EmergencyMedipen
     - BoxMRE
+    - JugTheCircleOmnizine
+    - JugDexPlusSaline
 
 # Спавн
 - type: entity

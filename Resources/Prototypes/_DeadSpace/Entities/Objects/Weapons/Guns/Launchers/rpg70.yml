@@ -1,0 +1,73 @@
+- type: entity
+  name: РПГ-70
+  parent: [BaseWeaponLauncher, BaseGunWieldable]
+  id: WeaponLauncherRPG70
+  description: Древний одноразовый гранатомёт с какого-то пыльного склада. Очень эффективно сносит всё что можно, кроме живой силы.
+  components:
+  - type: Sprite
+    scale: 1.2, 1.2
+    sprite: _DeadSpace/Objects/Weapons/Guns/Launchers/rpg70.rsi
+    layers:
+    - state: icon
+      map: ["enum.GunVisualLayers.Base"]
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Launchers/rpg70.rsi
+    slots:
+    - Back
+    - suitStorage
+  - type: Item
+    size: Large
+    shape:
+    - 0,0,3,2
+  - type: Gun
+    fireRate: 1
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/rpgfire.ogg
+  - type: BallisticAmmoProvider
+    capacity: 1
+    proto: CartridgeRPG70AM
+  - type: MagazineVisuals
+    magState: empty
+    steps: 1
+    zeroVisible: true
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.AmmoVisuals.AmmoCount:
+        Base:
+          Max: { state: icon }
+          0: { state: icon_empty }
+  - type: UseDelayOnShoot
+  - type: UseDelay
+    delay: 3
+  - type: Wieldable
+    useDelayOnWield: false
+  - type: GunRequiresWield
+  - type: StaticPrice
+    price: 600
+
+- type: entity
+  id: CartridgeRPG70AM
+  parent: CartridgeRocket
+  name: Антиматериальный выстрел РПГ-70
+  description: ""
+  components:
+  - type: CartridgeAmmo
+    proto: BulletRPG70
+  - type: Tag
+    tags:
+      - RPG70
+
+- type: entity
+  id: BulletRPG70
+  parent: BulletRocket
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Explosive
+    explosionType: AntiMaterial
+    totalIntensity: 650
+    intensitySlope: 2
+    maxIntensity: 100

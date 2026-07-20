@@ -61,8 +61,27 @@ namespace Content.Server.Atmos.EntitySystems
             }
 
             var (uid, atmosphere, visuals, grid, xform) = ent;
-            var volume = GetVolumeForTiles(grid);
-            TryComp(xform.MapUid, out MapAtmosphereComponent? mapAtmos);
+
+            // DS14-start: most revalidate stages have no pending work; avoid grid-volume scans on empty passes.
+            if (!atmosphere.ProcessingPaused &&
+                atmosphere.InvalidatedCoords.Count == 0 &&
+                atmosphere.CurrentRunInvalidatedTiles.Count == 0 &&
+                atmosphere.PossiblyDisconnectedTiles.Count == 0)
+            {
+                return true;
+            }
+
+            var volume = 0f;
+            MapAtmosphereComponent? mapAtmos = null;
+            var needsInvalidatedTileProcessing = atmosphere.ProcessingPaused ||
+                                                 atmosphere.InvalidatedCoords.Count > 0 ||
+                                                 atmosphere.CurrentRunInvalidatedTiles.Count > 0;
+            if (needsInvalidatedTileProcessing)
+            {
+                volume = GetVolumeForTiles(grid);
+                TryComp(xform.MapUid, out mapAtmos);
+            }
+            // DS14-end
 
             if (!atmosphere.ProcessingPaused)
             {
@@ -137,6 +156,8 @@ namespace Content.Server.Atmos.EntitySystems
             Entity<GridAtmosphereComponent, GasTileOverlayComponent, MapGridComponent, TransformComponent> ent)
         {
             var atmos = ent.Comp1;
+            if (atmos.PossiblyDisconnectedTiles.Count == 0) // DS14
+                return;
 
             foreach (var tile in atmos.PossiblyDisconnectedTiles)
             {
@@ -304,6 +325,9 @@ namespace Content.Server.Atmos.EntitySystems
             var number = 0;
             while (atmosphere.CurrentRunTiles.TryDequeue(out var tile))
             {
+                if (tile.Air == null || tile.MonstermosInfo.LastCycle >= atmosphere.UpdateCounter) // DS14
+                    continue;
+
                 EqualizePressureInZone(ent, tile, atmosphere.UpdateCounter);
 
                 if (number++ < LagCheckIterations)

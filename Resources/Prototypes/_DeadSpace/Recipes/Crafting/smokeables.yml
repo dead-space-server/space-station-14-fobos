@@ -1,0 +1,16 @@
+- type: construction
+  id: smokeableJointTritium
+  name: construction-smokeable-joint-tritium
+  graph: smokeableJointTritium
+  startNode: start
+  targetNode: jointTritium
+  category: construction-category-misc
+  objectType: Item
+
+- type: construction
+  id: smokeableGroundCannabisTritium
+  graph: smokeableGroundCannabisTritium
+  startNode: start
+  targetNode: groundTritium
+  category: construction-category-misc
+  objectType: Item

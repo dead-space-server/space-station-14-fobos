@@ -1,6 +1,7 @@
 using System.Numerics;
 using Content.Shared.Camera;
 using Content.Shared.CCVar;
+using Content.Shared.DeadSpace.Camera;
 using Robust.Shared.Configuration;
 
 namespace Content.Client.Camera;
@@ -8,6 +9,7 @@ namespace Content.Client.Camera;
 public sealed class CameraRecoilSystem : SharedCameraRecoilSystem
 {
     [Dependency] private readonly IConfigurationManager _configManager = default!;
+    [Dependency] private readonly ScreenshakeSystem _screenshake = default!;
 
     private float _intensity;
 
@@ -37,7 +39,19 @@ public sealed class CameraRecoilSystem : SharedCameraRecoilSystem
         if (!Resolve(uid, ref component, false))
             return;
 
-        recoil *= _intensity;
+        var recoilLength = recoil.Length();
+        if (recoilLength > 0.001f)
+        {
+            _screenshake.Screenshake(uid, null, new ScreenshakeParameters
+            {
+                Trauma = MathF.Min(0.12f, recoilLength * 0.07f),
+                DecayRate = 1.2f,
+                Frequency = 0.008f,
+            });
+        }
+
+        var linearScale = MathHelper.Lerp(1f, 0.26f, Math.Clamp(_intensity, 0f, 1f));
+        recoil *= _intensity * linearScale;
 
         // Use really bad math to "dampen" kicks when we're already kicked.
         var existing = component.CurrentKick.Length();

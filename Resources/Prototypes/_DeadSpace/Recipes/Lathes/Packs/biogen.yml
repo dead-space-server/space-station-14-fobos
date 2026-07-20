@@ -1,0 +1,50 @@
+## Static
+
+- type: latheRecipePack
+  id: BioGenSaucesStatic
+  recipes:
+  - BioGenHotSauce
+  - BioGenBBQ
+  - BioGenColdSauce
+
+- type: latheRecipePack
+  id: BioGenSeedsStatic
+  recipes:
+  - BioGenAppleSeeds
+  - BioGenBananaSeeds
+  - BioGenBerrySeeds
+  - BioGenCarrotSeeds
+  - BioGenCabbageSeeds
+  - BioGenChanterelleSeeds
+  - BioGenCherrySeeds
+  - BioGenChiliSeeds
+  - BioGenCocoaSeeds
+  - BioGenCornSeeds
+  - BioGenCottonSeeds
+  - BioGenEggplantSeeds
+  - BioGenEggySeeds
+  - BioGenGarlicSeeds
+  - BioGenGrapeSeeds
+  - BioGenLemonSeeds
+  - BioGenLimeSeeds
+  - BioGenPineappleSeeds
+  - BioGenOatSeeds
+  - BioGenOnionSeeds
+  - BioGenOnionRedSeeds
+  - BioGenOrangeSeeds
+  - BioGenPeaSeeds
+  - BioGenPotatoSeeds
+  - BioGenPumpkinSeeds
+  - BioGenRiceSeeds
+  - BioGenSoybeanSeeds
+  - BioGenSugarcaneSeeds
+  - BioGenTeaPlantSeeds
+  - BioGenTomatoSeeds
+  - BioGenTowercapSeeds
+  - BioGenWheatSeeds
+  - BioGenWatermelonSeeds
+  - BioGenAloeSeeds
+  - BioGenAmbrosiaVulgarisSeeds
+  - BioGenGalaxythistleSeeds
+  - BioGenLingzhiSeeds
+  - BioGenPoppySeeds

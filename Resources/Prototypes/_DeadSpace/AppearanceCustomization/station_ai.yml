@@ -18,6 +18,18 @@
     Dead:
       sprite: _DeadSpace/Mobs/Silicon/station_ai.rsi
 
+- type: stationAiCustomization
+  id: TaipanAiIconKnight
+  name: station-ai-icon-knight
+  parent: TaipanAiIconBase
+  layerData:
+    Occupied:
+      sprite: _DeadSpace/Mobs/Silicon/station_ai.rsi
+      state: ai_knight
+    Dead:
+      sprite: _DeadSpace/Mobs/Silicon/station_ai.rsi
+      state: ai_dead
+
 # Holograms
 - type: stationAiCustomization
   id: TaipanAiHologramFemale
@@ -63,3 +75,12 @@
     Hologram:
       sprite: _DeadSpace/Mobs/Silicon/holograms.rsi
       state: ai_dog
+
+- type: stationAiCustomization
+  id: TaipanAiHologramKnight
+  name: station-ai-hologram-knight
+  previewKey: Hologram
+  layerData:
+    Hologram:
+      sprite: _DeadSpace/Mobs/Silicon/holograms.rsi
+      state: ai_knight

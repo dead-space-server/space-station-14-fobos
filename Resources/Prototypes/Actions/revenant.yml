@@ -3,6 +3,8 @@
   id: ActionRevenantShop
   name: Shop
   description: Opens the ability shop.
+  components:
+  - type: RevenantAction
 
 #DS14-start
 
@@ -50,6 +52,7 @@
   name: Malfunction
   description: Costs 60 Essence.
   components:
+  - type: RevenantAction
   - type: Action
     icon: Interface/Actions/malfunction.png
     useDelay: 20
@@ -63,6 +66,7 @@
   name: Overload Lights
   description: Costs 40 Essence.
   components:
+  - type: RevenantAction
   - type: Action
     icon: Interface/Actions/overloadlight.png
     useDelay: 20
@@ -75,6 +79,7 @@
   name: Усыпление
   description: Цена 30 эссенций.
   components:
+  - type: RevenantAction
   - type: Action
     useDelay: 45
     icon: { sprite: Clothing/Head/Hats/pyjamasyndicatered.rsi, state: icon }
@@ -88,6 +93,7 @@
   name: Захват Разума
   description: Цена 100 эссенций.
   components:
+  - type: RevenantAction
   - type: Action
     icon: { sprite: Mobs/Species/Human/organs.rsi, state: brain }
     useDelay: 600
@@ -95,4 +101,37 @@
   - type: EntityTargetAction
     canTargetSelf: false
     event: !type:RevenantMindCaptureActionEvent
+
+- type: entity
+  id: ActionRevenantScream
+  parent: BaseAction
+  name: Крик
+  description: Издаёт пронзительный крик привлекающий людей
+  components:
+  - type: RevenantAction
+  - type: Action
+    useDelay: 30
+    icon: Interface/Actions/scream.png
+  - type: InstantAction
+    event: !type:RevenantScreamActionEvent
+
+- type: entity
+  id: ActionRevenantHack
+  parent: BaseAction
+  name: Взлом
+  description: Открывает выбранный вами шлюз или шкаф
+  components:
+  - type: RevenantAction
+  - type: Action
+    useDelay: 15
+    icon:
+      sprite: Objects/Tools/access_breaker.rsi
+      state: icon
+  - type: TargetAction
+  - type: EntityTargetAction
+    whitelist:
+      components:
+      - Door
+      - EntityStorage
+    event: !type:RevenantHackActionEvent
 #DS14-end

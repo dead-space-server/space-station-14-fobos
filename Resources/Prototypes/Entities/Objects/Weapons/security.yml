@@ -91,6 +91,17 @@
     guides:
     - Security
     - Antagonists
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_drop.ogg
+  #DS14-End
 
 - type: entity
   name: truncheon
@@ -128,6 +139,17 @@
     guides:
     - Security
     - Antagonists
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/telescopic_baton_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/telescopic_baton_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/telescopic_baton_drop.ogg
+  #DS14-End
 
 - type: entity
   name: flash
@@ -180,7 +202,16 @@
       materialComposition:
         Steel: 100
         Glass: 100
-    # DS14-end
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+    #DS14-End
 
 
 - type: entity

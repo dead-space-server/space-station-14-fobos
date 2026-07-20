@@ -13,26 +13,7 @@ namespace Content.Shared.DeadSpace.Triggers.Components;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class TriggerOnActionComponent : BaseTriggerOnXComponent
 {
-    /// <summary>
-    /// If true, action added to both this entity and its parent entity.
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public bool Parent = false;
-
-    /// <summary>
-    /// If true, delete component after use.
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public bool DeleteComponentAfterTrigger = false;
-
-    /// <summary>
-    /// The action to add.
-    /// This must raise <see cref="TriggerActionEvent"/> to then get handled.
-    /// </summary>
-    [DataField(required: true)]
-    public EntProtoId<InstantActionComponent> Action;
-
-    [DataField, AutoNetworkedField]
-    public EntityUid? ActionEntity;
+    [DataField]
+    public bool RemoveAfterActive = false;
 }
 public sealed partial class TriggerActionEvent : InstantActionEvent;

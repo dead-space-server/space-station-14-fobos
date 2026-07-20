@@ -47,3 +47,6 @@ trait-hemophilia-name = Гемофилия
 trait-hemophilia-desc = Ваше кровотечение долго не останавливается.
 trait-impaired-mobility-name = Нарушение подвижности
 trait-impaired-mobility-desc = Вам трудно передвигаться без вспомогательных средств передвижения.
+
+trait-uncloning-name = Не клонируемый
+trait-uncloning-desc = Вас невозможно клонировать.

@@ -23,10 +23,10 @@
   - GenpopEnter
   - GenpopLeave
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 200 # DS14-value
+  maxBankBalance: 300 # DS14-value
   wageDepartment: Security
-  wage: 50
+  wage: 120 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddImplantSpecial
@@ -44,7 +44,7 @@
     shoes: ClothingShoesBootsJackSecFilled # Corvax-Resprite-MRP
     outerClothing: ClothingOuterVestArmorSec
     id: SecurityCadetPDA
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     belt: ClothingBeltSecurityFilled
   storage:
     back:

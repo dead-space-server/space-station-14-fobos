@@ -2,10 +2,10 @@ using System.Numerics;
 using System.Linq;
 using Content.Server.Construction;
 using Content.Server.Cargo.Systems;
+using Content.Server.DeadSpace.Weapons.Ranged;
 using Content.Server.Weapons.Ranged.Components;
 using Content.Shared.Cargo;
 using Content.Shared.Damage;
-using Content.Shared.Damage.Systems;
 using Content.Shared.Projectiles;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Weapons.Ranged;
@@ -188,19 +188,7 @@ public sealed partial class GunSystem : SharedGunSystem
                     if (ent == null)
                         break;
 
-                    var hitscanEv = new HitscanTraceEvent
-                    {
-                        FromCoordinates = fromCoordinates,
-                        ShotDirection = mapDirection.Normalized(),
-                        Gun = gun,
-                        Shooter = user,
-                        Target = gun.Comp.Target,
-                    };
-                    RaiseLocalEvent(ent.Value, ref hitscanEv);
-
-                    Del(ent);
-
-                    Audio.PlayPredicted(gun.Comp.SoundGunshotModified, gun, user);
+                    CreateAndFireProjectiles(ent.Value, null);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -212,8 +200,10 @@ public sealed partial class GunSystem : SharedGunSystem
             FiredProjectiles = shotProjectiles,
         });
 
-        void CreateAndFireProjectiles(EntityUid ammoEnt, AmmoComponent ammoComp)
+        void CreateAndFireProjectiles(EntityUid ammoEnt, AmmoComponent? ammoComp)
         {
+            var firedHitscan = HasComp<HitscanAmmoComponent>(ammoEnt);
+
             if (TryComp<ProjectileSpreadComponent>(ammoEnt, out var ammoSpreadComp))
             {
                 var spreadEvent = new GunGetAmmoSpreadEvent(ammoSpreadComp.Spread);
@@ -222,29 +212,51 @@ public sealed partial class GunSystem : SharedGunSystem
                 var angles = LinearSpread(mapAngle - spreadEvent.Spread / 2,
                     mapAngle + spreadEvent.Spread / 2, ammoSpreadComp.Count);
 
-                ShootOrThrow(ammoEnt, angles[0].ToVec(), gunVelocity, gun, user);
-                shotProjectiles.Add(ammoEnt);
+                if (ShootOrThrow(ammoEnt, angles[0].ToVec(), gunVelocity, gun, user))
+                    shotProjectiles.Add(ammoEnt);
 
                 for (var i = 1; i < ammoSpreadComp.Count; i++)
                 {
                     var newuid = Spawn(ammoSpreadComp.Proto, fromEnt);
-                    ShootOrThrow(newuid, angles[i].ToVec(), gunVelocity, gun, user);
-                    shotProjectiles.Add(newuid);
+                    if (ShootOrThrow(newuid, angles[i].ToVec(), gunVelocity, gun, user))
+                        shotProjectiles.Add(newuid);
                 }
             }
             else
             {
-                ShootOrThrow(ammoEnt, mapDirection, gunVelocity, gun, user);
-                shotProjectiles.Add(ammoEnt);
+                if (ShootOrThrow(ammoEnt, mapDirection, gunVelocity, gun, user))
+                    shotProjectiles.Add(ammoEnt);
             }
 
-            MuzzleFlash(gun, ammoComp, mapDirection.ToAngle(), user);
+            if (ammoComp != null && !firedHitscan)
+                MuzzleFlash(gun, ammoComp, mapDirection.ToAngle(), user);
+
             Audio.PlayPredicted(gun.Comp.SoundGunshotModified, gun, user);
         }
     }
 
-    private void ShootOrThrow(EntityUid uid, Vector2 mapDirection, Vector2 gunVelocity, Entity<GunComponent> gun, EntityUid? user)
+    private bool ShootOrThrow(EntityUid uid, Vector2 mapDirection, Vector2 gunVelocity, Entity<GunComponent> gun, EntityUid? user)
     {
+        ApplyExecutionShotDamage(uid, gun); // DS14
+
+        // DS14-start: cartridge-spawned hitscans bypass projectile physics entirely.
+        if (HasComp<HitscanAmmoComponent>(uid))
+        {
+            var hitscanEv = new HitscanTraceEvent
+            {
+                FromCoordinates = Transform(uid).Coordinates,
+                ShotDirection = mapDirection.Normalized(),
+                Gun = gun,
+                Shooter = user,
+                Target = gun.Comp.Target,
+            };
+
+            RaiseLocalEvent(uid, ref hitscanEv);
+            Del(uid);
+            return false;
+        }
+        // DS14-end
+
         if (gun.Comp.Target is { } target && !TerminatingOrDeleted(target))
         {
             var targeted = EnsureComp<TargetedProjectileComponent>(uid);
@@ -258,11 +270,33 @@ public sealed partial class GunSystem : SharedGunSystem
             RemoveShootable(uid);
             // TODO: Someone can probably yeet this a billion miles so need to pre-validate input somewhere up the call stack.
             ThrowingSystem.TryThrow(uid, mapDirection, gun.Comp.ProjectileSpeedModified, user);
-            return;
+            return false;
         }
 
         ShootProjectile(uid, mapDirection, gunVelocity, gun, user, gun.Comp.ProjectileSpeedModified);
+        return true;
     }
+
+    // DS14-start
+    private void ApplyExecutionShotDamage(EntityUid uid, Entity<GunComponent> gun)
+    {
+        if (!HasComp<GunExecutionShotComponent>(gun))
+            return;
+
+        const float executionDamageMultiplier = 9f;
+        if (TryComp<ProjectileComponent>(uid, out var projectile))
+        {
+            projectile.Damage *= executionDamageMultiplier;
+            projectile.IgnoreResistances = true;
+        }
+
+        if (TryComp<HitscanBasicDamageComponent>(uid, out var hitscan))
+        {
+            hitscan.Damage *= executionDamageMultiplier;
+            hitscan.IgnoreResistances = true;
+        }
+    }
+    // DS14-end
 
     /// <summary>
     /// Gets a linear spread of angles between start and end.

@@ -1,0 +1,11 @@
+- files:
+    - "ammobox_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/ammobox_drop.ogg"
+
+- files:
+    - "ammobox_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/ammobox_pickup.ogg"

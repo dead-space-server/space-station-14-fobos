@@ -121,6 +121,8 @@
                             Text="{Loc consolecraft-craft-button}"
                             StyleClasses="ButtonBig"
                             Disabled="True" />
+                    <Button Name="DismantleButton"
+                            Text="{Loc consolecraft-dismantle-button}" />
                     <Button Name="EjectButton"
                             Text="{Loc consolecraft-eject-button}" />
                     <Button Name="BackButton"

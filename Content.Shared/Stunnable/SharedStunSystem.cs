@@ -165,6 +165,10 @@ public abstract partial class SharedStunSystem : EntitySystem
         if (_entityWhitelist.IsWhitelistPass(ent.Comp.Blacklist, args.OtherEntity))
             return;
 
+        // DS14: Some persistent contact attacks should not keep an already fallen target stun-locked.
+        if (ent.Comp.IgnoreKnockedDown && HasComp<KnockedDownComponent>(args.OtherEntity))
+            return;
+
         TryUpdateStunDuration(args.OtherEntity, ent.Comp.Duration);
         TryKnockdown(args.OtherEntity, ent.Comp.Duration, force: true);
     }

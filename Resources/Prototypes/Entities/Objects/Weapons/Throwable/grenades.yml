@@ -33,6 +33,11 @@
     keysIn:
     - timer
     range: 7
+  #DS14-Start
+  - type: Flashbang
+    keysIn:
+    - timer
+  #DS14-End
   - type: EmitSoundOnTrigger
     keysIn:
     - timer
@@ -363,6 +368,17 @@
           # Unprimed: <Use state determined by enum.ConstructionVisuals.Layer>
   - type: StaticPrice
     price: 75
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_drop.ogg
+  #DS14-End
 
 - type: entity
   name: EMP grenade

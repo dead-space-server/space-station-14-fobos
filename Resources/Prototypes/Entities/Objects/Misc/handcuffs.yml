@@ -29,6 +29,17 @@
     - Antagonists
   - type: UseDelay
     delay: 3
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/handcuffs/handcuffs_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/handcuffs/handcuffs_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/handcuffs/handcuffs_drop.ogg
+  #DS14-End
 
 - type: entity
   name: makeshift handcuffs
@@ -68,6 +79,18 @@
     sprite: Objects/Misc/cablecuffs.rsi
     state: cuff
     color: forestgreen
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  #DS14-End
+
 
 - type: entity
   name: zipties
@@ -97,6 +120,17 @@
   - type: Sprite
     sprite: Objects/Misc/zipties.rsi
     state: cuff
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  #DS14-End
 
 - type: entity
   id: BaseHandcuffsBroken
@@ -111,6 +145,17 @@
   - type: PhysicalComposition
     materialComposition:
       Plastic: 25
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  #DS14-End
 
 - type: entity
   name: broken zipties
@@ -121,6 +166,17 @@
   - type: Sprite
     sprite: Objects/Misc/zipties.rsi
     state: cuff-broken
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  #DS14-End
 
 - type: entity
   name: broken cables
@@ -140,6 +196,17 @@
       right:
         - state: inhand-right
           color: forestgreen
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/headset/headset_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: Handcuffs
@@ -158,3 +225,14 @@
   - type: Sprite
     sprite: Clothing/OuterClothing/Misc/straight_jacket.rsi
     state: icon
+  # DS14-start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  #DS14-End

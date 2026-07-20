@@ -43,6 +43,10 @@ public sealed class HitscanReflectSystem : EntitySystem
             ShotDirection = ev.Direction,
             Gun = data.Gun,
             Shooter = data.HitEntity.Value,
+            // DS14-start: keep reflected segments in the same visual trace event.
+            OutputTrace = data.OutputTrace,
+            IgnoredEntities = data.IgnoredEntities,
+            // DS14-end
         };
 
         RaiseLocalEvent(hitscan, ref hitFiredEvent);

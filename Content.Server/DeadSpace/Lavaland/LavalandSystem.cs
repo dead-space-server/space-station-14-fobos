@@ -198,7 +198,7 @@ public sealed class LavalandSystem : EntitySystem
         PrepareTerminalReservation(mapUid, grid, biome, planet, random);
         var terminalGrid = LoadTerminalGrid(mapId, mapUid, station, planet, planetId);
         PrepareLandingPad(mapUid, grid, biome, planet, random);
-        CreateLandingWarp(mapUid);
+        CreateLandingWarp(mapUid, planet);
         CreateFtlBeacon(mapUid, planet, terminalGrid);
         PreloadLandingArea(mapUid, biome, planet);
         cancellation.ThrowIfCancellationRequested();
@@ -222,11 +222,11 @@ public sealed class LavalandSystem : EntitySystem
         return mapUid;
     }
 
-    private void CreateLandingWarp(EntityUid mapUid)
+    private void CreateLandingWarp(EntityUid mapUid, LavalandPlanetPrototype planet)
     {
-        var warpUid = Spawn("GhostWarpPoint", new EntityCoordinates(mapUid, Vector2.Zero));
+        var warpUid = Spawn("GhostWarpPoint", new EntityCoordinates(mapUid, planet.JaunterDestinationOffset));
         var warp = EnsureComp<WarpPointComponent>(warpUid);
-        warp.Location = "Lavaland";
+        warp.Location = "Лаваленд";
         Dirty(warpUid, warp);
     }
 

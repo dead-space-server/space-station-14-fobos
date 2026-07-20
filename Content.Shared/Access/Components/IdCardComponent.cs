@@ -27,7 +27,13 @@ public sealed partial class IdCardComponent : Component
     private string? _jobTitle;
 
     [Access(typeof(SharedIdCardSystem), typeof(SharedPdaSystem), typeof(SharedAgentIdCardSystem), Other = AccessPermissions.ReadWriteExecute)]
-    public string? LocalizedJobTitle { set => _jobTitle = value; get => _jobTitle ?? Loc.GetString(JobTitle ?? string.Empty); }
+    // DS14-start
+    public string? LocalizedJobTitle
+    {
+        set => _jobTitle = value;
+        get => _jobTitle ?? (JobTitle is { } jobTitle ? Loc.GetString(jobTitle) : null);
+    }
+    // DS14-end
 
     /// <summary>
     /// The state of the job icon rsi.

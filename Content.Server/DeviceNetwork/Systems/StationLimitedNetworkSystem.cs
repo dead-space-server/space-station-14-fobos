@@ -1,4 +1,5 @@
 using Content.Server.DeviceNetwork.Components;
+using Content.Server.Shuttles.Components;
 using Content.Server.Station.Systems;
 using Content.Shared.DeviceNetwork.Events;
 using JetBrains.Annotations;
@@ -39,7 +40,7 @@ namespace Content.Server.DeviceNetwork.Systems
             if (!Resolve(uid, ref component) || !Transform(uid).GridUid.HasValue)
                 return false;
 
-            component.StationId = _stationSystem.GetOwningStation(uid);
+            component.StationId = GetNetworkStation(uid); // DS14
             return component.StationId.HasValue;
         }
 
@@ -48,16 +49,39 @@ namespace Content.Server.DeviceNetwork.Systems
         /// </summary>
         private void OnMapInit(EntityUid uid, StationLimitedNetworkComponent networkComponent, MapInitEvent args)
         {
-            networkComponent.StationId = _stationSystem.GetOwningStation(uid);
+            networkComponent.StationId = GetNetworkStation(uid); // DS14
         }
+
+        // DS14-start
+        /// <summary>
+        /// Returns the normal owning station, or the CentComm grid when the device is on the emergency CentComm map.
+        /// </summary>
+        public EntityUid? GetNetworkStation(EntityUid uid)
+        {
+            if (_stationSystem.GetOwningStation(uid) is { } station)
+                return station;
+
+            var xform = Transform(uid);
+            if (xform.GridUid is not { } grid)
+                return null;
+
+            var centcommQuery = EntityQueryEnumerator<StationCentcommComponent>();
+            while (centcommQuery.MoveNext(out _, out var centcomm))
+            {
+                if (centcomm.Entity == grid)
+                    return grid;
+            }
+
+            return null;
+        }
+        // DS14-end
 
         /// <summary>
         /// Checks if both devices are limited to the same station
         /// </summary>
         private void OnBeforePacketSent(EntityUid uid, StationLimitedNetworkComponent component, BeforePacketSentEvent args)
         {
-            if (!component.StationId.HasValue)
-                TrySetStationId(uid, component);
+            RefreshNetworkStation(uid, component); // DS14
 
             if (!CheckStationId(args.Sender, component.AllowNonStationPackets, component.StationId))
             {
@@ -78,10 +102,38 @@ namespace Content.Server.DeviceNetwork.Systems
             if (!Resolve(senderUid, ref sender, false))
                 return allowNonStationPackets;
 
-            if (!sender.StationId.HasValue)
-                TrySetStationId(senderUid, sender);
+            RefreshNetworkStation(senderUid, sender); // DS14
 
             return sender.StationId == receiverStationId;
         }
+
+        // DS14-start
+        private void RefreshNetworkStation(EntityUid uid, StationLimitedNetworkComponent component)
+        {
+            var stationId = GetNetworkStation(uid);
+
+            if (!component.StationId.HasValue ||
+                IsCentcommGrid(stationId) ||
+                IsCentcommGrid(component.StationId))
+            {
+                component.StationId = stationId;
+            }
+        }
+
+        private bool IsCentcommGrid(EntityUid? uid)
+        {
+            if (uid == null)
+                return false;
+
+            var centcommQuery = EntityQueryEnumerator<StationCentcommComponent>();
+            while (centcommQuery.MoveNext(out _, out var centcomm))
+            {
+                if (centcomm.Entity == uid)
+                    return true;
+            }
+
+            return false;
+        }
+        // DS14-end
     }
 }

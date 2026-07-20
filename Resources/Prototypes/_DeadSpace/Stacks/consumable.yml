@@ -1,0 +1,13 @@
+- type: stack
+  parent: BaseVerySmallStack
+  id: GroundCannabisTritium
+  name: stack-ground-tritium-cannabis
+  icon: { sprite: /Textures/Objects/Misc/reagent_fillings.rsi, state: powderpile }
+  spawn: GroundCannabisTritium
+
+- type: stack
+  parent: BaseVerySmallStack
+  id: LeavesCannabisTritiumDried
+  name: stack-dried-tritium-cannabis-leaves
+  icon: { sprite: /Textures/Objects/Specific/Hydroponics/cannabis.rsi, state: dried }
+  spawn: LeavesCannabisTritiumDried

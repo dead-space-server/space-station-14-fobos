@@ -125,10 +125,9 @@
         - Hands # no use giving a mouse a storage implant, but a monkey is another story...
     - type: Storage
       grid:
-      - 0,0,0,1
-      - 1,0,1,0
-      - 1,2,1,2
-      - 2,1,2,2
+      #DS14-start
+      - 0,0,2,2
+      #DS14-end
     - type: ContainerContainer
       containers:
         storagebase: !type:Container
@@ -277,6 +276,7 @@
   description: This implant detonates the user upon activation or upon death.
   categories: [ HideSpawnMenu ]
   components:
+  - type: IgnoreCritCooldown # DS14
   - type: SubdermalImplant
     permanent: true
     implantAction: ActionActivateMicroBomb
@@ -308,6 +308,7 @@
   description: This implant creates a large explosion on death after a preprogrammed countdown.
   categories: [ HideSpawnMenu ]
   components:
+    - type: IgnoreCritCooldown # DS14
     - type: SubdermalImplant
       permanent: true
     - type: ReplacementImplant
@@ -350,6 +351,7 @@
   description: This implant melts the user and their equipment upon death.
   categories: [ HideSpawnMenu ]
   components:
+  - type: IgnoreCritCooldown # DS14
   - type: SubdermalImplant
     permanent: true
     implantAction: ActionActivateDeathAcidifier

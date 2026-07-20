@@ -11,9 +11,13 @@ using Content.Shared.Body.Components;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
+using Content.Shared.Ghost; // DS14
 using Content.Shared.Maps;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Systems;
+using Content.Server.Objectives; // DS14
+using Content.Shared.Mobs; // DS14
+using Content.Shared.Mobs.Components; // DS14
 using Content.Shared.Players;
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
@@ -42,6 +46,7 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly RoleSystem _role = default!;
         [Dependency] private readonly RoundEndManifestStatsSystem _roundEndManifestStats = default!; // DS14
         [Dependency] private readonly SharedObjectivesSystem _objectives = default!; // DS14
+        [Dependency] private readonly ObjectivesSystem _objectivesSystem = default!; // DS14
         [Dependency] private readonly ITaskManager _taskManager = default!;
 
         private static readonly Counter RoundNumberMetric = Metrics.CreateCounter(
@@ -55,6 +60,11 @@ namespace Content.Server.GameTicking
         private const string SentientVirusAntagPrototype = "SentientVirus"; // DS14
         private const string RevolutionaryAntagPrototype = "Rev"; // DS14
         private const string HeadRevolutionaryAntagPrototype = "HeadRev"; // DS14
+        // DS14-start
+        private const string TraitorAntagPrototype = "Traitor";
+        private const string TraitorSleeperAntagPrototype = "TraitorSleeper";
+        private const string TraitorUltraAntagPrototype = "TraitorUltra";
+        // DS14-end
         private const int DiscordMessageMaxLength = 2000; // DS14
         private const string DiscordCodeBlockFence = "```"; // DS14
         private const int DiscordCodeBlockSplitOverhead = 8; // DS14: "\n```" + "```\n"
@@ -573,6 +583,9 @@ namespace Content.Server.GameTicking
                 var antag = _roles.MindIsAntagonist(mindId);
 
                 // DS14-start
+                if (antag)
+                    _roundEndManifestStats.EnsureManifestEntry(mindId, mind);
+
                 var manifestIdentity = _roundEndManifestStats.GetManifestIdentity(mindId);
                 var playerIcName = GetRoundEndPlayerIcName(mind, manifestIdentity);
                 var displayEntity = GetRoundEndDisplayEntity(mindId, mind, manifestIdentity);
@@ -589,6 +602,8 @@ namespace Content.Server.GameTicking
                 var manifestObjectives = antag
                     ? GetRoundEndObjectives(mindId, mind)
                     : Array.Empty<RoundEndMessageEvent.RoundEndObjectiveInfo>();
+                var inCustody = antag && _objectivesSystem.IsInCustody(mindId, mind); // DS14
+                var isDead = antag && IsMindDead(mindId, mind); // DS14
                 var showInAntagManifest = antag &&
                     ShouldShowInRoundEndAntagManifest(mindId, manifestAntagMinds, manifestObjectives, antagRoles);
                 // DS14-end
@@ -615,6 +630,8 @@ namespace Content.Server.GameTicking
                     ManifestKills = antag ? manifestStats.Kills : 0,
                     ManifestAssists = antag ? manifestStats.Assists : 0,
                     ManifestObjectives = manifestObjectives,
+                    InCustody = inCustody, // DS14
+                    IsDead = isDead, // DS14
                     ShowInAntagManifest = showInAntagManifest,
                     // DS14-end
                     Observer = observer,
@@ -694,8 +711,19 @@ namespace Content.Server.GameTicking
 
             return manifestAntagMinds.Contains(mindId) ||
                    manifestObjectives.Length > 0 ||
+                   IsTraitorManifestRole(antagRoles) || // DS14
                    antagRoles.Any(role => role.Prototype == SentientVirusAntagPrototype);
         }
+
+        // DS14-start
+        private static bool IsTraitorManifestRole(RoleInfo[] antagRoles)
+        {
+            return antagRoles.Any(role =>
+                role.Prototype == TraitorAntagPrototype ||
+                role.Prototype == TraitorSleeperAntagPrototype ||
+                role.Prototype == TraitorUltraAntagPrototype);
+        }
+        // DS14-end
 
         private RoundEndMessageEvent.RoundEndObjectiveInfo[] GetRoundEndObjectives(EntityUid mindId, MindComponent mind)
         {
@@ -718,6 +746,19 @@ namespace Content.Server.GameTicking
 
             return objectives.ToArray();
         }
+
+        // DS14-start
+        private bool IsMindDead(EntityUid mindId, MindComponent mind)
+        {
+            if (mind.OwnedEntity is not {} owned)
+                return mind.TimeOfDeath.HasValue;
+
+            if (TryComp<MobStateComponent>(owned, out var mobState))
+                return mobState.CurrentState == MobState.Dead;
+
+            return mind.TimeOfDeath.HasValue && HasComp<GhostComponent>(owned);
+        }
+        // DS14-end
 
         private EntityUid? GetRoundEndDisplayEntity(
             EntityUid mindId,

@@ -21,6 +21,11 @@ public sealed class InsulatedSystem : EntitySystem
         if (!HasComp<ClothingComponent>(ent))
             return;
 
+        // DS14-start
+        if (!component.ShowInExamine)
+            return;
+        // DS14-end
+
         var iconTexture = "/Textures/Interface/VerbIcons/zap.svg.192dpi.png";
 
         _examine.AddHoverExamineVerb(args,
@@ -30,4 +35,5 @@ public sealed class InsulatedSystem : EntitySystem
             iconTexture
         );
     }
+
 }

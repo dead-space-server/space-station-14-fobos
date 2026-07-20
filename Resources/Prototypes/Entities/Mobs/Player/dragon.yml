@@ -175,6 +175,13 @@
     selectedLanguage: CarpDragonLanguage
     knownLanguages:
     - CarpDragonLanguage
+  - type: IntrinsicRadioReceiver
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - CarpDragonChannel
+  - type: ActiveRadio
+    channels:
+    - CarpDragonChannel
   - type: NightVision
     color: "#22334411"
     animation: true

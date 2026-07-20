@@ -1,0 +1,32 @@
+- type: entity
+  parent: BasePDACartridge
+  id: SnakeCartridge
+  name: картридж Змейка
+  description: Классическая игра «Змейка» для КПК.
+  components:
+  - type: Sprite
+    state: cart-y
+  - type: UIFragment
+    ui: !type:SnakeCartridgeUi
+  - type: Cartridge
+    programName: snake-cartridge-program-name
+    icon:
+      sprite: Objects/Specific/Hydroponics/apple.rsi
+      state: produce
+
+- type: entity
+  parent: BasePDACartridge
+  id: ScannerProgramCartridge
+  name: картридж Сканер Документов
+  description: Программа для сканирования документов через КПК.
+  components:
+  - type: Sprite
+    state: cart-y
+  - type: UIFragment
+    ui: !type:ScannerProgramUi
+  - type: Cartridge
+    programName: scanner-program-name
+    icon:
+      sprite: Objects/Specific/Hydroponics/apple.rsi
+      state: produce
+  - type: ScannerProgram

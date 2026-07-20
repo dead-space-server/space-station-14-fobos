@@ -15,6 +15,10 @@ public sealed partial class ListingLimitedStockCondition : ListingCondition
 
     public override bool Condition(ListingConditionArgs args)
     {
-        return args.Listing.PurchaseAmount < Stock;
+        // DS14-start - expose the remaining purchase count to the store UI.
+        var remainingStock = Math.Max(Stock - args.Listing.PurchaseAmount, 0);
+        args.Listing.RemainingStock = remainingStock;
+        return remainingStock > 0;
+        // DS14-end
     }
 }

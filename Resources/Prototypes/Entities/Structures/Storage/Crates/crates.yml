@@ -14,6 +14,10 @@
     spread: 90
   - type: Paintable
     group: CrateSteel
+    # DS14-start
+    compatibleGroups:
+    - TaipanCrateSteel
+    # DS14-end
   - type: RadiationBlockingContainer
     resistance: 2.5
 
@@ -842,6 +846,10 @@
     sprite: Structures/Storage/Crates/syndicate.rsi
   - type: Sprite
     sprite: Structures/Storage/Crates/syndicate.rsi
+  # DS14-start
+  - type: Paintable
+    group: TaipanCrateSteel
+  # DS14-end
 
 - type: entity
   parent: [StructureWheeled, CrateBaseWeldable]

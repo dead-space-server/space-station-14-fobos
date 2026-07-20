@@ -91,6 +91,15 @@
       knownLanguages:
       - CarpDragonLanguage
     # DS14-Languages-end
+    # DS14-Start
+    - type: IntrinsicRadioReceiver
+    - type: IntrinsicRadioTransmitter
+      channels:
+      - CarpDragonChannel
+    - type: ActiveRadio
+      channels:
+      - CarpDragonChannel
+    # DS14-End
     - type: Speech
       speechVerb: LargeMob
     - type: InteractionPopup

@@ -38,3 +38,14 @@
         whitelist:
           components:
           - BatteryAmmoProvider
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  #DS14-End

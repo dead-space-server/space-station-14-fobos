@@ -50,6 +50,7 @@ using Content.Shared.NPC.Components; // DS14
 using System.Linq; // DS14
 using Content.Shared.Cuffs.Components; // DS14
 using Content.Shared.Temperature.Components;
+using Content.Shared.Damage.Components; // DS14
 
 namespace Content.Server.Zombies;
 
@@ -156,6 +157,7 @@ public sealed partial class ZombieSystem
         RemComp<LegsParalyzedComponent>(target);
         RemComp<ComplexInteractionComponent>(target);
         RemComp<SentienceTargetComponent>(target);
+        EnsureComp<IgnoreSlowOnDamageComponent>(target); // DS14
 
         // DS14-start
         if (HasComp<VirusComponent>(target))
@@ -280,7 +282,7 @@ public sealed partial class ZombieSystem
         //Heals the zombie from all the damage it took while human
         _damageable.ClearAllDamage(target);
         _mobState.ChangeMobState(target, MobState.Alive);
-        
+
         // DS14-start
         if (TryComp<NpcFactionMemberComponent>(target, out var factionComp))
         {

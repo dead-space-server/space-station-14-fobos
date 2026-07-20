@@ -1,0 +1,49 @@
+- type: entity
+  parent: BaseDeployFoldable
+  id: TradeInterdictionBeacon
+  name: trade interdiction beacon
+  description: A compact Syndicate relay for forcing a trade hub into quarantine.
+  components:
+  - type: TradeInterdictionBeacon
+  - type: Physics
+    bodyType: Dynamic
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.4,0.25,0.1"
+        density: 20
+        mask:
+        - Impassable
+  - type: Item
+    size: Normal
+  - type: Foldable
+    folded: true
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.FoldedVisuals.State:
+        foldedLayer:
+          True: { state: extraction_point }
+          False: { state: extraction_point }
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Tools/trade_interdiction_beacon.rsi
+    drawdepth: SmallObjects
+    noRot: true
+    layers:
+    - state: extraction_point
+      map: [ "foldedLayer" ]
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallicStrong
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 400
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]

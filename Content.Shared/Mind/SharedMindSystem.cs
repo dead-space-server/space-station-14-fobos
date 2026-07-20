@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.Arena;
 using Content.Shared.Emoting;
 using Content.Shared.Examine;
 using Content.Shared.GameTicking;
@@ -363,6 +364,9 @@ public abstract partial class SharedMindSystem : EntitySystem
         var title = Name(objective);
         _adminLogger.Add(LogType.Mind, LogImpact.Low, $"Objective {objective} ({title}) added to mind of {MindOwnerLoggingString(mind)}");
         mind.Objectives.Add(objective);
+        // DS14-start
+        RaiseLocalEvent(mindId, new MindObjectiveAddedEvent(mindId, mind, objective), true);
+        // DS14-end
     }
 
     /// <summary>
@@ -615,6 +619,9 @@ public abstract partial class SharedMindSystem : EntitySystem
         var query = EntityQueryEnumerator<HumanoidAppearanceComponent, MobStateComponent>();
         while (query.MoveNext(out var uid, out _, out var mobState))
         {
+            if (HasComp<ArenaPlayerComponent>(uid)) // DS14
+                continue;
+
             // the player needs to have a mind and not be the excluded one +
             // the player has to be alive
             if (!TryGetMind(uid, out var mind, out var mindComp) || mind == exclude || !_mobState.IsAlive(uid, mobState))
@@ -709,6 +716,10 @@ public record struct GetCharactedDeadIcEvent(bool? Dead);
 /// <param name="Unrevivable"></param>
 [ByRefEvent]
 public record struct GetCharacterUnrevivableIcEvent(bool? Unrevivable);
+
+// DS14-start
+public sealed record MindObjectiveAddedEvent(EntityUid MindId, MindComponent Mind, EntityUid Objective);
+// DS14-end
 
 public sealed record MindStringRepresentation(EntityStringRepresentation? OwnedEntity, bool PlayerPresent, NetUserId? Player) : IAdminLogsPlayerValue
 {

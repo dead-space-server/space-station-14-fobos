@@ -16,6 +16,11 @@ public partial class SharedStaminaSystem
 
     private void OnGetResistance(Entity<StaminaResistanceComponent> ent, ref BeforeStaminaDamageEvent args)
     {
+        // DS14-start
+        if (args.Value <= 0f)
+            return;
+        // DS14-end
+
         args.Value *= ent.Comp.DamageCoefficient;
     }
 

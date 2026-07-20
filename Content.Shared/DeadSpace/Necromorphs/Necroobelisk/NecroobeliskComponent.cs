@@ -3,6 +3,7 @@
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
 using Robust.Shared.Prototypes;
+using Content.Shared.Mobs.Components;
 
 namespace Content.Shared.DeadSpace.Necromorphs.Necroobelisk;
 
@@ -20,6 +21,8 @@ public sealed partial class NecroobeliskComponent : Component
 
     [ViewVariables(VVAccess.ReadOnly)]
     public TimeSpan NextCheckTimeSanity = TimeSpan.Zero;
+    [ViewVariables]
+    public HashSet<Entity<MobStateComponent>> MobsInRange = [];
 
     #endregion
 

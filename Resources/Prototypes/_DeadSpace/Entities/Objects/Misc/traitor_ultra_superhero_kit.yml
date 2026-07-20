@@ -1,0 +1,31 @@
+- type: entity
+  parent: CrateSyndicate
+  id: CrateTraitorUltraSuperheroKit
+  name: superhero kit crate
+  description: Contains the essentials for a dramatic undercover entrance.
+  suffix: Filled
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: TraitorUltraSuperheroKitFill
+
+- type: entityTable
+  id: TraitorUltraSuperheroKitFill
+  table: !type:AllSelector
+    children:
+    - id: ToyRubberDuck
+      amount: 2
+    - id: ValentineCard
+      amount: 2
+    - id: ClothingNeckChameleon
+    - !type:GroupSelector
+      children:
+      - id: PlushieAgnes
+      - id: PlushieGoldShip
+      - id: PlushieBourbon
+    - !type:AllSelector
+      prob: 0.02
+      children:
+      - id: WeaponLightMachineGunL6
+      - id: MagazineLightRifleBox

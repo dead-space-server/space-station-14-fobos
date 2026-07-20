@@ -67,7 +67,7 @@
     - Back
     - suitStorage
   - type: Gun
-    fireRate: 2.1
+    fireRate: 2.2
     selectedMode: FullAuto
     availableModes:
     - FullAuto
@@ -140,7 +140,7 @@
     availableModes:
       - SemiAuto
     soundGunshot:
-      path: /Audio/_DeadSpace/Souyz/Weapons/Guns/Gunshots/saiga.ogg
+      path: /Audio/_DeadSpace/_Soyuz/Weapons/Guns/Gunshots/saiga.ogg
     soundEmpty:
       path: /Audio/Weapons/Guns/Empty/empty.ogg
   - type: ItemSlots

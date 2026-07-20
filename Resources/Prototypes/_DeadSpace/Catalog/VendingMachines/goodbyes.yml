@@ -3,3 +3,9 @@
   values:
     prefix: thankyou-clownvend-
     count: 5
+
+- type: localizedDataset
+  id: CaptainDrobeGoodbyes
+  values:
+    prefix: thankyou-captaindrobe-
+    count: 6

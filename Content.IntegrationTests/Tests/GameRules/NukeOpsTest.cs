@@ -21,6 +21,8 @@ using Content.Shared.NukeOps;
 using Content.Shared.Pinpointer;
 using Content.Shared.Roles.Components;
 using Content.Shared.Station.Components;
+using Content.Shared.StatusEffectNew;
+using Content.Shared.Stunnable;
 using Robust.Server.GameObjects;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map.Components;
@@ -29,6 +31,7 @@ using Robust.Shared.Prototypes;
 namespace Content.IntegrationTests.Tests.GameRules;
 
 [TestFixture]
+[NonParallelizable]
 public sealed class NukeOpsTest
 {
     private static readonly ProtoId<NpcFactionPrototype> SyndicateFaction = "Syndicate";
@@ -58,6 +61,7 @@ public sealed class NukeOpsTest
         var invSys = server.System<InventorySystem>();
         var factionSys = server.System<NpcFactionSystem>();
         var roundEndSys = server.System<RoundEndSystem>();
+        var statusSys = server.System<StatusEffectsSystem>();
 
         server.CfgMan.SetCVar(CCVars.GridFill, true);
 
@@ -257,6 +261,21 @@ public sealed class NukeOpsTest
             Assert.That(roundEndSys.IsRoundEndRequested,
                 "All nukies were deleted, but the round didn't end!");
         });
+
+        await server.WaitPost(() =>
+        {
+            foreach (var ent in dummyEnts.Append(player))
+            {
+                if (!entMan.EntityExists(ent))
+                    continue;
+
+                statusSys.TryRemoveStatusEffect(ent, SharedStunSystem.StunId);
+                entMan.RemoveComponent<StunnedComponent>(ent);
+                entMan.RemoveComponent<KnockedDownComponent>(ent);
+            }
+        });
+
+        await pair.RunTicksSync(5);
 
         ticker.SetGamePreset((GamePresetPrototype?) null);
         await pair.CleanReturnAsync();

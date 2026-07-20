@@ -42,6 +42,7 @@ public sealed class CargoPalletConsoleBoundUserInterface : BoundUserInterface
             return;
 
         _menu?.SetEnabled(palletState.Enabled);
+        _menu?.SetTradeHijacked(palletState.TradeHijacked); // DS14
         _menu?.SetAppraisal(palletState.Appraisal);
         _menu?.SetCount(palletState.Count);
     }

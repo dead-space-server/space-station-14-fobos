@@ -8,6 +8,7 @@
   - type: AccessReader
     access: [["CentralCommand"]]
   - type: TurretTargetSettings
+    turretFactions: [CentralCommand]
     exemptAccessLevels:
     - CentralCommand
     - Borg

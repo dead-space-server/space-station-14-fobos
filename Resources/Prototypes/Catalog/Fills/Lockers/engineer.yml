@@ -206,6 +206,8 @@
     - id: RCD
     - id: RCDAmmo
     - id: MetalFoamGrenade
+    - id: WeaponPlasmaCutter #DS14
+      prob: 0.4
     - id: PlushieLizardJobTechnicalassistant
       prob: 0.02
     - id: PlushieLizardJobStationengineer

@@ -225,7 +225,42 @@
         orGroup: GiftPool
       - id: PlushieHermione
         orGroup: GiftPool
-
+      - id: PlushieSilEgor
+        orGroup: GiftPool
+      - id: PlushieZaratana
+        orGroup: GiftPool
+      - id: PlushieAgnes
+        orGroup: GiftPool
+      - id: PlushieGoldShip
+        orGroup: GiftPool
+      - id: PlushieBourbon
+        orGroup: GiftPool
+      - id: PlushieMagicColonel
+        orGroup: GiftPool
+      - id: PlushieFyrmorEklmn
+        orGroup: GiftPool
+      - id: PlushieUraniDmitrySpeisov
+        orGroup: GiftPool
+      - id: PlushieZekalAhmet
+        orGroup: GiftPool
+      - id: PlushieSargonValeniyaSato
+        orGroup: GiftPool
+      - id: PlushieKoteViyt
+        orGroup: GiftPool
+      - id: PlushieCyberBobeksRiikka
+        orGroup: GiftPool
+      - id: PlushieAmaliz
+        orGroup: GiftPool
+      - id: PlushieNikolVitali
+        orGroup: GiftPool
+      - id: PlushieCovralBroneslav
+        orGroup: GiftPool
+      - id: Plushie0black_cat0
+        orGroup: GiftPool
+      - id: PlushieDosDydosYukari
+        orGroup: GiftPool
+      - id: PlushieYosugaMarsel
+        orGroup: GiftPool
 
 - type: entity
   id: PresentFigurine

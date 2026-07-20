@@ -123,6 +123,7 @@
   id: JobSeniorOfficer
   groups:
   - GroupTankHarness
+  - SeniorOfficerHead
   - SecurityMask
   - SeniorOfficerJumpsuit
   - SeniorOfficerBackpack
@@ -145,6 +146,7 @@
   - SecurityHead
   - SecurityPilotJumpsuit # DS14
   - SecurityBackpack
+  - SecurityOuterClothing
   - SecurityShoes
   - SecurityBelt
   - SurvivalSecurity

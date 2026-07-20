@@ -28,6 +28,7 @@ using Content.Shared.Timing;
 using Content.Shared.Storage.Events;
 using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
+using Content.Shared.DeadSpace.Storage; // DS14
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
@@ -441,7 +442,14 @@ public abstract class SharedStorageSystem : EntitySystem
             // If you need something more sophisticated for multi-UI you'll need to code some smarter
             // interactions.
             if (_openStorageLimit == 1)
-                UI.CloseUserUis<StorageComponent.StorageUiKey>(actor);
+            // DS14-Start
+            {
+                var checkEvent = new CheckMultipleInventoryWindowsEvent(actor);
+                RaiseLocalEvent(ref checkEvent);
+                if (!checkEvent.Enabled)
+                    UI.CloseUserUis<StorageComponent.StorageUiKey>(actor);
+            }
+            // DS14-end
 
             OpenStorageUIInternal(uid, actor, storageComp, silent: silent);
         }
@@ -907,6 +915,14 @@ public abstract class SharedStorageSystem : EntitySystem
 
         var uid = args.Target;
         var actor = args.Actor;
+
+        // DS14-start
+        var checkEvent = new CheckMultipleInventoryWindowsEvent(actor);
+        RaiseLocalEvent(ref checkEvent);
+        if (checkEvent.Enabled)
+            return;
+        // DS14-end
+
         var count = 0;
 
         if (_userQuery.TryComp(actor, out var userComp))

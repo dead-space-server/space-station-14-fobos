@@ -1,6 +1,8 @@
 ## Implanter Attempt Messages
 
 implanter-component-implanting-target = { $user } пытается что-то в вас имплантировать!
+implanter-component-implanting-self = Вы начинаете вводить себе имплант.
+implanter-component-implanting-user = Вы начинаете вводить имплант в { $target }.
 implanter-component-implant-failed = { $implant } нельзя имплантировать в { $target }!
 implanter-draw-failed-permanent = { $implant } вросся в { $target } и не может быть удалён!
 implanter-draw-failed = Вы пытаетесь удалить имплант, но ничего не находите.

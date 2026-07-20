@@ -48,7 +48,7 @@
     - type: Item
       shape:
       - 0,0,2,1
-      size: Large 
+      size: Large
       sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi
     - type: SolutionContainerManager
       solutions:
@@ -71,13 +71,13 @@
   id: ExtraborilVial
   name: пробирка с экстраборилом
   description: Пробирка, заполненная до краев экстраборилом.
-  parent: BaseChemistryEmptyVial
+  parent: ChemistryEmptyVial
   components:
   - type: Label
     currentLabel: Экстраборил
   - type: SolutionContainerManager
     solutions:
-      beaker:
+      drink:
         maxVol: 40
         reagents:
         - ReagentId: Extraboril

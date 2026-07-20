@@ -1,7 +1,6 @@
 <lobbyUi:LobbyGui
     xmlns="https://spacestation14.io"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:maths="clr-namespace:Robust.Shared.Maths;assembly=Robust.Shared.Maths"
     xmlns:cc="clr-namespace:Content.Client.Administration.UI.CustomControls"
     xmlns:vote="clr-namespace:Content.Client.Voting.UI"
     xmlns:lobbyUi="clr-namespace:Content.Client.Lobby.UI"
@@ -10,98 +9,317 @@
     xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
     xmlns:parallax="clr-namespace:Content.Client.Parallax"
     xmlns:changelog="clr-namespace:Content.Client.Changelog">
-    <!-- Background -->
+
     <TextureRect Access="Public" VerticalExpand="True" HorizontalExpand="True" Name="Background" Stretch="KeepAspectCovered" Visible="False"/>
     <parallax:ParallaxControl ParallaxPrototype="KettleStation" Access="Public" Name="ParallaxControl" VerticalExpand="True" HorizontalExpand="True"/>
-    <BoxContainer Name="MainContainer" VerticalExpand="True" HorizontalExpand="True" Orientation="Horizontal" Margin="10 10 10 10">
-        <!-- Character setup state -->
-        <Control  Access="Public" Visible="False" Name="CharacterSetupState" VerticalExpand="True" HorizontalExpand="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-        <SplitContainer Name="SplitContainer" State="Auto" ResizeMode="NotResizable" HorizontalExpand="True" Orientation="Vertical">
-            <!-- Top Side -->
-            <BoxContainer Name="TopSide" Orientation="Vertical" HorizontalAlignment="Stretch" HorizontalExpand="True" VerticalExpand="True" VerticalAlignment="Top">
-                <controls:StripeBack>
-                <PanelContainer Name="TopPanel" MinWidth="722" StyleClasses="LobbyBackground" HorizontalExpand="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                    <BoxContainer Orientation="Vertical" HorizontalExpand="True" HorizontalAlignment="Stretch" Margin="8 8 8 8">
-                        <BoxContainer Orientation="Horizontal" MinSize="0 40" HorizontalAlignment="Center">
-                            <!-- DS14-start -->
-                            <Button Name="ShowGUI" Text="Ø" MinSize="50 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <!-- DS14-end -->
-                            <Button Name="Rules" Text="{Loc 'server-info-rules-button'}" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <Button Name="Guidebook" Text="{Loc 'server-info-guidebook-button'}" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <changelog:ChangelogButton Name="Changelog" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <!-- DS14-start -->
-                            <Button Name="Wiki" Text="{Loc 'server-info-wiki-button'}" MinSize="75 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <!-- DS14-end -->
-                            <vote:VoteCallMenuButton Name="CallVoteButton" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <controls:VSpacer Spacing="25"/>
-                            <TextureRect TextureScale="0.18 0.18" Stretch="KeepCentered" TexturePath="/Textures/Interface/main_logo.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <controls:VSpacer Spacing="25"/>
-                            <Button Name="Boosty" Text="Boosty" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <Button Name="Discord" Text="Discord" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <Button Name="Telegram" Text="Telegram" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <Button Name="Site" Text="Сайт" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <Button Name="AHelpButton" Access="Public" Text="{Loc 'ui-lobby-ahelp-button'}" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+    <!-- DS14-start: KSO-styled lobby shell -->
+    <BoxContainer Name="MainContainer"
+                  VerticalExpand="True"
+                  HorizontalExpand="True"
+                  Orientation="Horizontal"
+                  Margin="12">
+
+        <Control Access="Public"
+                 Visible="False"
+                 Name="CharacterSetupState"
+                 VerticalExpand="True"
+                 HorizontalExpand="True"
+                 VerticalAlignment="Stretch"
+                 HorizontalAlignment="Stretch"/>
+
+        <SplitContainer Name="SplitContainer"
+                        State="Auto"
+                        ResizeMode="NotResizable"
+                        HorizontalExpand="True"
+                        Orientation="Vertical">
+
+            <BoxContainer Name="TopSide"
+                          Orientation="Vertical"
+                          HorizontalAlignment="Stretch"
+                          HorizontalExpand="True"
+                          VerticalExpand="True"
+                          VerticalAlignment="Top">
+
+                <PanelContainer Name="TopPanel"
+                                MinWidth="722"
+                                StyleClasses="DS14MenuTopShell"
+                                HorizontalExpand="True"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top">
+                    <LayoutContainer HorizontalExpand="True"
+                                     MinHeight="42">
+                        <BoxContainer Orientation="Horizontal"
+                                      SeparationOverride="5"
+                                      LayoutContainer.AnchorLeft="0"
+                                      LayoutContainer.AnchorTop="0.5"
+                                      LayoutContainer.AnchorRight="0"
+                                      LayoutContainer.AnchorBottom="0.5"
+                                      LayoutContainer.GrowVertical="Both">
+                            <Button Name="ShowGUI"
+                                    Text="Ø"
+                                    ToolTip="{Loc 'ui-lobby-minimize-button'}"
+                                    StyleClasses="DS14MenuTopButton"
+                                    MinWidth="52"
+                                    VerticalAlignment="Stretch"/>
+                            <Button Name="Rules"
+                                    Text="{Loc 'server-info-rules-button'}"
+                                    StyleClasses="DS14MenuTopButton"
+                                    MinWidth="100"
+                                    VerticalAlignment="Stretch"/>
+                            <Button Name="Guidebook"
+                                    Text="{Loc 'server-info-guidebook-button'}"
+                                    StyleClasses="DS14MenuTopButton"
+                                    MinWidth="118"
+                                    VerticalAlignment="Stretch"/>
+                            <changelog:ChangelogButton Name="Changelog"
+                                                       StyleClasses="DS14MenuTopButton"
+                                                       MinWidth="118"
+                                                       VerticalAlignment="Stretch"/>
+                            <Button Name="Wiki"
+                                    Text="{Loc 'server-info-wiki-button'}"
+                                    StyleClasses="DS14MenuTopButton"
+                                    MinWidth="64"
+                                    VerticalAlignment="Stretch"/>
+                            <vote:VoteCallMenuButton Name="CallVoteButton"
+                                                     StyleClasses="DS14MenuTopButton"
+                                                     MinWidth="118"
+                                                     VerticalAlignment="Stretch"/>
                         </BoxContainer>
-                    </BoxContainer>
+
+                        <TextureRect TextureScale="0.18 0.18"
+                                     Stretch="KeepCentered"
+                                     TexturePath="/Textures/Interface/main_logo.png"
+                                     MinSize="170 34"
+                                     LayoutContainer.AnchorLeft="0.5"
+                                     LayoutContainer.AnchorTop="0.5"
+                                     LayoutContainer.AnchorRight="0.5"
+                                     LayoutContainer.AnchorBottom="0.5"
+                                     LayoutContainer.GrowHorizontal="Both"
+                                     LayoutContainer.GrowVertical="Both"/>
+
+                        <BoxContainer Orientation="Horizontal"
+                                      SeparationOverride="5"
+                                      LayoutContainer.AnchorLeft="1"
+                                      LayoutContainer.AnchorTop="0.5"
+                                      LayoutContainer.AnchorRight="1"
+                                      LayoutContainer.AnchorBottom="0.5"
+                                      LayoutContainer.GrowHorizontal="Begin"
+                                      LayoutContainer.GrowVertical="Both">
+                            <Button Name="Boosty"
+                                    Text="Boosty"
+                                    StyleClasses="DS14MenuTopButton"
+                                    MinWidth="88"
+                                    VerticalAlignment="Stretch"/>
+                            <Button Name="Discord"
+                                    Text="Discord"
+                                    StyleClasses="DS14MenuTopButton"
+                                    MinWidth="88"
+                                    VerticalAlignment="Stretch"/>
+                            <Button Name="Telegram"
+                                    Text="Telegram"
+                                    StyleClasses="DS14MenuTopButton"
+                                    MinWidth="100"
+                                    VerticalAlignment="Stretch"/>
+                            <Button Name="Site"
+                                    Text="{Loc 'server-info-website-button'}"
+                                    StyleClasses="DS14MenuTopButton"
+                                    MinWidth="120"
+                                    VerticalAlignment="Stretch"/>
+                            <Button Name="AHelpButton"
+                                    Access="Public"
+                                    Text="{Loc 'ui-lobby-ahelp-button'}"
+                                    StyleClasses="DS14MenuTopButton"
+                                    MinWidth="82"
+                                    VerticalAlignment="Stretch"/>
+                        </BoxContainer>
+                    </LayoutContainer>
                 </PanelContainer>
-                </controls:StripeBack>
-                <BoxContainer Orientation="Vertical" SeparationOverride="4" Name="VoteContainer" Access="Public" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0 8"/>
+
+                <BoxContainer Orientation="Vertical"
+                              SeparationOverride="4"
+                              Name="VoteContainer"
+                              Access="Public"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Margin="0 8"/>
             </BoxContainer>
-            <!-- Bottom Side -->
-            <PanelContainer Name="BottomContainer" StyleClasses="LobbyBackground" MinHeight="300" HorizontalExpand="True" VerticalExpand="True">
-                <BoxContainer Orientation="Horizontal" HorizontalExpand="True" VerticalExpand="True" HorizontalAlignment="Stretch">
 
-                    <!-- Left Panel  -->
-                    <PanelContainer Name="LeftPanel" MinWidth="400" StyleClasses="LobbyBackground" HorizontalExpand="True" VerticalExpand="True">
-                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="8 8 8 8" VerticalAlignment="Stretch">
+            <PanelContainer Name="BottomContainer"
+                            StyleClasses="DS14MenuShell"
+                            MinHeight="300"
+                            HorizontalExpand="True"
+                            VerticalExpand="True">
+                <BoxContainer Orientation="Horizontal"
+                              HorizontalExpand="True"
+                              VerticalExpand="True"
+                              HorizontalAlignment="Stretch"
+                              SeparationOverride="8">
 
-                            <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="8 8 8 8">
-                                <info:ServerInfo Name="ServerInfo" Access="Public" MinSize="0 30" VerticalExpand="True" HorizontalExpand="True" HorizontalAlignment="Stretch"/>
+                    <PanelContainer Name="LeftPanel"
+                                    MinWidth="400"
+                                    StyleClasses="DS14MenuPanel"
+                                    HorizontalExpand="True"
+                                    VerticalExpand="True">
+                        <BoxContainer Orientation="Vertical"
+                                      HorizontalExpand="True"
+                                      VerticalExpand="True"
+                                      VerticalAlignment="Stretch"
+                                      SeparationOverride="8">
+                            <PanelContainer StyleClasses="DS14MenuHeader">
+                                <BoxContainer Orientation="Vertical"
+                                              SeparationOverride="2">
+                                    <Label Text="{Loc 'ui-lobby-server-info-block'}"
+                                           StyleClasses="DS14MenuTitle"/>
+                                    <Label Name="StationTime"
+                                           Access="Public"
+                                           StyleClasses="DS14MenuSubtitle"
+                                           HorizontalAlignment="Left"/>
+                                </BoxContainer>
+                            </PanelContainer>
+
+                            <BoxContainer Orientation="Horizontal"
+                                          HorizontalExpand="True">
+                                <info:ServerInfo Name="ServerInfo"
+                                                 Access="Public"
+                                                 MinSize="0 30"
+                                                 VerticalExpand="True"
+                                                 HorizontalExpand="True"
+                                                 HorizontalAlignment="Stretch"/>
                             </BoxContainer>
 
-                            <Label Name="StationTime" Access="Public" FontColorOverride="{x:Static maths:Color.LightGray}" HorizontalAlignment="Left"/>
+                            <RichTextLabel Name="PlaytimeComment"
+                                           Visible="False"
+                                           Access="Public"
+                                           HorizontalAlignment="Left" />
 
-                            <RichTextLabel Name="PlaytimeComment" Visible="False" Access="Public" HorizontalAlignment="Left" />
+                            <PanelContainer StyleClasses="DS14MenuAccentDim" />
 
-                            <controls:HLine Color="#404040" Thickness="1" Margin="0 5"/>
+                            <lobbyUi:ServerListBox Name="ServerListBox"
+                                                   Access="Public"
+                                                   MinSize="0 30"
+                                                   VerticalExpand="True"
+                                                   HorizontalExpand="True"
+                                                   HorizontalAlignment="Stretch"/>
 
-                            <lobbyUi:ServerListBox Name="ServerListBox" Access="Public" MinSize="0 30" VerticalExpand="True" HorizontalExpand="True" Margin="3 3 3 3" HorizontalAlignment="Stretch"/>
-                            <!-- DS14-start -->
-                            <controls:HLine Color="#404040" Thickness="1" Margin="0 5"/>
+                            <PanelContainer StyleClasses="DS14MenuAccentDim" />
 
-                            <RichTextLabel Name="LobbySong" Access="Public" HorizontalAlignment="Left" />
-                            <!-- DS14-end -->
-
+                            <RichTextLabel Name="LobbySong"
+                                           Access="Public"
+                                           HorizontalAlignment="Left" />
                         </BoxContainer>
                     </PanelContainer>
 
-                    <!-- Center Panel -->
-                    <PanelContainer Name="CenterPanel" StyleClasses="LobbyBackground" MinWidth="400" HorizontalExpand="True" VerticalExpand="True">
-                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <controls:StripeBack Name="StripeBack" Access="Public">
-                                <Label Name="StartTime" Access="Public" Align="Center" FontColorOverride="{x:Static maths:Color.DarkGray}" StyleClasses="LabelBig" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </controls:StripeBack>
+                    <PanelContainer Name="CenterPanel"
+                                    StyleClasses="DS14MenuPanel"
+                                    MinWidth="400"
+                                    HorizontalExpand="True"
+                                    VerticalExpand="True">
+                        <BoxContainer Orientation="Vertical"
+                                      HorizontalExpand="True"
+                                      VerticalExpand="True"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center"
+                                      SeparationOverride="8">
+                            <PanelContainer Name="StripeBack"
+                                            Access="Public"
+                                            StyleClasses="DS14MenuRoundStatus"
+                                            HorizontalAlignment="Center">
+                                <BoxContainer Orientation="Vertical"
+                                              HorizontalAlignment="Center"
+                                              SeparationOverride="2">
+                                    <Label Text="{Loc 'lobby-state-round-start-title'}"
+                                           StyleClasses="DS14MenuRoundStatusTitle"
+                                           HorizontalAlignment="Center"/>
+                                    <Label Name="StartTime"
+                                           Access="Public"
+                                           Align="Center"
+                                           StyleClasses="DS14MenuRoundStatusTime"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                </BoxContainer>
+                            </PanelContainer>
 
-                            <lobbyUi:LobbyCharacterPreviewPanel Name="CharacterPreview" Access="Public" Visible="True"/>
+                            <lobbyUi:LobbyCharacterPreviewPanel Name="CharacterPreview"
+                                                                Access="Public"
+                                                                Visible="True"/>
 
-                            <Button Name="ReadyButton" Access="Public" ToggleMode="True" Text="{Loc 'ui-lobby-ready-up-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
-                            <cc:UICommandButton Command="observe" Name="ObserveButton" Access="Public" Text="{Loc 'ui-lobby-observe-button'}" WindowType="{x:Type lobbyUi:ObserveWarningWindow}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
-                            <Button Name="DonateButton" Access="Public" Text="MK ТЕРМИНАЛ" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
-                            <Button Name="CharacterSetup" Access="Public" Text="{Loc 'lobby-character-preview-panel-character-setup-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
-                            <Button Name="OptionsButton" Access="Public" Text="{Loc 'ui-lobby-options-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
-                            <Button Name="LeaveButton" Access="Public" Text="{Loc 'ui-lobby-leave-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50" />
+                            <Button Name="ReadyButton"
+                                    Access="Public"
+                                    ToggleMode="True"
+                                    Text="{Loc 'ui-lobby-ready-up-button'}"
+                                    StyleClasses="DS14MenuAction DS14MenuReadyButton"
+                                    HorizontalAlignment="Stretch"
+                                    MinSize="250 50"/>
+                            <cc:UICommandButton Command="observe"
+                                                Name="ObserveButton"
+                                                Access="Public"
+                                                Text="{Loc 'ui-lobby-observe-button'}"
+                                                WindowType="{x:Type lobbyUi:ObserveWarningWindow}"
+                                                StyleClasses="DS14MenuAction"
+                                                HorizontalAlignment="Stretch"
+                                                MinSize="250 50"/>
+                            <Button Name="DonateButton"
+                                    Access="Public"
+                                    Text="MK TERMINAL"
+                                    StyleClasses="DS14MenuAction"
+                                    HorizontalAlignment="Stretch"
+                                    MinSize="250 50"/>
+                            <Button Name="CharacterSetup"
+                                    Access="Public"
+                                    Text="{Loc 'lobby-character-preview-panel-character-setup-button'}"
+                                    StyleClasses="DS14MenuAction"
+                                    HorizontalAlignment="Stretch"
+                                    MinSize="250 50"/>
+                            <Button Name="OptionsButton"
+                                    Access="Public"
+                                    Text="{Loc 'ui-lobby-options-button'}"
+                                    StyleClasses="DS14MenuAction"
+                                    HorizontalAlignment="Stretch"
+                                    MinSize="250 50"/>
+                            <Button Name="LeaveButton"
+                                    Access="Public"
+                                    Text="{Loc 'ui-lobby-leave-button'}"
+                                    StyleClasses="DS14MenuAction"
+                                    HorizontalAlignment="Stretch"
+                                    MinSize="250 50" />
                         </BoxContainer>
                     </PanelContainer>
 
-                    <!-- Right Panel - Chat -->
-                    <PanelContainer StyleClasses="LobbyBackground" Name="RightPanel" MinWidth="400" HorizontalExpand="True" VerticalExpand="True">
-                        <BoxContainer Orientation="Vertical" MinWidth="400" VerticalExpand="True" HorizontalExpand="True" HorizontalAlignment="Stretch" Margin="8 8 8 8">
-                            <widgets:ChatBox Name="Chat" Access="Public" VerticalExpand="True" Margin="3 3 3 3" HorizontalExpand="True" HorizontalAlignment="Stretch"/>
+                    <PanelContainer StyleClasses="DS14MenuPanel"
+                                    Name="RightPanel"
+                                    MinWidth="400"
+                                    HorizontalExpand="True"
+                                    VerticalExpand="True">
+                        <BoxContainer Orientation="Vertical"
+                                      MinWidth="400"
+                                      VerticalExpand="True"
+                                      HorizontalExpand="True"
+                                      HorizontalAlignment="Stretch"
+                                      SeparationOverride="8">
+                            <PanelContainer StyleClasses="DS14MenuHeader">
+                                <BoxContainer Orientation="Vertical"
+                                              SeparationOverride="2">
+                                    <Label Text="COMMS"
+                                           StyleClasses="DS14MenuTitle"/>
+                                    <Label Text="{Loc 'ui-lobby-online-players-block'}"
+                                           StyleClasses="DS14MenuSubtitle"/>
+                                </BoxContainer>
+                            </PanelContainer>
+                            <PanelContainer StyleClasses="DS14MenuInset"
+                                            VerticalExpand="True"
+                                            HorizontalExpand="True">
+                                <widgets:ChatBox Name="Chat"
+                                                 Access="Public"
+                                                 VerticalExpand="True"
+                                                 HorizontalExpand="True"
+                                                 HorizontalAlignment="Stretch"/>
+                            </PanelContainer>
                         </BoxContainer>
                     </PanelContainer>
-
                 </BoxContainer>
             </PanelContainer>
         </SplitContainer>
     </BoxContainer>
+    <!-- DS14-end -->
 </lobbyUi:LobbyGui>

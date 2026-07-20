@@ -1,0 +1,75 @@
+- type: entity
+  id: ActionPowerPunchCQCAttack
+  name: Удар в печень
+  description: Молниеносный удар кулаком в печень противника, наносит 25 чистого урона.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/cqc_actions.rsi
+      state: power_punch
+    priority: -8
+    useDelay: 5
+  - type: InstantAction
+    event: !type:CQCPowerPunchEvent {}
+
+- type: entity
+  id: ActionMutedCQCAttack
+  name: Удар поддых
+  description: Точный удар поддых, который перекрывает дыхательные пути и мешает координации противника.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/arkalyse_actions.rsi
+      state: mute
+    priority: -6
+    useDelay: 2
+  - type: InstantAction
+    event: !type:CQCMuteEvent {}
+
+- type: entity
+  id: ActionCQCStepPunch
+  name: Круговой удар по ногам
+  description: Мощный удар по ногам противника, который сбивает всех с ног на секунду вокруг вас.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/cqc_actions.rsi
+      state: trip_punch
+    useDelay: 2
+    priority: -6
+  - type: InstantAction
+    event: !type:CQCStepPunchEvent {}
+
+- type: entity
+  id: ActionRelaxCQC
+  name: Расслабление
+  description: Отмена всех эффектов на удар.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/arkalyse_actions.rsi
+      state: relax
+    priority: -5
+  - type: InstantAction
+    event: !type:CQCRelaxEvent {}
+
+- type: entity
+  id: ActionConcentrationCQC
+  name: Сконцентрироваться
+  description: Вы сосредотачиваетесь на технике ударов, ввиду чего не способны использовать обычное вооружение.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/cqc_actions.rsi
+      state: concentration_off
+    iconOn: 
+      sprite: _DeadSpace/Actions/cqc_actions.rsi
+      state: concentration_on
+    priority: -4
+    useDelay: 60
+  - type: InstantAction
+    event: !type:CQCConcentrationEvent {}

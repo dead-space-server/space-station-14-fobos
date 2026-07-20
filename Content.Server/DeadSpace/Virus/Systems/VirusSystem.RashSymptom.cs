@@ -17,10 +17,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
     private void OnCollide(Entity<VirusComponent> ent, ref StartCollideEvent args)
     {
         if (!HasSymptom<RashSymptom>((ent.Owner, ent.Comp)))
-        {
-            _sawmill.Debug($"[{ent.Owner}] не имеет симптома (RashSymptom)");
             return;
-        }
 
         if (!CanManifestInHost((ent, ent.Comp)))
             return;

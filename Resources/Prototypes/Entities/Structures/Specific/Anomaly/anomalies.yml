@@ -843,6 +843,10 @@
         shape:
           !type:PhysShapeCircle
           radius: 0.2
+        # DS14-start: let glass-piercing hitscan rays hit flora bulbs.
+        layer:
+        - Opaque
+        # DS14-end
   - type: InteractionOutline
   - type: Damageable
     damageContainer: Biological

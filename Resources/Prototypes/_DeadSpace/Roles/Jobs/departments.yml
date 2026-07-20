@@ -27,7 +27,13 @@
   - CentralCommandSpecialOperationsOfficer
   - CentralCommandFieldOfficer
   - CBURNLeader
+  - SCSTLeader
+  - SCNTLeader
+  - SierraLeader
   - CBURNAgent
+  - SCSTAgent
+  - SCNTAgent
+  - SierraAgent
   - BSAALeaderJob
   - BSAAFighterJob
   - BSAAMedicJob

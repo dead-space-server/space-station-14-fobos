@@ -51,6 +51,7 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         SubscribeLocalEvent<EntitySpokeEvent>(OnEntitySpoke);
         SubscribeLocalEvent<RoleAddedEvent>(OnRoleAdded);
         SubscribeLocalEvent<MindContainerComponent, BeingGibbedEvent>(OnMindBeingGibbed);
+        SubscribeLocalEvent<MindContainerComponent, EntityRenamedEvent>(OnMindContainerRenamed);
         SubscribeLocalEvent<MobStateComponent, DamageChangedEvent>(OnDamageChanged, before: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<MobStateChangedEvent>(OnMobStateChanged);
     }
@@ -78,6 +79,12 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         return _identityByMind.TryGetValue(mindId, out var identity)
             ? identity
             : null;
+    }
+
+    public void EnsureManifestEntry(EntityUid mindId, MindComponent mind)
+    {
+        EnsureManifestIdentity(mindId, mind);
+        EnsureDisplaySnapshot(mindId, mind);
     }
 
     private void OnRoundStarting(RoundStartingEvent ev)
@@ -125,8 +132,7 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         if (!IsAntagPlayerMind(args.MindId, args.Mind))
             return;
 
-        EnsureManifestIdentity(args.MindId, args.Mind);
-        EnsureDisplaySnapshot(args.MindId, args.Mind);
+        EnsureManifestEntry(args.MindId, args.Mind);
     }
 
     private void OnMindBeingGibbed(EntityUid uid, MindContainerComponent component, BeingGibbedEvent args)
@@ -138,6 +144,20 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         }
 
         TryCreateDisplaySnapshot(mindId, uid, replaceExisting: false);
+    }
+
+    private void OnMindContainerRenamed(EntityUid uid, MindContainerComponent component, ref EntityRenamedEvent args)
+    {
+        if (string.IsNullOrWhiteSpace(args.NewName) ||
+            !TryGetPlayerMind(uid, out var mindId, out var mind) ||
+            !IsAntagPlayerMind(mindId, mind) ||
+            !_identityByMind.TryGetValue(mindId, out var identity) ||
+            identity.SourceEntity != uid)
+        {
+            return;
+        }
+
+        _identityByMind[mindId] = identity with { CharacterName = args.NewName };
     }
 
     private bool EnsureDisplaySnapshot(EntityUid mindId, MindComponent mind)

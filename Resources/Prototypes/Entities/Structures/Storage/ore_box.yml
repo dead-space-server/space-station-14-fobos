@@ -34,6 +34,10 @@
   - type: Climbable
   #DS14-start
   - type: LavalandOreRedeemer
+    miningAccess:
+    - TaipanCargo
+    - Salvage
+    - SeniorSalvage
     oreValues:
       SteelOre: 1
       Coal: 1
@@ -49,6 +53,7 @@
       BluespaceCrystalOre: 12
       DiamondOre: 16
   - type: LavalandFultonable
+  - type: OreBox
   #DS14-end
   # orebox-specific
   - type: Sprite

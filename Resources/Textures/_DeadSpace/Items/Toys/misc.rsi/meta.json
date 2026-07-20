@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT",
-  "copyright": "Made by inspector_jeleshka and hq._.dishka (discord) for Space Station 14 server Мёртвый Космос; plushie_hampter by RenLou#4333, resprite by inspector_jeleshka (discord), plushie jokerge by odlieerr (discord)",
+  "copyright": "Made by inspector_jeleshka and hq._.dishka (discord) for Space Station 14 server Мёртвый Космос; plushie_hampter by RenLou#4333, resprite by inspector_jeleshka (discord), plushie jokerge by odlieerr (discord), plushie agnes, gold ship and bourbon by nasdfx (discord)",
   "size": {
     "x": 32,
     "y": 32
@@ -241,6 +241,60 @@
     },
     {
       "name": "plushie_kim"
+    },
+    {
+      "name": "plushie_zaratana"
+    },
+    {
+      "name": "agnes"
+    },
+    {
+      "name": "gold_ship"
+    },
+    {
+      "name": "bourbon"
+    },
+    {
+      "name": "plushie_colonel"
+    },
+    {
+      "name": "plushie_speisov"
+    },
+    {
+      "name": "plushie_ahmet"
+    },
+    {
+      "name": "plushie_valeniya"
+    },
+    {
+      "name": "plushie_viyt"
+    },
+    {
+      "name": "plushie_riikka"
+    },
+    {
+      "name": "plushie_fyrmor"
+    },
+    {
+      "name": "plushie_amaliz"
+    },
+    {
+      "name": "plushie_nikol"
+    },
+    {
+      "name": "plushie_covral"
+    },
+    {
+      "name": "plushie_0black_cat0"
+    },
+    {
+      "name": "plushie_0black_cat0_overlay"
+    },
+    {
+      "name": "plushie_yukari"
+    },
+    {
+      "name": "plushie_yosuga"
     }
   ]
 }

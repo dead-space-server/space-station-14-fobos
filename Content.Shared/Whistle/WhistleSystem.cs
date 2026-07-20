@@ -33,7 +33,7 @@ public sealed class WhistleSystem : EntitySystem
         args.Handled = TryMakeLoudWhistle(uid, args.User, component);
     }
 
-    public bool TryMakeLoudWhistle(EntityUid uid, EntityUid owner, WhistleComponent? component = null)
+    public bool TryMakeLoudWhistle(EntityUid uid, EntityUid? owner, WhistleComponent? component = null)
     {
         if (!Resolve(uid, ref component, false) || component.Distance <= 0)
             return false;
@@ -42,7 +42,7 @@ public sealed class WhistleSystem : EntitySystem
         return true;
     }
 
-    private void MakeLoudWhistle(EntityUid uid, EntityUid owner, WhistleComponent component)
+    private void MakeLoudWhistle(EntityUid uid, EntityUid? owner, WhistleComponent component)
     {
         StealthComponent? stealth = null;
 

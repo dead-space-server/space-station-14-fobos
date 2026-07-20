@@ -1,6 +1,8 @@
+using System.Numerics;
 using Content.Server.Atmos.Components;
 using Content.Shared.Atmos;
 using Content.Shared.Atmos.Components;
+using Content.Shared.Atmos.Reactions;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Utility;
 
@@ -24,19 +26,16 @@ namespace Content.Server.Atmos.EntitySystems
                 Archive(tile, fireCount);
 
             tile.CurrentCycle = fireCount;
-            var adjacentTileLength = 0;
+            // DS14-start: AdjacentBits is a four-bit hot-path mask; count it without a second flag loop.
+            var adjacentBits = (int) tile.AdjacentBits;
+            var adjacentTileLength = BitOperations.PopCount((uint) adjacentBits);
+            // DS14-end
 
-            for (var i = 0; i < Atmospherics.Directions; i++)
-            {
-                var direction = (AtmosDirection) (1 << i);
-                if(tile.AdjacentBits.IsFlagSet(direction))
-                    adjacentTileLength++;
-            }
-
+            var visualsChanged = false; // DS14
             for(var i = 0; i < Atmospherics.Directions; i++)
             {
                 var direction = (AtmosDirection) (1 << i);
-                if (!tile.AdjacentBits.IsFlagSet(direction)) continue;
+                if ((adjacentBits & (1 << i)) == 0) continue; // DS14
                 var enemyTile = tile.AdjacentTiles[i];
 
                 // If the tile is null or has no air, we don't do anything for it.
@@ -81,6 +80,7 @@ namespace Content.Server.Atmos.EntitySystems
                 if (shouldShareAir)
                 {
                     var difference = Share(tile, enemyTile, adjacentTileLength);
+                    visualsChanged = true; // DS14
 
                     // Monstermos already handles this, so let's not handle it ourselves.
                     if (!MonstermosEqualization)
@@ -100,9 +100,10 @@ namespace Content.Server.Atmos.EntitySystems
             }
 
             if(tile.Air != null)
-                React(tile.Air, tile);
+                visualsChanged |= React(tile.Air, tile) != ReactionResult.NoReaction; // DS14
 
-            InvalidateVisuals(ent, tile);
+            if (visualsChanged) // DS14
+                InvalidateVisuals(ent, tile);
 
             var remove = true;
 
@@ -116,8 +117,15 @@ namespace Content.Server.Atmos.EntitySystems
 
         private void Archive(TileAtmosphere tile, int fireCount)
         {
+            // DS14-start: LINDA archives very often; reuse mutable snapshots instead of allocating a mixture every time.
             if (tile.Air != null)
-                tile.AirArchived = new GasMixture(tile.Air);
+            {
+                if (tile.AirArchived == null || tile.AirArchived.Immutable)
+                    tile.AirArchived = new GasMixture(tile.Air);
+                else
+                    tile.AirArchived.CopyFrom(tile.Air);
+            }
+            // DS14-end
 
             tile.ArchivedCycle = fireCount;
         }

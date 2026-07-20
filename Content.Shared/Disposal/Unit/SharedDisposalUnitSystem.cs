@@ -4,6 +4,7 @@ using Content.Shared.Administration.Logs;
 using Content.Shared.Climbing.Systems;
 using Content.Shared.Containers;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.Demons.DemonShadow.Components;
 using Content.Shared.Disposal.Components;
 using Content.Shared.Disposal.Unit.Events;
 using Content.Shared.DoAfter;
@@ -21,6 +22,7 @@ using Content.Shared.Power;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.Storage.Components;
 using Content.Shared.Throwing;
+using Content.Shared.UserInterface;
 using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio.Systems;
@@ -87,7 +89,7 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
         SubscribeLocalEvent<DisposalUnitComponent, PowerChangedEvent>(OnPowerChange);
         SubscribeLocalEvent<DisposalUnitComponent, ComponentInit>(OnDisposalInit);
 
-        SubscribeLocalEvent<DisposalUnitComponent, ActivateInWorldEvent>(OnActivate);
+        SubscribeLocalEvent<DisposalUnitComponent, ActivateInWorldEvent>(OnActivate, before: new[] { typeof(ActivatableUISystem) }); // DS14
         SubscribeLocalEvent<DisposalUnitComponent, AfterInteractUsingEvent>(OnAfterInteractUsing);
         SubscribeLocalEvent<DisposalUnitComponent, DragDropTargetEvent>(OnDragDropOn);
         SubscribeLocalEvent<DisposalUnitComponent, ContainerRelayMovementEntityEvent>(OnMovement);
@@ -100,6 +102,11 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
     {
         if (!args.CanAccess || !args.CanInteract)
             return;
+
+        // DS14-start
+        if (IsDemonShadowDisposalUser(args.User))
+            return;
+        // DS14-end
 
         var uid = ent.Owner;
         var component = ent.Comp;
@@ -133,6 +140,11 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
         if (!args.CanAccess || !args.CanInteract || args.Hands == null || args.Using == null)
             return;
 
+        // DS14-start
+        if (IsDemonShadowDisposalUser(args.User))
+            return;
+        // DS14-end
+
         if (!ActionBlockerSystem.CanDrop(args.User))
             return;
 
@@ -158,6 +170,15 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
     {
         if (args.Handled || args.Cancelled || args.Args.Target == null || args.Args.Used == null)
             return;
+
+        // DS14-start
+        if (IsDemonShadowDisposalUser(args.Args.User) ||
+            HasComp<DemonShadowComponent>(args.Args.Target.Value))
+        {
+            args.Handled = true;
+            return;
+        }
+        // DS14-end
 
         AfterInsert(uid, component, args.Args.Target.Value, args.Args.User, doInsert: true);
 
@@ -205,6 +226,14 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
         if (args.Handled || !args.Complex)
             return;
 
+        // DS14-start
+        if (IsDemonShadowDisposalUser(args.User))
+        {
+            args.Handled = true;
+            return;
+        }
+        // DS14-end
+
         args.Handled = true;
         _ui.TryToggleUi(uid, DisposalUnitComponent.DisposalUnitUiKey.Key, args.User);
     }
@@ -213,6 +242,14 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
     {
         if (args.Handled || !args.CanReach)
             return;
+
+        // DS14-start
+        if (IsDemonShadowDisposalUser(args.User))
+        {
+            args.Handled = true;
+            return;
+        }
+        // DS14-end
 
         if (!HasComp<HandsComponent>(args.User))
         {
@@ -268,6 +305,14 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
 
     private void OnDragDropOn(EntityUid uid, DisposalUnitComponent component, ref DragDropTargetEvent args)
     {
+        // DS14-start
+        if (IsDemonShadowDisposalUser(args.User))
+        {
+            args.Handled = true;
+            return;
+        }
+        // DS14-end
+
         args.Handled = TryInsert(uid, args.Dragged, args.User);
     }
 
@@ -430,6 +475,15 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
         if (args.Handled)
             return;
 
+        // DS14-start
+        if (IsDemonShadowDisposalUser(args.User))
+        {
+            args.CanDrop = false;
+            args.Handled = true;
+            return;
+        }
+        // DS14-end
+
         args.CanDrop = CanInsert(uid, component, args.Dragged);
         args.Handled = true;
     }
@@ -442,6 +496,11 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
 
     public virtual bool CanInsert(EntityUid uid, DisposalUnitComponent component, EntityUid entity)
     {
+        // DS14-start
+        if (HasComp<DemonShadowComponent>(entity))
+            return false;
+        // DS14-end
+
         // TODO: All of the below should be using the EXISTING EVENT
         if (!Containers.CanInsert(entity, component.Container))
             return false;
@@ -468,6 +527,14 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
         EntityUid user,
         DisposalUnitComponent? disposal = null)
     {
+        // DS14-start
+        if (IsDemonShadowDisposalUser(user) ||
+            HasComp<DemonShadowComponent>(toInsert))
+        {
+            return;
+        }
+        // DS14-end
+
         if (!Resolve(uid, ref disposal))
             return;
 
@@ -504,6 +571,11 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
     {
         if (!Resolve(unitId, ref unit))
             return false;
+
+        // DS14-start
+        if (userId is { } user && IsDemonShadowDisposalUser(user))
+            return false;
+        // DS14-end
 
         if (userId.HasValue && !HasComp<HandsComponent>(userId) && toInsertId != userId) // Mobs like mouse can Jump inside even with no hands
         {
@@ -703,6 +775,13 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
         }
     }
 
+    // DS14-start
+    private bool IsDemonShadowDisposalUser(EntityUid user)
+    {
+        return HasComp<DemonShadowComponent>(user);
+    }
+    // DS14-end
+
     /// <summary>
     /// If something is inserted (or the likes) then we'll queue up an automatic flush in the future.
     /// </summary>
@@ -728,6 +807,11 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
         {
             return;
         }
+
+        // DS14-start
+        if (IsDemonShadowDisposalUser(player))
+            return;
+        // DS14-end
 
         switch (args.Button)
         {
@@ -765,6 +849,11 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
     {
         // This is not an interaction, activation, or alternative verb type because unfortunately most users are
         // unwilling to accept that this is where they belong and don't want to accidentally climb inside.
+        // DS14-start
+        if (IsDemonShadowDisposalUser(args.User))
+            return;
+        // DS14-end
+
         if (!args.CanAccess ||
             !args.CanInteract ||
             component.Container.ContainedEntities.Contains(args.User) ||
@@ -792,6 +881,11 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
 
     private void OnGetDumpableVerb(Entity<DisposalUnitComponent> ent, ref GetDumpableVerbEvent args)
     {
+        // DS14-start
+        if (IsDemonShadowDisposalUser(args.User))
+            return;
+        // DS14-end
+
         args.Verb = Loc.GetString("dump-disposal-verb-name", ("unit", ent));
     }
 
@@ -799,6 +893,15 @@ public abstract class SharedDisposalUnitSystem : EntitySystem
     {
         if (args.Handled)
             return;
+
+        // DS14-start
+        if (IsDemonShadowDisposalUser(args.User))
+        {
+            args.Handled = true;
+            args.PlaySound = false;
+            return;
+        }
+        // DS14-end
 
         args.Handled = true;
         args.PlaySound = true;

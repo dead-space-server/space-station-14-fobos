@@ -33,7 +33,7 @@
   - type: EmpDisableBasicEntityAmmo
   # DS14-end
   - type: BasicEntityAmmoProvider
-    proto: BulletEnergyCrossbow
+    proto: BulletEnergyCrossbowTrace
     capacity: 1
     count: 1
   - type: MagazineVisuals
@@ -47,6 +47,15 @@
     - Belt
   - type: UseDelay
     delay: 0.5
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/pistol/pistol_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/pistol/pistol_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/pistol/pistol_drop.ogg
 
 - type: entity
   id: WeaponEnergyCrossbowLarge
@@ -85,7 +94,7 @@
   - type: EmpDisableBasicEntityAmmo
   # DS14-end
   - type: BasicEntityAmmoProvider
-    proto: BulletEnergyCrossbowLarge
+    proto: BulletEnergyCrossbowLargeTrace
     capacity: 1
     count: 1
   - type: MagazineVisuals
@@ -97,3 +106,12 @@
   - type: Appearance
   - type: UseDelay
     delay: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_drop.ogg

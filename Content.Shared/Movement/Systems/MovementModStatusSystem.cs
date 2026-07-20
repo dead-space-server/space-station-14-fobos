@@ -52,7 +52,7 @@ public sealed class MovementModStatusSystem : EntitySystem
         ref StatusEffectRelayedEvent<RefreshMovementSpeedModifiersEvent> args
     )
     {
-        args.Args.ModifySpeed(entity.Comp.WalkSpeedModifier, entity.Comp.WalkSpeedModifier);
+        args.Args.ModifySpeed(entity.Comp.WalkSpeedModifier, entity.Comp.SprintSpeedModifier);
     }
 
     private void OnRefreshFrictionStatus(Entity<FrictionStatusEffectComponent> ent, ref StatusEffectRelayedEvent<RefreshFrictionModifiersEvent> args)
@@ -170,6 +170,7 @@ public sealed class MovementModStatusSystem : EntitySystem
 
         status.Comp.SprintSpeedModifier = sprintSpeedModifier;
         status.Comp.WalkSpeedModifier = walkSpeedModifier;
+        Dirty(status);
 
         _movementSpeedModifier.RefreshMovementSpeedModifiers(uid);
 

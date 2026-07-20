@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "Taken from github tgstation https://github.com/tgstation, re-sprite by cyberboich (discord) for Space Station 14 server Мёртвый Космос, plaf version made by yri_nouri (discord)",
+  "copyright": "Taken from github tgstation https://github.com/tgstation, re-sprite by cyberboich (discord) for Space Station 14 server Мёртвый Космос, plaf version made by yri_nouri (discord), resprite by pyfya (discord) for Space Station 14 server Мёртвый Космос, resprite by sastr. (discord) for Space Station 14 server Мёртвый Космос, reptilian version made by yri_nouri (discord)",
   "size": {
     "x": 32,
     "y": 32
@@ -17,6 +17,10 @@
     },
     {
       "name": "equipped-OUTERCLOTHING-plaf",
+      "directions": 4
+    },
+    {
+      "name": "equipped-OUTERCLOTHING-reptilian",
       "directions": 4
     },
     {

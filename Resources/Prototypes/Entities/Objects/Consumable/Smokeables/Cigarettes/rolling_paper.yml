@@ -58,6 +58,17 @@
     - RollingPaper
     - Trash
   - type: SpaceGarbage
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+  #DS14-End
 
 - type: entity
   id: PaperRolling1

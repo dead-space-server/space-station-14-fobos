@@ -12,12 +12,10 @@ using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
 using System.Diagnostics.CodeAnalysis;
-// DS14-start
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Content.Shared.Magic.Components;
 using System.Linq;
-// DS14-end
 
 namespace Content.Server.Mind;
 
@@ -368,6 +366,7 @@ public sealed class MindSystem : SharedMindSystem
         }
 
         RemoveMindMagicActions(mindId); // DS14
+
         MakeSentient(target);
         TransferTo(mindId, target, ghostCheckOverride: true, mind: mind);
     }

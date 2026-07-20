@@ -1,0 +1,14 @@
+- type: constructionGraph
+  id: UpgradePistolBlueShield
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: upgraded
+          steps:
+            - tag: PistolBlueShieldUpgradeKit
+              name: construction-graph-tag-weapon-pistol-chimp-upgrade-kit
+              doAfter: 2
+
+    - node: upgraded
+      entity: PistolBlueShieldUpgraded

@@ -2,4 +2,7 @@
   id: TraitorCorporations
   values:
     prefix: traitor-corporations-dataset-
-    count: 9
+    # DS14-start
+    # 1-3: Triumvirate heads; 4-7: secondary corporations; 8-10: subsidiaries.
+    count: 10
+    # DS14-end

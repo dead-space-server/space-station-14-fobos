@@ -1,0 +1,168 @@
+- type: entity
+  parent: MobSiliconBase
+  id: MobToyCar
+  name: машинка на радиоуправлении
+  description: Та самая машинка из магазина, которую вам не купили.
+  components:
+  - type: Item
+    size: Small
+  - type: Drone
+    isFPV: false
+    wattage: 5
+    actionsToDrone: 
+    - ToyCarHorn
+  - type: Sprite
+    sprite: _DeadSpace/Mobs/Toys/car.rsi
+    layers: 
+      - state: base
+        map: [ "rainbow" ]
+      - state: base-colored
+      - state: base-unshaded
+        shader: unshaded
+  - type: RandomSprite
+    available:
+    - rainbow:
+        base: Rainbow
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 20
+        mask:
+        - MobMask
+  - type: Eye
+    drawFov: true
+  - type: ContentEye
+  - type: PowerCellSlot
+    cellSlotId: cell_slot
+  - type: ContainerContainer
+    containers:
+      cell_slot: !type:ContainerSlot
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default
+        startingItem: PowerCellSmall
+        whitelist:
+          tags:
+            - PowerCell
+            - PowerCellSmall
+  - type: EmitSoundOnTrigger
+    keysIn:
+    - honk
+    sound:
+      path: /Audio/_DeadSpace/Effects/Random/car-horn.ogg
+      params:
+        volume: -5
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepBorg
+  - type: NameIdentifier
+    group: null
+  - type: Tag
+    tags:
+    - DoorBumpOpener
+    - SiliconEmotes
+    - Unimplantable
+    - FootstepSound
+    - ToyCar
+
+- type: entity
+  parent: MobSiliconBase
+  id: MobToyCarWithCamera
+  name: машинка на радиоуправлении с камерой
+  description: Такая же машинка, но теперь с возможностью смотреть через неё. Господи...
+  components:
+  - type: Item
+    size: Small
+  - type: Drone
+    isFPV: true
+    wattage: 5
+    actionsToDrone: 
+    - ToyCarHorn
+  - type: Sprite
+    sprite: _DeadSpace/Mobs/Toys/car.rsi
+    layers: 
+      - state: base
+        map: [ "rainbow" ]
+      - state: base-colored
+      - state: base-unshaded
+        shader: unshaded
+      - state: camera
+  - type: RandomSprite
+    available:
+    - rainbow:
+        base: Rainbow
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 20
+        mask:
+        - MobMask
+  - type: Eye
+    drawFov: true
+  - type: ContentEye
+  - type: PowerCellSlot
+    cellSlotId: cell_slot
+  - type: ContainerContainer
+    containers:
+      cell_slot: !type:ContainerSlot
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default
+        startingItem: PowerCellSmall
+        whitelist:
+          tags:
+            - PowerCell
+            - PowerCellSmall
+  - type: EmitSoundOnTrigger
+    keysIn:
+    - honk
+    sound:
+      path: /Audio/_DeadSpace/Effects/Random/car-horn.ogg
+      params:
+        volume: -5
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepBorg
+  - type: NameIdentifier
+    group: null
+  - type: Tag
+    tags:
+    - DoorBumpOpener
+    - SiliconEmotes
+    - Unimplantable
+    - FootstepSound
+    - ToyCarCamera
+  - type: Construction
+    graph: ToyCarWithCamera
+    node: toyCarWithCamera
+
+- type: Tag
+  id: ToyCar
+
+- type: Tag
+  id: ToyCarCamera
+
+- type: entity
+  parent: BaseAction
+  id: ToyCarHorn
+  name: погудеть
+  description: Покажите всю вашу ярость.
+  components:
+  - type: Action
+    icon: 
+      sprite: Objects/Fun/bikehorn.rsi
+      state: icon
+    itemIconStyle: BigAction
+    useDelay: 3
+  - type: InstantAction
+    event: !type:TriggerActionEvent
+  - type: TriggerOnAction
+    keyOut: honk

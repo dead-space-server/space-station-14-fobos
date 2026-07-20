@@ -86,6 +86,14 @@ namespace Content.Shared.Chemistry.Reagent
         [DataField]
         public bool Standsout;
 
+        // DS14-start: decorative puddle optimization.
+        /// <summary>
+        /// Whether puddles made only from this reagent can use reduced decorative-puddle behavior.
+        /// </summary>
+        [DataField]
+        public bool DecorativePuddle;
+        // DS14-end
+
         [DataField]
         public ProtoId<FlavorPrototype>? Flavor;
 

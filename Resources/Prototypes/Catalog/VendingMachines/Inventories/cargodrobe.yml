@@ -4,6 +4,7 @@
     ClothingBackpackCargo: 4
     ClothingBackpackSatchelCargo: 4
     ClothingBackpackDuffelCargo: 4
+    ClothingBackpackTailbagSalvage: 3 # DS14
     ClothingUniformJumpsuitCargo: 4
     ClothingUniformJumpskirtCargo: 4
     ClothingShoesColorBlack: 6

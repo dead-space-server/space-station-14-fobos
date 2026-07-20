@@ -61,6 +61,17 @@
   - type: Item
     size: Tiny
   - type: PhysicalComposition
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+  #DS14-End
 
 - type: entity
   name: paper
@@ -87,6 +98,10 @@
     interfaces:
       enum.PaperUiKey.Key:
         type: PaperBoundUserInterface
+      # DS14-start
+      enum.PaperUiKey.Write:
+        type: PaperBoundUserInterface
+      # DS14-end
   - type: FaxableObject
   - type: PaperVisuals
   - type: SignaturePaper # DS14-signatures
@@ -439,6 +454,10 @@
     interfaces:
       enum.PaperUiKey.Key:
         type: PaperBoundUserInterface
+      # DS14-start
+      enum.PaperUiKey.Write:
+        type: PaperBoundUserInterface
+      # DS14-end
   - type: Item
     size: Tiny
   - type: Tag

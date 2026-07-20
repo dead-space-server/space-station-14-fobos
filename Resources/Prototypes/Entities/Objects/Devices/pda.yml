@@ -130,6 +130,15 @@
     materialComposition:
       Glass: 500
       Plastic: 500
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg
   # DS14-end
 
 - type: entity
@@ -696,6 +705,16 @@
     accentHColor: "#12445b" # DS14
   - type: Icon
     state: pda-hop
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NewsReaderCartridge
+      - MessengerCartridge
+      - BankCartridge
+      - ScannerProgramCartridge
 
 - type: entity
   parent: BasePDA
@@ -891,6 +910,7 @@
     - NewsReaderCartridge
     - WantedListCartridge
     - LogProbeCartridge
+    - BankCartridge # DS14
     - MessengerCartridge
 
 - type: entity
@@ -1206,7 +1226,7 @@
     id: ERTLeaderIDCard
   - type: ErtTrackerPda # DS14
     allowedDepartments:
-    - SpecialOperationsCorps
+    - SpecialOperationsCorps # DS14
     allowedJobs:
     - BlueShieldOfficer
     - CentralCommandBlueShieldOfficer
@@ -1407,6 +1427,7 @@
     - NewsReaderCartridge
     - WantedListCartridge
     - LogProbeCartridge
+    - MessengerCartridge
 
 - type: entity
   parent: BaseMedicalPDA

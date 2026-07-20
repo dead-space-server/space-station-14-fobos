@@ -82,7 +82,7 @@
     head: ClothingHeadHelmetSwat
     mask: ClothingMaskGasSwat
     outerClothing: ClothingOuterArmorBasicSlim
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     gloves: ClothingHandsGlovesCombat
   storage:
     back:
@@ -166,6 +166,7 @@
     - JawsOfLife # DS14
     - WelderExperimental # DS14
     - SprayPainterRecharging # DS14
+    - DoorRemoteAll # DS14
 
 #Gladiator with spear
 - type: startingGear

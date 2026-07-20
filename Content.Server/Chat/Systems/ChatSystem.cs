@@ -21,7 +21,6 @@ using Content.Shared.Players;
 using Content.Shared.Players.RateLimiting;
 using Content.Shared.Radio;
 using Content.Shared.Station.Components;
-using Content.Shared.Whitelist;
 using Robust.Server.Player;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -38,9 +37,7 @@ using Content.Shared.Dataset;
 using Content.DeadSpace.Interfaces.Server;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
-using Robust.Server.Console;
-using Content.Shared.DeadSpace.Languages.Prototypes;
-using Lidgren.Network;
+using Content.Server.Audio;
 
 namespace Content.Server.Chat.Systems;
 
@@ -63,10 +60,11 @@ public sealed partial class ChatSystem : SharedChatSystem
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
     [Dependency] private readonly StationSystem _stationSystem = default!;
     [Dependency] private readonly MobStateSystem _mobStateSystem = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    //[Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly ReplacementAccentSystem _wordreplacement = default!;
     [Dependency] private readonly ExamineSystemShared _examineSystem = default!;
     [Dependency] private readonly LanguageSystem _language = default!; // DS14-Languages
+    [Dependency] private readonly ServerGlobalSoundSystem _sound = default!; // DS14
     private IServerChatFilter? _chatFilter; // DS14-chat-filter
 
     private bool _loocEnabled = true;
@@ -369,7 +367,7 @@ public sealed partial class ChatSystem : SharedChatSystem
                 if (sender == Loc.GetString("chat-manager-sender-announcement")) announcementSound = CentComAnnouncementSound; // Corvax-Announcements: Support custom alert sound from admin panel
             }
 
-            _audio.PlayGlobal(announcementSound ?? DefaultAnnouncementSound, Filter.Broadcast(), true, announcementSound?.Params ?? AudioParams.Default.WithVolume(-2f));
+            _sound.PlayAnnonceGlobal(Filter.Broadcast(), announcementSound ?? DefaultAnnouncementSound, announcementSound?.Params ?? AudioParams.Default.WithVolume(-2f), true); //DS14
 
             if (author != null && TryComp<TTSComponent>(author.Value, out var tts) && tts.VoicePrototypeId != null) // For comms console announcements
             {
@@ -391,6 +389,73 @@ public sealed partial class ChatSystem : SharedChatSystem
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Global station announcement from {sender}: {message}");
     }
 
+    // DS14-announce-start
+    public void DispatchAdminFilteredAnnouncement(
+        Filter filter,
+        string message,
+        string? sender = null,
+        bool playSound = true,
+        SoundSpecifier? announcementSound = null,
+        Color? colorOverride = null,
+        string originalMessage = "",
+        string? voice = null,
+        bool usePresetTTS = false,
+        string? languageId = null)
+    {
+        languageId = string.IsNullOrEmpty(languageId) ? LanguageSystem.DefaultLanguageId : languageId;
+
+        sender ??= Loc.GetString("chat-manager-sender-announcement");
+
+        var lexiconMessage = _language.TransformWord(message, languageId);
+        var langName = _language.GetLangName(languageId);
+        var wrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message-lang",
+            ("sender", sender),
+            ("language", langName),
+            ("message", FormattedMessage.EscapeText(message)));
+
+        if (_chatFilter != null && _chatFilter.NotAllowedMessage(wrappedMessage))
+            return;
+
+        var understanding = _language.GetUnderstanding(languageId);
+        var lexiconWrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message",
+            ("sender", sender),
+            ("message", FormattedMessage.EscapeText(lexiconMessage)));
+
+        foreach (var session in filter.Recipients)
+        {
+            if (!understanding.Contains(session))
+                _chatManager.ChatMessageToOne(ChatChannel.Radio, lexiconMessage, lexiconWrappedMessage, default, false, session.Channel, colorOverride, true);
+            else
+                _chatManager.ChatMessageToOne(ChatChannel.Radio, message, wrappedMessage, default, false, session.Channel, colorOverride, true);
+        }
+
+        if (playSound)
+        {
+            if (announcementSound == null)
+            {
+                if (sender == Loc.GetString("chat-manager-sender-announcement"))
+                    announcementSound = CentComAnnouncementSound;
+            }
+
+            _sound.PlayAnnonceGlobal(filter, announcementSound ?? DefaultAnnouncementSound, announcementSound?.Params ?? AudioParams.Default.WithVolume(-2f), true);//DS14
+
+            if (usePresetTTS && sender == Loc.GetString("chat-manager-sender-announcement"))
+            {
+                voice = _centcommTTS;
+                var ev = new AnnounceSpokeEvent(voice, originalMessage, lexiconMessage, languageId, filter, null);
+                RaiseLocalEvent(ev);
+            }
+            else if (voice != null)
+            {
+                var ev = new AnnounceSpokeEvent(voice, originalMessage, lexiconMessage, languageId, filter, null);
+                RaiseLocalEvent(ev);
+            }
+        }
+
+        _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Filtered station announcement from {sender}: {message}");
+    }
+    // DS14-announce-end
+
     /// <inheritdoc />
     public override void DispatchFilteredAnnouncement(
         Filter filter,
@@ -407,7 +472,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         _chatManager.ChatMessageToManyFiltered(filter, ChatChannel.Radio, message, wrappedMessage, source ?? default, false, true, colorOverride);
         if (playSound)
         {
-            _audio.PlayGlobal(announcementSound ?? DefaultAnnouncementSound, filter, true, AudioParams.Default.WithVolume(-2f));
+            _sound.PlayAnnonceGlobal(filter, announcementSound ?? DefaultAnnouncementSound, AudioParams.Default.WithVolume(-2f), true);//DS14
         }
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Station Announcement from {sender}: {message}");
     }
@@ -421,7 +486,11 @@ public sealed partial class ChatSystem : SharedChatSystem
         SoundSpecifier? announcementSound = null,
         Color? colorOverride = null,
         string? voice = null,
-        string? languageId = null) // DS14
+        // DS14-start
+        string? languageId = null,
+        Filter? recipientFilter = null,
+        bool usePresetTTS = false)
+        // DS14-end
     {
         languageId = string.IsNullOrEmpty(languageId) ? LanguageSystem.DefaultLanguageId : languageId;
 
@@ -444,7 +513,7 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         if (!TryComp<StationDataComponent>(station, out var stationDataComp)) return;
 
-        var filterStation = _stationSystem.GetInStation(stationDataComp);
+        var filterStation = recipientFilter ?? _stationSystem.GetInStation(stationDataComp); // DS14
         var filterUnderstanding = Filter.Empty();
         var filterNotUnderstanding = Filter.Empty();
 
@@ -463,15 +532,22 @@ public sealed partial class ChatSystem : SharedChatSystem
         _chatManager.ChatMessageToManyFiltered(filterNotUnderstanding, ChatChannel.Radio, lexiconMessage, lexiconWrappedMessage, source, false, true, colorOverride);
 
         // плохая реализация, лучше переписать AnnounceSpoke
-        if (!string.IsNullOrEmpty(voice))
+        // DS14-start
+        if (usePresetTTS)
+        {
+            var ev = new AnnounceSpokeEvent(_centcommTTS, message, lexiconMessage, languageId, filterStation, null);
+            RaiseLocalEvent(ev);
+        }
+        else if (!string.IsNullOrEmpty(voice))
         {
             var ev = new AnnounceSpokeEvent(voice, message, lexiconMessage, languageId, filterStation, null);
             RaiseLocalEvent(ev);
         }
+        // DS14-end
 
         if (playDefaultSound)
         {
-            _audio.PlayGlobal(announcementSound ?? DefaultAnnouncementSound, filterStation, true, AudioParams.Default.WithVolume(-2f));
+            _sound.PlayAnnonceGlobal(filterStation, announcementSound ?? DefaultAnnouncementSound, AudioParams.Default.WithVolume(-2f), true); //DS14
         }
 
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Station Announcement on {station} from {sender}: {message}");

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Sprites by kyres1 (github), modified by Avalon_Proto. By LuaFrontier - https://github.com/Lua-Frontier/sector-frontier-14/blob/9ec2498503b68322b039873e5b5f7e0868a4fcbe/Resources/Textures/_Mono/Objects/ShuttleWeapons/thanatos.rsi/meta.json",
+  "size": {
+    "x": 128,
+    "y": 128
+  },
+  "states": [
+    {
+      "name": "railgun",
+      "directions": 4
+    }
+  ]
+}

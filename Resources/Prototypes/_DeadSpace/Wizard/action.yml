@@ -4,6 +4,7 @@
   name: Удар с небес
   description: Вы бьёте молнией по указаной части.
   components:
+  - type: NonSwapMagic
   - type: Action
     raiseOnUser: true
     icon:
@@ -25,6 +26,8 @@
   name: Создание огня
   description: Вы создаёте огонь в указаной части.
   components:
+  - type: NonSwapMagic  
+  - type: Magic
   - type: Action
     raiseOnUser: true
     icon:
@@ -45,6 +48,7 @@
   name: Создание огня
   description: Вы создаёте огонь в указаной части.
   components:
+  - type: Magic
   - type: Action
     raiseOnUser: true
     icon:
@@ -65,6 +69,7 @@
   description: Вы меняете траекторию полёта 10-ти пуль что летят в вас.
   categories: [ HideSpawnMenu ]
   components:
+  - type: Magic
   - type: TargetAction
     range: 60
     checkCanAccess: false
@@ -76,7 +81,7 @@
       throwStrength: 60
       howMuch: 10
       components:
-        - Projectile
+        - HitscanAmmo
 
 - type: entity
   parent: [BaseSuicideAction, BaseImplantAction]
@@ -84,6 +89,7 @@
   name: Призыв
   description: Момент настал.
   components:
+  - type: Magic
   - type: Action
     itemIconStyle: BigAction
     priority: 20 # DS14-value

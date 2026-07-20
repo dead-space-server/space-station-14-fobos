@@ -9,6 +9,9 @@
     layers:
     - state: sec
       map: ["enum.BorgVisualLayers.Body", "movement"]
+    - state: sec_down
+      map: ["movement_prone"]
+      visible: false
     - state: sec_e
       map: ["enum.BorgVisualLayers.Light"]
       shader: unshaded
@@ -17,16 +20,44 @@
       shader: unshaded
       map: ["light", "enum.BorgVisualLayers.LightStatus"]
       visible: false
+    - state: sec_e_fight
+      map: ["combat_eyes"]
+      shader: unshaded
+      visible: false
+
+  - type: SpriteMovement
+    movementLayers:
+      movement:
+        state: sec_walking
+      movement_prone:
+        state: sec_down_walking
+    noMovementLayers:
+      movement:
+        state: sec
+      movement_prone:
+        state: sec_down
+
   - type: GenericVisualizer
     visuals:
       enum.SecurityBorgProneVisuals.Prone:
-        enum.BorgVisualLayers.Body:
-          True: {state: sec_down}
-          False: {state: sec}
-        enum.BorgVisualLayers.LightStatus:
-          True: {state: sec_down_l}
-          False: {state: sec_l}
+        movement:
+          True:  { visible: false }
+          False: { visible: true }
+        movement_prone:
+          True:  { visible: true }
+          False: { visible: false }
+        combat_eyes:
+          True: {state: sec_down_e_fight}
+          False: {state: sec_e_fight}
+      enum.BorgCombatModeVisuals.Combat:
+        combat_eyes:
+          True: {visible: true}
+          False: {visible: false}
+        enum.BorgVisualLayers.Light:
+          True: {color: "#ff2222"}
+          False: {color: "#ffffff"}
   - type: SecurityBorgProne
+  - type: BorgCombatModeOverlay
   - type: BorgChassis
     maxModules: 6
     moduleWhitelist:
@@ -155,7 +186,7 @@
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/taser2.ogg
   - type: BatteryAmmoProvider
-    proto: BulletDisabler
+    proto: BulletDisablerTrace
     fireCost: 50
 
 - type: entity
@@ -213,6 +244,9 @@
         whitelist:
           tags:
           - Handcuffs
+  - type: ComponentBorgModule
+    components:
+    - type: SecurityBorgArrestModule
 
 - type: entity
   id: BaseBorgModuleSecurity

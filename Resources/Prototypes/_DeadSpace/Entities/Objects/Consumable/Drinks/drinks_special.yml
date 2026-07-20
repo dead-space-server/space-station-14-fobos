@@ -71,3 +71,14 @@
     damageCoefficient: 0
   - type: Item
     sprite: _DeadSpace/Objects/Consumable/Drinks/syndie_shaker.rsi
+
+- type: entity
+  parent: DrinkShakerSyndie
+  id: DrinkShakerCMO
+  name: медицинский шейкер
+  description: Эксклюзивный шейкер, созданный специально для Главного врача, чтобы смешивать лекарства... или что-то покрепче после тяжёлой смены.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Drinks/cmo_shaker.rsi
+  - type: Item
+    sprite: _DeadSpace/Objects/Consumable/Drinks/cmo_shaker.rsi

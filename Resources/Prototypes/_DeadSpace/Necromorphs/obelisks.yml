@@ -365,17 +365,136 @@
 - type: entity
   parent: BaseStructure
   id: StructureObeliskNonReal
-  name: черный обелиск
+  name: красный обелиск
   suffix: муляж
   components:
   - type: Sprite
     noRot: true
-    sprite: _DeadSpace/Necromorfs/blackobelisk.rsi
+    sprite: _DeadSpace/Necromorfs/obelisk.rsi
     layers:
     - state: active
       map: [ "enum.DamageStateVisualLayers.Base" ]
+  - type: RangedDamageSound
+    soundGroups:
+      Brute:
+        collection:
+          MetalBulletImpact
+    soundTypes:
+      Heat:
+        collection:
+          MetalLaserImpact
   - type: Tag
     tags:
     - Wall
   - type: Physics
     bodyType: Static
+  - type: Damageable
+    damageContainer: Inorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 5
+            max: 10
+  - type: Anchorable
+  - type: Construction
+    graph: ObeliskNonReal
+    node: obeliskNonReal
+
+- type: entity
+  parent: BaseStructure
+  id: SMObelisk
+  name: обелиск
+  suffix: Суперматерия
+  description: Обелиск или суперматерия?
+  components:
+  - type: RangedDamageSound
+    soundGroups:
+      Brute:
+        collection:
+          MetalBulletImpact
+    soundTypes:
+      Heat:
+        collection:
+          MetalLaserImpact
+  - type: Tag
+    tags:
+    - Wall
+  - type: Physics
+    bodyType: Static
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Necromorfs/obelisk.rsi
+    layers:
+    - state: unactive
+      map: [ "enum.DamageStateVisualLayers.Base" ]
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-1,0.45,0.50"
+        density: 85
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 1500
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SuperObeliskSplinter:
+            min: 1
+            max: 1
+  - type: Appearance
+  - type: DamageVisuals
+    thresholds: [4, 8, 12]
+    damageDivisor: 100
+    trackAllDamage: true
+    damageOverlay:
+      sprite: _DeadSpace/Structures/obelisk_cracks.rsi
+  - type: SuperMatterialNecroObelisk
+    endAfterDestroy: true
+    warn: false
+    cudzu: false
+    active: false
+  - type: WarpPoint
+    follow: true
+    location: Обелиск - Супер материя
+    blacklist:
+      tags:
+      - GhostOnlyWarp
+  - type: NodeContainer
+    examinable: true
+    nodes:
+      output:
+        !type:CableDeviceNode
+        nodeGroupID: HVPower
+  - type: PowerSupplier
+    supplyRate: 10000
+    supplyRampRate: 500
+    supplyRampTolerance: 500
+  - type: Anchorable
+  - type: Electrified
+    onHandInteract: false
+    onInteractUsing: false
+    onBump: false
+    requirePower: true
+    highVoltageNode: output

@@ -1,0 +1,33 @@
+- type: entity
+  parent: BaseMentalAction
+  id: ActionTraitorUltraOpenContract
+  name: Open contract
+  description: Open the intercepted escalation contract.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 1
+    itemIconStyle: BigAction
+    priority: 10
+    icon:
+      sprite: Objects/Misc/bureaucracy.rsi
+      state: paper
+  - type: InstantAction
+    event: !type:TraitorUltraOpenContractActionEvent
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionTraitorUltraOpenExtraObjectiveOffer
+  name: Open bonus contract
+  description: Open the standing offer for an additional ultra objective.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 1
+    itemIconStyle: BigAction
+    priority: 10
+    icon:
+      sprite: Objects/Misc/bureaucracy.rsi
+      state: paper
+  - type: InstantAction
+    event: !type:TraitorUltraOpenExtraObjectiveOfferActionEvent

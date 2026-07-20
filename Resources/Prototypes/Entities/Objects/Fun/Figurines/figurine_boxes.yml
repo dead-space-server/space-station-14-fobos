@@ -14,6 +14,17 @@
     tags:
     - Trash
   - type: SpaceGarbage
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/cardboard_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/cardboard_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/cardboard_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -101,6 +112,17 @@
           weight: 0.20
         - id: ToyFigurineHqdishka
         - id: ToyFigurineHacksLua
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/matchbox_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/matchbox_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/matchbox_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -139,6 +161,17 @@
       - id: SyndicateFlippo
         orGroup: Lighterbox
         weight: 0.15
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/matchbox_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/matchbox_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/matchbox_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MysteryLighterBox
@@ -160,3 +193,14 @@
         orGroup: Lighterbox
       - id: SyndicateFlippo
         orGroup: Lighterbox
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/matchbox_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/matchbox_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/matchbox_drop.ogg
+  #DS14-End

@@ -35,6 +35,8 @@
     - TrackingImplant
     - StorageImplant
     - FreedomImplant
+    - UnitologySplinterBladeImplant # DS14
+    - UnitologyWeaponHandHookImplant # DS14
     - UplinkImplant
     - EmpImplant
     - ScramImplant
@@ -51,7 +53,7 @@
     - AdrenalImplant # DS14
     deimplantFailureDamage:
       types:
-        Cellular: 50
+        Cellular: 30 # DS14-Value
         Heat: 10
   - type: Sprite
     sprite: Objects/Specific/Medical/implanter.rsi
@@ -82,6 +84,17 @@
     interfaces:
       enum.DeimplantUiKey.Key:
         type: DeimplantBoundUserInterface
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_drop.ogg
+  #DS14-End
 
 - type: entity
   id: Implanter

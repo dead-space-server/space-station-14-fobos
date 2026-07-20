@@ -6,7 +6,7 @@ using Robust.Shared.Utility;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
-using Robust.Shared.Map; // DS14
+using Robust.Shared.Map;
 
 namespace Content.Client.Power;
 

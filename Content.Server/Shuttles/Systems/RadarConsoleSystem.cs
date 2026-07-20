@@ -1,15 +1,12 @@
 using System.Numerics;
-using System.Linq; //DS14
+using Content.Server.DeadSpace.Shuttles.Systems;
 using Content.Server.UserInterface;
 using Content.Shared.Shuttles.BUIStates;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Systems;
 using Content.Shared.PowerCell;
 using Content.Shared.Movement.Components;
-// DS14-start
-using Content.Shared.DeadSpace.Shuttles.Components;
 using Content.Shared.DeadSpace.Shuttles.Events;
-using Content.Shared.Tag;
 using Content.Shared.Actions;
 using Content.Shared.UserInterface;
 using Content.Shared.Hands;
@@ -18,9 +15,6 @@ using Content.Shared.Hands.Components;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Inventory.VirtualItem;
-using Robust.Shared.Map.Components;
-using Robust.Shared.Physics.Components;
-// DS14-end
 using Robust.Server.GameObjects;
 using Robust.Shared.Map;
 
@@ -31,17 +25,14 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
     [Dependency] private readonly ShuttleConsoleSystem _console = default!;
     [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
     // DS14-start
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly SharedTransformSystem _xformSys = default!;
-    [Dependency] private readonly IComponentFactory _componentFactory = default!;
-    [Dependency] private readonly TagSystem _tags = default!; //DS14
-    [Dependency] private readonly SharedActionsSystem _actions = default!; //DS14
-    [Dependency] private readonly SharedHandsSystem _handsSystem = default!; //DS14
-
-    private const float BlipRadius = 0.5f;
+    [Dependency] private readonly SharedActionsSystem _actions = default!;
+    [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
+    [Dependency] private readonly RadarBlipSystem _radarBlips = default!;
 
     private float _updateAccumulator;
     private const float UpdateInterval = 0.5f;
+    private readonly HashSet<EntityUid> _openRadars = new();
+    private readonly List<EntityUid> _openRadarsBuffer = new();
     // DS14-end
 
     public override void Initialize()
@@ -55,6 +46,11 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
         SubscribeLocalEvent<RadarConsoleComponent, GotUnequippedEvent>(OnRadarUnequipped);
         SubscribeLocalEvent<RadarConsoleComponent, ComponentShutdown>(OnRadarConsoleShutdown);
         SubscribeLocalEvent<ToggleHandheldRadarUIEvent>(OnToggleHandheldRadarUI);
+        Subs.BuiEvents<RadarConsoleComponent>(RadarConsoleUiKey.Key, subs =>
+        {
+            subs.Event<BoundUIOpenedEvent>(OnRadarUiOpened);
+            subs.Event<BoundUIClosedEvent>(OnRadarUiClosed);
+        });
         // DS14-end
     }
 
@@ -74,19 +70,40 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
 
         _updateAccumulator = 0f;
 
-        var query = EntityQueryEnumerator<RadarConsoleComponent>();
-        while (query.MoveNext(out var uid, out var comp))
-        {
-            if (!_uiSystem.IsUiOpen(uid, RadarConsoleUiKey.Key))
-                continue;
+        if (_openRadars.Count == 0)
+            return;
 
-            UpdateState(uid, comp);
+        _openRadarsBuffer.Clear();
+        _openRadarsBuffer.AddRange(_openRadars);
+
+        Dictionary<NetEntity, List<DockingPortState>>? docks = null;
+        foreach (var uid in _openRadarsBuffer)
+        {
+            if (!TryComp<RadarConsoleComponent>(uid, out var comp) ||
+                !_uiSystem.IsUiOpen(uid, RadarConsoleUiKey.Key))
+            {
+                _openRadars.Remove(uid);
+                continue;
+            }
+
+            docks ??= _console.GetAllDocks();
+            UpdateStateWithDocks(uid, comp, docks);
         }
+
+        _openRadarsBuffer.Clear();
     }
-    // DS14-end
 
     protected override void UpdateState(EntityUid uid, RadarConsoleComponent component)
     {
+        UpdateStateWithDocks(uid, component, null);
+    }
+
+    private void UpdateStateWithDocks(
+        EntityUid uid,
+        RadarConsoleComponent component,
+        Dictionary<NetEntity, List<DockingPortState>>? docks)
+    {
+        // DS14-end
         var xform = Transform(uid);
         var onGrid = xform.ParentUid == xform.GridUid;
         EntityCoordinates? coordinates = onGrid ? xform.Coordinates : null;
@@ -103,7 +120,7 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
             return;
 
         NavInterfaceState state;
-        var docks = _console.GetAllDocks();
+        docks ??= _console.GetAllDocks();
 
         if (coordinates != null && angle != null)
             state = _console.GetNavState(uid, docks, coordinates.Value, angle.Value);
@@ -113,102 +130,9 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
         state.RotateWithEntity = onGrid && !component.FollowEntity;
 
         if (component.Advanced)
-            state.Blips = CollectSpaceBlips(uid, component);
+            state.Blips = _radarBlips.CollectSpaceBlips(uid, component, component.MaxRange); // DS14
 
         _uiSystem.SetUiState(uid, RadarConsoleUiKey.Key, new NavBoundUserInterfaceState(state));
-    }
-
-    private List<BlipState> CollectSpaceBlips(EntityUid consoleUid, RadarConsoleComponent component)
-    {
-        var blips = new List<BlipState>();
-
-        var consoleXform = Transform(consoleUid);
-        if (consoleXform.MapUid == null)
-            return blips;
-
-        var worldPos = _xformSys.GetWorldPosition(consoleXform);
-        var mapId    = consoleXform.MapID;
-        var blacklistTypes   = ResolveComponentTypes(component.BlacklistComponents);
-        var allowedTypes     = ResolveAllowedEntries(component.AllowedComponents);
-        var blacklistTagList = component.BlacklistTags;
-        var allowedTagList   = component.AllowedTags;
-        var nearby = new HashSet<EntityUid>();
-        _lookup.GetEntitiesInRange(mapId, worldPos, component.MaxRange, nearby, LookupFlags.Uncontained);
-
-        foreach (var ent in nearby)
-        {
-            if (ent == consoleUid)
-                continue;
-
-            if (consoleXform.ParentUid == ent)
-                continue;
-
-            if (HasComp<MapComponent>(ent) || HasComp<MapGridComponent>(ent))
-                continue;
-
-            var entXform = Transform(ent);
-            if (entXform.GridUid != null)
-                continue;
-
-            if (!TryComp<PhysicsComponent>(ent, out var phys) || !phys.CanCollide)
-                continue;
-            if (blacklistTypes.Any(type => HasComp(ent, type)))
-                continue;
-
-            if (blacklistTagList.Any(tag => _tags.HasTag(ent, tag)))
-                continue;
-
-            var color = PickColor(ent, allowedTypes, allowedTagList);
-            if (color == null)
-                continue;
-
-            var entWorldPos = _xformSys.GetWorldPosition(entXform);
-            blips.Add(new BlipState(entWorldPos, color.Value, BlipRadius));
-        }
-
-        return blips;
-    }
-
-    private Color? PickColor(EntityUid ent, List<(Type Type, Color Color)> allowedTypes, List<RadarBlipTagEntry> allowedTags)
-    {
-        var compMatch = allowedTypes.FirstOrDefault(x => HasComp(ent, x.Type));
-        if (compMatch != default)
-            return compMatch.Color;
-
-        var tagMatch = allowedTags.FirstOrDefault(x => _tags.HasTag(ent, x.Tag));
-        if (tagMatch != null)
-            return tagMatch.Color;
-
-        if (allowedTypes.Count == 0 && allowedTags.Count == 0)
-            return Color.Yellow;
-
-        return null;
-    }
-
-    private List<Type> ResolveComponentTypes(List<string> names)
-    {
-        var result = new List<Type>(names.Count);
-        foreach (var name in names)
-        {
-            if (_componentFactory.TryGetRegistration(name, out var reg))
-                result.Add(reg.Type);
-            else
-                Log.Warning($"[RadarConsole] Blacklist: компонент '{name}' не найден.");
-        }
-        return result;
-    }
-
-    private List<(Type Type, Color Color)> ResolveAllowedEntries(List<RadarBlipEntry> entries)
-    {
-        var result = new List<(Type, Color)>(entries.Count);
-        foreach (var entry in entries)
-        {
-            if (_componentFactory.TryGetRegistration(entry.Component, out var reg))
-                result.Add((reg.Type, entry.Color));
-            else
-                Log.Warning($"[RadarConsole] AllowedComponents: компонент '{entry.Component}' не найден.");
-        }
-        return result;
     }
 
     private void OnRadarEquippedHand(EntityUid uid, RadarConsoleComponent component, GotEquippedHandEvent args)
@@ -241,7 +165,7 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
     private void OnRadarUnequipped(EntityUid uid, RadarConsoleComponent component, GotUnequippedEvent args)
     {
         component.FollowEntity = false;
-        
+
         _actions.RemoveAction(args.Equipee, component.ToggleActionEntity);
 
         if (_uiSystem.IsUiOpen(uid, RadarConsoleUiKey.Key, args.Equipee))
@@ -250,6 +174,9 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
 
     private void OnRadarConsoleShutdown(EntityUid uid, RadarConsoleComponent component, ComponentShutdown args)
     {
+        _openRadars.Remove(uid);
+        _radarBlips.ClearCache(component); // DS14
+
         if (component.ToggleActionEntity == null)
             return;
 
@@ -286,6 +213,18 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
             args.Handled = true;
             return;
         }
+    }
+
+    private void OnRadarUiOpened(Entity<RadarConsoleComponent> ent, ref BoundUIOpenedEvent args)
+    {
+        _openRadars.Add(ent.Owner);
+        UpdateState(ent.Owner, ent.Comp);
+    }
+
+    private void OnRadarUiClosed(Entity<RadarConsoleComponent> ent, ref BoundUIClosedEvent args)
+    {
+        if (!_uiSystem.IsUiOpen(ent.Owner, RadarConsoleUiKey.Key))
+            _openRadars.Remove(ent.Owner);
     }
     // DS14-end
 }

@@ -16,6 +16,17 @@
     solution: hypospray
     exactVolume: true
   - type: Appearance
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: [BaseHypospray, BaseGrandTheftContraband]
@@ -738,6 +749,17 @@
     - id: Hypopen
     sound:
       path: /Audio/Effects/unwrap.ogg
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: ChemicalMedipen

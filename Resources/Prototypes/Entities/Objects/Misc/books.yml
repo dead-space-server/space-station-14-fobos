@@ -27,6 +27,10 @@
     interfaces:
       enum.PaperUiKey.Key:
         type: PaperBoundUserInterface
+      # DS14-start
+      enum.PaperUiKey.Write:
+        type: PaperBoundUserInterface
+      # DS14-end
   - type: Tag
     tags:
     - Book
@@ -44,6 +48,17 @@
     damage:
       types:
         Blunt: 1
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/book_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -69,6 +84,17 @@
   - type: DamageOtherOnHit
     damage:
       types: {}
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/book_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
+  #DS14-End
 
 - type: entity
   id: BookSpaceEncyclopedia

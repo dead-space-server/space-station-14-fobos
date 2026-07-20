@@ -16,6 +16,17 @@
   - type: Tag
     tags:
     - TabletopBoard
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/book_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
+  #DS14-End
 
 - type: entity
   abstract: true
@@ -26,6 +37,17 @@
   - type: Sprite
     noRot: true
   - type: Appearance
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  #DS14-End
 
 # Entity which acts as the background sprite in the tabletop game
 - type: entity

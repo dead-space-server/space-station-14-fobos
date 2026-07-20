@@ -1,0 +1,46 @@
+- type: entity
+  name: blue shield officer shield
+  parent: [ BaseRepairableShield, BaseSecurityContraband ]
+  id: BulletShieldBlueShield
+  description: A reinforced ballistic shield issued to Blue Shield officers.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Weapons/Melee/shield_blueshield.rsi
+      state: icon
+    - type: Item
+      sprite: _DeadSpace/Objects/Weapons/Melee/shield_blueshield.rsi
+      heldPrefix: icon
+    - type: Clothing
+      sprite: _DeadSpace/Objects/Weapons/Melee/shield_blueshield.rsi
+      quickEquip: false
+      slots:
+      - suitStorage
+    - type: Destructible # Больше ХП
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 380
+          behaviors:
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+            - !type:PlaySoundBehavior
+              sound:
+                collection: MetalBreak
+            - !type:SpawnEntitiesBehavior
+              spawn:
+                SheetSteel:
+                  min: 2
+                  max: 2
+                SheetGlass:
+                  min: 2
+                  max: 2
+    - type: ShieldDash
+      damage: 
+        types:
+          Blunt: 15
+          Piercing: 5
+      damageToShield: 
+        types:
+            Blunt: 95
+      staminaDamage: 60
+      staminaDamageToUser: 30  

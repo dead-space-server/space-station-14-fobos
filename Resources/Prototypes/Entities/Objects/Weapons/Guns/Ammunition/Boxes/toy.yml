@@ -12,6 +12,17 @@
     containers:
       ballistic-ammo: !type:Container
         ents: []
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/ammobox/ammobox_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/ammobox/ammobox_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/ammobox/ammobox_drop.ogg
+  #DS14-End
 
 # Boxes
 - type: entity

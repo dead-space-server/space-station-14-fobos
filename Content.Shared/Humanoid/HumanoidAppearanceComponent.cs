@@ -100,6 +100,20 @@ public sealed partial class HumanoidAppearanceComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     public Color? CachedFacialHairColor;
 
+    // DS14-start
+    /// <summary>
+    ///     Градиент включн
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool HairGradientEnabled;
+
+    /// <summary>
+    ///     ЦЦвет градиента
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public Color HairGradientColor = Color.Black;
+    // DS14-end
+
     /// <summary>
     ///     Which layers of this humanoid that should be hidden on equipping a corresponding item..
     /// </summary>
