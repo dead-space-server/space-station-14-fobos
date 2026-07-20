@@ -1805,6 +1805,20 @@
   name: улица Первого Мая
   description: Синяя табличка с обозначением улицы.
 
+# Грязная вода
+- type: entity
+  parent: FloorWaterEntity
+  id: FloorWaterEntityAki
+  name: грязная вода
+  description: Фу...
+  suffix: Akitovsky, Маппинг
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/water.rsi
+    drawdepth: BelowFloor
+    layers:
+      - state: shoreline_water
+
 ################# RMC
 # Мешки с песком
 - type: entity
