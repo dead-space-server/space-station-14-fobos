@@ -19,14 +19,10 @@
     spriteLayer: light
   - type: PointLight
     enabled: false
-    radius: 5
-    softness: 5
-    autoRot: true
-    netsync: false
+    radius: 8
   - type: HandheldLight
     addPrefix: false
-    blinkingBehaviourId: blinking
-    radiatingBehaviourId: radiating
+    wattage: 0.5
   - type: LightBehaviour
     behaviours:
     - !type:FadeBehaviour
@@ -124,6 +120,16 @@
     tags:
     - CMAttachableRail
     - CMAttachableScope
+  - type: CursorOffsetRequiresWield
+  - type: EyeCursorOffset
+    maxOffset: 4
+    pvsIncrease: 0.3
+  # DS14-start
+  - type: AttachableComponentProvider
+    components:
+    - CursorOffsetRequiresWield
+    - EyeCursorOffset
+  # DS14-end
 
 - type: Tag
   id: CMAttachableRail

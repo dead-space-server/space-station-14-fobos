@@ -7,6 +7,8 @@ using Content.Shared.Actions.Events;
 using Content.Shared.DoAfter;
 using Content.Shared.Hands;
 using Content.Shared.Interaction;
+using Content.Shared.Light;
+using Content.Shared.Light.Components;
 using Content.Shared.Toggleable;
 using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Shared.Audio.Systems;
@@ -19,6 +21,9 @@ public sealed class AttachableToggleableSystem : EntitySystem
     [Dependency] private readonly AttachableHolderSystem _attachableHolderSystem = default!;
     [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
+    // DS14-start
+    [Dependency] private readonly SharedHandheldLightSystem _handheldLightSystem = default!;
+    // DS14-end
     public override void Initialize()
     {
         SubscribeLocalEvent<AttachableToggleableComponent, ActivateInWorldEvent>(OnActivateInWorld);
@@ -227,6 +232,25 @@ public sealed class AttachableToggleableSystem : EntitySystem
     {
         if (args.User == null)
             return;
+
+        // DS14-start
+        if (TryComp(attachable.Owner, out HandheldLightComponent? light))
+        {
+            switch (args.Alteration)
+            {
+                case AttachableAlteredType.Activated:
+                    _handheldLightSystem.TurnOn(args.User.Value, (attachable.Owner, light));
+                    break;
+                case AttachableAlteredType.Deactivated:
+                case AttachableAlteredType.DetachedDeactivated:
+                    _handheldLightSystem.TurnOff((attachable.Owner, light));
+                    break;
+            }
+
+            return;
+        }
+        // DS14-end
+
         switch (args.Alteration)
         {
             case AttachableAlteredType.Activated:

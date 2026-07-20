@@ -1,6 +1,7 @@
 using Content.Shared._CM14.Weapons.Ranged;
 using Content.Shared.FixedPoint;
 using Content.Shared.Projectiles;
+using Content.Shared.Weapons.Ranged.Events;
 using Robust.Shared.Timing;
 namespace Content.Shared._CM14.Weapons.Ranged;
 public sealed class CMGunSystem : EntitySystem
@@ -11,17 +12,29 @@ public sealed class CMGunSystem : EntitySystem
     {
         base.Initialize();
         _projectileQuery = GetEntityQuery<ProjectileComponent>();
-        SubscribeLocalEvent<GunDamageModifierComponent, GetGunDamageModifierEvent>(OnGunDamageModifier);
+        // DS14-start
+        // DS14: The base multiplier seeds the relayed modifier event and must not modify itself again.
         SubscribeLocalEvent<GunDamageModifierComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<GunDamageModifierComponent, AmmoShotEvent>(OnAmmoShot);
+        // DS14-end
     }
     private void OnMapInit(Entity<GunDamageModifierComponent> ent, ref MapInitEvent args)
     {
         RefreshGunDamageMultiplier(ent.AsNullable());
     }
-    private void OnGunDamageModifier(Entity<GunDamageModifierComponent> ent, ref GetGunDamageModifierEvent args)
+    // DS14-start
+    private void OnAmmoShot(Entity<GunDamageModifierComponent> ent, ref AmmoShotEvent args)
     {
-        args.Multiplier += ent.Comp.Multiplier;
+        foreach (var projectile in args.FiredProjectiles)
+        {
+            if (!_projectileQuery.TryGetComponent(projectile, out var component))
+                continue;
+
+            component.Damage *= ent.Comp.ModifiedMultiplier;
+            Dirty(projectile, component);
+        }
     }
+    // DS14-end
     public void RefreshGunDamageMultiplier(Entity<GunDamageModifierComponent?> gun)
     {
         gun.Comp = EnsureComp<GunDamageModifierComponent>(gun);

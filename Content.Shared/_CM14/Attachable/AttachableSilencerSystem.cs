@@ -1,19 +1,24 @@
 using Content.Shared._CM14.Attachable.Components;
+using Content.Shared._CM14.Attachable.Events;
 using Content.Shared.Weapons.Ranged.Events;
 namespace Content.Shared._CM14.Attachable;
 public sealed class AttachableSilencerSystem : EntitySystem
 {
     public override void Initialize()
     {
-        SubscribeLocalEvent<AttachableSilencerComponent, GunRefreshModifiersEvent>(OnSilencerRefreshModifiers);
-        SubscribeLocalEvent<AttachableSilencerComponent, GunMuzzleFlashAttemptEvent>(OnSilencerMuzzleFlash);
+        // DS14-start
+        SubscribeLocalEvent<AttachableSilencerComponent, AttachableRelayedEvent<GunRefreshModifiersEvent>>(OnSilencerRefreshModifiers);
+        SubscribeLocalEvent<AttachableSilencerComponent, AttachableRelayedEvent<GunMuzzleFlashAttemptEvent>>(OnSilencerMuzzleFlash);
+        // DS14-end
     }
-    private void OnSilencerRefreshModifiers(Entity<AttachableSilencerComponent> ent, ref GunRefreshModifiersEvent args)
+    // DS14-start
+    private void OnSilencerRefreshModifiers(Entity<AttachableSilencerComponent> ent, ref AttachableRelayedEvent<GunRefreshModifiersEvent> args)
     {
-        args.SoundGunshot = ent.Comp.Sound;
+        args.Args.SoundGunshot = ent.Comp.Sound;
     }
-    private void OnSilencerMuzzleFlash(Entity<AttachableSilencerComponent> ent, ref GunMuzzleFlashAttemptEvent args)
+    private void OnSilencerMuzzleFlash(Entity<AttachableSilencerComponent> ent, ref AttachableRelayedEvent<GunMuzzleFlashAttemptEvent> args)
     {
-        args.Cancelled = true;
+        args.Args.Cancelled = true;
     }
+    // DS14-end
 }
