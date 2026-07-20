@@ -1,0 +1,90 @@
+# Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
+- type: antagMenuCategory
+  id: Default
+  list:
+  - Syndicate
+  - Biohazard
+  - TheCircle
+  - Other
+
+- type: antagCategory
+  id: Syndicate
+  name: antag-menu-category-syndicate
+  icon: /Textures/Interface/VerbIcons/antag-e_sword-temp.192dpi.png
+  outlineColor: "#d13b3b"
+  subcategories:
+  - name: antag-menu-subcategory-infiltrators
+    icon: /Textures/Interface/Misc/job_icons.rsi/Syndicate.png
+    antags:
+    - Traitor
+    - TraitorSleeper
+  - name: antag-menu-subcategory-nuclear-operatives
+    icon: /Textures/Interface/Misc/job_icons.rsi/SyndicateOperative.png
+    outlineColor: "#8f1f2d"
+    subcategories:
+    - name: antag-menu-subcategory-nukeops-squad
+      antags:
+      - Nukeops
+      - NukeopsMedic
+    - name: antag-menu-subcategory-command
+      antags:
+      - NukeopsCommander
+
+- type: antagCategory
+  id: Other
+  name: Другие
+  icon: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi/Event.png
+  outlineColor: "#4995ff"
+  antags:
+  - Thief
+  - HeadRev
+  - Shadowling
+  subcategories:
+  - name: Ксеноборги
+    outlineColor: "#020096"
+    antags:
+    - MothershipCore
+    - Xenoborg
+
+- type: antagCategory
+  id: Biohazard
+  name: Биоугроза
+  icon: /Textures/Interface/Misc/job_icons.rsi/InitialInfected.png
+  outlineColor: "#b05ad9"
+  antags:
+  - InitialInfected
+  - SentientVirus
+  - Blob
+  subcategories:
+  - name: antag-menu-subcategory-spider-terror
+    outlineColor: "#8928ff"
+    icon: /Textures/_DeadSpace/LanguageIcons/spider.png
+    antags:
+    - SpiderTerrorQueen
+    - SpiderTerrorKing
+    - SpiderTerrorKingBlood
+
+- type: antagCategory
+  id: TheCircle
+  name: antag-menu-category-the-circle
+  icon: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi/Unitology.png
+  outlineColor: "#b80564"
+  antags:
+  - Uni
+  - UniHead
+  subcategories:
+  - name: antag-menu-subcategory-circle-squad
+    outlineColor: "#720303"
+    subcategories:
+    - name: antag-menu-subcategory-combat-roles
+      antags:
+      - CircleFighterLight
+      - CircleFighterHeavy
+    - name: antag-menu-subcategory-support-roles
+      antags:
+      - CircleMedic
+      - CircleEngineer
+    - name: antag-menu-subcategory-command
+      antags:
+      - CircleCommander
