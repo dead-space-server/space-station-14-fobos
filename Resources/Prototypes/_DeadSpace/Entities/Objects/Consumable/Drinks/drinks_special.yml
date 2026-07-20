@@ -83,7 +83,7 @@
   - type: Item
     sprite: _DeadSpace/Objects/Consumable/Drinks/cmo_shaker.rsi
 
-  - type: entity
+- type: entity
   parent: BaseStorageItem
   id: DrinkDurfPack
   name: Запасы дурфа
