@@ -95,6 +95,7 @@ namespace Content.Client.Lobby.UI
         private readonly HashSet<ProtoId<AntagPrototype>> _displayedFavoriteAntags = new();
         private BoxContainer? _favoriteAntagContents;
         private bool _antagFavoritesInitialized;
+        private static readonly ProtoId<AntagMenuPrototype> DefaultAntagMenu = "Default";
         // DS14-end
 
         /// <summary>
@@ -828,7 +829,7 @@ namespace Content.Client.Lobby.UI
                 _antagFavoritesInitialized = true;
             }
 
-            _prototypeManager.TryIndex<AntagMenuPrototype>("Default", out var menu);
+            _prototypeManager.TryIndex(DefaultAntagMenu, out var menu);
 
             var roleColors = GetAntagRoleColors(menu);
             var search = AntagSearch.Text.Trim();

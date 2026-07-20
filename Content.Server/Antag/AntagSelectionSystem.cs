@@ -24,6 +24,7 @@ using Content.Shared.Antag;
 using Content.Shared.Backmen.Blob.Components;
 using Content.Shared.Clothing;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.Necromorphs.Roles;
 using Content.Shared.GameTicking;
 using Content.Shared.GameTicking.Components;
 using Content.Shared.Ghost;
@@ -800,7 +801,9 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         if (session.AttachedEntity is not { } player ||
             session.GetMind() is not { } mindId ||
             !TryComp<MindComponent>(mindId, out var mind) ||
-            (!_role.MindIsAntagonist(mindId) && !HasComp<AntagRollbackTrackerComponent>(player)))
+            (!_role.MindIsAntagonist(mindId) &&
+             !_role.MindHasRole<UnitologyRoleComponent>(mindId) &&
+             !HasComp<AntagRollbackTrackerComponent>(player)))
         {
             return false;
         }
@@ -857,6 +860,9 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         }
 
         _role.MindRemoveAntagonistRoles((mindId, mind));
+        // Unitology roles must also be removed explicitly: transferred prophets may retain a
+        // UnitologyRoleComponent even when their inherited antagonist flag is unavailable.
+        _role.MindRemoveRole<UnitologyRoleComponent>((mindId, mind));
 
         var query = EntityQueryEnumerator<AntagSelectionComponent>();
         while (query.MoveNext(out _, out var selection))
