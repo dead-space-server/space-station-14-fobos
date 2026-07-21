@@ -1669,6 +1669,28 @@
     maxOffset: 10
     pvsIncrease: 0.1
 
+## РШ-12
+- type: entity
+  parent: WeaponRevolverRSh12
+  id: WeaponRevolverRSh12Aki
+  name: РШ-12
+  description: Мощный штурмовой револьвер под патрон 12.7x55 мм. Убойный калибр позволяет сильно пробивать структуры и небронированные цели. Встроенный фабрикатор восполняет боезапас каждые 3 секунды.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/rsh12.rsi
+    state: icon
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/rsh12.rsi
+    quickEquip: false
+    slots:
+    - suitStorage
+    - Belt
+  - type: BasicEntityAmmoProvider
+    proto: BulletRSh12Aki
+    capacity: 5
+    count: 5
+
 # Иконки работ
 - type: jobIcon
   parent: JobIcon
@@ -2509,6 +2531,18 @@
         - MachineMask
         layer:
         - MachineLayer
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 150
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+
 
 - type: entity
   parent: DecorFloorWorldBaseAki
@@ -2767,6 +2801,29 @@
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/world_32x32.rsi
     state: trashbin
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+            radius: 0.21
+        density: 1000
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 150
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+
 
 - type: entity
   parent: DecorStreetTrashbinAki
@@ -2948,6 +3005,23 @@
   - type: IconSmooth
     key: walls
     base: brick
+
+# Базальтовая стена
+- type: entity
+  parent: WallBasaltCobblebrick
+  id: WallBasaltCobblebrickAki
+  name: базальтовая стена
+  description: Идеально подогнанные друг к другу кирпичик за кирпичиком образовали стену.
+  suffix: Akitovsky, Маппинг
+  components:
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
 
 ################# КПСК
 # Баннер революции
