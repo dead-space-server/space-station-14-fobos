@@ -1,9 +1,9 @@
 - type: entity
   id: CabinetFlagNanoTrasen
   parent: BannerBase
-  name: флаг НаноТрейзен
+  name: флаг NanoTrasen
   suffix: Кабинетный
-  description: Слава НТ! Подождите, они серьезно сделали флаг для корпорации?
+  description: Слава НТ! Подождите, они реально сделали флаг для корпорации?
   components:
   - type: Sprite
     noRot: true
