@@ -105,9 +105,9 @@
 - type: entity
   id: FullFlagNanoTrasen
   parent: BaseStructure
-  name: флаг НаноТрейзен
+  name: флаг NanoTrasen
   suffix: На шесте
-  description: Слава НТ! Подождите, они серьезно сделали флаг для корпорации?
+  description: Слава НТ! Подождите, они реально сделали флаг для корпорации?
   components:
   - type: Sprite
     noRot: true
