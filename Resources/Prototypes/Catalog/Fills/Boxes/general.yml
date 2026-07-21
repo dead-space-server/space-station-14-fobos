@@ -35,9 +35,6 @@
   - type: EmitSoundOnLand
     sound:
       path: /Audio/_DeadSpace/Items/Handing/cardboardbox_drop.ogg
-  - type: PhysicalComposition #DS14-start
-    materialComposition:
-      Cardboard: 150 #DS14-end
   #DS14-End
 
 - type: entity
