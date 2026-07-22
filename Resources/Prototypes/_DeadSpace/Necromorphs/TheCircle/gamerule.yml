@@ -385,6 +385,9 @@
         group: ALL
       - type: ObeliskActivateAbility
       - type: TheCircleGeist
+      - type: AutoImplant
+        implants:
+        - DeathAcidifierImplant
       - type: IntrinsicRadioTransmitter
         channels:
         - Unitolog

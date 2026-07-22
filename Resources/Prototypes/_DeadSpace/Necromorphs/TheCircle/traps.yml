@@ -154,6 +154,7 @@
   id: BearTrap
   name: капкан
   description: Тяжёлый капкан, который... Стоп, а почему он полу прозрачный?
+  components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/traps/bear_trap.rsi
     state: idle
