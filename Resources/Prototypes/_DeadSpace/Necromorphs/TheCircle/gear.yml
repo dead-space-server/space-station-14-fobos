@@ -641,13 +641,15 @@
 - type: entity
   id: MobTheCircleRemoteCar
   parent: MobToyCarWithCamera
-  name: штурмовая машинка Круга
+  name: штурмовая машинка
   description: Быстрая радиоуправляемая машинка с камерой и креплением для взрывчатки.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/car.rsi
     layers:
     - state: base
+  - type: RandomSprite
+    available: []
   - type: DetonateAttachedExplosives
     explosiveWhitelist:
       components:
