@@ -142,6 +142,7 @@
     Telecrystal: 10
   categories:
   - UniPhoneUplinkWeaponry
+  conditions:
   - !type:ListingLimitedStockCondition
     stock: 4
 
