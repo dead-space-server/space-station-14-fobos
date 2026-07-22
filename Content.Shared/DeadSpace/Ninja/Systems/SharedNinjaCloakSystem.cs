@@ -28,7 +28,10 @@ public abstract class SharedNinjaCloakSystem : EntitySystem
 
         cloak.Enabled = !cloak.Enabled;
         Dirty(suitUid, cloak);
+
+        AfterToggleCloak(ent, suitUid, cloak);
     }
+    protected virtual void AfterToggleCloak(Entity<SpaceNinjaComponent> ent, EntityUid suitUid, NinjaCloakComponent cloak) { }
     private void OnGetActions(Entity<NinjaCloakComponent> ent, ref GetItemActionsEvent args)
     {
         _actions.AddAction(args.User, ref ent.Comp.ActionEntity, ent.Comp.Action, ent.Owner);

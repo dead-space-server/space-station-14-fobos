@@ -17,6 +17,9 @@ public sealed partial class NinjaCloakComponent : Component
 
     [DataField]
     public EntProtoId Action = "NinjaActionToggleCloak";
+
+    [DataField("drainRate")]
+    public float DrainRate = 1f;
 }
 
 public sealed partial class ToggleCloakNinjaEvent : InstantActionEvent;

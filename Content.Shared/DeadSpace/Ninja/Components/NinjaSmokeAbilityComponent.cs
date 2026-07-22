@@ -74,6 +74,12 @@ public sealed partial class NinjaSmokeAbilityComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public SoundSpecifier? SmokeSound = new SoundPathSpecifier("/Audio/Effects/smoke.ogg");
+
+    [DataField("energyCost")]
+    public float EnergyCost = 50f;
+
+    [DataField("energyCostAutoMode")]
+    public float EnergyCostAutoMode = 25f;
 }
 
 public sealed partial class NinjaSmokeAbilityActionEvent : InstantActionEvent;
