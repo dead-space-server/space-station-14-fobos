@@ -69,7 +69,7 @@ namespace Content.Shared.Electrocution
             return false;
         }
 
-        private void OnInsulatedElectrocutionAttempt(EntityUid uid, InsulatedComponent insulated, ElectrocutionAttemptEvent args)
+        protected virtual void OnInsulatedElectrocutionAttempt(EntityUid uid, InsulatedComponent insulated, ElectrocutionAttemptEvent args) //DS14
         {
             if (args.IgnoreInsulation) // DS14
                 return;
