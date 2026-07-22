@@ -151,6 +151,8 @@
     flavors:
       - onion
       - greasey
+  - type: StaticPrice #DS14
+    price: 8
 
 - type: entity
   parent: ClothingEyesHudBase
