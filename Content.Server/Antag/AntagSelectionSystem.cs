@@ -73,7 +73,6 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
     [Dependency] private readonly BlobAntagRollbackSystem _blobRollback = default!;
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly SharedSubdermalImplantSystem _subdermalImplant = default!;
-    [Dependency] private readonly SharedStationSpawningSystem _stationSpawning = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     // DS14-end
     private IServerSponsorsManager? _sponsorsManager; // DS14-sponsors
@@ -550,10 +549,10 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         if (def.StartingGear is not null)
             gear.Add(def.StartingGear.Value);
 
-        _loadout.Equip(player, gear, def.RoleLoadout);
-
         // DS14-start
-        // Apply the antagonist loadout selected in character preferences over the definition defaults.
+        // Resolve the selected antagonist loadout before equipping anything so it replaces the definition defaults.
+        RoleLoadout? selectedAntagLoadout = null;
+        RoleLoadoutPrototype? selectedAntagLoadoutPrototype = null;
         if (session != null && _pref.TryGetCachedPreferences(session.UserId, out var preferences) &&
             preferences.SelectedCharacter is HumanoidCharacterProfile profile)
         {
@@ -566,10 +565,16 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
                     continue;
                 }
 
-                _stationSpawning.EquipRoleLoadout(player, selectedLoadout, loadoutPrototype);
+                selectedAntagLoadout = selectedLoadout;
+                selectedAntagLoadoutPrototype = loadoutPrototype;
                 break;
             }
         }
+
+        if (selectedAntagLoadout != null && selectedAntagLoadoutPrototype != null)
+            _loadout.Equip(player, gear, selectedAntagLoadout, selectedAntagLoadoutPrototype);
+        else
+            _loadout.Equip(player, gear, def.RoleLoadout);
         // DS14-end
 
         if (session != null)

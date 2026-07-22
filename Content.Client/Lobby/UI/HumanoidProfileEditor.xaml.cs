@@ -93,6 +93,7 @@ namespace Content.Client.Lobby.UI
         private RoleLoadout? _antagPreviewLoadout;
         private readonly HashSet<ProtoId<AntagPrototype>> _favoriteAntags = new();
         private readonly HashSet<ProtoId<AntagPrototype>> _displayedFavoriteAntags = new();
+        private readonly Dictionary<ProtoId<AntagPrototype>, List<Button>> _favoriteAntagButtons = new();
         private BoxContainer? _favoriteAntagContents;
         private bool _antagFavoritesInitialized;
         private static readonly ProtoId<AntagMenuPrototype> DefaultAntagMenu = "Default";
@@ -820,6 +821,7 @@ namespace Content.Client.Lobby.UI
         {
             AntagList.RemoveAllChildren();
             _favoriteAntagContents = null;
+            _favoriteAntagButtons.Clear();
 
             // DS14-start
             if (!_antagFavoritesInitialized && _preferencesManager.Preferences is not null)
@@ -928,6 +930,14 @@ namespace Content.Client.Lobby.UI
                 SetSize = new Vector2(28, 28),
                 VerticalAlignment = VAlignment.Center,
             };
+
+            if (!_favoriteAntagButtons.TryGetValue(antag.ID, out var favoriteButtons))
+            {
+                favoriteButtons = [];
+                _favoriteAntagButtons.Add(antag.ID, favoriteButtons);
+            }
+
+            favoriteButtons.Add(favoriteButton);
             favoriteButton.OnPressed += _ =>
             {
                 var added = _favoriteAntags.Add(antag.ID);
@@ -958,10 +968,23 @@ namespace Content.Client.Lobby.UI
                     }
                 }
 
-                favoriteButton.Text = added ? "★" : "☆";
-                favoriteButton.ToolTip = Loc.GetString(added
+                var favoriteText = added ? "★" : "☆";
+                var favoriteTooltip = Loc.GetString(added
                     ? "antag-menu-remove-favorite"
                     : "antag-menu-add-favorite");
+
+                if (_favoriteAntagButtons.TryGetValue(antag.ID, out var buttons))
+                {
+                    foreach (var button in buttons)
+                    {
+                        if (button.Disposed)
+                            continue;
+
+                        button.Text = favoriteText;
+                        button.ToolTip = favoriteTooltip;
+                    }
+                }
+
                 _preferencesManager.UpdateAntagFavorites(_favoriteAntags.OrderBy(id => id.Id).ToList());
             };
             row.AddChild(favoriteButton);
@@ -1763,6 +1786,7 @@ namespace Content.Client.Lobby.UI
                 roleLoadout.AddLoadout(loadoutGroup, loadoutProto, _prototypeManager);
                 _loadoutWindow.RefreshLoadouts(roleLoadout, session, collection);
                 Profile = Profile?.WithLoadout(roleLoadout);
+                SetDirty();
                 ReloadPreview();
             };
 
@@ -1771,6 +1795,7 @@ namespace Content.Client.Lobby.UI
                 roleLoadout.RemoveLoadout(loadoutGroup, loadoutProto, _prototypeManager);
                 _loadoutWindow.RefreshLoadouts(roleLoadout, session, collection);
                 Profile = Profile?.WithLoadout(roleLoadout);
+                SetDirty();
                 ReloadPreview();
             };
 
