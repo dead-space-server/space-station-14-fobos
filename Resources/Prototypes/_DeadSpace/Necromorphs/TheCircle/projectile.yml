@@ -279,10 +279,10 @@
 
 - type: entity
   id: PelletShotgun22MM
-  parent: BaseBullet
+  parent: BulletTrace
   categories: [ HideSpawnMenu ]
   components:
-  - type: Projectile
+  - type: HitscanBasicDamage
     damage:
       types:
         Piercing: 5
