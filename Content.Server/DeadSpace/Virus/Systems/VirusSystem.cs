@@ -26,6 +26,7 @@ using Content.Shared.Body.Prototypes;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Interaction;
 using Content.Shared.Physics;
+using Content.Shared.Movement.Systems;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -83,8 +84,18 @@ public sealed partial class VirusSystem : SharedVirusSystem
         SubscribeLocalEvent<VirusComponent, MobStateChangedEvent>(OnMobStateChanged);
         SubscribeLocalEvent<VirusComponent, CauseVirusEvent>(OnCauseVirus);
         SubscribeLocalEvent<VirusComponent, CureVirusEvent>(OnCureVirus);
+        SubscribeLocalEvent<PartialParalysisComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshSpeed);
 
         RashInitialize();
+    }
+
+    private void OnRefreshSpeed(Entity<PartialParalysisComponent> entity, ref RefreshMovementSpeedModifiersEvent ev)
+    {
+        if (TryComp<VirusComponent>(entity, out var virus) &&
+            HasSymptom<PartialParalysisSymptom>((entity, virus)))
+        {
+            ev.ModifySpeed(0.65f);
+        }
     }
 
     public override void Update(float frameTime)
@@ -615,6 +626,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
                 .EnumeratePrototypes<VirusSymptomPrototype>()
                 .Where(p =>
                     p.DangerIndicator == danger &&
+                    !p.TaipanOnly &&
                     !data.ActiveSymptom.Contains(p.ID))
                 .ToList();
 
@@ -812,6 +824,21 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
             VirusSymptom.ParalyzedLegs =>
                 new ParalyzedLegsSymptom(newWindow),
+
+            VirusSymptom.PartialParalysis =>
+                new PartialParalysisSymptom(newWindow),
+
+            VirusSymptom.RespiratoryFailure =>
+                new RespiratoryFailureSymptom(newWindow),
+
+            VirusSymptom.VascularRupture =>
+                new VascularRuptureSymptom(newWindow),
+
+            VirusSymptom.EnhancedNecrosis =>
+                new EnhancedNecrosisSymptom(newWindow),
+
+            VirusSymptom.Necromutation =>
+                new NecromutationSymptom(newWindow),
 
             _ => throw new ArgumentOutOfRangeException(
                 nameof(proto.SymptomType),

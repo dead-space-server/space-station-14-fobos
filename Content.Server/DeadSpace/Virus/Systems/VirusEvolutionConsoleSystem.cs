@@ -82,8 +82,18 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             case EvolutionConsoleUiButton.EvolutionSymptom:
                 {
                     if (args.Symptom == null
-                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.Symptom, out _)
+                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.Symptom, out var symptomProto)
                         || virusData == null)
+                        return;
+
+                    if (symptomProto.TaipanOnly && !component.IsTaipan)
+                        return;
+
+                    if (symptomProto.RequiredSymptom != null &&
+                        !virusData.ActiveSymptom.Contains(symptomProto.RequiredSymptom.Value))
+                        return;
+
+                    if (symptomProto.BlockedBySymptoms.Any(blocked => virusData.ActiveSymptom.Contains(blocked)))
                         return;
 
                     if (virusData.ActiveSymptom.Contains(args.Symptom))
@@ -92,6 +102,9 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                     var price = _virusSystem.GetSymptomPrice(virusData, args.Symptom);
                     if (server.Points < price)
                         return;
+
+                    if (symptomProto.RequiredSymptom != null)
+                        _virusSolutionAnalyzer.RemSymptom((component.VirusSolutionAnalyzer.Value, analyzer), symptomProto.RequiredSymptom.Value);
 
                     if (!_virusSolutionAnalyzer.AddSymptom((component.VirusSolutionAnalyzer.Value, analyzer), args.Symptom))
                         return;
@@ -333,7 +346,8 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             virusData?.ActiveSymptom,
             virusData?.BodyWhitelist,
             isSentientVirus: false,
-            solutionAnalyzerStatus: solutionAnalyzerStatus
+            solutionAnalyzerStatus: solutionAnalyzerStatus,
+            isTaipan: console.Comp.IsTaipan
         );
     }
 
