@@ -28,9 +28,6 @@ entities:
     components:
     - type: MetaData
       name: E$#R$R$#@R
-    - type: Transform
-      pos: 2.5637488,-0.13888836
-      parent: invalid
     - type: MapGrid
       chunks:
         0,0:
