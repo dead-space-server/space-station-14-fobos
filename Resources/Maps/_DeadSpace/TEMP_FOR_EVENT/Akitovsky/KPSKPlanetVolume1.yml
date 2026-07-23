@@ -87210,11 +87210,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 4554.6341414
-      thrownTime: 4554.6
-      thrower: invalid
 - proto: Dresser
   entities:
   - uid: 8543
@@ -115854,11 +115849,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 4568.5287661
-      thrownTime: 4568.5
-      thrower: invalid
 - proto: SurveillanceWirelessCameraAnchoredConstructed
   entities:
   - uid: 17986

@@ -29250,11 +29250,6 @@ entities:
           ents:
           - 8
     - type: ActionsContainer
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 3266.3834129
-      thrownTime: 3266.330067
-      thrower: invalid
   - uid: 9
     components:
     - type: Transform

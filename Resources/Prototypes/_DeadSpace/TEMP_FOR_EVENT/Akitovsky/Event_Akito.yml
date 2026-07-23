@@ -655,7 +655,7 @@
 # Отряд «Дельта-6»
 - type: radioChannel
   id: EventNTDelta6
-  name: отряд «Дельта-6» 
+  name: chat-radio-delta-6
   keycode: '4' 
   frequency: 1994
   color: "#4c5be6e6"
@@ -664,7 +664,7 @@
 # Отряд «Дельта-8»
 - type: radioChannel
   id: EventNTDelta8
-  name: отряд «Дельта-8» 
+  name: chat-radio-delta-8
   keycode: '5' 
   frequency: 1995
   color: "#7f1f83e6"
@@ -673,7 +673,7 @@
 # КПСК Альтаир-12
 - type: radioChannel
   id: EventKPSKAltair12
-  name: КПСК Альтаир-12
+  name: chat-radio-kpsk
   keycode: '6' 
   frequency: 2100
   color: "#9b1a25e6"
@@ -1170,7 +1170,7 @@
   suffix: Akitovsky
   components:
   - type: MachineBoard
-    prototype: WeaponryTechFabBSAA
+    prototype: WeaponryTechFabAkiDelta
     stackRequirements:
       Manipulator: 4
     tagRequirements:
@@ -2848,7 +2848,7 @@
         drainBuffer:
           maxVol: 200
         tank:
-          eagents:
+          reagents:
           - ReagentId: Water
             Quantity: 500
     - type: SolutionContainerVisuals
