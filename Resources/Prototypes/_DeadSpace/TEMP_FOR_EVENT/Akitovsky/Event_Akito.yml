@@ -1842,6 +1842,127 @@
       - state: shoreline_water
 
 ################# RMC
+# Base
+- type: entity
+  parent: [ Clothing, BaseStorageItem ]
+  id: RMCPouchBaseAki
+  name: abstract pouch
+  description: The physical manifestation of the concept of a pouch. Woah.
+  suffix: Akitovsky
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Pouches/small_drop.rsi
+    layers:
+    - state: icon
+  - type: Appearance
+  - type: Item
+    size: Ginormous
+  - type: Clothing
+    quickEquip: false
+    slots:
+    - pocket
+  - type: Tag
+    tags:
+    - Pouch
+  - type: ExplosionResistance
+    damageCoefficient: 0
+    worn: false
+  - type: GenericVisualizer
+    visuals:
+      enum.StorageVisuals.Open:
+        base:
+          True: { state: icon-open }
+          False: { state: icon }
+  - type: Storage
+    maxItemSize: Small
+    grid:
+    - 0,0,1,1 #1 slot
+    blacklist:
+      tags:
+      - Pouch
+
+# Подсумок для магазинов
+- type: entity
+  parent: RMCPouchBaseAki
+  id: RMCPouchMagazineAki
+  name: подсумок для магазинов
+  description: В нём можно носить магазины.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Pouches/medium_ammo_mag.rsi
+  - type: Storage
+    maxItemSize: Normal
+    grid:
+    - 0,0,5,1 #6 slots
+    whitelist:
+      tags:
+      - SecBeltEquip
+      - Sidearm
+      - MagazinePistol
+      - MagazineMagnum
+      - CombatKnife
+      - Truncheon
+      - HandGrenade
+      - EnergyCartridge # DS14
+      components:
+      - FlashOnTrigger
+      - SmokeOnTrigger
+      - Flash
+      - BallisticAmmoProvider
+      - CartridgeAmmo
+
+# Light General Pouch
+- type: entity
+  parent: RMCPouchBaseAki
+  id: RMCPouchGeneralAki
+  name: подсумок лёгкий универсальный
+  description: Универсальный подсумок для переноски вещей.
+  components:
+  - type: Storage
+    maxItemSize: Normal
+    grid:
+    - 0,0,1,1 # 2 slots
+
+- type: entity
+  parent: RMCPouchBaseAki
+  id: RMCPouchMedicalSocAki
+  name: подсумок тактический медицинский
+  description: Тяжёлый подсумок, содержащий всё необходимое, чтобы вновь поставить вас на ноги. Весьма внушительный набор.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Pouches/socmed.rsi
+  - type: Storage
+    grid:
+    - 0,0,10,1 #11 slots
+    whitelist:
+      tags:
+      - Wrench
+      - Bottle
+      - Spray
+      - Brutepack
+      - Bloodpack
+      - Gauze
+      - Ointment
+      - Tourniquet
+      - CigPack
+      - PillCanister
+      - Radio
+      - DiscreteHealthAnalyzer
+      - SurgeryTool
+      - Dropper
+      - Medkit # DS14
+      - CompactDefibrillator # DS14
+      components:
+      - Injector
+      - Pill
+      - HandLabeler
+
+
+
+
+
+
 # Мешки с песком
 - type: entity
   parent: BaseBarricade

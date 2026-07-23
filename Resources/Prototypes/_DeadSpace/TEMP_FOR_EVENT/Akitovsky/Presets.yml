@@ -54,17 +54,26 @@
     head: ClothingHeadHatPanamaAkiSand
     id: AkiDeltaIDCard
     belt: ClothingBeltMilitaryWebbingAkiDeltaSand
-    pocket2: DrinkMREFlask
+    pocket1: RMCPouchMagazineAki
+    pocket2: RMCPouchMedicalSocAki
     outerClothing: ClothingOuterArmorDeltaAkiSand
     back: ClothingMilitaryBackpackDeltaAkiSand
     suitstorage: WeaponCheyTacM200Aki
+  inhand:
+    - AutosurgeonRevive
   storage:
+    pocket1:
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
     back:
     - CrowbarRed
     - MagazineBox408CT
     - MagazineBox408CT
     - MagazineBox9x19AP63
-    - AutosurgeonRevive
     - EmergencyMedipen
     - WeaponKRISSVectorAki
     - BoxMRE
@@ -79,9 +88,6 @@
     - MagazineCheyTacM200Aki408CT
     - MagazineCheyTacM200Aki408CT
     - MagazineCheyTacM200Aki408CT
-    - MagazinePistolTochmash9x19AP63
-    - MagazinePistolTochmash9x19AP63
-    - MagazinePistolTochmash9x19AP63
 
 
 # Спавнеры
@@ -144,6 +150,8 @@
     outerClothing: ClothingOuterArmorDeltaAkiBlack
     back: ClothingMilitaryBackpackDeltaAkiBlack
     suitstorage: WeaponVSKAki
+  inhand:
+    - AutosurgeonRevive
   storage:
     back:
     - MagazineBoxVSKAki
@@ -153,7 +161,6 @@
     - EmergencyMedipen
     - BoxMRE
     - Flare
-    - AutosurgeonRevive
     - CombatMedipen
     - CombatMedipen
     - PinpointerUniversal
@@ -222,32 +229,35 @@
     jumpsuit: ClothingUniformJumpsuitAkiDeltaSand
     eyes: ClothingEyesGlassesAkiDeltaSand
     ears: ClothingHeadsetDelta
+    head: ClothingHeadHelmetAkiDeltaSandNVD
     mask: ClothingMaskNeckGaiter
     neck: ClothingNeckCloakAkiDeltaFloria
     gloves: ClothingHandsGlovesCombatAkiDeltaSand
     shoes: ClothingShoesBootsJackAkiDeltaSand
     id: AkiDeltaIDCard
-    belt: ClothingBeltAkiDeltaSand
-    pocket1: WeaponRevolverRSh12Aki
+    belt: ClothingBeltMilitaryWebbingAkiDeltaSand
+    pocket1: RMCPouchMagazineAki
     pocket2: WeaponRevolverRSh12Aki
+    suitstorage: WeaponRevolverRSh12Aki
     outerClothing: ClothingOuterArmorDeltaAkiSand
     back: ClothingMilitaryBackpackDeltaAkiSand
   inhand:
-    - BoxMRE
+    - AutosurgeonRevive
   storage:
+    pocket1:
+    - MagazineBox12x70Piranha
+    - MagazineBox12x70Piranha
+    - MagazineBox12x70Piranha
     back:
     - WeaponShotgunBulldogAki
-    - MagazineBox12x70Piranha
-    - MagazineBox12x70Piranha
-    - MagazineBox12x70Piranha
     - CrowbarRed
     - EmergencyMedipen
     - BoxMRE
     - Flare
-    - AutosurgeonRevive
     - CombatMedipen
     - CombatMedipen
     - PinpointerUniversal
+    - BSAACombatKitFilled
     belt:
     - Handcuffs
     - Handcuffs
@@ -258,11 +268,11 @@
     - Magazine12x70Piranha
     - Magazine12x70Piranha
 
-# Генерал ВСН
+# Полковник ВСН
 - type: entity
   parent: CustomizableSpawnerBase
   id: CustomizableSpawnerGeneral
-  name: ИВЕНТОВЫЙ !Генерал ВСН
+  name: ИВЕНТОВЫЙ !Полковник ВСН
   suffix: Akitovsky, Ивент, Кастомизируемый персонаж
   components:
   - type: Sprite
@@ -278,7 +288,7 @@
 
 - type: job
   id: JobGeneralSpecialForce
-  name: Генерал ВСН
+  name: Полковник ВСН
   description: job-description-soo
   playTimeTracker: PlayTimeTrackerSpecialForceGeneral
   setPreference: false
@@ -417,7 +427,6 @@
     - Human
     - Shark
     - Demon
-    - Vulpkanin
 
 - type: job
   id: JobSoldierDelta6SpecialForce
@@ -470,7 +479,6 @@
     - Human
     - Shark
     - Demon
-    - Vulpkanin
 
 - type: job
   id: JobMedicalSpecialForceDelta6
@@ -524,7 +532,6 @@
     - Human
     - Shark
     - Demon
-    - Vulpkanin
 
 - type: job
   id: JobSoldierDelta8SpecialForce
@@ -577,7 +584,6 @@
     - Human
     - Shark
     - Demon
-    - Vulpkanin
 
 - type: job
   id: JobMedicalSpecialForceDelta8
