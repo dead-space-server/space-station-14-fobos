@@ -214,7 +214,7 @@
   - CentralCommand
   special:
   - !type:AddImplantSpecial
-    implants: [ MindShieldImplant ]
+    implants: [ MindShieldImplant, EventRadioImplantUnitologyMeta ]
   - !type:AddComponentSpecial
     components:
     - type: AntagImmune
@@ -460,6 +460,68 @@
     socks: ClothingUnderwearSocksNormal
     ears: ClothingHeadsetDelta6
     id: AkiDeltaIDCard
+
+# Медик Клещ СпецНаз НТ Дельта-6
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerKleshMedicalDelta6
+  name: ИВЕНТОВЫЙ Медик КЛЕЩ СпецНаз НТ «Дельта-6»
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
+      state: medical
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobMedicalKleshSpecialForceDelta6
+    allowedSpecies:
+    - Human
+    - Shark
+    - Demon
+
+- type: job
+  id: JobMedicalKleshSpecialForceDelta6
+  name: Медик «Дельта-6»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerKleshSpecialForceMedicalDelta6
+  setPreference: false
+  startingGear: MedicalDelta6KleshSpecialForce
+  icon: "JobIconSFMedicalAkiDelta"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
+
+- type: startingGear
+  id: MedicalDelta6KleshSpecialForce
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitsastr
+    mask: ClothingMasksastr
+    gloves: ClothingHandsGlovessastr
+    neck: ClothingNeckGhillieAltsastr
+    eyes: ClothingEyesHudMedicalsastr
+    head: ClothingHeadHelmetAkiDeltaSandNVDKlesh
+    back: ClothingBackpacksastrAki
+    belt: ClothingBeltMilitaryWebbingsastrAki
+    outerClothing: ClothingOuterArmorDeltaAkiSandKlesh
+    shoes: ClothingShoesBootsMagsastr
+    socks: ClothingUnderwearSocksNormal
+    ears: ClothingHeadsetDelta6Klesh
+    id: AkiDeltaIDCard
+    pocket1: HypoAkiDelta
 
 # Медик СпецНаз НТ Дельта-6
 - type: entity

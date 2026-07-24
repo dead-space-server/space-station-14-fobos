@@ -679,6 +679,26 @@
   color: "#9b1a25e6"
   longRange: true
 
+- type: radioChannel
+  id: EventUnitologyMeta
+  name: chat-radio-unitology-meta
+  keycode: '8' 
+  frequency: 2101
+  color: "#2F4F4F"
+  longRange: true
+
+- type: entity
+  parent: BaseSubdermalImplant
+  id: EventRadioImplantUnitologyMeta
+  name: связь обелиска
+  description: ""
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+  - type: RadioImplant
+    radioChannels:
+    - EventUnitologyMeta
+
 # Ключи шифрования отрядов
 # Отряд «Дельта-6»
 - type: entity
@@ -1958,8 +1978,37 @@
       - Pill
       - HandLabeler
 
-
-
+# Туман
+- type: entity
+  id: RMCFogWallPermanentAki
+  name: туман войны
+  description: Очень густой туман.
+  suffix: Akitovsky, Маппинг
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Wall
+  components:
+  - type: Transform
+    anchored: true
+  - type: Sprite
+    drawdepth: Effects
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Walls/fog.rsi
+    state: smoke
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,0.5"
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+        density: 1000
+  - type: Occluder
 
 
 
@@ -3271,3 +3320,198 @@
   name: РПС бойца КПСК
   description: Универсальный разгрузочный жилет для убийства капиталистов в космосе.
   suffix: Akitovsky, КПСК
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Вещи Клеща
+# Шлем
+- type: entity
+  parent: [ ClothingHeadHelmetAkiBasic, ClothingHeadHelmetNVD ]
+  id: ClothingHeadHelmetAkiDeltaSandNVDKlesh
+  name: тактический шлем Klecsh //
+  description: ""
+  suffix: Akitovsky, Клещ
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/sastr/helmet2.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/sastr/helmet2.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+  
+# Рюкзак
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpacksastrAki
+  name: разведывательная сумка Klecsh //
+  description: Компактного вида набедренная сумка, закреплённая к снаряжению на магнитном жгуте. Достаточно вместительная для своего размера.
+  suffix: Akitovsky, Клещ
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/sastr/backpack.rsi
+    layers:
+    - state: icon
+      map: [ base ]
+  - type: GenericVisualizer
+    visuals:
+      enum.StorageVisuals.Open: 
+        base:
+          True: { state: icon-open }
+          False: { state: icon }
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+  - type: Appearance
+  - type: StorageFill
+    contents:
+    - id: ResidentAxesastrAki
+  - type: TypingIndicatorClothing
+    proto: TypingIndicatorsastr
+  - type: Tag
+    tags: [ ]
+
+# РПС
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingBeltMilitaryWebbingsastrAki
+  name: разгрузочная нагрудная система Klecsh //
+  description: Фиксированная разгрузочная система, содержащая все необходимые базовые подсумки.
+  suffix: Akitovsky, Клещ
+  components:
+  - type: Storage
+    grid:
+    - 0,0,0,1
+    - 2,0,2,1
+    - 4,0,4,1
+    - 6,0,6,1
+    - 0,2,6,3
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/sastr/belt.rsi
+    layers:
+    - state: icon
+      map: [ "unfoldedLayer" ]
+    - state: h-icon
+      map: ["foldedLayer"]
+      visible: false
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/sastr/belt.rsi
+  - type: Item
+    size: Huge
+  - type: Appearance
+  - type: Foldable
+    canFoldInsideContainer: true
+  - type: GroupExamine
+  - type: FoldableClothing
+    foldedEquippedPrefix: h
+    foldedHeldPrefix: h
+  - type: GenericVisualizer
+    visuals:
+      enum.FoldedVisuals.State:
+        foldedLayer:
+          True: {visible: true}
+          False: {visible: false}
+        unfoldedLayer:
+          True: {visible: false}
+          False: {visible: true}
+  - type: StorageFill
+    contents:
+      - id: JawsOfLifesastr
+      - id: PowerDrillsastr
+      - id: WelderExperimentalsastr
+      - id: Multitoolsastr
+  - type: Tag
+    tags: [ ]
+
+# Броня
+- type: entity
+  parent: ClothingOuterArmorBase
+  id: ClothingOuterArmorDeltaAkiSandKlesh
+  name: тактический бронежилет Klecsh //
+  description: Стандартный бронежилет с пластиной V-го класса защиты.
+  suffix: Akitovsky, Клещ
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/sastr/outer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/sastr/outer.rsi
+    equipDelay: 2
+    unequipDelay: 2
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.4
+        Heat: 0.80
+  - type: ClothingSpeedModifier
+    walkModifier: 0.73
+    sprintModifier: 0.73
+  - type: HeldSpeedModifier
+  - type: Item
+    size: Huge
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Гарнитура «Дельта-6»
+- type: entity
+  parent: [ ClothingHeadset, BaseCentcommContraband ]
+  id: ClothingHeadsetDelta6Klesh
+  name: гарнитура отряда «Дельта-6»
+  description: Модифицированный модульный интерком, надеваемый на голову. Принимает ключи шифрования.
+  suffix: Akitovsky, Клещ
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyEventNTDelta6
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/sastr/headset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/sastr/headset.rsi
+  - type: Headset
+    color: "#111111"
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Томагавк
+- type: entity
+  parent: BaseSword
+  id: ResidentAxesastrAki
+  name: томагавк Klecsh //
+  suffix: Akitovsky, Клещ
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/sastr/axe.rsi
+  - type: MeleeWeapon
+    wideAnimationRotation: 135
+    swingLeft: true
+    damage:
+      types:
+        Slash: 15
+  - type: Item
+    sprite: _DeadSpace/Sponsor/sastr/axe.rsi
+    size: Normal

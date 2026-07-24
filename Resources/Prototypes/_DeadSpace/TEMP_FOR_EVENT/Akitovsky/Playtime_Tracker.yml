@@ -20,6 +20,9 @@
   id: PlayTimeTrackerSpecialForceMedicalDelta6
 
 - type: playTimeTracker
+  id: PlayTimeTrackerKleshSpecialForceMedicalDelta6
+
+- type: playTimeTracker
   id: PlayTimeTrackerSpecialForceSoldierDelta8
 
 - type: playTimeTracker
