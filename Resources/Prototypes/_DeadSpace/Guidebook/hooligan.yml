@@ -1,0 +1,6 @@
+# Гайд по Хулигану. В дерево Guidebook подключается как ребёнок узла Antagonists
+# (см. правку children в Resources/Prototypes/Guidebook/antagonist.yml, помечена DS14).
+- type: guideEntry
+  id: Hooligan
+  name: guide-entry-hooligan
+  text: "/ServerInfo/DeadSpace/Guidebook/Antagonist/Hooligan.xml"
