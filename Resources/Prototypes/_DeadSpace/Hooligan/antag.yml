@@ -7,7 +7,7 @@
   guides: [ Hooligan ]
   requirements:
   - !type:OverallPlaytimeRequirement
-    time: 2h
+    time: 5h
 
 - type: startingGear
   id: HooliganGear
