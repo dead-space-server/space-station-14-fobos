@@ -927,6 +927,8 @@
     quickEquip: false
     slots:
     - idcard
+  - type: Item
+    heldPrefix: null
   - type: Foldable
     canFoldInsideContainer: true
     unfoldVerbText: fold-flip-verb
@@ -1290,6 +1292,39 @@
         - Cartridge357
     capacity: 10
 
+# AN-94
+- type: entity
+  name: АН-94
+  parent: WeaponRifleAbakan
+  id: WeaponRifleAbakanAki
+  description: Автомат имеет подвижный ствол, двухкамерный ДТК замкнутого типа и смещенный вправо относительно оси канала ствола магазин.
+  suffix: Akitovsky, Оружие
+  components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: Magazine556x45APExtended
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazineRifle
+            - ADTExtMagazineRifle
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        priority: 1
+        whitelist:
+          tags:
+            - CartridgeRifle
+  - type: CursorOffsetRequiresWield
+  - type: EyeCursorOffset
+    maxOffset: 4
+    pvsIncrease: 0.2
+
+
 # HK416
 - type: entity
   name: HK416
@@ -1318,6 +1353,7 @@
         whitelist:
           tags:
             - MagazineRifle
+            - ADTExtMagazineRifle
         whitelistFailPopup: gun-magazine-whitelist-fail
       gun_chamber:
         name: Chamber
@@ -2290,6 +2326,7 @@
   - type: Clickable
   - type: Physics
     bodyType: Static
+    canCollide: false
   - type: Tag
     tags:
       - Structure
@@ -2521,7 +2558,7 @@
     anchored: true
   - type: Physics
     bodyType: Static
-    canCollide: true
+    canCollide: false 
   - type: Clickable
 
 - type: entity
@@ -3263,10 +3300,10 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.95
-        Slash: 0.95
-        Piercing: 0.95
-        Heat: 0.95
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -3287,32 +3324,6 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
-# Бронежилет
-- type: entity
-  parent: [ BaseSecurityBartenderContraband, ClothingOuterArmorBase]
-  id: ClothingOuterArmorAkiKPSK
-  suffix: Akitovsky, КПСК
-  name: бронежилет IV-й класс
-  description: Стандартный бронежилет с пластиной III-го класса защиты.
-  components:
-  - type: Clothing
-    sprite: Clothing/OuterClothing/Armor/security.rsi
-    equipDelay: 2
-    unequipDelay: 2
-  - type: Armor
-    modifiers:
-      coefficients:
-        Blunt: 0.8
-        Slash: 0.8
-        Piercing: 0.7
-        Heat: 0.80
-  - type: ClothingSpeedModifier
-    walkModifier: 0.73
-    sprintModifier: 0.73
-  - type: HeldSpeedModifier
-  - type: Tag
-    tags: [] # ignore "WhitelistChameleon" tag
-
 # РПС
 - type: entity
   parent: ClothingBeltSalvageWebbing
@@ -3320,8 +3331,24 @@
   name: РПС бойца КПСК
   description: Универсальный разгрузочный жилет для убийства капиталистов в космосе.
   suffix: Akitovsky, КПСК
+  components:
+  - type: Storage
+    grid:
+    - 0,0,0,1
+    - 2,0,2,1
+    - 4,0,4,1
+    - 6,0,6,1
+    - 0,2,6,3
 
-
+# Сумка
+- type: entity
+  parent: ClothingBackpackSatchel
+  id: ClothingBackpackMilitarySatchelAki
+  name: армейский ранец
+  description: Тактический ранец для армейских нужд.
+  components:
+  - type: Sprite
+    sprite: _Corvax/Back/Satchels/military.rsi
 
 
 

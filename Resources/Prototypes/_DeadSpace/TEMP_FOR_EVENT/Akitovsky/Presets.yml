@@ -684,12 +684,18 @@
 
 
 
+
+
+
+
+
+
 ############ КПСК
 # Боец КПСК
 - type: entity
   parent: CustomizableSpawnerBase
   id: CustomizableSpawnerSoldierKPSK
-  name: ИВЕНТОВЫЙ Солдат КПСК с АКМС
+  name: ИВЕНТОВЫЙ Солдат КПСК (АН-94)
   suffix: Akitovsky, Ивент, Кастомизируемый персонаж
   components:
   - type: Sprite
@@ -701,6 +707,9 @@
     jobPrototype: JobSoldierKPSK
     allowedSpecies:
     - Human
+    - Demon
+    - Reptilian
+    - Dwarf
 
 - type: job
   id: JobSoldierKPSK
@@ -738,21 +747,25 @@
     head: ClothingHeadUSSPjuggernautHelmetArmoredAkiKPSK
     id: AkiDeltaIDCard
     belt: ClothingBeltAkiKPSK
-    outerClothing: ClothingOuterArmorAkiKPSK
-    back: ClothingBackpackMilitarySatchel
+    outerClothing: ClothingOuterArmorDeltaFatAkiBlack
+    back: ClothingBackpackMilitarySatchelAki
+    suitstorage: WeaponRifleAbakanAki
   inhand:
-    - WeaponRifleAKMCY
+    - BookFSCP
   storage:
     back:
-    - MagazineLightRifle
-    - MagazineLightRifle
-    - MagazineLightRifle
+    - Magazine556x45AP
+    - Magazine556x45AP
+    - Magazine556x45AP
     - CrowbarRed
     - EmergencyMedipen
     - BoxMRE
     - Flare
-    - Gauze5
-    - BookFSCP
+    - Gauze
     belt:
-    - MagazineLightRifle
-    - MagazineLightRifle
+    - Magazine556x45APExtended
+    - Magazine556x45APExtended
+    - Magazine556x45APExtended
+    - Magazine556x45AP
+    - Magazine556x45AP
+    - Magazine556x45AP
