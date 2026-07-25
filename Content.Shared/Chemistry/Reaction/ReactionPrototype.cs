@@ -101,6 +101,12 @@ namespace Content.Shared.Chemistry.Reaction
         /// </summary>
         [DataField]
         public HashSet<ProtoId<ReagentPrototype>> GuidebookSourceReagents = [];
+
+        /// <summary>
+        /// Food guidebook category used for entity-producing cooking reactions.
+        /// </summary>
+        [DataField]
+        public string? GuidebookFoodCategory;
         // DS14-end
 
         /// <summary>

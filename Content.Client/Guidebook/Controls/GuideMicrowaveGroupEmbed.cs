@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Client.Guidebook.Richtext;
+using Content.Shared.Chemistry.Reaction;
 using Content.Shared.Kitchen;
 using JetBrains.Annotations;
 using Robust.Client.UserInterface.Controls;
@@ -17,6 +18,7 @@ public sealed partial class GuideMicrowaveGroupEmbed : BoxContainer, IDocumentTa
 {
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IEntitySystemManager _systemManager = default!; // DS14
 
     private readonly ISawmill _sawmill;
 
@@ -59,5 +61,16 @@ public sealed partial class GuideMicrowaveGroupEmbed : BoxContainer, IDocumentTa
             var embed = new GuideMicrowaveEmbed(recipe);
             AddChild(embed);
         }
+
+        // DS14-start: Some food ingredients are produced by mixing reactions instead of a microwave.
+        var reactions = _prototype.EnumeratePrototypes<ReactionPrototype>()
+            .Where(p => p.GuidebookFoodCategory == group)
+            .OrderBy(p => p.ID);
+
+        foreach (var reaction in reactions)
+        {
+            AddChild(new GuideReagentReaction(reaction, _prototype, _systemManager));
+        }
+        // DS14-end
     }
 }

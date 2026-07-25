@@ -46,7 +46,7 @@ public sealed partial class GuideReagentReaction : BoxContainer, ISearchableCont
         SetReagents(products, ref productContainer, protoMan, false);
 
         // DS14-start: entity products are part of the reaction output too.
-        if (prototype.Source)
+        if (prototype.Source || prototype.GuidebookFoodCategory != null)
         {
             foreach (var effect in prototype.Effects.OfType<SpawnEntity>())
             {
