@@ -55,7 +55,7 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         SubscribeLocalEvent<EntitySpokeEvent>(OnEntitySpoke);
         SubscribeLocalEvent<RoleAddedEvent>(OnRoleAdded);
         SubscribeLocalEvent<MindContainerComponent, BeforeMindRemovedMessage>(OnBeforeMindRemoved);
-        SubscribeLocalEvent<MindContainerComponent, MindAddedMessage>(OnMindAdded);
+        SubscribeLocalEvent<MindComponent, MindGotAddedEvent>(OnMindAdded);
         SubscribeLocalEvent<MindContainerComponent, BeingGibbedEvent>(OnMindBeingGibbed);
         SubscribeLocalEvent<MindContainerComponent, EntityRenamedEvent>(OnMindContainerRenamed);
         SubscribeLocalEvent<MobStateComponent, DamageChangedEvent>(OnDamageChanged, before: [typeof(MobThresholdSystem)]);
@@ -167,11 +167,11 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         FreezeDisplaySnapshot(mindId, uid);
     }
 
-    private void OnMindAdded(EntityUid uid, MindContainerComponent component, MindAddedMessage args)
+    private void OnMindAdded(EntityUid mindId, MindComponent component, MindGotAddedEvent args)
     {
-        var mindId = args.Mind.Owner;
-        if (!IsManifestSourceEntity(mindId, uid) ||
-            TryComp<MobStateComponent>(uid, out var mobState) && mobState.CurrentState == MobState.Dead)
+        var source = args.Container.Owner;
+        if (!IsManifestSourceEntity(mindId, source) ||
+            TryComp<MobStateComponent>(source, out var mobState) && mobState.CurrentState == MobState.Dead)
         {
             return;
         }
