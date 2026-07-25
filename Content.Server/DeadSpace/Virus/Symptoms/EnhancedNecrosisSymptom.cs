@@ -34,6 +34,7 @@ public sealed class EnhancedNecrosisSymptom : VirusSymptomBase
     public override void OnRemoved(EntityUid host, VirusComponent virus)
     {
         base.OnRemoved(host, virus);
+        _entityManager.RemoveComponent<RotAccelerationComponent>(host);
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus)

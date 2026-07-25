@@ -4,6 +4,7 @@ using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.DeadSpace.Virus.Prototypes;
+using Content.Shared.Movement.Systems;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
@@ -20,11 +21,14 @@ public sealed class PartialParalysisSymptom : VirusSymptomBase
     {
         base.OnAdded(host, virus);
         _entityManager.EnsureComponent<PartialParalysisComponent>(host);
+        _entityManager.System<MovementSpeedModifierSystem>().RefreshMovementSpeedModifiers(host);
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
     {
         base.OnRemoved(host, virus);
+        _entityManager.RemoveComponent<PartialParalysisComponent>(host);
+        _entityManager.System<MovementSpeedModifierSystem>().RefreshMovementSpeedModifiers(host);
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus) => base.OnUpdate(host, virus);

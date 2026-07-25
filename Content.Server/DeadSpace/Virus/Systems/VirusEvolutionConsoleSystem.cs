@@ -86,17 +86,11 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                         || virusData == null)
                         return;
 
-                    if (symptomProto.TaipanOnly && !component.IsTaipan)
-                        return;
-
-                    if (symptomProto.RequiredSymptom != null &&
-                        !virusData.ActiveSymptom.Contains(symptomProto.RequiredSymptom.Value))
-                        return;
-
-                    if (symptomProto.BlockedBySymptoms.Any(blocked => virusData.ActiveSymptom.Contains(blocked)))
-                        return;
-
-                    if (virusData.ActiveSymptom.Contains(args.Symptom))
+                    if (!VirusSystem.CanAddSymptom(
+                            virusData.ActiveSymptom,
+                            args.Symptom,
+                            symptomProto,
+                            component.IsTaipan))
                         return;
 
                     var price = _virusSystem.GetSymptomPrice(virusData, args.Symptom);

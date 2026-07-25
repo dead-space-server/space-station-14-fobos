@@ -610,6 +610,25 @@ public sealed partial class VirusSystem : SharedVirusSystem
         AddInfectedStrain(newStrainId);
     }
 
+    public static bool CanAddSymptom(
+        IReadOnlyCollection<ProtoId<VirusSymptomPrototype>> activeSymptoms,
+        ProtoId<VirusSymptomPrototype> symptomId,
+        VirusSymptomPrototype symptom,
+        bool isTaipan)
+    {
+        if (activeSymptoms.Contains(symptomId))
+            return false;
+
+        if (symptom.TaipanOnly && !isTaipan)
+            return false;
+
+        if (symptom.RequiredSymptom is { } required &&
+            !activeSymptoms.Contains(required))
+            return false;
+
+        return !symptom.BlockedBySymptoms.Any(blocked => activeSymptoms.Contains(blocked));
+    }
+
     public VirusData GenerateVirusData(
     string strainId,
     Dictionary<DangerIndicatorSymptom, int> symptomsByDanger,

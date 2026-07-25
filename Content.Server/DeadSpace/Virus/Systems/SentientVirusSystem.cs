@@ -1,6 +1,5 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using System.Linq;
 using Content.Shared.DeadSpace.Virus;
 using Robust.Server.GameObjects;
 using Content.Shared.DeadSpace.Virus.Components;
@@ -167,14 +166,11 @@ public sealed class SentientVirusSystem : EntitySystem
                         || component.Data == null)
                         return;
 
-                    if (proto.TaipanOnly)
-                        return;
-
-                    if (proto.RequiredSymptom != null &&
-                        !component.Data.ActiveSymptom.Contains(proto.RequiredSymptom.Value))
-                        return;
-
-                    if (proto.BlockedBySymptoms.Any(blocked => component.Data.ActiveSymptom.Contains(blocked)))
+                    if (!VirusSystem.CanAddSymptom(
+                            component.Data.ActiveSymptom,
+                            args.Symptom,
+                            proto,
+                            isTaipan: false))
                         return;
 
                     var price = _virusSystem.GetSymptomPrice(component.Data, proto);
