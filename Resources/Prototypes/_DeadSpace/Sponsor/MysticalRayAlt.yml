@@ -39,6 +39,7 @@
     - id: ClothingUnderwearBottomBoxersMysticalRayAlt
     - id: PlushieMysticalRayAlt
     - id: ClothingHeadHatMysticalRayAlt
+    - id: MedkitAdvancedFilled
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -581,7 +582,7 @@
   - type: MeleeWeapon
     damage:
       types:
-        Blunt: 14
+        Blunt: 10
 
 #WelderExperimental
 - type: entity
