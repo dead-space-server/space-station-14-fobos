@@ -139,6 +139,7 @@
     suitstorage: ClothingBackpackSyndieFlametankFilled
     belt: ClothingBeltBSAA
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: WeaponPulsePistol
   storage:
     back:
     - MedkitCombatFilled
@@ -149,8 +150,6 @@
     - PinpointerNuclear
     - CrowbarRed
     - RCDRecharging
-    - WeaponPulsePistol
-    - EmergencyMedipen
     - BoxMRE
     - WeaponPlasmaCutter
     - SyndieFlamethrower
@@ -365,7 +364,7 @@
   components:
   - type: GhostRole
     name: Специалист АПБТ
-    description: Специалист по скрытному уничтожению некроморфов.
+    description: Элита НТ, живой труп некроморфа, которого сами некроморфы не видят.
     rules: ghost-role-information-nonantagonist-rules
     category: ghost-role-information-centcomm-category
     raffle:
