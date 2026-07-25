@@ -95,6 +95,14 @@ namespace Content.Shared.Chemistry.Reaction
         [DataField]
         public bool Source;
 
+        // DS14-start
+        /// <summary>
+        /// Reagents produced indirectly by reaction effects that should list this reaction as a guidebook source.
+        /// </summary>
+        [DataField]
+        public HashSet<ProtoId<ReagentPrototype>> GuidebookSourceReagents = [];
+        // DS14-end
+
         /// <summary>
         ///     Comparison for creating a sorted set of reactions. Determines the order in which reactions occur.
         /// </summary>
