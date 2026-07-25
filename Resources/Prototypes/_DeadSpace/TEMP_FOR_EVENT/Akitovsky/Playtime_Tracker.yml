@@ -35,4 +35,10 @@
   id: PlayTimeTrackerAscended
 
 - type: playTimeTracker
+  id: PlayTimeTrackerMedicKPSK
+
+- type: playTimeTracker
+  id: PlayTimeTrackerCommanderKPSK
+
+- type: playTimeTracker
   id: PlayTimeTrackerSoldierKPSK

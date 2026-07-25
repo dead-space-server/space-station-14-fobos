@@ -29,6 +29,18 @@
       "name": "general"
     },
     {
+      "name": "uni_ARAMROSS"
+    },
+    {
+      "name": "uni_ascended"
+    },
+    {
+      "name": "kpsk_commander"
+    },
+    {
+      "name": "kpsk_medic"
+    },
+    {
       "name": "kpsk_soldier"
     }
   ]

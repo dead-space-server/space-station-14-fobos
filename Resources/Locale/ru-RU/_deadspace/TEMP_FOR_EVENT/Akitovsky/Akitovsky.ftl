@@ -7,3 +7,5 @@ lower-nvd = Опустить ПНВ
 unlower-nvd = Поднять ПНВ
 
 circle-store-name-aki = &*^$%W@T
+
+name-format-kpsk-private = Рядовой { $part0 }

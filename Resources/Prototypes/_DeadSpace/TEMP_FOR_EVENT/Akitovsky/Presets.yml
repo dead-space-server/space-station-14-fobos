@@ -702,14 +702,13 @@
     layers:
     - state: timed
     - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
-      state: kpsk_soldier
+      state: uni_ARAMROSS
   - type: CustomizableHumanoidSpawner
     jobPrototype: JobAramRoss
     allowedSpecies:
     - Human
     - Demon
     - Reptilian
-    - Dwarf
 
 - type: job
   id: JobAramRoss
@@ -766,6 +765,8 @@
     - PunctAutoInjector
     - PunctAutoInjector
     - UniPhoneAramRossUplink
+    - HypoAkiKPSK
+    - BinocularsAki
     belt:
     - MagazineWhirl
     - MagazineWhirl
@@ -776,6 +777,17 @@
     - MagazineWhirl
     - MagazineWhirl
     - MagazineWhirl
+    pocket2:
+    - MedicatedSuture
+    - MedicatedSuture
+    - MedicatedSuture
+    - RegenerativeMesh
+    - InjectorCaseFilledAki
+    - SyringeSaline
+    - SyringeSaline
+    - EmergencyMedipen
+    - EmergencyMedipen
+    - Tourniquet3
 
 # Вознесённые
 - type: entity
@@ -788,14 +800,13 @@
     layers:
     - state: timed
     - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
-      state: kpsk_soldier
+      state: uni_ascended
   - type: CustomizableHumanoidSpawner
     jobPrototype: JobAscended
     allowedSpecies:
     - Human
     - Demon
     - Reptilian
-    - Dwarf
 
 - type: job
   id: JobAscended
@@ -853,6 +864,8 @@
     - Tourniquet3
     - PunctAutoInjector
     - PunctAutoInjector
+    - HypoAkiKPSK
+    - BinocularsAki
     belt:
     - MagazineBoxVSKAki
     - MagazineBoxVSKAki
@@ -867,6 +880,205 @@
     - MagazineVSK9x39SP6
     - MagazineVSK9x39SP6
     - MagazineVSK9x39SP6
+
+# Командир КПСК
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerCommanderKPSK
+  name: ИВЕНТОВЫЙ Юни Командир КПСК (АН-94)
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
+      state: kpsk_commander
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobCommanderKPSK
+    allowedSpecies:
+    - Human
+    - Demon
+    - Reptilian
+
+- type: job
+  id: JobCommanderKPSK
+  name: Командир «Пурга»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerCommanderKPSK
+  setPreference: false
+  startingGear: CommanderKPSK
+  icon: "JobIconUnitologyHeavy"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - NuclearOperative
+  - SyndicateAgent
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - Syndicate
+
+- type: startingGear
+  id: CommanderKPSK
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitMaugliAkiKPSK
+    ears: ClothingHeadsetKPSK
+    mask: ClothingMaskAkiKPSK
+    eyes: ClothingEyesGlassesHudAkiKPSK
+    gloves: ClothingHandsGlovesCombat
+    shoes: ClothingShoesBootsJackFilled
+    head: ClothingHeadUSSPjuggernautHelmetArmoredAkiKPSK
+    neck: ClothingNeckKPSKCommanderAki
+    id: AkiDeltaIDCard
+    belt: ClothingBeltAkiKPSK
+    outerClothing: ClothingOuterArmorDeltaFatAkiBlack
+    back: ClothingBackpackMilitarySatchelAki
+    suitstorage: WeaponRifleAbakanAki
+    pocket1: RMCPouchMagazineAki
+    pocket2: RMCPouchMedicalSocAki
+  inhand:
+    - BookFSCP
+  storage:
+    back:
+    - MagazineBox556x45AP
+    - MagazineBox556x45AP
+    - CrowbarRed
+    - BoxMRE
+    - Flare
+    - BoxFlare
+    - SmokeGrenade
+    - SmokeGrenade
+    - SyndicateWhistle
+    - BinocularsAki
+    belt:
+    - Magazine556x45APExtended
+    - Magazine556x45APExtended
+    - Magazine556x45APExtended
+    - Magazine556x45APExtended
+    pocket1:
+    - Magazine556x45AP
+    - Magazine556x45AP
+    - Magazine556x45AP
+    - Magazine556x45AP
+    pocket2:
+    - MedicatedSuture
+    - MedicatedSuture
+    - MedicatedSuture
+    - RegenerativeMesh
+    - InjectorCaseFilledAki
+    - SyringeSaline
+    - SyringeSaline
+    - EmergencyMedipen
+    - EmergencyMedipen
+    - Tourniquet3
+
+# Санитар КПСК
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerMedicKPSK
+  name: ИВЕНТОВЫЙ Юни Медик КПСК (Точмаш)
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
+      state: kpsk_medic
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobMedicKPSK
+    allowedSpecies:
+    - Human
+    - Demon
+    - Reptilian
+
+- type: job
+  id: JobMedicKPSK
+  name: Санитар «Пурга»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerMedicKPSK
+  setPreference: false
+  startingGear: MedicKPSK
+  icon: "JobIconUnitologyMedic"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - NuclearOperative
+  - SyndicateAgent
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - Syndicate
+
+- type: startingGear
+  id: MedicKPSK
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitMaugliAkiKPSK
+    ears: ClothingHeadsetKPSK
+    mask: ClothingMaskAkiKPSK
+    eyes: ClothingEyesHudSyndicateAgent
+    gloves: ClothingHandsGlovesCombat
+    shoes: ClothingShoesBootsJackFilled
+    head: ClothingHeadHatBeretMedicKPSKAki
+    id: AkiDeltaIDCard
+    belt: ClothingBeltUnitologyLightWebbingAki
+    outerClothing: ClothingOuterArmorDeltaFatAkiBlack
+    back: ClothingBackpackMilitarySatchelAki
+    suitstorage: WeaponTochmashAki
+    pocket1: RMCPouchMagazineAki
+    pocket2: RMCPouchMedicalSocAki
+  inhand:
+    - BookFSCP
+  storage:
+    back:
+    - CrowbarRed
+    - EmergencyMedipen
+    - BoxMRE
+    - Flare
+    - MagazineBox9x19AP63
+    - MagazineBox9x19AP63
+    - BoxFlare
+    - SmokeGrenade
+    belt:
+    - HypoAkiKPSK
+    - BodyBagFolded
+    - BodyBagFolded
+    - EmergencyRollerBedSpawnFolded
+    - ChemistryBottlePuncturase
+    - ChemistryBottlePuncturase
+    - ChemistryBottleBicaridine
+    - ChemistryBottleDexalinPlus
+    - ChemistryBottleDermaline
+    - ChemistryBottleDylovene
+    pocket1:
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
+    - MagazinePistolTochmash9x19AP63
+    pocket2:
+    - MedicatedSuture
+    - MedicatedSuture
+    - MedicatedSuture
+    - RegenerativeMesh
+    - InjectorCaseFilledAki
+    - SyringeSaline
+    - SyringeSaline
+    - EmergencyMedipen
+    - EmergencyMedipen
+    - Tourniquet3
 
 # Боец КПСК
 - type: entity
@@ -886,7 +1098,6 @@
     - Human
     - Demon
     - Reptilian
-    - Dwarf
 
 - type: job
   id: JobSoldierKPSK
@@ -894,6 +1105,9 @@
   description: job-description-soo
   playTimeTracker: PlayTimeTrackerSoldierKPSK
   setPreference: false
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 36000 # 10 hours
   startingGear: SoldierKPSK
   icon: "JobIconUnitology"
   supervisors: job-supervisors-no-one
@@ -922,19 +1136,16 @@
     gloves: ClothingHandsGlovesCombat
     shoes: ClothingShoesBootsJackFilled
     head: ClothingHeadUSSPjuggernautHelmetArmoredAkiKPSK
-    id: AkiDeltaIDCard
+    id: AkiKPSKSoldierIDCard
     belt: ClothingBeltAkiKPSK
     outerClothing: ClothingOuterArmorDeltaFatAkiBlack
     back: ClothingBackpackMilitarySatchelAki
-    suitstorage: WeaponRifleAbakanAki
-    pocket1: RMCPouchMagazineAki
+    suitstorage: WeaponRifleAk
     pocket2: RMCPouchGeneralAki
   inhand:
     - BookFSCP
   storage:
     back:
-    - MagazineBox556x45AP
-    - MagazineBox556x45AP
     - CrowbarRed
     - EmergencyMedipen
     - BoxMRE
@@ -942,14 +1153,55 @@
     - MedicatedSuture
     - Ointment
     - Tourniquet3
-    - PunctAutoInjector
-    - PunctAutoInjector
     belt:
-    - Magazine556x45APExtended
-    - Magazine556x45APExtended
-    - Magazine556x45APExtended
-    pocket1:
-    - Magazine556x45AP
-    - Magazine556x45AP
-    - Magazine556x45AP
-    - Magazine556x45AP
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - MagazineBoxLightRifle
+    - MagazineBoxLightRifle
+
+# Доспавн Боец КПСК
+- type: entity
+  id: RandomSpawnerSoldierKPSKAki
+  name: ИВЕНТОВЫЙ Юни Солдат КПСК ДОСПАВН (АКМС)
+  suffix: Akitovsky, Ивент, Случайный персонаж
+  components:
+    - type: Sprite
+      sprite: _Corvax/Sponsor/jesuisunfou/Clothing/Head/Hats/ussp.rsi
+      state: icon
+    - type: RandomHumanoidSpawner
+      settings: KPSKSoldierAki
+
+- type: randomHumanoidSettings
+  id: KPSKSoldierAki
+  parent: EventHumanoid
+  speciesBlacklist:
+    - Arachnid
+    - Diona
+    - Dwarf
+    # - Human
+    - Moth
+    - Reptilian
+    - SlimePerson
+    - Vox
+    - Demon
+    - Shark
+    - Tajaran
+    - Vulpkanin
+    - Felinid
+    - Kobolt
+    - Xenomorph
+    - IPC
+  components:
+    - type: GhostRole
+      name: Боец КПСК
+      description: ghost-role-information-fscp-recruit-description
+    - type: Loadout
+      prototypes: [ SoldierKPSK ]
+    - type: RandomMetadata
+      nameSegments:
+      - NamesLastMale
+      nameFormat: name-format-kpsk-private

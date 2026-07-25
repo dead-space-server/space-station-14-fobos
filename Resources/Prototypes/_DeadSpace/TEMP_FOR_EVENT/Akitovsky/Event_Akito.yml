@@ -398,7 +398,7 @@
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestsand.rsi
     equipDelay: 2
-    unequipDelay: 2
+    unequipDelay: 1
   - type: Armor
     modifiers:
       coefficients:
@@ -428,7 +428,7 @@
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestslimsand.rsi
     equipDelay: 2
-    unequipDelay: 2
+    unequipDelay: 1
   - type: Armor
     modifiers:
       coefficients:
@@ -458,7 +458,7 @@
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestfatsand.rsi
     equipDelay: 2
-    unequipDelay: 2
+    unequipDelay: 1
   - type: Armor
     modifiers:
       coefficients:
@@ -488,7 +488,7 @@
   - type: Clothing
     sprite: Clothing/OuterClothing/Armor/bulletproof.rsi
     equipDelay: 2
-    unequipDelay: 2
+    unequipDelay: 1
   - type: Armor
     modifiers:
       coefficients:
@@ -518,7 +518,7 @@
   - type: Clothing
     sprite: Clothing/OuterClothing/Armor/security_slim.rsi
     equipDelay: 2
-    unequipDelay: 2
+    unequipDelay: 1
   - type: Armor
     modifiers:
       coefficients:
@@ -548,7 +548,7 @@
   - type: Clothing
     sprite: Clothing/OuterClothing/Armor/security.rsi
     equipDelay: 2
-    unequipDelay: 2
+    unequipDelay: 1
   - type: Armor
     modifiers:
       coefficients:
@@ -664,7 +664,22 @@
     tags: [] # ignore "WhitelistChameleon" tag
 
 
-
+# Боевые медипены
+- type: entity
+  id: InjectorCaseFilledAki
+  parent: InjectorCase
+  suffix: Akitovsky
+  components:
+  - type: StorageFill
+    contents:
+      - id: PunctAutoInjector
+      - id: PunctAutoInjector
+      - id: PunctAutoInjector
+      - id: PunctAutoInjector
+      - id: CombatMedipen
+      - id: CombatMedipen
+      - id: CombatMedipen
+      - id: CombatMedipen
 
 # Каналы связи отрядов
 # Отряд «Дельта-6»
@@ -2049,6 +2064,7 @@
   - type: Storage
     grid:
     - 0,0,10,1 #11 slots
+    maxItemSize: Normal
     whitelist:
       tags:
       - Wrench
@@ -3343,6 +3359,26 @@
     layers:
       Hair: HEAD
 
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretMedicKPSKAki
+  name: берет медика
+  description: Красный стильный берет для медиков.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Hats/beret_medic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Hats/beret_medic.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
 # Противогаз КПСК
 - type: entity
   parent: ClothingMaskBSAA
@@ -3365,6 +3401,14 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
+# Карта рядового Доспавна
+- type: entity
+  parent: AkiDeltaIDCard
+  id: AkiKPSKSoldierIDCard
+  components:
+  - type: PresetIdCard
+    job: JobSoldierKPSK
+
 # Очки КПСК
 - type: entity
   parent: [ClothingEyesBase, ShowSecurityIcons, BaseSecurityContraband]
@@ -3382,6 +3426,18 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
+# Плащ Командира КПСК
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckKPSKCommanderAki
+  name: плащ офицера КПСК
+  description: Этот мрачный плащ, сотканный из чёрной ткани, наделяет своего владельца таинственностью и внушает страх окружающим.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Renegade/bondrewd_mantle.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Renegade/bondrewd_mantle.rsi
+
 # РПС КПСК
 - type: entity
   parent: ClothingBeltSalvageWebbing
@@ -3397,6 +3453,13 @@
     - 4,0,4,1
     - 6,0,6,1
     - 0,2,6,3
+
+# РПС Медика КПСК
+- type: entity
+  parent: ClothingBeltUnitologyLightWebbing
+  id: ClothingBeltUnitologyLightWebbingAki
+  name: военно-медицинская РПС
+  description: Обеспечивает надёжную фиксацию и удобство при переноске необходимых предметов, что делает её незаменимой в полевых условиях.
 
 # РПС Арама
 - type: entity
@@ -3535,7 +3598,7 @@
 - type: listing
   id: UniPhoneAramRossDreadnoughtAki
   name: Скафандр Дредноут
-  productEntity: ClothingOuterHardsuitUnitologyDreadnought
+  productEntity: ClothingOuterHardsuitUnitologyDreadnoughtAki
   cost:
     Telecrystal: 1
   categories:
@@ -3543,6 +3606,31 @@
   conditions:
   - !type:ListingLimitedStockCondition
     stock: 1
+
+# Дредноут
+- type: entity
+  id: ClothingOuterHardsuitUnitologyDreadnoughtAki
+  parent: ClothingOuterHardsuitUnitologyDreadnought
+  components:
+  - type: ExplosionResistance
+    damageCoefficient: 0.05
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.05
+        Slash: 0.05
+        Piercing: 0.05
+        Heat: 0.05
+        Cold: 0.05
+        Shock: 0.05
+        Radiation: 0.05
+        Poison: 0.05
+        Caustic: 0.05
+  - type: StaminaResistance
+    damageCoefficient: 0.05
+  - type: ClothingSpeedModifier
+    walkModifier: 0.3
+    sprintModifier: 0.3
 
 # Бинокль
 - type: entity
@@ -3557,7 +3645,23 @@
     maxOffset: 40
     pvsIncrease: 2.2
 
-
+# Гипоспрей КПСК
+- type: entity
+  parent: HypoAkiDelta
+  id: HypoAkiKPSK
+  name: гипоспрей «Горизонт Бездны»
+  description: Высокотехнологичное медицинское устройство, вдохновлённое физикой чёрных дыр.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/DragonFox/MadParadox/hypo.rsi
+    layers:
+      - state: hypo
+        map: ["enum.SolutionContainerLayers.Base"]
+      - state: hypo_fill1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
+  - type: Item
+    sprite: _DeadSpace/Sponsor/DragonFox/MadParadox/hypo.rsi
 
 
 
@@ -3678,7 +3782,7 @@
   - type: Clothing
     sprite: _DeadSpace/Sponsor/sastr/outer.rsi
     equipDelay: 2
-    unequipDelay: 2
+    unequipDelay: 1
   - type: Armor
     modifiers:
       coefficients:
