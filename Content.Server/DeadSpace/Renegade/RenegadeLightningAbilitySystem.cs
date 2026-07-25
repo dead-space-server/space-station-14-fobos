@@ -89,7 +89,12 @@ public sealed class RenegadeLightningAbilitySystem : EntitySystem
                 continue;
 
             _beam.TryCreateBeam(uid, entity, component.LightingPrototypeId);
-            _electrocution.TryDoElectrocution(entity, uid, shockDamage: 0, time: TimeSpan.FromSeconds(5), refresh: true);
+            _electrocution.TryDoElectrocution(entity,
+                uid,
+                shockDamage: null,
+                time: TimeSpan.FromSeconds(5),
+                refresh: true,
+                isLightning: true);
         }
     }
 }

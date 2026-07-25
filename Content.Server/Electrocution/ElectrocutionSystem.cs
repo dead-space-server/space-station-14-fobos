@@ -292,10 +292,10 @@ public sealed class ElectrocutionSystem : SharedElectrocutionSystem
 
     /// <inheritdoc/>
     public override bool TryDoElectrocution(
-        EntityUid uid, EntityUid? sourceUid, int shockDamage, TimeSpan time, bool refresh, float siemensCoefficient = 1f,
-        StatusEffectsComponent? statusEffects = null, bool ignoreInsulation = false)
+        EntityUid uid, EntityUid? sourceUid, int? shockDamage, TimeSpan time, bool refresh, float siemensCoefficient = 1f, // DS14
+        StatusEffectsComponent? statusEffects = null, bool ignoreInsulation = false, bool isLightning = false) // DS14
     {
-        if (!DoCommonElectrocutionAttempt(uid, sourceUid, ref siemensCoefficient, ignoreInsulation)
+        if (!DoCommonElectrocutionAttempt(uid, sourceUid, ref siemensCoefficient, ignoreInsulation, isLightning) // DS14
             || !DoCommonElectrocution(uid, sourceUid, shockDamage, time, refresh, siemensCoefficient, statusEffects))
             return false;
 
@@ -355,13 +355,15 @@ public sealed class ElectrocutionSystem : SharedElectrocutionSystem
         return true;
     }
 
-    private bool DoCommonElectrocutionAttempt(EntityUid uid, EntityUid? sourceUid, ref float siemensCoefficient, bool ignoreInsulation = false)
+    private bool DoCommonElectrocutionAttempt(EntityUid uid, EntityUid? sourceUid, ref float siemensCoefficient,
+        bool ignoreInsulation = false, bool isLightning = false) // DS14
     {
 
         var attemptEvent = new ElectrocutionAttemptEvent(uid, sourceUid, siemensCoefficient,
             ignoreInsulation ? SlotFlags.NONE : ~SlotFlags.POCKET)
         {
-            IgnoreInsulation = ignoreInsulation // DS14
+            IgnoreInsulation = ignoreInsulation, // DS14
+            IsLightning = isLightning // DS14
         };
         RaiseLocalEvent(uid, attemptEvent, true);
 
@@ -500,7 +502,8 @@ public sealed class ElectrocutionSystem : SharedElectrocutionSystem
         if (args.IgnoreInsulation)
             return;
 
-        if (args.SourceUid != null && HasComp<LightningComponent>(args.SourceUid.Value))
+        if (args.IsLightning ||
+            args.SourceUid != null && HasComp<LightningComponent>(args.SourceUid.Value))
         {
             if (!_random.Prob(insulated.LightningProtectionChance))
             {
