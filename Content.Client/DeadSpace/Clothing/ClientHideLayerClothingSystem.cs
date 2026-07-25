@@ -53,7 +53,7 @@ public sealed class ClientHideLayerClothingSystem : EntitySystem
         }
     }
 
-    private void RefreshSlots(EntityUid wearer, string? slot = null)
+    public void RefreshSlots(EntityUid wearer, string? slot = null)
     {
         if (!TryComp(wearer, out InventoryComponent? inventory) ||
             !TryComp(wearer, out InventorySlotsComponent? inventorySlots) ||
