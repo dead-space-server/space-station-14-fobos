@@ -412,9 +412,6 @@
   - type: ImmunNecroobelisk
   - type: IgnoreKudzu
   - type: WeaponRetention
-    whitelist:
-      components:
-      - Hands
   - type: Loadout
     prototypes: [ BSAAFlamerGear ]
   - type: GhostRoleNotifys
