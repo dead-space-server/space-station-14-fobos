@@ -18,7 +18,6 @@ public sealed partial class GuideMicrowaveGroupEmbed : BoxContainer, IDocumentTa
 {
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly IEntitySystemManager _systemManager = default!; // DS14
 
     private readonly ISawmill _sawmill;
 
@@ -62,14 +61,14 @@ public sealed partial class GuideMicrowaveGroupEmbed : BoxContainer, IDocumentTa
             AddChild(embed);
         }
 
-        // DS14-start: Some food ingredients are produced by mixing reactions instead of a microwave.
+        // DS14-start: Some food products are created by mixing reactions instead of microwave recipes.
         var reactions = _prototype.EnumeratePrototypes<ReactionPrototype>()
             .Where(p => p.GuidebookFoodCategory == group)
             .OrderBy(p => p.ID);
 
         foreach (var reaction in reactions)
         {
-            AddChild(new GuideReagentReaction(reaction, _prototype, _systemManager));
+            AddChild(new GuideMicrowaveEmbed(reaction));
         }
         // DS14-end
     }

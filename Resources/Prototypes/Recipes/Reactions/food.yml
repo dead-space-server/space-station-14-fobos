@@ -35,7 +35,7 @@
   impact: Low
   quantized: true
   conserveEnergy: false
-  guidebookFoodCategory: Breads # DS14
+  guidebookFoodCategory: Dough # DS14
   reactants:
     Flour:
       amount: 15
@@ -50,7 +50,7 @@
   impact: Low
   quantized: true
   conserveEnergy: false
-  guidebookFoodCategory: Breads # DS14
+  guidebookFoodCategory: Dough # DS14
   reactants:
     Cornmeal:
       amount: 15
@@ -67,7 +67,7 @@
   impact: Low
   quantized: true
   conserveEnergy: false
-  guidebookFoodCategory: Breads # DS14
+  guidebookFoodCategory: Dough # DS14
   reactants:
     Cornmeal:
       amount: 15
@@ -82,7 +82,7 @@
   impact: Low
   quantized: true
   conserveEnergy: false
-  guidebookFoodCategory: Moth # DS14
+  guidebookFoodCategory: Dough # DS14
   reactants:
     Fiber:
       amount: 10
@@ -99,7 +99,7 @@
   impact: Low
   quantized: true
   conserveEnergy: false
-  guidebookFoodCategory: Cake # DS14
+  guidebookFoodCategory: Dough # DS14
   reactants:
     Flour:
       amount: 15
@@ -134,7 +134,7 @@
   impact: Low
   quantized: true
   conserveEnergy: false
-  guidebookFoodCategory: Pie # DS14
+  guidebookFoodCategory: Dough # DS14
   reactants:
     Flour:
       amount: 15
@@ -154,7 +154,7 @@
   impact: Low
   quantized: true
   conserveEnergy: false
-  guidebookFoodCategory: Cake # DS14
+  guidebookFoodCategory: Dough # DS14
   reactants:
     Flour:
       amount: 15
