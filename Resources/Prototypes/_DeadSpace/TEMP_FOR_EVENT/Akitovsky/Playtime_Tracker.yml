@@ -29,4 +29,10 @@
   id: PlayTimeTrackerSpecialForceMedicalDelta8
 
 - type: playTimeTracker
+  id: PlayTimeTrackerAramRoss
+
+- type: playTimeTracker
+  id: PlayTimeTrackerAscended
+
+- type: playTimeTracker
   id: PlayTimeTrackerSoldierKPSK

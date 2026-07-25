@@ -167,6 +167,21 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
+# Панама Прайса с ПНВ
+- type: entity
+  parent: [ ClothingHeadHelmetAkiBasic, ClothingHeadHelmetNVD ]
+  id: ClothingHeadHatPanamaAkiSandNVD
+  name: старая панама
+  description: Была свидетельницей слишком многого. До сих пор пахнет порохом и предательством.
+  suffix: Akitovsky, Песок, ПНВ
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/panamahatsandNVD.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/panamahatsandNVD.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
 # Маска Дельта
 - type: entity
   parent: ClothingMaskPullableBase
@@ -859,6 +874,14 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
+# Гарнитура Старших
+- type: entity
+  parent: ClothingHeadsetKPSK
+  id: ClothingHeadsetKPSKAramRoss
+  name: гарнитура Старших
+  components:
+  - type: Headset
+    color: "#2F4F4F"
 
 # Баннер Дельта
 - type: entity
@@ -1200,9 +1223,43 @@
         amount: 2
         defaultPrototype: Beaker
 
+# Вал
+- type: entity
+  name: АС "Вал"
+  parent: WeaponRifleAsVal
+  id: WeaponRifleAsValAki
+  description: Бесшумный автомат, используется в ан-... Террористических операциях. Да, точно не украдено у СССП.
+  suffix: Akitovsky, Оружие
+  components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazineVSK9x39SP6
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazineVSK
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: CartridgeBullet9x39SP6
+        priority: 1
+        whitelist:
+          tags:
+            - CartridgeBulletVSK
+  - type: UseDelay
+    delay: 0
+  - type: CursorOffsetRequiresWield
+  - type: EyeCursorOffset
+    maxOffset: 4
+    pvsIncrease: 0.2
+
 # VSK
 - type: entity
-  name: VSK-94
+  name: ВСК-94
   id: WeaponVSKAki
   parent: WeaponVSK
   description: Точный винторез, что заточен под дальний бой и сбивание позиции врагов, нежели тупой штурм.
@@ -1227,15 +1284,16 @@
           tags:
           - CartridgeBulletVSK
   - type: EyeCursorOffset
-    maxOffset: 8
-    pvsIncrease: 0.2
+    maxOffset: 30
+    pvsIncrease: 2.3
   - type: UseDelay
     delay: 0
 
 # Магазин VSK
 - type: entity
   id: MagazineVSK9x39SP6
-  name: магазин VSK-94 (9х39 мм СП-6)
+  name: магазин ВСК-94 (9х39 мм СП-6)
+  description: ""
   suffix: Akitovsky
   parent: MagazineVSK
   components:
@@ -3243,7 +3301,7 @@
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/banners.rsi
     state: banner_viva
 
-# Комбинезон
+# Комбинезон КПСК
 - type: entity
   parent: ClothingUniformBase
   id: ClothingUniformJumpsuitMaugliAkiKPSK
@@ -3258,7 +3316,7 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
-# Шлем
+# Шлем КПСК
 - type: entity
   parent: ClothingHeadHelmetBase
   id: ClothingHeadUSSPjuggernautHelmetArmoredAkiKPSK
@@ -3285,7 +3343,7 @@
     layers:
       Hair: HEAD
 
-# Противогаз
+# Противогаз КПСК
 - type: entity
   parent: ClothingMaskBSAA
   id: ClothingMaskAkiKPSK
@@ -3307,7 +3365,7 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
-# Очки
+# Очки КПСК
 - type: entity
   parent: [ClothingEyesBase, ShowSecurityIcons, BaseSecurityContraband]
   id: ClothingEyesGlassesHudAkiKPSK
@@ -3324,7 +3382,7 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
-# РПС
+# РПС КПСК
 - type: entity
   parent: ClothingBeltSalvageWebbing
   id: ClothingBeltAkiKPSK
@@ -3340,7 +3398,20 @@
     - 6,0,6,1
     - 0,2,6,3
 
-# Сумка
+# РПС Арама
+- type: entity
+  parent: ClothingBeltUnitologyCommanderWebbing
+  id: ClothingBeltUnitologyCommanderWebbingAki
+  components:
+  - type: Storage
+    grid:
+    - 0,0,0,1
+    - 2,0,2,1
+    - 4,0,4,1
+    - 6,0,6,1
+    - 0,2,6,3
+
+# Сумка КПСК
 - type: entity
   parent: ClothingBackpackSatchel
   id: ClothingBackpackMilitarySatchelAki
@@ -3349,21 +3420,142 @@
   components:
   - type: Sprite
     sprite: _Corvax/Back/Satchels/military.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
 
+# Сумка Гейст
+- type: entity
+  parent: ClothingBackpackSatchel
+  id: ClothingBackpackMilitarySatchelAki
+  name: армейский ранец
+  description: Тактический ранец для армейских нужд.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/backpack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/backpack.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
 
+# Гейст скаф
+- type: entity
+  parent: ClothingOuterHardsuitUnitologyGeist
+  id: ClothingOuterHardsuitUnitologyGeistAki
+  name: скафандр «Морс»
+  description: Лёгкий скафандр отбитого психопата.
+  components:
+  - type: ClothingSpeedModifier
+    walkModifier: 1.05
+    sprintModifier: 1.05
+  - type: Unremoveable
 
+# Аплинк Старшего Проповедника
+- type: entity
+  id: UniPhoneAramRossUplink
+  parent: [ BaseItem, UniPhoneAramRossPresetUplink ]
+  name: аплинк Старшего Проповедника
+  description: Специальный аплинк от вашего покровителя.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/uplink.rsi
+    layers:
+    - state: icon
+  - type: Item
+    sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/uplink.rsi
+  - type: UserInterface
+    interfaces:
+      enum.StoreUiKey.Key:
+        type: StoreBoundUserInterface
+  - type: ActivatableUI
+    key: enum.StoreUiKey.Key
+  - type: Store
+    balance:
+      Telecrystal: 40
 
+- type: entity
+  id: UniPhoneAramRossPresetUplink
+  abstract: true
+  components:
+  - type: Store
+    name: circle-store-name-aki
+    categories:
+    - UniPhoneGeistUplinkTrapsAki
+    - UniPhoneAramRossUplink
+    currencyWhitelist:
+    - Telecrystal
+    balance:
+      Telecrystal: 0
 
+- type: storeCategory
+  id: UniPhoneGeistUplinkTrapsAki
+  name: Ловушки и диверсии
+  priority: 1
 
+- type: listing
+  id: UniPhoneGeistUplinkC4
+  name: Взрывчатка C4
+  productEntity: C4
+  cost:
+    Telecrystal: 2
+  categories:
+  - UniPhoneGeistUplinkTrapsAki
 
+- type: listing
+  id: UniPhoneGeistUplinkBearTrap
+  name: Капкан
+  productEntity: BearTrap
+  cost:
+    Telecrystal: 4
+  categories:
+  - UniPhoneGeistUplinkTrapsAki
 
+- type: listing
+  id: UniPhoneGeistUplinkTripwire
+  name: Растяжка
+  productEntity: TripwireStack
+  cost:
+    Telecrystal: 2
+  categories:
+  - UniPhoneGeistUplinkTrapsAki
 
+- type: listing
+  id: UplinkExplosiveGrenade
+  name: uplink-explosive-grenade-name
+  productEntity: ExGrenade
+  cost:
+    Telecrystal: 4
+  categories:
+  - UniPhoneGeistUplinkTrapsAki
 
+- type: storeCategory
+  id: UniPhoneAramRossUplink
+  name: Особая категория
+  priority: 2
 
+- type: listing
+  id: UniPhoneAramRossDreadnought
+  name: Скафандр Дредноут
+  productEntity: ClothingOuterHardsuitUnitologyDreadnought
+  cost:
+    Telecrystal: 1
+  categories:
+  - UniPhoneAramRossUplink
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
 
-
-
-
+# Бинокль
+- type: entity
+  name: бинокль
+  parent: Binoculars
+  id: BinocularsAki
+  description: Используется для наблюдения на больших расстояниях.
+  suffix: Akitovsky
+  components:
+  - type: CursorOffsetRequiresWield
+  - type: EyeCursorOffset
+    maxOffset: 40
+    pvsIncrease: 2.2
 
 
 
@@ -3393,7 +3585,7 @@
   
 # Рюкзак
 - type: entity
-  parent: ClothingBackpack
+  parent: ClothingBackpackSatchel
   id: ClothingBackpacksastrAki
   name: разведывательная сумка Klecsh //
   description: Компактного вида набедренная сумка, закреплённая к снаряжению на магнитном жгуте. Достаточно вместительная для своего размера.

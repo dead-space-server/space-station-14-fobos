@@ -51,7 +51,7 @@
     mask: ClothingMaskNeckGaiter
     gloves: ClothingHandsGlovesCombatAkiDeltaSand
     shoes: ClothingShoesBootsJackAkiDeltaSand
-    head: ClothingHeadHatPanamaAkiSand
+    head: ClothingHeadHatPanamaAkiSandNVD
     id: AkiDeltaIDCard
     belt: ClothingBeltMilitaryWebbingAkiDeltaSand
     pocket1: RMCPouchMagazineAki
@@ -691,11 +691,188 @@
 
 
 ############ КПСК
+# Старший Проповедник
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerAramRoss
+  name: ИВЕНТОВЫЙ Юни Старший Проповедник (Дредноут)
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
+      state: kpsk_soldier
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobAramRoss
+    allowedSpecies:
+    - Human
+    - Demon
+    - Reptilian
+    - Dwarf
+
+- type: job
+  id: JobAramRoss
+  name: Старший Проповедник
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerAramRoss
+  setPreference: false
+  startingGear: AramRoss
+  icon: "JobIconUnitologyLead"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - NuclearOperative
+  - SyndicateAgent
+  special:
+  - !type:AddImplantSpecial
+    implants: [ EventRadioImplantUnitologyMeta ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - Syndicate
+
+- type: startingGear
+  id: AramRoss
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitUnitology
+    ears: ClothingHeadsetKPSKAramRoss
+    mask: ClothingMaskGasUnitology
+    eyes: ClothingEyesHudUnitologyVisor
+    gloves: ClothingHandsGlovesCombatUnitology
+    shoes: ClothingShoesBootsJackFilled
+    head: ADTClothingHeadSea
+    id: AkiDeltaIDCard
+    belt: ClothingBeltUnitologyCommanderWebbingAki
+    outerClothing: ClothingOuterArmorDeltaFatAkiBlack
+    back: ClothingBackpackMilitarySatchelAki
+    suitstorage: WeaponMachineGunWhirl
+    pocket1: RMCPouchMagazineAki
+    pocket2: RMCPouchMedicalSocAki
+  storage:
+    back:
+    - CrowbarRed
+    - EmergencyMedipen
+    - BoxMRE
+    - Flare
+    - MedicatedSuture
+    - Ointment
+    - Tourniquet3
+    - PunctAutoInjector
+    - PunctAutoInjector
+    - UniPhoneAramRossUplink
+    belt:
+    - MagazineWhirl
+    - MagazineWhirl
+    pocket1:
+    - MagazineWhirl
+    - MagazineWhirl
+    - MagazineWhirl
+    - MagazineWhirl
+    - MagazineWhirl
+    - MagazineWhirl
+
+# Вознесённые
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerAscended
+  name: ИВЕНТОВЫЙ Юни Вознесённый
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
+      state: kpsk_soldier
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobAscended
+    allowedSpecies:
+    - Human
+    - Demon
+    - Reptilian
+    - Dwarf
+
+- type: job
+  id: JobAscended
+  name: Вознесённый
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerAscended
+  setPreference: false
+  startingGear: Ascended
+  icon: "JobIconUnitologyGeist"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - NuclearOperative
+  - SyndicateAgent
+  special:
+  - !type:AddImplantSpecial
+    implants: [ EventRadioImplantUnitologyMeta ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - Syndicate
+    - type: TheCircleGeist
+
+- type: startingGear
+  id: Ascended
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitUnitology
+    ears: ClothingHeadsetKPSKAramRoss
+    mask: ClothingMaskGasUnitology
+    eyes: ClothingEyesHudUnitologyVisor
+    gloves: ClothingHandsGlovesCombatUnitology
+    shoes: ADTClothingFootWrapsBlack
+    head: ClothingHeadHelmetUnitologyGeist
+    neck: ClothingNeckUnitologyGeistMantle
+    id: AkiDeltaIDCard
+    belt: ClothingBeltUnitologyCommanderWebbingAki
+    outerClothing: ClothingOuterHardsuitUnitologyGeistAki
+    back: ClothingBackpackMilitarySatchelAki
+    suitstorage: WeaponRifleAsValAki
+    pocket1: RMCPouchMagazineAki
+    pocket2: RMCPouchMedicalSocAki
+  storage:
+    back:
+    - CrowbarRed
+    - EmergencyMedipen
+    - BoxMRE
+    - Flare
+    - MedicatedSuture
+    - Ointment
+    - Tourniquet3
+    - PunctAutoInjector
+    - PunctAutoInjector
+    belt:
+    - MagazineBoxVSKAki
+    - MagazineBoxVSKAki
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    pocket1:
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+
 # Боец КПСК
 - type: entity
   parent: CustomizableSpawnerBase
   id: CustomizableSpawnerSoldierKPSK
-  name: ИВЕНТОВЫЙ Солдат КПСК (АН-94)
+  name: ИВЕНТОВЫЙ Юни Солдат КПСК (АН-94)
   suffix: Akitovsky, Ивент, Кастомизируемый персонаж
   components:
   - type: Sprite
@@ -718,7 +895,7 @@
   playTimeTracker: PlayTimeTrackerSoldierKPSK
   setPreference: false
   startingGear: SoldierKPSK
-  icon: "JobIconERTLeader"
+  icon: "JobIconUnitology"
   supervisors: job-supervisors-no-one
   canBeAntag: false
   accessGroups:
@@ -750,22 +927,29 @@
     outerClothing: ClothingOuterArmorDeltaFatAkiBlack
     back: ClothingBackpackMilitarySatchelAki
     suitstorage: WeaponRifleAbakanAki
+    pocket1: RMCPouchMagazineAki
+    pocket2: RMCPouchGeneralAki
   inhand:
     - BookFSCP
   storage:
     back:
-    - Magazine556x45AP
-    - Magazine556x45AP
-    - Magazine556x45AP
+    - MagazineBox556x45AP
+    - MagazineBox556x45AP
     - CrowbarRed
     - EmergencyMedipen
     - BoxMRE
     - Flare
-    - Gauze
+    - MedicatedSuture
+    - Ointment
+    - Tourniquet3
+    - PunctAutoInjector
+    - PunctAutoInjector
     belt:
     - Magazine556x45APExtended
     - Magazine556x45APExtended
     - Magazine556x45APExtended
+    pocket1:
+    - Magazine556x45AP
     - Magazine556x45AP
     - Magazine556x45AP
     - Magazine556x45AP

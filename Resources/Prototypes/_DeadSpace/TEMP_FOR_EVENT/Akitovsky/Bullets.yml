@@ -27,7 +27,7 @@
   - type: HitscanBasicDamage
     damage:
       types:
-       Piercing: 60
+       Piercing: 40
 
 # Коробка патрон 9x39SP6
 - type: entity
