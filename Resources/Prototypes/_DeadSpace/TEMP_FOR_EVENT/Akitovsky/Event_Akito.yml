@@ -3426,9 +3426,9 @@
 # Сумка Гейст
 - type: entity
   parent: ClothingBackpackSatchel
-  id: ClothingBackpackMilitarySatchelAki
-  name: армейский ранец
-  description: Тактический ранец для армейских нужд.
+  id: ClothingBackpackUnitologySatchelAki
+  name: штурмовой рюкзак
+  description: Компактный, но вместительный рюкзак для оперативных задач.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/backpack.rsi
@@ -3492,7 +3492,7 @@
   priority: 1
 
 - type: listing
-  id: UniPhoneGeistUplinkC4
+  id: UniPhoneGeistUplinkC4AKi
   name: Взрывчатка C4
   productEntity: C4
   cost:
@@ -3501,7 +3501,7 @@
   - UniPhoneGeistUplinkTrapsAki
 
 - type: listing
-  id: UniPhoneGeistUplinkBearTrap
+  id: UniPhoneGeistUplinkBearTrapAki
   name: Капкан
   productEntity: BearTrap
   cost:
@@ -3510,7 +3510,7 @@
   - UniPhoneGeistUplinkTrapsAki
 
 - type: listing
-  id: UniPhoneGeistUplinkTripwire
+  id: UniPhoneGeistUplinkTripwireAki
   name: Растяжка
   productEntity: TripwireStack
   cost:
@@ -3519,7 +3519,7 @@
   - UniPhoneGeistUplinkTrapsAki
 
 - type: listing
-  id: UplinkExplosiveGrenade
+  id: UplinkExplosiveGrenadeAki
   name: uplink-explosive-grenade-name
   productEntity: ExGrenade
   cost:
@@ -3533,7 +3533,7 @@
   priority: 2
 
 - type: listing
-  id: UniPhoneAramRossDreadnought
+  id: UniPhoneAramRossDreadnoughtAki
   name: Скафандр Дредноут
   productEntity: ClothingOuterHardsuitUnitologyDreadnought
   cost:
