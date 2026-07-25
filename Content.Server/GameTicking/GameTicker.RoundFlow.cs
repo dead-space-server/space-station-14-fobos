@@ -774,21 +774,35 @@ namespace Content.Server.GameTicking
             if (TryGetEntity(mind.OriginalOwnedEntity, out var foundOriginalEntity))
                 originalEntity = foundOriginalEntity.Value;
 
+            var identityEntity = manifestIdentity?.SourceEntity;
+            if (manifestIdentity != null)
+            {
+                if (mind.OwnedEntity == identityEntity &&
+                    IsLiveRoundEndDisplayBody(identityEntity))
+                {
+                    return identityEntity;
+                }
+
+                if (_roundEndManifestStats.GetDisplaySnapshot(mindId) is { } identitySnapshot)
+                    return identitySnapshot;
+
+                if (IsRoundEndDisplayBody(identityEntity))
+                    return identityEntity;
+
+                if (identityEntity != null && !TerminatingOrDeleted(identityEntity.Value))
+                    return identityEntity;
+
+                return null;
+            }
+
             if (_roundEndManifestStats.GetDisplaySnapshot(mindId) is { } snapshot)
                 return snapshot;
-
-            var identityEntity = manifestIdentity?.SourceEntity;
-            if (IsRoundEndDisplayBody(identityEntity))
-                return identityEntity;
 
             if (IsRoundEndDisplayBody(ownedEntity))
                 return ownedEntity;
 
             if (IsRoundEndDisplayBody(originalEntity))
                 return originalEntity;
-
-            if (identityEntity != null && !TerminatingOrDeleted(identityEntity.Value))
-                return identityEntity;
 
             if (ownedEntity != null && !TerminatingOrDeleted(ownedEntity.Value))
                 return ownedEntity;
@@ -797,6 +811,15 @@ namespace Content.Server.GameTicking
                 return originalEntity;
 
             return null;
+        }
+
+        private bool IsLiveRoundEndDisplayBody(EntityUid? uid)
+        {
+            if (uid is not { } body || !IsRoundEndDisplayBody(body))
+                return false;
+
+            return !TryComp<MobStateComponent>(body, out var mobState) ||
+                   mobState.CurrentState != MobState.Dead;
         }
 
         private bool IsRoundEndDisplayBody(EntityUid? uid)
