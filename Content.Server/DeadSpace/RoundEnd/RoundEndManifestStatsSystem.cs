@@ -285,8 +285,9 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         if (_frozenDisplaySnapshots.Contains(mindId))
             return;
 
-        // Map teardown removes its mobs recursively; cloning them here would leave new snapshots behind in nullspace.
-        if (!TryComp(source, out TransformComponent? transform) ||
+        // Entity and map teardown can detach minds after a bulk-delete command has captured its entity list.
+        if (TerminatingOrDeleted(source) ||
+            !TryComp(source, out TransformComponent? transform) ||
             transform.MapUid is not { } mapUid ||
             TerminatingOrDeleted(mapUid))
         {

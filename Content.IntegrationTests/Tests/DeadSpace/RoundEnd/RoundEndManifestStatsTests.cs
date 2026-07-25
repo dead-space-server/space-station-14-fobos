@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System.Linq;
 using Content.Server.DeadSpace.RoundEnd;
 using Content.Shared.Chat;
 using Content.Shared.Damage;
@@ -16,6 +17,7 @@ using Content.Shared.Mind.Components;
 using Content.Shared.Projectiles;
 using Content.Shared.Roles;
 using Robust.Server.GameObjects;
+using Robust.Shared.Console;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Localization;
 using Robust.Shared.Map;
@@ -239,7 +241,7 @@ public sealed class RoundEndManifestStatsTests
     }
 
     [Test]
-    public async Task DeletingWorldDoesNotCreateManifestSnapshot()
+    public async Task DeletingAllEntitiesDoesNotCreateManifestSnapshot()
     {
         var settings = new PoolSettings
         {
@@ -254,15 +256,18 @@ public sealed class RoundEndManifestStatsTests
         var body = pair.Player!.AttachedEntity!.Value;
         var mindId = pair.PlayerData!.Mind!.Value;
         var mind = context.EntMan.GetComponent<MindComponent>(mindId);
-        var mapUid = server.Transform(body).MapUid
-            ?? throw new InvalidOperationException("Player body is not attached to a map.");
-
         context.ManifestStats.EnsureManifestEntry(mindId, mind);
 
-        await server.WaitPost(() => context.EntMan.DeleteEntity(mapUid));
-        await pair.RunTicksSync(1);
+        var consoleHost = server.ResolveDependency<IConsoleHost>();
+        await server.WaitPost(() => consoleHost.ExecuteCommand("entities delete"));
+        await pair.RunTicksSync(5);
 
-        Assert.That(context.ManifestStats.GetDisplaySnapshot(mindId), Is.Null);
+        Assert.That(
+            context.EntMan.EntityCount,
+            Is.Zero,
+            string.Join(
+                Environment.NewLine,
+                context.EntMan.GetEntities().Select(uid => context.EntMan.ToPrettyString(uid).ToString())));
         await pair.CleanReturnAsync();
     }
 
