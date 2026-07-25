@@ -12,6 +12,7 @@ using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.FixedPoint;
 using Content.Shared.Ghost;
 using Content.Shared.Mind;
+using Content.Shared.Mind.Components;
 using Content.Shared.Projectiles;
 using Content.Shared.Roles;
 using Robust.Server.GameObjects;
@@ -234,6 +235,34 @@ public sealed class RoundEndManifestStatsTests
                 Is.EqualTo(Loc.GetString("round-end-summary-window-antag-manifest-quote-fallback")));
         });
 
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task DeletingWorldDoesNotCreateManifestSnapshot()
+    {
+        var settings = new PoolSettings
+        {
+            Connected = true,
+            Destructive = true,
+            Dirty = true,
+            DummyTicker = false
+        };
+        await using var pair = await PoolManager.GetServerClient(settings);
+        var server = pair.Server;
+        var context = GetContext(server);
+        var body = pair.Player!.AttachedEntity!.Value;
+        var mindId = pair.PlayerData!.Mind!.Value;
+        var mind = context.EntMan.GetComponent<MindComponent>(mindId);
+        var mapUid = server.Transform(body).MapUid
+            ?? throw new InvalidOperationException("Player body is not attached to a map.");
+
+        context.ManifestStats.EnsureManifestEntry(mindId, mind);
+
+        await server.WaitPost(() => context.EntMan.DeleteEntity(mapUid));
+        await pair.RunTicksSync(1);
+
+        Assert.That(context.ManifestStats.GetDisplaySnapshot(mindId), Is.Null);
         await pair.CleanReturnAsync();
     }
 
