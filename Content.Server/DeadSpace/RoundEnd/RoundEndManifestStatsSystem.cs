@@ -6,6 +6,7 @@ using Content.Shared.Body.Components;
 using Content.Shared.Chat;
 using Content.Shared.Cloning;
 using Content.Shared.Damage.Systems;
+using Content.Shared.DeadSpace.Arena;
 using Content.Shared.FixedPoint;
 using Content.Shared.GameTicking;
 using Content.Shared.Gibbing;
@@ -83,6 +84,9 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
 
     public void EnsureManifestEntry(EntityUid mindId, MindComponent mind)
     {
+        if (!IsTrackedPlayerMind(mindId, mind))
+            return;
+
         EnsureManifestIdentity(mindId, mind);
         EnsureDisplaySnapshot(mindId, mind);
     }
@@ -577,7 +581,7 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
 
     private bool TryGetPlayerMind(EntityUid uid, out EntityUid mindId, out MindComponent mind)
     {
-        if (!TryGetMind(uid, out mindId, out mind) || !IsPlayerMind(mind))
+        if (!TryGetMind(uid, out mindId, out mind) || !IsTrackedPlayerMind(mindId, mind))
             return false;
 
         return true;
@@ -585,7 +589,12 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
 
     private bool IsAntagPlayerMind(EntityUid mindId, MindComponent mind)
     {
-        return IsPlayerMind(mind) && _roles.MindIsAntagonist(mindId);
+        return IsTrackedPlayerMind(mindId, mind) && _roles.MindIsAntagonist(mindId);
+    }
+
+    private bool IsTrackedPlayerMind(EntityUid mindId, MindComponent mind)
+    {
+        return IsPlayerMind(mind) && !HasComp<ArenaMindComponent>(mindId);
     }
 
     private static bool IsPlayerMind(MindComponent mind)

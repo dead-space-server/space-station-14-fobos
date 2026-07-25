@@ -3,6 +3,7 @@ using System.Numerics;
 using Content.Server.Announcements;
 using Content.Server.Antag.Components;
 using Content.Server.DeadSpace.RoundEnd;
+using Content.Shared.DeadSpace.Arena;
 using Content.Server.Discord;
 using Content.Server.GameTicking.Events;
 using Content.Server.Maps;
@@ -561,6 +562,9 @@ namespace Content.Server.GameTicking
             var pvsOverride = _cfg.GetCVar(CCVars.RoundEndPVSOverrides);
             while (allMinds.MoveNext(out var mindId, out var mind))
             {
+                if (HasComp<ArenaMindComponent>(mindId)) // DS14
+                    continue;
+
                 // TODO don't list redundant observer roles?
                 // I.e., if a player was an observer ghost, then a hamster ghost role, maybe just list hamster and not
                 // the observer role?
