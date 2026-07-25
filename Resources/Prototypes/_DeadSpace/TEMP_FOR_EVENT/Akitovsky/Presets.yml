@@ -323,7 +323,6 @@
     id: CentcomSpecialOperationsOfficerIDCard
     pocket1: ADTtelescopicBaton 
     outerClothing: ClothingOuterCoatHoSTrenchAkiDeltaGeneral
-    suitStorage: WeaponRifleAres
 
 # Капитан Мыло СпецНаз НТ
 - type: entity
@@ -767,6 +766,7 @@
     - UniPhoneAramRossUplink
     - HypoAkiKPSK
     - BinocularsAki
+    - HandheldStationMapUnpowered
     belt:
     - MagazineWhirl
     - MagazineWhirl
@@ -866,6 +866,7 @@
     - PunctAutoInjector
     - HypoAkiKPSK
     - BinocularsAki
+    - HandheldStationMapUnpowered
     belt:
     - MagazineBoxVSKAki
     - MagazineBoxVSKAki
@@ -880,6 +881,17 @@
     - MagazineVSK9x39SP6
     - MagazineVSK9x39SP6
     - MagazineVSK9x39SP6
+    pocket2:
+    - MedicatedSuture
+    - MedicatedSuture
+    - MedicatedSuture
+    - RegenerativeMesh
+    - InjectorCaseFilledAki
+    - SyringeSaline
+    - SyringeSaline
+    - EmergencyMedipen
+    - EmergencyMedipen
+    - Tourniquet3
 
 # Командир КПСК
 - type: entity
@@ -956,6 +968,7 @@
     - SmokeGrenade
     - SyndicateWhistle
     - BinocularsAki
+    - HandheldStationMapUnpowered
     belt:
     - Magazine556x45APExtended
     - Magazine556x45APExtended
@@ -1050,6 +1063,7 @@
     - MagazineBox9x19AP63
     - BoxFlare
     - SmokeGrenade
+    - HandheldStationMapUnpowered
     belt:
     - HypoAkiKPSK
     - BodyBagFolded
@@ -1140,7 +1154,8 @@
     belt: ClothingBeltAkiKPSK
     outerClothing: ClothingOuterArmorDeltaFatAkiBlack
     back: ClothingBackpackMilitarySatchelAki
-    suitstorage: WeaponRifleAk
+    suitstorage: WeaponRifleAbakanAki
+    pocket1: RMCPouchMagazineAki
     pocket2: RMCPouchGeneralAki
   inhand:
     - BookFSCP
@@ -1153,15 +1168,20 @@
     - MedicatedSuture
     - Ointment
     - Tourniquet3
+    - HandheldStationMapUnpowered
+    - PunctAutoInjector
+    - PunctAutoInjector
     belt:
-    - MagazineLightRifle
-    - MagazineLightRifle
-    - MagazineLightRifle
-    - MagazineLightRifle
-    - MagazineLightRifle
-    - MagazineLightRifle
-    - MagazineBoxLightRifle
-    - MagazineBoxLightRifle
+    - Magazine556x45APExtended
+    - Magazine556x45APExtended
+    - Magazine556x45APExtended
+    - MagazineBox556x45AP
+    - MagazineBox556x45AP
+    pocket1:
+    - Magazine556x45AP
+    - Magazine556x45AP
+    - Magazine556x45AP
+    - Magazine556x45AP
 
 # Доспавн Боец КПСК
 - type: entity
@@ -1199,9 +1219,48 @@
     - type: GhostRole
       name: Боец КПСК
       description: ghost-role-information-fscp-recruit-description
+      job: JobSoldierKPSK
     - type: Loadout
-      prototypes: [ SoldierKPSK ]
+      prototypes: [ SoldierAdditSpawnKPSK ]
     - type: RandomMetadata
       nameSegments:
       - NamesLastMale
       nameFormat: name-format-kpsk-private
+
+- type: startingGear
+  id: SoldierAdditSpawnKPSK
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitMaugliAkiKPSK
+    ears: ClothingHeadsetKPSK
+    mask: ClothingMaskAkiKPSK
+    eyes: ClothingEyesGlassesHudAkiKPSK
+    gloves: ClothingHandsGlovesCombat
+    shoes: ClothingShoesBootsJackFilled
+    head: ClothingHeadUSSPjuggernautHelmetArmoredAkiKPSK
+    id: AkiKPSKSoldierIDCard
+    belt: ClothingBeltAkiKPSK
+    outerClothing: ClothingOuterArmorDeltaFatAkiBlack
+    back: ClothingBackpackMilitarySatchelAki
+    suitstorage: WeaponRifleAk
+    pocket2: RMCPouchGeneralAki
+  inhand:
+    - BookFSCP
+  storage:
+    back:
+    - CrowbarRed
+    - EmergencyMedipen
+    - BoxMRE
+    - Flare
+    - MedicatedSuture
+    - Ointment
+    - Tourniquet3
+    - HandheldStationMapUnpowered
+    belt:
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - MagazineBoxLightRifle
+    - MagazineBoxLightRifle

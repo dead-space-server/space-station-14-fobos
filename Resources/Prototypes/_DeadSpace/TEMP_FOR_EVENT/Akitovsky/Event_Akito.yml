@@ -1183,6 +1183,10 @@
     ClothingHandsGlovesAkiDeltaBlack: 7
     ClothingShoesBootsJackAkiDeltaBlack: 7
     ClothingShoesColorBlack: 7
+    RMCPouchGeneralAki: 8
+    RMCPouchMagazineAki: 6
+    RMCPouchMedicalSocAki: 3
+    HandheldStationMapUnpowered: 18
   contrabandInventory:
     ClothingHeadHelmetBone: 1
 
