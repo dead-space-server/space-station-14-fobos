@@ -3,7 +3,6 @@
 using Content.Shared.Objectives.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Mind;
-using Content.Server.Objectives.Systems;
 using Content.Server.Objectives.Components;
 using System;
 using Robust.Shared.Random;
@@ -12,8 +11,8 @@ namespace Content.Server.DeadSpace.Hooligan.Objectives;
 
 
 /// <summary>
-/// Логика цели "Стравить": считает урон, нанесённый Атакующему по жертве,
-/// вешает компонент-счётчик на жертву и отвечает на вопрос о прогрессе.
+/// Логика цели "Стравить": считает урон, нанесённый атакующим жертве,
+/// вешает компонент-счётчик на тело жертвы и отвечает на вопрос о прогрессе.
 /// </summary>
 public sealed class HooliganFightConditionSystem : EntitySystem
 {
@@ -33,11 +32,11 @@ public sealed class HooliganFightConditionSystem : EntitySystem
 
     private void OnAssign(Entity<HooliganFightConditionComponent> ent, ref ObjectiveAfterAssignEvent args)
     {
-        
         var humans = _mind.GetAliveHumans(args.MindId);
         _mind.FilterMinds(humans, ent.Comp.Filters, args.MindId);
         if (humans.Count < 2)
             return;
+
         var victimMind = _random.Pick(humans); // кого будут бить
         humans.Remove(victimMind);
         var attackerMind = _random.Pick(humans); // кто будет бить
@@ -48,27 +47,29 @@ public sealed class HooliganFightConditionSystem : EntitySystem
             return;
 
         var tracker = EnsureComp<HooliganFightTargetComponent>(victim);
-        tracker.Objective = ent.Owner;
-        tracker.Attacker = attacker;
+        tracker.AttackersByObjective[ent.Owner] = attacker;
 
         var victimName = victimMind.Comp.CharacterName ?? "bruh";
         var attackerName = attackerMind.Comp.CharacterName ?? "bruh";
         var title = Loc.GetString("objective-condition-hooligan-fight-title", ("attackerName", attackerName), ("victimName", victimName));
         _metaData.SetEntityName(ent.Owner, title, args.Meta);
-
     }
 
-    // По телу с компонентном-счётчиком прошёл урон.
-    // Если бил Атакующий, прибавить к счётчику.
     private void OnDamaged(Entity<HooliganFightTargetComponent> ent, ref DamageChangedEvent args)
     {
         if (!args.DamageIncreased || args.DamageDelta == null)
             return;
-        if (args.Origin != ent.Comp.Attacker)
-            return;
-        if (!TryComp<HooliganFightConditionComponent>(ent.Comp.Objective, out var condition))
-            return;
-        condition.DamageDealt += args.DamageDelta.GetTotal();
+
+        var damage = args.DamageDelta.GetTotal();
+        foreach (var (objective, attacker) in ent.Comp.AttackersByObjective)
+        {
+            if (args.Origin != attacker)
+                continue;
+            if (!TryComp<HooliganFightConditionComponent>(objective, out var condition))
+                continue;
+
+            condition.DamageDealt += damage;
+        }
     }
 
     private void OnGetProgress(Entity<HooliganFightConditionComponent> ent, ref ObjectiveGetProgressEvent args)
@@ -80,6 +81,4 @@ public sealed class HooliganFightConditionSystem : EntitySystem
         }
         args.Progress = MathF.Min(ent.Comp.DamageDealt.Float() / number.Target, 1f);
     }
-
-    
 }

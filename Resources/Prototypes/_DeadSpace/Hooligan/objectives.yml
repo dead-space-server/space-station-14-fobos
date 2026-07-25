@@ -13,6 +13,7 @@
     title: objective-condition-hooligan-beat-title
   - type: PickRandomPerson
     filters:
+    - !type:SameMapMindFilter
     - !type:BlacklistedJobsMindFilter
       blacklist:
       - TaipanAtmosphericsEngineer
@@ -56,6 +57,7 @@
     max: 40
   - type: HooliganFightCondition
     filters:
+    - !type:SameMapMindFilter
     - !type:BlacklistedJobsMindFilter
       blacklist:
       - TaipanAtmosphericsEngineer

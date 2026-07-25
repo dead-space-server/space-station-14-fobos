@@ -3,13 +3,10 @@
 namespace Content.Server.DeadSpace.Hooligan.Objectives;
 
 /// <summary>
-/// Цель-жертва и Атакующий. Атакующий должен нанести по цели определённое количество урона
-/// Цель-жертва будет засчитывать урон только от атакующего
+/// Stores every Hooligan objective tracking damage against this body and its assigned attacker body.
 /// </summary>
 [RegisterComponent, Access(typeof(HooliganFightConditionSystem))]
 public sealed partial class HooliganFightTargetComponent : Component
 {
-    public EntityUid Objective; // Цель-жертва атакующего
-
-    public EntityUid Attacker; // Атакующий. Тот, кто наносит урон.
+    public readonly Dictionary<EntityUid, EntityUid> AttackersByObjective = new();
 }

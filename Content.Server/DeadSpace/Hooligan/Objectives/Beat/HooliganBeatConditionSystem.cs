@@ -11,8 +11,8 @@ namespace Content.Server.DeadSpace.Hooligan.Objectives;
 
 
 /// <summary>
-/// Логика цели "Приподать урок": считает урон, нанесённый Хулиганом жертве,
-/// вешает компонент-счётчик на жертву и отвечает на вопрос о прогрессе.
+/// Логика цели "Преподать урок": считает урон, нанесённый Хулиганом жертве,
+/// вешает компонент-счётчик на тело жертвы и отвечает на вопрос о прогрессе.
 /// </summary>
 public sealed class HooliganBeatConditionSystem : EntitySystem
 {
@@ -27,7 +27,6 @@ public sealed class HooliganBeatConditionSystem : EntitySystem
 
     [Dependency] private readonly TargetObjectiveSystem _target = default!;
 
-    // Вешает компонент-счётчик на жертву.
     private void OnAssign(Entity<HooliganBeatConditionComponent> ent, ref ObjectiveAfterAssignEvent args)
     {
         if (args.Mind.OwnedEntity is not {} attacker)
@@ -41,21 +40,24 @@ public sealed class HooliganBeatConditionSystem : EntitySystem
             return;
 
         var tracker = EnsureComp<HooliganBeatTargetComponent>(victim);
-        tracker.Objective = ent.Owner;
-        tracker.Attacker = attacker;
+        tracker.AttackersByObjective[ent.Owner] = attacker;
     }
 
-    // По телу с компонентном-счётчиком прошёл урон.
-    // Если бил Хулиган с правильным айди, прибавить к счётчику.
     private void OnDamaged(Entity<HooliganBeatTargetComponent> ent, ref DamageChangedEvent args)
     {
         if (!args.DamageIncreased || args.DamageDelta == null)
             return;
-        if (args.Origin != ent.Comp.Attacker)
-            return;
-        if (!TryComp<HooliganBeatConditionComponent>(ent.Comp.Objective, out var condition))
-            return;
-        condition.DamageDealt += args.DamageDelta.GetTotal();
+
+        var damage = args.DamageDelta.GetTotal();
+        foreach (var (objective, attacker) in ent.Comp.AttackersByObjective)
+        {
+            if (args.Origin != attacker)
+                continue;
+            if (!TryComp<HooliganBeatConditionComponent>(objective, out var condition))
+                continue;
+
+            condition.DamageDealt += damage;
+        }
     }
 
     private void OnGetProgress(Entity<HooliganBeatConditionComponent> ent, ref ObjectiveGetProgressEvent args)
