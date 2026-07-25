@@ -2,11 +2,10 @@
 using Content.Shared.Movement.Components;
 using Content.Shared.Popups;
 using Content.Shared.Rejuvenate;
-using Content.Shared.Standing; // DS14
-using Content.Shared.Gravity; // DS14
-using Content.Shared.DeadSpace.Movement.Components; // DS14
+using Content.Shared.Standing;
+using Content.Shared.Gravity;
 using Content.Shared.Stunnable;
-using Robust.Shared.Timing; // DS14
+using Robust.Shared.Timing;
 
 namespace Content.Shared.Movement.Systems;
 
@@ -17,24 +16,33 @@ public sealed class WormSystem : EntitySystem
 {
     [Dependency] private readonly AlertsSystem _alerts = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
-    [Dependency] private readonly StandingStateSystem _standing = default!; //DS14
-    [Dependency] private readonly IGameTiming _timing = default!; //DS14
+    // DS14-start
+    [Dependency] private readonly StandingStateSystem _standing = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
+    // DS14-end
 
     public override void Initialize()
     {
         SubscribeLocalEvent<WormComponent, StandUpAttemptEvent>(OnStandAttempt);
         SubscribeLocalEvent<WormComponent, KnockedDownRefreshEvent>(OnKnockedDownRefresh);
         SubscribeLocalEvent<WormComponent, RejuvenateEvent>(OnRejuvenate);
-        SubscribeLocalEvent<WormComponent, MapInitEvent>(OnMapInit);
-        SubscribeLocalEvent<WormComponent, WeightlessnessChangedEvent>(OnWeightlessnessChanged); // DS14
-        SubscribeLocalEvent<WormComponent, ComponentShutdown>(OnShutdown); // DS14
+        // DS14-start
+        SubscribeLocalEvent<WormComponent, ComponentStartup>(OnStartup);
+        SubscribeLocalEvent<WormComponent, WeightlessnessChangedEvent>(OnWeightlessnessChanged);
+        SubscribeLocalEvent<WormComponent, ComponentShutdown>(OnShutdown);
+        // DS14-end
     }
 
-    private void OnMapInit(Entity<WormComponent> ent, ref MapInitEvent args)
+    private void OnStartup(Entity<WormComponent> ent, ref ComponentStartup args) // DS14
     {
         EnsureComp<KnockedDownComponent>(ent, out var knocked);
         _alerts.ShowAlert(ent.Owner, SharedStunSystem.KnockdownAlert);
         _stun.SetAutoStand((ent, knocked));
+        // DS14-start
+        _standing.Down(ent.Owner, playSound: false, dropHeldItems: false, force: true);
+        RefreshMovement(ent.Owner);
+        // DS14-end
     }
 
     private void OnRejuvenate(Entity<WormComponent> ent, ref RejuvenateEvent args)
@@ -57,21 +65,28 @@ public sealed class WormSystem : EntitySystem
         args.FrictionModifier *= ent.Comp.FrictionModifier;
         args.SpeedModifier *= ent.Comp.SpeedModifier;
     }
-//DS14-start
+    // DS14-start
     private void OnWeightlessnessChanged(Entity<WormComponent> ent, ref WeightlessnessChangedEvent args)
     {
         if (args.Weightless)
             return;
 
-        if (!HasComp<WheelchairUserComponent>(ent.Owner))
+        if (_timing.ApplyingState)
             return;
 
-        if (_timing.ApplyingState)
+        if (TerminatingOrDeleted(ent))
             return;
 
         EnsureComp<KnockedDownComponent>(ent, out var knocked);
         _stun.SetAutoStand((ent, knocked), false);
-        _standing.Down(ent.Owner);
+        _standing.Down(ent.Owner, playSound: false, dropHeldItems: false, force: true);
+        RefreshMovement(ent.Owner);
+    }
+
+    private void RefreshMovement(EntityUid uid)
+    {
+        _movementSpeed.RefreshMovementSpeedModifiers(uid);
+        _movementSpeed.RefreshFrictionModifiers(uid);
     }
 
     private void OnShutdown(Entity<WormComponent> ent, ref ComponentShutdown args)
@@ -79,5 +94,5 @@ public sealed class WormSystem : EntitySystem
         RemComp<KnockedDownComponent>(ent.Owner);
         _alerts.ClearAlert(ent.Owner, SharedStunSystem.KnockdownAlert);
     }
-//DS14-end
+    // DS14-end
 }

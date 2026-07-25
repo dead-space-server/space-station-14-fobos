@@ -201,4 +201,9 @@ public sealed partial class CCVars
     /// </summary>
     public static readonly CVarDef<bool> GameAdminJobTracking =
         CVarDef.Create("game.admin_job_tracking", false, CVar.SERVERONLY);
+
+    //DS14-start
+    public static readonly CVarDef<bool> EvacLocked =
+        CVarDef.Create("comms.evac_locked", false, CVar.REPLICATED);
+    //DS14-end
 }

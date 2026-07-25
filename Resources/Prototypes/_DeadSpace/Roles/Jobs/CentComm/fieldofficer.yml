@@ -16,7 +16,7 @@
   - ErtTeamLeader
   special:
   - !type:AddImplantSpecial
-    implants: [ MindShieldImplant, TrackingImplant, DeathRattleImplantCentcomm, MacroBombImplant ]
+    implants: [ MindShieldImplant, TrackingImplant, DeathRattleImplantCentcomm, RezervImplant ]
   - !type:AddComponentSpecial
     components:
     - type: AntagImmune
@@ -45,7 +45,7 @@
     # back: ClothingBackpackCentcomBlack
     shoes: ClothingShoesCentcomBlack
     head: ClothingHeadCapCentcomBlack
-    eyes: ClothingEyesHudERTGamma
+    eyes: ClothingEyesHudDeathsquad
     mask: ClothingMaskBSAA
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterVestWeb

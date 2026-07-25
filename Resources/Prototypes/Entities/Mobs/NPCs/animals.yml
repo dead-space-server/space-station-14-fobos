@@ -900,6 +900,10 @@
       behaviors:
       - !type:GibBehavior
         recursive: false
+  # DS14-start
+  - type: NecromorfAfterInfection
+    necroPrototype: NecroSmall
+  # DS14-end
   - type: ZombieImmune
 
 - type: entity

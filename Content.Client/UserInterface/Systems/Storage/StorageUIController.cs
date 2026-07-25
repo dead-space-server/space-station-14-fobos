@@ -10,6 +10,8 @@ using Content.Client.UserInterface.Systems.Info;
 using Content.Client.UserInterface.Systems.Storage.Controls;
 using Content.Client.Verbs.UI;
 using Content.Shared.CCVar;
+using Content.Shared.DeadSpace.CCCCVars; // DS14
+using Content.Shared.DeadSpace.Storage; // DS14
 using Content.Shared.Input;
 using Content.Shared.Interaction;
 using Content.Shared.Storage;
@@ -21,6 +23,7 @@ using Robust.Client.UserInterface.Controllers;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Configuration;
 using Robust.Shared.Input;
+using Robust.Shared.Player; // DS14
 using Robust.Shared.Timing;
 
 namespace Content.Client.UserInterface.Systems.Storage;
@@ -69,7 +72,22 @@ public sealed class StorageUIController : UIController, IOnSystemChanged<Storage
         _configuration.OnValueChanged(CCVars.OpaqueStorageWindow, OnOpaqueWindowChanged, true);
         _configuration.OnValueChanged(CCVars.StorageWindowTitle, OnStorageWindowTitle, true);
         _configuration.OnValueChanged(CCVars.StorageLimit, OnStorageLimitChanged, true);
+        _configuration.OnValueChanged(CCCCVars.MultipleInventoryWindows, OnMultipleInventoryWindowsChanged, false); // DS14
+        _player.LocalSessionChanged += OnLocalSessionChanged; // DS14
     }
+
+    // DS14-start
+    private void OnMultipleInventoryWindowsChanged(bool enabled)
+    {
+        EntityManager.EntityNetManager?.SendSystemNetworkMessage(new MultipleInventoryWindowsEnabledEvent(enabled));
+    }
+
+    private void OnLocalSessionChanged((ICommonSession? Old, ICommonSession? New) e)
+    {
+        if (e.New != null)
+            EntityManager.EntityNetManager?.SendSystemNetworkMessage(new MultipleInventoryWindowsEnabledEvent(_configuration.GetCVar(CCCCVars.MultipleInventoryWindows)));
+    }
+    // DS14-end
 
     private void OnStorageLimitChanged(int obj)
     {

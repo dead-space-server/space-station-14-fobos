@@ -31,7 +31,6 @@
     drawFov: false
     visMask:
       - Normal
-      - Ghost
   - type: MovementSpeedModifier
     baseWalkSpeed: 20
     baseSprintSpeed: 10
@@ -57,7 +56,7 @@
         enum.VirusEvolutionConsoleUiKey.Key:
           type: VirusEvolutionConsoleBoundUserInterface
   - type: SentientVirus
-    data: 
+    data:
       mutationPoints: 3000
   - type: GhostTakeoverAvailable
   - type: GhostRole
@@ -74,7 +73,7 @@
     requirements:
     - !type:OverallPlaytimeRequirement
       time: 36000 # 10h overall
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SentientVirusGroup
 
 - type: entity
@@ -100,5 +99,5 @@
   categories: [ DoNotMap ]
   components:
   - type: SentientVirus
-    data: 
+    data:
       mutationPoints: 100000

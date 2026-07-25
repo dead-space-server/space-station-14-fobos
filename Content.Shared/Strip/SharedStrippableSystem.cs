@@ -6,6 +6,8 @@ using Content.Shared.Cuffs.Components;
 using Content.Shared.Database;
 using Content.Shared.DoAfter;
 using Content.Shared.DragDrop;
+using Content.Shared.Ghost;
+using Content.Shared.Hands;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.IdentityManagement;
@@ -14,9 +16,15 @@ using Content.Shared.Interaction.Components;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.VirtualItem;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
+using Content.Shared.Sound.Components;
 using Content.Shared.Strip.Components;
 using Content.Shared.Verbs;
+using Robust.Shared.Containers;
+using Robust.Shared.Enums;
+using Robust.Shared.Network;
+using Robust.Shared.Player;
 using Robust.Shared.Utility;
 
 namespace Content.Shared.Strip;
@@ -34,6 +42,12 @@ public abstract class SharedStrippableSystem : EntitySystem
     [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    // DS14-start
+    [Dependency] private readonly ISharedPlayerManager _playerManager = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly INetManager _netManager = default!;
+    // DS14-end
 
     public override void Initialize()
     {
@@ -120,10 +134,12 @@ public abstract class SharedStrippableSystem : EntitySystem
             !Resolve(target, ref targetStrippable))
             return;
 
-        if (!target.Comp.CanBeStripped)
-            return;
-
         var heldEntity = _handsSystem.GetHeldItem(target.Owner, handId);
+        var activeItem = _handsSystem.GetActiveItem(user.AsNullable());
+
+        if (!target.Comp.CanBeStripped &&
+            !(heldEntity == null && activeItem != null && IsInteractiveGhost(user.Owner)))
+            return;
 
         // Is the target a handcuff?
         if (TryComp<VirtualItemComponent>(heldEntity, out var virtualItem) &&
@@ -134,10 +150,12 @@ public abstract class SharedStrippableSystem : EntitySystem
             return;
         }
 
-        // DS14-Edit-Start: Hand insertion is handled by ItemTransferSystem verbs.
-        if (heldEntity != null)
+        // DS14-start
+        if (activeItem is { } item && heldEntity == null)
+            StartStripInsertHand(user, target, item, handId, targetStrippable);
+        else if (heldEntity != null)
             StartStripRemoveHand(user, target, heldEntity.Value, handId, targetStrippable);
-        // DS14-Edit-End
+        // DS14-end
     }
 
     /// <summary>
@@ -347,11 +365,167 @@ public abstract class SharedStrippableSystem : EntitySystem
         if (!_inventorySystem.TryUnequip(user, target, slot, triggerHandContact: true))
             return;
 
-        RaiseLocalEvent(item, new DroppedEvent(user), true); // Gas tank internals etc.
+        // DS14-start
+        var suppressSounds = stealth && !HasComp<SuppressPickupDropSoundComponent>(item);
+        if (suppressSounds)
+            EnsureComp<SuppressPickupDropSoundComponent>(item);
 
-        _handsSystem.PickupOrDrop(user, item, animateUser: stealth, animate: !stealth);
+        try
+        {
+            RaiseLocalEvent(item, new DroppedEvent(user), true); // Gas tank internals etc.
+            _handsSystem.PickupOrDrop(user, item, animateUser: stealth, animate: !stealth);
+        }
+        finally
+        {
+            if (suppressSounds)
+                RemCompDeferred<SuppressPickupDropSoundComponent>(item);
+        }
+        // DS14-end
+
         _adminLogger.Add(LogType.Stripping, LogImpact.High, $"{ToPrettyString(user):actor} has stripped the item {ToPrettyString(item):item} from {ToPrettyString(target):target}'s {slot} slot");
     }
+
+    // DS14-start
+    /// <summary>
+    ///     Checks whether the item in the user's active hand can be inserted into one of the target's hands.
+    /// </summary>
+    private bool CanStripInsertHand(
+        Entity<HandsComponent?> user,
+        Entity<HandsComponent?> target,
+        EntityUid held,
+        string handName,
+        bool allowClientUnknownSession = false)
+    {
+        if (!Resolve(user, ref user.Comp) ||
+            !Resolve(target, ref target.Comp))
+            return false;
+
+        if (!target.Comp.CanBeStripped && !IsInteractiveGhost(user.Owner))
+            return false;
+
+        if (!CanDirectInsertHand(user.Owner, target.Owner, allowClientUnknownSession))
+            return false;
+
+        if (!_handsSystem.TryGetActiveItem(user, out var activeItem) || activeItem != held)
+            return false;
+
+        if (!_handsSystem.TryGetHand(target, handName, out _))
+        {
+            _popupSystem.PopupCursor(Loc.GetString("strippable-component-item-slot-free-message", ("owner", Identity.Entity(target, EntityManager))));
+            return false;
+        }
+
+        if (!_container.TryGetContainer(target, handName, out var handContainer) ||
+            handContainer.Count != 0)
+            return false;
+
+        if (IsInteractiveGhost(user.Owner))
+            return true;
+
+        if (!_handsSystem.CanDropHeld(user, user.Comp.ActiveHandId!))
+        {
+            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-drop"));
+            return false;
+        }
+
+        if (!_handsSystem.CanPickupToHand(target, held, handName, checkActionBlocker: false, handsComp: target.Comp))
+        {
+            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-equip-message", ("owner", Identity.Entity(target, EntityManager))));
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    ///     Begins a DoAfter to insert the item in the user's active hand into one of the target's hands.
+    /// </summary>
+    private void StartStripInsertHand(
+        Entity<HandsComponent?> user,
+        Entity<HandsComponent?> target,
+        EntityUid held,
+        string handName,
+        StrippableComponent? targetStrippable = null)
+    {
+        if (!Resolve(user, ref user.Comp) ||
+            !Resolve(target, ref target.Comp) ||
+            !Resolve(target, ref targetStrippable))
+            return;
+
+        if (!CanStripInsertHand(user, target, held, handName))
+            return;
+
+        if (IsInteractiveGhost(user.Owner))
+        {
+            StripInsertHand(user, target, held, handName, true);
+            return;
+        }
+
+        var (time, stealth) = GetStripTimeModifiers(user, target, null, targetStrippable.HandStripDelay);
+
+        if (!stealth)
+        {
+            _popupSystem.PopupEntity(Loc.GetString("strippable-component-alert-owner-insert",
+                    ("user", Identity.Entity(user, EntityManager)),
+                    ("item", held)),
+                target,
+                target,
+                PopupType.Large);
+        }
+
+        var prefix = stealth ? "stealthily " : "";
+        _adminLogger.Add(LogType.Stripping, LogImpact.Low, $"{ToPrettyString(user):actor} is trying to {prefix}place the item {ToPrettyString(held):item} in {ToPrettyString(target):target}'s hands");
+
+        var doAfterArgs = new DoAfterArgs(EntityManager, user, time, new StrippableDoAfterEvent(true, false, handName), user, target, held)
+        {
+            Hidden = stealth,
+            AttemptFrequency = AttemptFrequency.EveryTick,
+            BreakOnDamage = true,
+            BreakOnMove = true,
+            NeedHand = true,
+            DuplicateCondition = DuplicateConditions.SameTool
+        };
+
+        _doAfterSystem.TryStartDoAfter(doAfterArgs);
+    }
+
+    /// <summary>
+    ///     Places the item in the user's active hand into one of the target's hands.
+    /// </summary>
+    private void StripInsertHand(
+        Entity<HandsComponent?> user,
+        Entity<HandsComponent?> target,
+        EntityUid held,
+        string handName,
+        bool stealth)
+    {
+        if (!Resolve(user, ref user.Comp) ||
+            !Resolve(target, ref target.Comp))
+            return;
+
+        if (!CanStripInsertHand(user, target, held, handName))
+            return;
+
+        var suppressSounds = stealth && !HasComp<SuppressPickupDropSoundComponent>(held);
+        if (suppressSounds)
+            EnsureComp<SuppressPickupDropSoundComponent>(held);
+
+        try
+        {
+            if (!TryForceInsertItemIntoHand(user, target, held, handName))
+                return;
+        }
+        finally
+        {
+            if (suppressSounds)
+                RemCompDeferred<SuppressPickupDropSoundComponent>(held);
+        }
+
+        _adminLogger.Add(LogType.Stripping, LogImpact.Medium, $"{ToPrettyString(user):actor} has placed the item {ToPrettyString(held):item} in {ToPrettyString(target):target}'s hands");
+
+        // Hand update will trigger strippable update.
+    }
+    // DS14-end
 
     /// <summary>
     ///     Checks whether the item is in the target's hand and whether it can be dropped.
@@ -457,8 +631,23 @@ public abstract class SharedStrippableSystem : EntitySystem
         if (!CanStripRemoveHand(user, target, item, handName))
             return;
 
-        _handsSystem.TryDrop(target, item, checkActionBlocker: false);
-        _handsSystem.PickupOrDrop(user, item, animateUser: stealth, animate: !stealth, handsComp: user.Comp);
+        // DS14-start
+        var suppressSounds = stealth && !HasComp<SuppressPickupDropSoundComponent>(item);
+        if (suppressSounds)
+            EnsureComp<SuppressPickupDropSoundComponent>(item);
+
+        try
+        {
+            _handsSystem.TryDrop(target, item, checkActionBlocker: false);
+            _handsSystem.PickupOrDrop(user, item, animateUser: stealth, animate: !stealth, handsComp: user.Comp);
+        }
+        finally
+        {
+            if (suppressSounds)
+                RemCompDeferred<SuppressPickupDropSoundComponent>(item);
+        }
+        // DS14-end
+
         _adminLogger.Add(LogType.Stripping, LogImpact.High, $"{ToPrettyString(user):actor} has stripped the item {ToPrettyString(item):item} from {ToPrettyString(target):target}'s hands");
 
         // Hand update will trigger strippable update.
@@ -483,13 +672,14 @@ public abstract class SharedStrippableSystem : EntitySystem
         }
         else
         {
-            // DS14-Edit-Start: Legacy hand insertion do-afters are disabled.
-            if (ev.Event.InsertOrRemove ||
-                !CanStripRemoveHand(entity.Owner, args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName))
+            // DS14-start
+            if (ev.Event.InsertOrRemove
+                    ? !CanStripInsertHand((entity.Owner, entity.Comp), args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName, true)
+                    : !CanStripRemoveHand(entity.Owner, args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName))
             {
                 ev.Cancel();
             }
-            // DS14-Edit-End
+            // DS14-end
         }
     }
 
@@ -512,10 +702,12 @@ public abstract class SharedStrippableSystem : EntitySystem
         }
         else
         {
-            // DS14-Edit-Start: Hand insertion is handled by ItemTransferSystem verbs.
-            if (!ev.InsertOrRemove)
+            // DS14-start
+            if (ev.InsertOrRemove)
+                StripInsertHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
+            else
                 StripRemoveHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
-            // DS14-Edit-End
+            // DS14-end
         }
     }
 
@@ -595,5 +787,80 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         return !HasComp<BypassInteractionChecksComponent>(viewer);
     }
+
+    // DS14-start
+    private bool CanDirectInsertHand(EntityUid user, EntityUid target, bool allowClientUnknownSession = false)
+    {
+        if (IsInteractiveGhost(user))
+            return true;
+
+        if (_mobState.IsIncapacitated(target))
+            return true;
+
+        if (!_netManager.IsServer)
+            return allowClientUnknownSession;
+
+        return !_playerManager.TryGetSessionByEntity(target, out var session) ||
+               !IsActiveSession(session);
+    }
+
+    private bool TryForceInsertItemIntoHand(
+        Entity<HandsComponent?> user,
+        Entity<HandsComponent?> target,
+        EntityUid item,
+        string targetHand)
+    {
+        if (!Resolve(user, ref user.Comp) ||
+            !Resolve(target, ref target.Comp))
+            return false;
+
+        if (!_container.TryGetContainer(target, targetHand, out var handContainer) ||
+            handContainer.Count != 0)
+            return false;
+
+        EntityUid? oldHandOwner = null;
+        HandsComponent? oldHands = null;
+        string? oldHandId = null;
+        if (_container.TryGetContainingContainer((item, null, null), out var oldContainer) &&
+            TryComp(oldContainer.Owner, out oldHands) &&
+            _handsSystem.TryGetHand((oldContainer.Owner, oldHands), oldContainer.ID, out _))
+        {
+            oldHandOwner = oldContainer.Owner;
+            oldHandId = oldContainer.ID;
+        }
+
+        if (!_container.TryRemoveFromContainer((item, null, null), force: true, out var wasInContainer) && wasInContainer)
+            return false;
+
+        if (oldHandOwner is { } oldOwner && oldHands != null && oldHandId != null)
+        {
+            Dirty(oldOwner, oldHands);
+
+            if (oldHandId == oldHands.ActiveHandId)
+                RaiseLocalEvent(item, new HandDeselectedEvent(oldOwner));
+        }
+
+        if (!_container.Insert(item, handContainer, force: true))
+            return false;
+
+        _interactionSystem.DoContactInteraction(target.Owner, item);
+        Dirty(target.Owner, target.Comp);
+
+        if (targetHand == target.Comp.ActiveHandId)
+            RaiseLocalEvent(item, new HandSelectedEvent(target.Owner));
+
+        return true;
+    }
+
+    private bool IsInteractiveGhost(EntityUid user)
+    {
+        return TryComp(user, out GhostComponent? ghost) && ghost.CanGhostInteract;
+    }
+
+    private static bool IsActiveSession(ICommonSession session)
+    {
+        return session.Status is SessionStatus.Connected or SessionStatus.InGame;
+    }
+    // DS14-end
 
 }

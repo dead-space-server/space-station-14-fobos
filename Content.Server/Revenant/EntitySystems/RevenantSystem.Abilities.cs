@@ -42,6 +42,9 @@ using Robust.Shared.Containers;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Shared.Beam.Components;
 using Content.Shared.Damage.Components;
+using Robust.Shared.Audio.Systems; //DS14
+using Robust.Shared.Player; //DS14
+using Content.Shared.Actions; //DS14
 
 namespace Content.Server.Revenant.EntitySystems;
 
@@ -61,6 +64,8 @@ public sealed partial class RevenantSystem
     [Dependency] private readonly LightningSystem _lightning = default!;
     [Dependency] private readonly IonStormSystem _ionStorm = default!;
     [Dependency] private readonly SharedMindSystem _mind = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!; //DS14
+    [Dependency] private readonly SharedActionsSystem _actions = default!; //DS14
 
     private static readonly ProtoId<TagPrototype> WindowTag = "Window";
 
@@ -78,6 +83,8 @@ public sealed partial class RevenantSystem
         SubscribeLocalEvent<RevenantComponent, RevenantSleepActionEvent>(OnSleepAction);
         SubscribeLocalEvent<RevenantComponent, RevenantMindCaptureActionEvent>(OnMindCaptureAction);
         SubscribeLocalEvent<RevenantComponent, RevenantBeamFireActionEvent>(OnBeamFireAction);
+        SubscribeLocalEvent<RevenantComponent, RevenantScreamActionEvent>(OnScreamAction); //DS14
+        SubscribeLocalEvent<RevenantComponent, RevenantHackActionEvent>(OnHackAction); //DS14
         //DS14-end
     }
 
@@ -169,7 +176,7 @@ public sealed partial class RevenantSystem
             return;
         }
 
-        if(_physics.GetEntitiesIntersectingBody(uid, (int) CollisionGroup.Impassable).Count > 0)
+        if (_physics.GetEntitiesIntersectingBody(uid, (int)CollisionGroup.Impassable).Count > 0)
         {
             _popup.PopupEntity(Loc.GetString("revenant-in-solid"), uid, uid);
             return;
@@ -231,8 +238,11 @@ public sealed partial class RevenantSystem
 
         if (!_mobThresholdSystem.TryGetThresholdForState(args.Args.Target.Value, MobState.Dead, out var damage))
             return;
+
+        var protoId = MetaData(args.Args.Target.Value).EntityPrototype?.ID;
+
         DamageSpecifier dspec = new();
-        dspec.DamageDict.Add("Cold", damage.Value);
+        dspec.DamageDict.Add(protoId == "MobIPC" ? "Heat" : "Cold", damage.Value);
         _damage.ChangeDamage(args.Args.Target.Value, dspec, true, origin: uid);
 
         args.Handled = true;
@@ -440,6 +450,19 @@ public sealed partial class RevenantSystem
         _mobThresholdSystem.SetMobStateThreshold(args.Target, dead.Value * args.ThresholdModifier, MobState.Dead);
         _mobThresholdSystem.SetMobStateThreshold(args.Target, crit.Value * args.ThresholdModifier, MobState.Critical);
 
+        //DS-14 Start
+        if (TryComp<DamageableComponent>(args.Target, out damageable))
+        {
+            var healSpec = new DamageSpecifier();
+
+            foreach (var (type, _) in damageable.Damage.DamageDict)
+            {
+                healSpec.DamageDict.Add(type, -damageable.Damage.DamageDict[type]);
+            }
+
+            _damage.TryChangeDamage(args.Target, healSpec, ignoreResistances: true, origin: uid);
+        }
+        //DS-14 End
         _mobState.ChangeMobState(args.Target, MobState.Alive);
 
         if (TryComp<LanguageComponent>(args.Target, out var targetLanguage) && TryComp<LanguageComponent>(uid, out var revLanguage))
@@ -485,6 +508,10 @@ public sealed partial class RevenantSystem
         comp.RevenantContainer = _container.EnsureContainer<Container>(args.Target, component.Container);
         _container.Insert(uid, comp.RevenantContainer);
         _mind.Visit(perMind, args.Target);
+        if (TryComp<RevenantComponent>(uid, out var revenantComp))
+        {
+            _actions.AddAction(args.Target, ref revenantComp.HackActionEntity, revenantComp.HackAction, uid);
+        }
     }
 
     private void OnBeamFireAction(EntityUid uid, RevenantComponent component, RevenantBeamFireActionEvent args)
@@ -531,6 +558,40 @@ public sealed partial class RevenantSystem
         }
 
         _lightning.ShootLightning(uid, args.Target, component.BeamEntityId);
+    }
+
+    private void OnScreamAction(EntityUid uid, RevenantComponent component, RevenantScreamActionEvent args)
+    {
+        if (args.Handled)
+            return;
+        if (!TryUseAbility(uid, component, component.ScreamCost, component.ScreamDebuffs))
+            return;
+        args.Handled = true;
+
+        var coords = Transform(uid).Coordinates;
+        _audio.PlayStatic(component.ScreamSounds, Filter.Pvs(uid), coords, true);
+    }
+
+    private void OnHackAction(EntityUid uid, RevenantComponent component, RevenantHackActionEvent args)
+    {
+        if (args.Handled)
+            return;
+        if (!CanUseAbility(uid, component, component.HackCost))
+            return;
+
+        var target = args.Target;
+        var effectApplied = _emagSystem.TryEmagEffect(uid, uid, target);
+        if (TryComp<EntityStorageComponent>(target, out var storage))
+        {
+            _entityStorage.OpenStorage(target, storage);
+            effectApplied = true;
+        }
+
+        if (!effectApplied)
+            return;
+
+        ApplyAbilityCostAndDebuffs(uid, component, component.HackCost, component.HackDebuffs);
+        args.Handled = true;
     }
     //DS14-end
 }

@@ -1,0 +1,10 @@
+ent-ActionGuardianCharge = guardian charge
+    .desc = Leap forward in the direction you are facing.
+ent-ActionGuardianForceWall = forcewall
+    .desc = Creates a magical barrier.
+ent-ActionGuardianRangedShot = hard-light bolt
+    .desc = Fire a rapid hard-light bolt.
+ent-ActionGuardianHealingBolt = healing bolt
+    .desc = Fire a small healing bolt.
+ent-ActionGuardianEvict = evict guardian
+    .desc = Sever the link to your holoparasite.

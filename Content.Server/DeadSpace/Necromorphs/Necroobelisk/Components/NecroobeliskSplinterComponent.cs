@@ -8,6 +8,9 @@ namespace Content.Server.DeadSpace.Necromorphs.Necroobelisk.Components;
 [RegisterComponent]
 public sealed partial class NecroobeliskSplinterComponent : Component
 {
+    [DataField]
+    public bool SpawnsBlackObelisk;
+
     [ViewVariables(VVAccess.ReadOnly)]
     public TimeSpan TimeUtilAddCharge = TimeSpan.FromSeconds(120);
 

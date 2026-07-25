@@ -174,6 +174,26 @@ public sealed partial class SecurityIconPrototype : StatusIconPrototype, IInheri
     public bool Abstract { get; private set; }
 }
 
+/// DS14-Start
+
+/// <summary>
+/// StatusIcons for show that the entity is piloting the drone
+/// </summary>
+[Prototype]
+public sealed partial class FpvIconPrototype : StatusIconPrototype, IInheritingPrototype
+{
+    /// <inheritdoc />
+    [ParentDataField(typeof(AbstractPrototypeIdArraySerializer<FpvIconPrototype>))]
+    public string[]? Parents { get; private set; }
+
+    /// <inheritdoc />
+    [NeverPushInheritance]
+    [AbstractDataField]
+    public bool Abstract { get; private set; }
+}
+
+/// DS14-End
+
 /// <summary>
 /// StatusIcons for faction membership
 /// </summary>

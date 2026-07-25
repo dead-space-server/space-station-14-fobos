@@ -14,6 +14,7 @@ health-analyzer-window-damage-group-text = { $damageGroup }: { $amount }
 health-analyzer-window-damage-type-text = { $damageType }: { $amount }
 health-analyzer-window-entity-unrevivable-text = [color=red]Обнаружено уникальное строение тела! Пациент не может быть реанимирован стандартными средствами![/color]
 health-analyzer-window-entity-bleeding-text = [color=red]У пациента кровотечение![/color]
+health-analyzer-window-entity-uncloning-text = [color=violet]Обнаружен нестабильный генетический код! Пациент не может быть клонирован![/color]
 health-analyzer-window-scan-mode-text = Режим сканирования:
 health-analyzer-window-scan-mode-active = Активен
 health-analyzer-window-scan-mode-inactive = Неактивен

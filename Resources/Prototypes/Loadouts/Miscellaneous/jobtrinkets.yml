@@ -108,6 +108,20 @@
     back:
     - PlushieLizardJobChaplain
 
+# DS14-start
+- type: loadout
+  id: GoldPlungerJanitor
+  effects:
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobJanitor
+      time: 180000 # 50hr
+  storage:
+    back:
+    - GoldenPlunger
+# DS14-end
+
 - type: loadout
   id: LizardPlushieJanitor
   effects:

@@ -77,6 +77,7 @@ public sealed class UplinkSystem : EntitySystem
             return null;
         }
 
+        EnsureComp<UplinkComponent>(implant.Value);
         SetUplink(user, implant.Value, balance, giveDiscounts);
         return implant.Value;
     }

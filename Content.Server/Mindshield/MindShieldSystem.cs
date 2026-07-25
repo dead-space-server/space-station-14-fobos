@@ -3,6 +3,7 @@ using Content.Server.Mind;
 using Content.Server.Popups;
 using Content.Server.Roles;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.Necromorphs.Unitology;
 using Content.Shared.Implants;
 using Content.Shared.Mindshield.Components;
 using Content.Shared.Revolutionary.Components;
@@ -33,6 +34,8 @@ public sealed class MindShieldSystem : EntitySystem
     private void OnImplantImplanted(Entity<MindShieldImplantComponent> ent, ref ImplantImplantedEvent ev)
     {
         EnsureComp<MindShieldComponent>(ev.Implanted);
+        var unitologyEvent = new UnitologyMindShieldAddedEvent();
+        RaiseLocalEvent(ev.Implanted, ref unitologyEvent);
         MindShieldRemovalCheck(ev.Implanted, ev.Implant);
     }
 

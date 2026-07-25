@@ -33,6 +33,7 @@ public sealed partial class PatrolTabletWindow : DefaultWindow
     public Action<string>? OnBulkAssignSquad;
     public Action? OnClearList;
     public Action<string>? OnClearSquad;
+    public Action<string>? OnDeleteSquad;
     public Action<string, string>? OnCreateSquad;
 
     public PatrolTabletWindow()
@@ -102,6 +103,7 @@ public sealed partial class PatrolTabletWindow : DefaultWindow
             var entry = new SquadEntryControl(squad, _sprite, _prototype, OnRenameSquad);
             entry.OnBulkAssignSquad += squadId => OnBulkAssignSquad?.Invoke(squadId);
             entry.OnClearSquad += squadId => OnClearSquad?.Invoke(squadId);
+            entry.OnDeleteSquad += squadId => OnDeleteSquad?.Invoke(squadId);
             ZonesContainer.AddChild(entry);
         }
     }
@@ -335,6 +337,7 @@ public sealed partial class SquadEntryControl : PanelContainer
 
     public Action<string>? OnBulkAssignSquad;
     public Action<string>? OnClearSquad;
+    public Action<string>? OnDeleteSquad;
 
     public SquadEntryControl(
         PatrolSquadDef squad,
@@ -485,6 +488,18 @@ public sealed partial class SquadEntryControl : PanelContainer
             OnClearSquad?.Invoke(capturedSquadId);
         };
         bottomRow.AddChild(clearSquadButton);
+
+        var deleteSquadButton = new Button
+        {
+            Text = "🗑",
+            MinSize = new Vector2(24, 22),
+            ToolTip = Loc.GetString("patrol-tablet-delete-squad"),
+        };
+        deleteSquadButton.OnPressed += _ =>
+        {
+            OnDeleteSquad?.Invoke(capturedSquadId);
+        };
+        bottomRow.AddChild(deleteSquadButton);
 
         var countLabel = new Label
         {

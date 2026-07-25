@@ -411,17 +411,17 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.8
-        Slash: 0.8
-        Piercing: 0.6
+        Blunt: 0.55 #DS14
+        Slash: 0.55 #DS14
+        Piercing: 0.55 #DS14
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.6
   - type: StaminaResistance # DS14
     damageCoefficient: 0.45
-  - type: ClothingSpeedModifier
-    walkModifier: 0.8
-    sprintModifier: 0.8
+  - type: ClothingSpeedModifier #DS14
+    walkModifier: 1
+    sprintModifier: 1
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitCap
@@ -1334,6 +1334,7 @@
         Poison: 0.55 # DS14
   - type: StaminaResistance # DS14
     damageCoefficient: 0.4
+  - type: HardsuitIdentification # DS14
   - type: ZombificationResistance
     zombificationResistanceCoefficient: 0.25
   - type: ClothingSpeedModifier
@@ -1343,6 +1344,14 @@
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetCBURN
   # DS14-start
+  - type: AutoInjectReagentClothingOnAllowedState
+    durationRegenReagents: 100
+    allowedStates:
+    - Critical
+    reagents:
+      DexalinPlus: 10
+      Puncturase: 10
+      Omnizine: 10
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
   # DS14-end

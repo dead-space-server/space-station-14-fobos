@@ -19,6 +19,7 @@
                 <CheckBox Name="ShowLoocAboveHeadCheckBox" Text="{Loc 'ui-options-show-looc-on-head'}" />
                 <CheckBox Name="FancySpeechBubblesCheckBox" Text="{Loc 'ui-options-fancy-speech'}" />
                 <CheckBox Name="FancyNameBackgroundsCheckBox" Text="{Loc 'ui-options-fancy-name-background'}" />
+                <CheckBox Name="PopOutChat" Text="{Loc 'ui-options-fancy-name-pop-out-chat'}" ToolTip="!!!ВНИМАНИЕ РАБОТАЕТ ТОЛЬКО ПОСЛЕ ПЕРЕЗАГРУЗКИ ИГРЫ!!!" /> <!--DS14-->
                 <Label Text="{Loc 'ui-options-general-cursor'}"
                        StyleClasses="LabelKeyText"/>
                 <CheckBox Name="ShowHeldItemCheckBox" Text="{Loc 'ui-options-show-held-item'}" />
@@ -27,6 +28,7 @@
                        StyleClasses="LabelKeyText"/>
                 <CheckBox Name="OpaqueStorageWindowCheckBox" Text="{Loc 'ui-options-opaque-storage-window'}" />
                 <CheckBox Name="StaticStorageUI" Text="{Loc 'ui-options-static-storage-ui'}" />
+                <CheckBox Name="MultipleInventoryWindowsCheckBox" Text="{Loc 'ui-options-multiple-inventory-windows'}" /><!--DS14-->
                 <!-- <CheckBox Name="ToggleWalk" Text="{Loc 'ui-options-hotkey-toggle-walk'}" /> -->
             </BoxContainer>
         </ScrollContainer>

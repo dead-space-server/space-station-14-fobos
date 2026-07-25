@@ -37,7 +37,7 @@
     jumpsuit: ClothingUniformJumpsuitColorBrown
     mask: ClothingMaskGasExplorer
     eyes: ClothingEyesHudAdvanced
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     neck: ClothingNeckMantleCBURNLeaderShoulder
     gloves: ClothingHandsGlovesCombat
     back: ClothingMilitaryBackpackCBURNLeader
@@ -86,7 +86,7 @@
     jumpsuit: ClothingUniformJumpsuitColorBrown
     mask: ClothingMaskGasExplorer
     eyes: ClothingEyesHudAdvanced
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     neck: ClothingNeckMantleCBURNLeaderShoulder
     gloves: ClothingHandsGlovesCombat
     back: ClothingMilitaryBackpackCBURNSpiderLeader
@@ -135,7 +135,7 @@
     jumpsuit: ClothingUniformJumpsuitColorBrown
     mask: ClothingMaskGasExplorer
     eyes: ClothingEyesHudAdvanced
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     neck: ClothingNeckMantleCBURNLeaderShoulder
     gloves: ClothingHandsGlovesCombat
     back: ClothingMilitaryBackpackCBURNNecroLeader
@@ -184,7 +184,7 @@
     mask: ClothingMaskGasExplorer
     eyes: ClothingEyesGlassesThermalVisor
     head: ClothingHeadHatBeretCentcomNaval
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     neck: ClothingNeckMantleCBURNLeaderShoulder
     gloves: ClothingHandsGlovesCombat
     back: ClothingMilitaryBackpackCBURNSierraLeader
@@ -229,7 +229,7 @@
     jumpsuit: ClothingUniformJumpsuitColorBrown
     mask: ClothingMaskGasExplorer
     eyes: ClothingEyesHudAdvanced
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     gloves: ClothingHandsGlovesCombat
     back: ClothingMilitaryBackpackCBURN
     belt: ClothingBeltMilitaryWebbingCBURN
@@ -272,7 +272,7 @@
     jumpsuit: ClothingUniformJumpsuitColorBrown
     mask: ClothingMaskGasExplorer
     eyes: ClothingEyesHudAdvanced
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     gloves: ClothingHandsGlovesCombat
     back: ClothingMilitaryBackpackCBURNSpider
     belt: ClothingBeltMilitaryWebbingCBURNSpider
@@ -315,7 +315,7 @@
     jumpsuit: ClothingUniformJumpsuitColorBrown
     mask: ClothingMaskGasExplorer
     eyes: ClothingEyesHudAdvanced
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     gloves: ClothingHandsGlovesCombat
     back: ClothingMilitaryBackpackCBURNNecro
     belt: ClothingBeltMilitaryWebbingCBURNNecro
@@ -359,7 +359,7 @@
     mask: ClothingMaskGasExplorer
     eyes: ClothingEyesHudERTGamma
     head: ClothingHeadHatBeretMerc
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltAERT
     gloves: ClothingHandsGlovesCombat
     back: ClothingMilitaryBackpackCBURNSierra
     belt: ClothingBeltMilitaryWebbingCBURNSierra

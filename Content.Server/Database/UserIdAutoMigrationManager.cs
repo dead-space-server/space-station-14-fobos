@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Content.Server.Players.PlayTimeTracking;
 using Content.Server.Preferences.Managers;
 using Content.Shared.CCVar;
 using Robust.Server.Player;
@@ -26,18 +27,15 @@ public sealed class UserIdAutoMigrationManager
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly IPlayerManager _players = default!;
     [Dependency] private readonly IServerDbManager _db = default!;
-    [Dependency] private readonly UserDbDataManager _userDb = default!;
+    [Dependency] private readonly PlayTimeTrackingManager _playTimeTracking = default!;
 
     private readonly ConcurrentDictionary<Guid, SemaphoreSlim> _migrationLocks = new();
-    private readonly ConcurrentDictionary<Guid, byte> _completedMigrationUsers = new();
-
     private ISawmill _sawmill = default!;
     private bool _warnedMissingEndpoint;
 
     public void Initialize()
     {
         _sawmill = _logManager.GetSawmill("user_id_migration");
-        _userDb.AddOnBeforeLoadPlayer(MigrateBeforeLoad);
     }
 
     public Task<string?> TryMigrateOnConnecting(NetConnectingArgs args, CancellationToken cancel = default)
@@ -45,35 +43,21 @@ public sealed class UserIdAutoMigrationManager
         if (!ServerPreferencesManager.ShouldStorePrefs(args.AuthType))
             return Task.FromResult<string?>(null);
 
-        return TryMigrate(args.UserId, null, true, cancel);
+        return TryMigrate(args.UserId, true, cancel);
     }
 
-    private Task MigrateBeforeLoad(ICommonSession session, CancellationToken cancel)
-    {
-        if (!ServerPreferencesManager.ShouldStorePrefs(session.Channel.AuthType))
-            return Task.CompletedTask;
-
-        return TryMigrate(session.UserId, session, false, cancel);
-    }
-
-    private async Task<string?> TryMigrate(NetUserId mkUserId, ICommonSession? currentSession, bool denyOnFailure, CancellationToken cancel)
+    private async Task<string?> TryMigrate(NetUserId mkUserId, bool denyOnFailure, CancellationToken cancel)
     {
         if (!_cfg.GetCVar(CCVars.UserIdMigrationAutoEnabled))
             return null;
-
-        if (_completedMigrationUsers.ContainsKey(mkUserId.UserId))
-            return null;
-
-        if (!TryBuildRequestUri(mkUserId.UserId, out var requestUri))
-            return denyOnFailure ? AuthUnavailableMessage : null;
 
         var migrationLock = _migrationLocks.GetOrAdd(mkUserId.UserId, _ => new SemaphoreSlim(1, 1));
         await migrationLock.WaitAsync(cancel);
 
         try
         {
-            if (_completedMigrationUsers.ContainsKey(mkUserId.UserId))
-                return null;
+            if (!TryBuildRequestUri(mkUserId.UserId, out var requestUri))
+                return denyOnFailure ? AuthUnavailableMessage : null;
 
             var oldUserId = await QueryLinkedWizDenUserId(mkUserId.UserId, requestUri, cancel);
             if (oldUserId == null)
@@ -85,7 +69,7 @@ public sealed class UserIdAutoMigrationManager
                 return denyOnFailure ? AuthUnavailableMessage : null;
             }
 
-            if (TryFindBlockingOnlineSession(oldUserId.Value, mkUserId.UserId, currentSession, out var blockingSession))
+            if (TryFindBlockingOnlineSession(oldUserId.Value, mkUserId.UserId, out var blockingSession))
             {
                 _sawmill.Warning(
                     "Skipping user ID migration {OldUserId} -> {NewUserId} because {PlayerName} ({BlockingUserId}) is online.",
@@ -96,32 +80,34 @@ public sealed class UserIdAutoMigrationManager
                 return denyOnFailure ? MigrationBusyMessage : null;
             }
 
+            await _playTimeTracking.WaitPendingSaves(new NetUserId(oldUserId.Value), cancel);
+            await _playTimeTracking.WaitPendingSaves(mkUserId, cancel);
+
             var report = await _db.ApplyUserIdLoginMigrationAsync(oldUserId.Value, mkUserId.UserId, cancel);
             LogReport(report);
             if (!report.CanApply)
                 return denyOnFailure ? AuthUnavailableMessage : null;
 
-            _completedMigrationUsers.TryAdd(mkUserId.UserId, 0);
             return null;
         }
         catch (OperationCanceledException) when (!cancel.IsCancellationRequested)
         {
-            _sawmill.Warning("Auth lookup timed out for MK UUID {UserId}; continuing without user ID migration.", mkUserId);
+            _sawmill.Warning("Auth lookup timed out for MK UUID {UserId}; cannot run user ID migration.", mkUserId);
             return denyOnFailure ? AuthUnavailableMessage : null;
         }
         catch (HttpRequestException e)
         {
-            _sawmill.Warning("Auth lookup failed for MK UUID {UserId}; continuing without user ID migration. Error: {Error}", mkUserId, e.Message);
+            _sawmill.Warning("Auth lookup failed for MK UUID {UserId}; cannot run user ID migration. Error: {Error}", mkUserId, e.Message);
             return denyOnFailure ? AuthUnavailableMessage : null;
         }
         catch (JsonException e)
         {
-            _sawmill.Warning("Auth returned invalid user ID migration JSON for MK UUID {UserId}; continuing without migration. Error: {Error}", mkUserId, e.Message);
+            _sawmill.Warning("Auth returned invalid user ID migration JSON for MK UUID {UserId}; cannot run user ID migration. Error: {Error}", mkUserId, e.Message);
             return denyOnFailure ? AuthUnavailableMessage : null;
         }
         catch (Exception e) when (e is not OperationCanceledException)
         {
-            _sawmill.Error("User ID migration failed for MK UUID {UserId}; continuing without migration. Error: {Error}", mkUserId, e);
+            _sawmill.Error("User ID migration failed for MK UUID {UserId}; cannot complete migration. Error: {Error}", mkUserId, e);
             return denyOnFailure ? AuthUnavailableMessage : null;
         }
         finally
@@ -137,37 +123,36 @@ public sealed class UserIdAutoMigrationManager
 
         using var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
         using var response = await _http.Client.SendAsync(request, timeout.Token);
-        if (response.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.NoContent)
+        if (response.StatusCode is HttpStatusCode.NoContent)
             return null;
 
         if (!response.IsSuccessStatusCode)
         {
-            _sawmill.Warning(
-                "Auth returned {StatusCode} for MK UUID {UserId}; continuing without user ID migration.",
-                response.StatusCode,
-                mkUserId);
-            return null;
+            throw new HttpRequestException(
+                $"Auth returned {response.StatusCode} for MK UUID {mkUserId}; refusing to treat this as an unlinked account.");
         }
 
         await using var stream = await response.Content.ReadAsStreamAsync(timeout.Token);
         using var document = await JsonDocument.ParseAsync(stream, cancellationToken: timeout.Token);
         if (document.RootElement.ValueKind != JsonValueKind.Object)
         {
-            _sawmill.Warning("Auth user ID migration response for MK UUID {UserId} was not a JSON object.", mkUserId);
-            return null;
+            throw new JsonException($"Auth user ID migration response for MK UUID {mkUserId} was not a JSON object.");
         }
 
-        if (TryReadGuid(document.RootElement, out var responseMkUserId, out var invalidMkUserId, "mkUserId", "mk_user_id", "mkUuid", "mk_uuid", "uuid") &&
-            responseMkUserId != null &&
-            responseMkUserId != mkUserId)
+        if (!TryReadGuid(document.RootElement, out var responseMkUserId, out var invalidMkUserId, "mkUserId", "mk_user_id", "mkUuid", "mk_uuid", "uuid"))
+        {
+            throw new JsonException($"Auth response did not include an MK UUID for requested MK UUID {mkUserId}.");
+        }
+
+        if (invalidMkUserId || responseMkUserId == null)
+        {
+            throw new JsonException($"Auth returned an invalid MK UUID for requested MK UUID {mkUserId}.");
+        }
+
+        if (responseMkUserId != mkUserId)
         {
             throw new InvalidOperationException(
                 $"Auth returned mismatched MK UUID {responseMkUserId} for requested MK UUID {mkUserId}; skipping migration.");
-        }
-
-        if (invalidMkUserId)
-        {
-            throw new JsonException($"Auth returned an invalid MK UUID for requested MK UUID {mkUserId}.");
         }
 
         if (!TryReadGuid(
@@ -182,7 +167,7 @@ public sealed class UserIdAutoMigrationManager
                 "wizden_uuid",
                 "linked"))
         {
-            return null;
+            throw new JsonException($"Auth response did not include a linked WizDen UUID field for MK UUID {mkUserId}.");
         }
 
         if (invalidWizDenUserId)
@@ -259,14 +244,10 @@ public sealed class UserIdAutoMigrationManager
     private bool TryFindBlockingOnlineSession(
         Guid oldUserId,
         Guid newUserId,
-        ICommonSession? currentSession,
         [NotNullWhen(true)] out ICommonSession? blockingSession)
     {
         foreach (var session in _players.Sessions)
         {
-            if (ReferenceEquals(session, currentSession))
-                continue;
-
             var sessionUserId = session.UserId.UserId;
             if (sessionUserId != oldUserId && sessionUserId != newUserId)
                 continue;
@@ -309,6 +290,13 @@ public sealed class UserIdAutoMigrationManager
         {
             _sawmill.Info(
                 "Applied user ID migration {OldUserId} -> {NewUserId}.",
+                report.OldUserId,
+                report.NewUserId);
+        }
+        else if (report.AlreadyProcessed)
+        {
+            _sawmill.Verbose(
+                "User ID migration {OldUserId} -> {NewUserId} was already processed.",
                 report.OldUserId,
                 report.NewUserId);
         }

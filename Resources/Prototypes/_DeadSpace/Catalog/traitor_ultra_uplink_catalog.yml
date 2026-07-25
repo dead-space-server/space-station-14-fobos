@@ -401,6 +401,23 @@
       - SurplusBundle
   # DS14-end
 
+- type: listing
+  id: UplinkTraitorUltraRPG70
+  name: РПГ70
+  description: Невероятно мощный одноразовый гранатомёт для уничтожения структур. Почти не наносит вреда людям.
+  productEntity: WeaponLauncherRPG70
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Launchers/rpg70.rsi, state: icon }
+  cost:
+    Telecrystal: 4
+  categories:
+  - TraitorUltraUplinkExclusive
+  conditions:
+  - !type:BuyerAntagCondition
+    whitelist:
+    - TraitorUltra
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
 # Explosives
 
 - type: listing
@@ -1531,68 +1548,6 @@
     blacklist:
       tags:
       - NukeOpsUplink
-
-- type: listing
-  id: UplinkTraitorUltraReinforcementRadioSyndicate
-  name: uplink-reinforcement-radio-name
-  description: uplink-reinforcement-radio-traitor-desc
-  productEntity: ReinforcementRadioSyndicate
-  icon: { sprite: Objects/Devices/communication.rsi, state: old-radio-urist }
-  discountCategory: usualDiscounts
-  discountDownTo:
-    Telecrystal: 7
-  cost:
-    Telecrystal: 12 # DS14-value
-  categories:
-  - TraitorUltraUplinkAllies
-  conditions:
-    - !type:StoreWhitelistCondition
-      blacklist:
-        tags:
-          - NukeOpsUplink
-
-- type: listing
-  id: UplinkTraitorUltraReinforcementRadioSyndicateNukeops # Version for Nukeops that spawns another nuclear operative without the uplink.
-  name: uplink-reinforcement-radio-nukeops-name
-  description: uplink-reinforcement-radio-nukeops-desc
-  productEntity: ReinforcementRadioSyndicateNukeops
-  icon: { sprite: Objects/Devices/communication.rsi, state: old-radio-nukeop }
-  cost:
-    Telecrystal: 10 # DS14-value
-  categories:
-  - TraitorUltraUplinkAllies
-  conditions:
-    - !type:StoreWhitelistCondition
-      whitelist:
-        tags:
-          - NukeOpsUplink
-
-- type: listing
-  id: UplinkTraitorUltraReinforcementRadioSyndicateCyborgAssault
-  name:  uplink-reinforcement-radio-cyborg-assault-name
-  description: uplink-reinforcement-radio-cyborg-assault-desc
-  productEntity: ReinforcementRadioSyndicateCyborgAssault
-  icon: { sprite: Objects/Devices/communication.rsi, state: old-radio-borg-assault }
-  # DS14-start
-  discountCategory: usualDiscounts
-  discountDownTo:
-    Telecrystal: 30
-  # DS14-end
-  cost:
-    Telecrystal: 35 # DS14-value
-  categories:
-    - TraitorUltraUplinkAllies
-  conditions:
-    - !type:StoreWhitelistCondition
-      whitelist:
-        tags:
-          - NukeOpsUplink
-  # DS14-start
-    - !type:BuyerWhitelistCondition
-      blacklist:
-        components:
-        - SurplusBundle
-  # DS14-end
 
 - type: listing
   id: UplinkTraitorUltraReinforcementRadioSyndicateAncestor
@@ -3046,14 +3001,13 @@
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
   productEntity: ClothingBackpackDuffelSyndicateFilledXC67
   cost:
-    Telecrystal: 18
+    Telecrystal: 14
   categories:
-  - TraitorUltraUplinkWeaponry
+  - TraitorUltraUplinkExclusive
   conditions:
-  - !type:StoreWhitelistCondition
+  - !type:BuyerAntagCondition
     whitelist:
-      tags:
-      - NukeOpsUplink
+    - TraitorUltra
 
 - type: listing
   id: UplinkTraitorUltraBuldogAmmoBundle
@@ -3114,10 +3068,9 @@
   categories:
   - TraitorUltraUplinkAmmo
   conditions:
-  - !type:StoreWhitelistCondition
+  - !type:BuyerAntagCondition
     whitelist:
-      tags:
-      - NukeOpsUplink
+    - TraitorUltra
 
 - type: listing
   id: UplinkTraitorUltraAKAmmoBundle
@@ -3141,6 +3094,17 @@
   description: uplink-light-rifle-magazine-desc
   icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/light_rifle_mag.rsi, state: red }
   productEntity: MagazineLightRifle
+  cost:
+    Telecrystal: 3
+  categories:
+  - TraitorUltraUplinkAmmo
+
+- type: listing
+  id: UplinkTraitorUltraMagazineLightRifleBox
+  name: uplink-light-rifle-magazine-name
+  description: uplink-light-rifle-magazine-desc
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/light_rifle_box.rsi, state: base }
+  productEntity: MagazineLightRifleBox
   cost:
     Telecrystal: 3
   categories:
@@ -3202,13 +3166,10 @@
   icon: { sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi, state: icon }
   productEntity: SmokingCarpInjector
   cost:
-    Telecrystal: 17
+    Telecrystal: 16
   categories:
   - TraitorUltraUplinkWeaponry
   conditions:
-  - !type:BuyerAntagCondition
-    whitelist:
-    - TraitorUltra
   - !type:StoreWhitelistCondition
     blacklist:
       tags:
@@ -3691,14 +3652,13 @@
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Snipers/sr.rsi, state: icon }
   productEntity: CaseR17
   cost:
-    Telecrystal: 18
+    Telecrystal: 14
   categories:
-  - TraitorUltraUplinkWeaponry
+  - TraitorUltraUplinkExclusive
   conditions:
-  - !type:StoreWhitelistCondition
+  - !type:BuyerAntagCondition
     whitelist:
-      tags:
-      - NukeOpsUplink
+    - TraitorUltra
 
 - type: listing
   id: UplinkTraitorUltraMagazineR17
@@ -3711,10 +3671,9 @@
   categories:
   - TraitorUltraUplinkAmmo
   conditions:
-  - !type:StoreWhitelistCondition
+  - !type:BuyerAntagCondition
     whitelist:
-      tags:
-      - NukeOpsUplink
+    - TraitorUltra
 
 - type: listing
   id: UplinkTraitorUltraSyndicateChemBundle
@@ -3727,10 +3686,9 @@
   categories:
   - TraitorUltraUplinkChemicals
   conditions:
-  - !type:StoreWhitelistCondition
+  - !type:BuyerAntagCondition
     whitelist:
-      tags:
-      - LoneOpsUplink
+    - TraitorUltra
   - !type:BuyerWhitelistCondition
     blacklist:
       components:
@@ -3830,6 +3788,20 @@
   productEntity: ADTCyberHypospray
   cost:
     Telecrystal: 8
+  categories:
+  - TraitorUltraUplinkExclusive
+  conditions:
+  - !type:BuyerAntagCondition
+    whitelist:
+    - TraitorUltra
+- type: listing
+  id: UplinkTraitorUltraGorlexHypospray
+  name: uplink-gorlex-hypospray-name
+  description: uplink-gorlex-hypospray-desc
+  icon: { sprite: /Textures/Objects/Specific/Medical/syndihypo.rsi, state: hypo }
+  productEntity: ADTCyberHypospray
+  cost:
+    Telecrystal: 12
   categories:
   - TraitorUltraUplinkExclusive
   conditions:

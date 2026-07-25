@@ -57,6 +57,7 @@ ban-panel-hwid = HWID
 ban-panel-reason = Reason
 ban-panel-last-conn = Use IP and HWID from last connection?
 ban-panel-submit = Ban
+ban-panel-submit-watchlist = Add watchlist
 ban-panel-confirm = Are you sure?
 ban-panel-tabs-basic = Basic info
 ban-panel-tabs-reason = Reason

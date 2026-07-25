@@ -74,5 +74,10 @@ namespace Content.Server.Communications
         /// </summary>
         [DataField]
         public bool AnnounceSentBy = true;
+
+        // DS14-start
+        public string? EmagPassword;
+        public readonly HashSet<EntityUid> AuthorizedEmagActors = new();
+        // DS14-end
     }
 }

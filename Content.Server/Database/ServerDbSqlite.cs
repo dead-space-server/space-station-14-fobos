@@ -164,35 +164,38 @@ namespace Content.Server.Database
 
         public override async Task<BanDef> AddBanAsync(BanDef ban)
         {
-            await using var db = await GetDbImpl();
-
-            var banEntity = new Ban
+            return await WithUserIdMigrationWriteLockAsync(
+                ban.UserIds.Select(userId => userId.UserId),
+                async (db, ct) =>
             {
-                Type = ban.Type,
-                Addresses = [..ban.Addresses.Select(ba => new BanAddress { Address = ba.ToNpgsqlInet() })],
-                Hwids = [..ban.HWIds.Select(bh => new BanHwid { HWId = bh })],
-                Reason = ban.Reason,
-                Severity = ban.Severity,
-                BanningAdmin = ban.BanningAdmin?.UserId,
-                BanTime = ban.BanTime.UtcDateTime,
-                ExpirationTime = ban.ExpirationTime?.UtcDateTime,
-                Rounds = [..ban.RoundIds.Select(bri => new BanRound { RoundId = bri })],
-                PlaytimeAtNote = ban.PlaytimeAtNote,
-                Players = [..ban.UserIds.Select(bp => new BanPlayer { UserId = bp.UserId })],
-                ExemptFlags = ban.ExemptFlags,
-                Roles = ban.Roles == null
-                    ? []
-                    : ban.Roles.Value.Select(brd => new BanRole
-                        {
-                            RoleType = brd.RoleType,
-                            RoleId = brd.RoleId
-                        })
-                        .ToList(),
-            };
-            db.SqliteDbContext.Ban.Add(banEntity);
+                var banEntity = new Ban
+                {
+                    Type = ban.Type,
+                    Addresses = [..ban.Addresses.Select(ba => new BanAddress { Address = ba.ToNpgsqlInet() })],
+                    Hwids = [..ban.HWIds.Select(bh => new BanHwid { HWId = bh })],
+                    Reason = ban.Reason,
+                    Severity = ban.Severity,
+                    BanningAdmin = ban.BanningAdmin?.UserId,
+                    BanTime = ban.BanTime.UtcDateTime,
+                    ExpirationTime = ban.ExpirationTime?.UtcDateTime,
+                    Rounds = [..ban.RoundIds.Select(bri => new BanRound { RoundId = bri })],
+                    PlaytimeAtNote = ban.PlaytimeAtNote,
+                    Players = [..ban.UserIds.Select(bp => new BanPlayer { UserId = bp.UserId })],
+                    ExemptFlags = ban.ExemptFlags,
+                    Roles = ban.Roles == null
+                        ? []
+                        : ban.Roles.Value.Select(brd => new BanRole
+                            {
+                                RoleType = brd.RoleType,
+                                RoleId = brd.RoleId
+                            })
+                            .ToList(),
+                };
+                db.Ban.Add(banEntity);
 
-            await db.SqliteDbContext.SaveChangesAsync();
-            return ConvertBan(banEntity);
+                await db.SaveChangesAsync(ct);
+                return ConvertBan(banEntity)!;
+            });
         }
 
         public override async Task AddUnbanAsync(UnbanDef unban)
@@ -415,12 +418,14 @@ namespace Content.Server.Database
                 ServerId = entity.ServerId,
                 Enabled = entity.Enabled,
                 MaxRdmRow = entity.MaxRdmRow,
-                MaxRdmDay = entity.MaxRdmDay,
                 VoteDurationSeconds = entity.VoteDurationSeconds,
                 CurrentPresetIndex = entity.CurrentPresetIndex,
                 ActivePresetIds = JsonSerializer.Deserialize<List<string>>(entity.ActivePresetIdsJson) ?? new List<string>(),
                 CustomPresetsJson = entity.CustomPresetsJson,
-                DisableOocDuringVote = entity.DisableOocDuringVote
+                DisableOocDuringVote = entity.DisableOocDuringVote,
+                PreventRepeatMode = entity.PreventRepeatMode,
+                CheckPlayerLimit = entity.CheckPlayerLimit,
+                WhitelistModesJson = entity.WhitelistModesJson
             };
         }
 
@@ -437,12 +442,14 @@ namespace Content.Server.Database
 
             entity.Enabled = config.Enabled;
             entity.MaxRdmRow = config.MaxRdmRow;
-            entity.MaxRdmDay = config.MaxRdmDay;
             entity.VoteDurationSeconds = config.VoteDurationSeconds;
             entity.CurrentPresetIndex = config.CurrentPresetIndex;
             entity.ActivePresetIdsJson = JsonSerializer.Serialize(config.ActivePresetIds);
             entity.CustomPresetsJson = config.CustomPresetsJson;
             entity.DisableOocDuringVote = config.DisableOocDuringVote;
+            entity.PreventRepeatMode = config.PreventRepeatMode;
+            entity.CheckPlayerLimit = config.CheckPlayerLimit;
+            entity.WhitelistModesJson = config.WhitelistModesJson;
             await db.DbContext.SaveChangesAsync(cancel);
         }
         //DS14-End

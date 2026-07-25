@@ -1,0 +1,16 @@
+- type: constructionGraph
+  id: SignBoard
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: signboard
+      steps:
+      - material: WoodPlank
+        amount: 5
+        doAfter: 3
+      - material: Cloth
+        amount: 1
+        doAfter: 1
+  - node: signboard
+    entity: SignBoard

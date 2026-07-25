@@ -3,7 +3,7 @@
   id: LockerMimeFilled
   name: шкаф мима
   parent: LockerMime
-  description: Стандартное хранилище Nanotrasen.
+  description: Стандартное хранилище NanoTrasen.
   suffix: Заполненный
   components:
   - type: StorageFill
@@ -240,6 +240,8 @@
     - id: ClothingBeltSyndieHolster
     - id: ClothingEyesHudTaipanAdvanced
     - id: DoorRemoteTaipan
+    - id: TaipanMessengerCartridge
+      amount: 2
     - id: EmagTaipan
     - id: ClothingHeadHelmetSwatSyndicate
     - id: ClothingMaskGasSyndicate

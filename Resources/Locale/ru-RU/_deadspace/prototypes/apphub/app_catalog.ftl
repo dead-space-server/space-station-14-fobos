@@ -1,5 +1,7 @@
 app-catalog-entry-messenger-name = NanoChat
 app-catalog-entry-messenger-desc = Система обмена сообщениями между членами экипажа.
+app-catalog-entry-messenger-taipan-name = SyndiChat
+app-catalog-entry-messenger-taipan-desc = Система обмена сообщениями между персоналом объекта.
 app-catalog-entry-wanted-list-name = Список разыскиваемых
 app-catalog-entry-wanted-list-desc = Актуальный список разыскиваемых лиц.
 app-catalog-entry-snake-name = Змейка

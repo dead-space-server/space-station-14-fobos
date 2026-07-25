@@ -8,7 +8,7 @@ using Robust.Shared.Serialization;
 namespace Content.Shared.Mobs.Components;
 
 [RegisterComponent, NetworkedComponent]
-[Access(typeof(MobThresholdSystem), typeof(Content.Shared.Traits.Assorted.PainNumbnessSystem))] // DS14
+[Access(typeof(MobThresholdSystem), typeof(Content.Shared.Traits.Assorted.PainNumbnessSystem), typeof(Content.Shared.DeadSpace.Alerts.HealthAlertRelaySystem))] // DS14
 public sealed partial class MobThresholdsComponent : Component
 {
     [DataField("thresholds", required: true)]

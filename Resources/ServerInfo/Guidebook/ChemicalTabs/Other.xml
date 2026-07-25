@@ -1,5 +1,6 @@
 <Document>
   # Другие
   Другие химикаты, перечисленные в списке Химикатов.
+  <GuideReagentGroupEmbed Group="Other"/>
   <GuideReagentGroupEmbed Group="Unknown"/>
 </Document>

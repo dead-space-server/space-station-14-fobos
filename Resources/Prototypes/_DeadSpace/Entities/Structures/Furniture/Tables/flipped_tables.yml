@@ -1,0 +1,238 @@
+- type: entity
+  id: BaseFlippedTable
+  parent: BaseStructure
+  abstract: true
+  components:
+  - type: Sprite
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.45"
+        density: 55
+        mask:
+        - TableMask
+        layer:
+        - MidImpassable
+        - LowImpassable
+        - BulletImpassable
+  - type: Damageable
+    damageContainer: StructuralInorganic
+  - type: Icon
+  - type: FlippedTable
+  - type: Tag
+    tags:
+    - ForceFixRotations
+
+- type: entity
+  id: FlippedTableSteel
+  parent: BaseFlippedTable
+  name: перевёрнутый стол
+  description: Перевёрнутый на бок стол.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Furniture/Tables/flipped/steel.rsi
+    state: icon
+  - type: Icon
+    sprite: _DeadSpace/Structures/Furniture/Tables/flipped/steel.rsi
+    state: icon
+  - type: FlippedTable
+    originalTableId: Table
+  - type: Damageable
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 125
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 25
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+          params:
+            volume: -6
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 1
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+
+- type: entity
+  id: FlippedTableReinforced
+  parent: BaseFlippedTable
+  name: перевёрнутый бронированный стол
+  description: Перевёрнутый на бок стол.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Furniture/Tables/flipped/armed.rsi
+    state: icon
+  - type: Icon
+    sprite: _DeadSpace/Structures/Furniture/Tables/flipped/armed.rsi
+    state: icon
+  - type: FlippedTable
+    originalTableId: TableReinforced
+  - type: Damageable
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 150
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 75
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+          params:
+            volume: -6
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 2
+            max: 2
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+
+- type: entity
+  id: FlippedTableWood
+  parent: BaseFlippedTable
+  name: перевёрнутый деревянный стол
+  description: Перевёрнутый на бок стол.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Furniture/Tables/flipped/wooden.rsi
+    state: icon
+  - type: Icon
+    sprite: _DeadSpace/Structures/Furniture/Tables/flipped/wooden.rsi
+    state: icon
+  - type: FlippedTable
+    originalTableId: TableWood
+  - type: Damageable
+    damageModifierSet: Wood
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 15
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: WoodDestroy
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          MaterialWoodPlank:
+            min: 1
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+
+- type: entity
+  id: FlippedTableCard
+  parent: BaseFlippedTable
+  name: перевёрнутый картонный стол
+  description: Перевёрнутый на бок стол.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Furniture/Tables/flipped/karton.rsi
+    state: icon
+  - type: Icon
+    sprite: _DeadSpace/Structures/Furniture/Tables/flipped/karton.rsi
+    state: icon
+  - type: FlippedTable
+    originalTableId: TableCard
+  - type: Damageable
+    damageModifierSet: Card
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 5
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 1
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound: /Audio/Weapons/pierce.ogg
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          MaterialCardboard:
+            min: 1
+            max: 2
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+
+- type: entity
+  id: FlippedTableFrame
+  parent: BaseFlippedTable
+  name: перевёрнутый каркас стола
+  description: Перевёрнутый на бок каркас стола.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Furniture/Tables/flipped/karkas.rsi
+    state: icon
+  - type: Icon
+    sprite: _DeadSpace/Structures/Furniture/Tables/flipped/karkas.rsi
+    state: icon
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.45"
+        density: 55
+        mask:
+        - TableMask
+        layer:
+        - MidImpassable
+        - LowImpassable
+  - type: FlippedTable
+    originalTableId: TableFrame
+  - type: Damageable
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 25
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 5
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+          params:
+            volume: -6
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          PartRodMetal1:
+            min: 1
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]

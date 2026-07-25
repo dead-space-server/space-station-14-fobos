@@ -53,3 +53,10 @@ public sealed class PatrolTabletCreateSquadMessage(string name, string iconId)
     public string Name { get; } = name;
     public string IconId { get; } = iconId;
 }
+
+[Serializable, NetSerializable]
+public sealed class PatrolTabletDeleteSquadMessage(string squadId)
+    : BoundUserInterfaceMessage
+{
+    public string SquadId { get; } = squadId;
+}

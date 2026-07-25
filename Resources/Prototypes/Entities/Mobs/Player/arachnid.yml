@@ -5,9 +5,11 @@
   id: MobArachnid
   components:
   - type: Respirator
+    saturation: 8 # DS14
+    maxSaturation: 8 # DS14
     damage:
       types:
         Asphyxiation: 1.5 # This makes space and crit more lethal to arachnids.
     damageRecovery:
       types:
-        Asphyxiation: -0.5
+        Asphyxiation: -0.75 # DS14

@@ -142,12 +142,12 @@
     - Hair # DS14
     - FacialHair
     - Tail # DS14
-    markingsDisplacement:
-      Hair:
-        sizeMaps:
-          32:
-            sprite: Mobs/Species/Vulpkanin/displacement.rsi
-            state: hair
+#    markingsDisplacement:
+#      Hair:
+#        sizeMaps:
+#          32:
+#            sprite: Mobs/Species/Vulpkanin/displacement.rsi
+#            state: hair
   - type: Inventory
     speciesId: vulpkanin
 #    displacements:
@@ -209,12 +209,12 @@
     - HeadTop
     - HeadSide
     - Tail # DS14
-    markingsDisplacement:
-      Hair:
-        sizeMaps:
-          32:
-            sprite: Mobs/Species/Vulpkanin/displacement.rsi
-            state: hair
+#    markingsDisplacement:
+#      Hair:
+#        sizeMaps:
+#          32:
+#            sprite: Mobs/Species/Vulpkanin/displacement.rsi
+#            state: hair
 #  - type: Inventory
 #    speciesId: vulpkanin
 #    displacements:

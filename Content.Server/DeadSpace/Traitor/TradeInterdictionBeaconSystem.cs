@@ -109,8 +109,16 @@ public sealed class TradeInterdictionBeaconSystem : EntitySystem
 
     private void OnShutdown(Entity<TradeInterdictionBeaconComponent> ent, ref ComponentShutdown args)
     {
-        if (ent.Comp.Active && !ent.Comp.Completed)
-            CancelHijack(ent.Owner, ent.Comp);
+        if (!ent.Comp.Active || ent.Comp.Completed)
+            return;
+
+        if (ent.Comp.CompletionTime is { } completionTime && completionTime <= _timing.CurTime)
+        {
+            CompleteHijack(ent.Owner, ent.Comp);
+            return;
+        }
+
+        CancelHijack(ent.Owner, ent.Comp);
     }
 
     private bool TryStartHijack(EntityUid uid, TradeInterdictionBeaconComponent beacon, EntityUid user)
@@ -173,8 +181,8 @@ public sealed class TradeInterdictionBeaconSystem : EntitySystem
             _objectives.TryCompleteObjective(mind, station);
 
         DispatchAnnouncement(station, "trade-interdiction-announcement-completed", beacon, DangerColor);
-        ExplodeTradeAnchor(uid, beacon);
         _cargo.RefreshOrderConsoles(station);
+        ExplodeTradeAnchor(uid, beacon);
     }
 
     private void CancelHijack(EntityUid uid, TradeInterdictionBeaconComponent beacon)

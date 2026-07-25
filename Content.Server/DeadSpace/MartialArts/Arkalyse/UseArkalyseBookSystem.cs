@@ -6,6 +6,7 @@ using Content.Shared.Actions;
 using Content.Shared.Popups;
 using Content.Server.DeadSpace.MartialArts.SmokingCarp.Components;
 using Content.Server.DeadSpace.MartialArts.Arkalyse.Components;
+using Content.Server.DeadSpace.MartialArts.CQC.Components;
 using Robust.Server.GameObjects;
 
 namespace Content.Server.DeadSpace.MartialArts;
@@ -22,7 +23,9 @@ public sealed class UseArkalyseBookSystem : EntitySystem
     }
     private void OnUseBookArkalyse(Entity<MartialArtsTrainingArkalyseComponent> ent, ref UseInHandEvent args)
     {
-        if (args.Handled || TryComp<SmokingCarpComponent>(args.User, out _))
+        if (args.Handled ||
+            HasComp<SmokingCarpComponent>(args.User) ||
+            HasComp<CQCComponent>(args.User))
             return;
 
         if (TryComp<ArkalyseComponent>(args.User, out var existing))

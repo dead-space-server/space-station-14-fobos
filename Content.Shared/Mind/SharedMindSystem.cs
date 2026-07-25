@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.Arena;
 using Content.Shared.Emoting;
 using Content.Shared.Examine;
 using Content.Shared.GameTicking;
@@ -618,6 +619,9 @@ public abstract partial class SharedMindSystem : EntitySystem
         var query = EntityQueryEnumerator<HumanoidAppearanceComponent, MobStateComponent>();
         while (query.MoveNext(out var uid, out _, out var mobState))
         {
+            if (HasComp<ArenaPlayerComponent>(uid)) // DS14
+                continue;
+
             // the player needs to have a mind and not be the excluded one +
             // the player has to be alive
             if (!TryGetMind(uid, out var mind, out var mindComp) || mind == exclude || !_mobState.IsAlive(uid, mobState))

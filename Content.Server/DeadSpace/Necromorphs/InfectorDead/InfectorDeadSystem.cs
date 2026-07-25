@@ -21,6 +21,15 @@ using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Server.Hands.Systems;
+using Content.Shared.DeadSpace.Necromorphs.PlasmaCutter;
+using Content.Shared.Body.Part;
+using Content.Shared.Body.Systems;
+using Content.Shared.Body.Prototypes;
+using Content.Shared.Movement.Components;
+using Content.Shared.Movement.Systems;
+using Robust.Shared.Containers;
+using Robust.Shared.Prototypes;
+using Content.Shared.Standing;
 
 namespace Content.Server.DeadSpace.InfectorDead;
 
@@ -35,6 +44,11 @@ public sealed partial class InfectorDeadSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly HandsSystem _hands = default!;
+    [Dependency] private readonly SharedBodySystem _body = default!;
+    [Dependency] private readonly SharedContainerSystem _containers = default!;
+    [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
+    [Dependency] private readonly IPrototypeManager _prototypes = default!;
+    [Dependency] private readonly StandingStateSystem _standing = default!;
 
     public override void Initialize()
     {
@@ -136,6 +150,12 @@ public sealed partial class InfectorDeadSystem : EntitySystem
 
         var target = args.Target;
 
+        if (HasComp<NecromorphMissingHeadComponent>(target))
+        {
+            _popup.PopupEntity(Loc.GetString("Некроморфа без головы невозможно восстановить!"), uid, uid);
+            return;
+        }
+
         if (!HasComp<BodyComponent>(target))
             return;
 
@@ -189,8 +209,15 @@ public sealed partial class InfectorDeadSystem : EntitySystem
         if (args.Cancelled || args.Handled || args.Args.Target == null)
             return;
 
+        if (HasComp<NecromorphMissingHeadComponent>(args.Args.Target.Value))
+            return;
+
         if (HasComp<NecromorfComponent>(args.Args.Target.Value))
+        {
             _rejuvenate.PerformRejuvenate(args.Args.Target.Value);
+            RemComp<NecromorphPlasmaCutterDamageComponent>(args.Args.Target.Value);
+            RestoreMissingLegs(args.Args.Target.Value);
+        }
 
         if (!_mobState.IsDead(args.Args.Target.Value))
             return;
@@ -202,5 +229,49 @@ public sealed partial class InfectorDeadSystem : EntitySystem
         AddComp(args.Args.Target.Value, infection);
 
         args.Handled = true;
+    }
+
+    private void RestoreMissingLegs(EntityUid target)
+    {
+        if (!TryComp<BodyComponent>(target, out var body) ||
+            body.Prototype == null ||
+            body.RootContainer.ContainedEntity is not { } root ||
+            !_prototypes.TryIndex(body.Prototype.Value, out var prototype))
+        {
+            return;
+        }
+
+        // DS14: rejuvenation heals damage but does not recreate severed body parts.
+        foreach (var (parent, parentPart) in _body.GetBodyChildren(target, body).ToArray())
+        {
+            foreach (var slot in parentPart.Children.Values)
+            {
+                if (slot.Type != BodyPartType.Leg ||
+                    !prototype.Slots.TryGetValue(slot.Id, out var prototypeSlot) ||
+                    prototypeSlot.Part == null ||
+                    !_containers.TryGetContainer(parent, SharedBodySystem.GetPartSlotContainerId(slot.Id), out var container) ||
+                    container.ContainedEntities.Count != 0)
+                {
+                    continue;
+                }
+
+                var leg = Spawn(prototypeSlot.Part, Transform(parent).Coordinates);
+                if (!_body.AttachPart(parent, slot, leg, parentPart))
+                    QueueDel(leg);
+            }
+        }
+
+        if (TryComp<MovementSpeedModifierComponent>(target, out var speed))
+        {
+            // DS14: attaching legs updates the body collection synchronously. Recalculate from the
+            // restored leg components so a stale zero speed from the legless state cannot remain.
+            _body.UpdateMovementSpeed(target, body, speed);
+            _movement.RefreshMovementSpeedModifiers(target, speed);
+        }
+
+        if (body.LegEntities.Count > 0)
+            _standing.Stand(target, force: true);
+
+        RemComp<NecromorphPlasmaCutterWoundsComponent>(target);
     }
 }

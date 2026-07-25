@@ -176,6 +176,9 @@
   parent: EnergyBoltTrace
   categories: [ HideSpawnMenu ]
   components:
+  - type: HitscanBasicRaycast
+    collisionMask: Opaque
+    maxDistance: 40
   - type: HitscanBasicVisuals
     speed: 260
     bullet:

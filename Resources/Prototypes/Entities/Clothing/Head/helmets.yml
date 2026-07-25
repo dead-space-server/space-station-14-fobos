@@ -14,6 +14,8 @@
       HeadTop : HEAD
       HeadSide : HEAD
   #DS14-Start
+  - type: FlashbangProtection
+    reduction: 1
   - type: EmitSoundOnPickup
     sound:
       path: /Audio/_DeadSpace/Items/Handing/helmet/helmet_pickup.ogg

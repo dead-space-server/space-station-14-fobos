@@ -19,6 +19,7 @@ using Content.Shared.DeadSpace.Renegade.Roles;
 using Content.Shared.Roles.Components;
 using Content.Shared.DeadSpace.Demons.Shadowling; //DS14
 using Content.Shared.GameTicking.Components;
+using Content.Server.GameTicking.Rules;
 
 namespace Content.Server.Administration.Systems;
 
@@ -29,6 +30,7 @@ public sealed partial class AdminVerbSystem
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly OutfitSystem _outfit = default!;
     [Dependency] private readonly TraitorUltraRuleSystem _traitorUltra = default!; // DS14
+    [Dependency] private readonly UnitologyRuleSystem _unitologyRule = default!; // DS14
 
     private static readonly EntProtoId DefaultTraitorRule = "Traitor";
     private static readonly EntProtoId DefaultInitialInfectedRule = "Zombie";
@@ -40,7 +42,6 @@ public sealed partial class AdminVerbSystem
     private static readonly EntProtoId ParadoxCloneRuleId = "ParadoxCloneSpawn";
     private static readonly EntProtoId DefaultWizardRule = "Wizard";
     private static readonly EntProtoId DefaultNinjaRule = "NinjaSpawn";
-    private static readonly EntProtoId DefaultUnitologyRule = "Unitology"; // DS14
     private static readonly EntProtoId DefaultSpiderTerrorRule = "SpiderTerror"; // DS14
     private static readonly EntProtoId DragonSpawnRule = "DragonSpawn"; //  DS14
     private static readonly EntProtoId RenegadeRule = "RenegadeSpawn"; // DS14
@@ -109,6 +110,7 @@ public sealed partial class AdminVerbSystem
             Icon = new SpriteSpecifier.Rsi(new("/Textures/_Backmen/Interface/Actions/blob.rsi"), "blobFactory"),
             Act = () =>
             {
+                _antag.TrackGrantedComponent<Shared.Backmen.Blob.Components.BlobCarrierComponent>(args.Target);
                 EnsureComp<Shared.Backmen.Blob.Components.BlobCarrierComponent>(args.Target).HasMind = HasComp<ActorComponent>(args.Target);
             },
             Impact = LogImpact.High,
@@ -183,7 +185,11 @@ public sealed partial class AdminVerbSystem
             {
                 if (targetPlayer.AttachedEntity is not { } target) return;
                 _antag.ForceMakeAntag<ShadowlingRuleComponent>(targetPlayer, "ShadowlingRule");
-                EnsureComp<ShadowlingRevealComponent>(target);
+                if (!HasComp<ShadowlingRevealComponent>(target))
+                {
+                    EnsureComp<ShadowlingRevealComponent>(target);
+                    _antag.TrackGrantedComponent<ShadowlingRevealComponent>(target);
+                }
             },
             Impact = LogImpact.High,
             Message = string.Join(": ", shadowlingName, "Сделать скрытым тенеморфом"),
@@ -247,7 +253,7 @@ public sealed partial class AdminVerbSystem
             Icon = new SpriteSpecifier.Rsi(new ResPath("/Textures/_DeadSpace/Interface/Misc/antag_icons.rsi"), "Unitology"),
             Act = () =>
             {
-                _antag.ForceMakeAntag<UnitologyRuleComponent>(targetPlayer, DefaultUnitologyRule);
+                _unitologyRule.TryGrantUnitologyRole(args.Target, UnitologyRuleSystem.RegularUnitologyAntagRole, targetPlayer);
             },
             Impact = LogImpact.High,
             Message = string.Join(": ", uniName, Loc.GetString("admin-verb-make-unitolog")),

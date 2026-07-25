@@ -51,6 +51,7 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         SubscribeLocalEvent<EntitySpokeEvent>(OnEntitySpoke);
         SubscribeLocalEvent<RoleAddedEvent>(OnRoleAdded);
         SubscribeLocalEvent<MindContainerComponent, BeingGibbedEvent>(OnMindBeingGibbed);
+        SubscribeLocalEvent<MindContainerComponent, EntityRenamedEvent>(OnMindContainerRenamed);
         SubscribeLocalEvent<MobStateComponent, DamageChangedEvent>(OnDamageChanged, before: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<MobStateChangedEvent>(OnMobStateChanged);
     }
@@ -143,6 +144,20 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         }
 
         TryCreateDisplaySnapshot(mindId, uid, replaceExisting: false);
+    }
+
+    private void OnMindContainerRenamed(EntityUid uid, MindContainerComponent component, ref EntityRenamedEvent args)
+    {
+        if (string.IsNullOrWhiteSpace(args.NewName) ||
+            !TryGetPlayerMind(uid, out var mindId, out var mind) ||
+            !IsAntagPlayerMind(mindId, mind) ||
+            !_identityByMind.TryGetValue(mindId, out var identity) ||
+            identity.SourceEntity != uid)
+        {
+            return;
+        }
+
+        _identityByMind[mindId] = identity with { CharacterName = args.NewName };
     }
 
     private bool EnsureDisplaySnapshot(EntityUid mindId, MindComponent mind)

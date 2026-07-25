@@ -6,6 +6,7 @@ using Content.Shared.Whitelist;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
+using Robust.Shared.Audio; //DS14
 
 namespace Content.Shared.Revenant.Components;
 
@@ -27,7 +28,7 @@ public sealed partial class RevenantComponent : Component
     /// <summary>
     /// Prototype to spawn when the entity dies.
     /// </summary>
-    [DataField("spawnOnDeathPrototype", customTypeSerializer:typeof(PrototypeIdSerializer<EntityPrototype>))]
+    [DataField("spawnOnDeathPrototype", customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
     public string SpawnOnDeathPrototype = "Ectoplasm";
 
     /// <summary>
@@ -251,4 +252,42 @@ public sealed partial class RevenantComponent : Component
     [DataField("harvestingState")]
     public string HarvestingState = "harvesting";
     #endregion
+
+    //DS14-Start
+    #region Scream Ability
+    [DataField]
+    public EntProtoId ScreamAction = "ActionRevenantScream";
+
+    [DataField]
+    public EntityUid? ScreamActionEntity;
+
+    [DataField]
+    public float ScreamCost = 10f;
+
+    [DataField]
+    public Vector2 ScreamDebuffs = Vector2.Zero;
+
+    [DataField]
+    public float ScreamRadius = 15f;
+
+    [DataField]
+    public SoundSpecifier ScreamSounds = new SoundCollectionSpecifier("MaleScreams");
+    #endregion
+
+    #region Hack Ability
+
+    [DataField]
+    public EntProtoId HackAction = "ActionRevenantHack";
+
+    [DataField]
+    public EntityUid? HackActionEntity;
+
+    [DataField]
+    public float HackCost = 15f;
+
+    [DataField]
+    public Vector2 HackDebuffs = Vector2.Zero;
+
+    #endregion
+    //DS14-End
 }

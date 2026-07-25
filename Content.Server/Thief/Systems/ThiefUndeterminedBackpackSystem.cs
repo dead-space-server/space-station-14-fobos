@@ -1,4 +1,5 @@
 using Content.Server.Thief.Components;
+using Content.Server.Antag;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Item;
 using Content.Shared.Storage.EntitySystems;
@@ -21,6 +22,9 @@ public sealed class ThiefUndeterminedBackpackSystem : EntitySystem
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedStorageSystem _storage = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
+    // DS14-start
+    [Dependency] private readonly AntagSelectionSystem _antagSelection = default!;
+    // DS14-end
 
     public override void Initialize()
     {
@@ -43,7 +47,10 @@ public sealed class ThiefUndeterminedBackpackSystem : EntitySystem
 
         EntityUid? spawnedStorage = null;
         if (backpack.Comp.SpawnedStoragePrototype != null)
+        {
             spawnedStorage = Spawn(backpack.Comp.SpawnedStoragePrototype, _transform.GetMapCoordinates(backpack.Owner));
+            _antagSelection.TrackGrantedEntity(args.Actor, spawnedStorage.Value); // DS14
+        }
 
         foreach (var i in backpack.Comp.SelectedSets)
         {
@@ -51,6 +58,7 @@ public sealed class ThiefUndeterminedBackpackSystem : EntitySystem
             foreach (var item in set.Content)
             {
                 var ent = Spawn(item, _transform.GetMapCoordinates(backpack.Owner));
+                _antagSelection.TrackGrantedEntity(args.Actor, ent); // DS14
                 if (TryComp<ItemComponent>(ent, out var itemComponent))
                 {
                     if (spawnedStorage != null)

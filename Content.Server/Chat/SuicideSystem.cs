@@ -45,7 +45,7 @@ public sealed class SuicideSystem : EntitySystem
     /// or by applying a lethal amount of damage to the user with the default method.
     /// Used when writing /suicide
     /// </summary>
-    public bool Suicide(EntityUid victim)
+    public bool Suicide(EntityUid victim, bool suppressDefaultPopup = false) // DS14 - firearm suicide has its own visual feedback.
     {
         // Can't suicide if we're already dead
         if (!TryComp<MobStateComponent>(victim, out var mobState) || _mobState.IsDead(victim, mobState))
@@ -70,7 +70,10 @@ public sealed class SuicideSystem : EntitySystem
         // TODO: fix this
         // This is a handled event, but the result is never used
         // It looks like TriggerOnMobstateChange is supposed to prevent you from suiciding
-        var suicideEvent = new SuicideEvent(victim);
+        var suicideEvent = new SuicideEvent(victim)
+        {
+            SuppressDefaultPopup = suppressDefaultPopup, // DS14 - firearm suicide has its own visual feedback.
+        };
         RaiseLocalEvent(victim, suicideEvent);
 
         // Since the player is already dead the log will not contain their username.
@@ -156,11 +159,16 @@ public sealed class SuicideSystem : EntitySystem
         if (args.Handled)
             return;
 
-        var othersMessage = Loc.GetString("suicide-command-default-text-others", ("name", Identity.Entity(victim, EntityManager)));
-        _popup.PopupEntity(othersMessage, victim, Filter.PvsExcept(victim), true);
+        // DS14-start - firearm suicide already showed an appropriate popup before firing.
+        if (!args.SuppressDefaultPopup)
+        {
+            var othersMessage = Loc.GetString("suicide-command-default-text-others", ("name", Identity.Entity(victim, EntityManager)));
+            _popup.PopupEntity(othersMessage, victim, Filter.PvsExcept(victim), true);
 
-        var selfMessage = Loc.GetString("suicide-command-default-text-self");
-        _popup.PopupEntity(selfMessage, victim, victim);
+            var selfMessage = Loc.GetString("suicide-command-default-text-self");
+            _popup.PopupEntity(selfMessage, victim, victim);
+        }
+        // DS14-end
 
         if (args.DamageSpecifier != null)
         {

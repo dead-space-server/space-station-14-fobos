@@ -220,6 +220,7 @@ namespace Content.IntegrationTests.Tests.Preferences
             await db.UpdatePlayerRecord(newUser, "NewUser", IPAddress.Parse("127.0.0.2"), null);
             await db.InitPrefsAsync(oldUser, CharlieCharlieson());
             await db.SaveCharacterSlotAsync(oldUser, CharlieCharlieson(), 1);
+            await db.SaveSelectedCharacterIndexAsync(oldUser, 1);
             await db.InitPrefsAsync(newUser, new HumanoidCharacterProfile());
             var (server, _) = await db.AddOrGetServer("migration-test");
             var roundId = await db.AddNewRound(server, oldUser.UserId, newUser.UserId);
@@ -307,7 +308,7 @@ namespace Content.IntegrationTests.Tests.Preferences
             var migratedPrefs = (await db.GetPlayerPreferencesAsync(newUser))!;
             Assert.That(migratedPrefs.Characters, Has.Count.EqualTo(3));
             Assert.That(migratedPrefs.Characters.Keys, Is.EquivalentTo(new[] { 0, 1, 2 }));
-            Assert.That(migratedPrefs.SelectedCharacterIndex, Is.EqualTo(0));
+            Assert.That(migratedPrefs.SelectedCharacterIndex, Is.EqualTo(2));
             Assert.That(await db.GetWhitelistStatusAsync(oldUser), Is.False);
             Assert.That(await db.GetWhitelistStatusAsync(newUser), Is.True);
 
@@ -350,6 +351,11 @@ namespace Content.IntegrationTests.Tests.Preferences
             var secondApply = await db.ApplyUserIdMigrationAsync(oldUser.UserId, newUser.UserId);
             Assert.That(secondApply.Applied, Is.False);
             Assert.That(secondApply.HasOldData, Is.False);
+
+            var loginAfterFullApply = await db.ApplyUserIdLoginMigrationAsync(oldUser.UserId, newUser.UserId);
+            Assert.That(loginAfterFullApply.Applied, Is.False);
+            Assert.That(loginAfterFullApply.AlreadyProcessed, Is.True);
+            Assert.That(loginAfterFullApply.Tables, Is.Empty);
 
             var playTimesAfterSecondApply = await db.GetPlayTimes(newUser.UserId, CancellationToken.None);
             Assert.That(playTimesAfterSecondApply.Single(p => p.Tracker == "Overall").TimeSpent, Is.EqualTo(TimeSpan.FromMinutes(15)));
@@ -443,7 +449,106 @@ namespace Content.IntegrationTests.Tests.Preferences
 
             var secondApply = await db.ApplyUserIdLoginMigrationAsync(oldUser.UserId, newUser.UserId);
             Assert.That(secondApply.Applied, Is.False);
+            Assert.That(secondApply.AlreadyProcessed, Is.True);
             Assert.That(secondApply.HasOldData, Is.False);
+            Assert.That(secondApply.Tables, Is.Empty);
+
+            var playerOnlyOldUser = new NetUserId(new Guid("6fb15a31-ae1c-4219-a831-67397a5c4589"));
+            var playerOnlyNewUser = new NetUserId(new Guid("45e3f75d-baca-47c6-96fa-e1635bb46b6f"));
+            await db.UpdatePlayerRecord(playerOnlyOldUser, "PlayerOnlyOld", IPAddress.Loopback, null);
+
+            var playerOnlyApply = await db.ApplyUserIdLoginMigrationAsync(playerOnlyOldUser.UserId, playerOnlyNewUser.UserId);
+            Assert.That(playerOnlyApply.Applied, Is.True);
+            Assert.That(await db.GetPlayerRecordByUserId(playerOnlyOldUser, CancellationToken.None), Is.Not.Null);
+            Assert.That(await db.GetPlayerRecordByUserId(playerOnlyNewUser, CancellationToken.None), Is.Not.Null);
+
+            var secondPlayerOnlyApply = await db.ApplyUserIdLoginMigrationAsync(playerOnlyOldUser.UserId, playerOnlyNewUser.UserId);
+            Assert.That(secondPlayerOnlyApply.AlreadyProcessed, Is.True);
+            Assert.That(secondPlayerOnlyApply.Tables, Is.Empty);
+
+            var lateOldUser = new NetUserId(new Guid("6ecf2cde-a60a-4d4a-8298-75c128785019"));
+            var lateNewUser = new NetUserId(new Guid("26c6c619-ea4a-47b9-a057-255b787a11b1"));
+
+            var noOpApply = await db.ApplyUserIdLoginMigrationAsync(lateOldUser.UserId, lateNewUser.UserId);
+            Assert.That(noOpApply.Applied, Is.False);
+            Assert.That(noOpApply.AlreadyProcessed, Is.False);
+            Assert.That(noOpApply.HasOldData, Is.False);
+
+            var secondNoOpApply = await db.ApplyUserIdLoginMigrationAsync(lateOldUser.UserId, lateNewUser.UserId);
+            Assert.That(secondNoOpApply.AlreadyProcessed, Is.True);
+            Assert.That(secondNoOpApply.Tables, Is.Empty);
+
+            var latePlayerOnlyOldUser = new NetUserId(new Guid("834fba99-8906-44cd-9e31-0aa3c34cbf7e"));
+            var latePlayerOnlyNewUser = new NetUserId(new Guid("8d6cbe44-8309-4f22-bf7a-1650da62b68b"));
+            var latePlayerOnlyNoOp = await db.ApplyUserIdLoginMigrationAsync(latePlayerOnlyOldUser.UserId, latePlayerOnlyNewUser.UserId);
+            Assert.That(latePlayerOnlyNoOp.HasOldData, Is.False);
+            var latePlayerOnlyProcessed = await db.ApplyUserIdLoginMigrationAsync(latePlayerOnlyOldUser.UserId, latePlayerOnlyNewUser.UserId);
+            Assert.That(latePlayerOnlyProcessed.AlreadyProcessed, Is.True);
+
+            await Task.Delay(10);
+            await db.UpdatePlayerRecord(latePlayerOnlyOldUser, "LatePlayerOnlyOld", IPAddress.Loopback, null);
+
+            var latePlayerOnlyApply = await db.ApplyUserIdLoginMigrationAsync(latePlayerOnlyOldUser.UserId, latePlayerOnlyNewUser.UserId);
+            Assert.That(latePlayerOnlyApply.Applied, Is.True);
+            Assert.That(await db.GetPlayerRecordByUserId(latePlayerOnlyNewUser, CancellationToken.None), Is.Not.Null);
+
+            await db.UpdatePlayerRecord(lateOldUser, "LateOld", IPAddress.Loopback, null);
+            await db.InitPrefsAsync(lateOldUser, CharlieCharlieson());
+
+            var lateApply = await db.ApplyUserIdLoginMigrationAsync(lateOldUser.UserId, lateNewUser.UserId);
+            Assert.That(lateApply.Applied, Is.True);
+            Assert.That(await db.GetPlayerPreferencesAsync(lateOldUser), Is.Null);
+            Assert.That(await db.GetPlayerPreferencesAsync(lateNewUser), Is.Not.Null);
+
+            await db.UpdatePlayTimes([
+                new PlayTimeUpdate(lateOldUser, "Overall", TimeSpan.FromMinutes(3)),
+            ]);
+
+            var lateTailApply = await db.ApplyUserIdLoginMigrationAsync(lateOldUser.UserId, lateNewUser.UserId);
+            Assert.That(lateTailApply.Applied, Is.True);
+            Assert.That(lateTailApply.AlreadyProcessed, Is.False);
+            Assert.That(await db.GetPlayTimes(lateOldUser.UserId, CancellationToken.None), Is.Empty);
+            Assert.That((await db.GetPlayTimes(lateNewUser.UserId, CancellationToken.None)).Single().TimeSpent, Is.EqualTo(TimeSpan.FromMinutes(3)));
+
+            var lateAlreadyProcessed = await db.ApplyUserIdLoginMigrationAsync(lateOldUser.UserId, lateNewUser.UserId);
+            Assert.That(lateAlreadyProcessed.AlreadyProcessed, Is.True);
+
+            var concurrentOldUser = new NetUserId(new Guid("a5b691ea-c2a5-407f-bd3a-358c6052fbb4"));
+            var concurrentNewUser = new NetUserId(new Guid("a9f74e46-a7b7-4578-85f5-f1f6342e3c1c"));
+            await db.UpdatePlayerRecord(concurrentOldUser, "ConcurrentOld", IPAddress.Loopback, null);
+            await db.InitPrefsAsync(concurrentOldUser, CharlieCharlieson());
+            await db.UpdatePlayTimes([
+                new PlayTimeUpdate(concurrentOldUser, "Overall", TimeSpan.FromMinutes(11)),
+            ]);
+
+            var concurrentApplies = await Task.WhenAll(
+                db.ApplyUserIdLoginMigrationAsync(concurrentOldUser.UserId, concurrentNewUser.UserId),
+                db.ApplyUserIdLoginMigrationAsync(concurrentOldUser.UserId, concurrentNewUser.UserId));
+
+            Assert.That(concurrentApplies.Count(report => report.Applied), Is.EqualTo(1));
+            Assert.That(concurrentApplies.Count(report => report.AlreadyProcessed), Is.EqualTo(1));
+            Assert.That(await db.GetPlayerPreferencesAsync(concurrentOldUser), Is.Null);
+            Assert.That(await db.GetPlayerPreferencesAsync(concurrentNewUser), Is.Not.Null);
+            Assert.That((await db.GetPlayTimes(concurrentNewUser.UserId, CancellationToken.None)).Single().TimeSpent, Is.EqualTo(TimeSpan.FromMinutes(11)));
+            Assert.That(await db.GetPlayTimes(concurrentOldUser.UserId, CancellationToken.None), Is.Empty);
+
+            var conflictOldUser = new NetUserId(new Guid("d9904208-33ce-41e3-98bf-029cba40ebda"));
+            await db.UpdatePlayerRecord(conflictOldUser, "ConflictOld", IPAddress.Loopback, null);
+            await db.InitPrefsAsync(conflictOldUser, CharlieCharlieson());
+
+            var conflictApply = await db.ApplyUserIdLoginMigrationAsync(conflictOldUser.UserId, concurrentNewUser.UserId);
+            Assert.That(conflictApply.CanApply, Is.False);
+            Assert.That(conflictApply.Errors.Single(), Does.Contain("conflicts with already processed migration"));
+            Assert.That(await db.GetPlayerPreferencesAsync(conflictOldUser), Is.Not.Null);
+
+            var reverseConflictApply = await db.ApplyUserIdLoginMigrationAsync(concurrentNewUser.UserId, concurrentOldUser.UserId);
+            Assert.That(reverseConflictApply.CanApply, Is.False);
+            Assert.That(reverseConflictApply.Errors.Single(), Does.Contain("conflicts with already processed migration"));
+
+            var chainedNewUser = new NetUserId(new Guid("7b174ef3-9bd1-4952-8f5c-d6c12515e07d"));
+            var chainedConflictApply = await db.ApplyUserIdLoginMigrationAsync(concurrentNewUser.UserId, chainedNewUser.UserId);
+            Assert.That(chainedConflictApply.CanApply, Is.False);
+            Assert.That(chainedConflictApply.Errors.Single(), Does.Contain("conflicts with already processed migration"));
 
             await pair.CleanReturnAsync();
         }

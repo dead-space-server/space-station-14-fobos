@@ -229,6 +229,22 @@ public abstract partial class SharedGunSystem : EntitySystem
         DirtyField(ent.AsNullable(), nameof(GunComponent.ShotCounter));
     }
 
+    // DS14-start
+    /// <summary>
+    /// Stops every continuation after a deliberately single execution shot.
+    /// </summary>
+    public void StopExecutionShooting(Entity<GunComponent> ent)
+    {
+        StopShooting(ent);
+        ent.Comp.BurstActivated = false;
+        ent.Comp.BurstShotsCount = 0;
+        ent.Comp.ShotCounter = 0;
+        ent.Comp.ShootCoordinates = null;
+        ent.Comp.Target = null;
+        Dirty(ent);
+    }
+    // DS14-end
+
     /// <summary>
     /// Attempts to shoot at the target coordinates. Resets the shot counter after every shot.
     /// </summary>

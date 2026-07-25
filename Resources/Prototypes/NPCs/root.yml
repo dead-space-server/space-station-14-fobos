@@ -7,7 +7,7 @@
     - tasks:
         - !type:HTNPrimitiveTask
           operator: !type:UtilityOperator
-            proto: NearbyGunTargets
+            proto: NearbyTurretGunTargets # DS14
         
         - !type:HTNPrimitiveTask
           preconditions:
@@ -23,10 +23,11 @@
           operator: !type:GunOperator
             targetKey: Target
             requireLOS: true
+            targetState: PreCritical # DS14
           services:
             - !type:UtilityService
               id: RangedService
-              proto: NearbyGunTargets
+              proto: NearbyTurretGunTargets # DS14
               key: Target
 
     - tasks:
@@ -39,7 +40,7 @@
     - tasks:
         - !type:HTNPrimitiveTask
           operator: !type:UtilityOperator
-            proto: NearbyGunTargets
+            proto: NearbyTurretGunTargets # DS14
         
         - !type:HTNPrimitiveTask
           preconditions:
@@ -56,10 +57,11 @@
           operator: !type:GunOperator
             targetKey: Target
             opaqueKey: true
+            targetState: Critical # DS14
           services:
             - !type:UtilityService
               id: RangedService
-              proto: NearbyGunTargets
+              proto: NearbyTurretGunTargets # DS14
               key: Target
 
     - tasks:

@@ -16,6 +16,10 @@ public sealed partial class ToggleableClothingComponent : Component
 {
     public const string DefaultClothingContainerId = "toggleable-clothing";
 
+    // DS14-start
+    public const string DefaultStoredClothingContainerId = "toggleable-clothing-stored";
+    // DS14-end
+
     /// <summary>
     ///     Action used to toggle the clothing on or off.
     /// </summary>
@@ -53,6 +57,21 @@ public sealed partial class ToggleableClothingComponent : Component
     [ViewVariables]
     public ContainerSlot? Container;
 
+    // DS14-start
+    /// <summary>
+    ///     Whether an item already occupying <see cref="Slot"/> should be temporarily stored while the attached
+    ///     clothing is equipped.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool StoreExistingItem;
+
+    /// <summary>
+    ///     Container used to hold the displaced clothing while the attached clothing is equipped.
+    /// </summary>
+    [ViewVariables]
+    public ContainerSlot? StoredClothingContainer;
+    // DS14-end
+
     /// <summary>
     ///     The Id of the piece of clothing that belongs to this component. Required for map-saving if the clothing is
     ///     currently not inside of the container.
@@ -81,3 +100,10 @@ public sealed partial class ToggleableClothingComponent : Component
     [DataField, AutoNetworkedField]
     public string? VerbText;
 }
+
+// DS14
+/// <summary>
+/// Prevents this headwear from being temporarily hidden under attached toggleable clothing.
+/// </summary>
+[RegisterComponent, NetworkedComponent]
+public sealed partial class ToggleableClothingStorageBlockerComponent : Component;

@@ -9,6 +9,10 @@
     state: icon_alt
   - type: Clothing
     equippedPrefix: alt
+  #DS14-Start
+  - type: FlashbangProtection
+    reduction: 2
+  #DS14-End
 
 - type: entity
   parent: ClothingHeadsetAlt

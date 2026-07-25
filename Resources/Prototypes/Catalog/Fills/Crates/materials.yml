@@ -114,6 +114,30 @@
     contents:
       - id: MaterialCardboard
         amount: 3
+# DS-14-start
+- type: entity
+  parent: CrateGenericSteel
+  id: CrateMaterialPlastitanium
+  name: ящик пластитана
+  description: 90 листов пластитана.
+  components:
+  - type: StorageFill
+    contents:
+      - id: SheetPlastitanium
+        amount: 3
+
+- type: entity
+  parent: CrateGenericSteel
+  id: CrateMaterialTitanium
+  name: ящик титана
+  description: 90 листов титана.
+  components:
+  - type: StorageFill
+    contents:
+      - id: SheetTitanium
+        amount: 3
+
+# DS-14-end
 
 - type: entity
   parent: CrateGenericSteel

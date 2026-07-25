@@ -1,5 +1,8 @@
 using Content.Shared.Access;
 using Content.Shared.Access.Systems;
+using Content.Shared.NPC.Components;
+using Content.Shared.NPC.Prototypes;
+using Content.Shared.Weapons.Ranged.Components;
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
 
@@ -16,6 +19,11 @@ public sealed partial class TurretTargetSettingsSystem : EntitySystem
 
     private ProtoId<AccessLevelPrototype> _accessLevelBorg = "Borg";
     private ProtoId<AccessLevelPrototype> _accessLevelBasicSilicon = "BasicSilicon";
+
+    // DS14-start
+    private static readonly ProtoId<NpcFactionPrototype> NanoTrasenFaction = "NanoTrasen";
+    private static readonly ProtoId<NpcFactionPrototype> CentralCommandFaction = "CentralCommand";
+    // DS14-end
 
     /// <summary>
     /// Adds or removes access levels from a <see cref="TurretTargetSettingsComponent.ExemptAccessLevels"/> list.
@@ -119,6 +127,13 @@ public sealed partial class TurretTargetSettingsSystem : EntitySystem
     [PublicAPI]
     public bool EntityIsTargetForTurret(Entity<TurretTargetSettingsComponent> ent, EntityUid target)
     {
+        // DS14-start
+        if (HasComp<GunComponent>(target) &&
+            TryComp<TurretTargetSettingsComponent>(target, out var targetSettings) &&
+            TurretsAreFriendly(ent, (target, targetSettings)))
+            return false;
+        // DS14-end
+
         var accessLevels = _accessReader.FindAccessTags(target);
 
         if (accessLevels.Contains(_accessLevelBorg))
@@ -129,4 +144,30 @@ public sealed partial class TurretTargetSettingsSystem : EntitySystem
 
         return !HasAnyAccessLevelExemption(ent, accessLevels);
     }
+
+    // DS14-start
+    private bool TurretsAreFriendly(
+        Entity<TurretTargetSettingsComponent> source,
+        Entity<TurretTargetSettingsComponent> target)
+    {
+        TryComp<NpcFactionMemberComponent>(source, out var sourceFactionMember);
+        TryComp<NpcFactionMemberComponent>(target, out var targetFactionMember);
+
+        var sourceFactions = source.Comp.TurretFactions.Count > 0
+            ? source.Comp.TurretFactions
+            : sourceFactionMember?.Factions;
+        var targetFactions = target.Comp.TurretFactions.Count > 0
+            ? target.Comp.TurretFactions
+            : targetFactionMember?.Factions;
+
+        if (sourceFactions == null || targetFactions == null)
+            return false;
+
+        if (sourceFactions.Overlaps(targetFactions))
+            return true;
+
+        return (sourceFactions.Contains(NanoTrasenFaction) && targetFactions.Contains(CentralCommandFaction)) ||
+               (sourceFactions.Contains(CentralCommandFaction) && targetFactions.Contains(NanoTrasenFaction));
+    }
+    // DS14-end
 }

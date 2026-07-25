@@ -101,7 +101,7 @@
   parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitN0rthAir
   name: скафандр Vitezstvi MK5
-  description: Разработан корпорацией Vitezstvi в 2678 году и стал стандартом военной экиперовки корпорации. Странно почему-то серийные номера перебиты на корпорацию Nanotrasen...
+  description: Разработан корпорацией Vitezstvi в 2678 году и стал стандартом военной экиперовки корпорации. Странно почему-то серийные номера перебиты на корпорацию NanoTrasen...
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite

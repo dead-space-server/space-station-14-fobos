@@ -1,0 +1,7 @@
+- type: construction
+  id: ObeliskNonReal
+  graph: ObeliskNonReal
+  startNode: start
+  targetNode: obeliskNonReal
+  category: construction-category-structures
+  objectType: Structure

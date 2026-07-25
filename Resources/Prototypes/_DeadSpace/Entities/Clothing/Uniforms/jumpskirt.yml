@@ -150,3 +150,26 @@
     sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/cargo_jumpskirt.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/cargo_jumpskirt.rsi
+
+# Captain
+- type: entity
+  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtCaptainWhite
+  name: белая юбка-комбинезон капитана
+  description: Элегантная белая юбка-комбинезон с золотыми нашивками. Стоит ли марать её в крови?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/captain_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/captain_white.rsi
+
+- type: entity
+  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtCaptainBlack
+  name: чёрная юбка-комбинезон капитана
+  description: Элегантная чёрная юбка-комбинезон с золотыми нашивками. Иногда нужно напоминать о своей власти.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/captain_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/captain_black.rsi

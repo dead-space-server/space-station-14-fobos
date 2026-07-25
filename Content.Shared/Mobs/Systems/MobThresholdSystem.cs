@@ -300,6 +300,23 @@ public sealed class MobThresholdSystem : EntitySystem
         VerifyThresholds(target, threshold);
     }
 
+    // DS14-start
+    /// <summary>
+    /// Replaces every mob state threshold at once.
+    /// </summary>
+    public void SetMobStateThresholds(EntityUid target,
+        SortedDictionary<FixedPoint2, MobState> thresholds,
+        MobThresholdsComponent? component = null)
+    {
+        if (!Resolve(target, ref component))
+            return;
+
+        component.Thresholds = thresholds;
+        Dirty(target, component);
+        VerifyThresholds(target, component);
+    }
+    // DS14-end
+
     /// <summary>
     /// Checks to see if we should change states based on thresholds.
     /// Call this if you change the amount of damagable without triggering a damageChangedEvent or if you change
@@ -329,6 +346,19 @@ public sealed class MobThresholdSystem : EntitySystem
         Dirty(uid, component);
         VerifyThresholds(uid, component);
     }
+
+    // DS14-start
+    public void SetCurrentThresholdState(EntityUid uid,
+        MobState state,
+        MobThresholdsComponent? component = null)
+    {
+        if (!Resolve(uid, ref component) || component.CurrentThresholdState == state)
+            return;
+
+        component.CurrentThresholdState = state;
+        Dirty(uid, component);
+    }
+    // DS14-end
 
     #endregion
 
