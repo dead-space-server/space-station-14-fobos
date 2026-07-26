@@ -29306,7 +29306,7 @@ entities:
       playLandSound: True
       landTime: 3266.3834129
       thrownTime: 3266.330067
-      thrower: invalid
+      thrower: null
   - uid: 9
     components:
     - type: Transform
@@ -45937,7 +45937,7 @@ entities:
       activateSound: !type:SoundPathSpecifier
         path: /Audio/_DeadSpace/NightVision/pnv.ogg
       color: '#AFC4D111'
-      actionToggleNightVisionEntity: invalid
+      actionToggleNightVisionEntity: null
     - type: ActionsContainer
     - type: Actions
       actions:
@@ -45999,7 +45999,7 @@ entities:
       activateSound: !type:SoundPathSpecifier
         path: /Audio/_DeadSpace/NightVision/pnv.ogg
       color: '#1AE61A11'
-      actionToggleNightVisionEntity: invalid
+      actionToggleNightVisionEntity: null
     - type: ActionsContainer
     - type: Actions
       actions: []

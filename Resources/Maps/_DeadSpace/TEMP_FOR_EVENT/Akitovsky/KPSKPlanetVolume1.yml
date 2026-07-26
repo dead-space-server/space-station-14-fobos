@@ -56417,11 +56417,7 @@ entities:
         entity_storage: !type:Container
           showEnts: False
           occludes: True
-          ents:
-          - invalid
-          - invalid
-          - invalid
-          - invalid
+          ents: []
         paper_label: !type:ContainerSlot
           showEnts: False
           occludes: True
@@ -97704,8 +97700,6 @@ entities:
           ents:
           - 1186
           - 1188
-          - invalid
-          - invalid
           - 1187
           - 1189
         paper_label: !type:ContainerSlot
@@ -97736,8 +97730,6 @@ entities:
           - 8493
           - 8492
           - 8490
-          - invalid
-          - invalid
           - 8491
         paper_label: !type:ContainerSlot
           showEnts: False
@@ -97763,9 +97755,7 @@ entities:
           occludes: True
           ents:
           - 8496
-          - invalid
           - 8495
-          - invalid
           - 8497
         paper_label: !type:ContainerSlot
           showEnts: False
