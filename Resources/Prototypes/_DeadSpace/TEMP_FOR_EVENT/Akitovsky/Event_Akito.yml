@@ -3536,7 +3536,7 @@
 
 # Авиаудар
 - type: entity
-  parent: CollideFloorTrap
+  parent: AdminInstantEffectBase
   id: ExplosionAirstrikeAki
   name: Авиаудар
   suffix: Akitovsky, МГНОВЕННЫЙ ЭФФЕКТ
