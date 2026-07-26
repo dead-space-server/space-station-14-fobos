@@ -198,11 +198,11 @@
     transitionSpeed: 100
   - type: IntrinsicRadioReceiver
   - type: IntrinsicRadioTransmitter
-      channels:
-      - CarpDragonChannel
+    channels:
+    - CarpDragonChannel
   - type: ActiveRadio
-      channels:
-      - CarpDragonChannel
+    channels:
+    - CarpDragonChannel
 
 - type: entity
   parent: BaseMobMiniDragon
