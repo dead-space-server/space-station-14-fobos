@@ -41,7 +41,7 @@
     damage:
       types:
         Slash: 20
-        Pierce: 20
+        Piercing: 20
         Structural: 50
   - type: MobThresholds
     thresholds:
@@ -71,9 +71,10 @@
     description: Громоздкий  и опасный медведь, которого не стоит провоцировать. 
     rules: ghost-role-information-nonantagonist-rules
     mindRoles:
-    - MindRoleGhostRoleTeamAntagonist
+    - MindRoleGhostRoleNeutral
     raffle:
       settings: short
+  - type: GhostTakeoverAvailable
 
 - type: entity
   name: полярный медведь
@@ -120,7 +121,7 @@
     damage:
       types:
         Slash: 22
-        Pierce: 22
+        Piercing: 22
         Structural: 55
   - type: MobThresholds
     thresholds:
@@ -152,6 +153,7 @@
     description: Громоздкий  и опасный полярный медведь, абсолютный хищник в своей биосфере. 
     rules: ghost-role-information-nonantagonist-rules
     mindRoles:
-    - MindRoleGhostRoleTeamAntagonist
+    - MindRoleGhostRoleNeutral
     raffle:
       settings: short
+  - type: GhostTakeoverAvailable
