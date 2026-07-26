@@ -54,21 +54,16 @@ public sealed class LogWindowTest : InteractionTest
             await Client.WaitPost(() => search.Text = searchGuid.ToString());
             await ClickControl(refresh);
 
-            AdminLogLabel[] searchResult = [];
-            for (var i = 0; i < 60; i++)
-            {
-                searchResult = cont.Children
-                    .Where(x => x.Visible && x is AdminLogLabel)
-                    .Cast<AdminLogLabel>()
-                    .ToArray();
+            // DS14-start
+            // The server query is asynchronous, so fixed client ticks can race with an older refresh response.
+            await Pair.RunUntilSynced();
+            await RunTicks(10);
 
-                if (searchResult.Length == 1)
-                    return searchResult;
-
-                await RunTicks(1);
-            }
-
-            return searchResult;
+            return cont.Children
+                .Where(x => x.Visible && x is AdminLogLabel)
+                .Cast<AdminLogLabel>()
+                .ToArray();
+            // DS14-end
         }
     }
 }
