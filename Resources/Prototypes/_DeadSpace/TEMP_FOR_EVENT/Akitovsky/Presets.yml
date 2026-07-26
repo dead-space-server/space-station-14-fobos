@@ -955,7 +955,7 @@
     pocket1: RMCPouchMagazineAki
     pocket2: RMCPouchMedicalSocAki
   inhand:
-    - BookFSCP
+    - BookFSCPAki
   storage:
     back:
     - MagazineBox556x45AP
@@ -1052,7 +1052,7 @@
     pocket1: RMCPouchMagazineAki
     pocket2: RMCPouchMedicalSocAki
   inhand:
-    - BookFSCP
+    - BookFSCPAki
   storage:
     back:
     - CrowbarRed
@@ -1158,7 +1158,7 @@
     pocket1: RMCPouchMagazineAki
     pocket2: RMCPouchGeneralAki
   inhand:
-    - BookFSCP
+    - BookFSCPAki
   storage:
     back:
     - CrowbarRed
@@ -1244,7 +1244,7 @@
     suitstorage: WeaponRifleAk
     pocket2: RMCPouchGeneralAki
   inhand:
-    - BookFSCP
+    - BookFSCPAki
   storage:
     back:
     - CrowbarRed

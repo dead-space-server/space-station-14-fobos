@@ -663,6 +663,62 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
+# Синий фаер
+- type: entity
+  parent: Flare
+  id: RMCFlareC18Aki
+  name: C18 флаер
+  suffix: Akitovsky
+  description: Фальшфейер для корректировки поддержки с воздуха. Противник же не отбросит его в вас? Горит всего минуту.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/flares.rsi
+    layers:
+      - map: [ "enum.ExpendableLightVisualLayers.Base" ]
+        state: flare
+      - map: [ "enum.ExpendableLightVisualLayers.Glow" ]
+        state: flare_flame
+        color: "#155FFF"
+        visible: false
+      - map: [ "enum.ExpendableLightVisualLayers.Overlay" ]
+        state: overlay
+  - type: PointLight
+    enabled: false
+    color: "#8EACED"
+    radius: 1
+    energy: 5.0
+    netsync: false
+  - type: ExpendableLight
+    glowDuration: 60
+    fadeOutDuration: 15
+    iconStateOn: flare_unlit
+    iconStateSpent: flare_spent
+    turnOnBehaviourID: turn_on
+    fadeOutBehaviourID: fade_out
+    litSound:
+      path: /Audio/Items/Flare/flare_on.ogg
+    loopedSound:
+      path: /Audio/Items/Flare/flare_burn.ogg
+      params:
+        loop: true
+        volume: -10
+        maxDistance: 5
+
+- type: entity
+  name: коробка синих флаеров
+  parent: BoxCardboard
+  id: BoxRMCFlareC18Aki
+  description: Коробка фальшфейеров. Время зажигать.
+  suffix: Akitovsky
+  components:
+  - type: StorageFill
+    contents:
+      - id: RMCFlareC18Aki
+        amount: 8
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/box.rsi
+    layers:
+      - state: box_blue_flare
 
 # Боевые медипены
 - type: entity
@@ -1799,10 +1855,10 @@
   components:
   - type: CursorOffsetRequiresWield
   - type: EyeCursorOffset
-    maxOffset: 10
+    maxOffset: 4
     pvsIncrease: 0.1
 
-## РШ-12
+# РШ-12
 - type: entity
   parent: WeaponRevolverRSh12
   id: WeaponRevolverRSh12Aki
@@ -1823,6 +1879,80 @@
     proto: BulletRSh12Aki
     capacity: 5
     count: 5
+  - type: EmitEmoteOnUse
+    emote: SpiningAki
+  - type: UseDelay
+    delay: 5
+
+- type: emote
+  id: SpiningAki
+  name: chat-emote-name-spiningaki
+  chatMessages: ["chat-emote-msg-spiningaki"]
+
+- type: entity
+  name: M5-ATL
+  parent: [ BaseWeaponLauncher, BaseMajorContraband ]
+  id: WeaponLauncherRocketM5ATLAki
+  description: Противотанковый гранатомет M5 — мощное противотанковое оружие пехоты, обычно состоящее на вооружении КМП США. Используемый для поражения легких танков и вражеских сооружений, M5-ATL является опасным оружием с разнообразным боевым применением, в зависимости от заряда боеприпасов.                                                                   У этого сильно повреждена умная оптика, что значительно ограничивает его дальность...
+  suffix: Akitovsky, Оружие
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/m5atl_icon.rsi
+    layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/m5atl_inhands.rsi
+    slots:
+    - Back
+    - suitStorage
+  - type: Item
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/m5atl_inhands.rsi
+  - type: Gun
+    fireRate: 0.5
+    soundGunshot:
+      path: /Audio/_DeadSpace/TEMP_FOR_EVENT/Akitovsky/sfx/m5_shoot.ogg
+  - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+        - RMCRocketAmmo84mm
+    proto: CartridgeRocket84mmHEAki
+    capacity: 1
+    soundInsert:
+      path: /Audio/Weapons/Guns/MagIn/batrifle_magin.ogg
+  - type: Appearance
+  - type: UseDelay
+    delay: 2
+
+- type: entity
+  parent: [BaseItem, BaseMajorContraband]
+  id: CartridgeRocket84mmHEAki
+  name: 84-мм фугасная ракета
+  description: Ракетная труба, совместимая с M5-ATL, заряженная боеголовкой HE. Наносит большой урон мягким целям при прямом попадании и задевает другие цели в зоне шириной 5 метров. Снижает эффект по тяжелобронированным целям.
+  suffix: Akitovsky
+  components:
+  - type: Tag
+    tags:
+      - RMCRocketAmmo84mm
+  - type: Item
+    size: Small
+  - type: CartridgeAmmo
+    proto: BulletRocket
+    deleteOnSpawn: true
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/m5spec.rsi
+    state: m5_84mm_he
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_drop.ogg
+  #DS14-End
 
 # Иконки работ
 - type: jobIcon
@@ -2124,7 +2254,82 @@
         density: 1000
   - type: Occluder
 
+# Вышка связи
+- type: entity
+  parent: BaseStructure
+  id: RMCCommunicationsTowerDishDestroyedAki
+  name: телекоммуникационная вышка TC-3T
+  description: Статическая усиленная телекоммуникационная вышка TC-3T. Используется для настройки линий подпространственной связи между планетарными и внепланетарными локациями.
+  suffix: Akitovsky, Маппинг
+  components:
+  - type: Transform
+    anchored: true
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "0.17,0.17,0.83,0.83"
+        density: 200
+        mask:
+        - MobLayer
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/communications_tower_dish.rsi
+    offset: 0.5, 1.5
+    layers:
+    - state: comm_tower_broken
+      map: [ "base" ]
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 400
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+          params:
+            volume: -6
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 3
+            max: 5
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: PlacementReplacement
+    key: lights
+  - type: Speech
+  - type: TTS
+    voice: Overwatch
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - EventNTDelta8
+    - EventNTDelta6
+  - type: ActiveRadio
+    channels:
+    - EventNTDelta8
+    - EventNTDelta6
+  - type: IntrinsicRadioReceiver
 
+- type: entity
+  parent: RMCCommunicationsTowerDishDestroyedAki
+  id: RMCCommunicationsTowerDishAki
+  suffix: Akitovsky, Маппинг
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/communications_tower_dish.rsi
+    layers:
+    - state: comm_tower
+      map: [ "base" ]
 
 # Мешки с песком
 - type: entity
@@ -3308,7 +3513,57 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
 
+# Параллакс
+- type: parallax
+  id: SandAki
+  layers:
+    - texture:
+        !type:ImageParallaxTextureSource
+        path: "/Textures/Tiles/Planet/Desert/desert.png"
+      slowness: 0
+      scrolling: "0, 0"
+      tiled: true
+      shader: ""
+  layersLQ:
+    - texture:
+        !type:ImageParallaxTextureSource
+        path: "/Textures/Tiles/Planet/Desert/desert.png"
+      slowness: 0
+      scrolling: "-0, 0"
+      tiled: true
+      shader: ""
+  layersLQUseHQ: false
+
+# Авиаудар
+- type: entity
+  parent: CollideFloorTrap
+  id: ExplosionAirstrikeAki
+  name: Авиаудар
+  suffix: Akitovsky, МГНОВЕННЫЙ ЭФФЕКТ
+  components:
+    - type: TriggerOnSpawn
+    - type: ExplodeOnTrigger
+    - type: Explosive
+      explosionType: Default
+      totalIntensity: 20.0
+      intensitySlope: 5
+      maxIntensity: 4
+    - type: DeleteOnTrigger
+
 ################# КПСК
+# Книга НРП КПСК
+- type: entity
+  parent: BookFSCP
+  id: BookFSCPAki
+  name: устав штурмовой армии КПСК
+  description: Пропитана любовью к партии.
+  suffix: Akitovsky
+  components:
+    - type: Paper
+      content: book-text-FSCP-Aki
+    - type: TimedDespawn
+      lifetime: 120
+
 # Баннер революции
 - type: entity
   id: BannerVivaAki
@@ -3357,7 +3612,7 @@
         Piercing: 0.9
         Heat: 0.9
   - type: ExplosionResistance
-    damageCoefficient: 0.70
+    damageCoefficient: 0.6
   - type: GroupExamine
   - type: HideLayerClothing
     layers:
