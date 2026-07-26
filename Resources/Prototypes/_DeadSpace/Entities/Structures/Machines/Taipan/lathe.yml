@@ -180,11 +180,13 @@
     - MedicalBoards
     - TaipanServiceBoards
     - TaipanScienceBoards
+    - BlueprintRIGOneUse
     - TaipanMechBoards
     - TaipanShuttleBoards
     - SalvageSecurityBoards
     - SecurityBoards
     - TaipanCloning
+    - TaipanVirologyBoards
   - type: MaterialStorage
     whitelist:
       tags:

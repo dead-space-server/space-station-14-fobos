@@ -9,15 +9,9 @@
   - type: Sprite
     state: icon
   # DS14-start
-  - type: EmitSoundOnPickup
-    sound:
-      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_pickup.ogg
-  - type: EmitSoundOnDrop
-    sound:
-      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
-  - type: EmitSoundOnLand
-    sound:
-      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  - type: PhysicalComposition
+    materialComposition:
+      Cloth: 250
   # DS14-end
 
 - type: entity
@@ -168,6 +162,15 @@
   # DS14-start
   - type: VirusResistance
     virusResistanceCoefficient: 0.3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
   # DS14-end
 
 - type: entity
@@ -201,6 +204,17 @@
   - type: HideLayerClothing
     slots:
     - Tail
+  # DS14-start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  # DS14-end
 
 - type: entity
   parent: ClothingOuterBase
