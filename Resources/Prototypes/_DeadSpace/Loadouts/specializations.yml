@@ -795,7 +795,7 @@
     requirement:
       !type:RoleTimeRequirement
       role: JobDetective
-      time: 36ы000
+      time: 36000
 
 - type: loadoutGroup
   id: DetectiveSpecialization
