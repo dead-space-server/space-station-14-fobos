@@ -91,6 +91,7 @@
         type: Local
         visualType: Small
         messages: ["chloralhydrate-effect-eyes-closing"]
+        probability: 0.05
       # DS14-end
 
 - type: reagent
@@ -685,6 +686,7 @@
         type: Local
         visualType: Small
         messages: ["pax-effect-hands-bound"]
+        probability: 0.05
       # DS14-end
 
 - type: reagent

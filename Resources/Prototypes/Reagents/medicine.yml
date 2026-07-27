@@ -22,6 +22,7 @@
         type: Local
         visualType: Small
         messages: ["cryptobiolin-effect-dizzy"]
+        probability: 0.05
       # DS14-end
 
 - type: reagent
@@ -1439,6 +1440,7 @@
         type: Local
         visualType: Small
         messages: ["mannitol-effect-strain-relief"]
+        probability: 0.05
       # DS14-end
 
 - type: reagent
@@ -1489,6 +1491,7 @@
         type: Local
         visualType: Small
         messages: ["psicodine-effect-weight-off"]
+        probability: 0.05
       # DS14-end
 
 - type: reagent

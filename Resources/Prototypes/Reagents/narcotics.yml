@@ -281,6 +281,7 @@
         type: Local
         visualType: Small
         messages: ["impedrezene-effect-loss-control"]
+        probability: 0.05
       # DS14-end
 
 - type: reagent
@@ -303,6 +304,7 @@
         type: Local
         visualType: Small
         messages: ["spacedrugs-effect-eyes-burning"]
+        probability: 0.05
       # DS14-end
 
 - type: reagent
