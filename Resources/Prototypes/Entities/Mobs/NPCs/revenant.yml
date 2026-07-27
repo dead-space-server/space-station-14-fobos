@@ -26,6 +26,9 @@
     damageContainer: ManifestedSpirit
     damageModifierSet: ManifestedSpirit
   - type: NoSlip
+  - type: NpcFactionMember
+    factions:
+    - Revenant
   - type: Eye
     drawFov: false
     visMask:
