@@ -615,6 +615,23 @@ public abstract partial class SharedStationAiSystem : EntitySystem
         Dirty(ent);
     }
 
+    // DS14-start
+    public void SetVisionTileVisibility(Entity<StationAiVisionComponent> ent, float visibleTileChance, int seed)
+    {
+        visibleTileChance = Math.Clamp(visibleTileChance, 0f, 1f);
+
+        if (ent.Comp.VisibleTileChance == visibleTileChance &&
+            ent.Comp.VisibilitySeed == seed)
+        {
+            return;
+        }
+
+        ent.Comp.VisibleTileChance = visibleTileChance;
+        ent.Comp.VisibilitySeed = seed;
+        Dirty(ent);
+    }
+    // DS14-end
+
     public virtual bool SetWhitelistEnabled(Entity<StationAiWhitelistComponent> entity, bool value, bool announce = false)
     {
         if (entity.Comp.Enabled == value)
