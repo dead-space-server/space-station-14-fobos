@@ -4,8 +4,6 @@
   components:
   - type: TimedDespawn
     lifetime: 3
-  - type: Physics
-    canCollide: false
 
 - type: entity
   name: след блинка
