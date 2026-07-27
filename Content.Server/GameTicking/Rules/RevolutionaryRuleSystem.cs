@@ -1219,7 +1219,6 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         _pendingRosterSnapshots.Remove(args.Player);
         _pendingRosterClears.Remove(args.Player);
         _rosterViewers.Remove(args.Player);
-        RaiseNetworkEvent(new RevolutionaryRosterClearEvent(), args.Player);
     }
 
     private void OnShowAntagIconsStartup(
