@@ -104,6 +104,7 @@ public sealed partial class AntagSelectionSystem
         countOffset -= Math.Clamp(poolSize / def.PlayerRatio, def.Min, def.Max) * def.PlayerRatio;
 
         // DS14-start
+        // Additional slots are unconditional and intentionally excluded from countOffset.
         var baseCount = Math.Clamp((poolSize - countOffset) / def.PlayerRatio, def.Min, def.Max);
         return baseCount + Math.Max(def.AdditionalSlots, 0);
         // DS14-end
