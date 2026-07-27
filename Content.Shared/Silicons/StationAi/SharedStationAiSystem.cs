@@ -603,6 +603,18 @@ public abstract partial class SharedStationAiSystem : EntitySystem
         return true;
     }
 
+    public void SetVisionRange(Entity<StationAiVisionComponent> ent, float range) // DS14
+    {
+        ent.Comp.Range = range;
+        Dirty(ent);
+    }
+
+    public void SetVisionOccluded(Entity<StationAiVisionComponent> ent, bool occluded) // DS14
+    {
+        ent.Comp.Occluded = occluded;
+        Dirty(ent);
+    }
+
     public virtual bool SetWhitelistEnabled(Entity<StationAiWhitelistComponent> entity, bool value, bool announce = false)
     {
         if (entity.Comp.Enabled == value)
