@@ -53,9 +53,9 @@
   products:
     Synaptodol: 1
 
-# Barozin - Medicine
+# Barozine - Medicine
 - type: reaction
-  id: Barozin
+  id: Barozine
   minTemp: 450
   reactants:
     Leporazine:
@@ -65,7 +65,7 @@
     Bruizine:
       amount: 2
   products:
-    Barozin: 1
+    Barozine: 1
 
 # Fragmentin - Improved Phalanximine
 - type: reaction
@@ -108,8 +108,8 @@
   products:
     FriogeliyevaKislota: 1
   effects:
-  - !type:AdjustTemperature
-    amount: -50000
+  - !type:AdjustSolutionThermalEnergy
+    delta: -50000
 
 # Nociotoxin - Syndicate poison
 - type: reaction

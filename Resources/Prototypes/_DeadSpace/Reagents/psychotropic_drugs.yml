@@ -16,28 +16,31 @@
         - !type:ReagentCondition
           reagent: Sentidol
           min: 2.5
-          max: 5
+          max: 4.99
         type: Local
         visualType: Small
         messages: ["sentidol-effect-melancholy"]
+        probability: 0.2
       - !type:PopupMessage
         conditions:
         - !type:ReagentCondition
           reagent: Sentidol
           min: 5
-          max: 15
+          max: 14.99
         type: Local
         visualType: Small
         messages: ["sentidol-effect-relaxation"]
+        probability: 0.2
       - !type:PopupMessage
         conditions:
         - !type:ReagentCondition
           reagent: Sentidol
           min: 15
-          max: 20
+          max: 19.99
         type: Local
         visualType: Small
         messages: ["sentidol-effect-sleepy"]
+        probability: 0.2
       - !type:ModifyStatusEffect
         conditions:
         - !type:ReagentCondition
@@ -45,7 +48,7 @@
           min: 15
         effectProto: StatusEffectDrowsiness
         time: 4
-        type: Update
+        type: Add
       - !type:PopupMessage
         conditions:
         - !type:ReagentCondition
@@ -54,6 +57,7 @@
         type: Local
         visualType: MediumCaution
         messages: ["sentidol-effect-overdose"]
+        probability: 0.2
       - !type:Jitter
         conditions:
         - !type:ReagentCondition
@@ -86,71 +90,104 @@
         - !type:ReagentCondition
           reagent: Gliomorphin
           min: 5
-          max: 7
+          max: 6.99
         type: Local
         visualType: Small
         messages: ["gliomorphin-effect-haze"]
-      - !type:EyeDamage
+        probability: 0.2
+      - !type:GenericStatusEffect
         conditions:
         - !type:ReagentCondition
           reagent: Gliomorphin
           min: 5
-          max: 7
-        amount: 3
+          max: 6.99
+        key: TemporaryBlindness
+        component: TemporaryBlindness
+        time: 10
+        type: Update
       - !type:PopupMessage
         conditions:
         - !type:ReagentCondition
           reagent: Gliomorphin
           min: 7
-          max: 15
+          max: 14.99
         type: Local
         visualType: Small
         messages: ["gliomorphin-effect-numb"]
-      - !type:EyeDamage
+        probability: 0.2
+      - !type:GenericStatusEffect
         conditions:
         - !type:ReagentCondition
           reagent: Gliomorphin
           min: 7
-          max: 15
-        amount: 6
+          max: 14.99
+        key: TemporaryBlindness
+        component: TemporaryBlindness
+        time: 10
+        type: Update
       - !type:PopupMessage
         conditions:
         - !type:ReagentCondition
           reagent: Gliomorphin
           min: 15
-          max: 16
+          max: 15.99
         type: Local
         visualType: Small
         messages: ["gliomorphin-effect-pain"]
-      - !type:EyeDamage
+        probability: 0.2
+      - !type:GenericStatusEffect
         conditions:
         - !type:ReagentCondition
           reagent: Gliomorphin
           min: 15
-        amount: 9
+          max: 15.99
+        key: TemporaryBlindness
+        component: TemporaryBlindness
+        time: 15
+        type: Update
       - !type:PopupMessage
         conditions:
         - !type:ReagentCondition
           reagent: Gliomorphin
           min: 16
+          max: 20
         type: Local
         visualType: MediumCaution
         messages: ["gliomorphin-effect-rage"]
+        probability: 0.2
       - !type:GenericStatusEffect
         conditions:
         - !type:ReagentCondition
           reagent: Gliomorphin
           min: 16
+          max: 20
         key: TemporaryBlindness
         component: TemporaryBlindness
+        time: 15
+        type: Update
       - !type:Emote
+        conditions:
+        - !type:ReagentCondition
+          reagent: Gliomorphin
+          min: 16
+          max: 20
         emote: Scream
         showInChat: true
         probability: 0.1
       - !type:ModifyKnockdown
+        conditions:
+        - !type:ReagentCondition
+          reagent: Gliomorphin
+          min: 16
+          max: 20
         time: 2
         type: Remove
       - !type:ModifyParalysis
+        conditions:
+        - !type:ReagentCondition
+          reagent: Gliomorphin
+          min: 16
+          max: 20
         time: 2
         type: Remove
 
@@ -172,10 +209,11 @@
         - !type:ReagentCondition
           reagent: Illumidol
           min: 5
-          max: 10
+          max: 9.99
         type: Local
         visualType: Small
         messages: ["illumidol-effect-dizzy"]
+        probability: 0.2
       - !type:PopupMessage
         conditions:
         - !type:ReagentCondition
@@ -184,6 +222,7 @@
         type: Local
         visualType: Small
         messages: ["illumidol-effect-shake"]
+        probability: 0.2
       - !type:Jitter
         conditions:
         - !type:ReagentCondition
@@ -226,6 +265,7 @@
         type: Local
         visualType: Small
         messages: ["synaptodol-effect-headache"]
+        probability: 0.2
       - !type:ModifyStatusEffect
         conditions:
         - !type:ReagentCondition
@@ -241,42 +281,12 @@
           min: 20
       - !type:AdjustTemperature
         conditions:
+        - !type:ReagentCondition
+          reagent: Synaptodol
+          min: 10
         - !type:TemperatureCondition
           min: 170.15
         amount: -10000
-
-# Barozin - Medical
-- type: reagent
-  id: Barozin
-  name: reagent-name-barozin
-  group: Medicine
-  desc: reagent-desc-barozin
-  physicalDesc: reagent-physical-desc-viscous
-  flavor: medicine
-  color: "#ff867d"
-  metabolisms:
-    Medicine:
-      effects:
-      - !type:HealthChange
-        damage:
-          types:
-            Heat: -1
-      - !type:Jitter
-        conditions:
-        - !type:ReagentCondition
-          reagent: Barozin
-          min: 15
-      - !type:HealthChange
-        conditions:
-        - !type:ReagentCondition
-          reagent: Barozin
-          min: 25
-        damage:
-          types:
-            Poison: 2
-      - !type:GenericStatusEffect
-        key: PressureImmunity
-        component: PressureImmunity
 
 # Fragmentin - Improved Phalanximine
 - type: reagent
@@ -289,7 +299,7 @@
   color: "#73e65f"
   metabolisms:
     Medicine:
-      metabolismRate: 0.25
+      metabolismRate: 0.5
       effects:
       - !type:HealthChange
         damage:
@@ -310,7 +320,7 @@
           min: 15
         effectProto: StatusEffectSeeingRainbow
         time: 8
-        type: Add
+        type: Update
 
 # Actiradol - Cryogenic anti-radiation
 - type: reagent
@@ -324,18 +334,29 @@
   worksOnTheDead: true
   metabolisms:
     Medicine:
-      metabolismRate: 0.25
+      metabolismRate: 0.5
       effects:
       - !type:HealthChange
         conditions:
         - !type:TemperatureCondition
           max: 213.0
+        - !type:MobStateCondition
+          mobstate:
+          - Dead
         damage:
           types:
             Radiation: -3.5
       - !type:Jitter
+        conditions:
+        - !type:MobStateCondition
+          mobstate:
+          - Dead
         time: 2
       - !type:Jitter
+        conditions:
+        - !type:MobStateCondition
+          mobstate:
+          - Dead
         time: 2
         amplitude: 15
         frequency: 6
@@ -349,7 +370,7 @@
   physicalDesc: reagent-physical-desc-crystalline
   flavor: medicine
   color: "#81d4fa"
-  specificHeat: 0.1
+  specificHeat: 2.9
   boilingPoint: 100.0
   meltingPoint: 0.0
   worksOnTheDead: true
@@ -358,7 +379,10 @@
       methods: [ Touch ]
       effects:
       - !type:Extinguish
+        minScale: 5
       - !type:AdjustTemperature
+        minScale: 5
+        scaling: false
         amount: -15000
   metabolisms:
     Poison:
@@ -395,9 +419,13 @@
       metabolismRate: 0.25
       effects:
       - !type:ModifyStatusEffect
+        conditions:
+        - !type:ReagentCondition
+          reagent: Nociotoxin
+          min: 1
         effectProto: StatusEffectPainNumbness
         time: 2
-        type: Add
+        type: Update
       - !type:HealthChange
         conditions:
         - !type:MobStateCondition
