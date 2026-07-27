@@ -10,9 +10,23 @@ namespace Content.Shared.DeadSpace.Ninja.Components;
 /// Adds an action to dash, teleport to clicked position, when this item is held.
 /// Cancel <see cref="CheckDashEvent"/> to prevent using it.
 /// </summary>
-[RegisterComponent, NetworkedComponent, Access(typeof(DashAbilitySystem)), AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent, Access(typeof(SharedDashAbilitySystem)), AutoGenerateComponentState]
 public sealed partial class DashAbilityComponent : Component
 {
+    //DS14-start
+    [DataField]
+    public bool CorruptByBluespaceItems = false;
+
+    [DataField]
+    public float CorruptMaxDistance = 3f;
+
+    [DataField]
+    public float CorruptMinDistance = 1f;
+
+    [DataField]
+    public string? BeamProto;
+    //DS14-end
+
     /// <summary>
     /// The action id for dashing.
     /// </summary>

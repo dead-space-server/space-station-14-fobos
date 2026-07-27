@@ -7,13 +7,18 @@ using Content.Shared.Movement.Pulling.Systems;
 using Content.Shared.DeadSpace.Ninja.Components;
 using Content.Shared.Popups;
 using Content.Shared.Examine;
+using Robust.Shared.Random;
+using Content.Shared.Inventory;
+using Content.Shared.Tag;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Map;
 
 namespace Content.Shared.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Handles dashing logic including charge consumption and checking attempt events.
 /// </summary>
-public sealed class DashAbilitySystem : EntitySystem
+public abstract class SharedDashAbilitySystem : EntitySystem
 {
     [Dependency] private readonly ActionContainerSystem _actionContainer = default!;
     [Dependency] private readonly SharedChargesSystem _sharedCharges = default!;
@@ -22,6 +27,11 @@ public sealed class DashAbilitySystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly PullingSystem _pullingSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly TagSystem _tagSystem = default!;
+
+    private static readonly ProtoId<TagPrototype> CorruptTeleportTag = "CorruptTeleportItem";
 
     public override void Initialize()
     {
@@ -84,11 +94,29 @@ public sealed class DashAbilitySystem : EntitySystem
         if (TryComp<PullerComponent>(user, out var puller) && TryComp<PullableComponent>(puller.Pulling, out var pullable))
             _pullingSystem.TryStopPull(puller.Pulling.Value, pullable);
 
-        var xform = Transform(user);
-        _transform.SetCoordinates(user, xform, args.Target);
-        _transform.AttachToGridOrMap(user, xform);
+        //DS14-start
+        bool corrupted = false;
+        if (ent.Comp.CorruptByBluespaceItems)
+        {
+            var items = _inventory.GetHandOrInventoryEntities(user);
+            foreach (var item in items)
+            {
+                if (_tagSystem.HasTag(item, CorruptTeleportTag))
+                {
+                    corrupted = true;
+                    break;
+                }
+            }
+        }
+
+        var offset = _random.NextVector2(ent.Comp.CorruptMinDistance, ent.Comp.CorruptMaxDistance);
+        var targetFinal = corrupted ? args.Target.Offset(offset) : args.Target;
+        DoTeleport(user, targetFinal, ent.Comp.BeamProto);
         args.Handled = true;
+        //DS14-end
     }
+
+    protected virtual void DoTeleport(EntityUid user, EntityCoordinates target, string? beam = null) { } //DS14
 
     public bool CheckDash(EntityUid uid, EntityUid user)
     {
