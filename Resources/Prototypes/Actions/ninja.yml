@@ -201,8 +201,29 @@
       state: shuriken
     useDelay: 1.0
     itemIconStyle: BigAction
+    raiseOnAction: true
   - type: InstantAction
-    event: !type:ShurikenHandRetractEvent
+    event: !type:OnRetractableItemActionEvent
+  - type: RetractableItemAction
+    spawnedPrototype: WeaponNinjaShuriken
+
+- type: entity
+  parent: BaseAction
+  id: ToggleNinjaJohyoAbility
+  name: Энергетическое джохьё
+  description: Дает вам кунай с цепью, который позволяет притянуть жертву к себе. Притянутая жертва при этом оглушается на небольшое время
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: kunai
+    useDelay: 1.0
+    itemIconStyle: BigAction
+    raiseOnAction: true
+  - type: InstantAction
+    event: !type:OnRetractableItemActionEvent
+  - type: RetractableItemAction
+    spawnedPrototype: NinjaJohyo
 
 - type: entity
   id: ActionNinjaScan
@@ -234,4 +255,51 @@
       state: scanner
   - type: InstantAction
     event: !type:NinjaOpenScannerActionEvent
+
+- type: entity
+  parent: BaseAction
+  id: ActionNinjaAdrenal
+  name: всплеск адреналина
+  description: Пускает по вене особый реагент, который поможет удрать из любой ситуации. Есть побочные эффекты.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: adrenal
+    useDelay: 120
+    itemIconStyle: BigAction
+    raiseOnAction: true
+  - type: InstantAction
+    event: !type:UseInjectReagentsActionEvent
+  - type: InjectReagentsAction
+    injectSound: /Audio/Items/hypospray.ogg
+    popup: ninja-inject-adrenal
+    reagents: 
+      Velaxin: 15
+      Radium: 2.5
+  - type: LimitedCharges
+    maxCharges: 3
+
+- type: entity
+  parent: BaseAction
+  id: ActionNinjaHealingCocktail
+  name: исцеляющий коктейль
+  description: Вводит вам в организм химикат "Чиюризин". Мощный, экспериментальный лечащий реагент который способен даже отрастить обратно потерянные конечности и залечить кости и органы.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: cheminjector
+    useDelay: 60
+    itemIconStyle: BigAction
+    raiseOnAction: true
+  - type: InstantAction
+    event: !type:UseInjectReagentsActionEvent
+  - type: InjectReagentsAction
+    injectSound: /Audio/Items/hypospray.ogg
+    popup: ninja-inject-healing-cocktail
+    reagents: 
+      Chiyurizine: 10
+  - type: LimitedCharges
+    maxCharges: 3
 #DS-14 End

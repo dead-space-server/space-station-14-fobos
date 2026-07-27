@@ -1,5 +1,4 @@
 using Content.Server.DeadSpace.Ninja.Events;
-using Content.Shared.Emp;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.DeadSpace.Ninja.Components;
 using Content.Shared.DeadSpace.Ninja.Systems;
@@ -17,7 +16,6 @@ namespace Content.Server.DeadSpace.Ninja.Systems;
 /// </summary>
 public sealed class NinjaSuitSystem : SharedNinjaSuitSystem
 {
-    [Dependency] private readonly SharedEmpSystem _emp = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SpaceNinjaSystem _ninja = default!;
     [Dependency] private readonly PowerCellSystem _powerCell = default!;

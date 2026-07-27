@@ -3,8 +3,8 @@ using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Popups;
 using System.Diagnostics.CodeAnalysis;
-using Content.Shared.Tag;
-using Robust.Shared.Prototypes;
+using Content.Shared.Power.EntitySystems;
+using Content.Shared.PowerCell;
 
 namespace Content.Shared.DeadSpace.Ninja.Systems;
 
@@ -15,10 +15,10 @@ public abstract class SharedSpaceNinjaSystem : EntitySystem
 {
     [Dependency] protected readonly SharedNinjaSuitSystem Suit = default!;
     [Dependency] protected readonly SharedPopupSystem Popup = default!;
-    [Dependency] private readonly TagSystem _tagSystem = default!;
+    [Dependency] protected readonly SharedBatterySystem Battery = default!;
+    [Dependency] protected readonly PowerCellSystem PowerCell = default!;
 
     public EntityQuery<SpaceNinjaComponent> NinjaQuery;
-    private static readonly ProtoId<TagPrototype> NinjaGunTag = "NinjaGun";
 
     public override void Initialize()
     {
@@ -73,6 +73,17 @@ public abstract class SharedSpaceNinjaSystem : EntitySystem
         Dirty(ent, ent.Comp);
     }
 
+    public bool HasCharge(EntityUid user, float charge)
+    {
+        if (!TryComp<SpaceNinjaComponent>(user, out var ninja) || ninja.Suit == null)
+            return false;
+
+        if (!PowerCell.TryGetBatteryFromSlot(ninja.Suit.Value, out var battery))
+            return false;
+
+        return Battery.GetCharge(battery.Value.Owner) >= charge;
+    }
+
     /// <summary>
     /// Gets the user's battery and tries to use some charge from it, returning true if successful.
     /// Serverside only.
@@ -110,7 +121,7 @@ public abstract class SharedSpaceNinjaSystem : EntitySystem
     /// </summary>
     private void OnShotAttempted(Entity<SpaceNinjaComponent> ent, ref ShotAttemptedEvent args)
     {
-        if (!_tagSystem.HasTag(args.Used, NinjaGunTag))
+        if (!HasComp<NinjaAmmoProviderComponent>(args.Used))
         {
             Popup.PopupClient(Loc.GetString("gun-disabled"), ent, ent);
             args.Cancel();

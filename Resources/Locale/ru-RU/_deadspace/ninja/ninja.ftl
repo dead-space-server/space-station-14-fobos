@@ -27,3 +27,17 @@ auto-dust-toggle-dead = Auto-Dust в режиме распыления по см
 # Ninja cloak
 
 ninja-suit-overheated = Костюм перегрелся. Фазовый покров отключен.
+
+# Ninja Johyo
+
+johyo-phrase-1 = Иди сюда!
+johyo-phrase-2 = К ноге!
+
+# Ninja Action Refill
+
+ninja-action-refill = Костюм переработал материал. Заряд "{ $action }" был восстановлен.
+
+# Ninja Inject Actions
+
+ninja-inject-adrenal = Костюм впрыскивает в вас реагент. Сердце забилось быстрее.
+ninja-inject-healing-cocktail = Костюм впрыскивает в вас реагент. Ваши раны затягиваются.
