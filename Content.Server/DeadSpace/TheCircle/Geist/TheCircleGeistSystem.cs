@@ -6,6 +6,7 @@ using Content.Shared.Actions;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.DeadSpace.Carrying;
 using Content.Shared.DeadSpace.TheCircle.Geist;
+using Content.Shared.Ghost;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Physics;
 using Content.Shared.Stealth.Components;
@@ -194,7 +195,9 @@ public sealed class TheCircleGeistSystem : EntitySystem
             return;
 
         ent.Comp.StationArrivalAnnounced = true;
-        RaiseNetworkEvent(new GeistStationArrivalEvent(), Filter.Broadcast());
+        var stationSector = Filter.BroadcastMap(mapId)
+            .RemoveWhereAttachedEntity(HasComp<GhostComponent>);
+        RaiseNetworkEvent(new GeistStationArrivalEvent(), stationSector);
     }
 
     private void SetVisibility(EntityUid uid, float value)
