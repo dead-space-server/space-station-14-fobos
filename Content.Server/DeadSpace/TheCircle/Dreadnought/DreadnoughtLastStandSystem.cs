@@ -1,6 +1,8 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Shared.Actions;
+using Content.Server.Destructible;
+using Content.Shared.Buckle.Components;
 using Content.Shared.Clothing.Components;
 using Content.Shared.Damage.Components;
 using Content.Shared.DeadSpace.TheCircle.Dreadnought;
@@ -12,16 +14,28 @@ using Content.Shared.Mobs;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Mobs.Events;
 using Content.Shared.Movement.Systems;
+using Content.Shared.Stunnable;
+using Content.Shared.Traits.Assorted;
+using Robust.Shared.Audio;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.TheCircle.Dreadnought;
 
 public sealed class DreadnoughtLastStandSystem : EntitySystem
 {
+    private const string OuterClothingSlot = "outerClothing";
+    private readonly Dictionary<EntityUid, (EntityUid Wearer, TimeSpan StunDuration)> _pendingStrapDestruction = [];
+
     [Dependency] private readonly SharedActionsSystem _actions = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly DestructibleSystem _destructible = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly MobThresholdSystem _thresholds = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
+    [Dependency] private readonly SharedStunSystem _stun = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
 
     public override void Initialize()
@@ -29,11 +43,24 @@ public sealed class DreadnoughtLastStandSystem : EntitySystem
         base.Initialize();
         SubscribeLocalEvent<DreadnoughtLastStandComponent, GetItemActionsEvent>(OnGetActions);
         SubscribeLocalEvent<DreadnoughtLastStandComponent, DreadnoughtLastStandActionEvent>(OnAction);
+        SubscribeLocalEvent<StrapComponent, StrappedEvent>(OnStrapped);
         SubscribeLocalEvent<DreadnoughtLastStandActiveComponent, UpdateMobStateEvent>(OnUpdateMobState,
             after: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<DreadnoughtLastStandActiveComponent, ExaminedEvent>(OnExamined);
         SubscribeLocalEvent<DreadnoughtLastStandActiveComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshSpeed);
         SubscribeLocalEvent<DreadnoughtLastStandActiveComponent, ComponentShutdown>(OnActiveShutdown);
+    }
+
+    private void OnStrapped(Entity<StrapComponent> ent, ref StrappedEvent args)
+    {
+        var wearer = args.Buckle.Owner;
+        if (!_inventory.TryGetSlotEntity(wearer, OuterClothingSlot, out var outerClothing) ||
+            !TryComp<DreadnoughtLastStandComponent>(outerClothing.Value, out var dreadnought))
+            return;
+
+        // Buckle() still validates its parent relationship after this event.
+        // Destroy the strap on the following update, once buckling has completed.
+        _pendingStrapDestruction[ent.Owner] = (wearer, dreadnought.StrapBreakStunDuration);
     }
 
     private void OnGetActions(Entity<DreadnoughtLastStandComponent> ent, ref GetItemActionsEvent args)
@@ -80,6 +107,20 @@ public sealed class DreadnoughtLastStandSystem : EntitySystem
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+
+        foreach (var (strap, pending) in _pendingStrapDestruction)
+        {
+            if (Deleted(strap))
+                continue;
+
+            var coordinates = _transform.GetMapCoordinates(strap);
+            _audio.PlayPvs(new SoundCollectionSpecifier("MetalBreak"), strap);
+            Spawn("SheetSteel1", coordinates);
+            _destructible.DestroyEntity(strap);
+            _stun.TryUpdateParalyzeDuration(pending.Wearer, pending.StunDuration);
+        }
+        _pendingStrapDestruction.Clear();
+
         var query = EntityQueryEnumerator<DreadnoughtLastStandActiveComponent>();
         while (query.MoveNext(out var uid, out var component))
         {
@@ -88,6 +129,7 @@ public sealed class DreadnoughtLastStandSystem : EntitySystem
 
             component.Expired = true;
             Dirty(uid, component);
+            EnsureComp<UnrevivableComponent>(uid);
             _mobState.UpdateMobState(uid);
         }
     }
