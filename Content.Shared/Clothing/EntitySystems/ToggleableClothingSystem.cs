@@ -1,4 +1,5 @@
 using Content.Shared.Actions;
+using Content.Shared.Armor;
 using Content.Shared.Clothing.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.IdentityManagement;
@@ -13,6 +14,7 @@ using Robust.Shared.Network;
 using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+using Content.Shared.Backmen.Blob.Components; //DS14
 
 namespace Content.Shared.Clothing.EntitySystems;
 
@@ -27,6 +29,7 @@ public sealed class ToggleableClothingSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedStrippableSystem _strippable = default!;
+    [Dependency] private readonly SharedTransformSystem _transformSystem = default!; // DS14
 
     public override void Initialize()
     {
@@ -50,7 +53,7 @@ public sealed class ToggleableClothingSystem : EntitySystem
         SubscribeLocalEvent<ToggleableClothingComponent, ToggleClothingDoAfterEvent>(OnDoAfterComplete);
         SubscribeLocalEvent<ToggleableClothingComponent, SelfToggleClothingDoAfterEvent>(OnSelfDoAfterComplete); //DS14
 
-    }   
+    }
 
     private void GetRelayedVerbs(EntityUid uid, ToggleableClothingComponent component, InventoryRelayedEvent<GetVerbsEvent<EquipmentVerb>> args)
     {
@@ -163,6 +166,9 @@ public sealed class ToggleableClothingSystem : EntitySystem
         // if its not, then something else has gone wrong already...
         if (component.Container != null && component.Container.ContainedEntity == null && component.ClothingUid != null)
             _inventorySystem.TryUnequip(args.Equipee, component.Slot, force: true, triggerHandContact: true);
+
+        // DS14: Return headwear displaced by a hardsuit helmet when the suit itself is removed.
+        RestoreStoredClothing(args.Equipee, component);
     }
 
     private void OnRemoveToggleable(EntityUid uid, ToggleableClothingComponent component, ComponentRemove args)
@@ -196,9 +202,50 @@ public sealed class ToggleableClothingSystem : EntitySystem
         if (toggleComp.LifeStage > ComponentLifeStage.Running)
             return;
 
+        // DS14-start
+        if (!_netMan.IsClient)
+            ReleaseStoredClothing(component.AttachedUid, uid, toggleComp);
+        // DS14-end
+
         _actionsSystem.RemoveAction(toggleComp.ActionEntity);
         RemComp(component.AttachedUid, toggleComp);
     }
+
+    // DS14-start
+    private void ReleaseStoredClothing(EntityUid suit,
+        EntityUid attachedClothing,
+        ToggleableClothingComponent component)
+    {
+        if (!component.StoreExistingItem ||
+            component.StoredClothingContainer?.ContainedEntity is not { } stored)
+        {
+            return;
+        }
+
+        var wearer = Transform(suit).ParentUid;
+        if (HasComp<InventoryComponent>(wearer) &&
+            _inventorySystem.TryGetSlotEntity(wearer, component.Slot, out var equipped) &&
+            equipped == attachedClothing)
+        {
+            _inventorySystem.TryUnequip(wearer,
+                component.Slot,
+                force: true,
+                triggerHandContact: true);
+        }
+
+        if (!_containerSystem.Remove(stored, component.StoredClothingContainer))
+            return;
+
+        if (HasComp<InventoryComponent>(wearer) &&
+            !_inventorySystem.TryGetSlotEntity(wearer, component.Slot, out _) &&
+            _inventorySystem.TryEquip(wearer, wearer, stored, component.Slot, triggerHandContact: true))
+        {
+            return;
+        }
+
+        _transformSystem.DropNextTo(stored, suit);
+    }
+    // DS14-end
 
     /// <summary>
     ///     Called if the helmet was unequipped, to ensure that it gets moved into the suit's container.
@@ -266,7 +313,7 @@ public sealed class ToggleableClothingSystem : EntitySystem
             uid,
             args.Performer)
         {
-            BreakOnMove    = false,
+            BreakOnMove = false,
         };
 
         _doAfter.TryStartDoAfter(doAfterArgs);
@@ -279,16 +326,86 @@ public sealed class ToggleableClothingSystem : EntitySystem
             return;
 
         var parent = Transform(target).ParentUid;
+        //DS14-start
+        if (_inventorySystem.TryGetSlotEntity(parent, component.Slot, out var currentHeadItem))
+        {
+            if (currentHeadItem != component.ClothingUid &&
+                (HasComp<ToggleableClothingStorageBlockerComponent>(currentHeadItem) || HasComp<BlobPodComponent>(currentHeadItem)))
+            {
+                _popupSystem.PopupClient(Loc.GetString("toggleable-clothing-remove-first", ("entity", currentHeadItem)), user, user);
+                return;
+            }
+        }
+        //DS14-end
         if (component.Container.ContainedEntity == null)
+        {
             _inventorySystem.TryUnequip(user, parent, component.Slot, force: true);
+            // DS14: The stored item has no equipped effects while the attached clothing occupies its slot.
+            RestoreStoredClothing(parent, component);
+        }
         else if (_inventorySystem.TryGetSlotEntity(parent, component.Slot, out var existing))
         {
-            _popupSystem.PopupClient(Loc.GetString("toggleable-clothing-remove-first", ("entity", existing)),
-                user, user);
+            // DS14-start
+            if (!component.StoreExistingItem ||
+                HasComp<AttachedClothingComponent>(existing) ||
+                HasComp<ArmorComponent>(existing) ||
+                HasComp<ToggleableClothingStorageBlockerComponent>(existing))
+            {
+                _popupSystem.PopupClient(Loc.GetString("toggleable-clothing-remove-first", ("entity", existing)),
+                    user, user);
+                return;
+            }
+
+            // DS14: Server-only clothing components can veto temporary storage without leaking into shared code.
+            var storageAttempt = new ToggleableClothingStorageAttemptEvent();
+            RaiseLocalEvent(existing.Value, storageAttempt);
+            if (storageAttempt.Cancelled)
+            {
+                _popupSystem.PopupClient(Loc.GetString("toggleable-clothing-remove-first", ("entity", existing)),
+                    user, user);
+                return;
+            }
+
+            component.StoredClothingContainer ??= _containerSystem.EnsureContainer<ContainerSlot>(target,
+                ToggleableClothingComponent.DefaultStoredClothingContainerId);
+
+            if (!_inventorySystem.TryUnequip(user, parent, component.Slot, force: true) ||
+                !_containerSystem.Insert(existing.Value, component.StoredClothingContainer))
+            {
+                _popupSystem.PopupClient(Loc.GetString("toggleable-clothing-remove-first", ("entity", existing)),
+                    user, user);
+                return;
+            }
+
+            if (!_inventorySystem.TryEquip(user, parent, component.ClothingUid.Value, component.Slot,
+                    triggerHandContact: true))
+                RestoreStoredClothing(parent, component);
+            // DS14-end
         }
         else
-            _inventorySystem.TryEquip(user, parent, component.ClothingUid.Value, component.Slot, triggerHandContact: true);
+        {
+            // DS14
+            if (!_inventorySystem.TryEquip(user, parent, component.ClothingUid.Value, component.Slot, triggerHandContact: true))
+                RestoreStoredClothing(parent, component);
+        }
     }
+
+    // DS14-start
+    private void RestoreStoredClothing(EntityUid wearer, ToggleableClothingComponent component)
+    {
+        if (!component.StoreExistingItem ||
+            component.StoredClothingContainer?.ContainedEntity is not { } stored ||
+            _inventorySystem.TryGetSlotEntity(wearer, component.Slot, out _))
+            return;
+
+        _containerSystem.Remove(stored, component.StoredClothingContainer);
+        if (_inventorySystem.TryEquip(wearer, wearer, stored, component.Slot, triggerHandContact: true))
+            return;
+
+        // Keep the item associated with the suit if inventory rules changed while the helmet was active.
+        _containerSystem.Insert(stored, component.StoredClothingContainer);
+    }
+    // DS14-end
 
     private void OnGetActions(EntityUid uid, ToggleableClothingComponent component, GetItemActionsEvent args)
     {
@@ -303,6 +420,12 @@ public sealed class ToggleableClothingSystem : EntitySystem
     private void OnInit(EntityUid uid, ToggleableClothingComponent component, ComponentInit args)
     {
         component.Container = _containerSystem.EnsureContainer<ContainerSlot>(uid, component.ContainerId);
+        // DS14: Reuse saved displacement storage, but create it lazily only when an item needs to be stored.
+        if (component.StoreExistingItem &&
+            _containerSystem.TryGetContainer(uid,
+                ToggleableClothingComponent.DefaultStoredClothingContainerId,
+                out var storedContainer))
+            component.StoredClothingContainer = storedContainer as ContainerSlot;
     }
 
     /// <summary>
@@ -311,7 +434,7 @@ public sealed class ToggleableClothingSystem : EntitySystem
     /// </summary>
     private void OnMapInit(EntityUid uid, ToggleableClothingComponent component, MapInitEvent args)
     {
-        if (component.Container!.ContainedEntity is {} ent)
+        if (component.Container!.ContainedEntity is { } ent)
         {
             DebugTools.Assert(component.ClothingUid == ent, "Unexpected entity present inside of a toggleable clothing container.");
             return;
@@ -337,6 +460,20 @@ public sealed class ToggleableClothingSystem : EntitySystem
         if (_actionContainer.EnsureAction(uid, ref component.ActionEntity, out var action, component.Action))
             _actionsSystem.SetEntityIcon((component.ActionEntity.Value, action), component.ClothingUid);
     }
+
+    //DS14-start
+    public void ForceRetractHelmet(EntityUid suitUid, ToggleableClothingComponent? component = null)
+    {
+        if (!Resolve(suitUid, ref component))
+            return;
+
+        if (component.Container?.ContainedEntity == null)
+        {
+            var wearer = Transform(suitUid).ParentUid;
+            ToggleClothing(wearer, suitUid, component);
+        }
+    }
+    //DS14-end
 }
 
 public sealed partial class ToggleClothingEvent : InstantActionEvent
@@ -354,3 +491,6 @@ public sealed partial class SelfToggleClothingDoAfterEvent : SimpleDoAfterEvent
 {
 }
 //DS14-end
+
+// DS14
+public sealed class ToggleableClothingStorageAttemptEvent : CancellableEntityEventArgs;

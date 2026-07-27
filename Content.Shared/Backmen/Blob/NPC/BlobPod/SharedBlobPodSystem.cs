@@ -12,12 +12,19 @@ using Content.Shared.Movement.Events;
 using Content.Shared.Verbs;
 using Robust.Shared.Containers;
 using Robust.Shared.Serialization;
+//DS14-start
+using Content.Shared.Clothing.Components;
+using Content.Shared.Clothing.EntitySystems;
+using Content.Shared.Inventory;
+//DS14-end
 
 namespace Content.Shared.Backmen.Blob.NPC.BlobPod;
 
 public abstract class SharedBlobPodSystem : EntitySystem
 {
     [Dependency] private readonly MobStateSystem _mobs = default!;
+    [Dependency] private readonly InventorySystem _inventorySystem = default!; //DS14
+    [Dependency] private readonly ToggleableClothingSystem _toggleableClothingSystem = default!; //DS14
 
     private EntityQuery<HumanoidAppearanceComponent> _query;
     private EntityQuery<InputMoverComponent> _inputQuery;
@@ -53,6 +60,7 @@ public abstract class SharedBlobPodSystem : EntitySystem
         if (args.Handled)
             return;
 
+        RetractTargetHelmet(args.Dragged); //DS14
         args.Handled = NpcStartZombify(ent, args.Dragged, ent);
     }
 
@@ -108,6 +116,7 @@ public abstract class SharedBlobPodSystem : EntitySystem
         {
             Act = () =>
             {
+                RetractTargetHelmet(args.Target); //DS14
                 NpcStartZombify(uid, args.Target, component);
             },
             Text = Loc.GetString("blob-pod-verb-zombify"),
@@ -118,6 +127,19 @@ public abstract class SharedBlobPodSystem : EntitySystem
     }
 
     public abstract bool NpcStartZombify(EntityUid uid, EntityUid argsTarget, BlobPodComponent component);
+
+    //DS14-start
+    private void RetractTargetHelmet(EntityUid target)
+    {
+        if (!_inventorySystem.TryGetSlotEntity(target, "head", out var headItem))
+            return;
+
+        if (TryComp<AttachedClothingComponent>(headItem, out var attachedClothing))
+        {
+            _toggleableClothingSystem.ForceRetractHelmet(attachedClothing.AttachedUid);
+        }
+    }
+    //DS14-end
 }
 
 [Serializable, NetSerializable]

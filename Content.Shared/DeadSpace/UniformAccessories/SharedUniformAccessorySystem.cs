@@ -1,4 +1,5 @@
 ﻿using Content.Shared.DeadSpace.UniformAccessories.Components;
+using Content.Shared.Examine;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Inventory.Events;
@@ -6,6 +7,7 @@ using Content.Shared.Item;
 using Content.Shared.Popups;
 using Content.Shared.Verbs;
 using Robust.Shared.Containers;
+using Robust.Shared.Network;
 
 namespace Content.Shared.DeadSpace.UniformAccessories;
 
@@ -15,6 +17,7 @@ public abstract class SharedUniformAccessorySystem : EntitySystem
 
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
+    [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedItemSystem _item = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
 
@@ -25,6 +28,7 @@ public abstract class SharedUniformAccessorySystem : EntitySystem
         SubscribeLocalEvent<UniformAccessoryHolderComponent, InteractUsingEvent>(OnHolderInteractUsing);
         SubscribeLocalEvent<UniformAccessoryHolderComponent, GotEquippedEvent>(OnHolderGotEquipped);
         SubscribeLocalEvent<UniformAccessoryHolderComponent, GetVerbsEvent<Verb>>(OnHolderGetVerbs);
+        SubscribeLocalEvent<UniformAccessoryHolderComponent, ExaminedEvent>(OnExamineAccessories);
         SubscribeLocalEvent<RemoveAccessoryEvent>(OnRemoveAccessory);
     }
 
@@ -32,6 +36,7 @@ public abstract class SharedUniformAccessorySystem : EntitySystem
     {
         holder.Comp.AccessoryContainer =
             _container.EnsureContainer<Container>(holder, UniformAccessoryHolderComponent.ContainerId);
+        UpdateExamineData(holder);
     }
 
     private void OnHolderInteractUsing(Entity<UniformAccessoryHolderComponent> holder, ref InteractUsingEvent args)
@@ -72,6 +77,7 @@ public abstract class SharedUniformAccessorySystem : EntitySystem
         }
 
         _container.Insert(args.Used, container);
+        UpdateExamineData(holder);
         _item.VisualsChanged(holder);
     }
 
@@ -129,9 +135,68 @@ public abstract class SharedUniformAccessorySystem : EntitySystem
 
         if (_container.Remove(args.Accessory, container))
         {
+            if (TryComp<UniformAccessoryHolderComponent>(args.Holder, out var holder))
+                UpdateExamineData((args.Holder, holder));
             _hands.TryPickupAnyHand(args.User, args.Accessory);
             _item.VisualsChanged(args.Holder);
         }
+    }
+
+    private void OnExamineAccessories(Entity<UniformAccessoryHolderComponent> holder, ref ExaminedEvent args)
+    {
+        // Equipped clothing is stored inside the wearer's inventory container. For another player
+        // IsInDetailsRange is false even when the stripping UI allows examining that clothing.
+        // The examine system has already checked that the target itself can be examined.
+        if (!TryGetAccessoriesMarkup(holder.Comp, out var accessoriesList))
+            return;
+
+        args.PushMarkup(Loc.GetString("uniform-accessory-examine-holder", ("accessories", accessoriesList)));
+    }
+
+    private bool TryGetAccessoriesMarkup(UniformAccessoryHolderComponent holder, out string accessoriesList)
+    {
+        accessoriesList = string.Empty;
+        if (holder.ExamineNames.Count == 0)
+            return false;
+
+        var accessories = new List<string>();
+        for (var i = 0; i < holder.ExamineNames.Count; i++)
+        {
+            var colorHex = i < holder.ExamineColors.Count ? holder.ExamineColors[i] : "#FFFF55";
+            accessories.Add($"[color={colorHex}]{holder.ExamineNames[i]}[/color]");
+        }
+
+        if (accessories.Count == 0)
+            return false;
+
+        accessoriesList = string.Join(", ", accessories);
+        return true;
+    }
+
+    private void UpdateExamineData(Entity<UniformAccessoryHolderComponent> holder)
+    {
+        if (_net.IsClient)
+            return;
+
+        holder.Comp.ExamineNames.Clear();
+        holder.Comp.ExamineColors.Clear();
+
+        if (holder.Comp.AccessoryContainer != null)
+        {
+            foreach (var accessory in holder.Comp.AccessoryContainer.ContainedEntities)
+            {
+                if (!TryComp(accessory, out MetaDataComponent? metaData))
+                    continue;
+
+                holder.Comp.ExamineNames.Add(metaData.EntityName);
+                holder.Comp.ExamineColors.Add(
+                    TryComp<UniformAccessoryComponent>(accessory, out var acc) && acc.Color != null
+                        ? acc.Color.Value.ToHex()
+                        : "#FFFF55");
+            }
+        }
+
+        Dirty(holder);
     }
 
     private sealed class RemoveAccessoryEvent : EntityEventArgs

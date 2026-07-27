@@ -27,12 +27,14 @@ public sealed partial class GamePresetWindow : DefaultWindow
     private Dictionary<string, string> _presetNames = new();
     private Dictionary<string, string> _modeNames = new();
     private int _maxRdmRow;
-    private int _maxRdmDay;
     private int _voteDurationSeconds;
     private int _currentPresetIndex;
     private bool _systemEnabled;
     private bool _hasUnsavedChanges;
     private bool _disableOocDuringVote;
+    private bool _preventRepeatMode;
+    private bool _checkPlayerLimit;
+    private List<string> _whitelistModeIds = new();
     private int _rdmStreak;
     private bool _isLobby;
 
@@ -183,11 +185,13 @@ public sealed partial class GamePresetWindow : DefaultWindow
         _presetNames = msg.PresetNames;
         _modeNames = msg.ModeNames;
         _maxRdmRow = msg.MaxRdmRow;
-        _maxRdmDay = msg.MaxRdmDay;
         _voteDurationSeconds = msg.VoteDurationSeconds;
         _currentPresetIndex = msg.CurrentPresetIndex;
         _systemEnabled = msg.SystemEnabled;
         _disableOocDuringVote = msg.DisableOocDuringVote;
+        _preventRepeatMode = msg.PreventRepeatMode;
+        _checkPlayerLimit = msg.CheckPlayerLimit;
+        _whitelistModeIds = msg.WhitelistModeIds ?? new List<string>();
         _rdmStreak = msg.RdmStreak;
         _isLobby = msg.IsLobby;
 
@@ -648,7 +652,7 @@ public sealed partial class GamePresetWindow : DefaultWindow
             _settingsWindow.Close();
 
         _settingsWindow = new PresetSettingsWindow();
-        _settingsWindow.LoadSettings(_maxRdmRow, _maxRdmDay, _voteDurationSeconds, _disableOocDuringVote);
+        _settingsWindow.LoadSettings(_maxRdmRow, _voteDurationSeconds, _disableOocDuringVote, _preventRepeatMode, _checkPlayerLimit, _whitelistModeIds);
         _settingsWindow.OpenCentered();
     }
 

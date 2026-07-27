@@ -32,3 +32,25 @@
     clothingVisuals:
       outerClothing:
       - state: equipped-OUTERCLOTHING
+
+- type: entity
+  parent: [ClothingOuterStorageFoldableBase, ClothingOuterWinterCoat]
+  id: ClothingOuterWinterCoatCaptainWhite
+  name: белая зимняя куртка капитана
+  description: Шикарная белая зимняя куртка с золотыми элементами и чёрным мехом. Царь во дворца.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/OuterClothing/WinterCoats/captain_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/OuterClothing/WinterCoats/captain_white.rsi
+
+- type: entity
+  parent: [ClothingOuterStorageFoldableBase, ClothingOuterWinterCoat]
+  id: ClothingOuterWinterCoatCaptainBlack
+  name: чёрная зимняя куртка капитана
+  description: Шикарная чёрная зимняя куртка с золотыми элементами и мехом. Олицетворение строгости и хладнокровия.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/OuterClothing/WinterCoats/captain_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/OuterClothing/WinterCoats/captain_black.rsi

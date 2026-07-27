@@ -101,4 +101,37 @@
   - type: EntityTargetAction
     canTargetSelf: false
     event: !type:RevenantMindCaptureActionEvent
+
+- type: entity
+  id: ActionRevenantScream
+  parent: BaseAction
+  name: Крик
+  description: Издаёт пронзительный крик привлекающий людей
+  components:
+  - type: RevenantAction
+  - type: Action
+    useDelay: 30
+    icon: Interface/Actions/scream.png
+  - type: InstantAction
+    event: !type:RevenantScreamActionEvent
+
+- type: entity
+  id: ActionRevenantHack
+  parent: BaseAction
+  name: Взлом
+  description: Открывает выбранный вами шлюз или шкаф
+  components:
+  - type: RevenantAction
+  - type: Action
+    useDelay: 15
+    icon:
+      sprite: Objects/Tools/access_breaker.rsi
+      state: icon
+  - type: TargetAction
+  - type: EntityTargetAction
+    whitelist:
+      components:
+      - Door
+      - EntityStorage
+    event: !type:RevenantHackActionEvent
 #DS14-end

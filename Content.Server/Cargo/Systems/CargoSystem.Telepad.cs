@@ -45,6 +45,14 @@ public sealed partial class CargoSystem
                 console.Value.Owner != args.OrderConsole.Owner)
                 continue;
 
+            // DS14-start
+            if (TryComp<StationCargoOrderDatabaseComponent>(args.Station.Owner, out var db) &&
+                IsTradeHijacked(args.Station.Owner, db, console.Value.Comp, args.Order.Account))
+            {
+                continue;
+            }
+            // DS14-end
+
             for (var i = 0; i < args.Order.OrderQuantity; i++)
             {
                 tele.CurrentOrders.Add(args.Order);
@@ -105,6 +113,19 @@ public sealed partial class CargoSystem
             }
 
             var currentOrder = comp.CurrentOrders.First();
+
+            // DS14-start
+            if (_station.GetOwningStation(uid, xform) is { } orderStation &&
+                TryComp<StationCargoOrderDatabaseComponent>(orderStation, out var db) &&
+                IsTradeHijacked(orderStation, db, console.Value.Comp, currentOrder.Account))
+            {
+                comp.CurrentOrders.Clear();
+                UpdateOrders(orderStation);
+                comp.Accumulator += comp.Delay;
+                continue;
+            }
+            // DS14-end
+
             if (FulfillOrder(currentOrder, currentOrder.Account, xform.Coordinates, comp.PrinterOutput))
             {
                 _audio.PlayPvs(_audio.ResolveSound(comp.TeleportSound), uid, AudioParams.Default.WithVolume(-8f));
@@ -145,6 +166,11 @@ public sealed partial class CargoSystem
 
         if (!TryGetLinkedConsole(ent, out var console))
             return;
+
+        // DS14-start
+        if (IsTradeHijacked(station, db, console.Value.Comp, console.Value.Comp.Account))
+            return;
+        // DS14-end
 
         foreach (var order in ent.Comp.CurrentOrders)
         {

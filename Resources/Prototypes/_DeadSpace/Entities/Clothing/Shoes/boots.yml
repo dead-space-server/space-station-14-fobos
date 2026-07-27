@@ -61,7 +61,7 @@
     - type: Sprite
       sprite: _DeadSpace/Clothing/Shoes/Boots/sterile_shoes_chem.rsi
     - type: Clothing
-      sprite: _DeadSpace/Clothing/Shoes/Boots/sterile_shoes_chem.rsi                                                                                                    
+      sprite: _DeadSpace/Clothing/Shoes/Boots/sterile_shoes_chem.rsi
 
 - type: entity
   parent: ClothingShoesBaseButcherable
@@ -72,7 +72,7 @@
     - type: Sprite
       sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_red.rsi
     - type: Clothing
-      sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_red.rsi   
+      sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_red.rsi
 
 - type: entity
   parent: ClothingShoesBaseButcherable
@@ -83,7 +83,7 @@
     - type: Sprite
       sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_yellow.rsi
     - type: Clothing
-      sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_yellow.rsi   
+      sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_yellow.rsi
 
 - type: entity
   parent: ClothingShoesBootsJackFilled
@@ -94,4 +94,15 @@
     - type: Sprite
       sprite: _DeadSpace/Clothing/Shoes/Boots/blueshield_boots.rsi
     - type: Clothing
-      sprite: _DeadSpace/Clothing/Shoes/Boots/blueshield_boots.rsi  
+      sprite: _DeadSpace/Clothing/Shoes/Boots/blueshield_boots.rsi
+
+- type: entity
+  parent: ClothingShoesBootsJack
+  id: ClothingShoesBootsKirzachi
+  name: кирзовые сапоги
+  description: Сапоги, сделанные из кирзы, которые были используемыми армиями стран времён 20-ого века.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Clothing/Shoes/Boots/centcom_officer_black.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Clothing/Shoes/Boots/centcom_officer_black.rsi

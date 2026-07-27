@@ -43,6 +43,7 @@ public sealed class PortableHolopadSystem : EntitySystem
         if (entity.Comp.Deployed)
             return;
 
+        ResetSpeakerToDevice(entity);
         Timer.Spawn(10, () => EnsureNoHologram(entity));
     }
 
@@ -54,7 +55,17 @@ public sealed class PortableHolopadSystem : EntitySystem
         if (TryComp<HolopadComponent>(entity, out var holopad) && holopad.Hologram != null)
         {
             _holopadSystem.DeleteHologram(holopad.Hologram.Value, (entity, holopad));
+            ResetSpeakerToDevice(entity);
         }
+    }
+
+    private void ResetSpeakerToDevice(Entity<PortableHolopadComponent> entity)
+    {
+        if (!TryComp<SpeechComponent>(entity, out var speech) ||
+            !TryComp<TelephoneComponent>(entity, out var telephone))
+            return;
+
+        _telephoneSystem.SetSpeakerForTelephone((entity, telephone), (entity, speech));
     }
 
     public void ToggleDeployed(Entity<PortableHolopadComponent> entity, EntityUid user)
@@ -84,8 +95,7 @@ public sealed class PortableHolopadSystem : EntitySystem
             _xformSystem.Unanchor(entity);
             EnsureNoHologram(entity);
 
-            if (TryComp<SpeechComponent>(entity, out var speech))
-                _telephoneSystem.SetSpeakerForTelephone((entity, telephone), (entity, speech));
+            ResetSpeakerToDevice(entity);
 
             _popupSystem.PopupEntity("Голопад собран.", entity, user);
         }
@@ -105,7 +115,7 @@ public sealed class PortableHolopadSystem : EntitySystem
 
     private void OnTelephoneMessageSent(Entity<PortableHolopadComponent> entity, ref TelephoneMessageSentEvent args)
     {
-        if (!entity.Comp.Deployed && TryComp<SpeechComponent>(entity, out var speech) && TryComp<TelephoneComponent>(entity, out var tel))
-            _telephoneSystem.SetSpeakerForTelephone((entity, tel), (entity, speech));
+        if (!entity.Comp.Deployed)
+            ResetSpeakerToDevice(entity);
     }
 }

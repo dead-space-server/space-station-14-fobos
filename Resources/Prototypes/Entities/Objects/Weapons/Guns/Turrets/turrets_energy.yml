@@ -77,6 +77,10 @@
   - type: NpcFactionMember
     factions:
     - AllHostile
+  # DS14-start
+  - type: TurretTargetSettings
+    turretFactions: [NanoTrasen]
+  # DS14-end
   - type: BatteryAmmoProvider
     proto: BulletEnergyTurretDisablerTrace
     fireCost: 100

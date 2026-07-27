@@ -226,6 +226,37 @@ public partial struct AntagSelectionDefinition()
     /// </summary>
     [DataField("sponsorsPriorityRatio")]
     public float? SponsorsPriorityRatio;
+
+    /// <summary>
+    /// Extra unconditional slots added after the normal min/max and player-ratio calculation.
+    /// They intentionally do not consume the ratio budget of other definitions.
+    /// </summary>
+    [DataField]
+    public int AdditionalSlots;
+
+    /// <summary>
+    /// Minimum number of slots selected without sponsor priority.
+    /// </summary>
+    [DataField]
+    public int MinimumNonSponsorSlots;
+
+    /// <summary>
+    /// Maximum number of slots selected without sponsor priority.
+    /// </summary>
+    [DataField]
+    public int MaximumNonSponsorSlots;
+
+    /// <summary>
+    /// One non-sponsor slot is reserved per this many total antagonists in the rule.
+    /// </summary>
+    [DataField]
+    public int NonSponsorSlotTotalAntagRatio;
+
+    /// <summary>
+    /// Job WhiteList for Antag.
+    /// </summary>
+    [DataField]
+    public List<ProtoId<JobPrototype>>? JobWhitelist;
     // DS14-end
 }
 

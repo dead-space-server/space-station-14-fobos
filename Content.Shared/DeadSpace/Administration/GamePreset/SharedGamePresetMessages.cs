@@ -16,7 +16,6 @@ public sealed class GamePresetsResponseMessage : EntityEventArgs
     public List<CustomPresetData> CustomPresets { get; }
     public Dictionary<string, string> PresetNames { get; }
     public int MaxRdmRow { get; }
-    public int MaxRdmDay { get; }
     public int VoteDurationSeconds { get; }
     public int CurrentPresetIndex { get; }
     public bool SystemEnabled { get; }
@@ -24,26 +23,30 @@ public sealed class GamePresetsResponseMessage : EntityEventArgs
     public bool DisableOocDuringVote { get; }
     public int RdmStreak { get; }
     public bool IsLobby { get; }
+    public bool PreventRepeatMode { get; }
+    public bool CheckPlayerLimit { get; }
+    public List<string> WhitelistModeIds { get; }
 
     public GamePresetsResponseMessage(
         List<string> activePresetIds,
         List<CustomPresetData> customPresets,
         Dictionary<string, string> presetNames,
         int maxRdmRow,
-        int maxRdmDay,
         int voteDurationSeconds,
         int currentPresetIndex,
         bool systemEnabled,
         Dictionary<string, string> modeNames,
         bool disableOocDuringVote,
         int rdmStreak,
-        bool isLobby)
+        bool isLobby,
+        bool preventRepeatMode,
+        bool checkPlayerLimit,
+        List<string> whitelistModeIds)
     {
         ActivePresetIds = activePresetIds;
         CustomPresets = customPresets;
         PresetNames = presetNames;
         MaxRdmRow = maxRdmRow;
-        MaxRdmDay = maxRdmDay;
         VoteDurationSeconds = voteDurationSeconds;
         CurrentPresetIndex = currentPresetIndex;
         SystemEnabled = systemEnabled;
@@ -51,6 +54,9 @@ public sealed class GamePresetsResponseMessage : EntityEventArgs
         DisableOocDuringVote = disableOocDuringVote;
         RdmStreak = rdmStreak;
         IsLobby = isLobby;
+        PreventRepeatMode = preventRepeatMode;
+        CheckPlayerLimit = checkPlayerLimit;
+        WhitelistModeIds = whitelistModeIds;
     }
 }
 
@@ -181,16 +187,20 @@ public sealed class MovePresetInQueueMessage : EntityEventArgs
 public sealed class UpdatePresetSettingsMessage : EntityEventArgs
 {
     public int MaxRdmRow { get; }
-    public int MaxRdmDay { get; }
     public int VoteDurationSeconds { get; }
     public bool DisableOocDuringVote { get; }
+    public bool PreventRepeatMode { get; }
+    public bool CheckPlayerLimit { get; }
+    public List<string> WhitelistModeIds { get; }
 
-    public UpdatePresetSettingsMessage(int maxRdmRow, int maxRdmDay, int voteDurationSeconds, bool disableOocDuringVote)
+    public UpdatePresetSettingsMessage(int maxRdmRow, int voteDurationSeconds, bool disableOocDuringVote, bool preventRepeatMode, bool checkPlayerLimit, List<string> whitelistModeIds)
     {
         MaxRdmRow = maxRdmRow;
-        MaxRdmDay = maxRdmDay;
         VoteDurationSeconds = voteDurationSeconds;
         DisableOocDuringVote = disableOocDuringVote;
+        PreventRepeatMode = preventRepeatMode;
+        CheckPlayerLimit = checkPlayerLimit;
+        WhitelistModeIds = whitelistModeIds;
     }
 }
 

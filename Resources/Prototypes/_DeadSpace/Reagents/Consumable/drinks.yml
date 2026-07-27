@@ -158,3 +158,93 @@
         messages:
         - "psicodine-effect-at-peace"
         probability: 0.2
+
+- type: reagent
+  id: Durf
+  name: reagent-name-durf
+  parent: BaseAlcohol
+  desc: reagent-desc-durf
+  physicalDesc: reagent-physical-desc-fizzy-and-creamy
+  flavor: durf
+  color: "#A65F11"
+  metabolisms:
+    Alcohol:
+      metabolismRate: 0.05
+      effects:
+      - !type:SatiateThirst
+        factor: 2
+      - !type:AdjustReagent
+        reagent: Ethanol
+        amount: 0.15
+      - !type:Drunk
+        boozePower: 1.5
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentCondition
+          reagent: Durf
+          min: 10
+        - !type:MetabolizerTypeCondition
+          type: [ Dwarf ]
+          inverted: true
+        damage:
+          types:
+            Poison: 0.08
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentCondition
+          reagent: Durf
+          min: 10
+        - !type:MetabolizerTypeCondition
+          type: [ Dwarf ]
+        damage:
+          types:
+            Poison: 0.01
+      - !type:EvenHealthChange
+        conditions:
+        - !type:ReagentCondition
+          reagent: Durf
+          min: 10
+        - !type:MetabolizerTypeCondition
+          type: [ Dwarf ]
+        damage:
+          Brute: -0.15
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectDrowsiness
+        conditions:
+        - !type:ReagentCondition
+          reagent: Durf
+          min: 10
+        - !type:MetabolizerTypeCondition
+          type: [ Dwarf ]
+        type: Remove
+        time: 2
+      - !type:Vomit
+        probability: 0.03
+        conditions:
+        - !type:ReagentCondition
+          reagent: Durf
+          min: 12
+        - !type:MetabolizerTypeCondition
+          type: [ Dwarf ]
+          inverted: true
+      - !type:PopupMessage
+        type: Local
+        messages:
+          - "Ты чувствуешь пробуждение силы твоих предков. Борода словно стала гуще."
+          - "Ты слышишь отзвук молота о наковальню."
+          - "Каждая клетка тела поёт от восторга."
+          - "Где-то глубоко внутри просыпается желание выкопать самую глубокую шахту."
+          - "Священный отвар струится по венам."
+          - "Перед глазами вспыхивают образы статуй вождей."
+          - "Ты чувствуешь как Холтей зовёт тебя домой."
+          - "Ты чувствуешь как предки смотрят на тебя с небес."
+          - "Тёплая волна проходит от горла до кончиков пальцев."
+          - "На мгновение ты слышишь гул подземных кузниц Холтея."
+          - "Глоток напоминает первую кружку, выпитую в день совершеннолетия."
+        probability: 0.05
+        conditions:
+        - !type:ReagentCondition
+          reagent: Durf
+          min: 10
+        - !type:MetabolizerTypeCondition
+          type: [ Dwarf ]

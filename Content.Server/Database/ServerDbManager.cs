@@ -46,6 +46,10 @@ namespace Content.Server.Database
 
         Task SaveConstructionFavoritesAsync(NetUserId userId, List<ProtoId<ConstructionPrototype>> constructionFavorites);
 
+        // DS14-start
+        Task SaveAntagFavoritesAsync(NetUserId userId, List<ProtoId<AntagPrototype>> favoriteAntags);
+        // DS14-end
+
         // Single method for two operations for transaction.
         Task DeleteSlotAndSetSelectedIndex(NetUserId userId, int deleteSlot, int newSlot);
         Task<PlayerPreferences?> GetPlayerPreferencesAsync(NetUserId userId, CancellationToken cancel);
@@ -156,6 +160,21 @@ namespace Content.Server.Database
             ImmutableTypedHwid? hwId);
         Task<PlayerRecord?> GetPlayerRecordByUserName(string userName, CancellationToken cancel = default);
         Task<PlayerRecord?> GetPlayerRecordByUserId(NetUserId userId, CancellationToken cancel = default);
+
+        Task<UserIdMigrationReport> DryRunUserIdMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default);
+
+        Task<UserIdMigrationReport> ApplyUserIdMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default);
+
+        Task<UserIdMigrationReport> ApplyUserIdLoginMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default);
         #endregion
 
         #region Connection Logs
@@ -483,6 +502,14 @@ namespace Content.Server.Database
             return RunDbCommand(() => _db.SaveConstructionFavoritesAsync(userId, constructionFavorites));
         }
 
+        // DS14-start
+        public Task SaveAntagFavoritesAsync(NetUserId userId, List<ProtoId<AntagPrototype>> favoriteAntags)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.SaveAntagFavoritesAsync(userId, favoriteAntags));
+        }
+        // DS14-end
+
         public Task<PlayerPreferences?> GetPlayerPreferencesAsync(NetUserId userId, CancellationToken cancel)
         {
             DbReadOpsMetric.Inc();
@@ -596,6 +623,33 @@ namespace Content.Server.Database
         {
             DbReadOpsMetric.Inc();
             return RunDbCommand(() => _db.GetPlayerRecordByUserId(userId, cancel));
+        }
+
+        public Task<UserIdMigrationReport> DryRunUserIdMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default)
+        {
+            DbReadOpsMetric.Inc();
+            return RunDbCommand(() => _db.DryRunUserIdMigrationAsync(oldUserId, newUserId, cancel));
+        }
+
+        public Task<UserIdMigrationReport> ApplyUserIdMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.ApplyUserIdMigrationAsync(oldUserId, newUserId, cancel));
+        }
+
+        public Task<UserIdMigrationReport> ApplyUserIdLoginMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.ApplyUserIdLoginMigrationAsync(oldUserId, newUserId, cancel));
         }
 
         public Task<int> AddConnectionLogAsync(

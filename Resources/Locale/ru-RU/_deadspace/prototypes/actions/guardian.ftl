@@ -1,0 +1,10 @@
+ent-ActionGuardianCharge = рывок стража
+    .desc = Прыгнуть вперёд по направлению взгляда.
+ent-ActionGuardianForceWall = силовой барьер
+    .desc = Создать магический барьер.
+ent-ActionGuardianRangedShot = твердосветный болт
+    .desc = Выпустить быстрый твердосветный болт.
+ent-ActionGuardianHealingBolt = лечащий болт
+    .desc = Выпустить небольшой лечащий снаряд.
+ent-ActionGuardianEvict = выселить голопаразита
+    .desc = Разорвать связь с вашим голопаразитом.

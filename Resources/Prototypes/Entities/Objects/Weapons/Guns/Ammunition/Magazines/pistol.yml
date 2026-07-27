@@ -197,6 +197,24 @@
   - type: BallisticAmmoProvider
     proto: null
 
+# DS14-Start
+- type: entity
+  parent: MagazinePistolSubMachineGunTopMounted
+  id: MagazinePistolSubMachineGunTopMountedIncendiary
+  name: WT550 magazine (.35 auto top-mounted incendiary)
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgePistolIncendiary
+
+- type: entity
+  parent: MagazinePistolSubMachineGunTopMounted
+  id: MagazinePistolSubMachineGunTopMountedUranium
+  name: WT550 magazine (.35 auto top-mounted uranium)
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgePistolUranium
+# DS14-End
+
 - type: entity
   parent: BaseMagazinePistol
   id: MagazinePistol

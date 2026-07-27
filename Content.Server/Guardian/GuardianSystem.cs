@@ -1,5 +1,6 @@
 using Content.Server.Popups;
 using Content.Shared.Actions;
+using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
@@ -17,13 +18,14 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
+using Content.Shared.DeadSpace.Auras; // DS14
 
 namespace Content.Server.Guardian
 {
     /// <summary>
     /// A guardian has a host it's attached to that it fights for. A fighting spirit.
     /// </summary>
-    public sealed class GuardianSystem : EntitySystem
+    public sealed partial class GuardianSystem : EntitySystem // DS14-Edit
     {
         [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
         [Dependency] private readonly PopupSystem _popupSystem = default!;
@@ -42,6 +44,8 @@ namespace Content.Server.Guardian
             SubscribeLocalEvent<GuardianCreatorComponent, AfterInteractEvent>(OnCreatorInteract);
             SubscribeLocalEvent<GuardianCreatorComponent, ExaminedEvent>(OnCreatorExamine);
             SubscribeLocalEvent<GuardianCreatorComponent, GuardianCreatorDoAfterEvent>(OnDoAfter);
+
+            SubscribeLocalEvent<GuardianComponent, ComponentStartup>(OnGuardianStartup); // DS14
 
             SubscribeLocalEvent<GuardianComponent, ComponentShutdown>(OnGuardianShutdown);
             SubscribeLocalEvent<GuardianComponent, MoveEvent>(OnGuardianMove);
@@ -125,7 +129,7 @@ namespace Content.Server.Guardian
 
         private void OnHostShutdown(EntityUid uid, GuardianHostComponent component, ComponentShutdown args)
         {
-            if (component.HostedGuardian is not {} guardian)
+            if (component.HostedGuardian is not { } guardian)
                 return;
 
             // Ensure held items are dropped before deleting guardian.
@@ -139,7 +143,10 @@ namespace Content.Server.Guardian
 
         private void OnGuardianAttackAttempt(EntityUid uid, GuardianComponent component, AttackAttemptEvent args)
         {
-            if (args.Cancelled || args.Target != component.Host)
+            if (args.Cancelled)
+                return;
+
+            if (!CanAttemptGuardianAttack(uid, component, args) || args.Target != component.Host || CanAttackHost(uid)) // DS14-Edit
                 return;
 
             // why is this server side code? This should be in shared
@@ -156,6 +163,12 @@ namespace Content.Server.Guardian
 
             args.Args.Cancelled = true;
         }
+
+        // deadspace edit start
+        private partial bool CanAttackHost(EntityUid uid);
+
+        private partial bool CanAttemptGuardianAttack(EntityUid uid, GuardianComponent component, AttackAttemptEvent args);
+        // deadspace edit end
 
         public void ToggleGuardian(EntityUid user, GuardianHostComponent hostComponent)
         {
@@ -239,6 +252,17 @@ namespace Content.Server.Guardian
             if (TryComp<GuardianComponent>(guardian, out var guardianComp))
             {
                 guardianComp.Host = args.Args.Target.Value;
+
+                // DS14-start
+                if (TryComp<AuraComponent>(guardian, out var aura))
+                {
+                    aura.IgnoredEntity = GetNetEntity(args.Args.Target.Value);
+                    Dirty(guardian, aura);
+                }
+
+                OnGuardianCreated(guardian, args.Args.Target.Value);
+                OnGuardianLooseChanged(guardian, guardianComp);
+                // DS14-end
                 _audio.PlayPvs(guardianComp.InjectSound, args.Args.Target.Value);
                 _popupSystem.PopupEntity(Loc.GetString("guardian-created"), args.Args.Target.Value, args.Args.Target.Value);
                 // Exhaust the activator
@@ -285,9 +309,12 @@ namespace Content.Server.Guardian
             if (args.DamageDelta == null || component.Host == null || component.DamageShare == 0)
                 return;
 
+            var hostDamage = new DamageSpecifier();
+            hostDamage.DamageDict.Add("Blunt", args.DamageDelta.GetTotal() * component.DamageShare);
+
             _damageSystem.ChangeDamage(
                 component.Host.Value,
-                args.DamageDelta * component.DamageShare,
+                hostDamage,
                 origin: args.Origin,
                 ignoreResistances: true,
                 interruptsDoAfters: false);
@@ -300,8 +327,8 @@ namespace Content.Server.Guardian
         /// </summary>
         private void OnCreatorExamine(EntityUid uid, GuardianCreatorComponent component, ExaminedEvent args)
         {
-           if (component.Used)
-               args.PushMarkup(Loc.GetString("guardian-activator-empty-examine"));
+            if (component.Used)
+                args.PushMarkup(Loc.GetString("guardian-activator-empty-examine"));
         }
 
         /// <summary>
@@ -369,9 +396,11 @@ namespace Content.Server.Guardian
             DebugTools.Assert(!hostComponent.GuardianContainer.Contains(guardian));
 
             guardianComponent.GuardianLoose = true;
+
+            OnGuardianLooseChanged(guardian, guardianComponent); // DS14s-Edit
         }
 
-        private void RetractGuardian(EntityUid host,GuardianHostComponent hostComponent, EntityUid guardian, GuardianComponent guardianComponent)
+        private void RetractGuardian(EntityUid host, GuardianHostComponent hostComponent, EntityUid guardian, GuardianComponent guardianComponent)
         {
             if (!guardianComponent.GuardianLoose)
             {
@@ -383,6 +412,14 @@ namespace Content.Server.Guardian
             DebugTools.Assert(hostComponent.GuardianContainer.Contains(guardian));
             _popupSystem.PopupEntity(Loc.GetString("guardian-entity-recall"), host);
             guardianComponent.GuardianLoose = false;
+
+            OnGuardianLooseChanged(guardian, guardianComponent); // DS14-Edit
         }
+
+        // DS14-start
+        partial void OnGuardianLooseChanged(EntityUid guardian, GuardianComponent guardianComponent); // deadspace
+
+        partial void OnGuardianCreated(EntityUid guardian, EntityUid host);
+        // DS14-end
     }
 }

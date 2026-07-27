@@ -11,6 +11,7 @@ using Content.Shared.Bed.Sleep;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Mind;
+using Content.Shared.Mind.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
@@ -60,6 +61,7 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
         SubscribeLocalEvent<NecromorfComponent, IsEquippingAttemptEvent>(OnEquipAttempt);
         SubscribeLocalEvent<NecromorfComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshSpeed);
         SubscribeLocalEvent<NecromorfComponent, MeleeHitEvent>(OnMeleeHit);
+        SubscribeLocalEvent<NecromorfComponent, MindRemovedMessage>(OnMindRemoved);
         SubscribeLocalEvent<NecromorfComponent, CloningEvent>(
             OnNecromorfCloning,
             after: [typeof(CloningSystem)]);
@@ -145,6 +147,14 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
 //           return;
 //
 //       args.Handled = _chat.TryPlayEmoteSound(uid, component.EmoteSounds, args.Emote);
+    }
+
+    private void OnMindRemoved(Entity<NecromorfComponent> ent, ref MindRemovedMessage args)
+    {
+        if (TerminatingOrDeleted(ent))
+            return;
+
+        EnsureNecromorphGhostRole(ent);
     }
 
     private void OnNecromorfCloning(Entity<NecromorfComponent> ent, ref CloningEvent args)
@@ -255,6 +265,9 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
 
         if (_mobThreshold.TryGetThresholdForState(uid, MobState.Dead, out var deadThreshold))
             _mobThreshold.SetMobStateThreshold(uid, deadThreshold.Value * component.StrainData.HpMulty, MobState.Dead);
+
+        if (_mobThreshold.TryGetThresholdForState(uid, MobState.PreCritical, out var preCritThreshold))
+            _mobThreshold.SetMobStateThreshold(uid, preCritThreshold.Value * component.StrainData.HpMulty, MobState.PreCritical);
 
         if (_mobThreshold.TryGetThresholdForState(uid, MobState.Critical, out var critThreshold))
             _mobThreshold.SetMobStateThreshold(uid, critThreshold.Value * component.StrainData.HpMulty, MobState.Critical);

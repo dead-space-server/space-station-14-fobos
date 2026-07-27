@@ -14,9 +14,12 @@ using Content.Server.Voting.Managers;
 using Content.Shared.Administration;
 using Content.Shared.CCVar;
 using Content.Shared.DeadSpace.Administration.GamePreset;
+using Content.Shared.GameTicking.Components;
+using Robust.Server.Player;
 using Robust.Shared.Configuration;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Administration.GamePreset;
@@ -31,19 +34,26 @@ public sealed class GamePresetServerSystem : EntitySystem
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly IAdminManager _adminManager = default!;
+    [Dependency] private readonly IPlayerManager _playerManager = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IComponentFactory _componentFactory = default!;
 
     private ISawmill _sawmill = default!;
 
     private readonly List<string> _activePresets = new();
     private readonly List<CustomPresetData> _customPresets = new();
     private int _maxRdmRow;
-    private int _maxRdmDay;
     private int _voteDurationSeconds = 30;
     private int _currentPresetIndex;
     private int _rdmStreak;
     private bool _enabled = true;
     private bool _loaded;
     private bool _disableOocDuringVote;
+    private bool _preventRepeatMode;
+    private bool _checkPlayerLimit;
+    private string? _lastPickedMode;
+    private string? _pendingAppliedMode;
+    private List<string> _whitelistModeIds = new();
     private int _activeOurVotesCount;
     private bool _originalOocEnabled;
     private bool _oocStateChangedExternally;
@@ -97,11 +107,12 @@ public sealed class GamePresetServerSystem : EntitySystem
                 _activePresets.Clear();
                 _activePresets.AddRange(record.ActivePresetIds);
                 _maxRdmRow = record.MaxRdmRow;
-                _maxRdmDay = record.MaxRdmDay;
                 _voteDurationSeconds = record.VoteDurationSeconds > 0 ? record.VoteDurationSeconds : 30;
                 _currentPresetIndex = record.CurrentPresetIndex;
                 _enabled = record.Enabled;
                 _disableOocDuringVote = record.DisableOocDuringVote;
+                _preventRepeatMode = record.PreventRepeatMode;
+                _checkPlayerLimit = record.CheckPlayerLimit;
                 _rdmStreak = 0;
                 _currentPresetProcessed = false;
 
@@ -114,6 +125,10 @@ public sealed class GamePresetServerSystem : EntitySystem
                         _customPresets.AddRange(data);
                     }
                 }
+
+                _whitelistModeIds = string.IsNullOrEmpty(record.WhitelistModesJson)
+                    ? new List<string>()
+                    : JsonSerializer.Deserialize<List<string>>(record.WhitelistModesJson) ?? new List<string>();
             }
         }
         catch (Exception ex)
@@ -140,11 +155,13 @@ public sealed class GamePresetServerSystem : EntitySystem
                 Enabled = _enabled,
                 ActivePresetIds = new List<string>(_activePresets),
                 MaxRdmRow = _maxRdmRow,
-                MaxRdmDay = _maxRdmDay,
                 VoteDurationSeconds = _voteDurationSeconds,
                 CurrentPresetIndex = _currentPresetIndex,
                 DisableOocDuringVote = _disableOocDuringVote,
-                CustomPresetsJson = JsonSerializer.Serialize(_customPresets)
+                PreventRepeatMode = _preventRepeatMode,
+                CheckPlayerLimit = _checkPlayerLimit,
+                CustomPresetsJson = JsonSerializer.Serialize(_customPresets),
+                WhitelistModesJson = JsonSerializer.Serialize(_whitelistModeIds)
             };
             await _db.UpsertGamePresetConfigAsync(record);
         }
@@ -230,9 +247,11 @@ public sealed class GamePresetServerSystem : EntitySystem
             return;
 
         _maxRdmRow = msg.MaxRdmRow;
-        _maxRdmDay = msg.MaxRdmDay;
         _voteDurationSeconds = msg.VoteDurationSeconds > 0 ? msg.VoteDurationSeconds : 30;
         _disableOocDuringVote = msg.DisableOocDuringVote;
+        _preventRepeatMode = msg.PreventRepeatMode;
+        _checkPlayerLimit = msg.CheckPlayerLimit;
+        _whitelistModeIds = msg.WhitelistModeIds ?? new List<string>();
         SendUpdate();
         _ = SaveToDatabaseAsync();
     }
@@ -245,8 +264,47 @@ public sealed class GamePresetServerSystem : EntitySystem
         if (_activePresets.Count == 0)
             return;
 
+        _pendingAlerts.Clear();
+        _alertedKeys.Clear();
+
+        var originalIndex = _currentPresetIndex;
+        var found = false;
+        var attempts = 0;
+
+        while (attempts < _activePresets.Count)
+        {
+            var candidateId = _activePresets[_currentPresetIndex];
+
+            if (!HasAvailableModes(candidateId, manual: true, ignoreLimits: false))
+            {
+                var key = $"noplayers:{candidateId}";
+                if (_alertedKeys.Add(key))
+                    _pendingAlerts.Add(Loc.GetString("game-preset-skipped-no-modes", ("preset", GetPresetDisplayName(candidateId))));
+                _currentPresetIndex = (_currentPresetIndex + 1) % _activePresets.Count;
+                attempts++;
+                continue;
+            }
+
+            found = true;
+            break;
+        }
+
+        if (!found)
+        {
+            _pendingAlerts.Clear();
+            _pendingAlerts.Add(Loc.GetString("game-preset-all-presets-skipped"));
+        }
+
+        foreach (var alert in _pendingAlerts)
+        {
+            _chatManager.SendAdminAlert(alert);
+        }
+
         var presetId = _activePresets[_currentPresetIndex];
-        ForceVoteForPreset(presetId, manual: true);
+        ForceVoteForPreset(presetId, manual: true, ignoreLimits: !found);
+
+        _currentPresetIndex = originalIndex;
+        SendUpdate();
     }
 
     private void OnSkipCurrentPreset(SkipCurrentPresetMessage msg, EntitySessionEventArgs args)
@@ -267,7 +325,15 @@ public sealed class GamePresetServerSystem : EntitySystem
     {
         if (ev.New == GameRunLevel.PreRoundLobby && ev.Old != GameRunLevel.PreRoundLobby)
         {
-            StartVoteForNextPreset();
+            Timer.Spawn(TimeSpan.FromSeconds(1), StartVoteForNextPreset);
+        }
+        else if (ev.New == GameRunLevel.InRound)
+        {
+            if (_pendingAppliedMode != null)
+            {
+                _lastPickedMode = _pendingAppliedMode;
+                _pendingAppliedMode = null;
+            }
         }
     }
 
@@ -327,13 +393,24 @@ public sealed class GamePresetServerSystem : EntitySystem
                 }
             }
 
+            if (!HasAvailableModes(candidateId, manual: false, ignoreLimits: false))
+            {
+                var key = $"noplayers:{candidateId}";
+                if (_alertedKeys.Add(key))
+                    _pendingAlerts.Add(Loc.GetString("game-preset-skipped-no-modes", ("preset", GetPresetDisplayName(candidateId))));
+                _currentPresetIndex = (_currentPresetIndex + 1) % _activePresets.Count;
+                attempts++;
+                continue;
+            }
+
             found = true;
             break;
         }
 
         if (!found)
         {
-            _pendingAlerts.Add(Loc.GetString("game-preset-rdm-limit-exceeded"));
+            _pendingAlerts.Clear();
+            _pendingAlerts.Add(Loc.GetString("game-preset-all-presets-skipped"));
         }
 
         foreach (var alert in _pendingAlerts)
@@ -342,7 +419,7 @@ public sealed class GamePresetServerSystem : EntitySystem
         }
 
         var presetId = _activePresets[_currentPresetIndex];
-        if (ForceVoteForPreset(presetId, manual: false))
+        if (ForceVoteForPreset(presetId, manual: false, ignoreLimits: !found))
         {
             _currentPresetProcessed = true;
             _ = SaveToDatabaseAsync();
@@ -351,25 +428,80 @@ public sealed class GamePresetServerSystem : EntitySystem
         SendUpdate();
     }
 
+    private bool HasAvailableModes(string presetId, bool manual, bool ignoreLimits)
+    {
+        return HasAvailableModes(presetId, manual, ignoreLimits, new HashSet<string>());
+    }
+
+    private bool HasAvailableModes(
+        string presetId,
+        bool manual,
+        bool ignoreLimits,
+        HashSet<string> visited)
+    {
+        var custom = _customPresets.FirstOrDefault(p => p.PresetId == presetId);
+        if (custom != null && custom.PresetType == "democracy")
+        {
+            if (!visited.Add(presetId))
+                return false;
+
+            var hasAvailableModes = GetDemocracySubPresets(
+                custom,
+                manual,
+                ignoreLimits,
+                suppressAlerts: true,
+                visited: visited).Count > 0;
+            visited.Remove(presetId);
+            return hasAvailableModes;
+        }
+
+        return GetFilteredPresetModes(presetId, ignoreLimits, suppressAlerts: true).Count > 0;
+    }
+
     private bool IsPresetEntirelyRdm(CustomPresetData preset)
     {
+        return IsPresetEntirelyRdm(preset, new HashSet<string>());
+    }
+
+    private bool IsPresetEntirelyRdm(CustomPresetData preset, HashSet<string> visited)
+    {
+        if (!visited.Add(preset.PresetId))
+            return false;
+
         foreach (var subId in preset.Modes)
         {
             var subPreset = _customPresets.FirstOrDefault(p => p.PresetId == subId);
             if (subPreset == null)
+            {
+                visited.Remove(preset.PresetId);
                 return false;
+            }
             if (subPreset.PresetType == "rdm")
                 continue;
-            if (subPreset.PresetType == "democracy" && IsPresetEntirelyRdm(subPreset))
+            if (subPreset.PresetType == "democracy" && IsPresetEntirelyRdm(subPreset, visited))
                 continue;
+            visited.Remove(preset.PresetId);
             return false;
         }
+
+        visited.Remove(preset.PresetId);
         return true;
     }
 
     private List<string> FilterRdmSubPresets(CustomPresetData democracyPreset, bool suppressAlerts = false)
     {
+        return FilterRdmSubPresets(democracyPreset, suppressAlerts, new HashSet<string>());
+    }
+
+    private List<string> FilterRdmSubPresets(
+        CustomPresetData democracyPreset,
+        bool suppressAlerts,
+        HashSet<string> visited)
+    {
         var filtered = new List<string>();
+        if (!visited.Add(democracyPreset.PresetId))
+            return filtered;
+
         foreach (var subId in democracyPreset.Modes)
         {
             var subPreset = _customPresets.FirstOrDefault(p => p.PresetId == subId);
@@ -402,7 +534,7 @@ public sealed class GamePresetServerSystem : EntitySystem
                     }
                     continue;
                 }
-                var nestedFiltered = FilterRdmSubPresets(subPreset, suppressAlerts);
+                var nestedFiltered = FilterRdmSubPresets(subPreset, suppressAlerts, visited);
                 if (nestedFiltered.Count == 0)
                 {
                     if (!suppressAlerts)
@@ -420,14 +552,220 @@ public sealed class GamePresetServerSystem : EntitySystem
             filtered.Add(subId);
         }
 
+        visited.Remove(democracyPreset.PresetId);
         return filtered;
     }
 
-    private bool ForceVoteForPreset(string presetId, bool manual)
+    private bool IsModePlayable(string modeId)
+    {
+        return IsModePlayable(modeId, new HashSet<string>());
+    }
+
+    private bool IsModePlayable(string modeId, HashSet<string> visited)
+    {
+        if (!_checkPlayerLimit)
+            return true;
+
+        var playerCount = _playerManager.PlayerCount;
+
+        if (_prototypeManager.TryIndex<EntityPrototype>(modeId, out var entityProto))
+        {
+            if (entityProto.TryGetComponent<GameRuleComponent>(out var gameRule, _componentFactory))
+            {
+                if (gameRule.MinPlayers > playerCount)
+                    return false;
+            }
+            return true;
+        }
+
+        if (_prototypeManager.TryIndex<GamePresetPrototype>(modeId, out var presetProto))
+        {
+            if (presetProto.MinPlayers > playerCount)
+                return false;
+
+            foreach (var rule in presetProto.Rules)
+            {
+                if (_prototypeManager.TryIndex<EntityPrototype>(rule.Id, out var ruleEntity))
+                {
+                    if (ruleEntity.TryGetComponent<GameRuleComponent>(out var ruleGameRule, _componentFactory))
+                    {
+                        if (ruleGameRule.MinPlayers > playerCount)
+                            return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        var custom = _customPresets.FirstOrDefault(p => p.PresetId == modeId);
+        if (custom != null)
+        {
+            if (!visited.Add(modeId))
+                return false;
+
+            var playable = custom.Modes.Any(m => IsModePlayable(m, visited));
+            visited.Remove(modeId);
+            return playable;
+        }
+
+        return true;
+    }
+
+    private bool IsPreset(string id)
+    {
+        if (_customPresets.Any(p => p.PresetId == id))
+            return true;
+
+        if (_prototypeManager.TryIndex<GamePresetPrototype>(id, out _))
+        {
+            if (_prototypeManager.TryIndex<EntityPrototype>(id, out var entity) &&
+                entity.TryGetComponent<GameRuleComponent>(out _, _componentFactory))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    private List<string> FilterModesByPlayerLimit(List<string> modes, bool suppressAlerts = false)
+    {
+        if (!_checkPlayerLimit)
+            return modes;
+
+        var filtered = new List<string>();
+        var removedPresets = new List<string>();
+        var removedModes = new List<string>();
+
+        foreach (var modeId in modes)
+        {
+            if (IsModePlayable(modeId))
+            {
+                filtered.Add(modeId);
+            }
+            else
+            {
+                if (IsPreset(modeId))
+                    removedPresets.Add(modeId);
+                else
+                    removedModes.Add(modeId);
+            }
+        }
+
+        if (!suppressAlerts)
+        {
+            if (removedPresets.Count == 1)
+            {
+                _chatManager.SendAdminAlert(Loc.GetString("game-preset-player-limit-preset-removed-single", ("preset", GetPresetDisplayName(removedPresets[0]))));
+            }
+            else if (removedPresets.Count > 1)
+            {
+                var names = removedPresets.Select(id => GetPresetDisplayName(id));
+                var list = string.Join(", ", names);
+                _chatManager.SendAdminAlert(Loc.GetString("game-preset-player-limit-preset-removed-multiple", ("presets", list)));
+            }
+
+            if (removedModes.Count == 1)
+            {
+                _chatManager.SendAdminAlert(Loc.GetString("game-preset-player-limit-removed-single", ("mode", GetModeDisplayName(removedModes[0]))));
+            }
+            else if (removedModes.Count > 1)
+            {
+                var names = removedModes.Select(id => GetModeDisplayName(id));
+                var list = string.Join(", ", names);
+                _chatManager.SendAdminAlert(Loc.GetString("game-preset-player-limit-removed-multiple", ("modes", list)));
+            }
+        }
+
+        return filtered;
+    }
+
+    private List<string> GetDemocracySubPresets(
+        CustomPresetData democracyPreset,
+        bool manual,
+        bool ignoreLimits,
+        bool suppressAlerts = false)
+    {
+        return GetDemocracySubPresets(
+            democracyPreset,
+            manual,
+            ignoreLimits,
+            suppressAlerts,
+            new HashSet<string> { democracyPreset.PresetId });
+    }
+
+    private List<string> GetDemocracySubPresets(
+        CustomPresetData democracyPreset,
+        bool manual,
+        bool ignoreLimits,
+        bool suppressAlerts,
+        HashSet<string> visited)
+    {
+        var subPresetIds = !manual &&
+                           !ignoreLimits &&
+                           _maxRdmRow > 0 &&
+                           _rdmStreak >= _maxRdmRow
+            ? FilterRdmSubPresets(democracyPreset, suppressAlerts)
+            : democracyPreset.Modes.ToList();
+
+        if (!ignoreLimits)
+            subPresetIds = FilterModesByPlayerLimit(subPresetIds, suppressAlerts);
+
+        return subPresetIds
+            .Where(id => HasAvailableModes(id, manual, ignoreLimits, visited))
+            .ToList();
+    }
+
+    private List<string> GetFilteredPresetModes(
+        string presetId,
+        bool ignoreLimits,
+        bool suppressAlerts = false)
+    {
+        var modes = GetPresetModes(presetId);
+        if (!ignoreLimits && _preventRepeatMode && _lastPickedMode != null)
+            modes = modes.Where(IsModeRepeatAllowed).ToList();
+
+        if (!ignoreLimits)
+            modes = FilterModesByPlayerLimit(modes, suppressAlerts);
+
+        return modes;
+    }
+
+    private bool IsModeRepeatAllowed(string modeId)
+    {
+        return modeId != _lastPickedMode || _whitelistModeIds.Contains(modeId);
+    }
+
+    private bool ForceVoteForPreset(string presetId, bool manual, bool ignoreLimits = false)
     {
         var preset = _customPresets.FirstOrDefault(p => p.PresetId == presetId);
 
-        if (!manual)
+        if (preset != null && preset.PresetType == "democracy")
+        {
+            var subIds = GetDemocracySubPresets(preset, manual, ignoreLimits);
+
+            if (subIds.Count == 0)
+                return false;
+
+            BeginOurVote();
+
+            if (subIds.Count == 1)
+            {
+                ProcessDemocracyWinner(subIds[0], new HashSet<string> { preset.PresetId }, manual, ignoreLimits);
+                return true;
+            }
+
+            StartDemocracyVote(preset, subIds, manual: manual, ignoreLimits: ignoreLimits);
+            return true;
+        }
+
+        var modes = GetFilteredPresetModes(presetId, ignoreLimits);
+
+        if (modes.Count == 0)
+            return false;
+
+        if (!manual && !ignoreLimits)
         {
             if (preset != null && preset.PresetType == "rdm")
             {
@@ -439,35 +777,9 @@ public sealed class GamePresetServerSystem : EntitySystem
             }
         }
 
-        if (preset != null && preset.PresetType == "democracy")
-        {
-            var subIds = !manual && _maxRdmRow > 0 && _rdmStreak >= _maxRdmRow
-                ? FilterRdmSubPresets(preset, suppressAlerts: false)
-                : preset.Modes;
-
-            if (subIds.Count == 0)
-                return false;
-
-            BeginOurVote();
-            if (subIds.Count == 1)
-            {
-                ProcessDemocracyWinner(subIds[0], new HashSet<string>(), manual);
-                return true;
-            }
-
-            StartDemocracyVote(preset, subIds, manual: manual);
-            return true;
-        }
-
-        var modes = GetPresetModes(presetId);
-        if (modes.Count == 0)
-            return false;
-
         if (modes.Count == 1)
         {
-            BeginOurVote();
             ApplyPreset(presetId, modes[0], announcePublic: !(preset?.Secret ?? false));
-            FinishOurVotes();
             return true;
         }
 
@@ -480,38 +792,48 @@ public sealed class GamePresetServerSystem : EntitySystem
         var preset = _customPresets.FirstOrDefault(p => p.PresetId == presetId);
         var secret = preset?.Secret ?? false;
 
+        _pendingAppliedMode = pickedMode;
+
         if (secret)
         {
             _ticker.SetGamePreset(GetSecretPresetId(pickedMode));
-            if (announcePublic)
-                _chatManager.DispatchServerAnnouncement(Loc.GetString("game-preset-secret-win"));
             _chatManager.SendAdminAlert(Loc.GetString("game-preset-secret-win-admin", ("mode", GetModeDisplayName(pickedMode))));
         }
         else
         {
             _ticker.SetGamePreset(pickedMode);
             if (announcePublic)
+            {
                 _chatManager.DispatchServerAnnouncement(
-                    Loc.GetString("ui-vote-gamemode-win", ("winner", GetModeDisplayName(pickedMode))));
+                    Loc.GetString("game-preset-mode-set", ("mode", GetModeDisplayName(pickedMode))));
+            }
         }
     }
 
-    private void StartDemocracyVote(CustomPresetData democracyPreset, List<string>? overrideSubIds = null, HashSet<string>? visited = null, bool manual = false)
+    private void StartDemocracyVote(
+        CustomPresetData democracyPreset,
+        List<string> subPresetIds,
+        HashSet<string>? visited = null,
+        bool manual = false,
+        bool ignoreLimits = false)
     {
         visited ??= new HashSet<string>();
         if (!visited.Add(democracyPreset.PresetId))
         {
             _sawmill.Warning($"Democracy cycle detected for preset {democracyPreset.PresetId}, aborting vote.");
+            FinishOurVotes();
             return;
         }
 
-        var subPresetIds = overrideSubIds ?? democracyPreset.Modes;
         if (subPresetIds.Count == 0)
+        {
+            FinishOurVotes();
             return;
+        }
 
         if (subPresetIds.Count == 1)
         {
-            ProcessDemocracyWinner(subPresetIds[0], visited, manual);
+            ProcessDemocracyWinner(subPresetIds[0], visited, manual, ignoreLimits);
             return;
         }
 
@@ -530,29 +852,51 @@ public sealed class GamePresetServerSystem : EntitySystem
         }
 
         var vote = _voteManager.CreateVote(options);
+
         vote.OnFinished += (_, args) =>
         {
-            if (args.Winner != null)
+            var winner = args.Winner;
+            if (winner == null && args.Winners.Length > 0)
+                winner = _random.Pick(args.Winners);
+
+            var winnerPresetId = winner?.ToString();
+            if (string.IsNullOrEmpty(winnerPresetId))
             {
-                var winnerPresetId = args.Winner.ToString();
-                if (!string.IsNullOrEmpty(winnerPresetId))
-                {
-                    Timer.Spawn(0, () => ProcessDemocracyWinner(winnerPresetId, visited, manual));
-                }
+                FinishOurVotes();
+                return;
             }
+
+            Timer.Spawn(0, () => ProcessDemocracyWinner(winnerPresetId, visited, manual, ignoreLimits));
         };
     }
 
-    private void ProcessDemocracyWinner(string winnerPresetId, HashSet<string> visited, bool manual)
+    private void ProcessDemocracyWinner(
+        string winnerPresetId,
+        HashSet<string> visited,
+        bool manual,
+        bool ignoreLimits)
     {
         var winnerPreset = _customPresets.FirstOrDefault(p => p.PresetId == winnerPresetId);
         if (winnerPreset != null && winnerPreset.PresetType == "democracy")
         {
-            StartDemocracyVote(winnerPreset, null, visited, manual);
+            var availabilityPath = new HashSet<string>(visited) { winnerPreset.PresetId };
+            var subPresetIds = GetDemocracySubPresets(
+                winnerPreset,
+                manual,
+                ignoreLimits,
+                suppressAlerts: false,
+                visited: availabilityPath);
+            if (subPresetIds.Count == 0)
+            {
+                FinishOurVotes();
+                return;
+            }
+
+            StartDemocracyVote(winnerPreset, subPresetIds, visited, manual, ignoreLimits);
             return;
         }
 
-        if (!manual)
+        if (!manual && !ignoreLimits)
         {
             if (winnerPreset != null && winnerPreset.PresetType == "rdm")
             {
@@ -564,7 +908,8 @@ public sealed class GamePresetServerSystem : EntitySystem
             }
         }
 
-        var modes = GetPresetModes(winnerPresetId);
+        var modes = GetFilteredPresetModes(winnerPresetId, ignoreLimits);
+
         if (modes.Count == 0)
         {
             FinishOurVotes();
@@ -582,10 +927,6 @@ public sealed class GamePresetServerSystem : EntitySystem
 
     private void StartModeVote(string presetId, List<string> modes, bool manageOoc = true)
     {
-        if (manageOoc)
-        {
-            BeginOurVote();
-        }
         var options = new VoteOptions
         {
             Title = Loc.GetString("game-preset-vote-title"),
@@ -601,18 +942,44 @@ public sealed class GamePresetServerSystem : EntitySystem
         }
 
         var vote = _voteManager.CreateVote(options);
+
+        if (manageOoc)
+        {
+            BeginOurVote();
+        }
+
         vote.OnFinished += (_, args) =>
         {
             string picked;
             if (args.Winner == null)
             {
-                picked = modes[new Random().Next(modes.Count)];
+                if (args.Winners.Length == 0)
+                {
+                    FinishOurVotes();
+                    return;
+                }
+
+                picked = (string)_random.Pick(args.Winners);
+                var preset = _customPresets.FirstOrDefault(p => p.PresetId == presetId);
+                var secret = preset?.Secret ?? false;
+                if (!secret)
+                {
+                    _chatManager.DispatchServerAnnouncement(
+                        Loc.GetString("game-preset-mode-tie", ("picked", GetModeDisplayName(picked))));
+                }
             }
             else
             {
                 picked = (string)args.Winner;
+                var preset = _customPresets.FirstOrDefault(p => p.PresetId == presetId);
+                var secret = preset?.Secret ?? false;
+                if (!secret)
+                {
+                    _chatManager.DispatchServerAnnouncement(
+                        Loc.GetString("ui-vote-gamemode-win", ("winner", GetModeDisplayName(picked))));
+                }
             }
-            ApplyPreset(presetId, picked, announcePublic: true);
+            ApplyPreset(presetId, picked, announcePublic: false);
             FinishOurVotes();
         };
     }
@@ -638,6 +1005,12 @@ public sealed class GamePresetServerSystem : EntitySystem
     {
         if (!_disableOocDuringVote)
             return;
+
+        if (_activeOurVotesCount <= 0)
+        {
+            _sawmill.Warning("Tried to finish a game preset vote while no tracked votes were active.");
+            return;
+        }
 
         _activeOurVotesCount--;
         if (_activeOurVotesCount == 0)
@@ -693,21 +1066,35 @@ public sealed class GamePresetServerSystem : EntitySystem
             }
         }
 
+        var custom = _customPresets.FirstOrDefault(p => p.PresetId == modeId);
+        if (custom != null)
+            return custom.PresetName;
+
         return modeId;
     }
 
     private List<string> GetPresetModes(string presetId)
+    {
+        return GetPresetModes(presetId, new HashSet<string>());
+    }
+
+    private List<string> GetPresetModes(string presetId, HashSet<string> visited)
     {
         var custom = _customPresets.FirstOrDefault(p => p.PresetId == presetId);
         if (custom != null)
         {
             if (custom.PresetType == "democracy")
             {
+                if (!visited.Add(presetId))
+                    return new List<string>();
+
                 var allModes = new List<string>();
                 foreach (var subId in custom.Modes)
                 {
-                    allModes.AddRange(GetPresetModes(subId));
+                    allModes.AddRange(GetPresetModes(subId, visited));
                 }
+
+                visited.Remove(presetId);
                 return allModes;
             }
             return custom.Modes;
@@ -762,7 +1149,11 @@ public sealed class GamePresetServerSystem : EntitySystem
             {
                 if (!modeNames.ContainsKey(rule.Id))
                 {
-                    modeNames[rule.Id] = GetModeDisplayName(rule.Id);
+                    if (_prototypeManager.TryIndex<EntityPrototype>(rule.Id, out var entity) &&
+                        entity.TryGetComponent<GameRuleComponent>(out _, _componentFactory))
+                    {
+                        modeNames[rule.Id] = GetModeDisplayName(rule.Id);
+                    }
                 }
             }
         }
@@ -782,14 +1173,16 @@ public sealed class GamePresetServerSystem : EntitySystem
             new List<CustomPresetData>(_customPresets),
             names,
             _maxRdmRow,
-            _maxRdmDay,
             _voteDurationSeconds,
             _currentPresetIndex,
             _enabled,
             modeNames,
             _disableOocDuringVote,
             _rdmStreak,
-            _ticker.RunLevel == GameRunLevel.PreRoundLobby);
+            _ticker.RunLevel == GameRunLevel.PreRoundLobby,
+            _preventRepeatMode,
+            _checkPlayerLimit,
+            _whitelistModeIds);
 
         if (session != null)
             RaiseNetworkEvent(response, session);

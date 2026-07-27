@@ -47,7 +47,7 @@
   equipment:
     eyes: ClothingEyesGlassesSecurity
     id: WardenPDA
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer #ds14
   storage:
     back:
     - Flash

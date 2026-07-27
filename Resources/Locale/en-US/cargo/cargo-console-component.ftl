@@ -37,6 +37,7 @@ cargo-console-menu-account-action-button = Transfer
 cargo-console-menu-toggle-account-lock-button = Toggle Transfer Limit
 cargo-console-menu-account-action-option-withdraw = Withdraw Cash
 cargo-console-menu-account-action-option-transfer = Transfer Funds to {$code}
+cargo-console-menu-trade-hijacked = [color=red]Trade channel unavailable[/color]
 
 # Orders
 cargo-console-order-not-allowed = Access not allowed
@@ -47,6 +48,7 @@ cargo-console-snip-snip = Order trimmed to capacity
 cargo-console-insufficient-funds = Insufficient funds (require {$cost})
 cargo-console-unfulfilled = No room to fulfill order
 cargo-console-trade-station = Sent to {$destination}
+cargo-console-trade-hijacked = Trade channel unavailable
 cargo-console-unlock-approved-order-broadcast = [bold]{$productName} x{$orderAmount}[/bold], which cost [bold]{$cost}[/bold], was approved by [bold]{$approver}[/bold]
 cargo-console-fund-withdraw-broadcast = [bold]{$name} withdrew {$amount} spesos from {$name1} \[{$code1}\]
 cargo-console-fund-transfer-broadcast = [bold]{$name} transferred {$amount} spesos from {$name1} \[{$code1}\] to {$name2} \[{$code2}\][/bold]

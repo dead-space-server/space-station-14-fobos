@@ -143,6 +143,12 @@
   - type: IdExaminable
   - type: Hands
   # DS14-start
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      100: PreCritical
+      120: Critical
+      200: Dead
   - type: CarrySize
     size: Large
   - type: CarryStrength

@@ -34,7 +34,7 @@
   parent: ClothingUnderwearTopBase
   id: ClothingUnderwearTopBraWhite
   name: бра
-  description: Стандартное нижнее белье для женского персонала Nanotrasen.
+  description: Стандартное нижнее белье для женского персонала NanoTrasen.
   components:
   - type: Sprite
     sprite: _Sirena/Clothing/Underwear/Top/bra.rsi
@@ -43,7 +43,7 @@
   parent: ClothingUnderwearTopBase
   id: ClothingUnderwearTopBraSports
   name: спортивное бра
-  description: Стандартное нижнее белье для женского персонала Nanotrasen.
+  description: Стандартное нижнее белье для женского персонала NanoTrasen.
   components:
   - type: Sprite
     sprite: _Sirena/Clothing/Underwear/Top/sportsbra.rsi
@@ -52,7 +52,7 @@
   parent: ClothingUnderwearTopBase
   id: ClothingUnderwearTopBraSportsAlternative
   name: альтернативное спортивное бра
-  description: Стандартное нижнее белье для женского персонала Nanotrasen.
+  description: Стандартное нижнее белье для женского персонала NanoTrasen.
   components:
   - type: Sprite
     sprite: _Sirena/Clothing/Underwear/Top/sportsbraalt.rsi

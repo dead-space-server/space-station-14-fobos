@@ -652,7 +652,8 @@
   description: "A poster depicting the Nanotrasen logo."
   components:
   - type: Sprite
-    state: poster2_legit
+    sprite: _DeadSpace/Structures/Wallmounts/posters.rsi # DS14
+    state: NT # DS14
 
 - type: entity
   parent: PosterBase
@@ -985,7 +986,8 @@
   description: "A poster reminding you that security is watching your every move."
   components:
   - type: Sprite
-    state: poster39_legit
+    sprite: _DeadSpace/Structures/Wallmounts/posters.rsi # DS14
+    state: sec_eye # DS14
 
 - type: entity
   parent: PosterBase

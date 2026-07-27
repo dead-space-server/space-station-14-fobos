@@ -1,11 +1,7 @@
 using System.Linq;
 using Content.Client.Gameplay;
 using Content.Shared.CCVar;
-using Content.Shared.CombatMode;
 using Content.Shared.Effects;
-using Content.Shared.Hands.Components;
-using Content.Shared.Mobs.Components;
-using Content.Shared.StatusEffect;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Weapons.Melee.Components;
 using Content.Shared.Weapons.Melee.Events;
@@ -39,6 +35,8 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
 
     private const string MeleeLungeKey = "melee-lunge";
 
+    private bool _suppressSecondaryAttackUntilRelease; // DS14
+
     public override void Initialize()
     {
         base.Initialize();
@@ -67,8 +65,17 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
 
         var entity = entityNull.Value;
 
+        // DS14-start
+        var altDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.UseSecondary);
+
+        if (altDown != BoundKeyState.Down)
+            _suppressSecondaryAttackUntilRelease = false;
+        // DS14-end
+
         if (!TryGetWeapon(entity, out var weaponUid, out var weapon))
             return;
+
+        var useDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.Use); // DS14
 
         if (!CombatMode.IsInCombatMode(entity) || !Blocker.CanAttack(entity, weapon: (weaponUid, weapon)))
         {
@@ -76,8 +83,15 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
             return;
         }
 
-        var useDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.Use);
-        var altDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.UseSecondary);
+        // DS14-start
+        if (altDown == BoundKeyState.Down &&
+            (_suppressSecondaryAttackUntilRelease || IsMeleeSuppressedAfterStand(entity)))
+        {
+            _suppressSecondaryAttackUntilRelease = true;
+            weapon.Attacking = false;
+            return;
+        }
+        // DS14-end
 
         if (weapon.AutoAttack || useDown != BoundKeyState.Down && altDown != BoundKeyState.Down || _cfg.GetCVar(CCVars.ControlHoldToAttackMelee))
         {

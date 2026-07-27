@@ -13,21 +13,25 @@
   id: CaptainJumpsuit
   equipment:
     jumpsuit: ClothingUniformJumpsuitCaptain
+  groupBy: "CaptainBlue"
 
 - type: loadout
   id: CaptainJumpskirt
   equipment:
     jumpsuit: ClothingUniformJumpskirtCaptain
+  groupBy: "CaptainBlue"
 
 - type: loadout
   id: CaptainFormalSuit
   equipment:
     jumpsuit: ClothingUniformJumpsuitCapFormal
+  groupBy: "CaptainBlue"
 
 - type: loadout
   id: CaptainFormalSkirt
   equipment:
     jumpsuit: ClothingUniformJumpskirtCapFormalDress
+  groupBy: "CaptainBlue"
 
 # Head
 - type: loadout
@@ -39,22 +43,26 @@
   id: CaptainCap
   equipment:
     head: ClothingHeadHatCapcap
+  groupBy: "CaptainBlue"
 
 # Neck
 - type: loadout
   id: CaptainCloak
   equipment:
     neck: ClothingNeckCloakCap
+  groupBy: "CaptainBlue"
 
 - type: loadout
   id: CaptainCloakFormal
   equipment:
     neck: ClothingNeckCloakCapFormal
+  groupBy: "CaptainBlue"
 
 - type: loadout
   id: CaptainMantle
   equipment:
     neck: ClothingNeckMantleCap
+  groupBy: "CaptainBlue"
   effects:
   - !type:GroupLoadoutEffect
     proto: MasterCap
@@ -69,27 +77,32 @@
   id: CaptainBackpack
   equipment:
     back: ClothingBackpackCaptain
+  groupBy: "CaptainBlue"
 
 - type: loadout
   id: CaptainSatchel
   equipment:
     back: ClothingBackpackSatchelCaptain
+  groupBy: "CaptainBlue"
 
 - type: loadout
   id: CaptainDuffel
   equipment:
     back: ClothingBackpackDuffelCaptain
+  groupBy: "CaptainBlue"
 
 # Outer clothing
 - type: loadout
   id: CaptainOuterClothing
   equipment:
     outerClothing: ClothingOuterArmorCaptainCarapace
+  groupBy: "CaptainBlue"
 
 - type: loadout
   id: CaptainWintercoat
   equipment:
     outerClothing: ClothingOuterWinterCap
+  groupBy: "CaptainBlue"
 
 # Underwear
 - type: loadout

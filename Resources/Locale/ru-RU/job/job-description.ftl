@@ -42,9 +42,9 @@ job-description-engineer =
     оптимизируйте энергосеть и проводите аварийный ремонт, используя свой космический скафандр.
 job-description-ertengineer = Убедитесь, что на станции имеется электропитание и чистый воздух.
 job-description-ertjanitor = Убедитесь, что станция убрана должным образом - для поддержания морального духа.
-job-description-ertleader = Возглавьте отряд быстрого реагирования для устранения угрозы активам компании Nanotrasen.
+job-description-ertleader = Возглавьте отряд быстрого реагирования для устранения угрозы активам компании NanoTrasen.
 job-description-ertchaplain = Проследите за тем, чтобы последнее право экипажа станции было соблюдено.
-job-description-cburnleader = Возглавьте РХБЗЗ для устранения угрозы активам компании Nanotrasen.
+job-description-cburnleader = Возглавьте РХБЗЗ для устранения угрозы активам компании NanoTrasen.
 job-description-cburnagent = Убедитесь, что все активные угрозы для станции устранены.
 job-description-ertmedic = Убедитесь, что экипаж станции жив и здоров.
 job-description-ertsecurity = Убедитесь, что все активные угрозы для станции устранены.

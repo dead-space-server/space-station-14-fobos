@@ -1,0 +1,33 @@
+{
+   "version": 1,
+   "copyright" : "Created by nasdfx (discord) for DS14",
+   "license" : "CC-BY-SA-3.0",
+   "size" : {
+      "x" : 32,
+      "y" : 32
+   },
+   "states" : [
+      {
+         "name" : "base",
+         "directions" : 4
+      },
+      {
+         "name" : "base-colored",
+         "directions" : 4
+      },
+      {
+         "name" : "base-unshaded",
+         "directions" : 4
+      },
+      {
+         "name" : "camera",
+         "directions" : 4
+      },
+      {
+         "name" : "full"
+      },
+      {
+         "name" : "full-camera"
+      }
+   ]
+}

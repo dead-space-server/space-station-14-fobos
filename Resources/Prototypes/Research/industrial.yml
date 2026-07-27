@@ -71,6 +71,7 @@
   - ProtolatheHyperConvectionMachineCircuitboard
   - CircuitImprinterHyperConvectionMachineCircuitboard
   - SheetifierMachineCircuitboard
+  - HandCuttingMachineRecipe # DS14
 
 - type: technology
   id: PowerGeneration

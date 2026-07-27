@@ -26,6 +26,14 @@
             "directions": 4
         },
         {
+            "name": "off-equipped-HELMET-vulpkanin",
+            "directions": 4
+        },
+        {
+            "name": "off-equipped-HELMET-plaf",
+            "directions": 4
+        },
+        {
             "name": "on-equipped-HELMET",
             "directions": 4
         },
@@ -38,11 +46,11 @@
             "directions": 4
         },
         {
-            "name": "off-equipped-HELMET-vulpkanin",
+            "name": "on-equipped-HELMET-vulpkanin",
             "directions": 4
         },
         {
-            "name": "on-equipped-HELMET-vulpkanin",
+            "name": "on-equipped-HELMET-plaf",
             "directions": 4
         }
     ]

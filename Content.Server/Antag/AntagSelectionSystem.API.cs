@@ -103,7 +103,11 @@ public sealed partial class AntagSelectionSystem
         // make sure we don't double-count the current selection
         countOffset -= Math.Clamp(poolSize / def.PlayerRatio, def.Min, def.Max) * def.PlayerRatio;
 
-        return Math.Clamp((poolSize - countOffset) / def.PlayerRatio, def.Min, def.Max);
+        // DS14-start
+        // Additional slots are unconditional and intentionally excluded from countOffset.
+        var baseCount = Math.Clamp((poolSize - countOffset) / def.PlayerRatio, def.Min, def.Max);
+        return baseCount + Math.Max(def.AdditionalSlots, 0);
+        // DS14-end
     }
 
     /// <summary>
@@ -145,6 +149,18 @@ public sealed partial class AntagSelectionSystem
             component.AssignedMinds[i] = (mind, name);
             return;
         }
+    }
+
+    public void AddAntagIdentifier(EntityUid rule, EntityUid mind, string name, ICommonSession? session = null)
+    {
+        if (!TryComp<AntagSelectionComponent>(rule, out var component))
+            return;
+
+        if (component.AssignedMinds.All(entry => entry.Item1 != mind))
+            component.AssignedMinds.Add((mind, name));
+
+        if (session != null)
+            component.AssignedSessions.Add(session);
     }
     // DS14-end
 

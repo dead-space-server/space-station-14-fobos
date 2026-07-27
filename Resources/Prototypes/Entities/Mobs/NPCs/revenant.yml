@@ -6,6 +6,7 @@
   name: revenant
   description: A spooky ghostie.
   components:
+  - type: CantGetMagicOnSwap #DS14
   - type: Emag
     emagType: All
   - type: Input
@@ -25,6 +26,11 @@
     damageContainer: ManifestedSpirit
     damageModifierSet: ManifestedSpirit
   - type: NoSlip
+  ## DS14-start
+  - type: NpcFactionMember
+    factions:
+    - Revenant
+  ## DS14-end
   - type: Eye
     drawFov: false
     visMask:

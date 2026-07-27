@@ -21,3 +21,7 @@ construction-graph-tag-taipan-ripley-central-control-module = центральн
 construction-graph-tag-taipan-ripley-peripherals-control-module = модуль управления периферией кроваво-красного Рипли
 
 construction-graph-tag-command-hud = административный визор
+
+construction-graph-tag-toy-car = машинка на радиоуправлении
+
+construction-graph-tag-body-camera = нательная камера

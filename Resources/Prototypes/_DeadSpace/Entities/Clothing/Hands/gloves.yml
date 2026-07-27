@@ -76,3 +76,31 @@
     sprite: _DeadSpace/Clothing/Hands/Gloves/blueshield_gloves.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/Hands/Gloves/blueshield_gloves.rsi
+
+- type: entity
+  parent: ClothingHandsGlovesCaptain
+  id: ClothingHandsGlovesCaptainWhite
+  name: белые капитанские перчатки
+  description: Королевские белые перчатки с золотой  пластиной. Чистота.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Hands/Gloves/captain_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Hands/Gloves/captain_white.rsi
+  - type: Fiber
+    fiberMaterial: fibers-durathread
+    fiberColor: fibers-regal-white
+
+- type: entity
+  parent: ClothingHandsGlovesCaptain
+  id: ClothingHandsGlovesCaptainBlack
+  name: чёрные капитанские перчатки
+  description: Королевские чёрные перчатки с золотой пластиной. Строгость.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Hands/Gloves/captain_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Hands/Gloves/captain_black.rsi
+  - type: Fiber
+    fiberMaterial: fibers-durathread
+    fiberColor: fibers-regal-black

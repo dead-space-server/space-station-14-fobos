@@ -93281,7 +93281,7 @@ entities:
   - uid: 1894
     components:
     - type: MetaData
-      desc: Стандартное хранилище Nanotrasen.
+      desc: Стандартное хранилище NanoTrasen.
       name: оружейный сейф дробовиков
     - type: Transform
       pos: -21.5,7.5

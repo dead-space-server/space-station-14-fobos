@@ -1,0 +1,29 @@
+{
+    "version": 2,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "made by Urani, pyfya (discord), edited by mtf0036 (discord) for Space Station 14 server Мёртвый Космос",
+    "size": {
+      "x": 48,
+      "y": 64
+    },
+    "states": [
+      {
+        "name": "opz"
+      },
+      {
+        "name": "nanotrasen"
+      },      
+      {
+        "name": "syndie"
+      },
+      {
+        "name": "snk"
+      },
+      {
+        "name": "ussp"
+      },
+      {
+        "name": "empire"
+      }
+    ]
+}

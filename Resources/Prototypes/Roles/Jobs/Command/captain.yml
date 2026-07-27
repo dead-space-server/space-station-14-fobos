@@ -1,4 +1,4 @@
-﻿- type: job
+- type: job
   id: Captain
   name: job-name-captain
   description: job-description-captain
@@ -47,17 +47,17 @@
       - type: Skill
         group: Captain
       # DS14-End
-    
+
 
 - type: startingGear
   id: CaptainGear
   equipment:
-    shoes: ClothingShoesBootsLaceup
+    #shoes: ClothingShoesBootsLaceup # DS14: moved to loadout
     eyes: ClothingEyesGlassesCommand
-    gloves: ClothingHandsGlovesCaptain
+    #gloves: ClothingHandsGlovesCaptain # DS14: moved to loadout
     id: CaptainPDA
     ears: ClothingHeadsetAltCommand
-    socks: ClothingUnderwearSocksCaptain
+    #socks: ClothingUnderwearSocksCaptain # DS14: moved to loadout
   storage:
     back:
     - Flash

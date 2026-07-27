@@ -1,0 +1,94 @@
+- type: entity
+  id: HandCuttingMachine
+  name: ручной резательный станок
+  description: Ручная версия резательного станка, теперь с удобством в каждой плитке.
+  parent: BaseItem
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Specific/Engineering/HandCuttingMachine.rsi
+      state: icon
+    - type: Item
+      sprite: _DeadSpace/Objects/Specific/Engineering/HandCuttingMachine.rsi
+    - type: ActivatableUI
+      key: enum.LatheUiKey.Key
+    - type: UserInterface
+      interfaces:
+        enum.LatheUiKey.Key:
+          type: LatheBoundUserInterface
+        enum.ResearchClientUiKey.Key:
+          type: ResearchClientBoundUserInterface
+    - type: MaterialStorage
+      whitelist: &StandardMaterialWhitelist
+        tags:
+          - Sheet
+          - RawMaterial
+          - Ingot
+    - type: Lathe
+      producingSound: /Audio/Machines/cutter.ogg
+      idleState: icon
+      staticPacks:
+      - FloorDarkTilesStatic
+      - FloorSteelTilesStatic
+      - FloorWhiteTilesStatic
+      - FloorMaintsTilesStatic
+      - FloorWoodTilesStatic
+      - FloorConcreteTilesStatic
+      - CircuitFloorsStatic
+      - FloorMarbleTilesStatic
+      dynamicPacks:
+      - FauxTiles
+
+- type: entity
+  id: TaipanHandCuttingMachine
+  name: ручной резательный станок
+  description: Ручная версия резательного станка. На внутренней стороне ручки выгравирована буква S.
+  parent: [BaseItem, BaseWeaponBattery]
+  suffix: taipan
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Specific/Engineering/TaipanHandCuttingMachine.rsi
+      state: icon
+    - type: Item
+      sprite: _DeadSpace/Objects/Specific/Engineering/TaipanHandCuttingMachine.rsi
+    - type: ActivatableUI
+      key: enum.LatheUiKey.Key
+    - type: UserInterface
+      interfaces:
+        enum.LatheUiKey.Key:
+          type: LatheBoundUserInterface
+        enum.ResearchClientUiKey.Key:
+          type: ResearchClientBoundUserInterface
+    - type: MaterialStorage
+      whitelist: *StandardMaterialWhitelist
+    - type: Gun
+      fireRate: 3
+      soundGunshot:
+        path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/laser_rifle.ogg
+        params:
+          volume: 1
+      selectedMode: SemiAuto
+    - type: BatteryAmmoProvider
+      proto: LaserRifleBulletTrace
+      fireCost: 40
+    - type: Battery
+      maxCharge: 640
+      startingCharge: 640
+    - type: MagazineVisuals
+      magState: mag
+      steps: 5
+      zeroVisible: true
+    - type: Lathe
+      producingSound: /Audio/Machines/cutter.ogg
+      idleState: icon
+      staticPacks:
+      - FloorDarkTilesStatic
+      - FloorSteelTilesStatic
+      - FloorWhiteTilesStatic
+      - FloorMaintsTilesStatic
+      - FloorWoodTilesStatic
+      - FloorConcreteTilesStatic
+      - CircuitFloorsStatic
+      - FloorMarbleTilesStatic
+      dynamicPacks:
+      - FauxTiles
+

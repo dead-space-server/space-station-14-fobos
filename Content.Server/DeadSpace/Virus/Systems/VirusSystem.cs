@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Linq;
+using Content.Server.Guardian;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
@@ -25,6 +26,7 @@ using Content.Shared.Body.Prototypes;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Interaction;
 using Content.Shared.Physics;
+using Content.Shared.Movement.Systems;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -82,8 +84,18 @@ public sealed partial class VirusSystem : SharedVirusSystem
         SubscribeLocalEvent<VirusComponent, MobStateChangedEvent>(OnMobStateChanged);
         SubscribeLocalEvent<VirusComponent, CauseVirusEvent>(OnCauseVirus);
         SubscribeLocalEvent<VirusComponent, CureVirusEvent>(OnCureVirus);
+        SubscribeLocalEvent<PartialParalysisComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshSpeed);
 
         RashInitialize();
+    }
+
+    private void OnRefreshSpeed(Entity<PartialParalysisComponent> entity, ref RefreshMovementSpeedModifiersEvent ev)
+    {
+        if (TryComp<VirusComponent>(entity, out var virus) &&
+            HasSymptom<PartialParalysisSymptom>((entity, virus)))
+        {
+            ev.ModifySpeed(0.65f);
+        }
     }
 
     public override void Update(float frameTime)
@@ -453,6 +465,9 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
     public void InfectEntity(VirusData data, EntityUid target)
     {
+        if (HasComp<GuardianComponent>(target))
+            return;
+
         if (TryComp<VirusComponent>(target, out var targetVirus)
             && targetVirus.Data.StrainId == data.StrainId)
         {
@@ -507,7 +522,8 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
     public bool CanInfect(EntityUid target, VirusData data)
     {
-        if (HasComp<ZombieComponent>(target)
+        if (HasComp<GuardianComponent>(target)
+            || HasComp<ZombieComponent>(target)
             || HasComp<NecromorfComponent>(target)
             || HasComp<InfectionDeadComponent>(target)
             || HasComp<PendingZombieComponent>(target))
@@ -594,6 +610,25 @@ public sealed partial class VirusSystem : SharedVirusSystem
         AddInfectedStrain(newStrainId);
     }
 
+    public static bool CanAddSymptom(
+        IReadOnlyCollection<ProtoId<VirusSymptomPrototype>> activeSymptoms,
+        ProtoId<VirusSymptomPrototype> symptomId,
+        VirusSymptomPrototype symptom,
+        bool isTaipan)
+    {
+        if (activeSymptoms.Contains(symptomId))
+            return false;
+
+        if (symptom.TaipanOnly && !isTaipan)
+            return false;
+
+        if (symptom.RequiredSymptom is { } required &&
+            !activeSymptoms.Contains(required))
+            return false;
+
+        return !symptom.BlockedBySymptoms.Any(blocked => activeSymptoms.Contains(blocked));
+    }
+
     public VirusData GenerateVirusData(
     string strainId,
     Dictionary<DangerIndicatorSymptom, int> symptomsByDanger,
@@ -610,6 +645,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
                 .EnumeratePrototypes<VirusSymptomPrototype>()
                 .Where(p =>
                     p.DangerIndicator == danger &&
+                    !p.TaipanOnly &&
                     !data.ActiveSymptom.Contains(p.ID))
                 .ToList();
 
@@ -807,6 +843,21 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
             VirusSymptom.ParalyzedLegs =>
                 new ParalyzedLegsSymptom(newWindow),
+
+            VirusSymptom.PartialParalysis =>
+                new PartialParalysisSymptom(newWindow),
+
+            VirusSymptom.RespiratoryFailure =>
+                new RespiratoryFailureSymptom(newWindow),
+
+            VirusSymptom.VascularRupture =>
+                new VascularRuptureSymptom(newWindow),
+
+            VirusSymptom.EnhancedNecrosis =>
+                new EnhancedNecrosisSymptom(newWindow),
+
+            VirusSymptom.Necromutation =>
+                new NecromutationSymptom(newWindow),
 
             _ => throw new ArgumentOutOfRangeException(
                 nameof(proto.SymptomType),

@@ -42,7 +42,7 @@
   equipment:
     eyes: ClothingEyesGlassesSecurity
     id: DetectivePDA
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     belt: ClothingBeltHolsterFilled
   storage:
     back:

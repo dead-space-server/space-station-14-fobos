@@ -33,6 +33,7 @@ public sealed class ShadowlingRevealSystem : EntitySystem
     {
         base.Initialize();
         SubscribeLocalEvent<ShadowlingRevealComponent, ComponentInit>(OnComponentInit);
+        SubscribeLocalEvent<ShadowlingRevealComponent, ComponentShutdown>(OnComponentShutdown);
         SubscribeLocalEvent<ShadowlingRevealComponent, ShadowlingRevealEvent>(OnRevealAction);
         SubscribeLocalEvent<ShadowlingRevealComponent, ShadowlingRevealDoAfterEvent>(OnDoAfter);
     }
@@ -40,6 +41,11 @@ public sealed class ShadowlingRevealSystem : EntitySystem
     private void OnComponentInit(EntityUid uid, ShadowlingRevealComponent component, ComponentInit args)
     {
         _actions.AddAction(uid, ref component.ActionRevealEntity, component.ActionReveal);
+    }
+
+    private void OnComponentShutdown(EntityUid uid, ShadowlingRevealComponent component, ComponentShutdown args)
+    {
+        _actions.RemoveAction(uid, component.ActionRevealEntity);
     }
 
     private void OnRevealAction(EntityUid uid, ShadowlingRevealComponent component, ShadowlingRevealEvent args)

@@ -28,6 +28,15 @@ public static class BanPanelEuiStateMsg
         public Ban Ban { get; } = ban;
     }
 
+    // DS14-start
+    [Serializable, NetSerializable]
+    public sealed class CreateWatchlistRequest(string playerUsername, string reason) : EuiMessageBase
+    {
+        public string PlayerUsername { get; } = playerUsername;
+        public string Reason { get; } = reason;
+    }
+    // DS14-end
+
     [Serializable, NetSerializable]
     public sealed class GetPlayerInfoRequest : EuiMessageBase
     {

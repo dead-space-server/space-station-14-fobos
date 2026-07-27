@@ -9,10 +9,12 @@ public sealed class GamePresetConfigRecord
     public string ServerId { get; set; } = string.Empty;
     public bool Enabled { get; set; }
     public int MaxRdmRow { get; set; }
-    public int MaxRdmDay { get; set; }
     public int VoteDurationSeconds { get; set; } = 30;
     public int CurrentPresetIndex { get; set; }
     public List<string> ActivePresetIds { get; set; } = new();
     public string CustomPresetsJson { get; set; } = string.Empty;
     public bool DisableOocDuringVote { get; set; }
+    public bool PreventRepeatMode { get; set; }
+    public bool CheckPlayerLimit { get; set; }
+    public string WhitelistModesJson { get; set; } = string.Empty;
 }

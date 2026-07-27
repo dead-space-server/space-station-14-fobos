@@ -7,3 +7,8 @@ namespace Content.Shared.Sound.Components;
 /// </summary>
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class EmitSoundOnPickupComponent : BaseEmitSoundComponent;
+
+// DS14-start
+[RegisterComponent]
+public sealed partial class SuppressPickupDropSoundComponent : Component;
+// DS14-end

@@ -9,6 +9,9 @@
       sprite: _DeadSpace/Objects/Misc/module.rsi
       state: door_electronics_syndicate
     - type: DoorElectronics
+    - type: Tag
+      tags:
+      - TaipanDoorElectronics
     - type: StaticPrice
       price: 55
     - type: AccessReader

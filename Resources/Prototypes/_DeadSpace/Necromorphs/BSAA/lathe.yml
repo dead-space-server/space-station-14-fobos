@@ -10,6 +10,7 @@
   - BSAAMagazinePistolCaselessRifle
   - ExtMagazineRifleBurn
   - ADTExtMagazineRifle
+  - Flash
 
 - type: latheRecipe
   id: VantShield

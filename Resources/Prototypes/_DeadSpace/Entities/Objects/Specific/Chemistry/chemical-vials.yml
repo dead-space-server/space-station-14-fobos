@@ -1,5 +1,5 @@
 - type: entity
-  parent: BaseChemistryEmptyVial
+  parent: ChemistryEmptyVial
   id: TerratosomochromolinChemistryVial
   name: пробирка
   description: Маленькая пробирка.
@@ -9,7 +9,8 @@
     currentLabel: терратосоматохромолин
   - type: SolutionContainerManager
     solutions:
-      beaker:
+      drink:
+        maxVol: 10
         reagents:
         - ReagentId: Terratosomochromolin
           Quantity: 10

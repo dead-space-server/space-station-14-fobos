@@ -46,6 +46,7 @@
     - Diona
     - Xenomorph
     - IPC
+    - Felinid
   - type: RandomMetadata
     nameSegments:
     - UnitologyHeavyFirst
@@ -57,7 +58,7 @@
   id: SiegeOfTheCircle
   components:
   - type: GameRule
-    minPlayers: 75
+    minPlayers: 50
   - type: CircleOpsRule
     windowUntilSendObelisk:
       min: 1m
@@ -77,7 +78,7 @@
     selectionTime: PrePlayerSpawn
     definitions:
     - prefRoles: [ CircleCommander ]
-      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleFighterLight ]
+      fallbackRoles: []
       spawnerPrototype: SpawnPointCircleCommander
       startingGear: TheCircleLeaderGear
       playerRatio: 12
@@ -86,7 +87,7 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       roleLoadout:
-        - RoleSurvivalExtended
+        - RoleSurvivalTheCircle
       components:
       - type: Skill
         group: ALL
@@ -119,7 +120,7 @@
       - MindRoleCircleCommander
       sponsorsPriority: true
     - prefRoles: [ CircleMedic ]
-      fallbackRoles: [ CircleEngineer, CircleCommander, CircleFighterHeavy, CircleFighterLight ]
+      fallbackRoles: []
       spawnerPrototype: SpawnPointCircleMedic
       startingGear: TheCircleMedicGear
       playerRatio: 12
@@ -128,11 +129,12 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       roleLoadout:
-        - RoleSurvivalExtended
+        - RoleSurvivalTheCircle
       components:
       - type: Skill
         group: ALL
       - type: ObeliskActivateAbility
+      - type: InstantCriticalCarry
       - type: IntrinsicRadioTransmitter
         channels:
         - Unitolog
@@ -162,12 +164,12 @@
       sponsorsPriority: true
 # Повторение потому-что по какой-то тупой причине не спавниться ещё 2 роли данных ролей
     - prefRoles: [ CircleFighterHeavy ]
-      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
+      fallbackRoles: []
       spawnerPrototype: SpawnPointCircleFighterHeavy
       playerRatio: 12
       startingGear: TheCircleHeavyGear
       roleLoadout:
-        - RoleSurvivalExtended
+        - RoleSurvivalTheCircle
       briefing:
         text: roles-antag-thecircle-heavy-start
         color: CornflowerBlue
@@ -175,6 +177,7 @@
       components:
       - type: Skill
         group: ALL
+      - type: CircleDeacon
       - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
@@ -203,12 +206,12 @@
       mindRoles:
       - MindRoleCircleFighterHeavy
     - prefRoles: [ CircleFighterLight ]
-      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
+      fallbackRoles: []
       spawnerPrototype: SpawnPointCircleFighterLight
       playerRatio: 12
       startingGear: TheCircleLightGear
       roleLoadout:
-        - RoleSurvivalExtended
+        - RoleSurvivalTheCircle
       briefing:
         text: roles-antag-thecircle-light-start
         color: CornflowerBlue
@@ -245,12 +248,12 @@
       - MindRoleCircleFighterLight
 # Конец повторение
     - prefRoles: [ CircleFighterHeavy ]
-      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
+      fallbackRoles: []
       spawnerPrototype: SpawnPointCircleFighterHeavy
       playerRatio: 12
       startingGear: TheCircleHeavyGear
       roleLoadout:
-        - RoleSurvivalExtended
+        - RoleSurvivalTheCircle
       briefing:
         text: roles-antag-thecircle-heavy-start
         color: CornflowerBlue
@@ -258,6 +261,7 @@
       components:
       - type: Skill
         group: ALL
+      - type: CircleDeacon
       - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
@@ -286,12 +290,12 @@
       mindRoles:
       - MindRoleCircleFighterHeavy
     - prefRoles: [ CircleFighterLight ]
-      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
+      fallbackRoles: []
       spawnerPrototype: SpawnPointCircleFighterLight
       playerRatio: 12
       startingGear: TheCircleLightGear
       roleLoadout:
-        - RoleSurvivalExtended
+        - RoleSurvivalTheCircle
       briefing:
         text: roles-antag-thecircle-light-start
         color: CornflowerBlue
@@ -327,12 +331,12 @@
       mindRoles:
       - MindRoleCircleFighterLight
     - prefRoles: [ CircleEngineer ]
-      fallbackRoles: [ CircleFighterLight, CircleMedic, CircleFighterHeavy, CircleCommander ]
+      fallbackRoles: []
       spawnerPrototype: SpawnPointCircleEngineer
       startingGear: TheCircleEngineerGear
       playerRatio: 12
       roleLoadout:
-        - RoleSurvivalExtended
+        - RoleSurvivalTheCircle
       briefing:
         text: roles-antag-thecircle-engineer-start
         color: CornflowerBlue
@@ -367,5 +371,50 @@
         - GeneralLanguage
       mindRoles:
       - MindRoleCircleEngineer
+    - prefRoles: [ CircleGeist ]
+      fallbackRoles: []
+      spawnerPrototype: SpawnPointCircleGeist
+      startingGear: TheCircleGeistGear
+      playerRatio: 12
+      roleLoadout:
+        - RoleSurvivalTheCircleGeist
+      briefing:
+        text: roles-antag-thecircle-geist-start
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
+      components:
+      - type: Skill
+        group: ALL
+      - type: ObeliskActivateAbility
+      - type: TheCircleGeist
+      - type: AutoImplant
+        implants:
+        - DeathAcidifierImplant
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
+      - type: RandomMetadata
+        nameSegments:
+        - UnitologyGeistFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
+      mindRoles:
+      - MindRoleCircleGeist
   - type: DynamicRuleCost
     cost: 200

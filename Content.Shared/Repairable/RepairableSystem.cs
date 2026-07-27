@@ -31,12 +31,31 @@ public sealed partial class RepairableSystem : EntitySystem
         if (!TryComp(ent.Owner, out DamageableComponent? damageable) || damageable.TotalDamage == 0)
             return;
 
+        var oldTotal = damageable.TotalDamage; // DS14
+
         if (ent.Comp.DamageValue != null)
             RepairSomeDamage((ent, damageable), ent.Comp.DamageValue.Value, args.User);
         else if (ent.Comp.Damage != null)
             RepairSomeDamage((ent, damageable), ent.Comp.Damage, args.User);
         else
             RepairAllDamage((ent, damageable), args.User);
+
+        // DS14-start
+        if (!TryComp(ent.Owner, out damageable))
+            return;
+
+        var newTotal = damageable.TotalDamage;
+        var healed = oldTotal - newTotal;
+
+        if (healed <= 0)
+        {
+            args.Repeat = false;
+            args.Handled = true;
+            var msg = Loc.GetString("comp-repairable-nothing-to-repair", ("target", ent.Owner), ("tool", args.Used!));
+            _popup.PopupClient(msg, ent.Owner, args.User);
+            return;
+        }
+        // DS14-end
 
         args.Repeat = ent.Comp.AutoDoAfter && damageable.TotalDamage > 0;
         args.Args.Event.Repeat = args.Repeat;
@@ -97,6 +116,30 @@ public sealed partial class RepairableSystem : EntitySystem
         // Only try repair the target if it is damaged
         if (!TryComp<DamageableComponent>(ent.Owner, out var damageable) || damageable.TotalDamage == 0)
             return;
+
+        // DS14-start
+        if (!_toolSystem.HasQuality(args.Used, ent.Comp.QualityNeeded))
+            return;
+
+        if (ent.Comp.Damage != null)
+        {
+            bool canHeal = false;
+            foreach (var (type, value) in ent.Comp.Damage.DamageDict)
+            {
+                if (value < 0 && damageable.Damage.DamageDict.TryGetValue(type, out var current) && current > 0)
+                {
+                    canHeal = true;
+                    break;
+                }
+            }
+            if (!canHeal)
+            {
+                _popup.PopupClient(Loc.GetString("comp-repairable-cannot-repair", ("target", ent.Owner), ("tool", args.Used!)), args.User, args.User);
+                args.Handled = true;
+                return;
+            }
+        }
+        // DS14-end
 
         float delay = ent.Comp.DoAfterDelay;
 

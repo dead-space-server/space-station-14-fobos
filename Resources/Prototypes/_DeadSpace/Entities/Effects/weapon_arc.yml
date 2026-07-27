@@ -21,3 +21,18 @@
       sprite: _DeadSpace/Effects/arcs.rsi
       state: mantis-wide
       drawdepth: Effects
+
+- type: entity
+  id: MantisDodgeEffect
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: TimedDespawn
+      lifetime: 0.35
+    - type: Sprite
+      drawdepth: Effects
+      sprite: _DeadSpace/Objects/Weapons/Melee/mantis_blades.rsi
+      layers:
+        - state: animation-icon
+          shader: unshaded
+          color: "#c5ecff99"
+          scale: 1.25, 1.25

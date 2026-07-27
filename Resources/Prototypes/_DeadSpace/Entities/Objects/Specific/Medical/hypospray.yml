@@ -28,6 +28,35 @@
           Quantity: 20
 
 - type: entity
+  name: инъектор деритрацина
+  parent: ChemicalMedipen
+  id: DerytracineMedipen
+  description: Одиночная доза препарата, расчитанного для применения в условиях боя.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Medical/medipen.rsi
+    layers:
+    - state: derytracine
+      map: ["enum.SolutionContainerLayers.Fill"]
+  - type: SolutionContainerVisuals
+    maxFillLevels: 1
+    changeColor: false
+    emptySpriteName: derytracine_empty
+  - type: Injector
+    solutionName: pen
+    currentTransferAmount: null
+    activeModeProtoId: HyposprayInjectMode
+    allowedModes:
+    - HyposprayInjectMode
+  - type: SolutionContainerManager
+    solutions:
+      pen:
+        maxVol: 20
+        reagents:
+        - ReagentId: Derytracine
+          Quantity: 20
+
+- type: entity
   parent: SpaceMedipen
   id: NutritiousMedipen
   name: инъектор питательных веществ

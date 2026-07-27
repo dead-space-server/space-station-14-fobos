@@ -15,6 +15,7 @@ public sealed partial class MagicMirrorWindow : DefaultWindow
     public Action<(int slot, Marking marking)>? OnHairColorChanged;
     public Action<int>? OnHairSlotRemoved;
     public Action? OnHairSlotAdded;
+    public Action<(bool enabled, Color color)>? OnHairGradientChanged; // DS14
 
     public Action<(int slot, string id)>? OnFacialHairSelected;
     public Action<(int slot, Marking marking)>? OnFacialHairColorChanged;
@@ -29,6 +30,7 @@ public sealed partial class MagicMirrorWindow : DefaultWindow
         HairPicker.OnColorChanged += args => OnHairColorChanged!(args);
         HairPicker.OnSlotRemove += args => OnHairSlotRemoved!(args);
         HairPicker.OnSlotAdd += delegate { OnHairSlotAdded!(); };
+        HairPicker.OnGradientChanged += args => OnHairGradientChanged!(args); // DS14
 
         FacialHairPicker.OnMarkingSelect += args => OnFacialHairSelected!(args);
         FacialHairPicker.OnColorChanged += args => OnFacialHairColorChanged!(args);
@@ -38,6 +40,8 @@ public sealed partial class MagicMirrorWindow : DefaultWindow
 
     public void UpdateState(MagicMirrorUiState state)
     {
+        HairPicker.SetGradientData(state.HairGradientEnabled, state.HairGradientColor); // DS14
+
         HairPicker.UpdateData(state.Hair, state.Species, state.HairSlotTotal);
         FacialHairPicker.UpdateData(state.FacialHair, state.Species, state.FacialHairSlotTotal);
 

@@ -54,7 +54,7 @@
         Blunt: 3
         Piercing: 3
         Heat: 8
-        Structural: 20
+        Structural: 70
   - type: Demon
   - type: GhostTakeoverAvailable
   - type: Vocal
