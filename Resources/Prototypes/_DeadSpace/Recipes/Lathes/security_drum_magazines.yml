@@ -1,0 +1,64 @@
+- type: latheRecipePack
+  id: SecuritySMGDrumMagazinesTierThree
+  recipes:
+  - SMGDrumMagazine
+  - SMGDrumMagazineEmpty
+  - SMGDrumMagazinePractice
+  - SMGDrumMagazineIncendiary
+  - SMGDrumMagazineUranium
+
+- type: latheRecipe
+  id: SMGDrumMagazine
+  parent: BaseWeaponRecipe
+  result: DrumPistolSubMachineGun
+  categories:
+  - Ammo
+  completetime: 3
+  materials:
+    Steel: 600
+    Plastic: 200
+
+- type: latheRecipe
+  id: SMGDrumMagazineEmpty
+  parent: BaseWeaponRecipe
+  result: DrumPistolSubMachineGunEmpty
+  categories:
+  - Ammo
+  completetime: 3
+  materials:
+    Steel: 60
+    Plastic: 60
+
+- type: latheRecipe
+  id: SMGDrumMagazinePractice
+  parent: BaseWeaponRecipe
+  result: DrumPistolSubMachineGunPractice
+  categories:
+  - Ammo
+  completetime: 3
+  materials:
+    Steel: 300
+    Plastic: 100
+
+- type: latheRecipe
+  id: SMGDrumMagazineIncendiary
+  parent: BaseWeaponRecipe
+  result: DrumPistolSubMachineGunIncendiary
+  categories:
+  - Ammo
+  completetime: 3
+  materials:
+    Steel: 50
+    Plastic: 550
+
+- type: latheRecipe
+  id: SMGDrumMagazineUranium
+  parent: BaseWeaponRecipe
+  result: DrumPistolSubMachineGunuranium
+  categories:
+  - Ammo
+  completetime: 3
+  materials:
+    Steel: 500
+    Uranium: 500
+    Plastic: 250
