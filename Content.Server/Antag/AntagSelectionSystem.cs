@@ -953,6 +953,19 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         }
 
         // DS14-start
+        if (def.NonSponsorSlotTotalAntagRatio > 0 && selectionCount > 0)
+        {
+            var totalTargetCount = GetTargetAntagCount(ent, GetTotalPlayerCount(sessions));
+            var minimumNonSponsorSlots = Math.Max(def.MinimumNonSponsorSlots, 0);
+            var maximumNonSponsorSlots = Math.Max(def.MaximumNonSponsorSlots, minimumNonSponsorSlots);
+            var nonSponsorSlots = Math.Clamp(
+                totalTargetCount / def.NonSponsorSlotTotalAntagRatio,
+                minimumNonSponsorSlots,
+                maximumNonSponsorSlots);
+            var sponsorSlots = selectionCount - Math.Clamp(nonSponsorSlots, 0, selectionCount);
+            return new AntagSelectionPlayerPool(priorityList, preferredList, fallbackList, sponsorSlots, selectionCount);
+        }
+
         if (def.SponsorsPriorityRatio is { } sponsorsPriorityRatio && selectionCount > 0)
         {
             var ratio = Math.Clamp(sponsorsPriorityRatio, 0f, 1f);
