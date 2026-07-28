@@ -411,13 +411,6 @@
     prototypes: [ BSAASpecialistGear ]
   - type: GhostRoleNotifys
     groupPrototype: BSAAGroup
-    - type: AutoImplant
-      implants:
-      - MindShieldImplant
-      - TrackingImplant
-      - RadioImplantSOC
-      - DeathRattleImplantSOD
-      - RezervImplant
 
 - type: randomHumanoidSettings
   id: BSAAFlamer
