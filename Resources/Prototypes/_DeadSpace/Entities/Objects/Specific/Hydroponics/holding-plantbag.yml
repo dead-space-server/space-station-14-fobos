@@ -1,0 +1,16 @@
+- type: entity
+  id: PlantBagOfHolding
+  parent: [ ContentsExplosionResistanceBase, PlantBag ]
+  name: бездонная сумка для растений
+  description: Бездонная и прочная cумка для ботаников, чтобы легко переносить свои огромные урожаи.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Hydroponics/plant_bag.rsi
+    state: icon
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Specific/Hydroponics/plant_bag.rsi
+  - type: Storage
+    grid:
+    - 0,0,19,9
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
