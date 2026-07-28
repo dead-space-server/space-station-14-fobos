@@ -262,6 +262,7 @@ public sealed class RevolutionaryRuleSystemTest
         await using var pair = await PoolManager.GetServerClient(new PoolSettings
         {
             Dirty = true,
+            Fresh = true,
         });
 
         var server = pair.Server;
@@ -270,11 +271,11 @@ public sealed class RevolutionaryRuleSystemTest
         var revolutionary = server.System<RevolutionaryRuleSystem>();
         var map = await pair.CreateTestMap();
         var players = await server.AddDummySessions(3);
-        var bodies = new EntityUid[players.Length];
 
         await server.WaitAssertion(() =>
         {
             CreateRule(entMan);
+            var bodies = new EntityUid[players.Length];
             for (var i = 0; i < bodies.Length; i++)
             {
                 bodies[i] = entMan.SpawnEntity("MobHuman", map.GridCoords);
@@ -283,20 +284,13 @@ public sealed class RevolutionaryRuleSystemTest
 
             entMan.EnsureComponent<RevolutionaryComponent>(bodies[0]);
             entMan.EnsureComponent<HeadRevolutionaryComponent>(bodies[0]);
-        });
-        await pair.RunTicksSync(1);
-
-        await server.WaitAssertion(() =>
-        {
+            revolutionary.Update(0f);
             revolutionary.ResetRosterDiagnostics();
 
             Assert.That(revolutionary.Convert(bodies[0], bodies[1]), Is.True);
             Assert.That(revolutionary.Convert(bodies[0], bodies[2]), Is.True);
-        });
-        await pair.RunTicksSync(1);
+            revolutionary.Update(0f);
 
-        await server.WaitAssertion(() =>
-        {
             Assert.Multiple(() =>
             {
                 Assert.That(revolutionary.RosterDeltaBatchCount, Is.EqualTo(1));
