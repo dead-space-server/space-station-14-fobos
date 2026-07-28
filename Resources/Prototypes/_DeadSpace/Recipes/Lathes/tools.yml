@@ -29,6 +29,6 @@
   id: WeaponPlasmaCutter
   result: WeaponPlasmaCutter
   materials:
-    Steel: 1000
     Plastic: 1000
+    Plasteel: 500
     Plasma: 500
