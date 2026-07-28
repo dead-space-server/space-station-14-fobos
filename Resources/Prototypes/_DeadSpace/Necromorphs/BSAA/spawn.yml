@@ -436,13 +436,13 @@
     prototypes: [ BSAAFlamerGear ]
   - type: GhostRoleNotifys
     groupPrototype: BSAAGroup
-    - type: AutoImplant
-      implants:
-      - MindShieldImplant
-      - TrackingImplant
-      - RadioImplantSOC
-      - DeathRattleImplantSOD
-      - RezervImplant
+  - type: AutoImplant
+    implants:
+    - MindShieldImplant
+    - TrackingImplant
+    - RadioImplantSOC
+    - DeathRattleImplantSOD
+    - RezervImplant
 
 # Названия ролей
 
