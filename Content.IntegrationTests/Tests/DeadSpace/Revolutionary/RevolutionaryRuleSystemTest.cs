@@ -299,6 +299,7 @@ public sealed class RevolutionaryRuleSystemTest
             });
         });
 
+        await server.RemoveAllDummySessions();
         await pair.CleanReturnAsync();
     }
 
