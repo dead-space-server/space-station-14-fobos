@@ -254,6 +254,8 @@
   - SMGDrumMagazineEmpty
   - SMGDrumMagazine
   - SMGDrumMagazinePractice
+  - SMGDrumMagazineIncendiary
+  - SMGDrumMagazineUranium
 
 # DS14-end
 
@@ -326,16 +328,4 @@
   - BorgModuleSecurityFirearms
   - BorgModuleSecurityEmergency
 
-- type: technology
-  id: SecurityDrumMagazinesTierThree
-  name: research-technology-security-drum-magazines-three
-  icon:
-    sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/smg_drum.rsi
-    state: base-icon
-  discipline: Arsenal
-  tier: 3
-  cost: 15500
-  recipeUnlocks:
-  - SMGDrumMagazineIncendiary
-  - SMGDrumMagazineUranium
 # DS14-end

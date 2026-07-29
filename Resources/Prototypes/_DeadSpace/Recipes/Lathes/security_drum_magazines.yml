@@ -1,5 +1,5 @@
 - type: latheRecipePack
-  id: SecuritySMGDrumMagazinesTierThree
+  id: SecuritySMGDrumMagazinesTierTwo
   recipes:
   - SMGDrumMagazine
   - SMGDrumMagazineEmpty
@@ -23,7 +23,7 @@
   parent: BaseWeaponRecipe
   result: DrumPistolSubMachineGunEmpty
   categories:
-  - Ammo
+  - Magazines
   completetime: 3
   materials:
     Steel: 60

@@ -386,7 +386,7 @@
     - SecurityBorgModulesTierTwo # DS14
     - SecurityBorgModulesTierThree # DS14
     - StunBola # DS14
-    - SecuritySMGDrumMagazinesTierThree # DS14
+    - SecuritySMGDrumMagazinesTierTwo # DS14
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SyndicateAmmoStatic
