@@ -20,6 +20,17 @@
       time: 324000 # 90 hours
     - !type:AgeRequirement
       requiredAge: 24
+    - !type:SpeciesRequirement
+      species:
+        - Human
+        - SlimePerson
+        - Reptilian
+        - Demon
+        - Moth
+        - Tajaran
+        - Arachnid
+        - Kobolt
+        - Shark
   startingGear: BlueShieldOfficerGear
   icon: "JobIconBlueShieldOfficer"
   supervisors: job-supervisors-centcom
