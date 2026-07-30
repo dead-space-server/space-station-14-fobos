@@ -25,13 +25,17 @@ public sealed class PortalGunSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+
+    private const string PortalTriggerKey = "openportal";
+
     public override void Initialize()
     {
         SubscribeLocalEvent<PortalGunComponent, TeleportLocationDestinationMessage>(OnDestinationSelected);
-        SubscribeLocalEvent<PortalGunComponent,  AmmoShotEvent>(OnAmmoShot);
+        SubscribeLocalEvent<PortalGunComponent, AmmoShotEvent>(OnAmmoShot);
         SubscribeLocalEvent<PortalGunComponent, ShotAttemptedEvent>(OnShotAttempt);
         SubscribeLocalEvent<PortalProjectileComponent, TriggerEvent>(OnTrigger);
     }
+
     private void OnDestinationSelected(Entity<PortalGunComponent> ent, ref TeleportLocationDestinationMessage args)
     {
         if (!TryGetEntity(args.NetEnt, out var target) || !HasComp<WarpPointComponent>(target))
@@ -39,6 +43,7 @@ public sealed class PortalGunSystem : EntitySystem
         ent.Comp.SelectedDestination = target;
         _popup.PopupEntity(Loc.GetString("portal-gun-destination-set"), args.Actor, args.Actor);
     }
+
     private void OnAmmoShot(Entity<PortalGunComponent> ent, ref AmmoShotEvent args)
     {
         if (!TryComp<GunComponent>(ent, out var gun) || gun.ShootCoordinates == null)
@@ -70,24 +75,26 @@ public sealed class PortalGunSystem : EntitySystem
         }
     }
 
-    private void  OnShotAttempt(Entity<PortalGunComponent> ent, ref ShotAttemptedEvent args)
+    private void OnShotAttempt(Entity<PortalGunComponent> ent, ref ShotAttemptedEvent args)
     {
         if (ent.Comp.SelectedDestination != null)
             return;
         _popup.PopupEntity(Loc.GetString("portal-gun-destination-fail"), args.User, args.User);
         args.Cancel();
-
     }
-    private void  OnTrigger(Entity<PortalProjectileComponent> ent, ref TriggerEvent args)
-    {   
-        if (args.Key != "openportal")
-            return;    
+
+    private void OnTrigger(Entity<PortalProjectileComponent> ent, ref TriggerEvent args)
+    {
+        if (args.Key != PortalTriggerKey)
+            return;
+        if (ent.Comp.Destination == null || TerminatingOrDeleted(ent.Comp.Destination.Value))
+            return;
+
         var xform = Transform(ent.Owner);
         var nearCoords = xform.Coordinates;
         if (_turf.TryGetTileRef(nearCoords, out var tile) && _turf.IsTileBlocked(tile.Value, CollisionGroup.Impassable))
             nearCoords = nearCoords.Offset(-xform.LocalRotation.ToWorldVec());
-        if (ent.Comp.Destination == null || TerminatingOrDeleted(ent.Comp.Destination.Value))
-            return;
+
         var near = Spawn(ent.Comp.NearPortal, nearCoords);
         var far = Spawn(ent.Comp.FarPortal, Transform(ent.Comp.Destination.Value).Coordinates);
         _link.TryLink(near, far, true);

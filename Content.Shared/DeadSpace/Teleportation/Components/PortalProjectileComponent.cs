@@ -11,11 +11,10 @@ public sealed partial class PortalProjectileComponent : Component
     public EntityUid? Destination;
 
     [DataField]
-    public EntProtoId NearPortal = "PortalBlue";
-
+    public EntProtoId NearPortal = "PortalGunNear";
 
     [DataField]
-    public EntProtoId FarPortal = "PortalRed";
+    public EntProtoId FarPortal = "PortalGunFar";
 
     [DataField]
     public TimeSpan Lifetime = TimeSpan.FromSeconds(10);

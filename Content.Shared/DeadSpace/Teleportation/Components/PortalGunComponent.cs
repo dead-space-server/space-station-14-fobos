@@ -8,5 +8,5 @@ namespace Content.Shared.DeadSpace.Teleportation.Components;
 public sealed partial class PortalGunComponent : Component
 {
     [ViewVariables]
-    public EntityUid? SelectedDestination; 
+    public EntityUid? SelectedDestination;
 }
