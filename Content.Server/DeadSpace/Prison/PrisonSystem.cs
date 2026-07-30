@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Content.Server.Chat.Managers;
 using Content.Server.Database;
 using Content.Server.DeadSpace.Prison.Components;
@@ -220,6 +221,18 @@ public sealed class PrisonSystem : EntitySystem
         if (!_enabled || !Ready || !IsPrisonServerBan(ban))
             return false;
 
+        _prisonUsers.Add(session.UserId);
+        var registered = new PrisonerRegisteredEvent(session);
+        RaiseLocalEvent(ref registered);
+
+        // A lobby session has no round body to move. Keep the connection alive and
+        // let PlayerBeforeSpawn create the prisoner body when they actually join.
+        if (!_gameTicker.UserHasJoinedGame(session))
+        {
+            SendPrisonMessage(session, ban);
+            return true;
+        }
+
         if (!TryGetSpawnCoordinates(out var coordinates))
             return false;
 
@@ -227,20 +240,13 @@ public sealed class PrisonSystem : EntitySystem
         {
             SendEntityToPrison(entity, coordinates);
         }
-        else if (session.Status == SessionStatus.InGame)
+        else
         {
             if (!TryGetHumanoidProfile(session, out var profile))
                 return false;
 
             SpawnPrisonMob(session, profile, coordinates);
         }
-        else
-        {
-            return false;
-        }
-
-        _prisonUsers.Add(session.UserId);
-
         SendPrisonMessage(session, ban);
         return true;
     }
@@ -253,6 +259,69 @@ public sealed class PrisonSystem : EntitySystem
         return _player.TryGetSessionById(userId, out var session)
                && session.AttachedEntity is { } entity
                && HasComp<PrisonBoundComponent>(entity);
+    }
+
+    public async Task<PrisonSentence?> GetReducibleSentence(NetUserId userId)
+    {
+        if (!IsUserPrisoner(userId) || !_player.TryGetSessionById(userId, out var session))
+            return null;
+
+        var check = CreateBanRefreshCheck(session);
+        var bans = await _db.GetBansAsync(
+            check.Address,
+            check.UserId,
+            check.HwId,
+            check.ModernHwIds,
+            includeUnbanned: false);
+        var latest = GetLatestActiveServerBan(bans);
+
+        if (latest?.Id is not { } banId ||
+            !IsPrisonServerBan(latest) ||
+            latest.ExpirationTime == null)
+        {
+            return null;
+        }
+
+        return new PrisonSentence(banId);
+    }
+
+    public async Task<TimeSpan> TryReduceSentence(
+        NetUserId userId,
+        int expectedBanId,
+        TimeSpan reduction)
+    {
+        if (reduction <= TimeSpan.Zero)
+            return TimeSpan.Zero;
+
+        // Reload before every atomic update so simultaneous fauna and ore rewards cannot overwrite each other.
+        for (var attempt = 0; attempt < 3; attempt++)
+        {
+            var bans = await _db.GetBansAsync(
+                null,
+                userId,
+                null,
+                null,
+                includeUnbanned: false);
+            var latest = GetLatestActiveServerBan(bans);
+            if (latest?.Id != expectedBanId ||
+                !IsPrisonServerBan(latest) ||
+                latest.ExpirationTime is not { } expiration)
+            {
+                return TimeSpan.Zero;
+            }
+
+            var now = DateTimeOffset.UtcNow;
+            var updated = expiration - reduction;
+            if (updated < now)
+                updated = now;
+
+            if (!await _db.TrySetActivePrisonBanExpiration(expectedBanId, expiration, updated))
+                continue;
+
+            return expiration - updated;
+        }
+
+        return TimeSpan.Zero;
     }
 
     public void RefreshPrisonBanState()
@@ -1115,7 +1184,7 @@ public sealed class PrisonSystem : EntitySystem
         return true;
     }
 
-    private bool IsPrisonMap(MapId mapId)
+    public bool IsPrisonMap(MapId mapId)
     {
         var query = EntityQueryEnumerator<PrisonSpawnPointComponent, TransformComponent>();
         while (query.MoveNext(out _, out _, out var xform))
@@ -1183,3 +1252,8 @@ public sealed class PrisonSystem : EntitySystem
         NetUserId UserId,
         BanDef? LatestBan);
 }
+
+[ByRefEvent]
+public readonly record struct PrisonerRegisteredEvent(ICommonSession Session);
+
+public readonly record struct PrisonSentence(int BanId);

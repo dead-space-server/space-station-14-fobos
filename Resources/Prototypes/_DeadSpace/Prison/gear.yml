@@ -4,6 +4,9 @@
     jumpsuit: ClothingUniformJumpsuitPrisoner
     shoes: ClothingShoesColorBlack
     back: ClothingBackpackPrisoner
+  inhand:
+  - Pickaxe
+  - OreBag
   storage:
     back:
     - BoxSurvival
