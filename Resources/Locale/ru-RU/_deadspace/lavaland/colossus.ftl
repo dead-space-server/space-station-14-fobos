@@ -1,0 +1,13 @@
+lavaland-colossus-name = колосс
+lavaland-colossus-description = Древнее чудовищное создание, источающее подавляющую мощь.
+lavaland-colossus-arena-name = арена колосса
+lavaland-colossus-floor-name = пол арены колосса
+lavaland-colossus-wall-name = стена арены колосса
+lavaland-colossus-wall-description = Неразрушимая базальтовая стена, окружающая владения колосса.
+lavaland-colossus-light-name = свет арены колосса
+lavaland-colossus-death-bolt-name = болт смерти
+lavaland-colossus-death-bolt-description = Опаляющий снаряд, проходящий сквозь броню так, словно её нет.
+lavaland-colossus-speech-cannot-dodge = «Тебе не увернуться.»
+lavaland-colossus-speech-judgement = «Суд.»
+lavaland-colossus-speech-die = «Умри.»
+lavaland-colossus-speech-see-you = «Я вижу тебя.»
