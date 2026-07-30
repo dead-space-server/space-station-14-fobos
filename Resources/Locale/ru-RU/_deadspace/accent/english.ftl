@@ -56,12 +56,12 @@ accent-english-words-replace-14 = hell yeah
 accent-english-words-15 = мама
 accent-english-words-15-2 = маму
 accent-english-words-15-3 = маме
-accent-english-words-replace-15 = mommy
+accent-english-words-replace-15 = mom
 
 accent-english-words-16 = папа
 accent-english-words-16-2 = папу
 accent-english-words-16-3 = папе
-accent-english-words-replace-16 = daddy
+accent-english-words-replace-16 = dad
 
 accent-english-words-17 = псих
 accent-english-words-replace-17 = freak
@@ -353,7 +353,7 @@ accent-english-words-replace-83 = bar
 accent-english-words-84 = грузчик
 accent-english-words-84-2 = грузчику
 accent-english-words-84-3 = грузчика
-accent-english-words-replace-84 = delivery boy
+accent-english-words-replace-84 = messenger
 
 accent-english-words-85 = тупой
 accent-english-words-85-2 = тупая
@@ -398,7 +398,7 @@ accent-english-words-91-6 = юниту
 accent-english-words-91-7 = борг
 accent-english-words-91-8 = борга
 accent-english-words-91-9 = боргу
-accent-english-words-replace-91 = tin can
+accent-english-words-replace-91 = unit
 
 accent-english-words-92 = идиот
 accent-english-words-92-2 = идиотка
