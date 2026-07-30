@@ -331,7 +331,8 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
             GetSeverityForServerBan(banInfo, CCVars.ServerBanDefaultSeverity),
             banInfo.BanningAdmin,
             null,
-            roles: roleBans), expires);
+            roles: roleBans,
+            sendToPrison: banInfo is CreateServerBanInfo serverBanInfo && serverBanInfo.SendToPrison), expires);
     }
 
     private async Task<TimeSpan> GetPlayTime(CreateBanInfo banInfo)

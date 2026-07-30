@@ -1662,6 +1662,18 @@ namespace Content.Server.Database
         public abstract Task<BanDef> AddBanAsync(BanDef ban);
         public abstract Task AddUnbanAsync(UnbanDef unban);
 
+        public async Task SetBanPrisonAccess(int id, bool sendToPrison)
+        {
+            await using var db = await GetDb();
+
+            var ban = await db.DbContext.Ban.SingleOrDefaultAsync(b => b.Id == id);
+            if (ban is null || ban.Type != BanType.Server)
+                return;
+
+            ban.SendToPrison = sendToPrison;
+            await db.DbContext.SaveChangesAsync();
+        }
+
         public async Task EditBan(int id, string reason, NoteSeverity severity, DateTimeOffset? expiration, Guid editedBy, DateTimeOffset editedAt)
         {
             await using var db = await GetDb();

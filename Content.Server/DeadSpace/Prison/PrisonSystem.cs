@@ -147,10 +147,9 @@ public sealed class PrisonSystem : EntitySystem
         if (!_enabled || !Ready || bans.Count == 0)
             return false;
 
-        if (bans.Any(IsPermanentServerBan))
-            return false;
+        var activeServerBans = bans.Where(IsActiveServerBan).ToArray();
 
-        return bans.Any(IsTemporaryServerBan);
+        return activeServerBans.Length > 0 && activeServerBans.All(IsPrisonServerBan);
     }
 
     public bool TrySendToPrison(ICommonSession session, BanDef ban)
@@ -158,13 +157,11 @@ public sealed class PrisonSystem : EntitySystem
         if (IsSessionAntagonist(session))
             return false;
 
-        if (!_enabled || !Ready || !IsTemporaryServerBan(ban))
+        if (!_enabled || !Ready || !IsPrisonServerBan(ban))
             return false;
 
         if (!TryGetSpawnCoordinates(out var coordinates))
             return false;
-
-        _prisonUsers.Add(session.UserId);
 
         if (session.AttachedEntity is { } entity && Exists(entity) && !HasComp<GhostComponent>(entity))
         {
@@ -177,6 +174,12 @@ public sealed class PrisonSystem : EntitySystem
 
             SpawnPrisonMob(session, profile, coordinates);
         }
+        else
+        {
+            return false;
+        }
+
+        _prisonUsers.Add(session.UserId);
 
         SendPrisonMessage(session, ban);
         return true;
@@ -474,8 +477,8 @@ public sealed class PrisonSystem : EntitySystem
 
                 results.Add(new PrisonBanRefreshResult(
                     check.UserId,
-                    GetLongestTemporaryServerBan(bans),
-                    bans.FirstOrDefault(IsPermanentServerBan)));
+                    GetLongestPrisonServerBan(bans),
+                    bans.FirstOrDefault(IsDirectServerBan)));
             }
 
             _taskManager.RunOnMainThread(() => ApplyActivePrisonBanRefresh(results));
@@ -515,14 +518,14 @@ public sealed class PrisonSystem : EntitySystem
                 continue;
             }
 
-            if (result.PermanentBan != null)
+            if (result.DirectBan != null)
             {
                 ClearPrisonState(session);
-                session.Channel.Disconnect(result.PermanentBan.FormatBanMessage(_cfg, _loc));
+                session.Channel.Disconnect(result.DirectBan.FormatBanMessage(_cfg, _loc));
                 continue;
             }
 
-            if (result.TemporaryBan == null)
+            if (result.PrisonBan == null)
             {
                 ClearPrisonState(session);
                 _chat.DispatchServerMessage(session, Loc.GetString("prison-release-message"));
@@ -532,7 +535,7 @@ public sealed class PrisonSystem : EntitySystem
             if (!Ready)
             {
                 ClearPrisonState(session);
-                session.Channel.Disconnect(result.TemporaryBan.FormatBanMessage(_cfg, _loc));
+                session.Channel.Disconnect(result.PrisonBan.FormatBanMessage(_cfg, _loc));
             }
         }
     }
@@ -717,7 +720,22 @@ public sealed class PrisonSystem : EntitySystem
                     check.ModernHwIds,
                     includeUnbanned: false);
 
-                if (GetLongestTemporaryServerBan(bans)?.ExpirationTime is { } activeExpiration &&
+                var permanentPrisonBans = bans
+                    .Where(IsPermanentPrisonBan)
+                    .Where(ban => ban.Id != null)
+                    .ToArray();
+                if (permanentPrisonBans.Length > 0)
+                {
+                    foreach (var permanentBan in permanentPrisonBans)
+                    {
+                        await _db.SetBanPrisonAccess(permanentBan.Id!.Value, false);
+                    }
+
+                    _taskManager.RunOnMainThread(() => RevokePermanentPrisonAccess(userId));
+                    return;
+                }
+
+                if (GetLongestTemporaryPrisonBan(bans)?.ExpirationTime is { } activeExpiration &&
                     activeExpiration > now)
                 {
                     expiration = activeExpiration + TimeSpan.FromMinutes(minutes);
@@ -726,7 +744,7 @@ public sealed class PrisonSystem : EntitySystem
         }
         catch (Exception e)
         {
-            Log.Error($"Failed to fetch active prison ban for murder penalty for {userId}: {e}");
+            Log.Error($"Failed to apply prison murder penalty for {userId}: {e}");
             return;
         }
 
@@ -743,7 +761,8 @@ public sealed class PrisonSystem : EntitySystem
             Loc.GetString("prison-murder-penalty-reason"),
             NoteSeverity.High,
             null,
-            null);
+            null,
+            sendToPrison: true);
 
         try
         {
@@ -768,6 +787,17 @@ public sealed class PrisonSystem : EntitySystem
                 session,
                 Loc.GetString("prison-murder-penalty-message", ("minutes", minutes)));
         }
+    }
+
+    private void RevokePermanentPrisonAccess(NetUserId userId)
+    {
+        _nextActiveBanRefresh = TimeSpan.Zero;
+
+        if (!_player.TryGetSessionById(userId, out var session))
+            return;
+
+        ClearPrisonState(session);
+        session.Channel.Disconnect(Loc.GetString("prison-murder-permanent-message"));
     }
 
     private bool IsUserCurrentlyAntagonist(NetUserId userId)
@@ -819,6 +849,12 @@ public sealed class PrisonSystem : EntitySystem
 
     private void SendPrisonMessage(ICommonSession session, BanDef ban)
     {
+        if (ban.ExpirationTime == null)
+        {
+            _chat.DispatchServerMessage(session, Loc.GetString("prison-sent-permanent-message"));
+            return;
+        }
+
         var remaining = ban.ExpirationTime - DateTimeOffset.UtcNow;
         var minutes = remaining is { TotalMinutes: > 0 }
             ? Math.Ceiling(remaining.Value.TotalMinutes).ToString("N0")
@@ -827,27 +863,43 @@ public sealed class PrisonSystem : EntitySystem
         _chat.DispatchServerMessage(session, Loc.GetString("prison-sent-message", ("minutes", minutes)));
     }
 
-    private static bool IsTemporaryServerBan(BanDef ban)
+    private static bool IsActiveServerBan(BanDef ban)
     {
         return ban.Type == BanType.Server
                && ban.Unban == null
-               && ban.ExpirationTime is { } expiration
-               && expiration > DateTimeOffset.UtcNow;
+               && (ban.ExpirationTime == null || ban.ExpirationTime > DateTimeOffset.UtcNow);
     }
 
-    private static BanDef? GetLongestTemporaryServerBan(IEnumerable<BanDef> bans)
+    private static bool IsPrisonServerBan(BanDef ban)
+    {
+        return IsActiveServerBan(ban) && ban.SendToPrison;
+    }
+
+    private static bool IsPermanentPrisonBan(BanDef ban)
+    {
+        return IsPrisonServerBan(ban) && ban.ExpirationTime == null;
+    }
+
+    private static bool IsDirectServerBan(BanDef ban)
+    {
+        return IsActiveServerBan(ban) && !ban.SendToPrison;
+    }
+
+    private static BanDef? GetLongestPrisonServerBan(IEnumerable<BanDef> bans)
     {
         return bans
-            .Where(IsTemporaryServerBan)
-            .OrderByDescending(ban => ban.ExpirationTime)
+            .Where(IsPrisonServerBan)
+            .OrderByDescending(ban => ban.ExpirationTime == null)
+            .ThenByDescending(ban => ban.ExpirationTime)
             .FirstOrDefault();
     }
 
-    private static bool IsPermanentServerBan(BanDef ban)
+    private static BanDef? GetLongestTemporaryPrisonBan(IEnumerable<BanDef> bans)
     {
-        return ban.Type == BanType.Server
-               && ban.Unban == null
-               && ban.ExpirationTime == null;
+        return bans
+            .Where(ban => IsPrisonServerBan(ban) && ban.ExpirationTime != null)
+            .OrderByDescending(ban => ban.ExpirationTime)
+            .FirstOrDefault();
     }
 
     private readonly record struct PrisonBanRefreshCheck(
@@ -858,6 +910,6 @@ public sealed class PrisonSystem : EntitySystem
 
     private readonly record struct PrisonBanRefreshResult(
         NetUserId UserId,
-        BanDef? TemporaryBan,
-        BanDef? PermanentBan);
+        BanDef? PrisonBan,
+        BanDef? DirectBan);
 }

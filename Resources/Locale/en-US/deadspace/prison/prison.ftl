@@ -1,11 +1,13 @@
-prison-chat-join-message = You have an active temporary server ban. When the round starts, you will be sent to the prison area instead of joining the station.
+prison-chat-join-message = You have an active prison server ban. When the round starts, you will be sent to the prison area instead of joining the station.
 prison-sent-message = You have been sent to the prison area. Remaining sentence: { $minutes } minutes.
+prison-sent-permanent-message = You have been sent to the prison area. Your sentence is permanent.
 prison-arrival-message = You have arrived in the prison area.
 prison-unavailable-message = Prison is not available right now. Try again later.
-prison-release-message = Your temporary server ban is no longer active. Prison restrictions have been lifted.
+prison-release-message = Your prison server ban is no longer active. Prison restrictions have been lifted.
 prison-ooc-blocked = You cannot use OOC while serving a prison sentence.
 prison-bwoink-blocked = You cannot use adminhelp while serving a prison sentence.
 prison-ghost-role-blocked = You cannot take ghost roles while serving a prison sentence.
 prison-antag-role-blocked = You cannot become an antagonist while serving a prison sentence.
 prison-murder-penalty-reason = Murdered another prisoner while serving a prison sentence.
 prison-murder-penalty-message = You killed another prisoner. Your sentence was increased by { $minutes } minutes.
+prison-murder-permanent-message = You killed another prisoner. Your access to the prison area has been revoked.

@@ -74,6 +74,7 @@ ban-panel-templates = Шаблоны
 ban-templates-title = Шаблоны банов
 # Ban string
 server-ban-string = { $admin } created a { $severity } severity server ban that expires { $expires } for [{ $name }, { $ip }, { $hwid }], with reason: { $reason }
+ban-panel-prison = Отправить в исправительную зону
 ban-panel-expiry-error = err
 ban-panel-erase = Стереть сообщения игрока чата из раунда
 server-ban-string-never = никогда
