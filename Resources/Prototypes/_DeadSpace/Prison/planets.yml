@@ -11,7 +11,7 @@
   landingPadRadius: 56
   landingPadTile: FloorSnowDug
   residenceReservationEnabled: true
-  residenceReservationSize: 48
+  residenceReservationSize: 52
   residenceTile: FloorSnowDug
   residenceGridPath: /Maps/_DeadSpace/Prison/jail.yml
   residenceGridOffset: 8,16
@@ -34,7 +34,7 @@
   - PrisonOreDiamond
   atmosphere:
     volume: 2500
-    temperature: 255
+    temperature: 293.15
     moles:
-    - 14
-    - 23
+    - 21.1
+    - 82.9

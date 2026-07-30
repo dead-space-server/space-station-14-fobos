@@ -2122,24 +2122,32 @@ entities:
     - type: Transform
       pos: 4.5,-19.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 2595
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 4.5,-24.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 2597
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 6.5,-24.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 2598
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 8.5,-24.5
       parent: 2
+    missingComponents:
+    - AccessReader
 - proto: AirlockAtmosphericsGlassLocked
   entities:
   - uid: 506
@@ -2147,6 +2155,8 @@ entities:
     - type: Transform
       pos: -17.5,0.5
       parent: 2
+    missingComponents:
+    - AccessReader
 - proto: AirlockEngineeringGlassLocked
   entities:
   - uid: 207
@@ -2154,11 +2164,15 @@ entities:
     - type: Transform
       pos: -18.5,-6.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 208
     components:
     - type: Transform
       pos: -20.5,-6.5
       parent: 2
+    missingComponents:
+    - AccessReader
 - proto: AirlockFreezerHydroponicsLocked
   entities:
   - uid: 1255
@@ -2176,31 +2190,43 @@ entities:
     - type: Transform
       pos: -0.5,-19.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 504
     components:
     - type: Transform
       pos: -1.5,-16.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 511
     components:
     - type: Transform
       pos: -9.5,-13.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 512
     components:
     - type: Transform
       pos: -9.5,-16.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 991
     components:
     - type: Transform
       pos: -5.5,-17.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 992
     components:
     - type: Transform
       pos: -5.5,-18.5
       parent: 2
+    missingComponents:
+    - AccessReader
 - proto: AirlockHydroGlassLocked
   entities:
   - uid: 518
@@ -2249,6 +2275,8 @@ entities:
     - type: Transform
       pos: -13.5,-34.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 1246
     components:
     - type: Transform
@@ -2282,11 +2310,15 @@ entities:
     - type: Transform
       pos: -4.5,-29.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 1251
     components:
     - type: Transform
       pos: -7.5,-26.5
       parent: 2
+    missingComponents:
+    - AccessReader
 - proto: AirlockStandardGlass
   entities:
   - uid: 517
@@ -2830,31 +2862,43 @@ entities:
     - type: Transform
       pos: -17.5,-33.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 1236
     components:
     - type: Transform
       pos: -17.5,-34.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 1237
     components:
     - type: Transform
       pos: -17.5,-35.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 1238
     components:
     - type: Transform
       pos: 2.5,-33.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 1239
     components:
     - type: Transform
       pos: 2.5,-34.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 1240
     components:
     - type: Transform
       pos: 2.5,-35.5
       parent: 2
+    missingComponents:
+    - AccessReader
 - proto: BodyBag
   entities:
   - uid: 2685
@@ -21206,42 +21250,56 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -16.5,-12.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 2004
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -16.5,-13.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 2005
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -16.5,-14.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 2006
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -16.5,-15.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 2007
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -24.5,-13.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 2008
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -24.5,-14.5
       parent: 2
+    missingComponents:
+    - AccessReader
   - uid: 2009
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -24.5,-15.5
       parent: 2
+    missingComponents:
+    - AccessReader
 - proto: WindowFrostedDirectional
   entities:
   - uid: 2190

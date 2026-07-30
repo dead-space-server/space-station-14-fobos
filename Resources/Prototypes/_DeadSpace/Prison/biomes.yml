@@ -85,11 +85,11 @@
     - FloraTreeSnow
 
   - !type:BiomeEntityLayer
-    threshold: 0.93
+    threshold: 0.98
     noise:
       seed: 36
       noiseType: OpenSimplex2
-      frequency: 0.075
+      frequency: 0.055
     allowedTiles:
     - FloorIce
     - FloorChromite
@@ -152,11 +152,11 @@
     tile: FloorSnowDug
 
   - !type:BiomeTileLayer
-    threshold: 0.34
+    threshold: 0.30
     noise:
       seed: 33
       noiseType: OpenSimplex2
-      frequency: 0.012
+      frequency: 0.018
       fractalType: FBm
       octaves: 3
       lacunarity: 2
@@ -164,11 +164,11 @@
     tile: FloorIce
 
   - !type:BiomeTileLayer
-    threshold: 0.42
+    threshold: 0.40
     noise:
       seed: 34
       noiseType: OpenSimplex2
-      frequency: 0.018
+      frequency: 0.024
       fractalType: Ridged
       octaves: 2
       lacunarity: 1.8

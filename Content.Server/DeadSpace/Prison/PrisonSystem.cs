@@ -25,13 +25,13 @@ using Content.Shared.Inventory;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
-using Content.Shared.Movement.Events;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Preferences;
 using Content.Shared.Projectiles;
 using Content.Shared.Roles;
 using Content.Shared.Throwing;
+using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Server.Player;
 using Robust.Shared.Asynchronous;
 using Robust.Shared.Configuration;
@@ -94,8 +94,8 @@ public sealed class PrisonSystem : EntitySystem
         SubscribeLocalEvent<PlayerBeforeSpawnEvent>(OnPlayerBeforeSpawn);
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
         SubscribeLocalEvent<MindRoleAddAttemptEvent>(OnMindRoleAddAttempt);
-        SubscribeLocalEvent<PrisonBoundComponent, AttackAttemptEvent>(OnPrisonerAttackAttempt);
-        SubscribeLocalEvent<PrisonBoundComponent, MoveEvent>(OnPrisonerMove);
+        SubscribeLocalEvent<AttackAttemptEvent>(OnPrisonerAttackAttempt);
+        SubscribeLocalEvent<AttemptShootEvent>(OnPrisonerAttemptShoot);
         SubscribeLocalEvent<DamageableComponent, DamageModifyEvent>(OnPrisonerDamageModify);
         SubscribeLocalEvent<PrisonBoundComponent, DamageChangedEvent>(OnPrisonDamageChanged, before: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<MobStateChangedEvent>(OnPrisonMobStateChanged);
@@ -116,17 +116,34 @@ public sealed class PrisonSystem : EntitySystem
         _prisonDamageByTarget.Clear();
     }
 
-    private void OnPrisonerAttackAttempt(EntityUid uid, PrisonBoundComponent component, AttackAttemptEvent args)
+    private void OnPrisonerAttackAttempt(AttackAttemptEvent args)
     {
-        if (args.Cancelled ||
-            args.Target is not { } target ||
-            !TryGetMind(target, out var targetMindId, out var targetMind) ||
-            IsMindPrisoner(targetMindId, targetMind))
+        if (args.Cancelled || !IsEntityPrisoner(args.Uid))
         {
             return;
         }
 
-        args.Cancel();
+        if (!TryComp(args.Uid, out TransformComponent? xform) || !IsPrisonMap(xform.MapID))
+        {
+            args.Cancel();
+            return;
+        }
+
+        if (args.Target is { } target &&
+            TryGetMind(target, out var targetMindId, out var targetMind) &&
+            !IsMindPrisoner(targetMindId, targetMind))
+        {
+            args.Cancel();
+        }
+    }
+
+    private void OnPrisonerAttemptShoot(ref AttemptShootEvent args)
+    {
+        if (!args.Cancelled && IsEntityPrisoner(args.User) &&
+            (!TryComp(args.User, out TransformComponent? xform) || !IsPrisonMap(xform.MapID)))
+        {
+            args.Cancelled = true;
+        }
     }
 
     private void OnPrisonerDamageModify(EntityUid target, DamageableComponent component, DamageModifyEvent args)
@@ -141,19 +158,6 @@ public sealed class PrisonSystem : EntitySystem
         }
 
         args.Damage = new DamageSpecifier();
-    }
-
-    private void OnPrisonerMove(EntityUid uid, PrisonBoundComponent component, ref MoveEvent args)
-    {
-        if (HasComp<GhostComponent>(uid) ||
-            !_enabled ||
-            IsPrisonMap(args.Component.MapID) ||
-            !TryGetSpawnCoordinates(out var coordinates))
-        {
-            return;
-        }
-
-        SendEntityToPrison(uid, coordinates);
     }
 
     public override void Update(float frameTime)

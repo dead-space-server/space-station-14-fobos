@@ -3,7 +3,7 @@
   entityMask:
     WallRockChromite: WallRockChromiteTin
     WallRockSnow: WallRockSnowTin
-  maxCount: 150
+  maxCount: 210
   minGroupSize: 14
   maxGroupSize: 26
   radius: 6
@@ -13,7 +13,7 @@
   entityMask:
     WallRockChromite: WallRockChromiteCoal
     WallRockSnow: WallRockSnowCoal
-  maxCount: 135
+  maxCount: 190
   minGroupSize: 12
   maxGroupSize: 22
   radius: 6
@@ -23,7 +23,7 @@
   entityMask:
     WallRockChromite: WallRockChromiteQuartz
     WallRockSnow: WallRockSnowQuartz
-  maxCount: 120
+  maxCount: 170
   minGroupSize: 12
   maxGroupSize: 22
   radius: 6
@@ -33,7 +33,7 @@
   entityMask:
     WallRockChromite: WallRockChromiteSalt
     WallRockSnow: WallRockSnowSalt
-  maxCount: 110
+  maxCount: 155
   minGroupSize: 10
   maxGroupSize: 20
   radius: 5
@@ -43,7 +43,7 @@
   entityMask:
     WallRockChromite: WallRockChromiteSilver
     WallRockSnow: WallRockSnowSilver
-  maxCount: 90
+  maxCount: 125
   minGroupSize: 8
   maxGroupSize: 16
   radius: 5
@@ -53,7 +53,7 @@
   entityMask:
     WallRockChromite: WallRockChromiteGold
     WallRockSnow: WallRockSnowGold
-  maxCount: 82
+  maxCount: 115
   minGroupSize: 8
   maxGroupSize: 15
   radius: 5
@@ -63,7 +63,7 @@
   entityMask:
     WallRockChromite: WallRockChromitePlasma
     WallRockSnow: WallRockSnowPlasma
-  maxCount: 65
+  maxCount: 90
   minGroupSize: 6
   maxGroupSize: 13
   radius: 5
@@ -73,7 +73,7 @@
   entityMask:
     WallRockChromite: WallRockChromiteUranium
     WallRockSnow: WallRockSnowUranium
-  maxCount: 55
+  maxCount: 75
   minGroupSize: 6
   maxGroupSize: 11
   radius: 5
@@ -83,7 +83,7 @@
   entityMask:
     WallRockChromite: WallRockChromiteDiamond
     WallRockSnow: WallRockSnowDiamond
-  maxCount: 28
+  maxCount: 34
   minGroupSize: 2
   maxGroupSize: 5
   radius: 4
