@@ -25,6 +25,7 @@ using Content.Shared.Inventory;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
+using Content.Shared.Movement.Events;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Preferences;
@@ -94,6 +95,7 @@ public sealed class PrisonSystem : EntitySystem
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
         SubscribeLocalEvent<MindRoleAddAttemptEvent>(OnMindRoleAddAttempt);
         SubscribeLocalEvent<PrisonBoundComponent, AttackAttemptEvent>(OnPrisonerAttackAttempt);
+        SubscribeLocalEvent<PrisonBoundComponent, MoveEvent>(OnPrisonerMove);
         SubscribeLocalEvent<DamageableComponent, DamageModifyEvent>(OnPrisonerDamageModify);
         SubscribeLocalEvent<PrisonBoundComponent, DamageChangedEvent>(OnPrisonDamageChanged, before: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<MobStateChangedEvent>(OnPrisonMobStateChanged);
@@ -139,6 +141,19 @@ public sealed class PrisonSystem : EntitySystem
         }
 
         args.Damage = new DamageSpecifier();
+    }
+
+    private void OnPrisonerMove(EntityUid uid, PrisonBoundComponent component, ref MoveEvent args)
+    {
+        if (HasComp<GhostComponent>(uid) ||
+            !_enabled ||
+            IsPrisonMap(args.Component.MapID) ||
+            !TryGetSpawnCoordinates(out var coordinates))
+        {
+            return;
+        }
+
+        SendEntityToPrison(uid, coordinates);
     }
 
     public override void Update(float frameTime)
@@ -607,6 +622,9 @@ public sealed class PrisonSystem : EntitySystem
         if (TryGetProjectileSourceMind(source.Value, out mindId, out mind))
             return true;
 
+        if (TryGetThrownItemSourceMind(source.Value, out mindId, out mind))
+            return true;
+
         var current = source.Value;
         for (var i = 0; i < SourceParentSearchDepth; i++)
         {
@@ -621,6 +639,9 @@ public sealed class PrisonSystem : EntitySystem
                 return true;
 
             if (TryGetProjectileSourceMind(parent, out mindId, out mind))
+                return true;
+
+            if (TryGetThrownItemSourceMind(parent, out mindId, out mind))
                 return true;
 
             current = parent;
@@ -642,6 +663,16 @@ public sealed class PrisonSystem : EntitySystem
 
         return projectile.Weapon != null &&
                TryGetMind(projectile.Weapon.Value, out mindId, out mind);
+    }
+
+    private bool TryGetThrownItemSourceMind(EntityUid uid, out EntityUid mindId, out MindComponent mind)
+    {
+        mindId = default;
+        mind = default!;
+
+        return TryComp<ThrownItemComponent>(uid, out var thrown) &&
+               thrown.Thrower != null &&
+               TryGetMind(thrown.Thrower.Value, out mindId, out mind);
     }
 
     private bool TryGetMind(EntityUid uid, out EntityUid mindId, out MindComponent mind)
@@ -759,22 +790,18 @@ public sealed class PrisonSystem : EntitySystem
                     check.ModernHwIds,
                     includeUnbanned: false);
 
-                var permanentPrisonBans = bans
-                    .Where(IsPermanentPrisonBan)
-                    .Where(ban => ban.Id != null)
-                    .ToArray();
-                if (permanentPrisonBans.Length > 0)
-                {
-                    foreach (var permanentBan in permanentPrisonBans)
-                    {
-                        await _db.SetBanPrisonAccess(permanentBan.Id!.Value, false);
-                    }
+                var latestBan = GetLatestActiveServerBan(bans);
+                if (latestBan == null || !IsPrisonServerBan(latestBan))
+                    return;
 
+                if (IsPermanentPrisonBan(latestBan) && latestBan.Id is { } permanentBanId)
+                {
+                    await _db.SetBanPrisonAccess(permanentBanId, false);
                     _taskManager.RunOnMainThread(() => RevokePermanentPrisonAccess(userId));
                     return;
                 }
 
-                if (GetLongestTemporaryPrisonBan(bans)?.ExpirationTime is { } activeExpiration &&
+                if (latestBan.ExpirationTime is { } activeExpiration &&
                     activeExpiration > now)
                 {
                     expiration = activeExpiration + TimeSpan.FromMinutes(minutes);
@@ -925,14 +952,6 @@ public sealed class PrisonSystem : EntitySystem
             .Where(IsActiveServerBan)
             .OrderByDescending(ban => ban.BanTime)
             .ThenByDescending(ban => ban.Id)
-            .FirstOrDefault();
-    }
-
-    private static BanDef? GetLongestTemporaryPrisonBan(IEnumerable<BanDef> bans)
-    {
-        return bans
-            .Where(ban => IsPrisonServerBan(ban) && ban.ExpirationTime != null)
-            .OrderByDescending(ban => ban.ExpirationTime)
             .FirstOrDefault();
     }
 
