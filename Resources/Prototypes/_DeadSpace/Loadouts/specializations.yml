@@ -11,24 +11,28 @@
 - type: entity
   parent: BaseLoadoutChefSpecialization
   id: LoadoutChefConfectioner
+  categories: [ HideSpawnMenu ]
   name: Кондитер
   description: Специализация шеф-повара на сладостях и десертах.
 
 - type: entity
   parent: BaseLoadoutChefSpecialization
   id: LoadoutChefBaker
+  categories: [ HideSpawnMenu ]
   name: Пекарь
   description: Специализация шеф-повара на хлебе и выпечке.
 
 - type: entity
   parent: BaseLoadoutChefSpecialization
   id: LoadoutChefButcher
+  categories: [ HideSpawnMenu ]
   name: Мясник
   description: Специализация шеф-повара на разделке мяса.
 
 - type: entity
   parent: BaseLoadoutChefSpecialization
   id: LoadoutChefSousChef
+  categories: [ HideSpawnMenu ]
   name: Су-шеф
   description: Правая рука Шефа на кухне.
 
@@ -104,6 +108,7 @@
 - type: entity
   parent: BaseLoadoutLawyerSpecialization
   id: LoadoutLawyerAdvocate
+  categories: [ HideSpawnMenu ]
   name: Адвокат
   description: Специализация юриста на защите клиентов в суде.
 
@@ -140,18 +145,21 @@
 - type: entity
   parent: BaseLoadoutDoctorSpecialization
   id: LoadoutDoctorTherapist
+  categories: [ HideSpawnMenu ]
   name: Терапевт
   description: Специализация врача на диагностике и лечении.
 
 - type: entity
   parent: BaseLoadoutDoctorSpecialization
   id: LoadoutDoctorResuscitator
+  categories: [ HideSpawnMenu ]
   name: Реаниматолог
   description: Специализация врача на неотложной помощи и реанимации.
 
 - type: entity
   parent: BaseLoadoutDoctorSpecialization
   id: LoadoutDoctorGeneticist
+  categories: [ HideSpawnMenu ]
   name: Генетик
   description: Специализация врача на работе с ДНК и клонированием. # Генетика существует!
   components:
@@ -162,18 +170,27 @@
 - type: entity
   parent: BaseLoadoutDoctorSpecialization
   id: LoadoutDoctorCryotherapist
+  categories: [ HideSpawnMenu ]
   name: Криотерапевт
   description: Специализация врача на лечении в криокапсулах.
 
 - type: entity
   parent: BaseLoadoutDoctorSpecialization
   id: LoadoutDoctorSurgeon
+  categories: [ HideSpawnMenu ]
   name: Хирург
   description: Специализация врача на операциях и хирургии.
   components:
   - type: Sprite
     sprite: Interface/Misc/job_icons.rsi
     state: Surgeon
+
+- type: entity
+  parent: BaseLoadoutDoctorSpecialization
+  id: LoadoutDoctorNurse
+  categories: [ HideSpawnMenu ]
+  name: Медсестра
+  description: Специализация врача на сестринском уходе.
 
 - type: loadout
   id: DoctorTitleTherapist
@@ -237,6 +254,18 @@
       role: JobMedicalDoctor
       time: 18000
 
+- type: loadout
+  id: DoctorTitleNurse
+  dummyEntity: LoadoutDoctorNurse
+  effects:
+  - !type:JobTitleLoadoutEffect
+    title: job-title-doctor-nurse
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobMedicalDoctor
+      time: 18000
+
 - type: loadoutGroup
   id: DoctorSpecialization
   name: loadout-group-doctor-specialization
@@ -248,6 +277,7 @@
   - DoctorTitleGeneticist
   - DoctorTitleCryotherapist
   - DoctorTitleSurgeon
+  - DoctorTitleNurse
 
 # Сервисный работник
 - type: entity
@@ -262,12 +292,14 @@
 - type: entity
   parent: BaseLoadoutServiceSpecialization
   id: LoadoutServiceWaiter
+  categories: [ HideSpawnMenu ]
   name: Официант
   description: Специализация сервисного работника на обслуживании посетителей.
 
 - type: entity
   parent: BaseLoadoutServiceSpecialization
   id: LoadoutServiceActor
+  categories: [ HideSpawnMenu ]
   name: Актёр
   description: Специализация сервисного работника на актёрских выступлениях.
 
@@ -317,24 +349,28 @@
 - type: entity
   parent: BaseLoadoutScientistSpecialization
   id: LoadoutScientistAnomalist
+  categories: [ HideSpawnMenu ]
   name: Аномалист
   description: Специализация учёного на исследовании аномалий.
 
 - type: entity
   parent: BaseLoadoutScientistSpecialization
   id: LoadoutScientistXenoarchaeologist
+  categories: [ HideSpawnMenu ]
   name: Ксеноархеолог
   description: Специализация учёного на исследовании инопланетных артефактов.
 
 - type: entity
   parent: BaseLoadoutScientistSpecialization
   id: LoadoutScientistToxicologist
+  categories: [ HideSpawnMenu ]
   name: Токсиколог
   description: Специализация учёного на реагентах и токсинах.
 
 - type: entity
   parent: BaseLoadoutScientistSpecialization
   id: LoadoutScientistRoboticist
+  categories: [ HideSpawnMenu ]
   name: Робототехник
   description: Специализация учёного на сборке и обслуживании киборгов.
   components:
@@ -415,26 +451,37 @@
 - type: entity
   parent: BaseLoadoutEngineerSpecialization
   id: LoadoutEngineerElectrician
+  categories: [ HideSpawnMenu ]
   name: Электрик
   description: Специализация инженера на лектросетях и проводке.
 
 - type: entity
   parent: BaseLoadoutEngineerSpecialization
   id: LoadoutEngineerRepairman
+  categories: [ HideSpawnMenu ]
   name: Ремонтник
   description: Специализация инженера на ремонте станции.
 
 - type: entity
   parent: BaseLoadoutEngineerSpecialization
   id: LoadoutEngineerMechanic
+  categories: [ HideSpawnMenu ]
   name: Механик
   description: Специализация инженера на механизмах, оборудоавнии и шаттлах.
 
 - type: entity
   parent: BaseLoadoutEngineerSpecialization
   id: LoadoutEngineerNuclear
+  categories: [ HideSpawnMenu ]
   name: Ядерщик
   description: Специализация инженера на атомной энергетике, РИТЭГах, Двигатели Сингулярности и Тесле.
+
+- type: entity
+  parent: BaseLoadoutEngineerSpecialization
+  id: LoadoutEngineerWelder
+  categories: [ HideSpawnMenu ]
+  name: Сварщик
+  description: Специализация инженера на сварочных работах.
 
 - type: loadout
   id: EngineerTitleElectrician
@@ -484,6 +531,18 @@
       role: JobStationEngineer
       time: 72000 # 20 часов
 
+- type: loadout
+  id: EngineerTitleWelder
+  dummyEntity: LoadoutEngineerWelder
+  effects:
+  - !type:JobTitleLoadoutEffect
+    title: job-title-engineer-welder
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobStationEngineer
+      time: 18000
+
 - type: loadoutGroup
   id: EngineerSpecialization
   name: loadout-group-engineer-specialization
@@ -494,6 +553,7 @@
   - EngineerTitleRepairman
   - EngineerTitleMechanic
   - EngineerTitleNuclear
+  - EngineerTitleWelder
 
 # Грузчик
 - type: entity
@@ -508,12 +568,14 @@
 - type: entity
   parent: BaseLoadoutCargoSpecialization
   id: LoadoutCargoLogistician
+  categories: [ HideSpawnMenu ]
   name: Логист
   description: Специализация грузчика на учёте и распределении грузов.
 
 - type: entity
   parent: BaseLoadoutCargoSpecialization
   id: LoadoutCargoPostman
+  categories: [ HideSpawnMenu ]
   name: Почтальон
   description: Специализация грузчика на доставке посылок и почты.
 
@@ -563,12 +625,14 @@
 - type: entity
   parent: BaseLoadoutSalvageSpecialization
   id: LoadoutSalvageMiner
+  categories: [ HideSpawnMenu ]
   name: Шахтёр
   description: Специализация утилизатора на добыче ресурсов.
 
 - type: entity
   parent: BaseLoadoutSalvageSpecialization
   id: LoadoutSalvageExplorer
+  categories: [ HideSpawnMenu ]
   name: Исследователь
   description: Специализация утилизатора на разведке, уничтожении фауны и экспедициях.
 
@@ -618,12 +682,14 @@
 - type: entity
   parent: BaseLoadoutBotanistSpecialization
   id: LoadoutBotanistAgronomist
+  categories: [ HideSpawnMenu ]
   name: Агроном
   description: Специализация ботаника на агрокультурах и урожайности.
 
 - type: entity
   parent: BaseLoadoutBotanistSpecialization
   id: LoadoutBotanistSelectioner
+  categories: [ HideSpawnMenu ]
   name: Селекционер
   description: Специализация ботаника на селекции и мутациях
 
@@ -673,12 +739,14 @@
 - type: entity
   parent: BaseLoadoutPassengerSpecialization
   id: LoadoutPassengerTrainee
+  categories: [ HideSpawnMenu ]
   name: Стажёр
   description: Специализация ассистента для обучения на рабочем месте.
 
 - type: entity
   parent: BaseLoadoutPassengerSpecialization
   id: LoadoutPassengerHandyman
+  categories: [ HideSpawnMenu ]
   name: Разнорабочий
   description: Специализация ассистента на помощи по мелким работам.
 
@@ -728,6 +796,7 @@
 - type: entity
   parent: BaseLoadoutAtmosphericSpecialization
   id: LoadoutAtmosphericLifeSupport
+  categories: [ HideSpawnMenu ]
   name: Специалист СЖО
   description: Специализация атмосферного техника на системах жизнеобеспечения.
 
@@ -764,12 +833,14 @@
 - type: entity
   parent: BaseLoadoutDetectiveSpecialization
   id: LoadoutDetectiveCriminalist
+  categories: [ HideSpawnMenu ]
   name: Криминалист
   description: Специализация детектива на криминалистике и экспертизах.
 
 - type: entity
   parent: BaseLoadoutDetectiveSpecialization
   id: LoadoutDetectiveOperative
+  categories: [ HideSpawnMenu ]
   name: Оперуполномоченный
   description: Специализация детектива на оперативно-розыскной работе.
 
@@ -805,3 +876,117 @@
   loadouts:
   - DetectiveTitleCriminalist
   - DetectiveTitleOperative
+
+# Психолог
+- type: entity
+  abstract: true
+  id: BaseLoadoutPsychologistSpecialization
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Interface/Misc/job_icons.rsi
+    state: Psychologist
+
+- type: entity
+  parent: BaseLoadoutPsychologistSpecialization
+  id: LoadoutPsychologistPsychotherapist
+  categories: [ HideSpawnMenu ]
+  name: Психотерапевт
+  description: Специализация психолога на психотерапии.
+
+- type: entity
+  parent: BaseLoadoutPsychologistSpecialization
+  id: LoadoutPsychologistPsychiatrist
+  categories: [ HideSpawnMenu ]
+  name: Психиатр
+  description: Специализация психолога на психиатрии.
+
+- type: loadout
+  id: PsychologistTitlePsychotherapist
+  dummyEntity: LoadoutPsychologistPsychotherapist
+  effects:
+  - !type:JobTitleLoadoutEffect
+    title: job-title-psychologist-psychotherapist
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobPsychologist
+      time: 18000
+
+- type: loadout
+  id: PsychologistTitlePsychiatrist
+  dummyEntity: LoadoutPsychologistPsychiatrist
+  effects:
+  - !type:JobTitleLoadoutEffect
+    title: job-title-psychologist-psychiatrist
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobPsychologist
+      time: 18000
+
+- type: loadoutGroup
+  id: PsychologistSpecialization
+  name: loadout-group-psychologist-specialization
+  minLimit: 0
+  maxLimit: 1
+  loadouts:
+  - PsychologistTitlePsychotherapist
+  - PsychologistTitlePsychiatrist
+
+# Клоун
+- type: entity
+  abstract: true
+  id: BaseLoadoutClownSpecialization
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Interface/Misc/job_icons.rsi
+    state: Clown
+
+- type: entity
+  parent: BaseLoadoutClownSpecialization
+  id: LoadoutClownComedian
+  categories: [ HideSpawnMenu ]
+  name: Комик
+  description: Специализация клоуна на юморе и выступлениях.
+
+- type: entity
+  parent: BaseLoadoutClownSpecialization
+  id: LoadoutClownPrankster
+  categories: [ HideSpawnMenu ]
+  name: Пранкер
+  description: Специализация клоуна на розыгрышах.
+
+- type: loadout
+  id: ClownTitleComedian
+  dummyEntity: LoadoutClownComedian
+  effects:
+  - !type:JobTitleLoadoutEffect
+    title: job-title-clown-comedian
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobClown
+      time: 18000
+
+- type: loadout
+  id: ClownTitlePrankster
+  dummyEntity: LoadoutClownPrankster
+  effects:
+  - !type:JobTitleLoadoutEffect
+    title: job-title-clown-prankster
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobClown
+      time: 18000
+
+- type: loadoutGroup
+  id: ClownSpecialization
+  name: loadout-group-clown-specialization
+  minLimit: 0
+  maxLimit: 1
+  loadouts:
+  - ClownTitleComedian
+  - ClownTitlePrankster
