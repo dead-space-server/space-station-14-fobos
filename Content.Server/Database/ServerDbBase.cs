@@ -1674,6 +1674,28 @@ namespace Content.Server.Database
             await db.DbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> TrySetActivePrisonBanExpiration(
+            int id,
+            DateTimeOffset expectedExpiration,
+            DateTimeOffset expiration)
+        {
+            await using var db = await GetDb();
+
+            var now = DateTime.UtcNow;
+            var expected = expectedExpiration.UtcDateTime;
+            var updated = expiration.UtcDateTime;
+            var changed = await db.DbContext.Ban
+                .Where(ban => ban.Id == id &&
+                              ban.Type == BanType.Server &&
+                              ban.SendToPrison &&
+                              ban.Unban == null &&
+                              ban.ExpirationTime == expected &&
+                              ban.ExpirationTime > now)
+                .ExecuteUpdateAsync(setters => setters.SetProperty(ban => ban.ExpirationTime, updated));
+
+            return changed == 1;
+        }
+
         public async Task EditBan(int id, string reason, NoteSeverity severity, DateTimeOffset? expiration, Guid editedBy, DateTimeOffset editedAt)
         {
             await using var db = await GetDb();

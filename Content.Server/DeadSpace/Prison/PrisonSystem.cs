@@ -68,6 +68,10 @@ public sealed class PrisonSystem : EntitySystem
 
     private readonly HashSet<NetUserId> _prisonUsers = [];
     private readonly Dictionary<EntityUid, Dictionary<EntityUid, FixedPoint2>> _prisonDamageByTarget = new();
+    private readonly Dictionary<EntityUid, Dictionary<EntityUid, FixedPoint2>> _prisonFaunaDamageByTarget = new();
+    private readonly Dictionary<NetUserId, PendingFaunaReward> _pendingFaunaRewards = new();
+    private readonly HashSet<NetUserId> _faunaRewardInProgress = [];
+    private readonly object _faunaRewardLock = new();
     private static readonly ProtoId<StartingGearPrototype> PrisonerGear = "PrisonerGear";
     private const int SourceParentSearchDepth = 6;
     private bool _enabled;
@@ -98,6 +102,7 @@ public sealed class PrisonSystem : EntitySystem
         SubscribeLocalEvent<AttemptShootEvent>(OnPrisonerAttemptShoot);
         SubscribeLocalEvent<DamageableComponent, DamageModifyEvent>(OnPrisonerDamageModify);
         SubscribeLocalEvent<PrisonBoundComponent, DamageChangedEvent>(OnPrisonDamageChanged, before: [typeof(MobThresholdSystem)]);
+        SubscribeLocalEvent<PrisonSpawnedFaunaComponent, DamageChangedEvent>(OnPrisonFaunaDamageChanged, before: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<MobStateChangedEvent>(OnPrisonMobStateChanged);
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
 
@@ -114,6 +119,12 @@ public sealed class PrisonSystem : EntitySystem
     private void OnRoundRestartCleanup(RoundRestartCleanupEvent ev)
     {
         _prisonDamageByTarget.Clear();
+        _prisonFaunaDamageByTarget.Clear();
+        lock (_faunaRewardLock)
+        {
+            _pendingFaunaRewards.Clear();
+            _faunaRewardInProgress.Clear();
+        }
     }
 
     private void OnPrisonerAttackAttempt(AttackAttemptEvent args)
@@ -384,15 +395,63 @@ public sealed class PrisonSystem : EntitySystem
         sourceDamage[sourceMindId] = sourceDamage.GetValueOrDefault(sourceMindId) + delta;
     }
 
+    private void OnPrisonFaunaDamageChanged(
+        EntityUid uid,
+        PrisonSpawnedFaunaComponent component,
+        DamageChangedEvent args)
+    {
+        if (args.DamageDelta == null)
+        {
+            if (args.Damageable.TotalDamage == FixedPoint2.Zero)
+                _prisonFaunaDamageByTarget.Remove(uid);
+
+            return;
+        }
+
+        var delta = args.DamageDelta.GetTotal();
+        if (!args.DamageIncreased)
+        {
+            if (args.Damageable.TotalDamage == FixedPoint2.Zero)
+                _prisonFaunaDamageByTarget.Remove(uid);
+            else
+                ReduceDamageContributors(_prisonFaunaDamageByTarget, uid, -delta);
+
+            return;
+        }
+
+        if (delta <= FixedPoint2.Zero ||
+            !TryGetDamageSourceMind(args.Origin, out var sourceMindId, out var sourceMind) ||
+            !IsMindPrisoner(sourceMindId, sourceMind))
+        {
+            return;
+        }
+
+        if (!_prisonFaunaDamageByTarget.TryGetValue(uid, out var sourceDamage))
+        {
+            sourceDamage = new Dictionary<EntityUid, FixedPoint2>();
+            _prisonFaunaDamageByTarget[uid] = sourceDamage;
+        }
+
+        sourceDamage[sourceMindId] = sourceDamage.GetValueOrDefault(sourceMindId) + delta;
+    }
+
     private void OnPrisonMobStateChanged(MobStateChangedEvent args)
     {
         if (!_enabled ||
-            _murderPenaltyMinutes <= 0 ||
             args.NewMobState != MobState.Dead ||
             args.OldMobState >= args.NewMobState)
         {
             return;
         }
+
+        if (TryComp<PrisonSpawnedFaunaComponent>(args.Target, out var fauna))
+        {
+            OnPrisonFaunaKilled((args.Target, fauna), ref args);
+            return;
+        }
+
+        if (_murderPenaltyMinutes <= 0)
+            return;
 
         var target = args.Target;
         if (!TryGetPrisonerMind(target, out var targetMindId, out _))
@@ -414,6 +473,117 @@ public sealed class PrisonSystem : EntitySystem
             AddPrisonMurderPenalty(contributorMind);
 
         _prisonDamageByTarget.Remove(target);
+    }
+
+    private void OnPrisonFaunaKilled(Entity<PrisonSpawnedFaunaComponent> ent, ref MobStateChangedEvent args)
+    {
+        if (ent.Comp.SentenceReductionMinutes <= 0)
+            return;
+
+        MindComponent? sourceMind = null;
+        if (TryGetDamageSourceMind(args.Origin, out var sourceMindId, out sourceMind))
+        {
+            if (!IsMindPrisoner(sourceMindId, sourceMind))
+            {
+                _prisonFaunaDamageByTarget.Remove(ent.Owner);
+                return;
+            }
+        }
+        else
+        {
+            if (!TryGetLargestPrisonFaunaDamageContributor(ent.Owner, out sourceMindId, out sourceMind))
+            {
+                _prisonFaunaDamageByTarget.Remove(ent.Owner);
+                return;
+            }
+        }
+
+        _prisonFaunaDamageByTarget.Remove(ent.Owner);
+        if (sourceMind.UserId is not { } userId || !_player.TryGetSessionById(userId, out var session))
+            return;
+
+        var check = CreateBanRefreshCheck(session);
+        var startRewardTask = false;
+        lock (_faunaRewardLock)
+        {
+            var pendingMinutes = _pendingFaunaRewards.TryGetValue(userId, out var pending)
+                ? pending.Minutes
+                : 0;
+            _pendingFaunaRewards[userId] = new PendingFaunaReward(
+                check,
+                pendingMinutes + ent.Comp.SentenceReductionMinutes);
+            startRewardTask = _faunaRewardInProgress.Add(userId);
+        }
+
+        if (startRewardTask)
+            ApplyPendingFaunaRewards(userId);
+    }
+
+    private async void ApplyPendingFaunaRewards(NetUserId userId)
+    {
+        while (true)
+        {
+            PendingFaunaReward pending;
+            lock (_faunaRewardLock)
+            {
+                if (!_pendingFaunaRewards.Remove(userId, out pending))
+                {
+                    _faunaRewardInProgress.Remove(userId);
+                    return;
+                }
+            }
+
+            if (pending.Minutes <= 0)
+                continue;
+
+            try
+            {
+                var check = pending.Check;
+                var bans = await _db.GetBansAsync(
+                    check.Address,
+                    check.UserId,
+                    check.HwId,
+                    check.ModernHwIds,
+                    includeUnbanned: false);
+                var latestBan = GetLatestActiveServerBan(bans);
+
+                if (latestBan?.Id is not { } banId ||
+                    !IsPrisonServerBan(latestBan) ||
+                    latestBan.ExpirationTime is not { } expiration)
+                {
+                    continue;
+                }
+
+                var now = DateTimeOffset.UtcNow;
+                var updatedExpiration = expiration - TimeSpan.FromMinutes(pending.Minutes);
+                if (updatedExpiration < now)
+                    updatedExpiration = now;
+
+                if (!await _db.TrySetActivePrisonBanExpiration(banId, expiration, updatedExpiration))
+                    continue;
+
+                var appliedMinutes = Math.Min(
+                    pending.Minutes,
+                    Math.Max(0, (int) Math.Ceiling((expiration - now).TotalMinutes)));
+
+                _taskManager.RunOnMainThread(() =>
+                {
+                    _nextActiveBanRefresh = TimeSpan.Zero;
+                    if (_player.TryGetSessionById(userId, out var currentSession))
+                    {
+                        _chat.DispatchServerMessage(
+                            currentSession,
+                            Loc.GetString("prison-fauna-reward-message", ("minutes", appliedMinutes)));
+                    }
+
+                    RefreshPrisonBanState();
+                });
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Failed to apply prison fauna reward for {userId}: {e}");
+            }
+        }
     }
 
     private void SpawnPrisonMob(ICommonSession session, HumanoidCharacterProfile profile, EntityCoordinates coordinates)
@@ -734,9 +904,49 @@ public sealed class PrisonSystem : EntitySystem
         return found;
     }
 
+    private bool TryGetLargestPrisonFaunaDamageContributor(
+        EntityUid target,
+        out EntityUid sourceMindId,
+        out MindComponent sourceMind)
+    {
+        sourceMindId = default;
+        sourceMind = default!;
+
+        if (!_prisonFaunaDamageByTarget.TryGetValue(target, out var sources))
+            return false;
+
+        var highest = FixedPoint2.Zero;
+        var found = false;
+        foreach (var (candidateMindId, damage) in sources)
+        {
+            MindComponent? candidateMind = null;
+            if (damage <= highest ||
+                !Resolve(candidateMindId, ref candidateMind, false) ||
+                !IsMindPrisoner(candidateMindId, candidateMind))
+            {
+                continue;
+            }
+
+            sourceMindId = candidateMindId;
+            sourceMind = candidateMind;
+            highest = damage;
+            found = true;
+        }
+
+        return found;
+    }
+
     private void ReducePrisonDamageContributors(EntityUid target, FixedPoint2 healing)
     {
-        if (healing <= FixedPoint2.Zero || !_prisonDamageByTarget.TryGetValue(target, out var sources))
+        ReduceDamageContributors(_prisonDamageByTarget, target, healing);
+    }
+
+    private static void ReduceDamageContributors(
+        Dictionary<EntityUid, Dictionary<EntityUid, FixedPoint2>> damageByTarget,
+        EntityUid target,
+        FixedPoint2 healing)
+    {
+        if (healing <= FixedPoint2.Zero || !damageByTarget.TryGetValue(target, out var sources))
             return;
 
         var totalTrackedDamage = FixedPoint2.Zero;
@@ -748,7 +958,7 @@ public sealed class PrisonSystem : EntitySystem
 
         if (totalTrackedDamage <= healing)
         {
-            _prisonDamageByTarget.Remove(target);
+            damageByTarget.Remove(target);
             return;
         }
 
@@ -767,7 +977,7 @@ public sealed class PrisonSystem : EntitySystem
         }
 
         if (sources.Count == 0)
-            _prisonDamageByTarget.Remove(target);
+            damageByTarget.Remove(target);
     }
 
     private async void AddPrisonMurderPenalty(MindComponent killerMind)
@@ -964,6 +1174,10 @@ public sealed class PrisonSystem : EntitySystem
         IPAddress Address,
         ImmutableArray<byte>? HwId,
         ImmutableArray<ImmutableArray<byte>> ModernHwIds);
+
+    private readonly record struct PendingFaunaReward(
+        PrisonBanRefreshCheck Check,
+        int Minutes);
 
     private readonly record struct PrisonBanRefreshResult(
         NetUserId UserId,

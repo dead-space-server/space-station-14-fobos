@@ -1,6 +1,6 @@
 prison-chat-join-message = You have an active prison server ban. When the round starts, you will be sent to the prison area instead of joining the station.
-prison-sent-message = You have been sent to the prison area. Remaining sentence: { $minutes } minutes.
-prison-sent-permanent-message = You have been sent to the prison area. Your sentence is permanent.
+prison-sent-message = You have been sent to the prison area. Remaining sentence: { $minutes } minutes. Eliminating dangerous fauna reduces your sentence.
+prison-sent-permanent-message = You have been sent to the prison area. Your sentence is permanent. Eliminating fauna does not reduce a permanent sentence.
 prison-arrival-message = You have arrived in the prison area.
 prison-unavailable-message = Prison is not available right now. Try again later.
 prison-release-message = Your prison server ban is no longer active. Prison restrictions have been lifted.
@@ -11,3 +11,4 @@ prison-antag-role-blocked = You cannot become an antagonist while serving a pris
 prison-murder-penalty-reason = Murdered another prisoner while serving a prison sentence.
 prison-murder-penalty-message = You killed another prisoner. Your sentence was increased by { $minutes } minutes.
 prison-murder-permanent-message = You killed another prisoner. Your access to the prison area has been revoked.
+prison-fauna-reward-message = Your sentence was reduced by { $minutes } minutes for eliminating dangerous fauna.

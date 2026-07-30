@@ -37,6 +37,7 @@ public sealed class PrisonMapSystem : EntitySystem
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TileSystem _tile = default!;
+    [Dependency] private readonly PrisonFaunaPopulationSystem _faunaPopulation = default!;
 
     private EntityQuery<TransformComponent> _xformQuery;
     private EntityUid? _generatedMap;
@@ -136,6 +137,7 @@ public sealed class PrisonMapSystem : EntitySystem
             CreateGhostWarp(mapUid);
             PreloadResidenceArea(mapUid, biome, planet);
             PreloadLandingArea(mapUid, biome, planet);
+            _faunaPopulation.SetupMap(mapUid, planet);
 
             _map.SetPaused(mapUid, false);
             Log.Info($"Generated prison map {planet.ID} with seed {seed}.");
