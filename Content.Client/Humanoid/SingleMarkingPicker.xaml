@@ -19,7 +19,12 @@
 
         <!-- Color sliders -->
         <ScrollContainer MinHeight="200" HorizontalExpand="True">
-            <BoxContainer Name="ColorSelectorContainer" HorizontalExpand="True" />
+                <!-- DS14-start -->
+            <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+                <BoxContainer Name="ColorSelectorContainer" HorizontalExpand="True" />
+                <BoxContainer Name="GradientContainer" HorizontalExpand="True" Visible="False" />
+            </BoxContainer>
+                <!-- DS14-end -->
         </ScrollContainer>
     </BoxContainer>
 </BoxContainer>

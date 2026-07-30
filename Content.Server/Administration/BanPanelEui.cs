@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Sockets;
 using Content.Server.Administration.Managers;
+using Content.Server.Administration.Notes;
 using Content.Server.Administration.Systems;
 using Content.Server.Chat.Managers;
 using Content.Server.EUI;
@@ -19,6 +20,7 @@ public sealed class BanPanelEui : BaseEui
     [Dependency] private readonly IPlayerLocator _playerLocator = default!;
     [Dependency] private readonly IChatManager _chat = default!;
     [Dependency] private readonly IAdminManager _admins = default!;
+    [Dependency] private readonly IAdminNotesManager _notes = default!; // DS14
 
     private readonly ISawmill _sawmill;
 
@@ -51,11 +53,47 @@ public sealed class BanPanelEui : BaseEui
             case BanPanelEuiStateMsg.CreateBanRequest r:
                 BanPlayer(r.Ban);
                 break;
+            // DS14-start
+            case BanPanelEuiStateMsg.CreateWatchlistRequest r:
+                CreateWatchlist(r);
+                break;
+            // DS14-end
             case BanPanelEuiStateMsg.GetPlayerInfoRequest r:
                 ChangePlayer(r.PlayerUsername);
                 break;
         }
     }
+
+    // DS14-start
+    private async void CreateWatchlist(BanPanelEuiStateMsg.CreateWatchlistRequest request)
+    {
+        if (!_notes.CanCreate(Player))
+        {
+            _sawmill.Warning($"{Player.Name} ({Player.UserId}) tried to create a watchlist with no edit notes flag");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(request.PlayerUsername) || string.IsNullOrWhiteSpace(request.Reason))
+            return;
+
+        var located = await _playerLocator.LookupIdByNameOrIdAsync(request.PlayerUsername);
+        if (located == null)
+        {
+            _chat.DispatchServerMessage(Player, Loc.GetString("cmd-ban-player"));
+            return;
+        }
+
+        await _notes.AddAdminRemark(
+            Player,
+            located.UserId,
+            NoteType.Watchlist,
+            request.Reason,
+            null,
+            true,
+            null);
+        Close();
+    }
+    // DS14-end
 
     private async void BanPlayer(Ban ban)
     {

@@ -34,6 +34,7 @@ public sealed class PatrolTabletSystem : EntitySystem
         SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletClearAllMessage>(OnClearAll);
         SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletClearSquadMessage>(OnClearSquad);
         SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletCreateSquadMessage>(OnCreateSquad);
+        SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletDeleteSquadMessage>(OnDeleteSquad);
     }
 
     private bool AddTrackedPersonnel(EntityUid uid, PatrolTabletComponent comp, EntityUid target, EntityUid user)
@@ -191,6 +192,30 @@ public sealed class PatrolTabletSystem : EntitySystem
 
         var id = $"squad_{Guid.NewGuid():N}"[..16];
         comp.Squads.Add(new SquadData(id, name, msg.IconId));
+        Dirty(uid, comp);
+        UpdateUiState(uid, comp);
+    }
+
+    private void OnDeleteSquad(EntityUid uid, PatrolTabletComponent comp, PatrolTabletDeleteSquadMessage msg)
+    {
+        var squad = comp.Squads.Find(s => s.Id == msg.SquadId);
+        if (squad == null)
+            return;
+
+        comp.Squads.Remove(squad);
+
+        var query = EntityQueryEnumerator<PatrolSquadCardComponent>();
+        while (query.MoveNext(out var cardUid, out var squadCard))
+        {
+            if (squadCard.SquadId != msg.SquadId)
+                continue;
+
+            squadCard.SquadId = string.Empty;
+            squadCard.SquadIcon = string.Empty;
+            squadCard.MemberName = string.Empty;
+            Dirty(cardUid, squadCard);
+        }
+
         Dirty(uid, comp);
         UpdateUiState(uid, comp);
     }

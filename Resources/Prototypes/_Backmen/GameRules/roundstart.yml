@@ -35,3 +35,5 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: BlobRule
+  - type: GameRule # DS14 - небольшой костыль для работы фильтрации по игрокам
+    minPlayers: 40

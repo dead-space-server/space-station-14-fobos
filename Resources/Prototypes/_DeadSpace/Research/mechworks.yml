@@ -72,7 +72,14 @@
   - AutolatheHyperConvectionMachineCircuitboardTaipan
   - ProtolatheHyperConvectionMachineCircuitboardTaipan
   - CircuitImprinterHyperConvectionMachineCircuitboardTaipan
+  - DetailTechFabMachineCircuitboardTaipan
+  - CraftConsoleCircuitboard
+  - CraftMachineCircuitboard
+  - BlueprintRIGEVAOneUse
+  - ClothingHeadHelmetRIGEVA
+  - PlastineOfEVARIG
   - SheetifierMachineCircuitboard
+  - TaipanHandCuttingMachineRecipe
 
 - type: technology
   id: TaipanPowerGeneration
@@ -193,6 +200,34 @@
   - BorgModuleAdvancedTool
   - Fulton
   - FultonBeacon
+
+- type: technology
+  id: TaipanQuadBikeTech
+  name: research-technology-quad-bike
+  icon:
+    sprite: Objects/Vehicles/atv.rsi
+    state: vehicle
+  discipline: TaipanMechworks
+  tier: 2
+  cost: 7500
+  diskAvailable: false
+  recipeUnlocks:
+    - TaipanVehicleQuadBikeFlatpack
+    - TaipanVehicleKeyUniversal
+
+- type: technology
+  id: TaipanHoverBikeTech
+  name: research-technology-hover-bike
+  icon:
+    sprite: _DeadSpace/Objects/Vehicles/hoverbike.rsi
+    state: vehicle
+  discipline: TaipanMechworks
+  tier: 2
+  cost: 7500
+  diskAvailable: false
+  recipeUnlocks:
+    - TaipanVehicleHoverbikeFlatpack
+    - TaipanVehicleKeyUniversal
 
 - type: technology
   id: TaipanMassExcavation

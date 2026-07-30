@@ -14,6 +14,7 @@ public sealed partial class StationAiSystem : SharedStationAiSystem
     [Dependency] private readonly SpriteSystem _sprite = default!;
 
     private StationAiOverlay? _overlay;
+    private EntityUid? _overlayOwner; // DS14
 
     public override void Initialize()
     {
@@ -21,60 +22,69 @@ public sealed partial class StationAiSystem : SharedStationAiSystem
         InitializeAirlock();
         InitializePowerToggle();
 
-        SubscribeLocalEvent<StationAiOverlayComponent, LocalPlayerAttachedEvent>(OnAiAttached);
-        SubscribeLocalEvent<StationAiOverlayComponent, LocalPlayerDetachedEvent>(OnAiDetached);
-        SubscribeLocalEvent<StationAiOverlayComponent, ComponentInit>(OnAiOverlayInit);
-        SubscribeLocalEvent<StationAiOverlayComponent, ComponentRemove>(OnAiOverlayRemove);
+        // DS14-start
+        SubscribeLocalEvent<LocalPlayerAttachedEvent>(OnPlayerAttached);
+        SubscribeLocalEvent<LocalPlayerDetachedEvent>(OnPlayerDetached);
+        SubscribeLocalEvent<StationAiOverlayComponent, ComponentStartup>(OnAiOverlayStartup);
+        SubscribeLocalEvent<StationAiOverlayComponent, ComponentShutdown>(OnAiOverlayShutdown);
+        // DS14-end
         SubscribeLocalEvent<StationAiCoreComponent, AppearanceChangeEvent>(OnAppearanceChange);
     }
 
-    private void OnAiOverlayInit(Entity<StationAiOverlayComponent> ent, ref ComponentInit args)
+    // DS14-start
+    private void OnAiOverlayStartup(Entity<StationAiOverlayComponent> ent, ref ComponentStartup args)
     {
-        var attachedEnt = _player.LocalEntity;
-
-        if (attachedEnt != ent.Owner)
+        if (_player.LocalEntity != ent.Owner)
             return;
 
-        AddOverlay();
+        EnsureOverlay(ent.Owner);
     }
 
-    private void OnAiOverlayRemove(Entity<StationAiOverlayComponent> ent, ref ComponentRemove args)
+    private void OnAiOverlayShutdown(Entity<StationAiOverlayComponent> ent, ref ComponentShutdown args)
     {
-        var attachedEnt = _player.LocalEntity;
+        if (_overlayOwner == ent.Owner)
+            RemoveOverlay();
+    }
 
-        if (attachedEnt != ent.Owner)
+    private void OnPlayerAttached(LocalPlayerAttachedEvent args)
+    {
+        RemoveOverlay();
+
+        if (HasComp<StationAiOverlayComponent>(args.Entity))
+            EnsureOverlay(args.Entity);
+    }
+
+    private void OnPlayerDetached(LocalPlayerDetachedEvent args)
+    {
+        if (_overlayOwner == args.Entity)
+            RemoveOverlay();
+    }
+
+    private void EnsureOverlay(EntityUid owner)
+    {
+        if (_overlay != null && _overlayOwner == owner)
             return;
 
         RemoveOverlay();
-    }
-
-    private void AddOverlay()
-    {
-        if (_overlay != null)
-            return;
-
-        _overlay = new StationAiOverlay();
+        _overlayOwner = owner;
+        _overlay = new StationAiOverlay(owner);
         _overlayMgr.AddOverlay(_overlay);
     }
 
     private void RemoveOverlay()
     {
         if (_overlay == null)
+        {
+            _overlayOwner = null;
             return;
+        }
 
         _overlayMgr.RemoveOverlay(_overlay);
+        _overlay.Dispose();
         _overlay = null;
+        _overlayOwner = null;
     }
-
-    private void OnAiAttached(Entity<StationAiOverlayComponent> ent, ref LocalPlayerAttachedEvent args)
-    {
-        AddOverlay();
-    }
-
-    private void OnAiDetached(Entity<StationAiOverlayComponent> ent, ref LocalPlayerDetachedEvent args)
-    {
-        RemoveOverlay();
-    }
+    // DS14-end
 
     private void OnAppearanceChange(Entity<StationAiCoreComponent> entity, ref AppearanceChangeEvent args)
     {
@@ -89,7 +99,7 @@ public sealed partial class StationAiSystem : SharedStationAiSystem
 
     public override void Shutdown()
     {
+        RemoveOverlay(); // DS14
         base.Shutdown();
-        _overlayMgr.RemoveOverlay<StationAiOverlay>();
     }
 }

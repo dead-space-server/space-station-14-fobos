@@ -12,6 +12,7 @@ patrol-tablet-clear-squad = Убрать всех из отряда
 patrol-tablet-squad-count = {$count} чел.
 patrol-tablet-squad-empty = пусто
 patrol-tablet-rename-squad = Переименовать Отряд
+patrol-tablet-delete-squad = Удалить отряд
 patrol-tablet-create-squad = Создать Отряд
 patrol-tablet-squad-name-label = Название отряда
 patrol-tablet-squad-name-placeholder = Введите название...

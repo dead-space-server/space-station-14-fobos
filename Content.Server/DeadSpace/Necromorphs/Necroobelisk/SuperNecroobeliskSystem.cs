@@ -96,13 +96,13 @@ public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
 
             if (component.Percents > 0 && component.StateEnum == SuperMatterialNecroObeliskState.Stop)
             {
-                EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 30000;
+                EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 65000;
                 component.StateEnum = SuperMatterialNecroObeliskState.Zero;
             }
 
             if (component.Percents >= 25 && component.StateEnum < SuperMatterialNecroObeliskState.TwentyFive)
             {
-                EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 100000;
+                EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 245000;
                 component.IsActive = true;
                 SetRangeSanity(component, 8f);
                 UpdateState(uid, component);
@@ -111,7 +111,7 @@ public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
 
             if (component.Percents >= 50 && component.StateEnum < SuperMatterialNecroObeliskState.Fifty)
             {
-                EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 250000;
+                EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 385000;
                 SetRangeSanity(component, 12f);
                 SpawnKudzu(uid, component);
                 component.StateEnum = SuperMatterialNecroObeliskState.Fifty;

@@ -5,13 +5,16 @@
     <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="8">
         <CheckBox Name="EnableMaxRdmRowCheckBox" Text="{Loc game-preset-settings-enable-max-rdm-row}" ToolTip="{Loc game-preset-rdm-counter-tooltip}" />
         <SpinBox Name="MaxRdmRowSpinBox" Value="2" MinWidth="60" HorizontalExpand="True" />
-        <CheckBox Name="EnableMaxRdmDayCheckBox" Text="{Loc game-preset-settings-enable-max-rdm-day}" />
-        <SpinBox Name="MaxRdmDaySpinBox" Value="5" MinWidth="60" HorizontalExpand="True" />
         <BoxContainer Orientation="Horizontal" SeparationOverride="4">
             <Label Text="{Loc game-preset-settings-vote-duration}" HorizontalExpand="True" />
             <SpinBox Name="VoteDurationSpinBox" Value="30" MinWidth="60" />
         </BoxContainer>
         <CheckBox Name="DisableOocCheckBox" Text="{Loc game-preset-settings-disable-ooc}" />
+        <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+            <CheckBox Name="PreventRepeatCheckBox" Text="{Loc game-preset-settings-prevent-repeat}" ToolTip="{Loc game-preset-settings-prevent-repeat-tooltip}" HorizontalExpand="True" />
+            <Button Name="WhitelistButton" Text="{Loc game-preset-settings-whitelist}" ToolTip="{Loc game-preset-settings-whitelist-tooltip}" />
+        </BoxContainer>
+        <CheckBox Name="CheckPlayerLimitCheckBox" Text="{Loc game-preset-settings-check-player-limit}" ToolTip="{Loc game-preset-settings-check-player-limit-tooltip}" />
         <Button Name="SaveSettingsButton" Text="{Loc game-preset-save-button}" HorizontalExpand="True" />
     </BoxContainer>
 </DefaultWindow>

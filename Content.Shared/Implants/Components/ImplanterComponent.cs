@@ -1,5 +1,6 @@
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Damage;
+using Content.Shared.DoAfter;
 using Content.Shared.Whitelist;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -42,6 +43,20 @@ public sealed partial class ImplanterComponent : Component
     [ViewVariables(VVAccess.ReadWrite)]
     [DataField]
     public float ImplantTime = 5f;
+
+    // DS14-start
+    /// <summary>
+    /// Whether implanting the user should bypass the normal implant do-after.
+    /// </summary>
+    [DataField]
+    public bool InstantSelfImplant = true;
+
+    /// <summary>
+    /// Controls how often the implant do-after raises its attempt event.
+    /// </summary>
+    [DataField]
+    public AttemptFrequency ImplantAttemptFrequency = AttemptFrequency.Never;
+    // DS14-end
 
     //TODO: Remove when surgery is a thing
     /// <summary>

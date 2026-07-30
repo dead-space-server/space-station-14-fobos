@@ -635,7 +635,7 @@
   components:
   - type: Storage
     grid:
-    - 0,0,5,2
+    - 0,0,3,3 # DS-14
   - type: StorageFill
     contents:
     # toy

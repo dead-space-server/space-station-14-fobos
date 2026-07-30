@@ -146,6 +146,7 @@
     layers:
     - state: goliath_tentacle_wiggle
   - type: StunOnContact
+    ignoreKnockedDown: true # DS14
     blacklist:
       tags:
       - Goliath

@@ -234,6 +234,26 @@
       enum.ThiefBackpackUIKey.Key:
         type: ThiefBackpackBoundUserInterface
 
+- type: entity
+  id: ERTloadoutMelee
+  name: коробка неопределённости ближнего оружия
+  description: Коробка с оружием ближнего кода. Принадлежит отряду "Красный" и "Гамма".
+  suffix: ОБР, Гамма, Милишка
+  parent: BaseERTloadoutSecondary
+  components:
+  - type: Sprite
+    state: ml
+  - type: ThiefUndeterminedBackpack
+    possibleSets:
+    - TruncheonsecSet
+    - TruncheonSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
 ## CBURN
 - type: entity
   id: ERTloadoutCBURNPrimary
@@ -502,10 +522,10 @@
     state: blueshield
   - type: ThiefUndeterminedBackpack
     possibleSets:
-    - BerettaM92BlueShieldSet
     - ScarLBlueShieldSet
     - MP5SDBlueShieldSet
     - AresSWCBlueShieldSet
+    - CQCBlueShieldSet
     - TruncheonsecBlueShieldSet
     - PistolBlueShieldUpgradeKitSet
   - type: ActivatableUI
@@ -1005,18 +1025,19 @@
   - MagazinePistol
 
 - type: thiefBackpackSet
-  id: BerettaM92BlueShieldSet
-  name: ert-loadout-category-berettam92bs-name
-  description: ert-loadout-category-berettam92bs-description
+  id: CQCBlueShieldSet
+  name: ert-loadout-category-cqcbs-name
+  description: ert-loadout-category-cqcbs-description
   sprite:
-    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/beretta_m92.rsi
+    sprite: _DeadSpace/Objects/Misc/cqc_manual.rsi
     state: icon
   content:
+  - CQCManual
   - WeaponPistolBerettaM92
   - MagazinePistolHighCapacity
   - MagazinePistolHighCapacity
   - MagazinePistolHighCapacity
-  - TelescopicShield
+  - BulletShieldBlueShield
 
 - type: thiefBackpackSet
   id: BerettaM92Set
@@ -1204,7 +1225,7 @@
 - type: thiefBackpackSet
   id: AdvancedLaserERTSet
   name: ert-loadout-category-advancedlaserert-name
-  description: ert-loadout-category-advancedlaser-description
+  description: ert-loadout-category-energymagnum-description
   sprite:
     sprite: _DeadSpace/Objects/Weapons/Guns/Battery/advancedlasergunert.rsi
     state: icon
@@ -1368,3 +1389,25 @@
   - PyraAutoInjector
   - AntiPoisonMedipen
   - AntiPoisonMedipen
+
+# милишка
+
+- type: thiefBackpackSet
+  id: TruncheonSet
+  name: ert-loadout-category-truncheon-name
+  description: ert-loadout-category-truncheon-description
+  sprite:
+    sprite: Objects/Weapons/Melee/truncheon.rsi
+    state: icon
+  content:
+  - Truncheon
+
+- type: thiefBackpackSet
+  id: TruncheonsecSet
+  name: ert-loadout-category-truncheonsec-name
+  description: ert-loadout-category-truncheonsec-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Melee/truncheon_sec.rsi
+    state: stunbaton_nocell
+  content:
+  - Truncheonsec

@@ -1,12 +1,15 @@
+using Content.Shared.DeadSpace.Movement.Components;
+using Content.Shared.DeadSpace.Sandevistan;
+using Content.Shared.Fluids.Components;
+using Content.Shared.Gravity;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Events;
-using Content.Shared.DeadSpace.Movement.Components;
-using Content.Shared.Gravity;
 using Content.Shared.Slippery;
 using Content.Shared.Whitelist;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
+using Robust.Shared.Timing;
 
 namespace Content.Shared.Movement.Systems;
 
@@ -16,6 +19,7 @@ public sealed class SpeedModifierContactsSystem : EntitySystem
     [Dependency] private readonly SharedGravitySystem _gravity = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _speedModifierSystem = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     // TODO full-game-save
     // Either these need to be processed before a map is saved, or slowed/slowing entities need to update on init.
@@ -99,11 +103,25 @@ public sealed class SpeedModifierContactsSystem : EntitySystem
 
         // Cache the result of the airborne check, as it's expensive and independent of contacting entities, hence need only be done once.
         var isAirborne = physicsComponent.BodyStatus == BodyStatus.InAir || _gravity.IsWeightless(uid);
+        // DS14-start
+        var ignoresPuddleSlowdown = TryComp<ActiveSandevistanComponent>(uid, out var sandevistan) &&
+            _timing.CurTime < sandevistan.EndTime &&
+            sandevistan.LifeStage <= ComponentLifeStage.Running;
+        // DS14-end
 
         bool remove = true;
         var entries = 0;
         foreach (var ent in _physics.GetContactingEntities(uid, physicsComponent))
         {
+            // DS14-start
+            if (ignoresPuddleSlowdown && HasComp<PuddleComponent>(ent))
+            {
+                // Keep listening to contacts so the slowdown returns immediately when Sandevistan ends.
+                remove = false;
+                continue;
+            }
+            // DS14-end
+
             bool speedModified = false;
 
             if (TryComp<SpeedModifierContactsComponent>(ent, out var slowContactsComponent))

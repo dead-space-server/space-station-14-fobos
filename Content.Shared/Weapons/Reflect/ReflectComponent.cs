@@ -43,6 +43,15 @@ public sealed partial class ReflectComponent : Component
     [DataField, AutoNetworkedField]
     public float ReflectProb = 0.25f;
 
+    // DS14-start
+    /// <summary>
+    /// Probability to reflect when the item is held but not toggled (e.g. one-handed mode).
+    /// If 0, reflection is disabled when not toggled (default behavior).
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float ReflectProbNotToggled = 0f;
+    // DS14-end
+
     /// <summary>
     /// Probability for a projectile to be reflected.
     /// </summary>

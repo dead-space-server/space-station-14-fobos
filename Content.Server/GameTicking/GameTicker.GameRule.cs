@@ -93,6 +93,8 @@ public sealed partial class GameTicker
             _allPreviousGameRules.Add((currentTime, ruleId + " (Pending)"));
         }
 
+        EntityManager.System<GameRulesServerSystem>().RegisterRuleEntity(currentTime, ruleId + " (Pending)", ruleEntity); // DS14
+
         return ruleEntity;
     }
 
@@ -161,6 +163,8 @@ public sealed partial class GameTicker
         {
             _allPreviousGameRules.Add((currentTime, id));
         }
+
+        EntityManager.System<GameRulesServerSystem>().RegisterRuleEntity(currentTime, id, ruleEntity); // DS14
 
         _sawmill.Info($"Started game rule {ToPrettyString(ruleEntity)}");
         _adminLogger.Add(LogType.EventStarted, $"Started game rule {ToPrettyString(ruleEntity)}");
@@ -354,13 +358,14 @@ public sealed partial class GameTicker
             }
             var ent = AddGameRule(rule);
 
+            //DS14-Start
+            var gameRulesSystem = EntityManager.System<GameRulesServerSystem>();
+            gameRulesSystem.RecordAdmin(GetNetEntity(ent), shell.Player?.Name);
+            //DS14-End
+
             // Start rule if we're already in the middle of a round
             if(RunLevel == GameRunLevel.InRound)
                 StartGameRule(ent);
-            //DS14-Start
-            var gameRulesSystem = EntityManager.System<GameRulesServerSystem>();
-            gameRulesSystem.ReportRuleAddedByAdmin(rule, shell.Player?.Name);
-            //DS14-End
         }
     }
 

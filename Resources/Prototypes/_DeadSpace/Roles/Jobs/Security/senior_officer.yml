@@ -49,7 +49,7 @@
   id: SeniorOfficerGear
   equipment:
     eyes: ClothingEyesGlassesSecurity
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetAltSecurityOfficer # ds14
     pocket1: WeaponRevolverDeckard
     pocket2: WeaponDisabler
     id: SeniorOfficerPDA

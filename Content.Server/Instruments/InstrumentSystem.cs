@@ -123,6 +123,10 @@ public sealed partial class InstrumentSystem : SharedInstrumentSystem
             return;
 
         instrument.Playing = true;
+
+        if (HasComp<Shared.DeadSpace.Instruments.HeadphonesInstrumentComponent>(uid)) // DS14
+            return;
+
         Dirty(uid, instrument);
     }
 
@@ -404,7 +408,10 @@ public sealed partial class InstrumentSystem : SharedInstrumentSystem
 
         if (send || !instrument.RespectMidiLimits)
         {
-            RaiseNetworkEvent(msg);
+            if (HasComp<Shared.DeadSpace.Instruments.HeadphonesInstrumentComponent>(uid)) // DS14
+                RaiseNetworkEvent(msg, args.SenderSession);
+            else
+                RaiseNetworkEvent(msg);
         }
     }
 

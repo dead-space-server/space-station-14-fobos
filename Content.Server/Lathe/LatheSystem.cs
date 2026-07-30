@@ -256,7 +256,7 @@ namespace Content.Server.Lathe
 
                 if (currentRecipe.Result is { } resultProto)
                 {
-                    var result = Spawn(resultProto, Transform(uid).Coordinates);
+                    var result = Spawn(resultProto, _transform.GetMapCoordinates(uid)); // DS14
                     _stack.TryMergeToContacts(result);
                 }
 

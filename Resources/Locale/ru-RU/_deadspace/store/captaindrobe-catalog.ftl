@@ -1,15 +1,15 @@
 # Береты
 ## Синий
 captaindrobe-beret = берет капитана
-captaindrobe-beret-desc = Синий берет, с кокардой в виде звезды.
+captaindrobe-beret-desc = Синий берет с кокардой в виде звезды.
 
 ## Белый
 captaindrobe-beret-white = белый берет капитана
-captaindrobe-beret-white-desc = Белый берет, с кокардой в виде звезды.
+captaindrobe-beret-white-desc = Белый берет с кокардой в виде звезды.
 
 ## Чёрный
 captaindrobe-beret-black = чёрный берет капитана
-captaindrobe-beret-black-desc = Чёрный берет, с кокардой в виде звезды.
+captaindrobe-beret-black-desc = Чёрный берет с кокардой в виде звезды.
 
 
 # Фуражки
@@ -19,11 +19,11 @@ captaindrobe-cap-desc = Большая, стильная капитанская 
 
 ## Белый
 captaindrobe-cap-white = белая фуражка капитана
-captaindrobe-cap-white-desc = Белая фуражка, с кокардой в виде звезды.
+captaindrobe-cap-white-desc = Белая фуражка с кокардой в виде звезды.
 
 ## Чёрный
 captaindrobe-cap-black = чёрная фуражка капитана
-captaindrobe-cap-black-desc = Чёрная фуражка, с кокардой в виде звезды.
+captaindrobe-cap-black-desc = Чёрная фуражка с кокардой в виде звезды.
 
 
 # Плащи
@@ -64,7 +64,7 @@ captainbrobe-outer-coat-desc = Капитанская торжественная
 
 ## Белый
 captaindrobe-outer-carapace-white = белый панцирь капитана
-captaindrobe-outer-carapace-white-desc = Белый бронированный нагрудник, обеспечивающий эащиту и повышенный стиль. Блеск.
+captaindrobe-outer-carapace-white-desc = Белый бронированный нагрудник, обеспечивающий защиту и повышенный стиль. Блеск.
 
 captaindrobe-outer-wintercoat-white = белая зимняя куртка капитана
 captaindrobe-outer-wintercoat-white-desc = Шикарная белая зимняя куртка с золотыми элементами и чёрным мехом. Царь во дворца.
@@ -96,7 +96,7 @@ captaindrobe-jumpsuit-white-formal-desc = Белый костюм для осо�
 
 ## Чёрный
 captaindrobe-jumpsuit-black = чёрный комбинезон капитана
-captaindrobe-jumpsuit-black-desc = Чёрный комбинезон с золотыми вставками, идеально подходящий для человека, вершащего жёсткий порядок.
+captaindrobe-jumpsuit-black-desc = Чёрный комбинезон с золотыми вставками, идеально подходящий для человека, что вершит жёсткий порядок.
 
 ### Торжественное
 captaindrobe-jumpsuit-black-formal = чёрный торжественный костюм капитана
@@ -149,11 +149,11 @@ captaindrobe-turtleneck-skirt-black-desc = Чёрная юбка-водолаз�
 ## Синий
 ### Рюкзак
 captaindrobe-backpack = рюкзак капитана
-captaindrobe-backpack-desc = Это особый рюкзак, изготавливаемый исключительно для офицеров Nanotrasen.
+captaindrobe-backpack-desc = Это особый рюкзак, изготавливаемый исключительно для офицеров NanoTrasen.
 
 ### Сумка
 captaindrobe-satchel = сумка капитана
-captaindrobe-satchel-desc = Это особая сумка, изготовленная исключительно для офицеров Nanotrasen.
+captaindrobe-satchel-desc = Это особая сумка, изготовленная исключительно для офицеров NanoTrasen.
 
 ### Вещмешок
 captaindrobe-duffel = вещмешок капитана
@@ -162,11 +162,11 @@ captaindrobe-duffel-desc = Большой вещмешок для хранени
 ## Белый
 ### Рюкзак
 captaindrobe-backpack-white = белый рюкзак капитана
-captaindrobe-backpack-white-desc = Это особый белый рюкзак, изготовляемый исключительно для офицеров Nanotrasen. В нём же не будет чьих-то органов?...
+captaindrobe-backpack-white-desc = Это особый белый рюкзак, изготовляемый исключительно для офицеров NanoTrasen. В нём же не будет чьих-то органов?..
 
 ### Сумка
 captaindrobe-satchel-white = белая сумка капитана
-captaindrobe-satchel-white-desc = Это особая белая сумка, изготовленная исключительно для офицеров Nanotrasen. В ней же не будет оружия в зелёный код?...
+captaindrobe-satchel-white-desc = Это особая белая сумка, изготовленная исключительно для офицеров NanoTrasen. В ней же не будет оружия в зелёный код?..
 
 ### Вещмешок
 captaindrobe-duffel-white = белый вещмешок капитана
@@ -175,11 +175,11 @@ captaindrobe-duffel-white-desc = Большой белый вещмешок дл
 ## Чёрный
 ### Рюкзак
 captaindrobe-backpack-black = чёрный рюкзак капитана
-captaindrobe-backpack-black-desc = Это особый чёрный рюкзак, изготовляемый исключительно для офицеров Nanotrasen. Не удивлюсь, если он забит оружием.
+captaindrobe-backpack-black-desc = Это особый чёрный рюкзак, изготовляемый исключительно для офицеров NanoTrasen. Не удивлюсь, если он забит оружием.
 
 ### Сумка
 captaindrobe-satchel-black = чёрная сумка капитана
-captaindrobe-satchel-black-desc = Это особая чёрная сумка, изготовленная исключительно для офицеров Nanotrasen. Странно, если в зелёный код в ней не будет антикварного пистолета.
+captaindrobe-satchel-black-desc = Это особая чёрная сумка, изготовленная исключительно для офицеров NanoTrasen. Странно, если в зелёный код в ней не будет антикварного пистолета.
 
 ### Вещмешок
 captaindrobe-duffel-black = чёрный вещмешок капитана

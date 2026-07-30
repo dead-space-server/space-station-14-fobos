@@ -1,5 +1,6 @@
 using Content.Shared.Damage;
 using Robust.Shared.GameStates;
+using Content.Shared.Whitelist;
 
 namespace Content.Shared.Weapons.Hitscan.Components;
 
@@ -18,5 +19,14 @@ public sealed partial class HitscanBasicDamageComponent : Component
     // DS14-start: preserve armor-piercing ballistic ammo behavior on hitscan bullets.
     [DataField]
     public bool IgnoreResistances;
+
+    /// <summary>
+    /// Optional target filters. A matching blacklist blocks damage; a whitelist requires a match.
+    /// </summary>
+    [DataField]
+    public EntityWhitelist? Whitelist;
+
+    [DataField]
+    public EntityWhitelist? Blacklist;
     // DS14-end
 }

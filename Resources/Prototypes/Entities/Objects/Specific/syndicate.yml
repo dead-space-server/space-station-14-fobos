@@ -125,6 +125,18 @@
     tags:
     - NukeOpsUplink
 
+# DS14-start: commander-only catalog marker.
+- type: entity
+  parent: BaseUplinkRadio40TC
+  id: BaseUplinkRadio40TCCommander
+  suffix: 40 TC, NukeOps Commander
+  components:
+  - type: Tag
+    tags:
+    - NukeOpsUplink
+    - NukeOpsCommanderUplink
+# DS14-end
+
 - type: entity
   parent: BaseUplinkRadio
   id: BaseUplinkRadio60TC

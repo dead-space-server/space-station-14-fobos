@@ -1,6 +1,6 @@
 research-technology-supermagboots = Улучшенный локализованный магнетизм
 research-technology-law-board-configuration = Конфигурация плат законов
-research-technology-handteleporter = Разрыв пространства 
+research-technology-handteleporter = Разрыв пространства
 research-technology-glovespowergloveactive = Пробитие пространства
 research-technology-pinpointeruniversal = Наводка на объект
 research-technology-holopadhandheld = Связь с космосом
@@ -65,6 +65,9 @@ research-technology-basic-syndicate-hardsuits = Аварийные скафан�
 research-technology-syndicate-hardsuits = Скафандры Синдиката
 research-technology-elite-syndicate-hardsuits = Элитные скафандры Синдиката
 research-technology-heavy-syndicate-hardsuits = Тяжёлые скафандры Синдиката
+research-technology-hover-bike = Гонка по двум касательным
+research-technology-quad-bike = Четыре ноги прогресса
 research-technology-defibrillator-syndicate = Дефибриллятор Синдиката
 research-technology-photon-laser-weaponry = Фотонный арсенал
 research-technology-compact-defibrillator = Компактный дефибриллятор
+research-technology-holding-bags = Объёмное хранилище

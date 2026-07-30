@@ -16,6 +16,7 @@
   - ClothingMaskWeldingGas
   - ClothingShoesBootsJump
   - OreBag # DS14
+  - WeaponPlasmaCutter #DS14
 
 - type: technology
   id: SpaceScanning
@@ -71,6 +72,7 @@
   - ProtolatheHyperConvectionMachineCircuitboard
   - CircuitImprinterHyperConvectionMachineCircuitboard
   - SheetifierMachineCircuitboard
+  - HandCuttingMachineRecipe # DS14
 
 - type: technology
   id: PowerGeneration

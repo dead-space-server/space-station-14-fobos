@@ -60,6 +60,8 @@
   name: шлем скафандра лидера Эмбер
   description: Надеюсь оно спасёт от стержня мага.
   components:
+  - type: FlashbangProtection
+    reduction: 2
   - type: Sprite
     sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_leader.rsi
   - type: Clothing
@@ -88,6 +90,8 @@
   name: шлем скафандра лидера ОБР «Красного Кода»
   description: Надеюсь оно спасёт от стержня мага.
   components:
+  - type: FlashbangProtection
+    reduction: 2
   - type: Sprite
     sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertleader.rsi
   - type: Clothing
@@ -115,6 +119,8 @@
   name: шлем скафандра офицера Эмбер
   description: Надеюсь оно спасёт от стержня мага.
   components:
+  - type: FlashbangProtection
+    reduction: 2
   - type: Sprite
     sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_security.rsi
   - type: Clothing
@@ -144,6 +150,8 @@
   name: шлем скафандра офицера ОБР «Красного Кода»
   description: Надеюсь оно спасёт от стержня мага.
   components:
+  - type: FlashbangProtection
+    reduction: 2
   - type: Sprite
     sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertsecurity.rsi
   - type: Clothing
@@ -170,6 +178,8 @@
   name: шлем скафандра медика Эмбер
   description: Надеюсь оно спасёт от стержня мага.
   components:
+  - type: FlashbangProtection
+    reduction: 2
   - type: Sprite
     sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_medic.rsi
   - type: Clothing
@@ -199,6 +209,8 @@
   name: шлем скафандра медика ОБР «Красного Кода»
   description: Надеюсь оно спасёт от стержня мага.
   components:
+  - type: FlashbangProtection
+    reduction: 2
   - type: Sprite
     sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertmedical.rsi
   - type: Clothing
@@ -238,6 +250,8 @@
   name: шлем скафандра инженера Эмбер
   description: Надеюсь оно спасёт от кирпича.
   components:
+  - type: FlashbangProtection
+    reduction: 2
   - type: Sprite
     sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_engineer.rsi
   - type: Clothing
@@ -289,6 +303,8 @@
   name: шлем скафандра инженера ОБР «Красного Кода»
   description: Надеюсь оно спасёт от стержня мага.
   components:
+  - type: FlashbangProtection
+    reduction: 2
   - type: Sprite
     sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertengineer.rsi
   - type: Clothing
@@ -322,6 +338,8 @@
   name: шлем скафандра офицера Эмбер
   description: Надеюсь оно спасёт от стержня мага.
   components:
+  - type: FlashbangProtection
+    reduction: 2
   - type: Sprite
     sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_janitor.rsi
   - type: Clothing
@@ -351,6 +369,8 @@
   name: шлем скафандра уборщика ОБР «Красного Кода»
   description: Надеюсь оно спасёт от стержня мага.
   components:
+  - type: FlashbangProtection
+    reduction: 2
   - type: Sprite
     sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertjanitor.rsi
   - type: Clothing

@@ -30,11 +30,11 @@
 
 - type: entity
   parent: BaseFlag
-  id: ImpireFlag
+  id: EmpireFlag
   name: флаг Империи
   description: Пропитан духом многовековой войны, и даже его внешний вид дышит сражением.
   components:
   - type: Sprite
     sprite: _DeadSpace/Structures/Wallmounts/flags.rsi
-    state: impire
+    state: empire
 

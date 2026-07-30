@@ -78,7 +78,13 @@
       allowedStates:
         - Alive
     - type: CombatMode
-    - type: Internals
+    #- type: Internals # ds14
+    # DS14-start
+    - type: ZombieImmune
+    - type: ImmunitetInfectionDead
+    - type: VirusImmun
+      immunAll: true
+    # DS14-end
     - type: Examiner
     - type: Speech
       speechVerb: Robotic
@@ -97,7 +103,7 @@
         types:
           Blunt: 20
           Structural: 20
-    # - type: MeleeSpeech
+    # - type: MeleeSpeech # DS14
     # - type: UserInterface
     #   interfaces:
     #     enum.MeleeSpeechUiKey.Key:
@@ -114,7 +120,7 @@
         - StunImmune
         - SlowImmune
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: EventGroup
     #DS14-end
 
@@ -151,7 +157,7 @@
       rootTask:
         task: SimpleHumanoidHostileCompound
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: Holoparasiteping
     #DS14-end
 
@@ -185,7 +191,7 @@
           color: "#40a7d7"
           shader: unshaded
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: ifritGuard
     #DS14-end
 
@@ -264,7 +270,7 @@
       rootTask:
         task: SimpleHumanoidHostileCompound
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: HoloClownping
     #DS14-end
 

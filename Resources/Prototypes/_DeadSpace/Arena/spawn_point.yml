@@ -1,0 +1,9 @@
+- type: entity
+  name: точка спавна арены
+  id: ArenaSpawnPoint
+  parent: MarkerBase
+  components:
+  - type: ArenaSpawnPoint
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    state: green

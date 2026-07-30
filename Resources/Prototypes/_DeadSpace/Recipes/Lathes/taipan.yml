@@ -736,6 +736,15 @@
     Plasma: 250
 
 - type: latheRecipe
+  id: TaipanHandCuttingMachineRecipe
+  result: TaipanHandCuttingMachine
+  completetime: 10
+  materials:
+    Steel: 800
+    Plastic: 300
+    Gold: 100
+
+- type: latheRecipe
   parent: BaseToolRecipe
   id: SyndicateJawsOfLife
   result: SyndicateJawsOfLife

@@ -11,6 +11,7 @@ public sealed class SuitSensorSystem : SharedSuitSensorSystem
     [Dependency] private readonly IGameTiming _gameTiming = default!;
     [Dependency] private readonly DeviceNetworkSystem _deviceNetworkSystem = default!;
     [Dependency] private readonly SingletonDeviceNetServerSystem _singletonServerSystem = default!;
+    [Dependency] private readonly StationLimitedNetworkSystem _stationLimitedNetwork = default!; // DS14
 
     public override void Update(float frameTime)
     {
@@ -29,8 +30,11 @@ public sealed class SuitSensorSystem : SharedSuitSensorSystem
                 continue;
             sensor.NextUpdate += sensor.UpdateRate;
 
-            if (!CheckSensorAssignedStation((uid, sensor)))
+            // DS14-start
+            var stationId = UpdateSensorStation(uid, sensor);
+            if (stationId == null)
                 continue;
+            // DS14-end
 
             // get sensor status
             var status = GetSensorState((uid, sensor));
@@ -40,7 +44,7 @@ public sealed class SuitSensorSystem : SharedSuitSensorSystem
             //Retrieve active server address if the sensor isn't connected to a server
             if (sensor.ConnectedServer == null)
             {
-                if (!_singletonServerSystem.TryGetActiveServerAddress<CrewMonitoringServerComponent>(sensor.StationId!.Value, out var address))
+                if (!_singletonServerSystem.TryGetActiveServerAddress<CrewMonitoringServerComponent>(stationId.Value, out var address, device.TransmitFrequency)) // DS14
                     continue;
 
                 sensor.ConnectedServer = address;
@@ -59,4 +63,19 @@ public sealed class SuitSensorSystem : SharedSuitSensorSystem
             _deviceNetworkSystem.QueuePacket(uid, sensor.ConnectedServer, payload, device: device);
         }
     }
+
+    // DS14-start
+    private EntityUid? UpdateSensorStation(EntityUid uid, SuitSensorComponent sensor)
+    {
+        var stationId = _stationLimitedNetwork.GetNetworkStation(uid);
+
+        if (sensor.StationId == stationId)
+            return stationId;
+
+        sensor.StationId = stationId;
+        sensor.ConnectedServer = null;
+        Dirty(uid, sensor);
+        return stationId;
+    }
+    // DS14-end
 }

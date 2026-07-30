@@ -30,6 +30,7 @@ using Robust.Shared.Physics.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Content.Shared.Chemistry.Reagent;
+using Content.Shared.DeadSpace.Cloning; // DS14
 
 namespace Content.Server.Cloning;
 
@@ -138,6 +139,17 @@ public sealed class CloningPodSystem : EntitySystem
 
         if (HasComp<ActiveCloningPodComponent>(uid))
             return false;
+
+        // DS14-start
+        if (HasComp<UncloningComponent>(bodyToClone) && !clonePod.CanCloneUnclonable)
+        {
+            if (clonePod.ConnectedConsole != null)
+                _chatSystem.TrySendInGameICMessage(clonePod.ConnectedConsole.Value,
+                    Loc.GetString("cloning-console-uncloning-error"),
+                    InGameICChatType.Speak, false);
+            return false;
+        }
+        // DS14-end
 
         var mind = mindEnt.Comp;
         if (ClonesWaitingForMind.TryGetValue(mind, out var clone))

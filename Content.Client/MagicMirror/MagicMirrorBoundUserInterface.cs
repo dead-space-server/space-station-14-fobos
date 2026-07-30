@@ -24,6 +24,9 @@ public sealed class MagicMirrorBoundUserInterface : BoundUserInterface
         _window.OnHairColorChanged += args => ChangeColor(MagicMirrorCategory.Hair, args.marking, args.slot);
         _window.OnHairSlotAdded += delegate () { AddSlot(MagicMirrorCategory.Hair); };
         _window.OnHairSlotRemoved += args => RemoveSlot(MagicMirrorCategory.Hair, args);
+        // DS14-start
+        _window.OnHairGradientChanged += args => ChangeGradient(args.enabled, args.color);
+        // DS14-end
 
         _window.OnFacialHairSelected += tuple => SelectHair(MagicMirrorCategory.FacialHair, tuple.id, tuple.slot);
         _window.OnFacialHairColorChanged +=
@@ -31,6 +34,13 @@ public sealed class MagicMirrorBoundUserInterface : BoundUserInterface
         _window.OnFacialHairSlotAdded += delegate () { AddSlot(MagicMirrorCategory.FacialHair); };
         _window.OnFacialHairSlotRemoved += args => RemoveSlot(MagicMirrorCategory.FacialHair, args);
     }
+
+    // DS14-start
+    private void ChangeGradient(bool enabled, Color color)
+    {
+        SendMessage(new MagicMirrorChangeGradientMessage(enabled, color));
+    }
+    // DS14-end
 
     private void SelectHair(MagicMirrorCategory category, string marking, int slot)
     {

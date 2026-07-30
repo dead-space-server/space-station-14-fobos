@@ -39,6 +39,29 @@
 
 - type: entity
   parent: BaseAction
+  id: ActionRetractableItemMonowireImplant
+  name: "[color=red]Переключить моноструну[/color]"
+  description: Распилите их пополам.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 1
+    raiseOnAction: true
+    itemIconStyle: BigAction
+    icon:
+      sprite: _DeadSpace/Actions/monowire_actions.rsi
+      state: monowire-toggle
+  - type: InstantAction
+    event: !type:OnRetractableItemActionEvent
+  - type: RetractableItemAction
+    spawnedPrototype: MonowireSyndicate
+    summonSounds:
+      collection: MonowireExtend
+    retractSounds:
+      collection: MonowireRetract
+
+- type: entity
+  parent: BaseAction
   id: ActionMantisJump
   name: "[color=red]Рывок богомола[/color]"
   description: Набросьтесь на врага со всей ненавистью.
@@ -68,3 +91,19 @@
     checkCanInteract: false
   - type: InstantAction
     event: !type:UseInjectReagentsImplantEvent
+
+- type: entity
+  id: ActionActivateSandevistanImplant
+  name: "[color=red]Активировать Сандевистан[/color]"
+  description: Продашь свою душу за силу?
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    priority: -20
+    icon:
+      sprite: _DeadSpace/Actions/implants_actions.rsi
+      state: sandevistan
+    useDelay: 2
+    checkCanInteract: false
+  - type: InstantAction
+    event: !type:ActivateSandevistanImplantEvent

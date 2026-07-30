@@ -2,6 +2,7 @@
 using Content.Client.Ghost;
 using Content.Client.UserInterface.Systems.Gameplay;
 using Content.Client.UserInterface.Systems.Ghost.Widgets;
+using Content.Shared.DeadSpace.Arena; // DS14
 using Content.Shared.Ghost;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controllers;
@@ -127,6 +128,7 @@ public sealed class GhostUIController : UIController, IOnSystemChanged<GhostSyst
         Gui.GhostRolesPressed += GhostRolesPressed;
         Gui.TargetWindow.WarpClicked += OnWarpClicked;
         Gui.TargetWindow.OnGhostnadoClicked += OnGhostnadoClicked;
+        Gui.ArenaPressed += ArenaPressed; // DS14
 
         UpdateGui();
     }
@@ -140,6 +142,7 @@ public sealed class GhostUIController : UIController, IOnSystemChanged<GhostSyst
         Gui.ReturnToBodyPressed -= ReturnToBody;
         Gui.GhostRolesPressed -= GhostRolesPressed;
         Gui.TargetWindow.WarpClicked -= OnWarpClicked;
+        Gui.ArenaPressed -= ArenaPressed; // DS14
 
         Gui.Hide();
     }
@@ -160,4 +163,12 @@ public sealed class GhostUIController : UIController, IOnSystemChanged<GhostSyst
     {
         _system?.OpenGhostRoles();
     }
+
+    // DS14-Start
+    private void ArenaPressed()
+    {
+        var msg = new ArenaJoinEvent();
+        _net.SendSystemNetworkMessage(msg);
+    }
+    // DS14-End
 }

@@ -1,0 +1,9 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+    Title="{Loc ban-templates-title}"
+    MinSize="650 400">
+    <BoxContainer Orientation="Vertical">
+        <ScrollContainer VerticalExpand="True">
+            <BoxContainer Name="TemplatesContainer" Orientation="Vertical" />
+        </ScrollContainer>
+    </BoxContainer>
+</DefaultWindow>

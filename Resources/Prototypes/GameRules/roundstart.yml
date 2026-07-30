@@ -22,6 +22,8 @@
     rules:
     - id: Thief
       prob: 0.5
+    - id: Hooligan # DS14 
+      prob: 1
     - id: SubWizard
       prob: 0.05
     - id: SubXenoborgs
@@ -35,6 +37,8 @@
     rules:
     - id: Thief
       prob: 0.5
+    - id: Hooligan # DS14
+      prob: 1
     - id: SubXenoborgs
       prob: 0.05
 
@@ -46,6 +50,8 @@
     rules:
     - id: Thief
       prob: 0.5
+    - id: Hooligan # DS14
+      prob: 1
     - id: SubWizard
       prob: 0.05
 
@@ -57,6 +63,8 @@
     rules:
     - id: Thief
       prob: 0.5
+    - id: Hooligan # DS14
+      prob: 1
 
 - type: entity
   parent: BaseGameRule
@@ -219,6 +227,12 @@
       mindRoles:
       - MindRoleNukeops
       sponsorsPriority: true
+      # DS14-start
+      additionalSlots: 1
+      minimumNonSponsorSlots: 1
+      maximumNonSponsorSlots: 2
+      nonSponsorSlotTotalAntagRatio: 3
+      # DS14-end
   - type: DynamicRuleCost
     cost: 200
 
@@ -473,8 +487,8 @@
   - type: GameRule
     minPlayers: 25 # DS14
     delay:
-      min: 60 # DS14
-      max: 90 # DS14
+      min: 600 # DS14
+      max: 900 # DS14
   - type: ZombieRule
   - type: AntagSelection
     selectionTime: IntraPlayerSpawn

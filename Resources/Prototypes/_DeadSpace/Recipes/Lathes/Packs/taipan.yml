@@ -122,6 +122,9 @@
   id: TaipanScienceBoards
   recipes:
   - TurboItemRechargerCircuitboard
+  - DetailTechFabMachineCircuitboardTaipan
+  - CraftConsoleCircuitboard
+  - CraftMachineCircuitboard
   - AutolatheHyperConvectionMachineCircuitboardTaipan
   - ProtolatheHyperConvectionMachineCircuitboardTaipan
   - CircuitImprinterHyperConvectionMachineCircuitboardTaipan
@@ -416,6 +419,7 @@
 - type: latheRecipePack
   id: TaipanEquipment
   recipes:
+  - TaipanHandCuttingMachineRecipe
   - HandHeldMassScanner
   - ClothingMaskWeldingGas
   - SignallerAdvanced
@@ -440,3 +444,11 @@
   - ThrusterMachineCircuitboard
   - GyroscopeMachineCircuitboard
   - MiniGravityGeneratorCircuitboard
+
+## vehicles
+- type: latheRecipePack
+  id: TaipanVehicles
+  recipes:
+  - TaipanVehicleHoverbikeFlatpack
+  - TaipanVehicleQuadBikeFlatpack
+  - TaipanVehicleKeyUniversal

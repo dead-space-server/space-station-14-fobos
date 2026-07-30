@@ -49,7 +49,8 @@ public sealed class SanityEffectsSystem : EntitySystem
 
         _cameraRecoil.KickCamera(local.Value,
             new Vector2(_random.NextFloat(-1f, 1f), _random.NextFloat(-1f, 1f)) * ((c.MaxSanityLevel - c.SanityLevel) / 100));
-        _sanityOverlay!.Value = Math.Clamp((c.MaxSanityLevel - c.SanityLevel) / 10f, 0f, 10f);
+        var target = Math.Clamp((c.MaxSanityLevel - c.SanityLevel) / c.MaxSanityLevel, 0f, 1f);
+        _sanityOverlay!.Value = MathHelper.Lerp(_sanityOverlay.Value, target, Math.Clamp(frameTime * 2f, 0f, 1f));
         var t = new Vector2(_random.NextFloat(-1f, 1f), _random.NextFloat(-1f, 1f)) * EyeNudge;
         _eyeNudge = Vector2.Lerp(_eyeNudge, t, 0.35f);
     }

@@ -16,7 +16,7 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
 
     // Admin music
     private bool _adminAudioEnabled = true;
-    private List<EntityUid?> _adminAudio = new(1);
+    private Dictionary<EntityUid, float> _adminAudio = new(1); // DS14
 
     // Event sounds (e.g. nuke timer)
     private bool _eventAudioEnabled = true;
@@ -24,6 +24,8 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
 
     // Alert level sounds
     private float _alertLevelVolume = 1f; // DS14
+    private float _annocmentVolume = 1f; // DS14
+    private float _adminVolume = 1f; //DS14
 
     public override void Initialize()
     {
@@ -38,7 +40,10 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
 
         SubscribeNetworkEvent<GameGlobalSoundEvent>(PlayGameSound);
         SubscribeNetworkEvent<AlertLevelSoundEvent>(PlayAlertLevelSound); // DS14
+        SubscribeNetworkEvent<AdminAnnouncmentSoundEvent>(PlayAnnocmentSound); // DS14
         Subs.CVar(_cfg, CCCCVars.AlertLevelVolume, SetAlertLevelVolume, true); // DS-14
+        Subs.CVar(_cfg, CCCCVars.AnnonceVolume, SetAnnocmentVolume, true); // DS-14
+        Subs.CVar(_cfg, CCCCVars.AdminVolume, SetAdminVolume, true); // DS-14
     }
 
     private void OnRoundRestart(RoundRestartCleanupEvent ev)
@@ -54,7 +59,7 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
 
     private void ClearAudio()
     {
-        foreach (var stream in _adminAudio)
+        foreach (var stream in _adminAudio.Keys) // DS14
         {
             _audio.Stop(stream);
         }
@@ -72,8 +77,13 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
     {
         if(!_adminAudioEnabled) return;
 
-        var stream = _audio.PlayGlobal(soundEvent.Specifier, Filter.Local(), false, soundEvent.AudioParams);
-        _adminAudio.Add(stream?.Entity);
+        // DS14-start
+        var baseAudioParams = soundEvent.AudioParams ?? AudioParams.Default;
+        var audioParams = baseAudioParams.AddVolume(SharedAudioSystem.GainToVolume(_adminVolume));
+        var stream = _audio.PlayGlobal(soundEvent.Specifier, Filter.Local(), false, audioParams);
+        if (stream != null)
+            _adminAudio[stream.Value.Entity] = baseAudioParams.Volume;
+        // DS14-end
     }
 
     private void PlayStationEventMusic(StationEventMusicEvent soundEvent)
@@ -97,6 +107,12 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
         audioParams = audioParams.AddVolume(SharedAudioSystem.GainToVolume(_alertLevelVolume));
         _audio.PlayGlobal(soundEvent.Specifier, Filter.Local(), false, audioParams);
     }
+    private void PlayAnnocmentSound(AdminAnnouncmentSoundEvent soundEvent)
+    {
+        var audioParams = soundEvent.AudioParams ?? AudioParams.Default;
+        audioParams = audioParams.AddVolume(SharedAudioSystem.GainToVolume(_annocmentVolume));
+        _audio.PlayGlobal(soundEvent.Specifier, Filter.Local(), false, audioParams);
+    }
     // DS14-end
 
     private void StopStationEventMusic(StopStationEventMusic soundEvent)
@@ -112,7 +128,7 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
     {
         _adminAudioEnabled = enabled;
         if (_adminAudioEnabled) return;
-        foreach (var stream in _adminAudio)
+        foreach (var stream in _adminAudio.Keys) // DS14
         {
             _audio.Stop(stream);
         }
@@ -134,6 +150,19 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
     private void SetAlertLevelVolume(float volume)
     {
         _alertLevelVolume = volume;
+    }
+    private void SetAnnocmentVolume(float volume)
+    {
+        _annocmentVolume = volume;
+    }
+    private void SetAdminVolume(float volume)
+    {
+        _adminVolume = volume;
+        var volumeOffset = SharedAudioSystem.GainToVolume(volume);
+        foreach (var (stream, baseVolume) in _adminAudio)
+        {
+            _audio.SetVolume(stream, baseVolume + volumeOffset);
+        }
     }
     // DS14-end
 }

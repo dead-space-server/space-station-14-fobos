@@ -8,3 +8,5 @@ ent-DominatorDisablerTrace = парализатор
 ent-DominatorEliminatorTrace = лазерный заряд
 ent-LaserRifleBulletTrace = плазменный заряд
 ent-LaserRifleBulletSpreadTrace = лазерный залп
+ent-LaserImpulseSMGBulletTrace = импульс малой мощности
+ent-MegaPulse = максимальный заряд

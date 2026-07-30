@@ -12,7 +12,8 @@ public sealed class GameRulesServerSystem : EntitySystem
     [Dependency] private readonly GameTicker _ticker = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
-    private readonly Dictionary<string, string> _addedByAdmin = new();
+    private readonly Dictionary<(TimeSpan, string), EntityUid> _ruleEntities = new();
+    private readonly Dictionary<EntityUid, string> _addedByAdmin = new();
 
     public override void Initialize()
     {
@@ -26,8 +27,9 @@ public sealed class GameRulesServerSystem : EntitySystem
         if (!_prototypeManager.HasIndex<EntityPrototype>(msg.RuleId))
             return;
 
-        _ticker.AddGameRule(msg.RuleId);
-        _addedByAdmin[msg.RuleId] = msg.AdminName;
+        var entity = _ticker.AddGameRule(msg.RuleId);
+        if (!string.IsNullOrEmpty(msg.AdminName))
+            _addedByAdmin[entity] = msg.AdminName;
     }
 
     private void OnRequestGameRulesList(RequestGameRulesListMessage msg, EntitySessionEventArgs args)
@@ -41,7 +43,10 @@ public sealed class GameRulesServerSystem : EntitySystem
             foreach (var (time, rule) in sorted)
             {
                 var cleanRule = rule.EndsWith(" (Pending)") ? rule[..^9].Trim() : rule.Trim();
-                var admin = _addedByAdmin.GetValueOrDefault(cleanRule);
+                string? admin = null;
+                if (_ruleEntities.TryGetValue((time, rule), out var entity))
+                    _addedByAdmin.TryGetValue(entity, out admin);
+
                 entries.Add(new RuleEntry(time, rule, admin));
             }
         }
@@ -53,9 +58,19 @@ public sealed class GameRulesServerSystem : EntitySystem
         RaiseNetworkEvent(response, args.SenderSession);
     }
 
-    public void ReportRuleAddedByAdmin(string ruleId, string? adminName)
+    public void RegisterRuleEntity(TimeSpan time, string ruleName, EntityUid entity)
     {
-        if (adminName != null)
-            _addedByAdmin[ruleId] = adminName;
+        _ruleEntities[(time, ruleName)] = entity;
+    }
+
+    public void RecordAdmin(NetEntity entity, string? adminName)
+    {
+        if (adminName == null)
+            return;
+
+        if (!TryGetEntity(entity, out var uid))
+            return;
+
+        _addedByAdmin[uid.Value] = adminName;
     }
 }

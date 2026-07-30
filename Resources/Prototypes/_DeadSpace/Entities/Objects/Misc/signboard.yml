@@ -1,0 +1,36 @@
+- type: entity
+  parent: BaseItem
+  id: SignBoard
+  name: табличка
+  description: Деревянная табличка для отображения сообщений.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/signboard.rsi
+    state: signboard
+    layers:
+    - state: signboard
+      map: ["base"]
+  - type: Icon
+    sprite: _DeadSpace/Objects/Misc/signboard.rsi
+    state: signboard
+  - type: Item
+    sprite: _DeadSpace/Objects/Misc/signboard.rsi
+    heldPrefix: signboard
+    size: Huge
+  - type: MultiHandedItem
+  - type: TextScreenVisuals
+    textOffset: 0, 2
+    rows: 2
+    rowLength: 6
+    color: "#000000"
+  - type: Appearance
+  - type: SignBoard
+  - type: ActivatableUI
+    key: enum.SignBoardUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.SignBoardUiKey.Key:
+        type: SignBoardBoundUserInterface
+  - type: Construction
+    graph: SignBoard
+    node: signboard

@@ -159,11 +159,22 @@ public abstract partial class SharedGunSystem : EntitySystem
         if (gun.Owner != GetEntity(msg.Gun))
             return;
 
+        // DS14-start
+        // Hold-to-attack sends a request for every attempted trigger pull. Reset semi-auto and completed burst
+        // counters before that pull, but preserve full-auto timing and an already active burst.
+        if (msg.Continuous &&
+            gun.Comp.ShotCounter != 0 &&
+            gun.Comp.SelectedMode != SelectiveFire.FullAuto &&
+            !gun.Comp.BurstActivated)
+        {
+            gun.Comp.ShotCounter = 0;
+            DirtyField(gun.AsNullable(), nameof(GunComponent.ShotCounter));
+        }
+        // DS14-end
+
         gun.Comp.ShootCoordinates = GetCoordinates(msg.Coordinates);
         gun.Comp.Target = GetEntity(msg.Target);
         AttemptShoot(user.Value, gun);
-        if (msg.Continuous)
-            gun.Comp.ShotCounter = 0;
     }
 
     private void OnStopShootRequest(RequestStopShootEvent ev, EntitySessionEventArgs args)
@@ -228,6 +239,22 @@ public abstract partial class SharedGunSystem : EntitySystem
         ent.Comp.Target = null;
         DirtyField(ent.AsNullable(), nameof(GunComponent.ShotCounter));
     }
+
+    // DS14-start
+    /// <summary>
+    /// Stops every continuation after a deliberately single execution shot.
+    /// </summary>
+    public void StopExecutionShooting(Entity<GunComponent> ent)
+    {
+        StopShooting(ent);
+        ent.Comp.BurstActivated = false;
+        ent.Comp.BurstShotsCount = 0;
+        ent.Comp.ShotCounter = 0;
+        ent.Comp.ShootCoordinates = null;
+        ent.Comp.Target = null;
+        Dirty(ent);
+    }
+    // DS14-end
 
     /// <summary>
     /// Attempts to shoot at the target coordinates. Resets the shot counter after every shot.

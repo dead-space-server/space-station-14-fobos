@@ -18,6 +18,7 @@ using Content.Shared.DeadSpace.Events.Roles.Components;
 using Content.Shared.DeadSpace.Renegade.Roles;
 using Content.Shared.Roles.Components;
 using Content.Shared.DeadSpace.Demons.Shadowling; //DS14
+using Content.Server.DeadSpace.Hooligan.Components; //DS14
 using Content.Shared.GameTicking.Components;
 using Content.Server.GameTicking.Rules;
 
@@ -45,6 +46,7 @@ public sealed partial class AdminVerbSystem
     private static readonly EntProtoId DefaultSpiderTerrorRule = "SpiderTerror"; // DS14
     private static readonly EntProtoId DragonSpawnRule = "DragonSpawn"; //  DS14
     private static readonly EntProtoId RenegadeRule = "RenegadeSpawn"; // DS14
+    private static readonly EntProtoId DefaultHooliganRule = "Hooligan"; // DS14
     private static readonly ProtoId<StartingGearPrototype> PirateGearId = "PirateGear";
 
     // All antag verbs have names so invokeverb works.
@@ -110,6 +112,7 @@ public sealed partial class AdminVerbSystem
             Icon = new SpriteSpecifier.Rsi(new("/Textures/_Backmen/Interface/Actions/blob.rsi"), "blobFactory"),
             Act = () =>
             {
+                _antag.TrackGrantedComponent<Shared.Backmen.Blob.Components.BlobCarrierComponent>(args.Target);
                 EnsureComp<Shared.Backmen.Blob.Components.BlobCarrierComponent>(args.Target).HasMind = HasComp<ActorComponent>(args.Target);
             },
             Impact = LogImpact.High,
@@ -184,7 +187,11 @@ public sealed partial class AdminVerbSystem
             {
                 if (targetPlayer.AttachedEntity is not { } target) return;
                 _antag.ForceMakeAntag<ShadowlingRuleComponent>(targetPlayer, "ShadowlingRule");
-                EnsureComp<ShadowlingRevealComponent>(target);
+                if (!HasComp<ShadowlingRevealComponent>(target))
+                {
+                    EnsureComp<ShadowlingRevealComponent>(target);
+                    _antag.TrackGrantedComponent<ShadowlingRevealComponent>(target);
+                }
             },
             Impact = LogImpact.High,
             Message = string.Join(": ", shadowlingName, "Сделать скрытым тенеморфом"),
@@ -285,6 +292,23 @@ public sealed partial class AdminVerbSystem
             Message = string.Join(": ", thiefName, Loc.GetString("admin-verb-make-thief")),
         };
         args.Verbs.Add(thief);
+
+        // DS14-start
+        var hooliganName = Loc.GetString("admin-verb-text-make-hooligan");
+        Verb hooligan = new()
+        {
+            Text = hooliganName,
+            Category = VerbCategory.Antag,
+            Icon = new SpriteSpecifier.Rsi(new ResPath("Objects/Weapons/Melee/baseball_bat.rsi"), "icon"),
+            Act = () =>
+            {
+                _antag.ForceMakeAntag<HooliganRuleComponent>(targetPlayer, DefaultHooliganRule);
+            },
+            Impact = LogImpact.High,
+            Message = string.Join(": ", hooliganName, Loc.GetString("admin-verb-make-hooligan")),
+        };
+        args.Verbs.Add(hooligan);
+        // DS14-end
 
         var changelingName = Loc.GetString("admin-verb-text-make-changeling");
         Verb changeling = new()

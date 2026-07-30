@@ -102,6 +102,17 @@
 
 - type: entity
   parent: WeaponCaseHeavy
+  id: WeaponCaseHeavyFilledKS23
+  suffix: КС23
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponShotgunKS23
+      - id: BoxShotgun22MM
+        amount: 3
+
+- type: entity
+  parent: WeaponCaseHeavy
   id: WeaponCaseHeavyFilledAmmo
   suffix: Патроны, Круг
   components:
@@ -119,3 +130,18 @@
         amount: 2
       - id: MagRifleZastaba
         amount: 2
+
+- type: entity
+  id: CrateDreadnoughtBundle
+  parent: CrateGenericSteel
+  name: ящик комплекта Дредноута «Бастион»
+  description: Серый ящик с полным комплектом тяжёлого вооружения Дредноута Круга.
+  components:
+  - type: StorageFill
+    contents:
+    - id: ClothingOuterHardsuitUnitologyDreadnought
+    - id: WeaponMachineGunWhirl
+    - id: MagazineWhirl
+      amount: 3
+    - id: DeathAcidifierImplanter
+    - id: UnitologyWeaponRetentionImplanter

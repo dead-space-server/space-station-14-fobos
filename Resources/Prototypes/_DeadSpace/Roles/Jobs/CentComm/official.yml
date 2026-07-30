@@ -15,7 +15,7 @@
   - ErtTeamLeader
   special:
   - !type:AddImplantSpecial
-    implants: [ MindShieldImplant, TrackingImplant, DeathRattleImplantCentcomm ]
+    implants: [ MindShieldImplant, TrackingImplant, DeathRattleImplantCentcomm, DeathAcidifierImplant ]
   - !type:AddComponentSpecial
     components:
     - type: AntagImmune
@@ -49,6 +49,20 @@
   id: ClothingBackpackSatchelOfficial
   name: чёрная сумка
   description: Стильная чёрная кожаная сумка.
+
+- type: entity
+  parent: ClothingBackpackSatchelOfficial
+  id: ClothingBackpackSatchelAdministratorFilled
+  components:
+  - type: StorageFill
+    contents:
+        - id: DeathAcidifierImplanter
+        - id: PhoneInstrumentCentComm
+        - id: BoxFolderCentComEmpty
+        - id: RubberStampAdministratorCC
+        - id: RubberStampApproved
+        - id: MagazineCaselessRifle
+        - id: MagazineCaselessRifle
 
 - type: chameleonOutfit
   id: CentcomGearChameleonOutfit

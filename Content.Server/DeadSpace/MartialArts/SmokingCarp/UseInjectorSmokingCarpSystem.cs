@@ -4,6 +4,7 @@ using Content.Shared.Interaction.Events;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Actions;
 using Content.Server.DeadSpace.MartialArts.Arkalyse.Components;
+using Content.Server.DeadSpace.MartialArts.CQC.Components;
 using Content.Server.DeadSpace.MartialArts.SmokingCarp.Components;
 using Robust.Server.GameObjects;
 using Content.Shared.DeadSpace.MartialArts.SmokingCarp.Components;
@@ -21,7 +22,9 @@ public sealed class UseArkalyseBookSystem : EntitySystem
 
     private void OnUseInjectorSmokingCarp(Entity<MartialArtsTrainingCarpComponent> ent, ref UseInHandEvent args)
     {
-        if (args.Handled || TryComp<ArkalyseComponent>(args.User, out _))
+        if (args.Handled ||
+            HasComp<ArkalyseComponent>(args.User) ||
+            HasComp<CQCComponent>(args.User))
             return;
 
         if (HasComp<SmokingCarpComponent>(args.User))

@@ -34,6 +34,7 @@
   - PlushieLucius
   - PlushieEvelina
   - PlushieLieutenant
+  # IV rang start
   - PlushieSmetanaJonita
   - PlushieScarlettPvrsifvlAlt2
   - PlushieColleen
@@ -42,11 +43,19 @@
   - PlushieFloria
   - PlushieAino
   - PlushieMagicColonel
+  - PlushieFyrmorEklmn
   - PlushieUraniDmitrySpeisov
   - PlushieZekalAhmet
   - PlushieSargonValeniyaSato
   - PlushieKoteViyt
   - PlushieCyberBobeksRiikka
+  - PlushieAmaliz
+  - PlushieNikolVitali
+  - PlushieCovralBroneslav
+  - Plushie0black_cat0
+  - PlushieDosDydosYukari
+  - PlushieYosugaMarsel
+  # IV rang end
   - PlushieSilAily
   - PlushieSilAizek
   - PlushieSilAzrail
@@ -1594,6 +1603,7 @@
   - SecurityBeret
   - SecurityHat
   - TrooperHat
+  - SecurityHatCap # DS14
 
 - type: loadoutGroup
   id: SecurityMask
@@ -2066,6 +2076,7 @@
   minLimit: 0
   loadouts:
   - LizardPlushieJanitor
+  - GoldPlungerJanitor # DS-14
 
 - type: loadoutGroup
   id: BotanistJobTrinkets

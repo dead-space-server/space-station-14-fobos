@@ -50,6 +50,9 @@
   id: DrinkBeerBottleFull
 
 - type: Tag
+  id: DrinkGlass
+
+- type: Tag
   id: CantChangeScale
 
 - type: Tag
@@ -129,6 +132,9 @@
 
 - type: Tag
   id: Demon
+
+- type: Tag
+  id: Durf
 
 - type: Tag
   id: EnergyCartridge
@@ -242,6 +248,9 @@
   id: LoneOpsUplink
 
 - type: Tag
+  id: NukeOpsCommanderUplink
+
+- type: Tag
   id: MagazineCarbineSKS
 
 - type: Tag
@@ -276,6 +285,9 @@
 
 - type: Tag
   id: MantisBlades
+
+- type: Tag
+  id: Monowire
 
 - type: Tag
   id: MeatAnomalyCooked

@@ -25,7 +25,6 @@ using Content.Shared.Mobs.Systems;
 using Content.Shared.Physics;
 using Content.Shared.Popups;
 using Content.Shared.StatusEffect;
-using Content.Shared.Stunnable;
 using Content.Shared.Weapons.Melee.Components;
 using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Weapons.Ranged.Components;
@@ -262,6 +261,11 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
         var ev = new GetMeleeAttackRateEvent(uid, component.AttackRate, 1, user);
         RaiseLocalEvent(uid, ref ev);
 
+        // DS14-start
+        if (uid != user)
+            RaiseLocalEvent(user, ref ev);
+        // DS14-end
+
         return ev.Rate * ev.Multipliers;
     }
 
@@ -376,7 +380,7 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
             return false;
 
         // DS14-start
-        if (IsMeleeBlockedByStandup(user))
+        if (attack is HeavyAttackEvent && IsMeleeSuppressedAfterStand(user))
             return false;
         // DS14-end
 
@@ -489,7 +493,7 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
     }
 
     // DS14-start
-    protected bool IsMeleeBlockedByStandup(EntityUid user)
+    protected bool IsMeleeSuppressedAfterStand(EntityUid user)
     {
         if (TryComp<SuppressMeleeAfterStandComponent>(user, out var suppressMelee))
         {
@@ -499,11 +503,9 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
             RemCompDeferred<SuppressMeleeAfterStandComponent>(user);
         }
 
-        if (HasComp<KnockedDownComponent>(user))
-            return true;
-
         return false;
     }
+
     // DS14-end
 
     protected abstract bool InRange(EntityUid user, EntityUid target, float range, ICommonSession? session);
@@ -623,6 +625,8 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
 
         var damage = GetDamage(meleeUid, user, component);
         var resistanceBypass = GetResistanceBypass(meleeUid, user, component);
+        if (component.HeavyAttackResistanceBypass is { } heavyAttackResistanceBypass) // DS14
+            resistanceBypass = heavyAttackResistanceBypass; // DS14
         var entities = GetEntityList(ev.Entities);
 
         if (entities.Count == 0)

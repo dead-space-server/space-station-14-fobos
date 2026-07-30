@@ -2,10 +2,10 @@ using System.Numerics;
 using System.Linq;
 using Content.Server.Construction;
 using Content.Server.Cargo.Systems;
+using Content.Server.DeadSpace.Weapons.Ranged;
 using Content.Server.Weapons.Ranged.Components;
 using Content.Shared.Cargo;
 using Content.Shared.Damage;
-using Content.Shared.Damage.Systems;
 using Content.Shared.Projectiles;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Weapons.Ranged;
@@ -237,6 +237,8 @@ public sealed partial class GunSystem : SharedGunSystem
 
     private bool ShootOrThrow(EntityUid uid, Vector2 mapDirection, Vector2 gunVelocity, Entity<GunComponent> gun, EntityUid? user)
     {
+        ApplyExecutionShotDamage(uid, gun); // DS14
+
         // DS14-start: cartridge-spawned hitscans bypass projectile physics entirely.
         if (HasComp<HitscanAmmoComponent>(uid))
         {
@@ -274,6 +276,27 @@ public sealed partial class GunSystem : SharedGunSystem
         ShootProjectile(uid, mapDirection, gunVelocity, gun, user, gun.Comp.ProjectileSpeedModified);
         return true;
     }
+
+    // DS14-start
+    private void ApplyExecutionShotDamage(EntityUid uid, Entity<GunComponent> gun)
+    {
+        if (!HasComp<GunExecutionShotComponent>(gun))
+            return;
+
+        const float executionDamageMultiplier = 9f;
+        if (TryComp<ProjectileComponent>(uid, out var projectile))
+        {
+            projectile.Damage *= executionDamageMultiplier;
+            projectile.IgnoreResistances = true;
+        }
+
+        if (TryComp<HitscanBasicDamageComponent>(uid, out var hitscan))
+        {
+            hitscan.Damage *= executionDamageMultiplier;
+            hitscan.IgnoreResistances = true;
+        }
+    }
+    // DS14-end
 
     /// <summary>
     /// Gets a linear spread of angles between start and end.
