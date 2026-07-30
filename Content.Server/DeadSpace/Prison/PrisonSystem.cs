@@ -12,6 +12,8 @@ using Content.Server.Roles;
 using Content.Server.Station.Systems;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
+using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.CCCCVars;
 using Content.Shared.FixedPoint;
@@ -20,6 +22,7 @@ using Content.Shared.Ghost;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Inventory;
+using Content.Shared.Interaction.Events;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
 using Content.Shared.Mobs;
@@ -90,6 +93,8 @@ public sealed class PrisonSystem : EntitySystem
         SubscribeLocalEvent<PlayerBeforeSpawnEvent>(OnPlayerBeforeSpawn);
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
         SubscribeLocalEvent<MindRoleAddAttemptEvent>(OnMindRoleAddAttempt);
+        SubscribeLocalEvent<PrisonBoundComponent, AttackAttemptEvent>(OnPrisonerAttackAttempt);
+        SubscribeLocalEvent<DamageableComponent, DamageModifyEvent>(OnPrisonerDamageModify);
         SubscribeLocalEvent<PrisonBoundComponent, DamageChangedEvent>(OnPrisonDamageChanged, before: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<MobStateChangedEvent>(OnPrisonMobStateChanged);
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
@@ -107,6 +112,33 @@ public sealed class PrisonSystem : EntitySystem
     private void OnRoundRestartCleanup(RoundRestartCleanupEvent ev)
     {
         _prisonDamageByTarget.Clear();
+    }
+
+    private void OnPrisonerAttackAttempt(EntityUid uid, PrisonBoundComponent component, AttackAttemptEvent args)
+    {
+        if (args.Cancelled ||
+            args.Target is not { } target ||
+            !TryGetMind(target, out var targetMindId, out var targetMind) ||
+            IsMindPrisoner(targetMindId, targetMind))
+        {
+            return;
+        }
+
+        args.Cancel();
+    }
+
+    private void OnPrisonerDamageModify(EntityUid target, DamageableComponent component, DamageModifyEvent args)
+    {
+        if (args.Damage.Empty ||
+            !TryGetDamageSourceMind(args.Origin, out var sourceMindId, out var sourceMind) ||
+            !IsMindPrisoner(sourceMindId, sourceMind) ||
+            !TryGetMind(target, out var targetMindId, out var targetMind) ||
+            IsMindPrisoner(targetMindId, targetMind))
+        {
+            return;
+        }
+
+        args.Damage = new DamageSpecifier();
     }
 
     public override void Update(float frameTime)

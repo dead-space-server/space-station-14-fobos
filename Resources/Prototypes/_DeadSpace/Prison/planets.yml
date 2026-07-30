@@ -8,12 +8,20 @@
   boundaryWallWidth: 6
   boundaryTile: FloorChromite
   boundaryWallEntity: WallRockChromitePrisonBoundary
+  landingPadRadius: 56
+  landingPadTile: FloorSnowDug
   residenceReservationEnabled: true
-  residenceReservationSize: 64
+  residenceReservationSize: 48
   residenceTile: FloorSnowDug
   residenceGridPath: /Maps/_DeadSpace/Prison/jail.yml
   residenceGridOffset: 8,16
   residenceGridName: Prison Quarters
+  ftlEnabled: true
+  ftlBeaconsOnly: true
+  ftlBeaconName: Prison Landing Zone
+  ftlBeaconOffset: -112,-112
+  ftlFallbackMinOffset: 8
+  ftlFallbackMaxOffset: 40
   markerLayers:
   - PrisonOreIron
   - PrisonOreCoal

@@ -2,6 +2,7 @@ using System.Numerics;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.DeadSpace.Prison.Components;
 using Content.Server.Parallax;
+using Content.Server.Shuttles.Components;
 using Content.Shared.Atmos;
 using Content.Shared.DeadSpace.CCCCVars;
 using Content.Shared.DeadSpace.Prison;
@@ -9,6 +10,7 @@ using Content.Shared.GameTicking;
 using Content.Shared.Gravity;
 using Content.Shared.Maps;
 using Content.Shared.Parallax.Biomes;
+using Content.Shared.Shuttles.Components;
 using Content.Shared.Warps;
 using Robust.Shared.Configuration;
 using Robust.Shared.EntitySerialization.Systems;
@@ -118,16 +120,22 @@ public sealed class PrisonMapSystem : EntitySystem
             _generatedMap = mapUid;
 
             SetupMetadata(mapUid, planet);
+            SetupFtl(mapUid, planet);
             var biome = SetupBiome(mapUid, planet, seed);
+            var marker = AddComp<PrisonMapComponent>(mapUid);
+            marker.Planet = PrisonPlanet;
 
             _map.InitializeMap(mapId);
             _map.SetPaused(mapUid, true);
 
             PrepareMapBoundary(mapUid, grid, planet, random);
             PrepareResidenceReservation(mapUid, grid, biome, planet, random);
-            LoadResidenceGrid(mapId, planet);
+            var residenceGrid = LoadResidenceGrid(mapId, planet);
+            PrepareLandingPad(mapUid, grid, biome, planet, random);
+            CreateFtlBeacon(mapUid, planet, residenceGrid);
             CreateGhostWarp(mapUid);
             PreloadResidenceArea(mapUid, biome, planet);
+            PreloadLandingArea(mapUid, biome, planet);
 
             _map.SetPaused(mapUid, false);
             Log.Info($"Generated prison map {planet.ID} with seed {seed}.");
@@ -157,6 +165,19 @@ public sealed class PrisonMapSystem : EntitySystem
     private void SetupMetadata(EntityUid mapUid, PrisonPlanetPrototype planet)
     {
         _metadata.SetEntityName(mapUid, planet.MapName);
+    }
+
+    private void SetupFtl(EntityUid mapUid, PrisonPlanetPrototype planet)
+    {
+        if (!planet.FtlEnabled)
+            return;
+
+        var destination = EnsureComp<FTLDestinationComponent>(mapUid);
+        destination.Enabled = true;
+        destination.BeaconsOnly = planet.FtlBeaconsOnly;
+        destination.RequireCoordinateDisk = planet.RequireCoordinateDisk;
+        destination.Whitelist = planet.FtlWhitelist;
+        Dirty(mapUid, destination);
     }
 
     private BiomeComponent SetupBiome(EntityUid mapUid, PrisonPlanetPrototype planet, int seed)
@@ -294,19 +315,70 @@ public sealed class PrisonMapSystem : EntitySystem
         _map.SetTiles(mapUid, grid, tiles);
     }
 
-    private void LoadResidenceGrid(MapId mapId, PrisonPlanetPrototype planet)
+    private EntityUid? LoadResidenceGrid(MapId mapId, PrisonPlanetPrototype planet)
     {
         if (planet.ResidenceGridPath == null)
-            return;
+            return null;
 
         if (!_mapLoader.TryLoadGrid(mapId, planet.ResidenceGridPath.Value, out var grid, offset: planet.ResidenceGridOffset))
         {
             Log.Error($"Failed to load prison residence grid {planet.ResidenceGridPath.Value} for planet {planet.ID}.");
-            return;
+            return null;
         }
 
         if (grid != null && !string.IsNullOrWhiteSpace(planet.ResidenceGridName))
             _metadata.SetEntityName(grid.Value, planet.ResidenceGridName);
+
+        return grid;
+    }
+
+    private void PrepareLandingPad(
+        EntityUid mapUid,
+        MapGridComponent grid,
+        BiomeComponent biome,
+        PrisonPlanetPrototype planet,
+        Random random)
+    {
+        var radius = Math.Max(1, planet.LandingPadRadius);
+        var bounds = Box2.CenteredAround(planet.FtlBeaconOffset, new Vector2(radius * 2 + 1, radius * 2 + 1));
+        var reserved = new List<(Vector2i Index, Tile Tile)>();
+        _biome.ReserveTiles(mapUid, bounds, reserved, biome, grid);
+
+        var tileDef = _tileDefinition[planet.LandingPadTile];
+        var tiles = new List<(Vector2i Index, Tile Tile)>();
+        var radiusSquared = radius * radius;
+        var center = new Vector2i(
+            (int) MathF.Floor(planet.FtlBeaconOffset.X),
+            (int) MathF.Floor(planet.FtlBeaconOffset.Y));
+
+        for (var x = -radius; x <= radius; x++)
+        {
+            for (var y = -radius; y <= radius; y++)
+            {
+                if (x * x + y * y > radiusSquared)
+                    continue;
+
+                tiles.Add((center + new Vector2i(x, y), CreateTile(tileDef, random)));
+            }
+        }
+
+        _map.SetTiles(mapUid, grid, tiles);
+    }
+
+    private void CreateFtlBeacon(EntityUid mapUid, PrisonPlanetPrototype planet, EntityUid? residenceGrid)
+    {
+        if (!planet.FtlEnabled)
+            return;
+
+        var beaconUid = Spawn(null, new EntityCoordinates(mapUid, planet.FtlBeaconOffset));
+        _metadata.SetEntityName(beaconUid, planet.FtlBeaconName);
+        EnsureComp<FTLBeaconComponent>(beaconUid);
+
+        var dockingBeacon = EnsureComp<FTLDockingBeaconComponent>(beaconUid);
+        dockingBeacon.TargetGrid = residenceGrid;
+        dockingBeacon.DockWhitelist = planet.FtlDockWhitelist;
+        dockingBeacon.FallbackMinOffset = planet.FtlFallbackMinOffset;
+        dockingBeacon.FallbackMaxOffset = planet.FtlFallbackMaxOffset;
     }
 
     private void CreateGhostWarp(EntityUid mapUid)
@@ -325,6 +397,13 @@ public sealed class PrisonMapSystem : EntitySystem
             return;
 
         _biome.Preload(mapUid, biome, ToBox2(bounds).Enlarged(16f));
+    }
+
+    private void PreloadLandingArea(EntityUid mapUid, BiomeComponent biome, PrisonPlanetPrototype planet)
+    {
+        var radius = Math.Max(1, planet.LandingPadRadius);
+        var size = new Vector2(radius * 2 + 1, radius * 2 + 1);
+        _biome.Preload(mapUid, biome, Box2.CenteredAround(planet.FtlBeaconOffset, size).Enlarged(16f));
     }
 
     private void SpawnAnchored(

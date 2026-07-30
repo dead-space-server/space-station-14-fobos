@@ -2,6 +2,7 @@ using System.Numerics;
 using Content.Shared.Atmos;
 using Content.Shared.Parallax.Biomes;
 using Content.Shared.Parallax.Biomes.Markers;
+using Content.Shared.Whitelist;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
@@ -44,6 +45,12 @@ public sealed partial class PrisonPlanetPrototype : IPrototype
     public string BoundaryWallEntity = "WallRockChromitePrisonBoundary";
 
     [DataField]
+    public int LandingPadRadius = 56;
+
+    [DataField]
+    public string LandingPadTile = "FloorSnowDug";
+
+    [DataField]
     public bool ResidenceReservationEnabled = true;
 
     [DataField]
@@ -60,6 +67,33 @@ public sealed partial class PrisonPlanetPrototype : IPrototype
 
     [DataField]
     public string? ResidenceGridName = "Prison Base";
+
+    [DataField]
+    public bool FtlEnabled = true;
+
+    [DataField]
+    public bool FtlBeaconsOnly = true;
+
+    [DataField]
+    public bool RequireCoordinateDisk;
+
+    [DataField]
+    public EntityWhitelist? FtlWhitelist;
+
+    [DataField]
+    public EntityWhitelist? FtlDockWhitelist;
+
+    [DataField]
+    public string FtlBeaconName = "Prison Landing Zone";
+
+    [DataField]
+    public Vector2 FtlBeaconOffset = new(-112f, -112f);
+
+    [DataField]
+    public float FtlFallbackMinOffset = 8f;
+
+    [DataField]
+    public float FtlFallbackMaxOffset = 40f;
 
     [DataField]
     public List<ProtoId<BiomeMarkerLayerPrototype>> MarkerLayers = new();
