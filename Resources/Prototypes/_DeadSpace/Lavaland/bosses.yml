@@ -598,9 +598,8 @@
     deathSound: /Audio/_DeadSpace/Lavaland/AshDrake/demon_dies.ogg
     deathRewards:
     - LavalandNecropolisChest
-    - LavalandNecropolisChestHardsuit
+    - ClothingOuterSuitAshDrake
     - LavalandSpectralBlade
-    - LavalandFireStaff
     - LavalandAshDrakeFireballSpellbookDrop
   - type: LavalandAshDrake
   - type: NpcFactionMember
@@ -1147,6 +1146,11 @@
     maxHealth: 3500
     music: /Audio/_DeadSpace/Lavaland/Bosses/colossus_fight.ogg
     deathSound: /Audio/Effects/demon_dies.ogg
+    deathRewards:
+    - LavalandNecropolisChestHardsuit
+    - LavalandDarkInfusedBlade
+    - LavalandNecropolisChest
+    - LavalandFireStaff
   - type: LavalandColossus
   - type: NpcFactionMember
     factions:
@@ -1240,3 +1244,65 @@
   - type: Tag
     tags:
     - CannotSuicide
+
+- type: entity
+  parent: LavalandAshDrakeEffectBase
+  id: LavalandAshDrakeWhelpTarget
+  name: направление огня пепельного детёныша
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    noRot: true
+    drawdepth: Effects
+    sprite: _DeadSpace/Lavaland/Effects/AshDrakeTarget.rsi
+    color: "#ff6b2d"
+    layers:
+    - state: sniper_zoom
+      shader: unshaded
+  - type: TimedDespawn
+    lifetime: 2.2
+
+- type: entity
+  parent: [ BaseMobAsteroid, FlyingMobBase, BaseMobLavalandFauna ]
+  id: MobLavalandAshWhelp
+  name: пепельный детёныш
+  description: Молодой дракон, вызванный защищать пепельного владыку.
+  suffix: Lavaland
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _DeadSpace/Lavaland/Mobs/AshWhelp.rsi
+    layers:
+    - state: ash_whelp
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      100: Dead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2.5
+    baseSprintSpeed: 3.5
+  - type: MeleeWeapon
+    angle: 0
+    attackRate: 1
+    animation: WeaponArcBite
+    damage:
+      types:
+        Slash: 8
+        Heat: 12
+  - type: NpcFactionMember
+    factions:
+    - SimpleHostile
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+    blackboard:
+      VisionRadius: !type:Single
+        32
+      AggroVisionRadius: !type:Single
+        32
+      NavSmash: !type:Bool
+        false
+  - type: TimedDespawn
+    lifetime: 15
+  - type: NoSlip
