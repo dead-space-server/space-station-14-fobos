@@ -43,7 +43,7 @@
       sprite: _Corvax/Clothing/Head/Hats/ERT_leader_beret.rsi
 
 - type: entity
-  parent: ClothingHeadBase
+  parent: ClothingHeadHelmetBasic # DS-14
   id: ClothingHeadHatCapHoS
   name: head of security cap
   description: The robust standard-issue cap of the Head of Security. For showing the officers who's in charge.
