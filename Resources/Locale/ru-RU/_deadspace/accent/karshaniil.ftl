@@ -1,3 +1,4 @@
+accent-karshaniil-word-1 = спасибо
 accent-karshaniil-replacement-1 = kiitos
 
 accent-karshaniil-word-2 = мобилизация
