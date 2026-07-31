@@ -1,7 +1,9 @@
-﻿using Content.Server.Chat.Systems;
+using Content.Server.Chat.Systems;
 using Content.Server.Speech.Muting;
+using Content.Shared.Inventory;
 using Content.Shared.Mobs;
 using Content.Shared.Speech.Muting;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server.Mobs;
@@ -10,6 +12,8 @@ namespace Content.Server.Mobs;
 public sealed class DeathgaspSystem: EntitySystem
 {
     [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
 
     public override void Initialize()
     {
@@ -23,6 +27,14 @@ public sealed class DeathgaspSystem: EntitySystem
         // don't deathgasp if they arent going straight from crit to dead
         if (args.NewMobState != MobState.Dead || args.OldMobState is not (MobState.Critical or MobState.PreCritical)) // DS14 edited
             return;
+
+        // DS14: если на лице надета маска со SpecialDeathSoundComponent — играем её звук вместо обычного deathgasp
+        if (_inventory.TryGetSlotEntity(uid, "mask", out var maskUid) &&
+            TryComp<SpecialDeathSoundComponent>(maskUid, out var special))
+        {
+            _audio.PlayPvs(special.Sound, uid);
+            return;
+        }
 
         Deathgasp(uid, component);
     }
