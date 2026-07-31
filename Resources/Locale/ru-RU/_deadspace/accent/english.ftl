@@ -521,9 +521,9 @@ accent-english-words-112 = досвидания
 accent-english-words-112-2 = до свидания
 accent-english-words-replace-112 = goodbye
 
-accent-english-words-113 = прощай
-accent-english-words-113-2 = прощайте
-accent-english-words-replace-113 = farewell
+accent-english-words-113 = пока
+accent-english-words-113-2 = покеда
+accent-english-words-replace-113 = bye
 
 accent-english-words-114 = навсегда
 accent-english-words-replace-114 = forever
@@ -635,10 +635,10 @@ accent-english-words-138-2 = пуль
 accent-english-words-replace-138 = bullets
 
 accent-english-words-139 = патрон
-accent-english-words-replace-139 = cartridge
+accent-english-words-replace-139 = round
 
 accent-english-words-140 = патроны
-accent-english-words-replace-140 = cartridges
+accent-english-words-replace-140 = ammo
 
 accent-english-words-141 = цвет
 accent-english-words-141-2 = цвету
@@ -697,12 +697,12 @@ accent-english-words-151 = имба
 accent-english-words-151-2 = имбу
 accent-english-words-151-3 = имбой
 accent-english-words-151-4 = имбе
-accent-english-words-replace-151 = goat
+accent-english-words-replace-151 = unfair
 
 accent-english-words-152 = имбовый
 accent-english-words-152-2 = имбовую
 accent-english-words-152-3 = имбовых
-accent-english-words-replace-152 = goated
+accent-english-words-replace-152 = unfair
 
 accent-english-words-153 = кринж
 accent-english-words-153-2 = кринжа
