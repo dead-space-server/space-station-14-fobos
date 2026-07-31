@@ -26,8 +26,8 @@ public sealed class WeaponTests : InteractionTest
     private static readonly EntProtoId MobHuman = "MobHuman";
     private static readonly EntProtoId SniperMosin = "WeaponSniperMosin";
     private static readonly EntProtoId PistolTrace = "BulletPistolTrace";
-    private static readonly EntProtoId PredictionTestGun = "PredictionTestGun";
-    private static readonly EntProtoId PredictionTestProjectile = "PredictionTestProjectile";
+    private const string PredictionTestGun = "PredictionTestGun";
+    private const string PredictionTestProjectile = "PredictionTestProjectile";
 
     [TestPrototypes]
     private const string PredictionPrototypes = @"
