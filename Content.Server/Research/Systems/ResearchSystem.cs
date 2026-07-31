@@ -54,11 +54,7 @@ namespace Content.Server.Research.Systems
                 return servers;
 
             _lookup.GetGridEntities(grid, servers);
-            foreach (var server in servers)
-            {
-                if (!Transform(server).Anchored || !_power.IsPowered(server.Owner))
-                    servers.Remove(server);
-            }
+            servers.RemoveWhere(server => !Transform(server).Anchored || !_power.IsPowered(server.Owner));
             return servers;
         }
         // DS14-edit-end
