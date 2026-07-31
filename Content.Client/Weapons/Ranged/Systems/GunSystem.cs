@@ -139,7 +139,9 @@ public sealed partial class GunSystem : SharedGunSystem
         var delay = 0f;
         foreach (var trace in ev.Traces)
         {
-            delay = FireHitscanEffect(ev, delay, trace);
+            var nextDelay = FireHitscanEffect(ev, ev.ParallelTraces ? 0f : delay, trace);
+            if (!ev.ParallelTraces)
+                delay = nextDelay;
         }
         // DS14-end
     }
@@ -903,6 +905,7 @@ public sealed partial class GunSystem : SharedGunSystem
             Speed = visuals.Speed,
             PredictionId = gun.Comp.PredictionId,
             Shooter = GetNetEntity(user),
+            ParallelTraces = spread != null,
         });
         return true;
     }

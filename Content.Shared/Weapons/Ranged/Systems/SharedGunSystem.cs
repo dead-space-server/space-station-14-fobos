@@ -778,6 +778,7 @@ public abstract partial class SharedGunSystem : EntitySystem
         public float Speed;
         public NetEntity? Shooter;
         public uint PredictionId;
+        public bool ParallelTraces;
         // DS14-end
     }
 

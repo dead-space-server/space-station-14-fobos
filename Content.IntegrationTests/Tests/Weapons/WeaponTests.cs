@@ -2,7 +2,9 @@
 using Content.Client.Projectiles;
 using Content.Shared.Damage.Components;
 using Content.Shared.Projectiles;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Sound.Components;
+using Content.Shared.Standing;
 using Content.Shared.Trigger.Components;
 using Content.Shared.Trigger.Components.Triggers;
 using Content.Shared.Weapons.Hitscan.Components;
@@ -139,6 +141,53 @@ public sealed class WeaponTests : InteractionTest
             Assert.That(trace, Is.Not.Null);
             Assert.That(trace!.Value.ImpactedEnt, Is.EqualTo(targetNet));
             Assert.That(damage.TotalDamage, Is.EqualTo(before));
+        });
+    }
+
+    [Test]
+    public async Task ProjectileTargetingUsesCanonicalStandingStateTest()
+    {
+        var targetNet = await SpawnTarget(MobHuman);
+        var ammoNet = await Spawn(PistolTrace, PlayerCoords);
+
+        await Client.WaitAssertion(() =>
+        {
+            var target = CEntMan.GetEntity(targetNet);
+            var ammo = CEntMan.GetEntity(ammoNet);
+            var requireTarget = CEntMan.GetComponent<RequireProjectileTargetComponent>(target);
+            var standing = CEntMan.GetComponent<StandingStateComponent>(target);
+            var system = CEntMan.System<RequireProjectileTargetSystem>();
+            var raycast = CEntMan.GetComponent<HitscanBasicRaycastComponent>(ammo);
+            var hitscan = CEntMan.System<HitscanBasicRaycastSystem>();
+            var coordinates = CEntMan.GetCoordinates(PlayerCoords);
+
+#pragma warning disable RA0002
+            requireTarget.Active = false;
+            standing.Standing = false;
+#pragma warning restore RA0002
+            Assert.That(system.RequiresExplicitTarget((target, requireTarget)), Is.True);
+            var downedTrace = hitscan.BuildVisualTrace(
+                (ammo, raycast),
+                coordinates,
+                Vector2.UnitX,
+                CPlayer,
+                null);
+            Assert.That(downedTrace, Is.Not.Null);
+            Assert.That(downedTrace!.Value.ImpactedEnt, Is.Not.EqualTo(targetNet));
+
+#pragma warning disable RA0002
+            requireTarget.Active = true;
+            standing.Standing = true;
+#pragma warning restore RA0002
+            Assert.That(system.RequiresExplicitTarget((target, requireTarget)), Is.False);
+            var standingTrace = hitscan.BuildVisualTrace(
+                (ammo, raycast),
+                coordinates,
+                Vector2.UnitX,
+                CPlayer,
+                null);
+            Assert.That(standingTrace, Is.Not.Null);
+            Assert.That(standingTrace!.Value.ImpactedEnt, Is.EqualTo(targetNet));
         });
     }
 

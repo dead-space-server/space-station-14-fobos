@@ -1,6 +1,7 @@
 using System.Numerics;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Damage.Components;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
 using Content.Shared.Weapons.Hitscan.Components;
 using Content.Shared.Weapons.Hitscan.Events;
@@ -20,6 +21,7 @@ public sealed class HitscanBasicRaycastSystem : EntitySystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly ISharedAdminLogManager _log = default!;
     [Dependency] private readonly SharedPointLightSystem _lights = default!;
+    [Dependency] private readonly RequireProjectileTargetSystem _requireTarget = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private EntityQuery<HitscanBasicVisualsComponent> _visualsQuery;
@@ -50,7 +52,7 @@ public sealed class HitscanBasicRaycastSystem : EntitySystem
             ? rayCastResults.FirstOrNull(hit => ignored?.Contains(hit.HitEntity) != true)
             : rayCastResults.FirstOrNull(hit =>
                 ignored?.Contains(hit.HitEntity) != true &&
-                (hit.HitEntity == target || CompOrNull<RequireProjectileTargetComponent>(hit.HitEntity)?.Active != true));
+                (hit.HitEntity == target || !RequiresExplicitTarget(hit.HitEntity)));
 
         var distanceTried = result?.Distance ?? ent.Comp.MaxDistance;
 
@@ -129,10 +131,16 @@ public sealed class HitscanBasicRaycastSystem : EntitySystem
         var result = _container.IsEntityOrParentInContainer(shooter)
             ? rayCastResults.FirstOrNull()
             : rayCastResults.FirstOrNull(hit =>
-                hit.HitEntity == target || CompOrNull<RequireProjectileTargetComponent>(hit.HitEntity)?.Active != true);
+                hit.HitEntity == target || !RequiresExplicitTarget(hit.HitEntity));
 
         var distance = result?.Distance ?? ent.Comp.MaxDistance;
         return GenerateTraceStep(fromCoordinates, distance, direction.ToAngle(), result?.HitEntity);
+    }
+
+    private bool RequiresExplicitTarget(EntityUid uid)
+    {
+        return TryComp<RequireProjectileTargetComponent>(uid, out var requireTarget) &&
+               _requireTarget.RequiresExplicitTarget((uid, requireTarget));
     }
 
     // DS14-start: hitscan trace visuals.
