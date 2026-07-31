@@ -43,9 +43,9 @@
     tags:
     - HamsterWearable
 #DS14 start
-  - type: SpecialDeathSoundComponent
+  - type: SpecialDeathSound
     sound:
-      path: /Audio/_DeadSpace/Voice/Death/mask_death.ogg
+      path: /Audio/_DeadSpace/Voice/Death/sec_death.ogg
 #DS14 end
 
 - type: entity
@@ -428,9 +428,9 @@
   - type: Clothing
     sprite: Clothing/Mask/swat.rsi
 #DS14 start
-  - type: SpecialDeathSoundComponent
+  - type: SpecialDeathSound
     sound:
-      path: /Audio/_DeadSpace/Voice/Death/mask_death.ogg
+      path: /Audio/_DeadSpace/Voice/Death/sec_death.ogg
 #DS14 end
   - type: Tag
     tags:
@@ -479,9 +479,9 @@
   - type: Clothing
     sprite: Clothing/Mask/ert.rsi
 #DS14 start
-  - type: SpecialDeathSoundComponent
+  - type: SpecialDeathSound
     sound:
-      path: /Audio/_DeadSpace/Voice/Death/mask_death.ogg
+      path: /Audio/_DeadSpace/Voice/Death/sec_death.ogg
 #DS14 end
   - type: Tag
     tags:

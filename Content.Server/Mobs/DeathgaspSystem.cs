@@ -9,7 +9,7 @@ using Robust.Shared.Prototypes;
 namespace Content.Server.Mobs;
 
 /// <see cref="DeathgaspComponent"/>
-public sealed class DeathgaspSystem: EntitySystem
+public sealed class DeathgaspSystem : EntitySystem
 {
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
@@ -25,14 +25,17 @@ public sealed class DeathgaspSystem: EntitySystem
     private void OnMobStateChanged(EntityUid uid, DeathgaspComponent component, MobStateChangedEvent args)
     {
         // don't deathgasp if they arent going straight from crit to dead
-        if (args.NewMobState != MobState.Dead || args.OldMobState is not (MobState.Critical or MobState.PreCritical)) // DS14 edited
+        if (args.NewMobState != MobState.Dead ||
+            args.OldMobState is not (MobState.Critical or MobState.PreCritical))
             return;
 
-        // DS14: если на лице надета маска со SpecialDeathSoundComponent — играем её звук вместо обычного deathgasp
+        // DS14
         if (_inventory.TryGetSlotEntity(uid, "mask", out var maskUid) &&
             TryComp<SpecialDeathSoundComponent>(maskUid, out var special))
         {
             _audio.PlayPvs(special.Sound, uid);
+
+            Deathgasp(uid, component);
             return;
         }
 
