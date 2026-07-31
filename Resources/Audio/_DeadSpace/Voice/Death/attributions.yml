@@ -1,4 +1,4 @@
-﻿- file: ["sec_death.ogg"]
-  license: " GNU AGPL v3"
-  copyright: "Original sound by https://github.com/tgstation/
+﻿- files: ["sec_death.ogg"]
+  license: "GNU AGPL v3"
+  copyright: "Original sound by tgstation"
   source: "https://github.com/tgstation/tgstation/tree/master/sound/items/sec_hailer"
