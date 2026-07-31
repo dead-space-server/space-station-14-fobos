@@ -10,9 +10,10 @@ namespace Content.Server.Corvax.TTS;
 // ReSharper disable once InconsistentNaming
 public sealed partial class TTSSystem
 {
-    private const string AllowedTtsCharsPattern = @"[^a-zA-ZäöüÄÖÜßа-яА-ЯёЁ0-9,\-+?!. ]";
-    private const string AllowedTtsWordPattern = @"(?<![a-zA-ZäöüÄÖÜßа-яёА-ЯЁ])[a-zA-ZäöüÄÖÜßа-яёА-ЯЁ]+?(?![a-zA-ZäöüÄÖÜßа-яёА-ЯЁ])";
-    private const string LatinTranslitPattern = @"jsh|je|zh|ch|sh|hh|ih|jh|eh|ju|ja|[a-zA-Z]";
+    private const string AllowedTtsCharsPattern = @"[^a-zA-ZäöüÄÖÜßіІїЇа-яА-ЯёЁ0-9,\-+?!. ]";
+    private const string AllowedTtsWordPattern = @"(?<![a-zA-ZäöüÄÖÜßіІїЇа-яёА-ЯЁ])[a-zA-ZäöüÄÖÜßіІїЇа-яёА-ЯЁ]+?(?![a-zA-ZäöüÄÖÜßіІїЇа-яёА-ЯЁ])";
+    private const string MultiWordReplacementPattern = @"(?<![a-zA-ZäöüÄÖÜßіІїЇа-яёА-ЯЁ])(?:big ass|hyvää päivää)(?![a-zA-ZäöüÄÖÜßіІїЇа-яёА-ЯЁ])";
+    private const string LatinTranslitPattern = @"jsh|je|zh|ch|sh|hh|ih|jh|eh|ju|ja|[a-zA-ZіІїЇ]";
 
     private void OnTransformSpeech(TransformSpeechEvent args)
     {
@@ -24,6 +25,7 @@ public sealed partial class TTSSystem
     {
         text = text.Trim();
         text = Regex.Replace(text, AllowedTtsCharsPattern, "");
+        text = Regex.Replace(text, MultiWordReplacementPattern, ReplaceMatchedWord, RegexOptions.Multiline | RegexOptions.IgnoreCase);
         text = Regex.Replace(text, AllowedTtsWordPattern, ReplaceMatchedWord, RegexOptions.Multiline | RegexOptions.IgnoreCase);
         text = Regex.Replace(text, LatinTranslitPattern, ReplaceLat2Cyr, RegexOptions.Multiline | RegexOptions.IgnoreCase);
         text = Regex.Replace(text, @"(?<=[1-90])(\.|,)(?=[1-90])", " целых ");
