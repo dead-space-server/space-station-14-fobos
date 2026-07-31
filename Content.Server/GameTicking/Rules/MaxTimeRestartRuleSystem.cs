@@ -51,8 +51,7 @@ public sealed class MaxTimeRestartRuleSystem : GameRuleSystem<MaxTimeRestartRule
     private void TimerFired(EntityUid uid, int roundId) // DS14
     {
         // DS14-start
-        MaxTimeRestartRuleComponent? component = null;
-        if (!Resolve(uid, ref component) ||
+        if (!TryComp(uid, out MaxTimeRestartRuleComponent? component) ||
             !GameTicker.IsGameRuleActive(uid) ||
             GameTicker.RoundId != roundId ||
             GameTicker.RunLevel != GameRunLevel.InRound)

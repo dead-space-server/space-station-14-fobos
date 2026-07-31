@@ -58,8 +58,7 @@ public sealed class InactivityTimeRestartRuleSystem : GameRuleSystem<InactivityR
     private void TimerFired(EntityUid uid, int roundId) // DS14
     {
         // DS14-start
-        InactivityRuleComponent? component = null;
-        if (!Resolve(uid, ref component) || !GameTicker.IsGameRuleActive(uid))
+        if (!TryComp(uid, out InactivityRuleComponent? component) || !GameTicker.IsGameRuleActive(uid))
             return;
 
         if (GameTicker.RoundId != roundId || GameTicker.RunLevel != GameRunLevel.InRound)
