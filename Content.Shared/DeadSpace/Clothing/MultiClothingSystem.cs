@@ -62,6 +62,8 @@ public sealed class MultiClothingSystem : EntitySystem
 
         foreach (var (slotName, proto) in ent.Comp.Equipment)
         {
+            if (args.Slot == slotName)
+                continue;
             if (_inventory.TryGetSlotEntity(args.Equipee, slotName, out var existingItem))
             {
                 if (!ent.Comp.Force)

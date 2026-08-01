@@ -6,10 +6,10 @@ namespace Content.Shared.DeadSpace.Clothing;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class MultiClothingComponent : Component
 {
-    [DataField]
+    [DataField, AutoNetworkedField]
     public bool Force;
 
-    [DataField]
+    [DataField, AutoNetworkedField]
     public Dictionary<string, EntProtoId> Equipment = new();
 
     [DataField, AutoNetworkedField]
