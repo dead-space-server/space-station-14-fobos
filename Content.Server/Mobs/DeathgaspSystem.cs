@@ -29,7 +29,7 @@ public sealed class DeathgaspSystem : EntitySystem
             args.OldMobState is not (MobState.Critical or MobState.PreCritical))
             return;
 
-        // DS14
+    // DS14-start
         if (_inventory.TryGetSlotEntity(uid, "mask", out var maskUid) &&
             TryComp<SpecialDeathSoundComponent>(maskUid, out var special))
         {
@@ -41,7 +41,7 @@ public sealed class DeathgaspSystem : EntitySystem
 
         Deathgasp(uid, component);
     }
-
+    // DS14-end
     /// <summary>
     ///     Causes an entity to perform their deathgasp emote, if they have one.
     /// </summary>
