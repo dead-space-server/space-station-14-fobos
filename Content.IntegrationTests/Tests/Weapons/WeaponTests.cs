@@ -49,6 +49,7 @@ public sealed class WeaponTests : InteractionTest
     private const string PredictionRegressionProjectile = "PredictionRegressionProjectile";
     private const string PredictionRegressionRecoverableProjectile = "PredictionRegressionRecoverableProjectile";
     private const string PredictionRegressionTarget = "PredictionRegressionTarget";
+    private const string PredictionRegressionWall = "PredictionRegressionWall";
     private const string PredictionRegressionMovingTarget = "PredictionRegressionMovingTarget";
     private const string PredictionRegressionTriggeredProjectile = "PredictionRegressionTriggeredProjectile";
     private const string PredictionRegressionTriggerMarker = "PredictionRegressionTriggerMarker";
@@ -128,6 +129,22 @@ public sealed class WeaponTests : InteractionTest
         shape:
           !type:PhysShapeAabb
           bounds: ""-0.25,-0.25,0.25,0.25""
+        hard: true
+        layer:
+        - BulletImpassable
+  - type: Damageable
+
+- type: entity
+  id: PredictionRegressionWall
+  components:
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      wall:
+        shape:
+          !type:PhysShapeAabb
+          bounds: ""-0.1,-0.5,0.1,0.5""
         hard: true
         layer:
         - BulletImpassable
@@ -825,6 +842,92 @@ public sealed class WeaponTests : InteractionTest
     }
 
     [Test]
+    public async Task PredictionRegression_ClientPredictionCannotTunnelWallAtDifferentAimPointsOrVelocity()
+    {
+        await ConfigureReleasePhysicsRates();
+        await Spawn(
+            PredictionRegressionWall,
+            new NetCoordinates(PlayerCoords.NetEntity, PlayerCoords.Position + new Vector2(1.5f, 0f)));
+        await RunTicks(3);
+
+        var shots = new (Vector2 Direction, Vector2 GunVelocity)[]
+        {
+            (new Vector2(1f, -0.28f).Normalized(), Vector2.Zero),
+            (new Vector2(1f, -0.21f).Normalized(), Vector2.Zero),
+            (new Vector2(1f, -0.14f).Normalized(), Vector2.Zero),
+            (new Vector2(1f, -0.07f).Normalized(), Vector2.Zero),
+            (Vector2.UnitX, Vector2.Zero),
+            (new Vector2(1f, 0.07f).Normalized(), Vector2.Zero),
+            (new Vector2(1f, 0.14f).Normalized(), Vector2.Zero),
+            (new Vector2(1f, 0.21f).Normalized(), Vector2.Zero),
+            (new Vector2(1f, 0.28f).Normalized(), Vector2.Zero),
+            (Vector2.UnitX, new Vector2(0f, -8f)),
+            (Vector2.UnitX, new Vector2(0f, 8f)),
+        };
+        var projectiles = new List<EntityUid>();
+
+        await Client.WaitPost(() =>
+        {
+            var projectileSystem = CEntMan.System<Content.Client.Projectiles.ProjectileSystem>();
+            var gunSystem = CEntMan.System<Content.Client.Weapons.Ranged.Systems.GunSystem>();
+
+            for (var i = 0; i < shots.Length; i++)
+            {
+                var projectile = CEntMan.SpawnEntity(
+                    PredictionRegressionProjectile,
+                    CEntMan.GetCoordinates(PlayerCoords));
+                projectiles.Add(projectile);
+                projectileSystem.RegisterPredictedProjectile(projectile, (uint) (500 + i), 0);
+                gunSystem.ShootProjectile(
+                    projectile,
+                    shots[i].Direction,
+                    shots[i].GunVelocity,
+                    null,
+                    CPlayer,
+                    40f);
+            }
+        });
+
+        try
+        {
+            await RunTicks(3);
+            await Client.WaitAssertion(() =>
+            {
+                Assert.Multiple(() =>
+                {
+                    for (var i = 0; i < projectiles.Count; i++)
+                    {
+                        if (!CEntMan.EntityExists(projectiles[i]))
+                        {
+                            Assert.Fail($"Predicted projectile {i} disappeared.");
+                            continue;
+                        }
+
+                        var position = CEntMan.System<SharedTransformSystem>()
+                            .GetMapCoordinates(projectiles[i])
+                            .Position;
+                        Assert.That(
+                            CEntMan.GetComponent<PredictedProjectileVisualComponent>(projectiles[i]).HitAt,
+                            Is.Not.Null,
+                            $"Locally predicted projectile {i} tunnelled through the wall and reached {position}.");
+                    }
+                });
+            });
+        }
+        finally
+        {
+            await Client.WaitPost(() =>
+            {
+                foreach (var projectile in projectiles)
+                {
+                    if (CEntMan.EntityExists(projectile))
+                        CEntMan.DeleteEntity(projectile);
+                }
+            });
+        }
+    }
+
+    [Test]
     public async Task PredictionRegression_ReleasePhysicsWallBlocksFastProjectile()
     {
         await ConfigureReleasePhysicsRates();
@@ -1165,7 +1268,7 @@ public sealed class WeaponTests : InteractionTest
     private async Task<(EntityUid Target, EntityUid? Blocker)> RunPredictionRegressionHit(
         Vector2? blockerOffset = null,
         string projectilePrototype = PredictionRegressionProjectile,
-        Action<EntityUid>? configureProjectile = null,
+        Action<EntityUid> configureProjectile = null,
         bool reportInvalidHitFirst = false)
     {
         const uint predictionId = 101;

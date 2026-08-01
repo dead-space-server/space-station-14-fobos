@@ -253,6 +253,70 @@ public sealed class ProjectileSystem : SharedProjectileSystem
         foreach (var hit in result.Results)
             hits.Add(hit);
 
+        // YAML AABBs become polygons with a skin radius and Robust sends those through its known-broken
+        // GJK ray-vs-box path. Continuously test the captured blockers with the shared swept-SAT fallback.
+        if (targetStarts != null)
+        {
+            foreach (var (target, targetStart) in targetStarts)
+            {
+                if (projectile.ProcessedTargets.Contains(target) ||
+                    !_physicsQuery.TryComp(target, out var targetBody) ||
+                    !_fixturesQuery.TryComp(target, out var targetFixtures) ||
+                    !_transformQuery.TryComp(target, out var targetXform))
+                {
+                    continue;
+                }
+
+                var targetEnd = _transform.GetMapCoordinates(target, targetXform);
+                if (targetEnd.MapId != start.MapId || targetStart.MapId != start.MapId)
+                    continue;
+
+                var targetDisplacement = targetEnd.Position - targetStart.Position;
+                var targetTransform = _physics.GetPhysicsTransform(target, targetXform);
+                var closestFraction = float.MaxValue;
+                var closestPoint = Vector2.Zero;
+                foreach (var targetFixture in targetFixtures.Fixtures.Values)
+                {
+                    if (!CanFixturesCollide(
+                            uid,
+                            projectileBody,
+                            projectileFixture,
+                            target,
+                            targetBody,
+                            targetFixture))
+                    {
+                        continue;
+                    }
+
+                    if (!TryCastProjectileAgainstShape(
+                            castShape,
+                            projectileAngle,
+                            start.Position + targetDisplacement,
+                            translation - targetDisplacement,
+                            targetFixture.Shape,
+                            targetTransform,
+                            out var fraction,
+                            out var contactPoint) ||
+                        fraction >= closestFraction)
+                    {
+                        continue;
+                    }
+
+                    closestFraction = fraction;
+                    closestPoint = contactPoint;
+                }
+
+                if (closestFraction == float.MaxValue)
+                    continue;
+
+                closestPoint -= targetDisplacement * (1f - closestFraction);
+                hits.Add(new RayHit(target, Vector2.Zero, closestFraction)
+                {
+                    Point = closestPoint,
+                });
+            }
+        }
+
         // A target can move into the projectile's starting shape between discrete samples. Shape casts
         // intentionally ignore initial overlaps, so cast the projectile in each moving target's frame.
         // This gives the continuous relative path of both bodies for the substep.

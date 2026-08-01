@@ -319,6 +319,67 @@ public sealed partial class ProjectileSystem
         foreach (var sweepHit in result.Results)
             hits.Add(sweepHit);
 
+        // YAML AABBs become polygons with a skin radius and Robust sends those through its known-broken
+        // GJK ray-vs-box path. Test every captured polygon blocker with swept SAT in its relative frame.
+        foreach (var (target, targetStart) in ent.Comp.TargetCoordinatesBeforePhysics)
+        {
+            if (!CanPredictHit(ent, target) ||
+                !TryComp(target, out PhysicsComponent? targetBody) ||
+                !TryComp(target, out FixturesComponent? targetFixtures) ||
+                !TryComp(target, out TransformComponent? targetXform))
+            {
+                continue;
+            }
+
+            var targetEnd = _transform.GetMapCoordinates(target, targetXform);
+            if (targetEnd.MapId != start.MapId || targetStart.MapId != start.MapId)
+                continue;
+
+            var targetDisplacement = targetEnd.Position - targetStart.Position;
+            var targetTransform = _physics.GetPhysicsTransform(target, targetXform);
+            var closestFraction = float.MaxValue;
+            var closestPoint = Vector2.Zero;
+            foreach (var targetFixture in targetFixtures.Fixtures.Values)
+            {
+                if (!CanFixturesCollide(
+                        ent,
+                        projectileBody,
+                        projectileFixture,
+                        target,
+                        targetBody,
+                        targetFixture))
+                {
+                    continue;
+                }
+
+                if (!TryCastProjectileAgainstShape(
+                        castShape,
+                        projectileAngle,
+                        start.Position + targetDisplacement,
+                        translation - targetDisplacement,
+                        targetFixture.Shape,
+                        targetTransform,
+                        out var fraction,
+                        out var contactPoint) ||
+                    fraction >= closestFraction)
+                {
+                    continue;
+                }
+
+                closestFraction = fraction;
+                closestPoint = contactPoint;
+            }
+
+            if (closestFraction == float.MaxValue)
+                continue;
+
+            closestPoint -= targetDisplacement * (1f - closestFraction);
+            hits.Add(new RayHit(target, Vector2.Zero, closestFraction)
+            {
+                Point = closestPoint,
+            });
+        }
+
         foreach (var (target, _) in ent.Comp.TargetCoordinatesBeforePhysics)
         {
             if (!TryGetTargetDisplacement(target, out var targetDisplacement) ||

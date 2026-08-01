@@ -26,6 +26,7 @@ namespace Content.Server.Projectiles;
 public sealed class ProjectilePredictionSystem : EntitySystem
 {
     [Dependency] private readonly IConfigurationManager _config = default!;
+    [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly ProjectileSystem _projectiles = default!;
     [Dependency] private readonly RayCastSystem _rayCast = default!;
@@ -35,6 +36,7 @@ public sealed class ProjectilePredictionSystem : EntitySystem
 
     private readonly Dictionary<(NetUserId User, uint Id, ushort Index), EntityUid> _predicted = new();
     private readonly List<(PredictedProjectileHitEvent Event, ICommonSession Player)> _predictedHits = new();
+    private readonly HashSet<EntityUid> _blockerCandidates = new();
 
     private bool _preventCollision;
     private bool _logHits;
@@ -353,9 +355,69 @@ public sealed class ProjectilePredictionSystem : EntitySystem
             filter,
             BlockerCallback);
 
-        if (blockers.Hit)
+        RayHit? closestBlocker = blockers.Hit ? blockers.Results[0] : null;
+
+        // Fixture deserialization turns YAML AABBs into polygons with a skin radius. Robust routes those
+        // through its known-broken GJK ray-vs-box path, so supplement blocker validation with swept SAT.
+        var originTransform = new Transform(origin.Position, projectileAngle);
+        var endTransform = new Transform(origin.Position + translation, projectileAngle);
+        var lookupBounds = GetShapeBounds(castShape, originTransform)
+            .Union(GetShapeBounds(castShape, endTransform));
+        _blockerCandidates.Clear();
+        _entityLookup.GetEntitiesIntersecting(
+            origin.MapId,
+            lookupBounds,
+            _blockerCandidates,
+            LookupFlags.Dynamic | LookupFlags.Static | LookupFlags.Approximate);
+
+        foreach (var blockerCandidate in _blockerCandidates)
         {
-            var blocker = blockers.Results[0];
+            if (blockerCandidate == projectile.Owner ||
+                blockerCandidate == target ||
+                !_physicsQuery.TryComp(blockerCandidate, out var blockerBody) ||
+                !_fixturesQuery.TryComp(blockerCandidate, out var blockerFixtures) ||
+                !_transformQuery.TryComp(blockerCandidate, out var blockerXform))
+            {
+                continue;
+            }
+
+            var blockerTransform = _physics.GetPhysicsTransform(blockerCandidate, blockerXform);
+            foreach (var blockerFixture in blockerFixtures.Fixtures.Values)
+            {
+                if (!CanFixturesCollide(
+                        projectile,
+                        projectile.Comp2,
+                        projectileFixture,
+                        blockerCandidate,
+                        blockerBody,
+                        blockerFixture))
+                {
+                    continue;
+                }
+
+                if (!SharedProjectileSystem.TryCastProjectileAgainstShape(
+                        castShape,
+                        projectileAngle,
+                        origin.Position,
+                        translation,
+                        blockerFixture.Shape,
+                        blockerTransform,
+                        out var fraction,
+                        out var contactPoint) ||
+                    closestBlocker is { } current && fraction >= current.Fraction)
+                {
+                    continue;
+                }
+
+                closestBlocker = new RayHit(blockerCandidate, Vector2.Zero, fraction)
+                {
+                    Point = contactPoint,
+                };
+            }
+        }
+
+        if (closestBlocker is { } blocker)
+        {
             hitEntity = blocker.Entity;
             projectileCoordinates = new MapCoordinates(
                 origin.Position + translation * blocker.Fraction,
