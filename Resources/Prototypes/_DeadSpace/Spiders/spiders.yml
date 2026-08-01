@@ -597,9 +597,6 @@
     foodPreferenceWhitelist:
       components:
       - Construction
-    stomachStorageWhitelist:
-      components:
-      - MobState
     chemical: Omnizine
     healRate: 1.0 # Чуть-чуть
     whitelist:
