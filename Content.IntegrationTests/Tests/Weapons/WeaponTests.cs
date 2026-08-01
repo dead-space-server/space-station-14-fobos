@@ -513,7 +513,7 @@ public sealed class WeaponTests : InteractionTest
             IEnumerable<EntityUid> GetMuzzleFlashes()
             {
                 return CEntMan.GetEntities().Where(uid =>
-                    CEntMan.TryGetComponent(uid, out MetaDataComponent? metadata) &&
+                    CEntMan.TryGetComponent(uid, out MetaDataComponent metadata) &&
                     metadata.EntityPrototype?.ID == "MuzzleFlashEffect");
             }
         });
