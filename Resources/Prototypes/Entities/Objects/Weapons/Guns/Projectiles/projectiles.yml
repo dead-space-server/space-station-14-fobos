@@ -42,10 +42,9 @@
     layers:
     - shader: unshaded
       map: ["enum.EffectLayers.Unshaded"]
-      # DS14-start
-      sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/violethit.rsi
-      state: muzzle_beam_violet
-      # DS14-end
+      sprite: Objects/Weapons/Guns/Projectiles/projectiles_tg.rsi
+      state: omnilaser_greyscale
+      color: "#c060ff"
 
 - type: entity
   parent: MuzzleFlashEffect

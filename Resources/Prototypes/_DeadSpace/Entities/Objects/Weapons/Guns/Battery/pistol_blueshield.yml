@@ -61,7 +61,7 @@
     - state: beam_violet
       shader: unshaded
   - type: Ammo
-    muzzleFlash: MuzzleFlashEffectVioletLaser
+    muzzleFlash: MuzzleFlashEffectHeavyLaser
   - type: Projectile
     damage:
       types:
