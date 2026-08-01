@@ -216,7 +216,6 @@
     canTargetSelf: false
     whitelist:
       components:
-      - MobState
       - Door
       tags:
       - Wall
