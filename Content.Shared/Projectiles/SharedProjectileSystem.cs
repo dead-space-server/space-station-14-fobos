@@ -10,6 +10,7 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Physics;
+using Robust.Shared.Physics.Collision.Shapes;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
@@ -218,6 +219,23 @@ public abstract partial class SharedProjectileSystem : EntitySystem
 
         component.Shooter = shooterId;
         Dirty(id, component);
+    }
+
+    /// <summary>
+    /// Converts fixture shapes unsupported by the physics shape-caster into an equivalent polygon.
+    /// </summary>
+    protected static IPhysShape GetProjectileCastShape(IPhysShape shape)
+    {
+        if (shape is PhysShapeCircle or PolygonShape)
+            return shape;
+
+        var bounds = shape.ComputeAABB(Robust.Shared.Physics.Transform.Empty, 0);
+        for (var i = 1; i < shape.ChildCount; i++)
+            bounds = bounds.Union(shape.ComputeAABB(Robust.Shared.Physics.Transform.Empty, i));
+
+        var polygon = new PolygonShape();
+        polygon.SetAsBox(bounds);
+        return polygon;
     }
 
     [Serializable, NetSerializable]

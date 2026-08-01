@@ -73,6 +73,9 @@ public sealed class ProjectilePredictionSystem : EntitySystem
         Subs.CVar(_config, CCCCVars.ProjectilePredictionCoordinateDeviation, value => _coordinateDeviation = value, true);
         Subs.CVar(_config, CCCCVars.ProjectilePredictionLowestCoordinateDeviation, value => _lowestCoordinateDeviation = value, true);
         Subs.CVar(_config, CCCCVars.ProjectilePredictionAabbEnlargement, value => _aabbEnlargement = value, true);
+
+        // Process client hit reports before authoritative physics can resolve the same collision.
+        UpdatesBefore.Add(typeof(SharedPhysicsSystem));
     }
 
     private void OnRoundRestartCleanup(RoundRestartCleanupEvent ev)
@@ -230,9 +233,11 @@ public sealed class ProjectilePredictionSystem : EntitySystem
         MapCoordinates reportedProjectileCoordinates,
         MapCoordinates reportedContactCoordinates,
         out EntityUid hitEntity,
+        out MapCoordinates projectileCoordinates,
         out MapCoordinates hitCoordinates)
     {
         hitEntity = default;
+        projectileCoordinates = default;
         hitCoordinates = default;
 
         var origin = projectile.Comp1.Origin;
@@ -352,11 +357,15 @@ public sealed class ProjectilePredictionSystem : EntitySystem
         {
             var blocker = blockers.Results[0];
             hitEntity = blocker.Entity;
+            projectileCoordinates = new MapCoordinates(
+                origin.Position + translation * blocker.Fraction,
+                origin.MapId);
             hitCoordinates = new MapCoordinates(blocker.Point, origin.MapId);
             return true;
         }
 
         hitEntity = target;
+        projectileCoordinates = reportedProjectileCoordinates;
         hitCoordinates = reportedContactCoordinates;
         return true;
     }
@@ -519,7 +528,6 @@ public sealed class ProjectilePredictionSystem : EntitySystem
         if (!TryComp<ActorComponent>(predicted.Shooter, out var shooter) || shooter.PlayerSession.UserId != player.UserId)
             return;
 
-        predicted.Hit = true;
         var accepted = false;
         foreach (var (
                      netEntity,
@@ -561,6 +569,7 @@ public sealed class ProjectilePredictionSystem : EntitySystem
                     projectileCoordinates,
                     contactCoordinates,
                     out var validatedTarget,
+                    out var validatedProjectile,
                     out var validatedContact))
             {
                 if (_logHits)
@@ -575,7 +584,11 @@ public sealed class ProjectilePredictionSystem : EntitySystem
             if (corrected)
                 _projectiles.ReconcilePredictedProjectile(projectile);
 
-            predicted.ProcessedTargets.Add(validatedTarget);
+            predicted.Hit = true;
+            // Trigger-on-hit effects (portals, spawned effects, grenades, etc.) read the projectile's
+            // transform. Move it to the validated collision pose before raising ProjectileHitEvent so
+            // those effects cannot appear at the latency-delayed authoritative position.
+            _transform.SetMapCoordinates(projectile, validatedProjectile);
             _projectiles.ProjectileCollide(
                 (projectile, projectileComponent, projectilePhysics),
                 validatedTarget,
