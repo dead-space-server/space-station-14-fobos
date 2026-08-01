@@ -61,9 +61,7 @@ public sealed partial class ResearchSystem
 
     private void OnClientMapInit(EntityUid uid, ResearchClientComponent component, MapInitEvent args)
     {
-        // DS14-start
-        TryConnectToAvailableServer((uid, component));
-        // DS14-end
+        TryConnectToAvailableServer((uid, component)); // DS14
     }
 
     // DS14-start
