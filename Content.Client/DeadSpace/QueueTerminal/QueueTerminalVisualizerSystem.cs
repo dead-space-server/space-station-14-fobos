@@ -1,3 +1,5 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Content.Shared.DeadSpace.QueueTerminal;
 using Robust.Client.GameObjects;
 
@@ -41,7 +43,7 @@ public static class QueueDigitVisuals
             return;
         }
 
-        var clamped = Math.Clamp(number, 0, 999);
+        var clamped = Math.Clamp(number, 0, QueueTerminalComponent.MaxNumber);
         var hundreds = clamped / 100;
         var tens = clamped / 10 % 10;
         var ones = clamped % 10;

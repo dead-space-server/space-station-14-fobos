@@ -1,4 +1,7 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Content.Server.Chat.Systems;
+using Content.Server.Power.Components;
 using Content.Shared.Chat;
 using Content.Shared.DeadSpace.QueueTerminal;
 using Content.Shared.DeviceLinking.Events;
@@ -49,6 +52,13 @@ public sealed class QueueTerminalSystem : EntitySystem
         if (args.Handled)
             return;
 
+        if (!IsPowered(uid))
+        {
+            _popup.PopupEntity(Loc.GetString("queue-terminal-no-power"), uid, args.User);
+            args.Handled = true;
+            return;
+        }
+
         if (!TryComp<HandsComponent>(args.User, out var hands))
             return;
 
@@ -59,16 +69,22 @@ public sealed class QueueTerminalSystem : EntitySystem
             return;
         }
 
+        if (!TryTakeNextNumber((uid, comp), out var number))
+        {
+            _popup.PopupEntity(Loc.GetString("queue-terminal-full"), uid, args.User);
+            args.Handled = true;
+            return;
+        }
+
         var ticket = Spawn(comp.TicketPrototype, Transform(uid).Coordinates);
         var ticketComp = EnsureComp<QueueTicketComponent>(ticket);
-        ticketComp.Number = comp.NextNumber;
+        ticketComp.Number = number;
         ticketComp.Terminal = uid;
-        ticketComp.Owner = args.User;
+        ticketComp.TicketOwner = args.User;
         Dirty(ticket, ticketComp);
 
         UpdateTicketAppearance(ticket, ticketComp);
 
-        comp.NextNumber++;
         comp.PendingTickets.Enqueue(ticket);
         comp.IssuedTo.Add(args.User);
 
@@ -88,6 +104,9 @@ public sealed class QueueTerminalSystem : EntitySystem
     private void OnSignalReceived(Entity<QueueTerminalComponent> ent, ref SignalReceivedEvent args)
     {
         if (args.Port != ent.Comp.CallPort)
+            return;
+
+        if (!IsPowered(ent))
             return;
 
         var now = _timing.CurTime;
@@ -180,7 +199,7 @@ public sealed class QueueTerminalSystem : EntitySystem
         if (ent.Comp.Terminal is not { } terminal || !TryComp<QueueTerminalComponent>(terminal, out var termComp))
             return;
 
-        if (ent.Comp.Owner is { } owner)
+        if (ent.Comp.TicketOwner is { } owner)
             termComp.IssuedTo.Remove(owner);
 
         if (termComp.CalledTicket == ent.Owner)
@@ -205,5 +224,46 @@ public sealed class QueueTerminalSystem : EntitySystem
     private static string FormatNumber(int number)
     {
         return number.ToString("D3");
+    }
+
+    private bool IsPowered(EntityUid uid)
+    {
+        return !TryComp<ApcPowerReceiverComponent>(uid, out var receiver) || receiver.Powered;
+    }
+
+    private bool TryTakeNextNumber(Entity<QueueTerminalComponent> ent, out int number)
+    {
+        var reserved = new HashSet<int>();
+
+        if (ent.Comp.CalledNumber is >= 1 and <= QueueTerminalComponent.MaxNumber)
+            reserved.Add(ent.Comp.CalledNumber);
+
+        foreach (var ticket in ent.Comp.PendingTickets)
+        {
+            if (TryComp<QueueTicketComponent>(ticket, out var ticketComp) &&
+                ticketComp.Number is >= 1 and <= QueueTerminalComponent.MaxNumber)
+            {
+                reserved.Add(ticketComp.Number);
+            }
+        }
+
+        var candidate = ent.Comp.NextNumber;
+        if (candidate is < 1 or > QueueTerminalComponent.MaxNumber)
+            candidate = 1;
+
+        for (var i = 0; i < QueueTerminalComponent.MaxNumber; i++)
+        {
+            if (!reserved.Contains(candidate))
+            {
+                number = candidate;
+                ent.Comp.NextNumber = candidate == QueueTerminalComponent.MaxNumber ? 1 : candidate + 1;
+                return true;
+            }
+
+            candidate = candidate == QueueTerminalComponent.MaxNumber ? 1 : candidate + 1;
+        }
+
+        number = default;
+        return false;
     }
 }

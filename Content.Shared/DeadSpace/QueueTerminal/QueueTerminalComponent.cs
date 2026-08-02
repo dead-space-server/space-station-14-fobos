@@ -1,3 +1,5 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Content.Shared.DeviceLinking;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
@@ -8,7 +10,9 @@ namespace Content.Shared.DeadSpace.QueueTerminal;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class QueueTerminalComponent : Component
 {
-    [DataField, AutoNetworkedField]
+    public const int MaxNumber = 999;
+
+    [DataField]
     public int NextNumber = 1;
     [DataField, AutoNetworkedField]
     public int CalledNumber;
