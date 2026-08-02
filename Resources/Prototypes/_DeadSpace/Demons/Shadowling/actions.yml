@@ -214,7 +214,7 @@
   components:
   - type: Action
     icon: _DeadSpace/Demons/ability_icons/shadowling_mindshield_break_action.png
-    useDelay: 240
+    useDelay: 180
     itemIconStyle: NoItem
   - type: TargetAction
     range: 1
