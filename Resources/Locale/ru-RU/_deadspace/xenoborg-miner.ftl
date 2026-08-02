@@ -36,6 +36,8 @@ ent-XenoborgEnergySwordBlue = синий энергомеч ксеноборга
 
 ent-RedHeavyLaserXenoborg = тяжёлый лазерный заряд ксеноборга
 
+xenoborg-type-miner = [color= #d6b328]ксеноборги-шахтёры[/color]
+
 xenoborg-jaunter-no-destination = Рядом с ядром материнского корабля нет безопасного места.
 xenoborg-jaunter-activate = Джаунтер возвращает вас к материнскому кораблю!
 xenoborg-miner-module-exclusive = Сначала извлеките { $existing }.

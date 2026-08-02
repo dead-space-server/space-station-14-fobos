@@ -38,6 +38,7 @@
     rechargeCooldown: 0.1
   - type: UseDelay
     delay: 3
+  - type: UseDelayOnShoot
   - type: XenoborgPortalGun
 
 - type: entity

@@ -7,23 +7,32 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using Content.Server.Antag.Components;
-using Content.Server.Atmos.EntitySystems;
+using Content.Server.DeadSpace.GPS.Components;
 using Content.Server.DeadSpace.Lavaland.Components;
 using Content.Server.DeadSpace.Xenoborgs.Components;
+using Content.Server.Physics.Controllers;
+using Content.Server.Shuttles.Components;
 using Content.Server.Tiles;
-using Content.Shared.Atmos;
+using Content.Shared.Actions;
 using Content.Shared.Chasm;
 using Content.Shared.Containers;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
+using Content.Shared.DeadSpace.Xenoborgs;
+using Content.Shared.DeviceLinking;
 using Content.Shared.FixedPoint;
+using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Maps;
+using Content.Shared.Movement.Components;
 using Content.Shared.Physics;
+using Content.Shared.Power;
 using Content.Shared.Power.Components;
 using Content.Shared.Projectiles;
 using Content.Shared.Research.Prototypes;
 using Content.Shared.Silicons.Borgs.Components;
+using Content.Shared.Silicons.StationAi;
+using Content.Shared.Stacks;
 using Content.Shared.Stunnable;
 using Content.Shared.Tag;
 using Content.Shared.Timing;
@@ -32,23 +41,28 @@ using Content.Shared.Weapons.Melee.Components;
 using Content.Shared.Weapons.Melee.EnergySword;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
+using Content.Shared.Weapons.Ranged.Systems;
 using Content.Shared.Wieldable.Components;
 using Robust.Shared.ContentPack;
+using Robust.Shared.Containers;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
+using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
+using Robust.Shared.Physics.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
+using Robust.UnitTesting;
 
 namespace Content.IntegrationTests.Tests.DeadSpace.Xenoborgs;
 
 [TestFixture]
-public sealed class XenoborgMinerTest
+public sealed class XenoborgIntegrationTest
 {
-    private static readonly Vector2 CoreMarker = new(0.5f, 0.5f);
+    private static readonly Vector2 CoreMarker = new(0.5f, 3.5f);
 
     private static readonly Vector2[] XenoborgMarkers =
     [
@@ -69,7 +83,7 @@ public sealed class XenoborgMinerTest
     ];
 
     [Test]
-    public async Task MothershipAndMinerContract()
+    public async Task MothershipMapAndRoundstartConfiguration()
     {
         await using var pair = await PoolManager.GetServerClient(new PoolSettings
         {
@@ -81,29 +95,200 @@ public sealed class XenoborgMinerTest
         var entMan = server.EntMan;
         var protoMan = server.ProtoMan;
         var componentFactory = server.ResolveDependency<IComponentFactory>();
-        var resourceManager = server.ResolveDependency<IResourceManager>();
         var mapManager = server.ResolveDependency<IMapManager>();
-        var mapSystem = server.System<SharedMapSystem>();
-        var mapLoader = server.System<MapLoaderSystem>();
         var turf = server.System<TurfSystem>();
-        var atmosphere = server.System<AtmosphereSystem>();
+        var (mapId, gridUid) = await LoadMothershipGrid(server, assertSerialization: true);
+
+        await server.WaitAssertion(() =>
+        {
+            Assert.That(mapManager.GetAllGrids(mapId).Count(), Is.EqualTo(1));
+            Assert.That(
+                entMan.GetComponent<ShuttleComponent>(gridUid).FTLCooldownOverride,
+                Is.EqualTo(TimeSpan.FromMinutes(3)));
+            AssertMapMarkers(entMan, turf, gridUid);
+            AssertMapLinks(entMan, gridUid);
+            AssertMothershipResources(entMan, gridUid);
+            AssertRoundStartRules(protoMan, componentFactory);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task MinerModulesAndTeleportation()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Connected = false,
+            Dirty = true,
+        });
+
+        var server = pair.Server;
+        var entMan = server.EntMan;
+        var protoMan = server.ProtoMan;
+        var componentFactory = server.ResolveDependency<IComponentFactory>();
+        var mapSystem = server.System<SharedMapSystem>();
+        var turf = server.System<TurfSystem>();
         var transform = server.System<SharedTransformSystem>();
         var useDelay = server.System<UseDelaySystem>();
-        var mapPath = new ResPath("/Maps/Shuttles/mothership.yml");
+        var (_, gridUid) = await LoadMothershipGrid(server);
 
+        await server.WaitAssertion(() =>
+        {
+            AssertMinerPrototypes(protoMan, componentFactory);
+            AssertUpgradePrototypes(protoMan, componentFactory);
+            AssertRecipes(protoMan);
+            AssertJaunterBranches(entMan, transform, useDelay, gridUid);
+            AssertPortalGunBranches(entMan, mapSystem, turf, useDelay, gridUid);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task MothershipCoreCollisionAndEyeMovement()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Connected = false,
+            Dirty = true,
+        });
+
+        var server = pair.Server;
+        var entMan = server.EntMan;
+        var physics = server.System<SharedPhysicsSystem>();
+        var mover = server.System<MoverController>();
+        var transform = server.System<SharedTransformSystem>();
+        var (_, gridUid) = await LoadMothershipGrid(server);
+
+        (EntityUid Core, EntityUid Eye) eyeState = default;
+        await server.WaitAssertion(() =>
+        {
+            eyeState = OpenMothershipEye(entMan, physics, transform, gridUid);
+        });
+
+        EntityUid collisionXenoborg = default;
+        await server.WaitPost(() =>
+        {
+            collisionXenoborg = entMan.SpawnEntity(
+                "XenoborgEngi",
+                new EntityCoordinates(gridUid, new Vector2(0.5f, 2.5f)));
+            var input = entMan.GetComponent<InputMoverComponent>(collisionXenoborg);
+            mover.SetVelocityDirection((collisionXenoborg, input), Direction.North, ushort.MaxValue, true);
+
+            var eyeInput = entMan.GetComponent<InputMoverComponent>(eyeState.Eye);
+            mover.SetVelocityDirection((eyeState.Eye, eyeInput), Direction.East, ushort.MaxValue, true);
+        });
+
+        await server.WaitRunTicks(30);
+        await server.WaitAssertion(() =>
+        {
+            var input = entMan.GetComponent<InputMoverComponent>(collisionXenoborg);
+            mover.SetVelocityDirection((collisionXenoborg, input), Direction.North, ushort.MaxValue, false);
+            var eyeInput = entMan.GetComponent<InputMoverComponent>(eyeState.Eye);
+            mover.SetVelocityDirection((eyeState.Eye, eyeInput), Direction.East, ushort.MaxValue, false);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(
+                    entMan.GetComponent<TransformComponent>(collisionXenoborg).LocalPosition.Y,
+                    Is.LessThanOrEqualTo(CoreMarker.Y - 0.79f),
+                    "A moving xenoborg passed through the mothership core collider.");
+                Assert.That(
+                    entMan.GetComponent<TransformComponent>(eyeState.Eye).LocalPosition,
+                    Is.Not.EqualTo(XenoborgMarkers[0]),
+                    "The projected mothership eye did not move after receiving movement input.");
+                Assert.That(
+                    entMan.GetComponent<TransformComponent>(eyeState.Core).LocalPosition,
+                    Is.EqualTo(CoreMarker));
+            });
+
+            CloseMothershipEye(entMan, eyeState.Core, eyeState.Eye);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task MothershipEyeInteractionsStayOnMothershipGrid()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Connected = false,
+            Dirty = true,
+        });
+
+        var server = pair.Server;
+        var entMan = server.EntMan;
+        var mapManager = server.ResolveDependency<IMapManager>();
+        var interaction = server.System<SharedInteractionSystem>();
+        var physics = server.System<SharedPhysicsSystem>();
+        var transform = server.System<SharedTransformSystem>();
+        var (mapId, gridUid) = await LoadMothershipGrid(server);
+
+        (EntityUid Core, EntityUid Eye) eyeState = default;
+        await server.WaitAssertion(() =>
+        {
+            eyeState = OpenMothershipEye(entMan, physics, transform, gridUid);
+        });
+
+        await server.WaitAssertion(() =>
+        {
+            var airlock = FindMapEntity(
+                entMan,
+                gridUid,
+                "AirlockXenoborgLocked",
+                new Vector2(7.5f, 9.5f));
+            var button = FindMapEntity(
+                entMan,
+                gridUid,
+                "LockableButtonLawyer",
+                new Vector2(9.5f, 8.5f));
+
+            transform.SetCoordinates(eyeState.Eye, entMan.GetComponent<TransformComponent>(airlock).Coordinates);
+            Assert.That(interaction.InteractionActivate(eyeState.Core, airlock), Is.True);
+
+            transform.SetCoordinates(eyeState.Eye, entMan.GetComponent<TransformComponent>(button).Coordinates);
+            Assert.That(interaction.InteractionActivate(eyeState.Core, button), Is.True);
+
+            var foreignGrid = mapManager.CreateGrid(mapId);
+            var foreignButton = entMan.SpawnEntity(
+                "SignalButton",
+                new EntityCoordinates(foreignGrid.Owner, Vector2.Zero));
+            Assert.Multiple(() =>
+            {
+                Assert.That(interaction.InRangeUnobstructed(eyeState.Core, foreignButton), Is.False);
+                Assert.That(interaction.InteractionActivate(eyeState.Core, foreignButton), Is.False);
+            });
+
+            CloseMothershipEye(entMan, eyeState.Core, eyeState.Eye);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    private static async Task<(MapId MapId, EntityUid GridUid)> LoadMothershipGrid(
+        RobustIntegrationTest.ServerIntegrationInstance server,
+        bool assertSerialization = false)
+    {
+        var resourceManager = server.ResolveDependency<IResourceManager>();
+        var mapSystem = server.System<SharedMapSystem>();
+        var mapLoader = server.System<MapLoaderSystem>();
+        var mapPath = new ResPath("/Maps/Shuttles/mothership.yml");
         EntityUid gridUid = default;
         MapId mapId = default;
 
         await server.WaitPost(() =>
         {
-            using (var reader = new StreamReader(resourceManager.ContentFileRead(mapPath)))
+            if (assertSerialization)
             {
+                using var reader = new StreamReader(resourceManager.ContentFileRead(mapPath));
                 var yaml = reader.ReadToEnd();
                 Assert.Multiple(() =>
                 {
                     Assert.That(yaml, Does.Match(@"(?m)^  format: 7\r?$"));
                     Assert.That(yaml, Does.Match(@"(?m)^  category: Grid\r?$"));
-                    Assert.That(yaml, Does.Match(@"(?m)^  entityCount: 1210\r?$"));
+                    Assert.That(yaml, Does.Match(@"(?m)^  entityCount: 1212\r?$"));
                     Assert.That(yaml, Does.Match(@"(?ms)^maps: \[\]\r?\ngrids:\r?\n- 1\r?$"));
                 });
             }
@@ -114,36 +299,14 @@ public sealed class XenoborgMinerTest
             gridUid = loadedGrid!.Value.Owner;
         });
 
-        await server.WaitAssertion(() =>
-        {
-            Assert.That(mapManager.GetAllGrids(mapId).Count(), Is.EqualTo(1));
-            AssertMapMarkers(entMan, turf, gridUid);
-            AssertRoundStartRules(protoMan, componentFactory);
-            AssertMinerPrototypes(protoMan, componentFactory);
-            AssertUpgradePrototypes(protoMan, componentFactory);
-            AssertRecipes(protoMan);
-        });
-
-        await server.WaitAssertion(() =>
-        {
-            AssertPortalGunBranches(
-                entMan,
-                mapSystem,
-                turf,
-                atmosphere,
-                useDelay,
-                gridUid);
-
-            AssertJaunterBranches(entMan, transform, useDelay, gridUid);
-        });
-
-        await pair.CleanReturnAsync();
+        return (mapId, gridUid);
     }
 
     private static void AssertMapMarkers(IEntityManager entMan, TurfSystem turf, EntityUid gridUid)
     {
         var coreMarkers = new List<Vector2>();
         var xenoborgMarkers = new List<Vector2>();
+        var mappedCores = new List<Vector2>();
         var query = entMan.AllEntityQueryEnumerator<TransformComponent, MetaDataComponent>();
         while (query.MoveNext(out var xform, out var metadata))
         {
@@ -158,6 +321,9 @@ public sealed class XenoborgMinerTest
                 case "SpawnPointXenoborg":
                     xenoborgMarkers.Add(xform.LocalPosition);
                     break;
+                case "MothershipCore":
+                    mappedCores.Add(xform.LocalPosition);
+                    break;
             }
         }
 
@@ -165,6 +331,7 @@ public sealed class XenoborgMinerTest
         {
             Assert.That(coreMarkers, Is.EquivalentTo(new[] { CoreMarker }));
             Assert.That(xenoborgMarkers, Is.EquivalentTo(XenoborgMarkers));
+            Assert.That(mappedCores, Is.Empty);
         });
 
         foreach (var position in XenoborgMarkers.Append(CoreMarker))
@@ -176,6 +343,86 @@ public sealed class XenoborgMinerTest
                 Is.False,
                 $"Marker at {position} is blocked.");
         }
+    }
+
+    private static void AssertMapLinks(IEntityManager entMan, EntityUid gridUid)
+    {
+        var eastAirlock = FindMapEntity(entMan, gridUid, "AirlockXenoborgLocked", new Vector2(7.5f, 9.5f));
+        var eastBlastDoor = FindMapEntity(entMan, gridUid, "BlastDoorXenoborg", new Vector2(8.5f, 9.5f));
+        var westBlastDoor = FindMapEntity(entMan, gridUid, "BlastDoorXenoborg", new Vector2(-7.5f, 9.5f));
+        var eastButton = FindMapEntity(entMan, gridUid, "LockableButtonLawyer", new Vector2(9.5f, 8.5f));
+        var westButton = FindMapEntity(entMan, gridUid, "LockableButtonLawyer", new Vector2(-8.5f, 8.5f));
+
+        Assert.Multiple(() =>
+        {
+            AssertDeviceLink(entMan, eastAirlock, eastBlastDoor, "DoorStatus", "Toggle");
+            AssertDeviceLink(entMan, eastButton, eastBlastDoor, "Pressed", "Toggle");
+            AssertDeviceLink(entMan, westButton, westBlastDoor, "Pressed", "Toggle");
+            Assert.That(entMan.HasComponent<DeviceLinkSinkComponent>(eastBlastDoor), Is.True);
+            Assert.That(entMan.HasComponent<DeviceLinkSinkComponent>(westBlastDoor), Is.True);
+        });
+    }
+
+    private static void AssertMothershipResources(IEntityManager entMan, EntityUid gridUid)
+    {
+        var crate = FindMapEntity(
+            entMan,
+            gridUid,
+            "CrateCybersunSecure",
+            new Vector2(-0.5f, 4.5f));
+        var containers = entMan.GetComponent<ContainerManagerComponent>(crate);
+        Assert.That(containers.Containers.TryGetValue("entity_storage", out var storage), Is.True);
+
+        EntityUid FindStored(string prototype)
+        {
+            return storage!.ContainedEntities.Single(uid =>
+                entMan.GetComponent<MetaDataComponent>(uid).EntityPrototype?.ID == prototype);
+        }
+
+        var plasma = FindStored("SheetPlasma1");
+        var diamond = FindStored("MaterialDiamond1");
+        Assert.Multiple(() =>
+        {
+            Assert.That(entMan.GetComponent<StackComponent>(plasma).Count, Is.EqualTo(20));
+            Assert.That(entMan.GetComponent<StackComponent>(diamond).Count, Is.EqualTo(1));
+        });
+    }
+
+    private static EntityUid FindMapEntity(
+        IEntityManager entMan,
+        EntityUid gridUid,
+        string prototype,
+        Vector2 position)
+    {
+        var found = new List<EntityUid>();
+        var query = entMan.AllEntityQueryEnumerator<TransformComponent, MetaDataComponent>();
+        while (query.MoveNext(out var uid, out var xform, out var metadata))
+        {
+            if (xform.GridUid == gridUid &&
+                xform.LocalPosition == position &&
+                metadata.EntityPrototype?.ID == prototype)
+            {
+                found.Add(uid);
+            }
+        }
+
+        Assert.That(found, Has.Count.EqualTo(1), $"Expected one {prototype} at {position}.");
+        return found[0];
+    }
+
+    private static void AssertDeviceLink(
+        IEntityManager entMan,
+        EntityUid sourceUid,
+        EntityUid sinkUid,
+        string sourcePort,
+        string sinkPort)
+    {
+        Assert.That(entMan.TryGetComponent<DeviceLinkSourceComponent>(sourceUid, out var source), Is.True);
+        var linkedPorts = source!.LinkedPorts;
+        Assert.That(linkedPorts.TryGetValue(sinkUid, out var links), Is.True);
+        Assert.That(
+            links!.Any(link => link.Source.ToString() == sourcePort && link.Sink.ToString() == sinkPort),
+            Is.True);
     }
 
     private static void AssertRoundStartRules(IPrototypeManager protoMan, IComponentFactory componentFactory)
@@ -197,10 +444,20 @@ public sealed class XenoborgMinerTest
             Assert.That(prototypes.Distinct().Count(), Is.EqualTo(5));
 
             Assert.That(rule.TryGetComponent<AntagSelectionComponent>(out var selection, componentFactory), Is.True);
-            var definition = selection!.Definitions.Single(definition =>
+            var coreDefinition = selection!.Definitions.Single(definition =>
+                definition.PrefRoles.Any(role => role.ToString() == "MothershipCore"));
+            var definition = selection.Definitions.Single(definition =>
                 definition.PrefRoles.Any(role => role.ToString() == "Xenoborg"));
             Assert.Multiple(() =>
             {
+                Assert.That(
+                    coreDefinition.FallbackRoles.Select(role => role.ToString()),
+                    Is.EqualTo(new[] { "Xenoborg" }));
+                Assert.That(coreDefinition.SpawnerPrototype?.ToString(), Is.EqualTo("SpawnPointGhostRoleMothershipCore"));
+                Assert.That(
+                    definition.FallbackRoles.Select(role => role.ToString()),
+                    Is.EqualTo(new[] { "MothershipCore" }));
+                Assert.That(definition.SpawnerPrototype?.ToString(), Is.EqualTo("SpawnPointGhostRoleXenoborg"));
                 Assert.That(definition.Min, Is.EqualTo(5));
                 Assert.That(definition.Max, Is.EqualTo(5));
             });
@@ -211,6 +468,39 @@ public sealed class XenoborgMinerTest
 
     private static void AssertMinerPrototypes(IPrototypeManager protoMan, IComponentFactory componentFactory)
     {
+        var core = protoMan.Index<EntityPrototype>("MothershipCore");
+        Assert.That(
+            core.TryGetComponent<PowerMonitoringCableNetworksComponent>(out _, componentFactory),
+            Is.False);
+        Assert.That(core.TryGetComponent<ActionGrantComponent>(out var actionGrant, componentFactory), Is.True);
+        Assert.That(
+            actionGrant!.Actions.Select(action => action.ToString()),
+            Does.Contain("ActionMothershipEye"));
+        Assert.That(protoMan.TryIndex<EntityPrototype>("XenoborgMothershipEye", out _), Is.True);
+
+        var standardGps = GetComponent<LavalandGpsTrackerComponent>(
+            protoMan,
+            componentFactory,
+            "HandheldGPSBasic");
+        var xenoborgGps = GetComponent<LavalandGpsTrackerComponent>(
+            protoMan,
+            componentFactory,
+            "HandheldGPSXenoborg");
+        Assert.Multiple(() =>
+        {
+            Assert.That(standardGps.Enabled, Is.True);
+            Assert.That(xenoborgGps.Enabled, Is.False);
+        });
+
+        foreach (var moduleId in new[] { "XenoborgModuleBasic", "XenoborgModuleSpaceMovement" })
+        {
+            var hands = GetComponent<ItemBorgModuleComponent>(protoMan, componentFactory, moduleId)
+                .Hands
+                .Select(hand => hand.Item?.ToString());
+            Assert.That(hands, Does.Contain("HandheldGPSXenoborg"));
+            Assert.That(hands, Does.Not.Contain("HandheldGPSBasic"));
+        }
+
         var miner = protoMan.Index<EntityPrototype>("XenoborgMiner");
         Assert.That(miner.TryGetComponent<BorgChassisComponent>(out var chassis, componentFactory), Is.True);
         Assert.That(miner.TryGetComponent<ContainerFillComponent>(out var fill, componentFactory), Is.True);
@@ -325,6 +615,10 @@ public sealed class XenoborgMinerTest
                 GetComponent<ProjectileComponent>(protoMan, componentFactory, "XenoborgPortalBolt")
                     .Damage.GetTotal(),
                 Is.EqualTo(FixedPoint2.Zero));
+            Assert.That(
+                protoMan.Index<EntityPrototype>("WeaponXenoborgPortalGun")
+                    .TryGetComponent<UseDelayOnShootComponent>(out _, componentFactory),
+                Is.True);
         });
     }
 
@@ -374,11 +668,35 @@ public sealed class XenoborgMinerTest
         IEntityManager entMan,
         SharedMapSystem mapSystem,
         TurfSystem turf,
-        AtmosphereSystem atmosphere,
         UseDelaySystem useDelay,
         EntityUid gridUid)
     {
         var grid = entMan.GetComponent<MapGridComponent>(gridUid);
+
+        var gunUser = entMan.SpawnEntity(
+            "XenoborgMiner",
+            new EntityCoordinates(gridUid, XenoborgMarkers[0]));
+        var cooldownGun = entMan.SpawnEntity(
+            "WeaponXenoborgPortalGun",
+            entMan.GetComponent<TransformComponent>(gunUser).Coordinates);
+        var cooldownGunComponent = entMan.GetComponent<GunComponent>(cooldownGun);
+        var firstAttempt = new ShotAttemptedEvent
+        {
+            User = gunUser,
+            Used = (cooldownGun, cooldownGunComponent),
+        };
+        entMan.EventBus.RaiseLocalEvent(cooldownGun, ref firstAttempt);
+        Assert.That(firstAttempt.Cancelled, Is.False);
+
+        var shot = new GunShotEvent(gunUser, []);
+        entMan.EventBus.RaiseLocalEvent(cooldownGun, ref shot);
+        var repeatedAttempt = new ShotAttemptedEvent
+        {
+            User = gunUser,
+            Used = (cooldownGun, cooldownGunComponent),
+        };
+        entMan.EventBus.RaiseLocalEvent(cooldownGun, ref repeatedAttempt);
+        Assert.That(repeatedAttempt.Cancelled, Is.True);
 
         TimeSpan FireAt(EntityUid target)
         {
@@ -398,15 +716,32 @@ public sealed class XenoborgMinerTest
             return info!.Length;
         }
 
+        var goliath = entMan.SpawnEntity(
+            "MobGoliath",
+            new EntityCoordinates(gridUid, XenoborgMarkers[0]));
+        var goliathOrigin = entMan.GetComponent<TransformComponent>(goliath).LocalPosition;
+        Assert.That(FireAt(goliath).TotalSeconds, Is.EqualTo(120));
+        var goliathXform = entMan.GetComponent<TransformComponent>(goliath);
+        Assert.Multiple(() =>
+        {
+            Assert.That(goliathXform.GridUid, Is.EqualTo(gridUid));
+            Assert.That(goliathXform.LocalPosition, Is.Not.EqualTo(goliathOrigin));
+            Assert.That(turf.TryGetTileRef(goliathXform.Coordinates, out var tile), Is.True);
+            Assert.That(turf.IsSpace(tile!.Value), Is.False);
+            Assert.That(
+                turf.IsTileBlocked(
+                    tile.Value,
+                    (CollisionGroup) entMan.GetComponent<PhysicsComponent>(goliath).CollisionMask),
+                Is.False);
+        });
+
         var liveTarget = entMan.SpawnEntity(
             "MobHuman",
             new EntityCoordinates(gridUid, XenoborgMarkers[0]));
-        SeedSafeAtmosphere(entMan, mapSystem, turf, atmosphere, gridUid, grid, liveTarget);
         var safeDestinations = GetSafeDestinations(
             entMan,
             mapSystem,
             turf,
-            atmosphere,
             gridUid,
             grid,
             liveTarget);
@@ -436,50 +771,97 @@ public sealed class XenoborgMinerTest
         Assert.That(
             entMan.GetComponent<TransformComponent>(nonLivingTarget).LocalPosition,
             Is.EqualTo(nonLivingOrigin));
+
+        var bossTarget = entMan.SpawnEntity(
+            "MobGoliath",
+            new EntityCoordinates(gridUid, XenoborgMarkers[3]));
+        entMan.EnsureComponent<LavalandBossComponent>(bossTarget);
+        var bossOrigin = entMan.GetComponent<TransformComponent>(bossTarget).Coordinates;
+        Assert.That(FireAt(bossTarget).TotalSeconds, Is.EqualTo(3));
+        Assert.That(
+            entMan.GetComponent<TransformComponent>(bossTarget).Coordinates,
+            Is.EqualTo(bossOrigin));
     }
 
-    private static void SeedSafeAtmosphere(
+    private static (EntityUid Core, EntityUid Eye) OpenMothershipEye(
         IEntityManager entMan,
-        SharedMapSystem mapSystem,
-        TurfSystem turf,
-        AtmosphereSystem atmosphere,
-        EntityUid gridUid,
-        MapGridComponent grid,
-        EntityUid target)
+        SharedPhysicsSystem physics,
+        SharedTransformSystem transform,
+        EntityUid gridUid)
     {
-        var xform = entMan.GetComponent<TransformComponent>(target);
-        var physics = entMan.GetComponent<PhysicsComponent>(target);
-        Assert.That(xform.MapUid, Is.Not.Null);
-
-        foreach (var tile in mapSystem.GetAllTiles(gridUid, grid))
+        var core = entMan.SpawnEntity("MothershipCore", new EntityCoordinates(gridUid, CoreMarker));
+        var xenoborg = entMan.SpawnEntity("XenoborgEngi", new EntityCoordinates(gridUid, XenoborgMarkers[0]));
+        Assert.Multiple(() =>
         {
-            if (tile.Tile.IsEmpty ||
-                turf.IsSpace(tile) ||
-                turf.IsTileBlocked(tile, (CollisionGroup) physics.CollisionMask))
-            {
-                continue;
-            }
+            Assert.That(entMan.GetComponent<PhysicsComponent>(core).BodyType, Is.EqualTo(BodyType.Static));
+            Assert.That(entMan.GetComponent<PhysicsComponent>(core).CanCollide, Is.True);
+            Assert.That(physics.IsCurrentlyHardCollidable(core, xenoborg), Is.True);
+            Assert.That(entMan.HasComponent<StationAiHeldComponent>(core), Is.True);
+            Assert.That(entMan.HasComponent<StationAiOverlayComponent>(core), Is.False);
+        });
 
-            var mixture = atmosphere.GetTileMixture(gridUid, xform.MapUid!.Value, tile.GridIndices, true);
-            if (mixture == null || mixture.Immutable)
-                continue;
+        var open = new ToggleMothershipEyeEvent { Performer = core };
+        entMan.EventBus.RaiseLocalEvent(core, open);
+        Assert.That(open.Handled, Is.True);
 
-            for (var gas = 0; gas < Atmospherics.AdjustedNumberOfGases; gas++)
-                mixture.SetMoles(gas, 0f);
-
-            var standardMoles = Atmospherics.OneAtmosphere * mixture.Volume /
-                                (Atmospherics.T20C * Atmospherics.R);
-            mixture.SetMoles(Gas.Oxygen, standardMoles * Atmospherics.OxygenStandard);
-            mixture.SetMoles(Gas.Nitrogen, standardMoles * Atmospherics.NitrogenStandard);
-            mixture.Temperature = Atmospherics.T20C;
+        var eyes = new List<EntityUid>();
+        var query = entMan.AllEntityQueryEnumerator<MothershipEyeComponent>();
+        while (query.MoveNext(out var uid, out var eye))
+        {
+            if (eye.Core == core)
+                eyes.Add(uid);
         }
+
+        Assert.That(eyes, Has.Count.EqualTo(1));
+        var eyeUid = eyes[0];
+        Assert.Multiple(() =>
+        {
+            Assert.That(
+                entMan.GetComponent<MetaDataComponent>(eyeUid).EntityPrototype?.ID,
+                Is.EqualTo("XenoborgMothershipEye"));
+            Assert.That(entMan.GetComponent<EyeComponent>(core).Target, Is.EqualTo(eyeUid));
+            Assert.That(entMan.GetComponent<RelayInputMoverComponent>(core).RelayEntity, Is.EqualTo(eyeUid));
+            Assert.That(entMan.GetComponent<InputMoverComponent>(core).CanMove, Is.False);
+            Assert.That(entMan.GetComponent<InputMoverComponent>(eyeUid).CanMove, Is.True);
+            Assert.That(entMan.GetComponent<PhysicsComponent>(core).CanCollide, Is.True);
+            Assert.That(physics.IsCurrentlyHardCollidable(core, xenoborg), Is.True);
+        });
+
+        transform.SetCoordinates(eyeUid, new EntityCoordinates(gridUid, XenoborgMarkers[0]));
+        Assert.That(
+            entMan.GetComponent<TransformComponent>(eyeUid).LocalPosition,
+            Is.EqualTo(XenoborgMarkers[0]));
+
+        transform.SetCoordinates(eyeUid, new EntityCoordinates(gridUid, new Vector2(100.5f, 100.5f)));
+        var restrictedXform = entMan.GetComponent<TransformComponent>(eyeUid);
+        Assert.Multiple(() =>
+        {
+            Assert.That(restrictedXform.GridUid, Is.EqualTo(gridUid));
+            Assert.That(restrictedXform.LocalPosition, Is.EqualTo(XenoborgMarkers[0]));
+        });
+
+        entMan.QueueDeleteEntity(xenoborg);
+        return (core, eyeUid);
+    }
+
+    private static void CloseMothershipEye(IEntityManager entMan, EntityUid core, EntityUid eyeUid)
+    {
+        var close = new ToggleMothershipEyeEvent { Performer = core };
+        entMan.EventBus.RaiseLocalEvent(core, close);
+        Assert.Multiple(() =>
+        {
+            Assert.That(close.Handled, Is.True);
+            Assert.That(entMan.GetComponent<EyeComponent>(core).Target, Is.Null);
+            Assert.That(entMan.HasComponent<RelayInputMoverComponent>(core), Is.False);
+            Assert.That(entMan.GetComponent<InputMoverComponent>(core).CanMove, Is.False);
+            Assert.That(entMan.IsQueuedForDeletion(eyeUid), Is.True);
+        });
     }
 
     private static HashSet<Vector2i> GetSafeDestinations(
         IEntityManager entMan,
         SharedMapSystem mapSystem,
         TurfSystem turf,
-        AtmosphereSystem atmosphere,
         EntityUid gridUid,
         MapGridComponent grid,
         EntityUid target)
@@ -492,7 +874,6 @@ public sealed class XenoborgMinerTest
         var nonEmpty = 0;
         var nonSpace = 0;
         var unblocked = 0;
-        var safeAtmosphere = 0;
         var safeTiles = new HashSet<Vector2i>();
         foreach (var tile in mapSystem.GetAllTiles(gridUid, grid))
         {
@@ -506,10 +887,6 @@ public sealed class XenoborgMinerTest
             if (turf.IsTileBlocked(tile, (CollisionGroup) physics.CollisionMask))
                 continue;
             unblocked++;
-            if (!atmosphere.IsTileMixtureProbablySafe(gridUid, xform.MapUid!.Value, tile.GridIndices))
-                continue;
-            safeAtmosphere++;
-
             var anchored = mapSystem.GetAnchoredEntitiesEnumerator(gridUid, grid, tile.GridIndices);
             var hazard = false;
             while (anchored.MoveNext(out var anchoredUid))
@@ -531,7 +908,7 @@ public sealed class XenoborgMinerTest
             safeTiles.Count,
             Is.GreaterThan(0),
             $"No safe destination: total={total}, nonEmpty={nonEmpty}, nonSpace={nonSpace}, " +
-            $"unblocked={unblocked}, safeAtmosphere={safeAtmosphere}, safe={safeTiles.Count}.");
+            $"unblocked={unblocked}, safe={safeTiles.Count}.");
         return safeTiles;
     }
 
@@ -557,7 +934,7 @@ public sealed class XenoborgMinerTest
         UseDelaySystem useDelay,
         EntityUid gridUid)
     {
-        var user = entMan.SpawnEntity("MobHuman", new EntityCoordinates(gridUid, XenoborgMarkers[3]));
+        var user = entMan.SpawnEntity("XenoborgMiner", new EntityCoordinates(gridUid, XenoborgMarkers[3]));
         var jaunter = entMan.SpawnEntity("XenoborgJaunter", entMan.GetComponent<TransformComponent>(user).Coordinates);
         var jaunterDelay = entMan.GetComponent<UseDelayComponent>(jaunter);
         Assert.That(useDelay.TryGetDelayInfo((jaunter, jaunterDelay), out var initialDelay), Is.True);

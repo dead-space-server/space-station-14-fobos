@@ -5,7 +5,7 @@ meta:
   forkId: dsfobos
   forkVersion: 8d3278c8a6a533b66dbbbc5ef4b1b987aca8bdae
   time: 04/13/2026 16:59:02
-  entityCount: 1210
+  entityCount: 1212
 maps: []
 grids:
 - 1
@@ -68,6 +68,7 @@ entities:
     - type: SpreaderGrid
     - type: Shuttle
       dampingModifier: 0.25
+      fTLCooldownOverride: 180 # DS14
     - type: ImplicitRoof
     - type: GridPathfinding
     - type: Gravity
@@ -658,6 +659,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 7.5,9.5
       parent: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        48:
+        - - DoorStatus
+          - Toggle
   - uid: 580
     components:
     - type: Transform
@@ -1829,6 +1835,8 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 8.5,9.5
       parent: 1
+    - type: DeviceLinkSink
+      invokeCounter: 1
 - proto: BlastDoorXenoborgOpen
   entities:
   - uid: 296
@@ -4316,6 +4324,8 @@ entities:
     - type: Transform
       pos: 0.5,4.5
       parent: 1
+    - type: StationAiWhitelist
+      enabled: false
 - proto: ConveyorBelt
   entities:
   - uid: 352
@@ -4426,6 +4436,8 @@ entities:
           - 1200
           - 1201
           - 1202
+          - 1211
+          - 1212
         paper_label: !type:ContainerSlot
           showEnts: False
           occludes: True
@@ -5051,6 +5063,11 @@ entities:
       - - Xenoborg
     - type: Fixtures
       fixtures: {}
+    - type: DeviceLinkSource
+      linkedPorts:
+        48:
+        - - Pressed
+          - Toggle
   - uid: 1191
     components:
     - type: Transform
@@ -5064,6 +5081,11 @@ entities:
       - - Xenoborg
     - type: Fixtures
       fixtures: {}
+    - type: DeviceLinkSource
+      linkedPorts:
+        15:
+        - - Pressed
+          - Toggle
 - proto: MachineArtifactCrusherXenoborg
   entities:
   - uid: 303
@@ -5535,6 +5557,18 @@ entities:
       canCollide: False
     - type: InsideEntityStorage
       storage: 1193
+- proto: SheetPlasma1
+  entities:
+  - uid: 1211
+    components:
+    - type: Transform
+      parent: 1193
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 1193
+    - type: Stack
+      count: 20
 - proto: SheetPlasteel
   entities:
   - uid: 1195
@@ -5580,6 +5614,16 @@ entities:
     - type: InsideEntityStorage
       storage: 1193
   - uid: 1202
+    components:
+    - type: Transform
+      parent: 1193
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 1193
+- proto: MaterialDiamond1
+  entities:
+  - uid: 1212
     components:
     - type: Transform
       parent: 1193
@@ -7590,7 +7634,7 @@ entities:
   - uid: 1205
     components:
     - type: Transform
-      pos: 0.5,0.5
+      pos: 0.5,3.5
       parent: 1
 - proto: SpawnPointXenoborg
   entities:

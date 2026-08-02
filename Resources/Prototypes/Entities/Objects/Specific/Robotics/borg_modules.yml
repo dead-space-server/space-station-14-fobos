@@ -1536,7 +1536,7 @@
           # DS14-end
     - item: XenoborgMaterialBag
     - item: PinpointerMothership
-    - item: HandheldGPSBasic
+    - item: HandheldGPSXenoborg # DS14
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: xenoborg-basic-module }
 
@@ -1683,7 +1683,7 @@
     - state: icon-xenoborg-space-movement
   - type: ItemBorgModule
     hands:
-    - item: HandheldGPSBasic
+    - item: HandheldGPSXenoborg # DS14
     - item: HandHeldMassScannerBorg
     - item: PinpointerMothership
     - item: HandheldStationMapUnpowered

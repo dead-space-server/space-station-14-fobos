@@ -19,6 +19,4 @@
   - XenoborgModuleEnergySwordRecipe
   # stealth xenoborg
   - XenoborgModuleSuperCloakDeviceRecipe
-  # DS14-start: miner xenoborg
-  - XenoborgModuleAdvancedMinerRecipe
-  # DS14-end
+  - XenoborgModuleAdvancedMinerRecipe # DS14

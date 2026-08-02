@@ -36,6 +36,8 @@ ent-XenoborgEnergySwordBlue = blue xenoborg energy sword
 
 ent-RedHeavyLaserXenoborg = xenoborg heavy laser bolt
 
+xenoborg-type-miner = [color= #d6b328]miner xenoborgs[/color]
+
 xenoborg-jaunter-no-destination = There is no safe destination near the mothership core.
 xenoborg-jaunter-activate = The jaunter returns you to the mothership!
 xenoborg-miner-module-exclusive = Remove { $existing } first.

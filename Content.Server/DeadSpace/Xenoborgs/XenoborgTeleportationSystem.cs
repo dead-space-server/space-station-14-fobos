@@ -1,10 +1,12 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using System.Collections.Generic;
 using System.Numerics;
-using Content.Server.Atmos.EntitySystems;
+using Content.Server.DeadSpace.Lavaland.Components;
 using Content.Server.DeadSpace.Xenoborgs.Components;
 using Content.Server.Tiles;
 using Content.Shared.Chasm;
+using Content.Shared.DeadSpace.Xenoborgs.Components;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Maps;
 using Content.Shared.Mobs.Components;
@@ -22,6 +24,7 @@ using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Xenoborgs.Components;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Maths;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
@@ -30,7 +33,6 @@ namespace Content.Server.DeadSpace.Xenoborgs;
 
 public sealed class XenoborgTeleportationSystem : EntitySystem
 {
-    [Dependency] private readonly AtmosphereSystem _atmosphere = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly PullingSystem _pulling = default!;
@@ -45,7 +47,6 @@ public sealed class XenoborgTeleportationSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<XenoborgPortalGunComponent, ShotAttemptedEvent>(OnShotAttempted);
         SubscribeLocalEvent<XenoborgPortalGunComponent, AmmoShotEvent>(OnAmmoShot);
         SubscribeLocalEvent<XenoborgPortalProjectileComponent, ProjectileHitEvent>(OnProjectileHit);
         SubscribeLocalEvent<XenoborgJaunterComponent, UseInHandEvent>(OnJaunterUsed);
@@ -81,15 +82,6 @@ public sealed class XenoborgTeleportationSystem : EntitySystem
         }
     }
 
-    private void OnShotAttempted(Entity<XenoborgPortalGunComponent> ent, ref ShotAttemptedEvent args)
-    {
-        if (ent.Comp.PendingProjectile != null ||
-            TryComp<UseDelayComponent>(ent, out var delay) && _useDelay.IsDelayed((ent.Owner, delay)))
-        {
-            args.Cancel();
-        }
-    }
-
     private void OnAmmoShot(Entity<XenoborgPortalGunComponent> ent, ref AmmoShotEvent args)
     {
         foreach (var projectile in args.FiredProjectiles)
@@ -121,6 +113,7 @@ public sealed class XenoborgTeleportationSystem : EntitySystem
         var cooldown = gun.MissCooldown;
         if (TryComp<MobStateComponent>(args.Target, out var mobState) &&
             !_mobState.IsDead(args.Target, mobState) &&
+            !HasComp<LavalandBossComponent>(args.Target) &&
             TryFindSafeTileOnCurrentGrid(args.Target, out var destination))
         {
             cooldown = HasComp<StunnedComponent>(args.Target)
@@ -188,7 +181,6 @@ public sealed class XenoborgTeleportationSystem : EntitySystem
         destination = default;
         var xform = Transform(target);
         if (xform.GridUid is not { } gridUid ||
-            xform.MapUid is not { } mapUid ||
             !TryComp<MapGridComponent>(gridUid, out var grid) ||
             !_turf.TryGetTileRef(xform.Coordinates, out var sourceTile))
         {
@@ -197,7 +189,6 @@ public sealed class XenoborgTeleportationSystem : EntitySystem
 
         return TryPickSafeTile(
             gridUid,
-            mapUid,
             grid,
             target,
             sourceTile.Value.GridIndices,
@@ -212,8 +203,9 @@ public sealed class XenoborgTeleportationSystem : EntitySystem
         var query = EntityQueryEnumerator<MothershipCoreComponent, TransformComponent>();
         while (query.MoveNext(out var coreUid, out _, out var coreXform))
         {
-            if (coreXform.GridUid is not { } gridUid ||
-                coreXform.MapUid is not { } mapUid ||
+            if (TerminatingOrDeleted(coreUid) ||
+                EntityManager.IsQueuedForDeletion(coreUid) ||
+                coreXform.GridUid is not { } gridUid ||
                 !TryComp<MapGridComponent>(gridUid, out var grid))
             {
                 continue;
@@ -222,7 +214,6 @@ public sealed class XenoborgTeleportationSystem : EntitySystem
             var center = _transform.GetMapCoordinates(coreUid).Position;
             if (TryPickSafeTile(
                     gridUid,
-                    mapUid,
                     grid,
                     user,
                     null,
@@ -239,7 +230,6 @@ public sealed class XenoborgTeleportationSystem : EntitySystem
 
     private bool TryPickSafeTile(
         EntityUid gridUid,
-        EntityUid mapUid,
         MapGridComponent grid,
         EntityUid subject,
         Vector2i? excludedTile,
@@ -251,34 +241,41 @@ public sealed class XenoborgTeleportationSystem : EntitySystem
         var collisionMask = TryComp<PhysicsComponent>(subject, out var physics)
             ? (CollisionGroup) physics.CollisionMask
             : CollisionGroup.MobMask;
+
         var count = 0;
 
-        foreach (var tile in _map.GetAllTiles(gridUid, grid))
-        {
-            if (excludedTile == tile.GridIndices ||
-                tile.Tile.IsEmpty ||
-                _turf.IsSpace(tile) ||
-                _turf.IsTileBlocked(tile, collisionMask) ||
-                !_atmosphere.IsTileMixtureProbablySafe(gridUid, mapUid, tile.GridIndices) ||
-                HasUnsafeAnchoredEntity(tile, grid))
-            {
-                continue;
-            }
+        IEnumerable<TileRef> tiles = center is { } centerValue && radius is { } radiusValue
+            ? _map.GetTilesIntersecting(
+                gridUid,
+                grid,
+                new Circle(centerValue, radiusValue),
+                ignoreEmpty: false)
+            : _map.GetAllTiles(gridUid, grid);
 
-            var coordinates = _map.ToCenterCoordinates(tile);
-            if (center != null && radius != null)
-            {
-                var mapPosition = _transform.ToMapCoordinates(coordinates).Position;
-                if (Vector2.DistanceSquared(mapPosition, center.Value) > radius.Value * radius.Value)
-                    continue;
-            }
+        foreach (var tile in tiles)
+        {
+            if (!IsSafeTile(tile, grid, excludedTile, collisionMask))
+                continue;
 
             count++;
             if (_random.Next(count) == 0)
-                destination = coordinates;
+                destination = _map.ToCenterCoordinates(tile);
         }
 
         return count > 0;
+    }
+
+    private bool IsSafeTile(
+        TileRef tile,
+        MapGridComponent grid,
+        Vector2i? excludedTile,
+        CollisionGroup collisionMask)
+    {
+        return excludedTile != tile.GridIndices &&
+               !tile.Tile.IsEmpty &&
+               !_turf.IsSpace(tile) &&
+               !_turf.IsTileBlocked(tile, collisionMask) &&
+               !HasUnsafeAnchoredEntity(tile, grid);
     }
 
     private bool HasUnsafeAnchoredEntity(TileRef tile, MapGridComponent grid)
