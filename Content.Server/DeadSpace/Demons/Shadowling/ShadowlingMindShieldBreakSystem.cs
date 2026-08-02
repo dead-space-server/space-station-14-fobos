@@ -2,6 +2,8 @@
 
 using Content.Shared.Actions;
 using Content.Shared.DoAfter;
+using Content.Shared.Implants;
+using Content.Shared.Implants.Components;
 using Content.Shared.Popups;
 using Content.Shared.Mindshield.Components;
 using Content.Shared.DeadSpace.Demons.Shadowling;
@@ -16,6 +18,7 @@ public sealed class ShadowlingMindShieldBreakSystem : EntitySystem
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedSubdermalImplantSystem _implants = default!;
 
     public override void Initialize()
     {
@@ -73,6 +76,18 @@ public sealed class ShadowlingMindShieldBreakSystem : EntitySystem
         {
             _popup.PopupEntity("Разум цели больше не защищён имплантом!", uid, uid, PopupType.Medium);
             return;
+        }
+
+        if (TryComp<ImplantedComponent>(targetUid, out var implanted))
+        {
+            foreach (var implant in implanted.ImplantContainer.ContainedEntities)
+            {
+                if (!HasComp<MindShieldImplantComponent>(implant))
+                    continue;
+
+                _implants.ForceRemove((targetUid, implanted), implant);
+                break;
+            }
         }
 
         RemComp<MindShieldComponent>(targetUid);
