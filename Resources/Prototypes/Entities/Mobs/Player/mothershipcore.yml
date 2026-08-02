@@ -19,8 +19,8 @@
     fixtures:
       fix1:
         shape:
-          !type:PhysShapeCircle
-          radius: 0.49 # DS14
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.45" # DS14
         density: 200
         hard: true
         mask:

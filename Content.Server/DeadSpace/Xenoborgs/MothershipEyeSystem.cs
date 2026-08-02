@@ -71,7 +71,7 @@ public sealed class MothershipEyeSystem : EntitySystem
             EntityManager.IsQueuedForDeletion(ent.Owner))
             return;
 
-        if (!TryComp<TransformComponent>(ent.Comp.Core, out var coreXform) ||
+        if (!TryComp(ent.Comp.Core, out TransformComponent? coreXform) ||
             coreXform.GridUid is not { } coreGrid ||
             !_turf.TryGetTileRef(args.NewPosition, out var tile) ||
             tile.Value.GridUid != coreGrid ||

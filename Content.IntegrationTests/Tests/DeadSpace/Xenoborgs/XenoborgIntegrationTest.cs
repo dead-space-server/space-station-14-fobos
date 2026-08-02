@@ -63,6 +63,13 @@ namespace Content.IntegrationTests.Tests.DeadSpace.Xenoborgs;
 public sealed class XenoborgIntegrationTest
 {
     private static readonly Vector2 CoreMarker = new(0.5f, 3.5f);
+    private static readonly EntProtoId MothershipCorePrototype = "MothershipCore";
+    private static readonly EntProtoId MothershipEyePrototype = "XenoborgMothershipEye";
+    private static readonly EntProtoId MinerPrototype = "XenoborgMiner";
+    private static readonly EntProtoId RemovedPrintedMinerPrototype = "XenoborgMinerPrinted";
+    private static readonly EntProtoId HeavyLaserModulePrototype = "XenoborgModuleHeavyLaser";
+    private static readonly EntProtoId PortalGunPrototype = "WeaponXenoborgPortalGun";
+    private static readonly ProtoId<DamageGroupPrototype> BruteDamageGroup = "Brute";
 
     private static readonly Vector2[] XenoborgMarkers =
     [
@@ -251,12 +258,18 @@ public sealed class XenoborgIntegrationTest
             transform.SetCoordinates(eyeState.Eye, entMan.GetComponent<TransformComponent>(button).Coordinates);
             Assert.That(interaction.InteractionActivate(eyeState.Core, button), Is.True);
 
-            var foreignGrid = mapManager.CreateGrid(mapId);
+            var foreignGrid = mapManager.CreateGridEntity(mapId);
+            var map = server.System<SharedMapSystem>();
+            map.SetTile(foreignGrid.Owner, foreignGrid.Comp, Vector2i.Zero, new Tile(1));
+            transform.SetWorldPosition(foreignGrid.Owner, new Vector2(100f, 100f));
             var foreignButton = entMan.SpawnEntity(
                 "SignalButton",
-                new EntityCoordinates(foreignGrid.Owner, Vector2.Zero));
+                new EntityCoordinates(foreignGrid.Owner, new Vector2(0.5f, 0.5f)));
             Assert.Multiple(() =>
             {
+                Assert.That(
+                    entMan.GetComponent<TransformComponent>(foreignButton).GridUid,
+                    Is.EqualTo(foreignGrid.Owner));
                 Assert.That(interaction.InRangeUnobstructed(eyeState.Core, foreignButton), Is.False);
                 Assert.That(interaction.InteractionActivate(eyeState.Core, foreignButton), Is.False);
             });
@@ -463,12 +476,12 @@ public sealed class XenoborgIntegrationTest
             });
         }
 
-        Assert.That(protoMan.TryIndex<EntityPrototype>("XenoborgMinerPrinted", out _), Is.False);
+        Assert.That(protoMan.TryIndex<EntityPrototype>(RemovedPrintedMinerPrototype, out _), Is.False);
     }
 
     private static void AssertMinerPrototypes(IPrototypeManager protoMan, IComponentFactory componentFactory)
     {
-        var core = protoMan.Index<EntityPrototype>("MothershipCore");
+        var core = protoMan.Index<EntityPrototype>(MothershipCorePrototype);
         Assert.That(
             core.TryGetComponent<PowerMonitoringCableNetworksComponent>(out _, componentFactory),
             Is.False);
@@ -476,7 +489,7 @@ public sealed class XenoborgIntegrationTest
         Assert.That(
             actionGrant!.Actions.Select(action => action.ToString()),
             Does.Contain("ActionMothershipEye"));
-        Assert.That(protoMan.TryIndex<EntityPrototype>("XenoborgMothershipEye", out _), Is.True);
+        Assert.That(protoMan.TryIndex<EntityPrototype>(MothershipEyePrototype, out _), Is.True);
 
         var standardGps = GetComponent<LavalandGpsTrackerComponent>(
             protoMan,
@@ -501,7 +514,7 @@ public sealed class XenoborgIntegrationTest
             Assert.That(hands, Does.Not.Contain("HandheldGPSBasic"));
         }
 
-        var miner = protoMan.Index<EntityPrototype>("XenoborgMiner");
+        var miner = protoMan.Index<EntityPrototype>(MinerPrototype);
         Assert.That(miner.TryGetComponent<BorgChassisComponent>(out var chassis, componentFactory), Is.True);
         Assert.That(miner.TryGetComponent<ContainerFillComponent>(out var fill, componentFactory), Is.True);
 
@@ -536,7 +549,7 @@ public sealed class XenoborgIntegrationTest
             Assert.That(tags!.Tags.Select(tag => tag.ToString()), Does.Contain("XenoborgModuleMiner"));
         }
 
-        var foreignModule = protoMan.Index<EntityPrototype>("XenoborgModuleHeavyLaser");
+        var foreignModule = protoMan.Index<EntityPrototype>(HeavyLaserModulePrototype);
         Assert.That(foreignModule.TryGetComponent<TagComponent>(out var foreignTags, componentFactory), Is.True);
         Assert.That(foreignTags!.Tags.Select(tag => tag.ToString()), Does.Not.Contain("XenoborgModuleMiner"));
 
@@ -616,7 +629,7 @@ public sealed class XenoborgIntegrationTest
                     .Damage.GetTotal(),
                 Is.EqualTo(FixedPoint2.Zero));
             Assert.That(
-                protoMan.Index<EntityPrototype>("WeaponXenoborgPortalGun")
+                protoMan.Index<EntityPrototype>(PortalGunPrototype)
                     .TryGetComponent<UseDelayOnShootComponent>(out _, componentFactory),
                 Is.True);
         });
@@ -987,7 +1000,7 @@ public sealed class XenoborgIntegrationTest
     {
         var prototype = protoMan.Index<EntityPrototype>(prototypeId);
         var melee = GetComponent<MeleeWeaponComponent>(protoMan, componentFactory, prototypeId);
-        var bruteGroup = protoMan.Index<DamageGroupPrototype>("Brute");
+        var bruteGroup = protoMan.Index<DamageGroupPrototype>(BruteDamageGroup);
         var bruteDamage = bruteGroup.DamageTypes.Aggregate(FixedPoint2.Zero, (current, type) =>
             current + melee.Damage.DamageDict.GetValueOrDefault(type));
         var hasWieldable = prototype.TryGetComponent<WieldableComponent>(out _, componentFactory);
