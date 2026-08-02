@@ -149,7 +149,7 @@
     - SimpleHostile
 
   - type: StaminaDamageOnHit
-    damage: 20
+    damage: 25
 
   - type: NightVision
     animation: true
