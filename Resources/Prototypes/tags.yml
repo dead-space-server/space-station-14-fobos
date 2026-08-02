@@ -1592,6 +1592,9 @@
 - type: Tag
   id: XenoborgModuleHeavy # Cyborg module category for evil heavy xenoborg
 
+- type: Tag # DS14
+  id: XenoborgModuleMiner # DS14
+
 - type: Tag
   id: XenoborgModuleScout # Cyborg module category for evil scout xenoborg
 
