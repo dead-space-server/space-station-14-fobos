@@ -456,12 +456,6 @@
     count: 10
 
 - type: localizedDataset
-  id: PlushieNaomiSpeech
-  values:
-    prefix: plushies-naomi-
-    count: 10
-
-- type: localizedDataset
   id: PlushieJohnSpeech
   values:
     prefix: plushies-john-
