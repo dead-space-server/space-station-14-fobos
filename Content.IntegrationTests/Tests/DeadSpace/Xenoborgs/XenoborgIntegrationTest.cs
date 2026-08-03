@@ -3,13 +3,10 @@
 #nullable enable
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using Content.Server.DeadSpace.Lavaland.Components;
 using Content.Server.DeadSpace.Xenoborgs.Components;
-using Content.Server.Hands.Systems;
 using Content.Server.Physics.Controllers;
-using Content.Server.Silicons.Borgs;
 using Content.Server.Tiles;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Chasm;
@@ -184,8 +181,6 @@ public sealed class XenoborgIntegrationTest
         var mapManager = server.ResolveDependency<IMapManager>();
         var map = server.System<SharedMapSystem>();
         var actionBlocker = server.System<ActionBlockerSystem>();
-        var borgSystem = server.System<BorgSystem>();
-        var handsSystem = server.System<HandsSystem>();
         var interaction = server.System<SharedInteractionSystem>();
         var transform = server.System<SharedTransformSystem>();
         var (mapId, gridUid) = await CreateTestGrid(server);
@@ -201,13 +196,9 @@ public sealed class XenoborgIntegrationTest
             var xenoborg = entMan.SpawnEntity(
                 "XenoborgMiner",
                 new EntityCoordinates(gridUid, new Vector2(1.5f, 1.5f)));
-            var chassis = entMan.GetComponent<BorgChassisComponent>(eyeState.Core);
-            borgSystem.SetActive((eyeState.Core, chassis), true);
-            var advancedToolModule = chassis.ModuleContainer.ContainedEntities.Single(entity =>
-                entMan.GetComponent<MetaDataComponent>(entity).EntityPrototype?.ID == "BorgModuleAdvancedTool");
-            borgSystem.SelectModule((eyeState.Core, chassis), advancedToolModule);
-            var powerDrill = handsSystem.EnumerateHeld(eyeState.Core).Single(entity =>
-                entMan.GetComponent<MetaDataComponent>(entity).EntityPrototype?.ID == "PowerDrill");
+            var powerDrill = entMan.SpawnEntity(
+                "PowerDrill",
+                new EntityCoordinates(gridUid, CorePosition));
             var drillState = entMan.GetComponent<MultipleToolComponent>(powerDrill).CurrentEntry;
             var airlock = entMan.SpawnEntity(
                 "AirlockXenoborgLocked",
