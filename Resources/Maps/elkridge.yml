@@ -59319,8 +59319,6 @@ entities:
       pos: 9.5,-16.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 204
       - 205
@@ -59791,8 +59789,6 @@ entities:
       pos: -1.5,-14.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 248
       - 204
@@ -59980,8 +59976,6 @@ entities:
       pos: -1.5,-13.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 248
       - 204
@@ -59993,8 +59987,6 @@ entities:
       pos: -1.5,-12.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 248
       - 204
@@ -60237,8 +60229,6 @@ entities:
       pos: 11.5,-12.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 204
       - 207
@@ -60250,8 +60240,6 @@ entities:
       pos: 11.5,-13.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 204
       - 207
@@ -60263,8 +60251,6 @@ entities:
       pos: 11.5,-14.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 204
       - 207
