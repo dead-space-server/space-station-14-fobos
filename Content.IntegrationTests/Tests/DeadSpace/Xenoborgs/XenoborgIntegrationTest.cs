@@ -8,6 +8,7 @@ using Content.Server.DeadSpace.Lavaland.Components;
 using Content.Server.DeadSpace.Xenoborgs.Components;
 using Content.Server.Physics.Controllers;
 using Content.Server.Tiles;
+using Content.Shared.ActionBlocker;
 using Content.Shared.Chasm;
 using Content.Shared.Damage;
 using Content.Shared.DeadSpace.Xenoborgs;
@@ -145,6 +146,7 @@ public sealed class XenoborgIntegrationTest
         var entMan = server.EntMan;
         var mapManager = server.ResolveDependency<IMapManager>();
         var map = server.System<SharedMapSystem>();
+        var actionBlocker = server.System<ActionBlockerSystem>();
         var interaction = server.System<SharedInteractionSystem>();
         var transform = server.System<SharedTransformSystem>();
         var (mapId, gridUid) = await CreateTestGrid(server);
@@ -157,12 +159,17 @@ public sealed class XenoborgIntegrationTest
 
         await server.WaitAssertion(() =>
         {
+            var unwhitelistedTarget = entMan.SpawnEntity(
+                null,
+                new EntityCoordinates(gridUid, new Vector2(1.5f, 1.5f)));
             var airlock = entMan.SpawnEntity(
                 "AirlockXenoborgLocked",
                 new EntityCoordinates(gridUid, new Vector2(2.5f, 0.5f)));
             var button = entMan.SpawnEntity(
                 "LockableButtonLawyer",
                 new EntityCoordinates(gridUid, new Vector2(3.5f, 0.5f)));
+
+            Assert.That(actionBlocker.CanInteract(eyeState.Core, unwhitelistedTarget), Is.True);
 
             transform.SetCoordinates(eyeState.Eye, entMan.GetComponent<TransformComponent>(airlock).Coordinates);
             Assert.That(interaction.InteractionActivate(eyeState.Core, airlock), Is.True);
@@ -178,6 +185,7 @@ public sealed class XenoborgIntegrationTest
                 new EntityCoordinates(foreignGrid.Owner, new Vector2(0.5f, 0.5f)));
             Assert.Multiple(() =>
             {
+                Assert.That(actionBlocker.CanInteract(eyeState.Core, foreignButton), Is.True);
                 Assert.That(interaction.InRangeUnobstructed(eyeState.Core, foreignButton), Is.False);
                 Assert.That(interaction.InteractionActivate(eyeState.Core, foreignButton), Is.False);
             });
