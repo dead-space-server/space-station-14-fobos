@@ -23,6 +23,9 @@ public sealed class LavalandGpsTrackerSystem : EntitySystem
 
     private void OnUseInHand(EntityUid uid, LavalandGpsTrackerComponent tracker, UseInHandEvent args)
     {
+        if (!tracker.Enabled)
+            return;
+
         tracker.Active = !tracker.Active;
         if (!tracker.Active)
             return;
@@ -38,6 +41,9 @@ public sealed class LavalandGpsTrackerSystem : EntitySystem
 
         while (query.MoveNext(out var uid, out var tracker))
         {
+            if (!tracker.Enabled)
+                continue;
+
             if (!tracker.Active || now < tracker.NextUpdateTime)
                 continue;
 
