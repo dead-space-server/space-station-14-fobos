@@ -27,7 +27,9 @@ public sealed partial class GasMaskDispatchComponent : Component
     /// Звук, воспроизводимый после отправки сообщения всем слушателям канала и отправителю.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public SoundSpecifier Sound = new SoundPathSpecifier("/Audio/_DeadSpace/Announcements/dispatch_please_respond.ogg");
+    public SoundSpecifier Sound = new SoundPathSpecifier(
+        "/Audio/_DeadSpace/Announcements/dispatch_please_respond.ogg",
+        AudioParams.Default.WithVolume(-8f));
 }
 
 /// <summary>
