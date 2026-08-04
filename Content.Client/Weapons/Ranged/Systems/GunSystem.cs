@@ -516,7 +516,7 @@ public sealed partial class GunSystem : SharedGunSystem
                     {
                         SetCartridgeSpent(ent!.Value, cartridge, true);
                         MuzzleFlash(gun, cartridge, worldAngle, user);
-                        Audio.PlayPredicted(gun.Comp.SoundGunshotModified, gun, user);
+                        EntityManager.System<Content.Shared.DeadSpace.Sound.Systems.AdjustableAudioSystem>().Mark(Audio.PlayPredicted(gun.Comp.SoundGunshotModified, gun, user)); // DS14
                         Recoil(user, direction, gun.Comp.CameraRecoilScalarModified);
                         // TODO: Can't predict entity deletions.
                         //if (cartridge.DeleteOnSpawn)
@@ -534,7 +534,7 @@ public sealed partial class GunSystem : SharedGunSystem
                     break;
                 case AmmoComponent newAmmo:
                     MuzzleFlash(gun, newAmmo, worldAngle, user);
-                    Audio.PlayPredicted(gun.Comp.SoundGunshotModified, gun, user);
+                    EntityManager.System<Content.Shared.DeadSpace.Sound.Systems.AdjustableAudioSystem>().Mark(Audio.PlayPredicted(gun.Comp.SoundGunshotModified, gun, user)); // DS14
                     Recoil(user, direction, gun.Comp.CameraRecoilScalarModified);
                     if (IsClientSide(ent!.Value))
                         Del(ent.Value);
@@ -542,7 +542,7 @@ public sealed partial class GunSystem : SharedGunSystem
                         RemoveShootable(ent.Value);
                     break;
                 case HitscanAmmoComponent:
-                    Audio.PlayPredicted(gun.Comp.SoundGunshotModified, gun, user);
+                    EntityManager.System<Content.Shared.DeadSpace.Sound.Systems.AdjustableAudioSystem>().Mark(Audio.PlayPredicted(gun.Comp.SoundGunshotModified, gun, user)); // DS14
                     Recoil(user, direction, gun.Comp.CameraRecoilScalarModified);
                     break;
             }
