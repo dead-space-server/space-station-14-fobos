@@ -86,10 +86,15 @@ public sealed class RespiratorSystem : EntitySystem
                 continue;
             // DS14-End
 
+            // Sunrise added start - let status systems block breathing without coupling respirator to their components.
+            var canBreathe = new CanBreatheEvent();
+            RaiseLocalEvent(uid, ref canBreathe);
+            // Sunrise added end
+
             UpdateSaturation(uid, -(float)respirator.UpdateInterval.TotalSeconds, respirator);
 
 
-            if (!_mobState.IsIncapacitated(uid) && !_mobState.IsPreCritical(uid)) // cannot breathe in crit. // DS14 edit
+            if (!canBreathe.Cancelled && !_mobState.IsIncapacitated(uid) && !_mobState.IsPreCritical(uid)) // cannot breathe in crit. // DS14 edit
             {
                 switch (respirator.Status)
                 {
@@ -116,7 +121,7 @@ public sealed class RespiratorSystem : EntitySystem
             }
             else
             // end-backmen: blob zombie
-            if (respirator.Saturation < respirator.SuffocationThreshold)
+            if (canBreathe.Cancelled || respirator.Saturation < respirator.SuffocationThreshold)
             {
                 if (_gameTiming.CurTime >= respirator.LastGaspEmoteTime + respirator.GaspEmoteCooldown)
                 {
@@ -504,6 +509,12 @@ public record struct SuffocationEvent;
 /// </summary>
 [ByRefEvent]
 public record struct StopSuffocatingEvent;
+
+/// <summary>
+/// Raised before a respirator inhales or exhales so other systems can block breathing.
+/// </summary>
+[ByRefEvent]
+public record struct CanBreatheEvent(bool Cancelled = false);
 
 /// <summary>
 /// An event raised to inhalation handlers that asks them nicely to simulate what it would be like to metabolize

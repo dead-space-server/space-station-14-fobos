@@ -991,6 +991,9 @@
       - state: grenade
   - type: FlashOnTrigger
     range: 7
+  #DS14-Start
+  - type: Flashbang
+  #DS14-End
   - type: SpawnOnTrigger
     proto: GrenadeFlashEffect
   - type: DeleteOnTrigger
