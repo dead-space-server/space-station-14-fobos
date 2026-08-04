@@ -20,7 +20,6 @@ using Content.Shared.Speech;
 using Content.Shared.Throwing;
 using Content.Shared.Verbs;
 using Content.Shared.DeadSpace.Grab.Components;
-using Content.Shared.DeadSpace.Grab.Components;
 using Content.Shared.DeadSpace.Grab.Events;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
