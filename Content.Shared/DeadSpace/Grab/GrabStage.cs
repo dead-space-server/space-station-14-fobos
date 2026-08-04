@@ -1,6 +1,6 @@
-using Robust.Shared.Serialization;
+﻿using Robust.Shared.Serialization;
 
-namespace Content.Shared._Sunrise.Grab;
+namespace Content.Shared.DeadSpace.Grab;
 
 /// <summary>
 /// Strength of an active grab between a grabber and a grabbed entity.
@@ -13,3 +13,5 @@ public enum GrabStage : byte
     Hard = 2,
     Suffocate = 3,
 }
+
+

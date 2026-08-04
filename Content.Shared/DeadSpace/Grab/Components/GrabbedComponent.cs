@@ -1,9 +1,9 @@
-using Content.Shared.Alert;
-using Content.Shared._Sunrise.Grab.Systems;
+﻿using Content.Shared.Alert;
+using Content.Shared.DeadSpace.Grab.Systems;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared._Sunrise.Grab.Components;
+namespace Content.Shared.DeadSpace.Grab.Components;
 
 /// <summary>
 /// Stores the active grab state for the entity being held by another entity.
@@ -60,3 +60,5 @@ public sealed partial class GrabbedComponent : Component
     [DataField]
     public ProtoId<AlertPrototype> GrabbedAlert = "Grabbed";
 }
+
+

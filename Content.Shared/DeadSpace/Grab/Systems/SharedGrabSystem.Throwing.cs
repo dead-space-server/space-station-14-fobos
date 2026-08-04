@@ -1,10 +1,10 @@
-using Content.Shared.Damage;
+﻿using Content.Shared.Damage;
 using Content.Shared.Popups;
-using Content.Shared._Sunrise.Grab.Components;
+using Content.Shared.DeadSpace.Grab.Components;
 using Content.Shared.Throwing;
 using Robust.Shared.Player;
 
-namespace Content.Shared._Sunrise.Grab.Systems;
+namespace Content.Shared.DeadSpace.Grab.Systems;
 
 public sealed partial class SharedGrabSystem
 {
@@ -75,3 +75,5 @@ public sealed partial class SharedGrabSystem
         RemCompDeferred<GrabThrownComponent>(ent.Owner);
     }
 }
+
+

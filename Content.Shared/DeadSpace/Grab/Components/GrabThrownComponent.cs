@@ -1,8 +1,8 @@
-using Content.Shared.Damage;
-using Content.Shared._Sunrise.Grab.Systems;
+﻿using Content.Shared.Damage;
+using Content.Shared.DeadSpace.Grab.Systems;
 using Robust.Shared.GameStates;
 
-namespace Content.Shared._Sunrise.Grab.Components;
+namespace Content.Shared.DeadSpace.Grab.Components;
 
 /// <summary>
 /// Temporary marker for an entity that was thrown from a grab and should hurt itself or the target on collision.
@@ -35,3 +35,5 @@ public sealed partial class GrabThrownComponent : Component
     [AutoNetworkedField]
     public bool HasCollided;
 }
+
+

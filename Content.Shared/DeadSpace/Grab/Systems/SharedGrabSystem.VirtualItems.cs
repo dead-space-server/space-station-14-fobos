@@ -1,10 +1,10 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Hands;
 using Content.Shared.Inventory.VirtualItem;
 using Content.Shared.Popups;
-using Content.Shared._Sunrise.Grab.Components;
+using Content.Shared.DeadSpace.Grab.Components;
 
-namespace Content.Shared._Sunrise.Grab.Systems;
+namespace Content.Shared.DeadSpace.Grab.Systems;
 
 public sealed partial class SharedGrabSystem
 {
@@ -109,3 +109,5 @@ public sealed partial class SharedGrabSystem
         return false;
     }
 }
+
+

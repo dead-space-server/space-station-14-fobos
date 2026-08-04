@@ -1,4 +1,4 @@
-using System.Numerics;
+﻿using System.Numerics;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using JetBrains.Annotations;
@@ -149,18 +149,18 @@ namespace Content.Shared.Hands
     {
         public EntityUid BlockingEntity;
         public EntityUid User;
-        // Sunrise added start - let virtual item owners distinguish base virtual items from extra stage items.
+        // DS14 added start - let virtual item owners distinguish base virtual items from extra stage items.
         public EntityUid VirtualItem;
         public bool Handled;
-        // Sunrise added end
+        // DS14 added end
 
         public VirtualItemDeletedEvent(EntityUid blockingEntity, EntityUid user, EntityUid virtualItem)
         {
             BlockingEntity = blockingEntity;
             User = user;
-            // Sunrise added start
+            // DS14 added start
             VirtualItem = virtualItem;
-            // Sunrise added end
+            // DS14 added end
         }
     }
 
@@ -365,3 +365,4 @@ namespace Content.Shared.Hands
         }
     }
 }
+

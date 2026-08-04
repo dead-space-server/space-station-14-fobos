@@ -1,4 +1,4 @@
-using Content.Server.Administration.Logs;
+﻿using Content.Server.Administration.Logs;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Body.Components;
 using Content.Server.Chat.Systems;
@@ -86,10 +86,10 @@ public sealed class RespiratorSystem : EntitySystem
                 continue;
             // DS14-End
 
-            // Sunrise added start - let status systems block breathing without coupling respirator to their components.
+            // DS14 added start - let status systems block breathing without coupling respirator to their components.
             var canBreathe = new CanBreatheEvent();
             RaiseLocalEvent(uid, ref canBreathe);
-            // Sunrise added end
+            // DS14 added end
 
             UpdateSaturation(uid, -(float)respirator.UpdateInterval.TotalSeconds, respirator);
 
@@ -525,3 +525,4 @@ public record struct CanBreatheEvent(bool Cancelled = false);
 /// <param name="Saturation">The amount of saturation we got from the gas.</param>
 [ByRefEvent]
 public record struct CanMetabolizeGasEvent(GasMixture Gas, bool Toxic = false, float Saturation = 0f, bool Handled = false);
+

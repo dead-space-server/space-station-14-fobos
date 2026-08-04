@@ -1,10 +1,10 @@
-using Content.Shared.Alert;
+﻿using Content.Shared.Alert;
 using Content.Shared.Damage;
-using Content.Shared._Sunrise.Grab.Systems;
+using Content.Shared.DeadSpace.Grab.Systems;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared._Sunrise.Grab.Components;
+namespace Content.Shared.DeadSpace.Grab.Components;
 
 /// <summary>
 /// Stores the active grab state for the entity holding another entity.
@@ -112,3 +112,5 @@ public sealed partial class GrabberComponent : Component
     [ViewVariables]
     public HashSet<EntityUid> DeletingVirtualItems = new();
 }
+
+

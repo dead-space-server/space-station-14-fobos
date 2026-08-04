@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Hands;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
@@ -243,10 +243,10 @@ public abstract class SharedVirtualItemSystem : EntitySystem
     /// </summary>
     public void DeleteVirtualItem(Entity<VirtualItemComponent> item, EntityUid user)
     {
-        var userEv = new VirtualItemDeletedEvent(item.Comp.BlockingEntity, user, item.Owner); // Sunrise-Edit
+        var userEv = new VirtualItemDeletedEvent(item.Comp.BlockingEntity, user, item.Owner); // DS14-Edit
         RaiseLocalEvent(user, userEv);
 
-        var targEv = new VirtualItemDeletedEvent(item.Comp.BlockingEntity, user, item.Owner); // Sunrise-Edit
+        var targEv = new VirtualItemDeletedEvent(item.Comp.BlockingEntity, user, item.Owner); // DS14-Edit
         RaiseLocalEvent(item.Comp.BlockingEntity, targEv);
 
         if (TerminatingOrDeleted(item))
@@ -255,3 +255,4 @@ public abstract class SharedVirtualItemSystem : EntitySystem
         PredictedQueueDel(item.Owner);
     }
 }
+

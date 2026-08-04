@@ -19,18 +19,19 @@ using Content.Shared.Pulling.Events;
 using Content.Shared.Speech;
 using Content.Shared.Throwing;
 using Content.Shared.Verbs;
-using Content.Shared._Sunrise.Grab.Components;
-using Content.Shared._Sunrise.Grab.Events;
-using Content.Shared._Sunrise.Random;
+using Content.Shared.DeadSpace.Grab.Components;
+using Content.Shared.DeadSpace.Grab.Components;
+using Content.Shared.DeadSpace.Grab.Events;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
-namespace Content.Shared._Sunrise.Grab.Systems;
+namespace Content.Shared.DeadSpace.Grab.Systems;
 
 /// <summary>
 /// Handles staged grabbing as a separate layer over pulling.
@@ -48,7 +49,7 @@ public sealed partial class SharedGrabSystem : EntitySystem
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
     [Dependency] private readonly PullingSystem _pulling = default!;
-    [Dependency] private readonly RandomPredictedSystem _random = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedColorFlashEffectSystem _color = default!;
     [Dependency] private readonly SharedCombatModeSystem _combatMode = default!;
@@ -261,7 +262,7 @@ public sealed partial class SharedGrabSystem : EntitySystem
         Dirty(grabbedUid, grabbed);
 
         var escapeChance = GetCurrentEscapeChance(grabbed);
-        if (!_random.ProbForEntity(grabbedUid, escapeChance))
+        if (!_random.Prob(escapeChance))
         {
             grabbed.EscapeChanceBonus = Math.Clamp(grabbed.EscapeChanceBonus + grabbed.EscapeChanceBonusPerFail, 0f, 1f);
             Dirty(grabbedUid, grabbed);
@@ -653,3 +654,5 @@ public sealed partial class SharedGrabSystem : EntitySystem
         Escape,
     }
 }
+
+

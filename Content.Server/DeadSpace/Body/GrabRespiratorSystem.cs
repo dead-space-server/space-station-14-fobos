@@ -1,8 +1,8 @@
-using Content.Server.Body.Systems;
-using Content.Shared._Sunrise.Grab;
-using Content.Shared._Sunrise.Grab.Components;
+﻿using Content.Server.Body.Systems;
+using Content.Shared.DeadSpace.Grab;
+using Content.Shared.DeadSpace.Grab.Components;
 
-namespace Content.Server._Sunrise.Body;
+namespace Content.Server.DeadSpace.Body;
 
 /// <summary>
 /// Bridges suffocating grabs into the respirator breathing permission event.
@@ -22,3 +22,5 @@ public sealed class GrabRespiratorSystem : EntitySystem
             args.Cancelled = true;
     }
 }
+
+
