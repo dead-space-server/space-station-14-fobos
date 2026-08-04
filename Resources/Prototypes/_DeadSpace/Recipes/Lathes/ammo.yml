@@ -48,7 +48,7 @@
   materials:
     Steel: 50
     Plastic: 130
-    Uraium: 240
+    Uranium: 240
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
@@ -86,7 +86,7 @@
   materials:
     Steel: 80
     Plastic: 130
-    Uraium: 240
+    Uranium: 240
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
