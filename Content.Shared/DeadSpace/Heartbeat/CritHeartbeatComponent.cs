@@ -19,4 +19,8 @@ public sealed partial class CritHeartbeatComponent : Component
     [DataField, AutoNetworkedField]
     public SoundSpecifier DeathSound =
         new SoundPathSpecifier("/Audio/_DeadSpace/Effects/Heartbeat/death_sound.ogg");
+
+    [DataField, AutoNetworkedField]
+    public SoundSpecifier EarRingingSound =
+        new SoundPathSpecifier("/Audio/_DeadSpace/Effects/Heartbeat/ear_ringing.ogg");
 }

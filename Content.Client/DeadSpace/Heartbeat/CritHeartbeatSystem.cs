@@ -10,6 +10,7 @@ using Robust.Client.Player;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Player;
+using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
 namespace Content.Client.DeadSpace.Heartbeat;
@@ -20,11 +21,14 @@ public sealed class CritHeartbeatSystem : EntitySystem
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly MobThresholdSystem _thresholds = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
 
     private EntityUid? _trackedEntity;
     private EntityUid? _currentStream;
+    private EntityUid? _ringingStream;
     private MobState _lastState = MobState.Invalid;
     private TimeSpan _nextBeat;
+    private TimeSpan _nextRinging;
 
     public float VisualPulse { get; private set; }
     public bool CreatingInternalAudio { get; private set; }
@@ -63,16 +67,19 @@ public sealed class CritHeartbeatSystem : EntitySystem
             _trackedEntity = player;
             _lastState = mobState.CurrentState;
             _nextBeat = _timing.RealTime;
+            ScheduleRinging(mobState.CurrentState);
         }
 
         if (_lastState != mobState.CurrentState)
             HandleStateChange(heartbeat, mobState.CurrentState);
 
-        if (mobState.CurrentState is not (MobState.PreCritical or MobState.Critical) ||
-            _timing.RealTime < _nextBeat)
-        {
+        if (mobState.CurrentState is not (MobState.PreCritical or MobState.Critical))
             return;
-        }
+
+        UpdateRinging(heartbeat, mobState.CurrentState);
+
+        if (_timing.RealTime < _nextBeat)
+            return;
 
         var beat = GetBeat(player, heartbeat, mobState.CurrentState, damageable, thresholds);
         PlayBeat(beat.Sound, beat.Volume, beat.Pitch, beat.VisualIntensity);
@@ -85,6 +92,8 @@ public sealed class CritHeartbeatSystem : EntitySystem
         _lastState = newState;
         _nextBeat = _timing.RealTime;
         StopSound();
+        StopRinging();
+        ScheduleRinging(newState);
 
         if (newState != MobState.Dead || oldState is MobState.Invalid or MobState.Dead)
             return;
@@ -161,20 +170,59 @@ public sealed class CritHeartbeatSystem : EntitySystem
         var audioParams = sound.Params
             .WithVolume(sound.Params.Volume + volume)
             .WithPitchScale(pitch);
+        _currentStream = PlayInternalSound(sound, audioParams);
+
+        VisualPulse = MathF.Max(VisualPulse, visualIntensity);
+    }
+
+    private void UpdateRinging(CritHeartbeatComponent heartbeat, MobState state)
+    {
+        if (_timing.RealTime < _nextRinging)
+            return;
+
+        StopRinging();
+
+        var volume = state == MobState.PreCritical
+            ? _random.NextFloat(-20f, -17f)
+            : _random.NextFloat(-18f, -15f);
+        var audioParams = heartbeat.EarRingingSound.Params
+            .WithVolume(heartbeat.EarRingingSound.Params.Volume + volume)
+            .WithPitchScale(_random.NextFloat(0.96f, 1.04f));
+        _ringingStream = PlayInternalSound(heartbeat.EarRingingSound, audioParams);
+        ScheduleRinging(state);
+    }
+
+    private EntityUid? PlayInternalSound(SoundSpecifier sound, AudioParams audioParams)
+    {
+        EntityUid? stream;
         CreatingInternalAudio = true;
         try
         {
-            _currentStream = _audio.PlayGlobal(sound, Filter.Local(), false, audioParams)?.Entity;
+            stream = _audio.PlayGlobal(sound, Filter.Local(), false, audioParams)?.Entity;
         }
         finally
         {
             CreatingInternalAudio = false;
         }
 
-        if (_currentStream is { } stream)
-            EnsureComp<CriticalInternalAudioComponent>(stream);
+        if (stream is { } uid)
+            EnsureComp<CriticalInternalAudioComponent>(uid);
 
-        VisualPulse = MathF.Max(VisualPulse, visualIntensity);
+        return stream;
+    }
+
+    private void ScheduleRinging(MobState state)
+    {
+        var delay = state switch
+        {
+            MobState.PreCritical => _random.NextFloat(16f, 26f),
+            MobState.Critical => _random.NextFloat(10f, 19f),
+            _ => 0f,
+        };
+
+        _nextRinging = delay > 0f
+            ? _timing.RealTime + TimeSpan.FromSeconds(delay)
+            : TimeSpan.Zero;
     }
 
     private void StopSound()
@@ -182,12 +230,19 @@ public sealed class CritHeartbeatSystem : EntitySystem
         _currentStream = _audio.Stop(_currentStream);
     }
 
+    private void StopRinging()
+    {
+        _ringingStream = _audio.Stop(_ringingStream);
+    }
+
     private void Reset()
     {
         StopSound();
+        StopRinging();
         _trackedEntity = null;
         _lastState = MobState.Invalid;
         _nextBeat = TimeSpan.Zero;
+        _nextRinging = TimeSpan.Zero;
         VisualPulse = 0f;
         CreatingInternalAudio = false;
     }
