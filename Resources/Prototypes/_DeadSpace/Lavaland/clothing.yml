@@ -498,9 +498,6 @@
     reduction: 0.7
   - type: StaminaResistance
     damageCoefficient: 0.60
-  - type: TemperatureProtection
-    heatingCoefficient: 0.001
-    coolingCoefficient: 0.001
   - type: ExplosionResistance
     damageCoefficient: 0.5
   - type: ActionGrant
