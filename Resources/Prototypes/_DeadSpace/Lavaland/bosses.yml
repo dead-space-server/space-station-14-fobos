@@ -1064,13 +1064,13 @@
 - type: entity
   parent: WallRockBasaltLavalandBoundary
   id: WallColossusArena
-  name: lavaland-colossus-wall-name
-  description: lavaland-colossus-wall-description
+  name: colossus arena wall
+  description: An indestructible basalt wall enclosing the colossus's domain.
   suffix: Lavaland, Indestructible
 
 - type: entity
   id: LavalandColossusArenaLight
-  name: lavaland-colossus-light-name
+  name: colossus arena light
   categories: [ HideSpawnMenu ]
   components:
   - type: Transform
@@ -1088,8 +1088,8 @@
 - type: entity
   parent: BaseBullet
   id: LavalandColossusDeathBolt
-  name: lavaland-colossus-death-bolt-name
-  description: lavaland-colossus-death-bolt-description
+  name: death bolt
+  description: A searing projectile that passes through armor as though it were not there.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -1116,8 +1116,8 @@
 - type: entity
   parent: [ BaseMobAsteroid, BaseMobLavalandFauna ]
   id: MobLavalandColossus
-  name: lavaland-colossus-name
-  description: lavaland-colossus-description
+  name: colossus
+  description: An ancient, monstrous creature radiating overwhelming power.
   suffix: Lavaland, Boss
   categories: [ HideSpawnMenu ]
   components:
