@@ -415,20 +415,20 @@ public sealed class ElectrocutionSystem : SharedElectrocutionSystem
 
         if (shouldStun)
         {
+            //DS14-start
             var stunTime = time * ParalyzeTimeMultiplier;
 
-            //DS14-start
             if (_inventory.TryGetSlotEntity(uid, "gloves", out var gloves) &&
                 TryComp<InsulatedComponent>(gloves, out var insulated))
             {
                 stunTime -= insulated.StunReduction;
             }
-            //DS14-end
 
             if (stunTime > TimeSpan.Zero)
             {
                 _ = refresh ? _stun.TryUpdateParalyzeDuration(uid, stunTime) : _stun.TryAddParalyzeDuration(uid, stunTime);
             }
+            //DS14-end
         }
 
 
