@@ -162,7 +162,7 @@ public sealed class JobRequirementsManager : ISharedPlaytimeManager
         // DS14-blueshield-disabilities-disallow-start
 
         // DS14-sponsors-start
-        var bypassRoleTimers = _sponsorsManager?.TryGetInfo(out var sponsorInfo) == true
+        var bypassNonSpeciesRequirements = _sponsorsManager?.TryGetInfo(out var sponsorInfo) == true
             && (sponsorInfo.AllowJob || sponsorInfo.AllowedMarkings.Contains(job.ID));
 
         if (_sponsorsManager != null && job.SponsorOnly)
@@ -174,7 +174,7 @@ public sealed class JobRequirementsManager : ISharedPlaytimeManager
 
         // Check other role requirements
         var reqs = _entManager.System<SharedRoleSystem>().GetRoleRequirements(job);
-        return CheckRoleRequirements(reqs, profile, out reason, bypassRoleTimers);
+        return CheckRoleRequirements(reqs, profile, out reason, bypassNonSpeciesRequirements);
     }
 
     /// <summary>
@@ -206,7 +206,7 @@ public sealed class JobRequirementsManager : ISharedPlaytimeManager
         HashSet<JobRequirement>? requirements,
         HumanoidCharacterProfile? profile,
         [NotNullWhen(false)] out FormattedMessage? reason,
-        bool bypassRoleTimers = false)
+        bool bypassNonSpeciesRequirements = false)
     {
         reason = null;
 
@@ -218,7 +218,7 @@ public sealed class JobRequirementsManager : ISharedPlaytimeManager
         {
             // DS14-start
             // Sponsor access bypasses progression gates, but never species restrictions.
-            if (bypassRoleTimers && requirement is not SpeciesRequirement)
+            if (bypassNonSpeciesRequirements && requirement is not SpeciesRequirement)
                 continue;
             // DS14-end
 

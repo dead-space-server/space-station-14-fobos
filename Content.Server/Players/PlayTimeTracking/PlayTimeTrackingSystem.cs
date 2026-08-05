@@ -246,14 +246,14 @@ public sealed class PlayTimeTrackingSystem : EntitySystem
     public bool IsAllowed(ICommonSession player, ProtoId<JobPrototype> job)
     {
         // DS14-sponsors-start
-        var bypassRoleTimers = false;
+        var bypassNonSpeciesRequirements = false;
         if (_sponsorsManager?.TryGetInfo(player.UserId, out var sponsorInfo) == true && sponsorInfo != null)
         {
             if (sponsorInfo.AllowJob)
-                bypassRoleTimers = true;
+                bypassNonSpeciesRequirements = true;
 
             if (_prototypes.TryIndex<JobPrototype>(job, out var jobb) && sponsorInfo.AllowedMarkings.Contains(jobb.ID))
-                bypassRoleTimers = true;
+                bypassNonSpeciesRequirements = true;
         }
         // DS14-sponsors-end
 
@@ -269,7 +269,7 @@ public sealed class PlayTimeTrackingSystem : EntitySystem
         var requirements = _roles.GetRoleRequirements(job);
         // DS14-start
         // Sponsor access bypasses progression gates, but never species restrictions.
-        if (bypassRoleTimers)
+        if (bypassNonSpeciesRequirements)
             requirements = requirements?.Where(requirement => requirement is SpeciesRequirement).ToHashSet();
         // DS14-end
 
@@ -365,10 +365,10 @@ public sealed class PlayTimeTrackingSystem : EntitySystem
                 continue;
             }
 
-            var bypassRoleTimers = sponsorInfo != null
+            var bypassNonSpeciesRequirements = sponsorInfo != null
                 && (sponsorInfo.AllowJob || sponsorInfo.AllowedMarkings.Contains(job.ID));
             var requirements = _roles.GetRoleRequirements(job);
-            if (bypassRoleTimers)
+            if (bypassNonSpeciesRequirements)
                 requirements = requirements?.Where(requirement => requirement is SpeciesRequirement).ToHashSet();
 
             if (JobRequirements.TryRequirementsMet(requirements, playTimes, out _, EntityManager, _prototypes, (HumanoidCharacterProfile?) _preferencesManager.GetPreferences(userId).SelectedCharacter))
