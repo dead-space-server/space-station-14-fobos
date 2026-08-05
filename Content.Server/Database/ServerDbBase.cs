@@ -704,6 +704,13 @@ namespace Content.Server.Database
                 .ToList();
             newPrefs.ConstructionFavorites = favorites;
 
+            // DS14-start
+            newPrefs.FavoriteAntags = newPrefs.FavoriteAntags
+                .Concat(oldPrefs.FavoriteAntags)
+                .Distinct()
+                .ToList();
+            // DS14-end
+
             if (IsDefaultAdminOocColor(newPrefs.AdminOOCColor) && !IsDefaultAdminOocColor(oldPrefs.AdminOOCColor))
             {
                 newPrefs.AdminOOCColor = oldPrefs.AdminOOCColor;
@@ -1205,7 +1212,14 @@ namespace Content.Server.Database
             foreach (var favorite in prefs.ConstructionFavorites)
                 constructionFavorites.Add(new ProtoId<ConstructionPrototype>(favorite));
 
-            return new PlayerPreferences(profiles, prefs.SelectedCharacterSlot, Color.FromHex(prefs.AdminOOCColor), constructionFavorites);
+            // DS14-start
+            var favoriteAntags = new List<ProtoId<AntagPrototype>>(prefs.FavoriteAntags.Count);
+            foreach (var favorite in prefs.FavoriteAntags)
+                favoriteAntags.Add(new ProtoId<AntagPrototype>(favorite));
+
+            return new PlayerPreferences(profiles, prefs.SelectedCharacterSlot, Color.FromHex(prefs.AdminOOCColor),
+                constructionFavorites, null, favoriteAntags);
+            // DS14-end
         }
 
         // DS14-start
@@ -1321,6 +1335,7 @@ namespace Content.Server.Database
                     SelectedCharacterSlot = 0,
                     AdminOOCColor = Color.Red.ToHex(),
                     ConstructionFavorites = [],
+                    FavoriteAntags = [], // DS14
                 };
 
                 prefs.Profiles.Add(profile);
@@ -1370,6 +1385,18 @@ namespace Content.Server.Database
                 await db.SaveChangesAsync();
             });
         }
+
+        // DS14-start
+        public async Task SaveAntagFavoritesAsync(NetUserId userId, List<ProtoId<AntagPrototype>> favoriteAntags)
+        {
+            await WithUserIdMigrationWriteLockAsync(userId.UserId, async (db, _) =>
+            {
+                var prefs = await db.Preference.SingleAsync(p => p.UserId == userId.UserId);
+                prefs.FavoriteAntags = favoriteAntags.Select(favorite => favorite.Id).ToList();
+                await db.SaveChangesAsync();
+            });
+        }
+        // DS14-end
 
         private static async Task SetSelectedCharacterSlotAsync(NetUserId userId, int newSlot, ServerDbContext db)
         {
@@ -1634,6 +1661,40 @@ namespace Content.Server.Database
 
         public abstract Task<BanDef> AddBanAsync(BanDef ban);
         public abstract Task AddUnbanAsync(UnbanDef unban);
+
+        public async Task SetBanPrisonAccess(int id, bool sendToPrison)
+        {
+            await using var db = await GetDb();
+
+            var ban = await db.DbContext.Ban.SingleOrDefaultAsync(b => b.Id == id);
+            if (ban is null || ban.Type != BanType.Server)
+                return;
+
+            ban.SendToPrison = sendToPrison;
+            await db.DbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> TrySetActivePrisonBanExpiration(
+            int id,
+            DateTimeOffset expectedExpiration,
+            DateTimeOffset expiration)
+        {
+            await using var db = await GetDb();
+
+            var now = DateTime.UtcNow;
+            var expected = expectedExpiration.UtcDateTime;
+            var updated = expiration.UtcDateTime;
+            var changed = await db.DbContext.Ban
+                .Where(ban => ban.Id == id &&
+                              ban.Type == BanType.Server &&
+                              ban.SendToPrison &&
+                              ban.Unban == null &&
+                              ban.ExpirationTime == expected &&
+                              ban.ExpirationTime > now)
+                .ExecuteUpdateAsync(setters => setters.SetProperty(ban => ban.ExpirationTime, updated));
+
+            return changed == 1;
+        }
 
         public async Task EditBan(int id, string reason, NoteSeverity severity, DateTimeOffset? expiration, Guid editedBy, DateTimeOffset editedAt)
         {

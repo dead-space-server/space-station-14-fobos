@@ -46,6 +46,10 @@ namespace Content.Server.Database
 
         Task SaveConstructionFavoritesAsync(NetUserId userId, List<ProtoId<ConstructionPrototype>> constructionFavorites);
 
+        // DS14-start
+        Task SaveAntagFavoritesAsync(NetUserId userId, List<ProtoId<AntagPrototype>> favoriteAntags);
+        // DS14-end
+
         // Single method for two operations for transaction.
         Task DeleteSlotAndSetSelectedIndex(NetUserId userId, int deleteSlot, int newSlot);
         Task<PlayerPreferences?> GetPlayerPreferencesAsync(NetUserId userId, CancellationToken cancel);
@@ -103,6 +107,11 @@ namespace Content.Server.Database
 
         Task<BanDef> AddBanAsync(BanDef ban);
         Task AddUnbanAsync(UnbanDef ban);
+        Task SetBanPrisonAccess(int id, bool sendToPrison);
+        Task<bool> TrySetActivePrisonBanExpiration(
+            int id,
+            DateTimeOffset expectedExpiration,
+            DateTimeOffset expiration);
 
         public Task EditBan(
             int id,
@@ -498,6 +507,14 @@ namespace Content.Server.Database
             return RunDbCommand(() => _db.SaveConstructionFavoritesAsync(userId, constructionFavorites));
         }
 
+        // DS14-start
+        public Task SaveAntagFavoritesAsync(NetUserId userId, List<ProtoId<AntagPrototype>> favoriteAntags)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.SaveAntagFavoritesAsync(userId, favoriteAntags));
+        }
+        // DS14-end
+
         public Task<PlayerPreferences?> GetPlayerPreferencesAsync(NetUserId userId, CancellationToken cancel)
         {
             DbReadOpsMetric.Inc();
@@ -555,6 +572,21 @@ namespace Content.Server.Database
         {
             DbWriteOpsMetric.Inc();
             return RunDbCommand(() => _db.AddUnbanAsync(unban));
+        }
+
+        public Task SetBanPrisonAccess(int id, bool sendToPrison)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.SetBanPrisonAccess(id, sendToPrison));
+        }
+
+        public Task<bool> TrySetActivePrisonBanExpiration(
+            int id,
+            DateTimeOffset expectedExpiration,
+            DateTimeOffset expiration)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.TrySetActivePrisonBanExpiration(id, expectedExpiration, expiration));
         }
 
         public Task EditBan(int id, string reason, NoteSeverity severity, DateTimeOffset? expiration, Guid editedBy, DateTimeOffset editedAt)

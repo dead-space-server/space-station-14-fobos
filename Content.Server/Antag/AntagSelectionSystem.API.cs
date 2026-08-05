@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Server.Antag.Components;
+using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Shared.Antag;
 using Content.Shared.Chat;
@@ -103,7 +104,11 @@ public sealed partial class AntagSelectionSystem
         // make sure we don't double-count the current selection
         countOffset -= Math.Clamp(poolSize / def.PlayerRatio, def.Min, def.Max) * def.PlayerRatio;
 
-        return Math.Clamp((poolSize - countOffset) / def.PlayerRatio, def.Min, def.Max);
+        // DS14-start
+        // Additional slots are unconditional and intentionally excluded from countOffset.
+        var baseCount = Math.Clamp((poolSize - countOffset) / def.PlayerRatio, def.Min, def.Max);
+        return baseCount + Math.Max(def.AdditionalSlots, 0);
+        // DS14-end
     }
 
     /// <summary>
@@ -199,6 +204,9 @@ public sealed partial class AntagSelectionSystem
     {
         if (session == null)
             return true;
+
+        if (_prison.IsUserPrisoner(session.UserId))
+            return false;
 
         if (roles.Count == 0)
             return false;
@@ -367,7 +375,13 @@ public sealed partial class AntagSelectionSystem
     /// </summary>
     public void ForceMakeAntag<T>(ICommonSession? player, string defaultRule, bool forceNewRule = false) where T : Component
     {
-        var rule = ForceGetGameRuleEnt<T>(defaultRule, forceNewRule);
+        // DS14-start
+        if (GameTicker.RunLevel == GameRunLevel.PostRound ||
+            ForceGetGameRuleEnt<T>(defaultRule, forceNewRule) is not { } rule)
+        {
+            return;
+        }
+        // DS14-end
 
         if (!TryGetNextAvailableDefinition(rule, out var def))
             def = rule.Comp.Definitions.Last();
@@ -378,8 +392,13 @@ public sealed partial class AntagSelectionSystem
     /// Tries to grab one of the weird specific antag gamerule ents or starts a new one.
     /// This is gross code but also most of this is pretty gross to begin with.
     /// </summary>
-    public Entity<AntagSelectionComponent> ForceGetGameRuleEnt<T>(string id, bool forceNewRule = false) where T : Component
+    public Entity<AntagSelectionComponent>? ForceGetGameRuleEnt<T>(string id, bool forceNewRule = false) where T : Component // DS14
     {
+        // DS14-start
+        if (GameTicker.RunLevel == GameRunLevel.PostRound)
+            return null;
+        // DS14-end
+
         if (!forceNewRule)
         {
             var query = EntityQueryEnumerator<T, AntagSelectionComponent>();
@@ -396,8 +415,12 @@ public sealed partial class AntagSelectionSystem
         }
 
         var ruleEnt = GameTicker.AddGameRule(id);
+        // DS14-start
+        if (!ruleEnt.IsValid() || !TryComp(ruleEnt, out AntagSelectionComponent? antag))
+            return null;
+        // DS14-end
+
         RemComp<LoadMapRuleComponent>(ruleEnt);
-        var antag = Comp<AntagSelectionComponent>(ruleEnt);
         antag.AssignmentComplete = true; // don't do normal selection.
         GameTicker.StartGameRule(ruleEnt);
         return (ruleEnt, antag);

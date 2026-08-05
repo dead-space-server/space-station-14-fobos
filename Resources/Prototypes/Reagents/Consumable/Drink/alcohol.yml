@@ -402,6 +402,7 @@
   name: reagent-name-vodka
   parent: BaseAlcohol
   desc: reagent-desc-vodka
+  evaporationSpeed: 0.3 # DS14
   physicalDesc: reagent-physical-desc-strong-smelling
   flavor: vodka
   color: "#d1d1d155"
@@ -948,6 +949,7 @@
   id: DoctorsDelight
   name: reagent-name-doctors-delight
   parent: BaseDrink
+  group: AlcoholicDrinks # DS14
   desc: reagent-desc-doctors-delight
   physicalDesc: reagent-physical-desc-soothing
   flavor: medicine
@@ -1965,6 +1967,7 @@
   id: WhiteGilgamesh
   name: reagent-name-white-gilgamesh
   parent: BaseDrink
+  group: AlcoholicDrinks # DS14
   desc: reagent-desc-white-gilgamesh
   physicalDesc: reagent-physical-desc-creamy
   flavor: white-gilgamesh

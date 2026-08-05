@@ -25,6 +25,7 @@ using Content.Shared.DeadSpace.Necromorphs.Necroobelisk;
 using Content.Server.DeadSpace.NoShuttleFTL;
 using Content.Server.GameTicking;
 using Content.Server.Database;
+using Content.Shared.DeadSpace.TheCircle.Shuttles;
 
 namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 
@@ -96,6 +97,36 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
         args.AddLine("");
     }
 
+    protected override void AppendAdminStatus(EntityUid uid,
+        CircleOpsRuleComponent component,
+        GameRuleComponent gameRule,
+        CollectGameRuleAdminStatusEvent args)
+    {
+        var state = Loc.GetString($"game-rule-admin-status-circle-stage-{component.State.ToString().ToLowerInvariant()}");
+        var activation = component.State switch
+        {
+            CircleOpsState.Convergence => Loc.GetString("game-rule-admin-status-circle-obelisk-convergence"),
+            CircleOpsState.ObeliskActivated => Loc.GetString("game-rule-admin-status-circle-obelisk-active"),
+            _ => Loc.GetString("game-rule-admin-status-circle-obelisk-inactive"),
+        };
+
+        var lines = new List<string>
+        {
+            Loc.GetString("game-rule-admin-status-circle-summary",
+                ("stage", state),
+                ("activation", activation)),
+        };
+
+        if (component.State == CircleOpsState.ObeliskActivated)
+        {
+            var remaining = TimeSpan.FromSeconds(_timedWindow.GetSecondsRemaining(component.WindowUntilSpawnMoon));
+            lines.Add(Loc.GetString("game-rule-admin-status-circle-countdown",
+                ("time", remaining.ToString(@"mm\:ss"))));
+        }
+
+        args.AddSection(Loc.GetString("game-rule-admin-status-circle-title"), lines);
+    }
+
     protected override void Started(EntityUid uid, CircleOpsRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)
     {
         base.Started(uid, component, gameRule, args);
@@ -136,6 +167,11 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
             && HasComp<NoShuttleFTLComponent>(component.Shuttle.Value))
         {
             RemComp<NoShuttleFTLComponent>(component.Shuttle.Value);
+            if (TryComp<CirclePrimaryShuttleComponent>(component.Shuttle.Value, out var shuttle))
+            {
+                shuttle.Unlocked = true;
+                Dirty(component.Shuttle.Value, shuttle);
+            }
         }
 
         if (component.State == CircleOpsState.ObeliskActivated
@@ -152,7 +188,7 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
 
     private void OnRuleLoadedGrids(Entity<CircleOpsRuleComponent> ent, ref RuleLoadedGridsEvent args)
     {
-        var query = EntityQueryEnumerator<NoShuttleFTLComponent>();
+        var query = EntityQueryEnumerator<CirclePrimaryShuttleComponent>();
         while (query.MoveNext(out var uid, out _))
         {
             if (Transform(uid).MapID == args.Map)
@@ -199,6 +235,15 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
 
             component.State = CircleOpsState.WarDeclared;
             _timedWindow.Reset(component.WindowAfterWarDeclare);
+
+            if (component.Shuttle is { } shuttleUid &&
+                TryComp<CirclePrimaryShuttleComponent>(shuttleUid, out var shuttle))
+            {
+                shuttle.UnlockAt = component.WindowAfterWarDeclare.Remaining;
+                shuttle.TimerStarted = true;
+                shuttle.Unlocked = false;
+                Dirty(shuttleUid, shuttle);
+            }
 
             _alertLevel.SetLevel(component.TargetStation.Value, AlertLevel, false, true, true);
 

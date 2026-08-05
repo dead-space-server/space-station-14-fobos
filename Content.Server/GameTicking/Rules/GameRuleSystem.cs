@@ -34,7 +34,10 @@ public abstract partial class GameRuleSystem<T> : EntitySystem where T : ICompon
         SubscribeLocalEvent<T, GameRuleStartedEvent>(OnGameRuleStarted);
         SubscribeLocalEvent<T, GameRuleEndedEvent>(OnGameRuleEnded);
         SubscribeLocalEvent<RoundEndTextAppendEvent>(OnRoundEndTextAppend);
-        SubscribeLocalEvent<RoundEndDiscordTextAppendEvent>(OnRoundEndDiscordTextAppend); // DS14
+        // DS14-start
+        SubscribeLocalEvent<RoundEndDiscordTextAppendEvent>(OnRoundEndDiscordTextAppend);
+        SubscribeLocalEvent<T, CollectGameRuleAdminStatusEvent>(OnCollectAdminStatus);
+        // DS14-end
     }
 
     private void OnStartAttempt(RoundStartAttemptEvent args)
@@ -131,6 +134,16 @@ public abstract partial class GameRuleSystem<T> : EntitySystem where T : ICompon
     }
     // DS14-end
 
+    // DS14-start
+    private void OnCollectAdminStatus(EntityUid uid, T component, CollectGameRuleAdminStatusEvent args)
+    {
+        if (!TryComp<GameRuleComponent>(uid, out var ruleData))
+            return;
+
+        AppendAdminStatus(uid, component, ruleData, args);
+    }
+    // DS14-end
+
     /// <summary>
     /// Called when the gamerule is added
     /// </summary>
@@ -171,6 +184,17 @@ public abstract partial class GameRuleSystem<T> : EntitySystem where T : ICompon
     {
 
     }
+
+    /// <summary>
+    /// Adds a read-only section to the centralized periodic admin status report.
+    /// </summary>
+    protected virtual void AppendAdminStatus(EntityUid uid,
+        T component,
+        GameRuleComponent gameRule,
+        CollectGameRuleAdminStatusEvent args)
+    {
+
+    }
     // DS14-end
 
     /// <summary>
@@ -184,6 +208,11 @@ public abstract partial class GameRuleSystem<T> : EntitySystem where T : ICompon
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+
+        // DS14-start
+        if (GameTicker.RunLevel == GameRunLevel.PostRound)
+            return;
+        // DS14-end
 
         var query = EntityQueryEnumerator<T, GameRuleComponent>();
         while (query.MoveNext(out var uid, out var comp1, out var comp2))

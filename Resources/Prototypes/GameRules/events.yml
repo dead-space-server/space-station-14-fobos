@@ -58,6 +58,7 @@
     - id: PirateRaid
     - id: ZaratanaSpawn
     - id: RenegadeSpawn
+    - id: ShadowlingMidround
     - id: ShadowDemonInvasion
     - id: DemonsInvasion
     - id: BlobSpawn
@@ -317,7 +318,7 @@
       - type: SpaceNinja
       - type: NpcFactionMember
         factions:
-        - Syndicate
+        - Ninja ## ds-14
       - type: AutoImplant
         implants:
         - DeathAcidifierImplant
