@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System.Linq;
 using Content.Server.DeadSpace.RoundEnd;
 using Content.Shared.Chat;
 using Content.Shared.Damage;
@@ -12,9 +13,13 @@ using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.FixedPoint;
 using Content.Shared.Ghost;
 using Content.Shared.Mind;
+using Content.Shared.Mind.Components;
+using Content.Shared.Mobs;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Projectiles;
 using Content.Shared.Roles;
 using Robust.Server.GameObjects;
+using Robust.Shared.Console;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Localization;
 using Robust.Shared.Map;
@@ -237,6 +242,108 @@ public sealed class RoundEndManifestStatsTests
         await pair.CleanReturnAsync();
     }
 
+    [Test]
+    public async Task DeathStoresDollDataWithoutManifestDisplayEntities()
+    {
+        var settings = new PoolSettings
+        {
+            Connected = true,
+            Dirty = true,
+            DummyTicker = false
+        };
+        await using var pair = await PoolManager.GetServerClient(settings);
+        var server = pair.Server;
+        var context = GetContext(server);
+        var body = pair.Player!.AttachedEntity!.Value;
+        var mindId = pair.PlayerData!.Mind!.Value;
+        var mind = context.EntMan.GetComponent<MindComponent>(mindId);
+        context.ManifestStats.EnsureManifestEntry(mindId, mind);
+        var bodyPrototype = context.EntMan.GetComponent<MetaDataComponent>(body).EntityPrototype!.ID;
+
+        await server.WaitAssertion(() => context.MobStateSystem.ChangeMobState(body, MobState.Dead));
+        await pair.RunTicksSync(1);
+
+        await server.WaitAssertion(() =>
+        {
+            var doll = context.DollState.GetDollData(mindId);
+            Assert.Multiple(() =>
+            {
+                Assert.That(doll, Is.Not.Null);
+                Assert.That(doll!.BodyPrototype?.Id, Is.EqualTo(bodyPrototype));
+                Assert.That(context.EntMan.EntityQuery<MetaDataComponent>()
+                    .Any(meta => meta.EntityPrototype?.ID == "RoundEndManifestDisplayClone"), Is.False);
+            });
+        });
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task DeathDuringCapturedBulkDeleteDoesNotLeaveEntities()
+    {
+        var settings = new PoolSettings
+        {
+            Connected = true,
+            Destructive = true,
+            Dirty = true,
+            DummyTicker = false
+        };
+        await using var pair = await PoolManager.GetServerClient(settings);
+        var server = pair.Server;
+        var context = GetContext(server);
+        var body = pair.Player!.AttachedEntity!.Value;
+        var mindId = pair.PlayerData!.Mind!.Value;
+        var mind = context.EntMan.GetComponent<MindComponent>(mindId);
+        context.ManifestStats.EnsureManifestEntry(mindId, mind);
+
+        await server.WaitPost(() =>
+        {
+            var entities = context.EntMan.GetEntities().ToArray();
+            context.MobStateSystem.ChangeMobState(body, MobState.Dead);
+
+            foreach (var entity in entities)
+                context.EntMan.DeleteEntity(entity);
+        });
+        await pair.RunTicksSync(2);
+
+        Assert.That(
+            context.EntMan.EntityCount,
+            Is.Zero,
+            string.Join(
+                Environment.NewLine,
+                context.EntMan.GetEntities().Select(uid => context.EntMan.ToPrettyString(uid).ToString())));
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task DeletingAllEntitiesDoesNotLeaveEntities()
+    {
+        var settings = new PoolSettings
+        {
+            Connected = true,
+            Destructive = true,
+            Dirty = true,
+            DummyTicker = false
+        };
+        await using var pair = await PoolManager.GetServerClient(settings);
+        var server = pair.Server;
+        var context = GetContext(server);
+        var mindId = pair.PlayerData!.Mind!.Value;
+        var mind = context.EntMan.GetComponent<MindComponent>(mindId);
+        context.ManifestStats.EnsureManifestEntry(mindId, mind);
+
+        var consoleHost = server.ResolveDependency<IConsoleHost>();
+        await server.WaitPost(() => consoleHost.ExecuteCommand("entities delete"));
+        await pair.RunTicksSync(5);
+
+        Assert.That(
+            context.EntMan.EntityCount,
+            Is.Zero,
+            string.Join(
+                Environment.NewLine,
+                context.EntMan.GetEntities().Select(uid => context.EntMan.ToPrettyString(uid).ToString())));
+        await pair.CleanReturnAsync();
+    }
+
     private static TestContextData GetContext(RobustIntegrationTest.ServerIntegrationInstance server)
     {
         var entMan = server.ResolveDependency<IServerEntityManager>();
@@ -246,7 +353,9 @@ public sealed class RoundEndManifestStatsTests
             entMan.EntitySysManager.GetEntitySystem<SharedMindSystem>(),
             entMan.EntitySysManager.GetEntitySystem<SharedRoleSystem>(),
             entMan.EntitySysManager.GetEntitySystem<DamageableSystem>(),
-            entMan.EntitySysManager.GetEntitySystem<RoundEndManifestStatsSystem>());
+            entMan.EntitySysManager.GetEntitySystem<MobStateSystem>(),
+            entMan.EntitySysManager.GetEntitySystem<RoundEndManifestStatsSystem>(),
+            entMan.EntitySysManager.GetEntitySystem<RoundEndDollStateSystem>());
     }
 
     private static TestMind SpawnPlayerMind(TestContextData context, bool antag)
@@ -307,5 +416,7 @@ public sealed class RoundEndManifestStatsTests
         SharedMindSystem MindSystem,
         SharedRoleSystem RoleSystem,
         DamageableSystem DamageableSystem,
-        RoundEndManifestStatsSystem ManifestStats);
+        MobStateSystem MobStateSystem,
+        RoundEndManifestStatsSystem ManifestStats,
+        RoundEndDollStateSystem DollState);
 }

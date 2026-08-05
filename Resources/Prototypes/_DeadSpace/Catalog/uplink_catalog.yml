@@ -21,6 +21,25 @@
       - SurplusBundle
 
 - type: listing
+  id: UplinkMalorianLone
+  name: uplink-malorian-name
+  description: uplink-malorian-desc
+  productEntity: WeaponPistolMalorian
+  cost:
+    Telecrystal: 12
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - LoneOpsUplink
+  - !type:BuyerWhitelistCondition
+    blacklist:
+      components:
+      - SurplusBundle
+
+- type: listing
   id: UplinkSandevistanLone
   name: uplink-sandevistan-misanthropy-name
   description: uplink-sandevistan-misanthropy-desc
@@ -153,6 +172,27 @@
       blacklist:
         components:
           - SurplusBundle
+
+- type: listing
+  id: UplinkMonowireBundle
+  name: uplink-monowire-name
+  description: uplink-monowire-desc
+  icon: { sprite: _DeadSpace/Objects/Weapons/Melee/monowire.rsi, state: icon }
+  productEntity: MonowireImplanter
+  cost:
+    Telecrystal: 20
+  categories:
+  - UplinkWeaponry
+  conditions:
+    - !type:StoreWhitelistCondition
+      whitelist:
+        tags:
+          - NukeOpsUplink
+    - !type:BuyerWhitelistCondition
+      blacklist:
+        components:
+          - SurplusBundle
+
 
 - type: listing
   id: UplinkSyndieSabre

@@ -104,6 +104,8 @@ guide-entry-radio = Radio and Speech
 guide-entry-references = Tables & References
 guide-entry-chemicals = Chemicals
 guide-entry-drinks = Drinks
+guide-entry-alcoholic-drinks = Alcoholic Drinks
+guide-entry-non-alcoholic-drinks = Non-Alcoholic Drinks
 guide-entry-foodrecipes = Food Recipes
 
 guide-entry-elements = Elements
@@ -120,6 +122,7 @@ guide-entry-others = Others
 guide-entry-pizza-recipes = Pizzas
 guide-entry-savory-recipes = Savory Foods
 guide-entry-bread-recipes = Breads
+guide-entry-dough-recipes = Dough
 guide-entry-breakfast-recipes = Breakfast Foods
 guide-entry-moth-recipes = Moth Foods
 guide-entry-pasta-recipes = Pastas & Noodles

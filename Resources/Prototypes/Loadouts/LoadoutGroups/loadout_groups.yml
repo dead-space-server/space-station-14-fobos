@@ -55,6 +55,12 @@
   - Plushie0black_cat0
   - PlushieDosDydosYukari
   - PlushieYosugaMarsel
+  - PlushiePERedGora
+  - PlushieKarasuNaomi
+  - PlushieSmetanaJohnFrost
+  - PlushieRavanesusDeath
+  - PlushieRavanesusOperativ
+  - PlushieDajidanNikita
   # IV rang end
   - PlushieSilAily
   - PlushieSilAizek
@@ -944,6 +950,7 @@
   - Accordion
   - Harmonica
   - Clarinet
+  - SuperSynt # ds14
   - Flute
   - Recorder
   - PanFlute
@@ -1603,6 +1610,7 @@
   - SecurityBeret
   - SecurityHat
   - TrooperHat
+  - SecurityHatCap # DS14
 
 - type: loadoutGroup
   id: SecurityMask

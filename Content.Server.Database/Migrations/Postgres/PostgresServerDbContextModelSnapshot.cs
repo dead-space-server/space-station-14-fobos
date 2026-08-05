@@ -652,6 +652,10 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text")
                         .HasColumnName("reason");
 
+                    b.Property<bool>("SendToPrison")
+                        .HasColumnType("boolean")
+                        .HasColumnName("send_to_prison");
+
                     b.Property<int>("Severity")
                         .HasColumnType("integer")
                         .HasColumnName("severity");
@@ -1187,6 +1191,11 @@ namespace Content.Server.Database.Migrations.Postgres
                         .IsRequired()
                         .HasColumnType("text[]")
                         .HasColumnName("construction_favorites");
+
+                    b.PrimitiveCollection<List<string>>("FavoriteAntags")
+                        .IsRequired()
+                        .HasColumnType("text[]")
+                        .HasColumnName("favorite_antags");
 
                     b.Property<int>("SelectedCharacterSlot")
                         .HasColumnType("integer")

@@ -244,6 +244,8 @@
     lockBuckleOffset: true
   - type: BorgRide
   - type: RenegadeCANTLightningAbility
+  - type: FlashbangProtection
+    reduction: 4
   # DS14-End
   - type: StandingState
   - type: Tag
@@ -310,6 +312,15 @@
     receiveFrequencyId: CyborgControl
     transmitFrequencyId: RoboticsConsole
     savableAddress: false
+  - type: SurveillanceCamera # DS14
+    networkSet: true
+    nameSet: true
+    useEntityNameAsCameraId: true
+  - type: StationAiVision # DS14
+    range: 4
+    needsPower: false
+    needsAnchoring: false
+    occluded: true
   - type: TimerTrigger
     delay: 10
     examinable: false
@@ -343,6 +354,8 @@
     nameSet: True
     id: Xenoborg
     useEntityNameAsCameraId: true
+  - type: StationAiVision # DS14
+    enabled: false
   - type: Explosive
     explosionType: Minibomb
     deleteAfterExplosion: false # let damage threshold gib the borg
@@ -598,5 +611,6 @@
   - type: Damageable # DS14
     damageModifierSet: CombatBorg
   - type: Xenoborg
+  - type: LavalandChasmImmune
   - type: BypassLock
     bypassDelay: 15

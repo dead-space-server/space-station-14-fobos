@@ -620,6 +620,10 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .HasColumnName("reason");
 
+                    b.Property<bool>("SendToPrison")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("send_to_prison");
+
                     b.Property<int>("Severity")
                         .HasColumnType("INTEGER")
                         .HasColumnName("severity");
@@ -1124,6 +1128,11 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("construction_favorites");
+
+                    b.PrimitiveCollection<string>("FavoriteAntags")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("favorite_antags");
 
                     b.Property<int>("SelectedCharacterSlot")
                         .HasColumnType("INTEGER")

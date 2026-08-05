@@ -173,7 +173,7 @@
     knownLanguages:
     - ArachnidLanguage
   - type: NoSlip
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SpiderTerrorBase
 
 - type: entity
@@ -210,7 +210,7 @@
     bloodCosts: # Цены
       MobSpiderTerrorRoyalGuard: 100
       MobSpiderTerrorPrincess: 150
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SpiderTerrorKing
 
 - type: entity
@@ -234,7 +234,7 @@
     name: Героический паук ужаса королевской крови
     description: Паук Ужаса.
     rules: ghost-role-information-rules-team-antagonist
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SpiderTerrorGeroick
 
 - type: entity
@@ -499,6 +499,21 @@
       - MobSpiderTerrorDrone
   - type: NeededBloodForEvolution # Пример
     defaultCost: 100 # Стандартная цена на не заданный результат
+  - type: Devourer
+    devourAction: ActionDevourSpiderTerror
+    foodPreferenceWhitelist:
+      components:
+      - Construction
+    stomachStorageWhitelist:
+      components:
+      - MobState
+    chemical: Omnizine
+    healRate: 1.0 # Чуть-чуть
+    whitelist:
+      components:
+      - Door
+      tags:
+      - Wall
 
 - type: entity
   name: паук дрон
@@ -592,6 +607,18 @@
     cycleable: false
     capacity: 1000
   - type: GhostTakeoverAvailable
+  - type: Devourer
+    devourAction: ActionDevourSpiderTerror
+    foodPreferenceWhitelist:
+      components:
+      - Construction
+    chemical: Omnizine
+    healRate: 1.0 # Чуть-чуть
+    whitelist:
+      components:
+      - Door
+      tags:
+      - Wall
 
 - type: entity
   name: паук уничтожитель
@@ -724,7 +751,7 @@
   description: Выглядит очень опасно.
   components:
   - type: Sprite
-    scale: 1, 1
+    scale: 1.4, 1.4
     drawdepth: Mobs
     layers:
     - map: ["enum.DamageStateVisualLayers.Base", "movement"]
@@ -808,7 +835,7 @@
   name: король пауков
   parent: BaseMobSpiderTerror
   id: MobSpiderTerrorKing
-  description: Выглядит величественно.
+  description: Это не может быть паук! Это монстр!
   components:
   - type: SpawnAgainst
     duration: 10
@@ -831,7 +858,7 @@
       WallWebSpiderTerror: 5
       AirlockWebTerror: 5
   - type: Sprite
-    scale: 1.5, 1.5
+    scale: 2, 2
     drawdepth: Mobs
     layers:
     - map: ["enum.DamageStateVisualLayers.Base", "movement"]
@@ -896,7 +923,7 @@
   description: Выглядит величественно.
   components:
   - type: Sprite
-    scale: 1.1, 1.1
+    scale: 1.4, 1.4
     drawdepth: Mobs
     layers:
     - map: ["enum.DamageStateVisualLayers.Base", "movement"]

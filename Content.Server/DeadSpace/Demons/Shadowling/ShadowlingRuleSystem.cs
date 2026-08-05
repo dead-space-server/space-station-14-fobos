@@ -10,6 +10,8 @@ using Content.Server.Mind;
 using Content.Shared.Mobs.Components;
 using Content.Server.GameTicking;
 using Content.Shared.Mind.Components;
+using Content.Shared.Mind;
+using Robust.Server.Player;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
@@ -18,6 +20,10 @@ public sealed class ShadowlingRuleSystem : GameRuleSystem<ShadowlingRuleComponen
     [Dependency] private readonly MindSystem _mind = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly IPlayerManager _playerManager = default!;
+
+    private const int MinPlayers = 50;
+    private const int MaxPlayers = 75;
 
     public readonly EntProtoId ObjectiveId = "ShadowlingRecruitObjective";
 
@@ -31,6 +37,18 @@ public sealed class ShadowlingRuleSystem : GameRuleSystem<ShadowlingRuleComponen
     {
         if (!_mind.TryGetMind(uid, out var mindId, out var mind))
             return;
+
+        var playerCount = _playerManager.PlayerCount;
+        var scale = Math.Clamp((float)(playerCount - MinPlayers) / (MaxPlayers - MinPlayers), 0f, 1f);
+
+        var ruleQuery = EntityQueryEnumerator<ShadowlingRuleComponent>();
+        while (ruleQuery.MoveNext(out var ruleComp))
+        {
+            ruleComp.TargetSlaves = (int)Math.Round(MathHelper.Lerp(ruleComp.MinTargetSlaves, ruleComp.MaxTargetSlaves, scale));
+            ruleComp.AlertThreshold = (int)Math.Round(MathHelper.Lerp(ruleComp.MinAlertThreshold, ruleComp.MaxAlertThreshold, scale));
+            ruleComp.Scale = scale;
+        }
+
         _mind.TryAddObjective(mindId, mind, ObjectiveId);
     }
 
@@ -85,6 +103,68 @@ public sealed class ShadowlingRuleSystem : GameRuleSystem<ShadowlingRuleComponen
             args.AddLine(Loc.GetString("shadowling-lose"));
         else if (sessionData.Count > 0)
             args.AddLine(Loc.GetString("shadowling-stalemate"));
+    }
+
+    protected override void AppendAdminStatus(EntityUid uid,
+        ShadowlingRuleComponent component,
+        GameRuleComponent gameRule,
+        CollectGameRuleAdminStatusEvent args)
+    {
+        var antags = _antag.GetAntagIdentifiers(uid);
+        var living = 0;
+        var ascended = 0;
+        var lines = new List<string>();
+
+        foreach (var (mindId, _, initialName) in antags)
+        {
+            if (!TryComp<MindComponent>(mindId, out var mind) ||
+                mind.OwnedEntity is not { } body ||
+                !Exists(body))
+            {
+                continue;
+            }
+
+            if (_mobState.IsAlive(body))
+                living++;
+
+            if (HasComp<ShadowlingAnnihilationComponent>(body))
+                ascended++;
+
+            var slaves = 0;
+            var slaveQuery = EntityQueryEnumerator<ShadowlingSlaveComponent, MobStateComponent>();
+            while (slaveQuery.MoveNext(out var slave, out var slaveComponent, out var mobState))
+            {
+                if (slaveComponent.Master == body && _mobState.IsAlive(slave, mobState))
+                    slaves++;
+            }
+
+            var progress = component.TargetSlaves <= 0
+                ? 1f
+                : Math.Clamp(slaves / (float) component.TargetSlaves, 0f, 1f);
+            lines.Add(Loc.GetString("game-rule-admin-status-shadowling-master",
+                ("name", ToPrettyString(body).Name ?? initialName),
+                ("slaves", slaves),
+                ("target", component.TargetSlaves),
+                ("progress", progress.ToString("P0"))));
+        }
+
+        var state = component switch
+        {
+            { IsAscended: true } => "ascended",
+            { AllDead: true } => "defeated",
+            { HadShadowlings: true } => "active",
+            _ => "waiting",
+        };
+
+        lines.Insert(0, Loc.GetString("game-rule-admin-status-shadowling-summary",
+            ("state", Loc.GetString($"game-rule-admin-status-shadowling-state-{state}")),
+            ("living", living),
+            ("ascended", ascended)));
+
+        if (lines.Count == 1)
+            lines.Add(Loc.GetString("game-rule-admin-status-shadowling-no-masters"));
+
+        args.AddSection(Loc.GetString("game-rule-admin-status-shadowling-title"), lines);
     }
 
     protected override void ActiveTick(EntityUid uid, ShadowlingRuleComponent component, GameRuleComponent gameRule, float frameTime)
