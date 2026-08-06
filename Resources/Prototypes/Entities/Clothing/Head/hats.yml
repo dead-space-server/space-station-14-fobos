@@ -155,7 +155,7 @@
     - WhitelistChameleon
 
 - type: entity
-  parent: ClothingHeadHelmetBasic # DS-14
+  parent: ClothingHeadBase
   id: ClothingHeadHatBeretHoS
   name: head of security's beret
   description: A black beret with a commander's rank emblem. For officers that are more inclined towards style than safety.
@@ -172,9 +172,20 @@
     - Recyclable
     - HamsterWearable
     - WhitelistChameleon
+  # DS14-Start
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: FlashbangProtection
+    reduction: 1
+  # DS14-End
 
 - type: entity
-  parent: ClothingHeadHelmetBasic # DS-14
+  parent: ClothingHeadBase
   id: ClothingHeadHatBeretWarden
   name: warden's beret
   description: A corporate-blue beret with a warden's rank emblem. For officers that are more inclined towards style than safety.
@@ -187,6 +198,17 @@
     tags:
     - PetWearable
     - CorgiWearable
+  # DS14-Start
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: FlashbangProtection
+    reduction: 1
+  # DS14-End
 
 - type: entity
   parent: ClothingHeadBase
@@ -424,7 +446,7 @@
     - WhitelistChameleon
 
 - type: entity
-  parent: ClothingHeadHelmetBasic # DS-14
+  parent: [ClothingHeadBase, BaseCommandContraband]
   id: ClothingHeadHatHoshat
   name: head of security cap
   description: A stylish cap worn by the Head of Security. Shows the officers who's in charge.
@@ -441,6 +463,17 @@
     - Recyclable
     - HamsterWearable
     - WhitelistChameleon
+  # DS14-Start
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: FlashbangProtection
+    reduction: 1
+  # DS14-End
 
 - type: entity
   parent: ClothingHeadBase
@@ -749,7 +782,7 @@
     - WhitelistChameleon
 
 - type: entity
-  parent: ClothingHeadHelmetBasic # DS-14
+  parent: ClothingHeadBase
   id: ClothingHeadHatWarden
   name: warden's cap
   description: This hat emphasizes that you are THE LAW.
@@ -764,6 +797,17 @@
     tags:
     - PetWearable
     - CorgiWearable
+  # DS14-Start
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: FlashbangProtection
+    reduction: 1
+  # DS14-End
 
 - type: entity
   parent: ClothingHeadBase
