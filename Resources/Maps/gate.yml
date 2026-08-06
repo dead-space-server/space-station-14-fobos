@@ -114292,15 +114292,6 @@ entities:
       parent: 2
     - type: Physics
       canCollide: False
-- proto: FoodMeatTomato
-  entities:
-  - uid: 16328
-    components:
-    - type: Transform
-      pos: -91.490524,147.76665
-      parent: 2
-    - type: Physics
-      canCollide: False
 - proto: FoodPieAppleSlice
   entities:
   - uid: 16329
