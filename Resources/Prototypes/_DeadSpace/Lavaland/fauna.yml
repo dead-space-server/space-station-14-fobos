@@ -43,7 +43,7 @@
     baseSprintSpeed: 3.1
   - type: MeleeWeapon
     angle: 0
-    animation: WeaponArcBite
+    animation: WeaponArcBite 
     soundHit:
       path: /Audio/Effects/bite.ogg
     damage:
