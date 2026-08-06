@@ -1,5 +1,6 @@
 using Content.Client.DisplacementMap;
 using Content.Shared.CCVar;
+using Content.Shared.DeadSpace.RoundEnd;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
@@ -254,6 +255,37 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         UpdateSprite((uid, humanoid, Comp<SpriteComponent>(uid)));
     }
 
+    // DS14-start
+    /// <summary>
+    /// Applies the compact, public round-end appearance DTO to a client-side preview entity.
+    /// </summary>
+    public void ApplyRoundEndAppearance(
+        EntityUid uid,
+        RoundEndHumanoidAppearance appearance,
+        HumanoidAppearanceComponent? humanoid = null)
+    {
+        if (!Resolve(uid, ref humanoid) || !TryComp<SpriteComponent>(uid, out var sprite))
+            return;
+
+        DebugTools.Assert(IsClientSide(uid));
+
+        humanoid.MarkingSet = new MarkingSet(appearance.Markings);
+        humanoid.PermanentlyHidden = new HashSet<HumanoidVisualLayers>(appearance.PermanentlyHidden);
+        humanoid.HiddenLayers = new Dictionary<HumanoidVisualLayers, SlotFlags>();
+        humanoid.CustomBaseLayers = new Dictionary<HumanoidVisualLayers, CustomBaseLayerInfo>(appearance.CustomBaseLayers);
+        humanoid.Gender = appearance.Gender;
+        humanoid.Age = appearance.Age;
+        humanoid.Species = appearance.Species;
+        humanoid.SkinColor = appearance.SkinColor;
+        humanoid.Sex = appearance.Sex;
+        humanoid.EyeColor = appearance.EyeColor;
+        humanoid.HairGradientEnabled = appearance.HairGradientEnabled;
+        humanoid.HairGradientColor = appearance.HairGradientColor;
+
+        UpdateSprite((uid, humanoid, sprite));
+    }
+    // DS14-end
+
     private void ApplyMarkingSet(Entity<HumanoidAppearanceComponent, SpriteComponent> entity)
     {
         var humanoid = entity.Comp1;
@@ -375,6 +407,25 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
 
         if (!_sprite.LayerMapTryGet((entity.Owner, sprite), markingPrototype.BodyPart, out var targetLayer, false))
             return;
+
+        // DS14-start
+        // Full-body markings may extend across adjacent limbs, but must remain below clothing.
+        // Layers after the jumpsuit anchor include clothing as well as appendages that are meant to render over it.
+        var clothingLayer = int.MaxValue;
+        _sprite.LayerMapTryGet((entity.Owner, sprite), "jumpsuit", out clothingLayer, false);
+
+        if (targetLayer < clothingLayer)
+        {
+            foreach (var bodyLayer in humanoid.BaseLayers.Keys)
+            {
+                if (_sprite.LayerMapTryGet((entity.Owner, sprite), bodyLayer, out var bodyLayerIndex, false) &&
+                    bodyLayerIndex < clothingLayer)
+                {
+                    targetLayer = Math.Max(targetLayer, bodyLayerIndex);
+                }
+            }
+        }
+        // DS14-end
 
         visible &= !IsHidden(humanoid, markingPrototype.BodyPart);
         visible &= humanoid.BaseLayers.TryGetValue(markingPrototype.BodyPart, out var setting)

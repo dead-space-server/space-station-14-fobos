@@ -15,8 +15,11 @@
       - Human
       - Shark
       - Demon
-      - Vulpkanin
+      - Reptilian
+      - Arachnid
+      - SlimePerson
       - Tajaran
+      - Vulpkanin
       randomNameFirstDataset: CustomizableSpawnerCentralCommandOfficialFirstName
       randomNameSecondLocalized: NamesLastERT
     - type: GhostRole

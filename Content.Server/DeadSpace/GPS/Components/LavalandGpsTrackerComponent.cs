@@ -8,7 +8,13 @@ namespace Content.Server.DeadSpace.GPS.Components;
 public sealed partial class LavalandGpsTrackerComponent : Component
 {
     [DataField]
-    public float DetectionRange = 100f;
+    public bool Enabled = true;
+
+    [DataField]
+    public bool Active;
+
+    [DataField]
+    public float DetectionRange = 400f;
 
     [DataField]
     public SoundSpecifier BeepSound = new SoundPathSpecifier("/Audio/Items/locator_beep.ogg");

@@ -2,6 +2,7 @@ using System.Numerics;
 using System.Linq;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Spreader;
+using Content.Shared.ActionBlocker;
 using Content.Shared.Atmos;
 using Content.Shared.Atmos.Components;
 using Content.Shared.Chemistry.Components;
@@ -33,10 +34,12 @@ public sealed class ContinuousFlamethrowerSystem : EntitySystem
 {
     private const float TickRate = 0.1f;
     private const float SampleSpacing = 0.32f;
+    private const float FlameCollisionHalfWidth = 0.24f;
     private static readonly ReagentId Phlogiston = new("Phlogiston", null);
     private static readonly ReagentId Napalm = new("Napalm", null);
 
     [Dependency] private readonly DamageableSystem _damage = default!;
+    [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
     [Dependency] private readonly SharedCombatModeSystem _combatMode = default!;
     [Dependency] private readonly FlammableSystem _flammable = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
@@ -119,6 +122,7 @@ public sealed class ContinuousFlamethrowerSystem : EntitySystem
         }
 
         if (!_combatMode.IsInCombatMode(user) ||
+            !_actionBlocker.CanAttack(user) ||
             !HasComp<ContinuousFlamethrowerComponent>(weapon) ||
             !_hands.IsHolding(user, weapon))
             return;
@@ -163,6 +167,7 @@ public sealed class ContinuousFlamethrowerSystem : EntitySystem
         foreach (var (user, flame) in _active.ToArray())
         {
             if (!_combatMode.IsInCombatMode(user) ||
+                !_actionBlocker.CanAttack(user) ||
                 !TryComp<ContinuousFlamethrowerComponent>(flame.Weapon, out var comp) ||
                 !_hands.IsHolding(user, flame.Weapon))
             {
@@ -242,33 +247,24 @@ public sealed class ContinuousFlamethrowerSystem : EntitySystem
     private List<Vector2> BuildFlame(MapCoordinates origin, Vector2 direction, float distance, EntityUid user)
     {
         var points = new List<Vector2>();
-        var ray = new CollisionRay(origin.Position, direction, (int) CollisionGroup.FullTileMask);
-        var hit = _physics.IntersectRay(origin.MapId, ray, distance, user, true).FirstOrNull();
-        var mainDistance = hit?.Distance ?? distance;
-        AddLine(points, origin.Position + direction * 0.55f, direction, Math.Max(0f, mainDistance - 0.55f));
+        var side = new Vector2(-direction.Y, direction.X);
+        var mainDistance = distance;
 
-        if (hit != null)
+        // A flame jet has width. Tracing both edges prevents the centre ray from slipping
+        // through the tiny diagonal gap at a wall corner.
+        foreach (var offset in new[] { 0f, FlameCollisionHalfWidth, -FlameCollisionHalfWidth })
         {
-            var impact = origin.Position + direction * Math.Max(0.55f, mainDistance - 0.2f);
-            var side = new Vector2(-direction.Y, direction.X);
-            var positiveSideLength = GetUnobstructedDistance(origin.MapId, impact, side, 1.35f, user);
-            var negativeSideLength = GetUnobstructedDistance(origin.MapId, impact, -side, 1.35f, user);
-            AddLine(points, impact, side, positiveSideLength);
-            AddLine(points, impact, -side, negativeSideLength);
+            var ray = new CollisionRay(
+                origin.Position + side * offset,
+                direction,
+                (int) CollisionGroup.FullTileMask);
+            var hit = _physics.IntersectRay(origin.MapId, ray, distance, user, true).FirstOrNull();
+            if (hit != null)
+                mainDistance = Math.Min(mainDistance, hit.Value.Distance);
         }
-        return points;
-    }
 
-    private float GetUnobstructedDistance(
-        MapId mapId,
-        Vector2 start,
-        Vector2 direction,
-        float maximumDistance,
-        EntityUid ignored)
-    {
-        var ray = new CollisionRay(start, direction, (int) CollisionGroup.FullTileMask);
-        var hit = _physics.IntersectRay(mapId, ray, maximumDistance, ignored, true).FirstOrNull();
-        return Math.Max(0f, hit?.Distance ?? maximumDistance);
+        AddLine(points, origin.Position + direction * 0.55f, direction, Math.Max(0f, mainDistance - 0.55f));
+        return points;
     }
     private static void AddLine(List<Vector2> points, Vector2 start, Vector2 direction, float length)
     {

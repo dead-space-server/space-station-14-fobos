@@ -6,7 +6,9 @@ using Content.Server.Antag;
 using Content.Server.Antag.Components;
 using Content.Server.Backmen.Economy;
 using Content.Server.Chat.Systems;
+using Content.Server.DeadSpace.Prison;
 using Content.Server.EUI;
+using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Implants;
@@ -81,6 +83,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
     [Dependency] private readonly ObjectivesSystem _objectives = default!;
     [Dependency] private readonly IPlayerManager _players = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly PrisonSystem _prison = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedJobSystem _jobs = default!;
@@ -181,6 +184,10 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         ICommonSession target,
         AntagSelectionDefinition definition)
     {
+        if (GameTicker.RunLevel == GameRunLevel.PostRound ||
+            _prison.IsUserPrisoner(target.UserId))
+            return;
+
         var alreadyTraitor = _mind.TryGetMind(target, out var mindId, out _) &&
                              _roles.MindHasRole<TraitorRoleComponent>(mindId);
 
@@ -198,7 +205,12 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
     public bool MakeAdminTraitorUltra(ICommonSession target, bool announceBounty)
     {
-        var rule = GetOrCreateAdminTraitorUltraRule();
+        if (GameTicker.RunLevel == GameRunLevel.PostRound ||
+            _prison.IsUserPrisoner(target.UserId))
+            return false;
+
+        if (GetOrCreateAdminTraitorUltraRule() is not { } rule)
+            return false;
 
         if (!_mind.TryGetMind(target, out var mindId, out var mind))
         {
@@ -276,10 +288,15 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return false;
     }
 
-    private Entity<TraitorUltraRuleComponent, AntagSelectionComponent> GetOrCreateAdminTraitorUltraRule()
+    private Entity<TraitorUltraRuleComponent, AntagSelectionComponent>? GetOrCreateAdminTraitorUltraRule()
     {
-        var rule = _antag.ForceGetGameRuleEnt<TraitorUltraRuleComponent>(DefaultTraitorUltraRule);
-        return (rule.Owner, Comp<TraitorUltraRuleComponent>(rule.Owner), rule.Comp);
+        if (_antag.ForceGetGameRuleEnt<TraitorUltraRuleComponent>(DefaultTraitorUltraRule) is not { } rule ||
+            !TryComp<TraitorUltraRuleComponent>(rule.Owner, out var ultraRule))
+        {
+            return null;
+        }
+
+        return (rule.Owner, ultraRule, rule.Comp);
     }
 
     private TraitorUltraMindState EnsureTraitorUltraState(
@@ -1132,7 +1149,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         if (!component.PendingRecruitOffers.Remove(mindId, out var corporation))
             return;
 
-        if (!accepted || _roles.MindIsAntagonist(mindId))
+        if (!accepted || _roles.MindIsAntagonist(mindId) || _prison.IsMindPrisoner(mindId, mind))
             return;
 
         _roles.MindAddRole(mindId, component.RecruitMindRole, mind, silent: true);

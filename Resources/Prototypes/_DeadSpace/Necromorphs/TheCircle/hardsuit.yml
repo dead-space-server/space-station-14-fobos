@@ -46,6 +46,7 @@
     - Hardsuit
     - WhitelistChameleon
   - type: HardsuitIdentification
+    dissolveOnDnaChange: false
   - type: Speech
   - type: TTS
     voice: Overwatch
@@ -505,7 +506,7 @@
     equipDelay: 30
     unequipDelay: 30
   - type: Item
-    size: Huge
+    size: Ginormous
   - type: PressureProtection
     highPressureMultiplier: 0.01
     lowPressureMultiplier: 1000

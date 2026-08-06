@@ -1,6 +1,7 @@
 using System.Linq;
 using Content.Server.Power.EntitySystems;
 using Content.Shared.Research.Components;
+using Content.Shared.Power; //DS14
 
 namespace Content.Server.Research.Systems;
 
@@ -11,6 +12,8 @@ public sealed partial class ResearchSystem
         SubscribeLocalEvent<ResearchServerComponent, ComponentStartup>(OnServerStartup);
         SubscribeLocalEvent<ResearchServerComponent, ComponentShutdown>(OnServerShutdown);
         SubscribeLocalEvent<ResearchServerComponent, TechnologyDatabaseModifiedEvent>(OnServerDatabaseModified);
+        SubscribeLocalEvent<ResearchServerComponent, AnchorStateChangedEvent>(OnServerAnchor); //DS14
+        SubscribeLocalEvent<ResearchServerComponent, PowerChangedEvent>(OnServerPowerChanged); //DS14
     }
 
     private void OnServerStartup(EntityUid uid, ResearchServerComponent component, ComponentStartup args)
@@ -28,6 +31,62 @@ public sealed partial class ResearchSystem
             UnregisterClient(client, uid, serverComponent: component, dirtyServer: false);
         }
     }
+
+    //DS14-start
+    private void OnServerAnchor(EntityUid uid, ResearchServerComponent component, AnchorStateChangedEvent args)
+    {
+        if (!args.Anchored)
+        {
+            DisconnectClientsAndFindReplacement(uid, component);
+            return;
+        }
+
+        ConnectUnregisteredClients(uid, component);
+    }
+
+    private void OnServerPowerChanged(EntityUid uid, ResearchServerComponent component, ref PowerChangedEvent args)
+    {
+        if (!args.Powered)
+        {
+            DisconnectClientsAndFindReplacement(uid, component);
+            return;
+        }
+
+        ConnectUnregisteredClients(uid, component);
+    }
+
+    private void DisconnectClientsAndFindReplacement(EntityUid uid, ResearchServerComponent component)
+    {
+        var clients = new List<EntityUid>(component.Clients);
+
+        foreach (var client in clients)
+        {
+            UnregisterClient(client, uid, serverComponent: component, dirtyServer: false);
+        }
+
+        foreach (var client in clients)
+        {
+            if (TryComp(client, out ResearchClientComponent? clientComponent))
+                TryConnectToAvailableServer((client, clientComponent));
+        }
+    }
+
+    private void ConnectUnregisteredClients(EntityUid server, ResearchServerComponent serverComponent)
+    {
+        var query = EntityQueryEnumerator<ResearchClientComponent>();
+        while (query.MoveNext(out var client, out var clientComponent))
+        {
+            if (clientComponent.Server is not null ||
+                clientComponent.isTaipan != serverComponent.isTaipan ||
+                !GetServers(client).Contains((server, serverComponent)))
+            {
+                continue;
+            }
+
+            RegisterClient(client, server, clientComponent, serverComponent);
+        }
+    }
+    //DS14-end
 
     private void OnServerDatabaseModified(EntityUid uid, ResearchServerComponent component, ref TechnologyDatabaseModifiedEvent args)
     {

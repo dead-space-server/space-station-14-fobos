@@ -100,7 +100,9 @@
   requirements:
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 50400 # 14 hours
+      time: 201600 # 56 hours
+    - !type:OverallPlaytimeRequirement
+      time: 3096000 # 860 hours
   icon: "JobIconBSAAFighter"
   supervisors: job-supervisors-centcom
   canBeAntag: false
@@ -108,9 +110,6 @@
   - AllAccess
   access:
   - CentralCommand
-  special:
-  - !type:AddImplantSpecial
-    implants: [ RezervImplant ]
 
 - type: job
   id: BSAALeaderJob
@@ -121,13 +120,15 @@
   requirements:
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 36000 # 10 hours
+      time: 144000 # 40 hours
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 72000 # 20 hours
+      time: 288000 # 80 hours
     - !type:DepartmentTimeRequirement
       department: Command
-      time: 36000 # 10 hours
+      time: 144000 # 40 hours
+    - !type:OverallPlaytimeRequirement
+      time: 3096000 # 860 hours
   icon: "JobIconBSAALeader"
   supervisors: job-supervisors-centcom
   canBeAntag: false
@@ -135,9 +136,6 @@
   - AllAccess
   access:
   - CentralCommand
-  special:
-  - !type:AddImplantSpecial
-    implants: [ RezervImplant ]
 
 - type: job
   id: BSAAMedicJob
@@ -148,10 +146,12 @@
   requirements:
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 50400 # 14 hours
+      time: 201600 # 56 hours
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 50400 # 14 hours
+      time: 201600 # 56 hours
+    - !type:OverallPlaytimeRequirement
+      time: 3096000 # 860 hours
   icon: "JobIconBSAAMedic"
   supervisors: job-supervisors-centcom
   canBeAntag: false
@@ -159,9 +159,6 @@
   - AllAccess
   access:
   - CentralCommand
-  special:
-  - !type:AddImplantSpecial
-    implants: [ RezervImplant ]
 
 - type: job
   id: BSAASpecialistJob
@@ -172,12 +169,12 @@
   requirements:
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 50400 # 14 hours
+      time: 201600 # 56 hours
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 360000 # doxuia
+      time: 1440000 # doxuia
     - !type:OverallPlaytimeRequirement
-      time: 1296000 # 360 hours
+      time: 3096000 # 860 hours
   icon: "JobIconBSAASpecialist"
   supervisors: job-supervisors-centcom
   canBeAntag: false
@@ -185,9 +182,6 @@
   - AllAccess
   access:
   - CentralCommand
-  special:
-  - !type:AddImplantSpecial
-    implants: [ RezervImplant, BSAAPhaseBladeImplant ]
 
 - type: job
   id: BSAAFlamerJob
@@ -198,12 +192,12 @@
   requirements:
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 50400 # 14 hours
+      time: 201600 # 56 hours
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 360000 # doxuia
+      time: 1440000 # doxuia
     - !type:OverallPlaytimeRequirement
-      time: 1296000 # 360 hours
+      time: 3096000 # 860 hours
   icon: "JobIconBSAAFlamer"
   supervisors: job-supervisors-centcom
   canBeAntag: false
