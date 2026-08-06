@@ -249,8 +249,6 @@
       - state: inhand-right-blade
         shader: unshaded
   - type: ItemTogglePointLight
-  - type: DisarmMalus
-    malus: 0
   - type: StaminaDamageOnHit
     damage: 0
   - type: SwitchableWeapon
@@ -596,7 +594,7 @@
   - type: FireProtection
     reduction: 0.6
   - type: StaminaResistance
-    damageCoefficient: 0.55
+    damageCoefficient: 0.6
   - type: ClothingSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9
