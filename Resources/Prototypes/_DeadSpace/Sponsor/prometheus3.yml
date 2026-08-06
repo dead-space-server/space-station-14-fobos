@@ -426,7 +426,7 @@
     entries:
       - behavior: Screwing
         sprite:
-          sprite: _DeadSpace/Sponsor/Prometheus3/tools_powerdrill.rsi
+          sprite: _DeadSpace/Objects/Tools/drill_taipan.rsi
           state: drill_screw
         useSound:
           path: /Audio/Items/drill_use.ogg
@@ -434,7 +434,7 @@
           path: /Audio/Items/change_drill.ogg
       - behavior: Anchoring
         sprite:
-          sprite: _DeadSpace/Sponsor/Prometheus3/tools_powerdrill.rsi
+          sprite: _DeadSpace/Objects/Tools/drill_taipan.rsi
           state: drill_bolt
         useSound:
           path: /Audio/Items/drill_use.ogg
