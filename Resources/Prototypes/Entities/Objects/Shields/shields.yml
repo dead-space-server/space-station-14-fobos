@@ -127,10 +127,14 @@
         coefficients:
           Blunt: 0.7
           Slash: 0.7
+          Piercing: 1.1 #DS14
+          Heat: 1.2 #DS14
       activeBlockModifier:
         coefficients:
           Blunt: 0.5
           Slash: 0.5
+          Piercing: 0.9 #DS14
+          Heat: 1 #DS14
         flatReductions:
           Blunt: 1
           Slash: 1
@@ -144,6 +148,9 @@
             Blunt: 110
       staminaDamage: 60
       staminaDamageToUser: 30   
+    - type: ClothingSpeedModifier
+      walkModifier: 0.9
+      sprintModifier: 0.9
     #DS14-End
 
 - type: entity
@@ -166,12 +173,19 @@
     - type: Blocking
       passiveBlockModifier:
         coefficients:
+          Piercing: 1.5 #DS14
           Heat: 0.7
       activeBlockModifier:
         coefficients:
+          Piercing: 1.3 #DS14
           Heat: 0.5
         flatReductions:
           Heat: 1
+    #DS14-Start
+    - type: ClothingSpeedModifier
+      walkModifier: 0.9
+      sprintModifier: 0.9
+    #DS14-End
 
 - type: entity
   name: ballistic shield
@@ -194,9 +208,11 @@
       passiveBlockModifier:
         coefficients:
           Piercing: 0.7
+          Heat: 1.5 #DS14
       activeBlockModifier:
         coefficients:
           Piercing: 0.5
+          Heat: 1.3 #DS14
         flatReductions:
           Piercing: 1
     #DS14-Start
@@ -209,6 +225,9 @@
             Blunt: 110
       staminaDamage: 60
       staminaDamageToUser: 30   
+    - type: ClothingSpeedModifier
+      walkModifier: 0.9
+      sprintModifier: 0.9
     #DS14-End
 
 #Craftable shields
@@ -786,7 +805,7 @@
 #              acts: [ "Destruction" ]
         - trigger:
             !type:DamageTrigger
-            damage: 180
+            damage: 130 #DS14
           behaviors:
             - !type:DoActsBehavior
               acts: [ "Destruction" ]
