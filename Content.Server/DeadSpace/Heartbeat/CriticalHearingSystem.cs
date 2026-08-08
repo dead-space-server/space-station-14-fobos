@@ -27,15 +27,13 @@ public sealed class CriticalHearingSystem : EntitySystem
                 return;
             }
 
-            // DS14: walking up the parent chain can reach a root entity (map/grid) whose parent
-            // is EntityUid.Invalid, which has no TransformComponent at all - Transform(listener)
-            // throws in that case instead of returning nothing. Bail out gracefully instead of
-            // crashing the whole server on what is otherwise an entirely ordinary radio message.
-            if (!TryComp(listener, out TransformComponent? xform))
+#pragma warning disable RA0030 // The receiver can be EntityUid.Invalid; the UID transform helper would throw.
+            if (!TryComp<TransformComponent>(listener, out var transform))
+#pragma warning restore RA0030
                 return;
 
-            var parent = xform.ParentUid;
-            if (parent == listener || !parent.IsValid())
+            var parent = transform.ParentUid;
+            if (parent == listener)
                 return;
 
             listener = parent;
