@@ -1565,7 +1565,10 @@ namespace Content.Client.Lobby.UI
                     .Where(job => job.SetPreference)
                     .ToArray();
 
-                Array.Sort(jobs, JobUIComparer.Instance);
+                // DS14-start - upstream roles UI lives in this combined editor file.
+                if (JobUIComparer.TryCreate(_prototypeManager, null, out var comparer))
+                    Array.Sort(jobs, comparer);
+                // DS14-end
 
                 foreach (var job in jobs)
                 {
