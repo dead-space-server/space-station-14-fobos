@@ -265,8 +265,6 @@
 - type: Tag
   id: MagazineEagleAP
 
-- type: Tag
-  id: MagazineEagleGold
 
 - type: Tag
   id: MagazineGurza

@@ -194,7 +194,6 @@
         whitelist:
           tags:
             - MagazineEagle
-            - MagazineEagleGold
             - MagazineEagleAP
       gun_chamber:
         name: Chamber
