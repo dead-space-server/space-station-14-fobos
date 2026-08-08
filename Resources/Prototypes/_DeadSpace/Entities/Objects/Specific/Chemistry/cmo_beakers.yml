@@ -16,11 +16,10 @@
     solutions:
       beaker:
         maxVol: 200
-        maxSpillRefillVolume: 200
         canReact: true
   - type: Spillable
     solution: beaker
-    spillOutOnThrow: true
+    spillWhenThrown: = false;
   - type: ExplosionResistance
     damageCoefficient: 0
   - type: EmitSoundOnPickup
