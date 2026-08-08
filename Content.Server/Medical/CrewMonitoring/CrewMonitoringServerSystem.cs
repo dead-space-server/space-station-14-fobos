@@ -57,8 +57,55 @@ public sealed class CrewMonitoringServerSystem : EntitySystem
         if (sensorStatus == null)
             return;
 
+        if (sensorStatus.Coordinates != null && NeedPing(sensorStatus, component.SensorStatus.GetValueOrDefault(args.SenderAddress), out var pingmode))
+        {
+            Send(uid, pingmode);
+        }
         sensorStatus.Timestamp = _gameTiming.CurTime;
         component.SensorStatus[args.SenderAddress] = sensorStatus;
+    }
+
+    public bool NeedPing(SuitSensorStatus newsensor, SuitSensorStatus? oldsensor, out CrewMonitoringConsolePingMode? pingmode)
+    {
+        pingmode = null;
+        if (newsensor.IsAlive)
+        {
+            if (newsensor.DamagePercentage != null && newsensor.DamagePercentage.Value > 0.6)
+            {
+                if (newsensor.DamagePercentage != null && newsensor.DamagePercentage.Value > 1)
+                {
+                    if (oldsensor == null || (oldsensor.DamagePercentage != null && oldsensor.DamagePercentage.Value < 1))
+                    {
+                        pingmode = CrewMonitoringConsolePingMode.Krit;
+                        return true;
+                    }
+                }
+                else if (oldsensor == null || (oldsensor.DamagePercentage != null && oldsensor.DamagePercentage.Value < 0.6))
+                {
+                    pingmode = CrewMonitoringConsolePingMode.Health4;
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        else if (oldsensor == null || oldsensor.IsAlive)
+        {
+            pingmode = CrewMonitoringConsolePingMode.Dead;
+            return true;
+        }
+        return false;
+    }
+    public void Send(EntityUid uid, CrewMonitoringConsolePingMode? pingmode)
+    {
+        var payload = new NetworkPayload()
+        {
+            ["PingMode"] = pingmode
+        };
+        _deviceNetworkSystem.QueuePacket(uid, null, payload);
     }
 
     /// <summary>
