@@ -38,6 +38,7 @@ public sealed class PersonnelRecordDiagnosticTest
 {
     private static readonly ProtoId<JobPrototype> HeadOfPersonnel = "HeadOfPersonnel";
     private static readonly ProtoId<JobPrototype> SecurityOfficer = "SecurityOfficer";
+    private static readonly ProtoId<JobPrototype> Dismissed = "Dismissed";
 
     private static string _map = "PersonnelRecordTestMap";
 
@@ -505,7 +506,7 @@ public sealed class PersonnelRecordDiagnosticTest
             Assert.That(comp.DeclareWantedAccess.Select(x => x.Id), Is.EquivalentTo(new[] { "Captain", "HeadOfSecurity" }));
 
             var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var dismissed = prototypes.Index<JobPrototype>("Dismissed");
+            var dismissed = prototypes.Index<JobPrototype>(Dismissed);
             Assert.That(dismissed.OverrideConsoleVisibility.GetValueOrDefault(dismissed.SetPreference), Is.False,
                 "Dismissed must only be assigned by PersonnelDismissalSystem after an active order");
         });
