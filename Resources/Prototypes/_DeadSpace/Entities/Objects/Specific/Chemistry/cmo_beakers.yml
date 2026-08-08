@@ -8,8 +8,6 @@
     sprite: _DeadSpace/Objects/Specific/Chemistry/cmo_beaker.rsi
     layers:
     - state: base
-    - state: beaker1
-      visible: false
   - type: Item
     sprite: _DeadSpace/Objects/Specific/Chemistry/cmo_beaker.rsi
     shape:
