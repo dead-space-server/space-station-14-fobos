@@ -225,8 +225,9 @@ internal sealed class PaperFormattingFont : Font
 
     public override int GetLineHeight(float scale)
     {
+        // Full-block glyphs fill the ascent but not the descender area.
         return _effects.TightLineSpacing
-            ? _inner.GetHeight(scale)
+            ? _inner.GetAscent(scale)
             : _inner.GetLineHeight(scale);
     }
 
