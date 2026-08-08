@@ -225,10 +225,6 @@
     - GeneralLanguage
     - VoxLanguage
   # DS14-Languages-end
-  # - type: FootPrints # Backmen-footsteps
-    # leftBarePrint: "footprint-left-bare-lizard"
-    # rightBarePrint: "footprint-right-bare-lizard"
-
 
 - type: entity
   parent: BaseSpeciesDummy
