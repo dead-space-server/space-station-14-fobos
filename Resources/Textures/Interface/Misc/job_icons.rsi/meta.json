@@ -101,6 +101,9 @@
             "name": "Geneticist"
         },
         {
+            "name": "GreenBeret"
+        },
+        {
             "name": "HeadOfPersonnel"
         },
         {
@@ -216,6 +219,9 @@
         },
         {
             "name": "Roboticist"
+        },
+        {
+            "name": "RedSword"
         },
         {
             "name": "Scientist"

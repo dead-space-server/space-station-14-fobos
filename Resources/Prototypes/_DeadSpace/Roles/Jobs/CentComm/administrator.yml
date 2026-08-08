@@ -34,7 +34,7 @@
     outerClothing: ClothingOuterArmorCentcommCarapace
     id: CentcomAdministratorPDA
     ears: ClothingHeadsetAltCentCom
-    neck: ClothingNeckCloakCentcom
+    neck: ClothingNeckMantleCentCommAdministrator
     belt: ADTClothingBeltSupremeSheathFilled
     pocket1: WeaponTochmash
     pocket2: DoorRemoteAll
