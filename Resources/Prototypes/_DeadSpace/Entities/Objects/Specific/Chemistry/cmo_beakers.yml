@@ -8,10 +8,18 @@
     sprite: _DeadSpace/Objects/Specific/Chemistry/cmo_beaker.rsi
     layers:
     - state: base
+    - state: beaker1
+      map: ["enum.SolutionContainerLayers.Fill"]
+      visible: false
   - type: Item
     sprite: _DeadSpace/Objects/Specific/Chemistry/cmo_beaker.rsi
     shape:
     - 0,0,1,1
+  - type: SolutionContainerVisuals
+    maxFillLevels: 6
+    fillBaseName: beaker
+    inHandsMaxFillLevels: 3
+    inHandsFillBaseName: -fill-
   - type: SolutionContainerManager
     solutions:
       beaker:
@@ -19,7 +27,6 @@
         canReact: true
   - type: Spillable
     solution: beaker
-    spillWhenThrown: = false;
   - type: ExplosionResistance
     damageCoefficient: 0
   - type: EmitSoundOnPickup
