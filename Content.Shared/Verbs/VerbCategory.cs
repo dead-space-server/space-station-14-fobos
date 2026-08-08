@@ -80,7 +80,7 @@ namespace Content.Shared.Verbs
 
         public static readonly VerbCategory SetSensor = new("verb-categories-set-sensor", null);
 
-        public static readonly VerbCategory PingSelect = new("verb-categories-ping-select", null);
+        public static readonly VerbCategory PingSelect = new("verb-categories-ping-select", null); // DS14
 
         public static readonly VerbCategory Lever = new("verb-categories-lever", null);
 

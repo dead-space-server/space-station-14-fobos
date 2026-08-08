@@ -2,7 +2,7 @@ using Content.Shared.Medical.SuitSensor;
 
 namespace Content.Server.Medical.CrewMonitoring;
 
-[AutoGenerateComponentPause]
+[AutoGenerateComponentPause] // DS14
 [RegisterComponent]
 [Access(typeof(CrewMonitoringConsoleSystem))]
 public sealed partial class CrewMonitoringConsoleComponent : Component
@@ -18,26 +18,24 @@ public sealed partial class CrewMonitoringConsoleComponent : Component
     [DataField("sensorTimeout"), ViewVariables(VVAccess.ReadWrite)]
     public float SensorTimeout = 10f;
 
+    // DS14-start
     [DataField]
     [AutoPausedField]
     public TimeSpan NextSound = TimeSpan.Zero;
 
     [DataField]
-    public TimeSpan Interval = TimeSpan.FromSeconds(10);
-    public CrewMonitoringConsolePingMode CurrentPingMode = new();
+    public TimeSpan SoundInterval = TimeSpan.FromSeconds(10);
 
-    public List<CrewMonitoringConsolePingMode> PingModes = new()
-    {
-        CrewMonitoringConsolePingMode.Health4,
-        CrewMonitoringConsolePingMode.Krit,
-        CrewMonitoringConsolePingMode.Dead,
-    };
+    public CrewMonitoringConsolePingMode CurrentPingMode = CrewMonitoringConsolePingMode.Severe;
+    // DS14-end
 }
 
+// DS14-start
 public enum CrewMonitoringConsolePingMode
 {
-    Health4,
-    Krit,
+    Severe,
+    Critical,
     Dead,
     Disabled
 }
+// DS14-end
