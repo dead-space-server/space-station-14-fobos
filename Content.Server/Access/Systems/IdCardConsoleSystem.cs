@@ -151,8 +151,22 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
             && _prototype.Resolve(newJobProto, out job)
             && _prototype.Resolve(job.Icon, out var jobIcon))
         {
-            _idCard.TryChangeJobIcon(targetId, jobIcon, player: player);
-            _idCard.TryChangeJobDepartment(targetId, job);
+            // DS14-start: give other systems a chance to veto just this job reassignment before
+            // anything about it actually applies - e.g. Personnel Records blocking a job whose slot
+            // cap it already had to compensate for once (see IdCardJobAssignmentAttemptEvent).
+            var jobAttempt = new IdCardJobAssignmentAttemptEvent(player, targetId, newJobProto);
+            RaiseLocalEvent(jobAttempt);
+
+            if (jobAttempt.Cancelled)
+            {
+                job = null;
+            }
+            else
+            {
+                _idCard.TryChangeJobIcon(targetId, jobIcon, player: player);
+                _idCard.TryChangeJobDepartment(targetId, job);
+            }
+            // DS14-end
         }
 
         UpdateStationRecord(uid, targetId, newFullName, newJobTitle, job);

@@ -27,8 +27,15 @@ public sealed class CriticalHearingSystem : EntitySystem
                 return;
             }
 
-            var parent = Transform(listener).ParentUid;
-            if (parent == listener)
+            // DS14: walking up the parent chain can reach a root entity (map/grid) whose parent
+            // is EntityUid.Invalid, which has no TransformComponent at all - Transform(listener)
+            // throws in that case instead of returning nothing. Bail out gracefully instead of
+            // crashing the whole server on what is otherwise an entirely ordinary radio message.
+            if (!TryComp(listener, out TransformComponent? xform))
+                return;
+
+            var parent = xform.ParentUid;
+            if (parent == listener || !parent.IsValid())
                 return;
 
             listener = parent;
