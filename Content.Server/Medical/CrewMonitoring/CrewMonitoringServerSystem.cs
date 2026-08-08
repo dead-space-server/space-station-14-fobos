@@ -70,9 +70,9 @@ public sealed class CrewMonitoringServerSystem : EntitySystem
         pingmode = null;
         if (newsensor.IsAlive)
         {
-            if (newsensor.DamagePercentage != null && newsensor.DamagePercentage.Value > 0.6)
+            if (newsensor.DamagePercentage != null && newsensor.DamagePercentage.Value >= 0.6)
             {
-                if (newsensor.DamagePercentage != null && newsensor.DamagePercentage.Value > 1)
+                if (newsensor.DamagePercentage != null && newsensor.DamagePercentage.Value >= 1)
                 {
                     if (oldsensor == null || (oldsensor.DamagePercentage != null && oldsensor.DamagePercentage.Value < 1))
                     {
