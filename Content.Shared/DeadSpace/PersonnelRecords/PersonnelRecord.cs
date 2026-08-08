@@ -48,6 +48,14 @@ public sealed partial record PersonnelRecord
     public ProtoId<JobPrototype>? JobAtOrder;
 
     /// <summary>
+    /// The displayed job title at the moment a Demotion or Dismissal order was issued. The general
+    /// record already contains the new title by the time execution is detected, so this snapshot is
+    /// required to preserve the actual previous title in history.
+    /// </summary>
+    [DataField]
+    public string? JobTitleAtOrder;
+
+    /// <summary>
     /// <see cref="Status"/> as it was immediately before a Demotion or Dismissal order was
     /// issued (either <see cref="EmploymentStatus.None"/> or <see cref="EmploymentStatus.Reprimand"/>).
     /// Cancelling the order restores this value rather than always falling back to None, so an

@@ -224,7 +224,7 @@ public sealed partial class PersonnelRecordsConsoleWindow : FancyWindow
         AnnulButton.Disabled = !state.CanAnnul;
         PrintButton.Disabled = !state.CanPrint;
         DeclareWantedButton.Disabled = !state.CanDeclareWanted;
-        DeclareWantedButton.Visible = state.FullAccess;
+        DeclareWantedButton.Visible = state.CanDeclareWanted;
     }
 
     private void PopulateRecordListing(Dictionary<uint, string>? listing)

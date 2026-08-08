@@ -87,8 +87,12 @@ public sealed class PersonnelRecordsSystem : SharedPersonnelRecordsSystem
         // nothing to remember - StatusBeforeOrder/JobAtOrder stay null.
         if (status is EmploymentStatus.Demotion or EmploymentStatus.Dismissal)
         {
+            if (!_records.TryGetRecord<GeneralStationRecord>(key, out var general))
+                return false;
+
             record.StatusBeforeOrder = record.Status;
             record.JobAtOrder = currentJob;
+            record.JobTitleAtOrder = general.JobTitle;
         }
 
         record.Status = status;
@@ -124,6 +128,7 @@ public sealed class PersonnelRecordsSystem : SharedPersonnelRecordsSystem
 
         record.Status = target;
         record.JobAtOrder = null;
+        record.JobTitleAtOrder = null;
         record.StatusBeforeOrder = null;
 
         if (target == EmploymentStatus.Reprimand)
@@ -161,10 +166,8 @@ public sealed class PersonnelRecordsSystem : SharedPersonnelRecordsSystem
     /// restores a prior Reprimand - the person has moved on to a new job with a clean slate.
     /// </summary>
     /// <param name="key">The record to close out.</param>
-    /// <param name="previousJobTitle">The job title the person held right before this order was
-    /// carried out, kept purely for record-keeping (<see cref="PersonnelRecord.PreviousJobTitle"/>).</param>
     /// <returns>True if an order was actually closed out, false if the record had nothing pending.</returns>
-    public bool TryExecuteOrder(StationRecordKey key, string previousJobTitle)
+    public bool TryExecuteOrder(StationRecordKey key)
     {
         if (!_records.TryGetRecord<PersonnelRecord>(key, out var record))
             return false;
@@ -175,11 +178,17 @@ public sealed class PersonnelRecordsSystem : SharedPersonnelRecordsSystem
         if (record.JobAtOrder is not { } executedJob)
             return false;
 
+        if (record.JobTitleAtOrder is not { } previousJobTitle)
+            return false;
+
         var previousStatus = record.Status;
 
         record.PreviousJobTitle = previousJobTitle;
         record.Status = EmploymentStatus.None;
+        record.Reason = null;
+        record.InitiatorName = null;
         record.JobAtOrder = null;
+        record.JobTitleAtOrder = null;
         record.StatusBeforeOrder = null;
 
         AddHistory(record, PersonnelActionType.Executed, Loc.GetString("personnel-records-history-auto-executed", ("job", previousJobTitle)), null);

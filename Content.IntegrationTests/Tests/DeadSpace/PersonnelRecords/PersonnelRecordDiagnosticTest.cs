@@ -1,3 +1,5 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using System.Linq;
 using Content.Server.DeadSpace.PersonnelRecords.Systems;
 using Content.Server.GameTicking;
@@ -217,11 +219,9 @@ public sealed class PersonnelRecordDiagnosticTest
     /// <summary>
     /// Reproduces the reported bug exactly: dismiss the Head of Personnel (freeing their capped
     /// [1,1] slot so a new hire can fill the vacancy), then reassign the *same* person straight back
-    /// to Head of Personnel the way the ID card console does it - rewrite
-    /// <c>GeneralStationRecord.JobPrototype</c> and <c>Synchronize</c>, without the slot pool ever
-    /// being touched. Before the <c>PersonnelSlotTrackingComponent</c> fix in
-    /// <c>PersonnelVacancySystem</c>, the freed slot never got reclaimed, leaving room for a second
-    /// Head of Personnel to join even though the position was filled again.
+    /// to Head of Personnel the way the ID card console does it. The generic record synchronization
+    /// must not consume the vacancy by itself; only the explicit <see cref="IdCardJobAssignedEvent"/>
+    /// raised after a successful write may reclaim it.
     /// </summary>
     [Test]
     public async Task ReassigningBackDoesNotDoubleFreeSlot()
@@ -248,12 +248,15 @@ public sealed class PersonnelRecordDiagnosticTest
         Assert.That(mob, Is.Not.Null, "Player never got an attached entity after round start");
 
         StationRecordKey? key = null;
+        var idCard = default(EntityUid);
         var station = default(EntityUid);
+        var originalJobTitle = string.Empty;
 
         await server.WaitAssertion(() =>
         {
             var idCardSystem = entMan.System<SharedIdCardSystem>();
-            Assert.That(idCardSystem.TryFindIdCard(mob!.Value, out var idCard), Is.True);
+            Assert.That(idCardSystem.TryFindIdCard(mob!.Value, out var idCardEnt), Is.True);
+            idCard = idCardEnt;
             Assert.That(entMan.TryGetComponent<StationRecordKeyStorageComponent>(idCard, out var keyStorage), Is.True);
             key = keyStorage!.Key;
             station = key!.Value.OriginStation;
@@ -261,6 +264,7 @@ public sealed class PersonnelRecordDiagnosticTest
             var records = entMan.System<StationRecordsSystem>();
             Assert.That(records.TryGetRecord<GeneralStationRecord>(key!.Value, out var general), Is.True);
             Assert.That(general.JobPrototype, Is.EqualTo(HeadOfPersonnel.Id), "Test setup didn't actually get the player hired as Head of Personnel");
+            originalJobTitle = general.JobTitle;
 
             var stationJobs = entMan.System<StationJobsSystem>();
             Assert.That(stationJobs.TryGetJobSlot(station, HeadOfPersonnel.Id, out var freeAtStart), Is.True);
@@ -279,6 +283,7 @@ public sealed class PersonnelRecordDiagnosticTest
             Assert.That(personnelRecords.TryIssueOrder(key!.Value, EmploymentStatus.Dismissal, "test", "Test Officer", general.JobPrototype), Is.True);
 
             general.JobPrototype = "Passenger";
+            general.JobTitle = "Passenger";
             records.Synchronize(key!.Value);
         });
 
@@ -289,6 +294,13 @@ public sealed class PersonnelRecordDiagnosticTest
             var stationJobs = entMan.System<StationJobsSystem>();
             Assert.That(stationJobs.TryGetJobSlot(station, HeadOfPersonnel.Id, out var freeAfterDismissal), Is.True);
             Assert.That(freeAfterDismissal, Is.EqualTo(1), "Executing the dismissal should have freed exactly one HoP slot for a replacement hire");
+
+            var records = entMan.System<StationRecordsSystem>();
+            Assert.That(records.TryGetRecord<PersonnelRecord>(key!.Value, out var personnel), Is.True);
+            Assert.That(personnel.Status, Is.EqualTo(EmploymentStatus.None));
+            Assert.That(personnel.PreviousJobTitle, Is.EqualTo(originalJobTitle), "Execution must retain the title from when the order was issued, not the new title");
+            Assert.That(personnel.Reason, Is.Null, "An executed order must not leave an active reason on a clean record");
+            Assert.That(personnel.InitiatorName, Is.Null, "An executed order must not leave an active initiator on a clean record");
         });
 
         // Now simulate the Captain reassigning the same person straight back to Head of Personnel via
@@ -298,6 +310,7 @@ public sealed class PersonnelRecordDiagnosticTest
             var records = entMan.System<StationRecordsSystem>();
             records.TryGetRecord<GeneralStationRecord>(key!.Value, out var general);
             general.JobPrototype = HeadOfPersonnel.Id;
+            general.JobTitle = originalJobTitle;
             records.Synchronize(key!.Value);
         });
 
@@ -306,9 +319,14 @@ public sealed class PersonnelRecordDiagnosticTest
         await server.WaitAssertion(() =>
         {
             var stationJobs = entMan.System<StationJobsSystem>();
-            Assert.That(stationJobs.TryGetJobSlot(station, HeadOfPersonnel.Id, out var freeAfterReassign), Is.True);
-            TestContext.Out.WriteLine($"[DIAG] Free HoP slots after reassigning back = {freeAfterReassign}");
-            Assert.That(freeAfterReassign, Is.EqualTo(0), "Reassigning the person back to HoP should have reclaimed the extra slot - a second HoP must not be able to join");
+            Assert.That(stationJobs.TryGetJobSlot(station, HeadOfPersonnel.Id, out var freeBeforeConfirmation), Is.True);
+            Assert.That(freeBeforeConfirmation, Is.EqualTo(1), "A generic record update must not consume a real vacancy");
+
+            entMan.EventBus.RaiseEvent(EventSource.Local,
+                new IdCardJobAssignedEvent(mob!.Value, idCard, HeadOfPersonnel));
+
+            Assert.That(stationJobs.TryGetJobSlot(station, HeadOfPersonnel.Id, out var freeAfterConfirmation), Is.True);
+            Assert.That(freeAfterConfirmation, Is.EqualTo(0), "A confirmed ID-console assignment should reclaim the extra slot");
         });
 
         await server.WaitPost(() => ticker.RestartRound());
@@ -485,6 +503,11 @@ public sealed class PersonnelRecordDiagnosticTest
             // Declaring someone wanted is Captain/HoS only - narrower than FullAccess (which also
             // includes the HoP).
             Assert.That(comp.DeclareWantedAccess.Select(x => x.Id), Is.EquivalentTo(new[] { "Captain", "HeadOfSecurity" }));
+
+            var prototypes = server.ResolveDependency<IPrototypeManager>();
+            var dismissed = prototypes.Index<JobPrototype>("Dismissed");
+            Assert.That(dismissed.OverrideConsoleVisibility.GetValueOrDefault(dismissed.SetPreference), Is.False,
+                "Dismissed must only be assigned by PersonnelDismissalSystem after an active order");
         });
 
         await pair.CleanReturnAsync();

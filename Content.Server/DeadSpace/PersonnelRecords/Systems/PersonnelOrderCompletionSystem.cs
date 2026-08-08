@@ -55,7 +55,7 @@ public sealed class PersonnelOrderCompletionSystem : EntitySystem
         if (general.JobPrototype == jobAtOrder.Id)
             return;
 
-        if (!_personnelRecords.TryExecuteOrder(ev.Key, general.JobTitle))
+        if (!_personnelRecords.TryExecuteOrder(ev.Key))
             return;
 
         _adminLogger.Add(LogType.Identity, LogImpact.High,

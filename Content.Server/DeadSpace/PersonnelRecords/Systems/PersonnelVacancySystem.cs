@@ -37,7 +37,7 @@ namespace Content.Server.DeadSpace.PersonnelRecords.Systems;
 /// abused the other way. If the dismissed/demoted person (or anyone else) later gets moved back
 /// into that job through the ID card console - which, same as above, never touches the slot pool -
 /// occupied goes back up but the free slot never goes back down, so the station ends up with room
-/// for a second occupant of a job that's supposed to be capped at one (<see cref="OnRecordModified"/>).
+/// for a second occupant of a job that's supposed to be capped at one (<see cref="OnJobAssigned"/>).
 /// <see cref="PersonnelSlotTrackingComponent"/> on the station is what makes it safe to claw that
 /// slot back: it only ever reclaims slots this system itself handed out, never a station's
 /// round-start allotment or a free slot that exists for an unrelated reason.
@@ -64,12 +64,12 @@ public sealed class PersonnelVacancySystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<PersonnelOrderExecutedEvent>(OnOrderExecuted);
-        SubscribeLocalEvent<RecordModifiedEvent>(OnRecordModified);
         SubscribeLocalEvent<IdCardJobAssignmentAttemptEvent>(OnJobAssignmentAttempt);
+        SubscribeLocalEvent<IdCardJobAssignedEvent>(OnJobAssigned);
     }
 
     /// <summary>
-    /// Closes the gap <see cref="OnRecordModified"/> can't: if a new hire already took the slot a
+    /// Closes the gap <see cref="OnJobAssigned"/> can't: if a new hire already took the slot a
     /// Demotion/Dismissal freed (the normal, intended outcome), there's nothing left in the free
     /// pool to reclaim when the original person - or anyone else - gets reassigned back into that
     /// job through the ID card console, and the station ends up over its round-start cap for real
@@ -100,7 +100,7 @@ public sealed class PersonnelVacancySystem : EntitySystem
             return;
 
         // A freed slot is still sitting there unclaimed - this assignment is exactly what it's for,
-        // let it through (OnRecordModified reclaims it once the record change goes through).
+        // let it through (OnJobAssigned reclaims it once the write succeeds).
         if (_stationJobs.TryGetJobSlot(station, ev.NewJob.Id, out var freeSlots) && freeSlots is { } free && free > 0)
             return;
 
@@ -109,36 +109,29 @@ public sealed class PersonnelVacancySystem : EntitySystem
     }
 
     /// <summary>
-    /// Reclaims one extra slot this system previously freed for a job, the moment someone's record
-    /// shows that job again - covers the ID card console (or anything else touching
-    /// <c>GeneralStationRecord.JobPrototype</c> directly) handing the position straight back out
-    /// without the slot pool ever noticing. Deliberately a no-op for the normal "a new hire takes the
-    /// freed slot" case: by the time their record fires this event, the standard job-assignment
-    /// machinery has already consumed the free slot on its own, so <c>TryGetJobSlot</c> already
-    /// reads 0 and the "nothing free to reclaim" guard below bails out - nothing gets double-counted.
+    /// Reclaims one extra slot this system previously freed only after the ID console confirms that
+    /// it actually assigned that job. A generic <c>RecordModifiedEvent</c> cannot be used here: it is
+    /// also raised for name, personnel-status and criminal-record edits and would silently consume a
+    /// real vacancy without anyone taking the job.
     /// </summary>
-    private void OnRecordModified(RecordModifiedEvent ev)
+    private void OnJobAssigned(IdCardJobAssignedEvent ev)
     {
-        var station = ev.Key.OriginStation;
+        if (_station.GetOwningStation(ev.TargetId) is not { } station)
+            return;
 
         if (!TryComp<PersonnelSlotTrackingComponent>(station, out var tracking))
             return;
 
-        if (!_records.TryGetRecord<GeneralStationRecord>(ev.Key, out var general))
+        if (!tracking.ExtraSlotsFreed.TryGetValue(ev.NewJob, out var extra) || extra <= 0)
             return;
 
-        ProtoId<JobPrototype> job = general.JobPrototype;
-
-        if (!tracking.ExtraSlotsFreed.TryGetValue(job, out var extra) || extra <= 0)
+        if (!_stationJobs.TryGetJobSlot(station, ev.NewJob.Id, out var freeSlots) || freeSlots is not { } free || free <= 0)
             return;
 
-        if (!_stationJobs.TryGetJobSlot(station, job.Id, out var freeSlots) || freeSlots is not { } free || free <= 0)
+        if (!_stationJobs.TryAdjustJobSlot(station, ev.NewJob.Id, -1, createSlot: false, clamp: true))
             return;
 
-        if (!_stationJobs.TryAdjustJobSlot(station, job.Id, -1, createSlot: false, clamp: true))
-            return;
-
-        tracking.ExtraSlotsFreed[job] = extra - 1;
+        tracking.ExtraSlotsFreed[ev.NewJob] = extra - 1;
     }
 
     private void OnOrderExecuted(ref PersonnelOrderExecutedEvent ev)

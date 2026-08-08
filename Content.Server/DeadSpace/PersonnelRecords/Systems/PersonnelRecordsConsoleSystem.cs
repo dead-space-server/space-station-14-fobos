@@ -541,23 +541,34 @@ public sealed class PersonnelRecordsConsoleSystem : SharedPersonnelRecordsConsol
         if (console.ActiveKey is { } id)
         {
             var key = new StationRecordKey(id, owningStation.Value);
-            _records.TryGetRecord(key, out state.StationRecord, stationRecords);
-            _records.TryGetRecord(key, out state.PersonnelRecord, stationRecords);
-            _records.TryGetRecord(key, out state.CriminalRecord, stationRecords);
-            state.SelectedKey = id;
-
-            if (state.StationRecord != null && state.PersonnelRecord != null
-                && IsVisible(state.StationRecord, console, fullAccess, userDept))
+            if (hasBaseAccess
+                && _records.TryGetRecord<GeneralStationRecord>(key, out var general, stationRecords)
+                && IsVisible(general, console, fullAccess, userDept))
             {
-                var canAct = CanAct(actor, ent, key, state.StationRecord);
-                var status = state.PersonnelRecord.Status;
+                state.StationRecord = general;
+                _records.TryGetRecord(key, out state.PersonnelRecord, stationRecords);
+                _records.TryGetRecord(key, out state.CriminalRecord, stationRecords);
+                state.SelectedKey = id;
 
-                state.CanReprimand = canAct && status == EmploymentStatus.None;
-                state.CanDemote = canAct && status is EmploymentStatus.None or EmploymentStatus.Reprimand;
-                state.CanDismiss = state.CanDemote;
-                state.CanAnnul = canAct && status is EmploymentStatus.Demotion or EmploymentStatus.Dismissal;
-                state.CanPrint = status != EmploymentStatus.None;
-                state.CanDeclareWanted = CanDeclareWanted(actor, console);
+                if (state.PersonnelRecord != null)
+                {
+                    var canAct = CanAct(actor, ent, key, general);
+                    var status = state.PersonnelRecord.Status;
+
+                    state.CanReprimand = canAct && status == EmploymentStatus.None;
+                    state.CanDemote = canAct && status is EmploymentStatus.None or EmploymentStatus.Reprimand;
+                    state.CanDismiss = state.CanDemote;
+                    state.CanAnnul = canAct && status is EmploymentStatus.Demotion or EmploymentStatus.Dismissal;
+                    state.CanPrint = status != EmploymentStatus.None;
+                    state.CanDeclareWanted = CanDeclareWanted(actor, console);
+                }
+            }
+            else
+            {
+                // ActiveKey is shared by the console entity, not by an individual BUI session.
+                // Never retain a selection that the current user cannot see: otherwise the next
+                // state update could disclose another department's records.
+                console.ActiveKey = null;
             }
         }
 
