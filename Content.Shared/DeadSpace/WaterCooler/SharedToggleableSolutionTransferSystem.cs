@@ -1,24 +1,23 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Content.Shared.Chemistry.Components;
-using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Examine;
 using Content.Shared.Verbs;
 using Robust.Shared.GameStates;
-using Robust.Shared.Timing;
 
 namespace Content.Shared.DeadSpace.WaterCooler;
 
 public sealed class ToggleableSolutionTransferSystem : EntitySystem
 {
-    [Dependency] private readonly IGameTiming _timing = default!;
-
-    private readonly Dictionary<EntityUid, TimeSpan> _lastPopup = new();
-
     public override void Initialize()
     {
+        base.Initialize();
+
         SubscribeLocalEvent<ToggleableSolutionTransferComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<ToggleableSolutionTransferComponent, GetVerbsEvent<AlternativeVerb>>(OnGetVerbs);
         SubscribeLocalEvent<ToggleableSolutionTransferComponent, ExaminedEvent>(OnExamined);
         SubscribeLocalEvent<ToggleableSolutionTransferComponent, ComponentStartup>(OnStartup);
+        SubscribeLocalEvent<ToggleableSolutionTransferComponent, AfterAutoHandleStateEvent>(OnAfterHandleState);
     }
 
     private void OnStartup(Entity<ToggleableSolutionTransferComponent> ent, ref ComponentStartup args)
@@ -31,32 +30,30 @@ public sealed class ToggleableSolutionTransferSystem : EntitySystem
         UpdateMode(ent);
     }
 
+    private void OnAfterHandleState(Entity<ToggleableSolutionTransferComponent> ent, ref AfterAutoHandleStateEvent args)
+    {
+        UpdateMode(ent);
+    }
+
     private void OnGetVerbs(Entity<ToggleableSolutionTransferComponent> ent, ref GetVerbsEvent<AlternativeVerb> args)
     {
         if (!args.CanAccess || !args.CanInteract)
             return;
 
-        var user = args.User;
         var isOutput = ent.Comp.Direction == SolutionTransferDirection.Output;
 
         args.Verbs.Add(new AlternativeVerb
         {
-            Text = isOutput ? "Перекчлючить в режим пополнения" : "Перекчлючить в режим раздачи",
+            Text = Loc.GetString(isOutput
+                ? "water-cooler-verb-switch-to-intake"
+                : "water-cooler-verb-switch-to-dispensing"),
             Act = () =>
             {
-                // Защита от спама
-                var now = _timing.CurTime;
-                if (_lastPopup.TryGetValue(ent, out var last) && (now - last).TotalSeconds < 1.0)
-                    return;
-
-                // Меняем режим
-                ent.Comp.Direction = isOutput
+                ent.Comp.Direction = ent.Comp.Direction == SolutionTransferDirection.Output
                     ? SolutionTransferDirection.Input
                     : SolutionTransferDirection.Output;
                 UpdateMode(ent);
                 Dirty(ent);
-
-                _lastPopup[ent] = now;
             },
             Priority = 1,
         });
@@ -77,18 +74,16 @@ public sealed class ToggleableSolutionTransferSystem : EntitySystem
 
     private void UpdateMode(Entity<ToggleableSolutionTransferComponent> ent)
     {
-        RemCompDeferred<DrainableSolutionComponent>(ent);
-        RemCompDeferred<RefillableSolutionComponent>(ent);
-        RemCompDeferred<SolutionTransferComponent>(ent);
-
         if (ent.Comp.Direction == SolutionTransferDirection.Input)
         {
+            RemCompDeferred<DrainableSolutionComponent>(ent);
             var refillable = EnsureComp<RefillableSolutionComponent>(ent);
             refillable.Solution = ent.Comp.Solution;
             Dirty(ent, refillable);
         }
         else
         {
+            RemCompDeferred<RefillableSolutionComponent>(ent);
             var drainable = EnsureComp<DrainableSolutionComponent>(ent);
             drainable.Solution = ent.Comp.Solution;
             Dirty(ent, drainable);

@@ -6,3 +6,5 @@ ent-WaterCoolerFrame = каркас кулера
     .desc = Каркас для строительства кулера.
 water-cooler-mode-intake = Режим: Приём
 water-cooler-mode-dispensing = Режим: Выдача
+water-cooler-verb-switch-to-intake = Переключить в режим пополнения
+water-cooler-verb-switch-to-dispensing = Переключить в режим раздачи

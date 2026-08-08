@@ -17,7 +17,6 @@
   canBuildInImpassable: false
 
 - type: construction
-  name: кулер
   id: WaterCoolerEmpty
   graph: WaterCoolerGraph
   startNode: start
@@ -25,6 +24,3 @@
   category: construction-category-utilities
   objectType: Structure
   placementMode: SnapgridCenter
-  icon:
-    sprite: _DeadSpace/Structures/tanks.rsi
-    state: watercoolerempty-2
