@@ -82,3 +82,7 @@
   - type: Tag
     tags:
       - MantisBlades
+  - type: Prying
+    force: true
+    speedModifier: 4.0
+    pryPowered: true

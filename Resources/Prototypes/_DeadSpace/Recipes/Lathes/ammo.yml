@@ -107,7 +107,7 @@
   id: ADTMagazineShotgunXL
   result: ADTMagazineShotgunXL
   materials:
-    Steel: 1500
+    Steel: 600
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
