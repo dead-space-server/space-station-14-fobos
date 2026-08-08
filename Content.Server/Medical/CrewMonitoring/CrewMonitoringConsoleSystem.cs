@@ -11,11 +11,25 @@ using Content.Shared.Medical.SuitSensor;
 using Content.Shared.Pinpointer;
 using Content.Shared.Silicons.StationAi;
 using Robust.Server.GameObjects;
+using Robust.Shared.Audio.Systems;
+using Content.Shared.Popups;
+using Robust.Shared.Audio;
+using Content.Shared.Database;
+using Content.Shared.Verbs;
+using Robust.Shared.Utility;
+using Robust.Shared.Timing;
+
 
 namespace Content.Server.Medical.CrewMonitoring;
 
 public sealed class CrewMonitoringConsoleSystem : EntitySystem
 {
+
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly PowerCellSystem _cell = default!;
     [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
     // DS14-start
@@ -29,6 +43,7 @@ public sealed class CrewMonitoringConsoleSystem : EntitySystem
         SubscribeLocalEvent<CrewMonitoringConsoleComponent, ComponentRemove>(OnRemove);
         SubscribeLocalEvent<CrewMonitoringConsoleComponent, DeviceNetworkPacketEvent>(OnPacketReceived);
         SubscribeLocalEvent<CrewMonitoringConsoleComponent, BoundUIOpenedEvent>(OnUIOpened);
+        SubscribeLocalEvent<CrewMonitoringConsoleComponent, GetVerbsEvent<Verb>>(OnGetVerb);
     }
 
     private void OnRemove(EntityUid uid, CrewMonitoringConsoleComponent component, ComponentRemove args)
@@ -36,9 +51,33 @@ public sealed class CrewMonitoringConsoleSystem : EntitySystem
         component.ConnectedSensors.Clear();
     }
 
+    private void Bonk(Entity<CrewMonitoringConsoleComponent> ent, CrewMonitoringConsolePingMode pingmode)
+    {
+        if (!_cell.HasActivatableCharge(ent.Owner))
+            return;
+
+        if (ent.Comp.CurrentPingMode == CrewMonitoringConsolePingMode.Disabled)
+            return;
+
+        if (ent.Comp.CurrentPingMode > pingmode)
+            return;
+
+        var curTime = _timing.CurTime;
+        if (ent.Comp.NextSound > curTime)
+            return;
+
+        ent.Comp.NextSound = curTime + ent.Comp.Interval;
+
+        _popup.PopupEntity($"{MetaData(ent.Owner).EntityName} Пикает", ent.Owner, PopupType.Medium);
+        _audio.PlayPredicted(new SoundPathSpecifier("/Audio/Effects/beep1.ogg"), ent, null);
+    }
+
     private void OnPacketReceived(EntityUid uid, CrewMonitoringConsoleComponent component, DeviceNetworkPacketEvent args)
     {
         var payload = args.Data;
+
+        if (payload.TryGetValue("PingMode", out CrewMonitoringConsolePingMode pingmode))
+            Bonk((uid, component), pingmode);
 
         // Check command
         if (!payload.TryGetValue(DeviceNetworkConstants.Command, out string? command))
@@ -105,5 +144,91 @@ public sealed class CrewMonitoringConsoleSystem : EntitySystem
         // Update all sensors info
         var allSensors = component.ConnectedSensors.Values.ToList();
         _uiSystem.SetUiState(uid, CrewMonitoringUIKey.Key, new CrewMonitoringState(allSensors));
+    }
+
+    private void OnGetVerb(EntityUid uid, CrewMonitoringConsoleComponent component, GetVerbsEvent<Verb> args)
+    {
+        if (!args.CanAccess || !args.CanInteract || !args.CanComplexInteract)
+            return;
+        for (var i = 0; i < component.PingModes.Count; i++)
+        {
+
+            var pingmode = component.PingModes[i];
+            var icon = GetSpriteByMode(pingmode);
+            var text = GetTextByMode(pingmode);
+
+            var v = new Verb
+            {
+                Priority = component.PingModes.Count - i + 1,
+                Icon = icon,
+                Disabled = pingmode == component.CurrentPingMode,
+                Category = VerbCategory.PingSelect,
+                Text = text,
+                Impact = LogImpact.Low,
+                DoContactInteraction = false,
+                CloseMenu = true,
+                Act = () =>
+                {
+                    _popup.PopupEntity("Измененно на " + text, uid, args.User);
+                    component.CurrentPingMode = pingmode;
+                }
+            };
+
+            args.Verbs.Add(v);
+        }
+
+        var d = new Verb
+        {
+            Priority = 1,
+            Category = VerbCategory.PingSelect,
+            Text = "Выключить",
+            Impact = LogImpact.Low,
+            Disabled = component.CurrentPingMode == CrewMonitoringConsolePingMode.Disabled,
+            DoContactInteraction = false,
+            CloseMenu = true,
+            Act = () =>
+            {
+                _popup.PopupEntity("Выключенно", uid, args.User);
+                component.CurrentPingMode = CrewMonitoringConsolePingMode.Disabled;
+            }
+        };
+        args.Verbs.Add(d);
+    }
+
+    public SpriteSpecifier? GetSpriteByMode(CrewMonitoringConsolePingMode mode)
+    {
+        switch (mode)
+        {
+            case CrewMonitoringConsolePingMode.Health4:
+                return new SpriteSpecifier.Rsi(new ResPath("Interface/Alerts/human_crew_monitoring.rsi"), "health4");
+
+            case CrewMonitoringConsolePingMode.Krit:
+                return new SpriteSpecifier.Rsi(new ResPath("Interface/Alerts/human_crew_monitoring.rsi"), "critical");
+
+            case CrewMonitoringConsolePingMode.Dead:
+                return new SpriteSpecifier.Rsi(new ResPath("Interface/Alerts/human_crew_monitoring.rsi"), "dead");
+        }
+
+        return null;
+    }
+
+    public string GetTextByMode(CrewMonitoringConsolePingMode mode)
+    {
+        switch (mode)
+        {
+            case CrewMonitoringConsolePingMode.Health4:
+                return "Ужс";
+
+            case CrewMonitoringConsolePingMode.Krit:
+                return "Крит";
+
+            case CrewMonitoringConsolePingMode.Dead:
+                return "Труп";
+
+            case CrewMonitoringConsolePingMode.Disabled:
+                return "Выключить";
+        }
+
+        return "Ошибка";
     }
 }
