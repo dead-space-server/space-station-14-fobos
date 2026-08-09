@@ -54,6 +54,6 @@
     sprite: Objects/Consumable/Food/egg.rsi
     state: icon
   product: CrateFoodEgg
-  cost: 750
+  cost: 4000
   category: cargoproduct-category-name-food
   group: service # DS14
