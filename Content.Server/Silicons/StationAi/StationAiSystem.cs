@@ -35,6 +35,7 @@ using Robust.Server.Containers;
 using Robust.Shared.Containers;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Player;
+using Robust.Shared.Physics;
 using Robust.Shared.Prototypes;
 using static Content.Server.Chat.Systems.ChatSystem;
 
@@ -61,6 +62,7 @@ public sealed class StationAiSystem : SharedStationAiSystem
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly StationAiVisionSystem _vision = default!; // DS14
 
     private readonly HashSet<Entity<StationAiCoreComponent>> _stationAiCores = new();
 
@@ -356,13 +358,9 @@ public sealed class StationAiSystem : SharedStationAiSystem
 
     private void OnExpandICChatRecipients(ExpandICChatRecipientsEvent ev)
     {
-        var xformQuery = GetEntityQuery<TransformComponent>();
-        var sourceXform = Transform(ev.Source);
-        var sourcePos = _xforms.GetWorldPosition(sourceXform, xformQuery);
-
         // Let the AI hear speech around the entity it is currently viewing from.
-        var query = EntityQueryEnumerator<StationAiCoreComponent, TransformComponent>();
-        while (query.MoveNext(out var ent, out var entStationAiCore, out var entXform))
+        var query = EntityQueryEnumerator<StationAiCoreComponent>();
+        while (query.MoveNext(out var ent, out var entStationAiCore))
         {
             var stationAiCore = new Entity<StationAiCoreComponent?>(ent, entStationAiCore);
 
@@ -372,56 +370,46 @@ public sealed class StationAiSystem : SharedStationAiSystem
             if (stationAiCore.Comp?.RemoteEntity == null)
                 continue;
 
-            // DS14-start: use the closest real listening path (the core itself or a camera covering the AI eye).
-            var hasExistingPath = ev.Recipients.TryGetValue(actor.PlayerSession, out var existing) &&
-                                  existing.Range >= 0f &&
-                                  existing.Range <= ev.VoiceRange;
-            var range = hasExistingPath ? existing.Range : float.PositiveInfinity;
-
-            if (entXform.MapID == sourceXform.MapID)
+            // DS14-start: use the closest powered vision device while requiring StationAiVision coverage at the AI eye.
+            if (!TryGetCameraHearingPath(stationAiCore.Comp.RemoteEntity.Value, ev.Source, out var device, out var range) ||
+                range > ev.VoiceRange)
             {
-                var coreRange = (sourcePos - _xforms.GetWorldPosition(entXform, xformQuery)).Length();
-                if (coreRange <= ev.VoiceRange)
-                    range = MathF.Min(range, coreRange);
-            }
-
-            if (TryGetCameraHearingRange(stationAiCore.Comp.RemoteEntity.Value, ev.Source, out var cameraRange) &&
-                cameraRange <= ev.VoiceRange)
-            {
-                range = MathF.Min(range, cameraRange);
-            }
-
-            if (float.IsPositiveInfinity(range))
+                ev.Recipients.Remove(actor.PlayerSession);
                 continue;
+            }
 
-            ev.Recipients[actor.PlayerSession] = hasExistingPath
-                ? existing with { Range = range, AudioRangeOverride = range }
-                : new ICChatRecipientData(range, false, AudioRangeOverride: range);
+            ev.Recipients[actor.PlayerSession] = ev.Recipients.TryGetValue(actor.PlayerSession, out var existing)
+                ? existing with { Range = range, AudioRangeOverride = range, AudioSourceOverride = device }
+                : new ICChatRecipientData(range, false, AudioRangeOverride: range, AudioSourceOverride: device);
             // DS14-end
         }
     }
 
     // DS14-start: AI hearing originates from the physical vision device covering its remote eye.
-    internal bool TryGetCameraHearingRange(EntityUid eye, EntityUid source, out float range)
+    internal bool TryGetCameraHearingPath(EntityUid eye, EntityUid source, out EntityUid hearingDevice, out float range)
     {
+        hearingDevice = EntityUid.Invalid;
         range = float.PositiveInfinity;
 
         var xformQuery = GetEntityQuery<TransformComponent>();
         if (!xformQuery.TryGetComponent(eye, out var eyeXform) ||
             !xformQuery.TryGetComponent(source, out var sourceXform) ||
             eyeXform.MapID != sourceXform.MapID ||
-            eyeXform.GridUid == null)
+            eyeXform.GridUid is not { } gridUid ||
+            !TryComp<BroadphaseComponent>(gridUid, out var broadphase) ||
+            !TryComp<MapGridComponent>(gridUid, out var grid))
         {
             return false;
         }
 
         var eyePosition = _xforms.GetWorldPosition(eyeXform, xformQuery);
         var sourcePosition = _xforms.GetWorldPosition(sourceXform, xformQuery);
+        var eyeTile = Maps.LocalToTile(gridUid, grid, eyeXform.Coordinates);
         var query = EntityQueryEnumerator<StationAiVisionComponent, TransformComponent>();
 
         while (query.MoveNext(out var device, out var vision, out var deviceXform))
         {
-            if (deviceXform.GridUid != eyeXform.GridUid ||
+            if (deviceXform.GridUid != gridUid ||
                 !vision.Enabled ||
                 !_power.IsPowered(device) ||
                 vision.NeedsAnchoring && !deviceXform.Anchored)
@@ -433,10 +421,24 @@ public sealed class StationAiSystem : SharedStationAiSystem
             if ((devicePosition - eyePosition).LengthSquared() > vision.Range * vision.Range)
                 continue;
 
-            range = MathF.Min(range, (devicePosition - sourcePosition).Length());
+            if (!_vision.IsAccessible(
+                    (gridUid, broadphase, grid),
+                    eyeTile,
+                    expansionSize: vision.Range + 1f,
+                    requirePoweredSource: true))
+            {
+                continue;
+            }
+
+            var deviceRange = (devicePosition - sourcePosition).Length();
+            if (deviceRange >= range)
+                continue;
+
+            hearingDevice = device;
+            range = deviceRange;
         }
 
-        return !float.IsPositiveInfinity(range);
+        return hearingDevice != EntityUid.Invalid;
     }
     // DS14-end
 

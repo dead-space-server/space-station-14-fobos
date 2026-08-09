@@ -184,18 +184,20 @@ public sealed partial class TTSSystem : EntitySystem
 
         if (soundData is null) return;
 
-        // DS14-start: carry remote microphone attenuation to each listener.
+        // DS14-start: carry recipient-specific remote hearing attenuation and source.
         foreach (var (session, data) in recipientData)
         {
+            var audioSource = GetNetEntity(data.AudioSourceOverride ?? uid);
+
             if (!understanding.Contains(session))
             {
                 if (soundLexiconData is null)
-                    RaiseNetworkEvent(new PlayTTSEvent(new byte[0], GetNetEntity(uid), isSoundLexicon: true, languageId: languageId, distanceOverride: data.AudioRangeOverride), session);
+                    RaiseNetworkEvent(new PlayTTSEvent(new byte[0], audioSource, isSoundLexicon: true, languageId: languageId, distanceOverride: data.AudioRangeOverride), session);
                 else
-                    RaiseNetworkEvent(new PlayTTSEvent(soundLexiconData, GetNetEntity(uid), distanceOverride: data.AudioRangeOverride), session);
+                    RaiseNetworkEvent(new PlayTTSEvent(soundLexiconData, audioSource, distanceOverride: data.AudioRangeOverride), session);
             }
             else
-                RaiseNetworkEvent(new PlayTTSEvent(soundData, GetNetEntity(uid), isSoundLexicon: false, distanceOverride: data.AudioRangeOverride), session);
+                RaiseNetworkEvent(new PlayTTSEvent(soundData, audioSource, isSoundLexicon: false, distanceOverride: data.AudioRangeOverride), session);
         }
         // DS14-end
 
@@ -295,18 +297,20 @@ public sealed partial class TTSSystem : EntitySystem
 
         if (fullSoundData is null) return;
 
-        // DS14-start: carry remote microphone attenuation to each listener.
+        // DS14-start: carry recipient-specific remote hearing attenuation and source.
         foreach (var (session, data) in recipientData)
         {
+            var audioSource = GetNetEntity(data.AudioSourceOverride ?? uid);
+
             if (!understanding.Contains(session))
             {
                 if (lexiconSoundData is null)
-                    RaiseNetworkEvent(new PlayTTSEvent(new byte[0], GetNetEntity(uid), isWhisper: true, isSoundLexicon: true, languageId: languageId, distanceOverride: data.AudioRangeOverride), session);
+                    RaiseNetworkEvent(new PlayTTSEvent(new byte[0], audioSource, isWhisper: true, isSoundLexicon: true, languageId: languageId, distanceOverride: data.AudioRangeOverride), session);
                 else
-                    RaiseNetworkEvent(new PlayTTSEvent(lexiconSoundData, GetNetEntity(uid), isWhisper: true, distanceOverride: data.AudioRangeOverride), session);
+                    RaiseNetworkEvent(new PlayTTSEvent(lexiconSoundData, audioSource, isWhisper: true, distanceOverride: data.AudioRangeOverride), session);
             }
             else
-                RaiseNetworkEvent(new PlayTTSEvent(fullSoundData, GetNetEntity(uid), isWhisper: true, distanceOverride: data.AudioRangeOverride), session);
+                RaiseNetworkEvent(new PlayTTSEvent(fullSoundData, audioSource, isWhisper: true, distanceOverride: data.AudioRangeOverride), session);
 
         }
         // DS14-end
