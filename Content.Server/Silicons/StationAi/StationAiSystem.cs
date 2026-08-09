@@ -54,6 +54,7 @@ public sealed class StationAiSystem : SharedStationAiSystem
     [Dependency] private readonly DestructibleSystem _destructible = default!;
     [Dependency] private readonly SharedBatterySystem _battery = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
+    [Dependency] private readonly SharedPowerReceiverSystem _power = default!; // DS14
     [Dependency] private readonly SharedPopupSystem _popups = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly StationJobsSystem _stationJobs = default!;
@@ -371,18 +372,73 @@ public sealed class StationAiSystem : SharedStationAiSystem
             if (stationAiCore.Comp?.RemoteEntity == null)
                 continue;
 
-            var xform = Transform(stationAiCore.Comp.RemoteEntity.Value);
+            // DS14-start: use the closest real listening path (the core itself or a camera covering the AI eye).
+            var hasExistingPath = ev.Recipients.TryGetValue(actor.PlayerSession, out var existing) &&
+                                  existing.Range >= 0f &&
+                                  existing.Range <= ev.VoiceRange;
+            var range = hasExistingPath ? existing.Range : float.PositiveInfinity;
 
-            var range = (xform.MapID != sourceXform.MapID)
-                ? -1
-                : (sourcePos - _xforms.GetWorldPosition(xform, xformQuery)).Length();
+            if (entXform.MapID == sourceXform.MapID)
+            {
+                var coreRange = (sourcePos - _xforms.GetWorldPosition(entXform, xformQuery)).Length();
+                if (coreRange <= ev.VoiceRange)
+                    range = MathF.Min(range, coreRange);
+            }
 
-            if (range < 0 || range > ev.VoiceRange)
+            if (TryGetCameraHearingRange(stationAiCore.Comp.RemoteEntity.Value, ev.Source, out var cameraRange) &&
+                cameraRange <= ev.VoiceRange)
+            {
+                range = MathF.Min(range, cameraRange);
+            }
+
+            if (float.IsPositiveInfinity(range))
                 continue;
 
-            ev.Recipients.TryAdd(actor.PlayerSession, new ICChatRecipientData(range, false));
+            ev.Recipients[actor.PlayerSession] = hasExistingPath
+                ? existing with { Range = range, AudioRangeOverride = range }
+                : new ICChatRecipientData(range, false, AudioRangeOverride: range);
+            // DS14-end
         }
     }
+
+    // DS14-start: AI hearing originates from the physical vision device covering its remote eye.
+    internal bool TryGetCameraHearingRange(EntityUid eye, EntityUid source, out float range)
+    {
+        range = float.PositiveInfinity;
+
+        var xformQuery = GetEntityQuery<TransformComponent>();
+        if (!xformQuery.TryGetComponent(eye, out var eyeXform) ||
+            !xformQuery.TryGetComponent(source, out var sourceXform) ||
+            eyeXform.MapID != sourceXform.MapID ||
+            eyeXform.GridUid == null)
+        {
+            return false;
+        }
+
+        var eyePosition = _xforms.GetWorldPosition(eyeXform, xformQuery);
+        var sourcePosition = _xforms.GetWorldPosition(sourceXform, xformQuery);
+        var query = EntityQueryEnumerator<StationAiVisionComponent, TransformComponent>();
+
+        while (query.MoveNext(out var device, out var vision, out var deviceXform))
+        {
+            if (deviceXform.GridUid != eyeXform.GridUid ||
+                !vision.Enabled ||
+                !_power.IsPowered(device) ||
+                vision.NeedsAnchoring && !deviceXform.Anchored)
+            {
+                continue;
+            }
+
+            var devicePosition = _xforms.GetWorldPosition(deviceXform, xformQuery);
+            if ((devicePosition - eyePosition).LengthSquared() > vision.Range * vision.Range)
+                continue;
+
+            range = MathF.Min(range, (devicePosition - sourcePosition).Length());
+        }
+
+        return !float.IsPositiveInfinity(range);
+    }
+    // DS14-end
 
     private void OnAmmoShot(Entity<StationAiTurretComponent> ent, ref AmmoShotEvent args)
     {

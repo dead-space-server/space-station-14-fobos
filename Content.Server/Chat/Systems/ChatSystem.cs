@@ -1174,7 +1174,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         return recipients;
     }
 
-    public readonly record struct ICChatRecipientData(float Range, bool Observer, bool? HideChatOverride = null)
+    public readonly record struct ICChatRecipientData(float Range, bool Observer, bool? HideChatOverride = null, float? AudioRangeOverride = null) // DS14: remote microphones can override positional audio range.
     {
     }
 
