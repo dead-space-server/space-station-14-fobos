@@ -116,7 +116,7 @@ entities:
   - uid: 1
     components:
     - type: MetaData
-      name: Omega
+      name: Saltern
     - type: Transform
     - type: Map
       mapPaused: True
@@ -126,7 +126,7 @@ entities:
   - uid: 2
     components:
     - type: MetaData
-      name: Omega
+      name: Saltern
     - type: Transform
       pos: 2.2501793,-4.464775
       parent: 1
@@ -9683,7 +9683,7 @@ entities:
             Nitrogen: 6666.982
         chunkSize: 4
     - type: BecomesStation
-      id: Omega
+      id: Saltern
     - type: OccluderTree
     - type: Shuttle
       dampingModifier: 0.25
