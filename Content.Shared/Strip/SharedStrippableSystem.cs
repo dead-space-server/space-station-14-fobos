@@ -175,7 +175,7 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         if (!_handsSystem.CanDropHeld(user, user.Comp.ActiveHandId!))
         {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-drop"), user);
+            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-drop"));
             return false;
         }
 
@@ -183,13 +183,13 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         if (_inventorySystem.TryGetSlotEntity(target, slot, out _))
         {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-item-slot-occupied", ("owner", targetIdentity)), user);
+            _popupSystem.PopupCursor(Loc.GetString("strippable-component-item-slot-occupied", ("owner", targetIdentity)));
             return false;
         }
 
         if (!_inventorySystem.CanEquip(user, target, held, slot, out _))
         {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-equip-message", ("owner", targetIdentity)), user);
+            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-equip-message", ("owner", targetIdentity)));
             return false;
         }
 
@@ -278,7 +278,7 @@ public abstract class SharedStrippableSystem : EntitySystem
     {
         if (!_inventorySystem.TryGetSlotEntity(target, slot, out var slotItem))
         {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-item-slot-free-message", ("owner", Identity.Entity(target, EntityManager))), user);
+            _popupSystem.PopupCursor(Loc.GetString("strippable-component-item-slot-free-message", ("owner", Identity.Entity(target, EntityManager))));
             return false;
         }
 
@@ -287,7 +287,7 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         if (!_inventorySystem.CanUnequip(user, target, slot, out var reason))
         {
-            _popupSystem.PopupCursor(Loc.GetString(reason), user);
+            _popupSystem.PopupCursor(Loc.GetString(reason));
             return false;
         }
 
@@ -424,13 +424,13 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         if (!_handsSystem.CanDropHeld(user, user.Comp.ActiveHandId!))
         {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-drop"), user);
+            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-drop"));
             return false;
         }
 
         if (!_handsSystem.CanPickupToHand(target, held, handName, checkActionBlocker: false, handsComp: target.Comp))
         {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-put-message", ("owner", Identity.Entity(target, EntityManager))), user);
+            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-equip-message", ("owner", Identity.Entity(target, EntityManager))));
             return false;
         }
 
@@ -544,7 +544,7 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         if (!_handsSystem.TryGetHand(target, handName, out _))
         {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-item-slot-free-message", ("owner", Identity.Entity(target, EntityManager))), user);
+            _popupSystem.PopupCursor(Loc.GetString("strippable-component-item-slot-free-message", ("owner", Identity.Entity(target, EntityManager))));
             return false;
         }
 
@@ -559,7 +559,7 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         if (!_handsSystem.CanDropHeld(target, handName, false))
         {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-drop-message", ("owner", Identity.Entity(target, EntityManager))), user);
+            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-drop-message", ("owner", Identity.Entity(target, EntityManager))));
             return false;
         }
 
@@ -672,11 +672,14 @@ public abstract class SharedStrippableSystem : EntitySystem
         }
         else
         {
-            if (ev.Event.InsertOrRemove && !CanStripInsertHand((entity.Owner, entity.Comp), args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName) ||
-                !ev.Event.InsertOrRemove && !CanStripRemoveHand(entity.Owner, args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName))
+            // DS14-start
+            if (ev.Event.InsertOrRemove
+                    ? !CanStripInsertHand((entity.Owner, entity.Comp), args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName, true)
+                    : !CanStripRemoveHand(entity.Owner, args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName))
             {
                 ev.Cancel();
             }
+            // DS14-end
         }
     }
 

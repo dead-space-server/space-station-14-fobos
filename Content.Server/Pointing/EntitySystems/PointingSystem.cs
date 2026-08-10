@@ -103,10 +103,10 @@ namespace Content.Server.Pointing.EntitySystems
                 // Someone pointing at YOU is slightly more important
                 var popupType = viewerEntity == pointed ? PopupType.Medium : PopupType.Small;
 
-                RaiseNetworkEvent(new PopupEntityEvent(message, popupType, _gameTiming.CurTick, netSource), viewerEntity); // TODO: Make this use the popup system API
+                RaiseNetworkEvent(new PopupEntityEvent(message, popupType, netSource), viewerEntity);
             }
 
-            _replay.RecordServerMessage(new PopupEntityEvent(viewerMessage, PopupType.Small, _gameTiming.CurTick, netSource));
+            _replay.RecordServerMessage(new PopupEntityEvent(viewerMessage, PopupType.Small, netSource));
         }
 
         public bool InRange(EntityUid pointer, EntityCoordinates coordinates)
