@@ -43,9 +43,10 @@ public sealed partial class BlockingSystem : EntitySystem
     // DS14-end
 
     [Dependency] private EntityQuery<BlockingComponent> _blockQuery = default!;
-    [Dependency] private EntityQuery<BlockingUserComponent> _userQuery = default!;
-    [Dependency] private EntityQuery<HandsComponent> _handQuery = default!;
-    [Dependency] private EntityQuery<MobStateComponent> _mobQuery = default!;
+    //[Dependency] private EntityQuery<BlockingUserComponent> _userQuery = default!;
+    //[Dependency] private EntityQuery<HandsComponent> _handQuery = default!;
+    //[Dependency] private EntityQuery<MobStateComponent> _mobQuery = default!;
+    // ps я не уверен что так делать безопасно, но на это жалуются тесты не дай бог что то упадёт
 
     public override void Initialize()
     {
