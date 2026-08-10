@@ -56,21 +56,28 @@ namespace Content.Client.Paper.UI
             }
         }
 
-        // DS14-Start
+        // DS14-start
         private bool _previewMode;
 
-        private static readonly Regex HeadingWrapRegex = new(@"^\[head=[123]\]([\s\S]*)\[/head\]$");
+        private static readonly Regex HeadingWrapRegex = new(
+            @"^(?<open>\[head=[+-]?\d+\])(?<content>[\s\S]*)\[/head\]$");
 
         private DefaultWindow? _colorPickerWindow;
+        private ColorSelectorSliders? _colorPickerSliders;
 
         // Color picker debounce: while dragging the sliders we only update the
         // swatch button. The text is rewritten once the user pauses for a moment,
         // so a single drag doesn't produce dozens of text edits.
         private const float ColorApplyDelay = 0.35f;
+        private const string ColorOpenTagPrefix = "[color=";
+        private const string ColorCloseTag = "[/color]";
         private float _colorDebounceTimer;
         private bool _hasPendingColor;
         private Color _pendingColor;
-        // DS14-End
+        private string? _pendingColorText;
+        private int _pendingColorLower;
+        private int _pendingColorUpper;
+        // DS14-end
 
         public PaperWindow()
         {
@@ -111,7 +118,7 @@ namespace Content.Client.Paper.UI
             SaveButton.Text = Loc.GetString("paper-ui-save-button",
                 ("keybind", _inputManager.GetKeyFunctionButtonString(EngineKeyFunctions.MultilineTextSubmit)));
 
-            // DS14-Start
+            // DS14-start
             BoldButton.OnPressed += _ => ToggleInlineFormat("[bold]", "[/bold]");
             ItalicButton.OnPressed += _ => ToggleInlineFormat("[italic]", "[/italic]");
             UnderlineButton.OnPressed += _ => ToggleInlineFormat("[uline]", "[/uline]");
@@ -157,7 +164,8 @@ namespace Content.Client.Paper.UI
                     PreviewToggleButton.Text = Loc.GetString("paper-ui-toolbar-preview");
                     Input.GrabKeyboardFocus();
                 }
-            }; // DS14-End
+            };
+            // DS14-end
         }
 
         /// <summary>
@@ -408,6 +416,11 @@ namespace Content.Client.Paper.UI
 
         private void RunOnSaved()
         {
+            FlushPendingColor();
+            UpdateFillState();
+            if (SaveButton.Disabled)
+                return;
+
             // Prevent further saving while text processing still in
             SaveButton.Disabled = true;
             OnSaved?.Invoke(Rope.Collapse(Input.TextRope));
@@ -431,8 +444,8 @@ namespace Content.Client.Paper.UI
                 SaveButton.Disabled = false;
             }
         }
-        
-        // DS14-Start
+
+        // DS14-start
         /// <summary>
         /// Wrap the current selection (or cursor) in a formatting tag pair. If the
         /// selection is already wrapped in exactly this pair, the tags are removed.
@@ -442,36 +455,49 @@ namespace Content.Client.Paper.UI
             var text = Rope.Collapse(Input.TextRope);
             var lower = Input.SelectionLower.Index;
             var upper = Input.SelectionUpper.Index;
+            var newText = ToggleInlineFormatText(text, openTag, closeTag, ref lower, ref upper);
+
+            CommitTextChange(newText, upper, lower == upper ? null : lower);
+        }
+
+        internal static string ToggleInlineFormatText(
+            string text,
+            string openTag,
+            string closeTag,
+            ref int lower,
+            ref int upper)
+        {
             var selected = text[lower..upper];
-            var hadSelection = selected.Length > 0;
 
-            string inner;
-            var unwrapped = false;
-            if (hadSelection &&
-                selected.Length >= openTag.Length + closeTag.Length &&
-                selected.StartsWith(openTag) &&
-                selected.EndsWith(closeTag))
+            if (selected.Length >= openTag.Length + closeTag.Length &&
+                IsWrappedBySingleOuterPair(selected, openTag, closeTag))
             {
-                unwrapped = true;
-                inner = selected[openTag.Length..^closeTag.Length];
-            }
-            else
-            {
-                inner = openTag + selected + closeTag;
+                var inner = selected[openTag.Length..^closeTag.Length];
+                text = text[..lower] + inner + text[upper..];
+                upper = lower + inner.Length;
+                return text;
             }
 
-            var newText = text[..lower] + inner + text[upper..];
+            if (lower >= openTag.Length &&
+                upper + closeTag.Length <= text.Length &&
+                text.AsSpan(lower - openTag.Length, openTag.Length).SequenceEqual(openTag.AsSpan()) &&
+                text.AsSpan(upper, closeTag.Length).SequenceEqual(closeTag.AsSpan()) &&
+                IsWrappedBySingleOuterPair(
+                    text[(lower - openTag.Length)..(upper + closeTag.Length)],
+                    openTag,
+                    closeTag))
+            {
+                var wrapperStart = lower - openTag.Length;
+                text = text[..wrapperStart] + selected + text[(upper + closeTag.Length)..];
+                lower = wrapperStart;
+                upper = lower + selected.Length;
+                return text;
+            }
 
-            if (hadSelection)
-            {
-                var start = unwrapped ? lower : lower + openTag.Length;
-                var end = start + (unwrapped ? inner.Length : selected.Length);
-                CommitTextChange(newText, end, start);
-            }
-            else
-            {
-                CommitTextChange(newText, lower + openTag.Length);
-            }
+            text = text[..lower] + openTag + selected + closeTag + text[upper..];
+            lower += openTag.Length;
+            upper = lower + selected.Length;
+            return text;
         }
 
         /// <summary>
@@ -486,52 +512,51 @@ namespace Content.Client.Paper.UI
 
             ExpandSelectionToLines(text, ref lower, ref upper);
 
-            var lines = text[lower..upper].Split('\n');
-            var nonEmpty = lines.Where(static l => l.Length > 0).ToList();
-            var allWrapped = nonEmpty.Count > 0 &&
-                nonEmpty.All(l => l.StartsWith(openTag) && l.EndsWith(closeTag));
-
-            var sb = new StringBuilder();
-            if (allWrapped)
-            {
-                foreach (var line in lines)
-                {
-                    if (line.Length == 0)
-                        continue;
-                    sb.Append(line, openTag.Length, line.Length - openTag.Length - closeTag.Length);
-                    sb.Append('\n');
-                }
-            }
-            else
-            {
-                foreach (var line in lines)
-                {
-                    if (line.Length == 0)
-                        continue;
-                    sb.Append(openTag).Append(line).Append(closeTag).Append('\n');
-                }
-            }
-
-            if (sb.Length == 0)
+            var block = text[lower..upper];
+            if (block.Length == 0)
             {
                 // The block only contains empty lines, insert empty tags for the user to type into.
-                sb.Append(openTag).Append(closeTag);
-            }
-            else
-            {
-                sb.Remove(sb.Length - 1, 1);
+                var emptyTags = openTag + closeTag;
+                CommitTextChange(text[..lower] + emptyTags + text[upper..], lower + openTag.Length);
+                return;
             }
 
-            var processed = sb.ToString();
+            var processed = ToggleBlockFormatText(block, openTag, closeTag);
+            if (processed == block)
+                return;
 
-            if (lines.All(static l => l.Length == 0))
+            CommitTextChange(text[..lower] + processed + text[upper..], lower + processed.Length);
+        }
+
+        internal static string ToggleBlockFormatText(string block, string openTag, string closeTag)
+        {
+            var hasNonEmpty = false;
+            var allWrapped = true;
+            TransformLinesPreservingEndings(block, line =>
             {
-                CommitTextChange(text[..lower] + processed + text[upper..], lower + openTag.Length);
-            }
-            else
+                if (line.Length == 0)
+                    return line;
+
+                hasNonEmpty = true;
+                allWrapped &= IsWrappedBySingleOuterPair(line, openTag, closeTag);
+                return line;
+            });
+
+            if (!hasNonEmpty)
+                return block;
+
+            return TransformLinesPreservingEndings(block, line =>
             {
-                CommitTextChange(text[..lower] + processed + text[upper..], lower + processed.Length);
-            }
+                if (line.Length == 0)
+                    return line;
+
+                if (allWrapped)
+                    return line[openTag.Length..^closeTag.Length];
+
+                return IsWrappedBySingleOuterPair(line, openTag, closeTag)
+                    ? line
+                    : openTag + line + closeTag;
+            });
         }
 
         /// <summary>
@@ -546,48 +571,107 @@ namespace Content.Client.Paper.UI
 
             ExpandSelectionToLines(text, ref lower, ref upper);
 
-            var lines = text[lower..upper].Split('\n');
-            var sb = new StringBuilder();
-            foreach (var line in lines)
-            {
-                if (line.Length == 0)
-                    continue;
-                sb.Append(ApplyHeadingToLine(line, level)).Append('\n');
-            }
-
-            if (sb.Length == 0)
+            var block = text[lower..upper];
+            if (block.Length == 0)
             {
                 if (level == null)
                     return;
-                sb.Append($"[head={level}][/head]");
-            }
-            else
-            {
-                sb.Remove(sb.Length - 1, 1);
+
+                var emptyHeading = $"[head={level}][/head]";
+                CommitTextChange(text[..lower] + emptyHeading + text[upper..], lower + $"[head={level}]".Length);
+                return;
             }
 
-            var processed = sb.ToString();
+            var processed = ApplyHeadingToLines(block, level);
+            if (processed == block)
+                return;
 
-            if (lines.All(static l => l.Length == 0) && level != null)
-            {
-                CommitTextChange(text[..lower] + processed + text[upper..], lower + $"[head={level}]".Length);
-            }
-            else
-            {
-                CommitTextChange(text[..lower] + processed + text[upper..], lower + processed.Length);
-            }
+            CommitTextChange(text[..lower] + processed + text[upper..], lower + processed.Length);
         }
 
-        private static string ApplyHeadingToLine(string line, int? level)
+        internal static string ApplyHeadingToLines(string block, int? level)
+        {
+            return TransformLinesPreservingEndings(block, line =>
+                line.Length == 0 ? line : ApplyHeadingToLine(line, level));
+        }
+
+        internal static string ApplyHeadingToLine(string line, int? level)
         {
             var match = HeadingWrapRegex.Match(line);
-            if (match.Success)
+            if (match.Success &&
+                IsWrappedBySingleOuterPair(line, match.Groups["open"].Value, "[/head]"))
             {
-                var content = match.Groups[1].Value;
+                var content = match.Groups["content"].Value;
                 return level == null ? content : $"[head={level}]{content}[/head]";
             }
 
             return level == null ? line : $"[head={level}]{line}[/head]";
+        }
+
+        internal static bool IsWrappedBySingleOuterPair(string text, string openTag, string closeTag)
+        {
+            if (openTag.Length == 0 ||
+                closeTag.Length == 0 ||
+                text.Length < openTag.Length + closeTag.Length ||
+                !text.StartsWith(openTag, StringComparison.Ordinal) ||
+                !text.EndsWith(closeTag, StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            var depth = 0;
+            var index = 0;
+            while (index < text.Length)
+            {
+                var nextOpen = text.IndexOf(openTag, index, StringComparison.Ordinal);
+                var nextClose = text.IndexOf(closeTag, index, StringComparison.Ordinal);
+                if (nextClose == -1)
+                    return false;
+
+                if (nextOpen != -1 && nextOpen < nextClose)
+                {
+                    depth++;
+                    index = nextOpen + openTag.Length;
+                    continue;
+                }
+
+                depth--;
+                if (depth == 0)
+                    return nextClose + closeTag.Length == text.Length;
+                if (depth < 0)
+                    return false;
+
+                index = nextClose + closeTag.Length;
+            }
+
+            return false;
+        }
+
+        internal static string TransformLinesPreservingEndings(string text, Func<string, string> transform)
+        {
+            var result = new StringBuilder(text.Length);
+            var lineStart = 0;
+            while (lineStart < text.Length)
+            {
+                var newline = text.IndexOf('\n', lineStart);
+                var hasNewline = newline != -1;
+                var lineEnd = hasNewline ? newline : text.Length;
+                var contentEnd = hasNewline && lineEnd > lineStart && text[lineEnd - 1] == '\r'
+                    ? lineEnd - 1
+                    : lineEnd;
+
+                result.Append(transform(text[lineStart..contentEnd]));
+                if (contentEnd < lineEnd)
+                    result.Append('\r');
+
+                if (!hasNewline)
+                    break;
+
+                result.Append('\n');
+                lineStart = newline + 1;
+            }
+
+            return result.ToString();
         }
 
         /// <summary>
@@ -599,36 +683,73 @@ namespace Content.Client.Paper.UI
             UpdateColorButton(color);
 
             _pendingColor = color;
+            _pendingColorText = Rope.Collapse(Input.TextRope);
+            _pendingColorLower = Input.SelectionLower.Index;
+            _pendingColorUpper = Input.SelectionUpper.Index;
             _hasPendingColor = true;
             _colorDebounceTimer = ColorApplyDelay;
         }
 
         /// <summary>
-        /// Wrap the current selection in a color tag, replacing the color value of
-        /// an already surrounding color tag.
+        /// Apply the pending color only if its original text and selection are still current.
         /// </summary>
-        private void ApplyColorToText(Color color)
+        private void FlushPendingColor()
         {
-            var hex = color.ToHexNoAlpha();
+            if (!_hasPendingColor)
+                return;
+
+            var pendingText = _pendingColorText;
+            var pendingColor = _pendingColor;
+            var lower = _pendingColorLower;
+            var upper = _pendingColorUpper;
+            CancelPendingColor();
+
+            if (pendingText == null ||
+                Input.SelectionLower.Index != lower ||
+                Input.SelectionUpper.Index != upper)
+            {
+                return;
+            }
 
             var text = Rope.Collapse(Input.TextRope);
-            var lower = Input.SelectionLower.Index;
-            var upper = Input.SelectionUpper.Index;
-            var selected = text[lower..upper];
-            var hadSelection = selected.Length > 0;
+            if (!string.Equals(text, pendingText, StringComparison.Ordinal))
+                return;
 
-            // Detect a directly surrounding [color=...]...[/color] tag.
+            var newText = ApplyColorToTextAtRange(text, pendingColor, ref lower, ref upper);
+            CommitTextChange(newText, upper, lower == upper ? null : lower, grabFocus: false);
+        }
+
+        private void CancelPendingColor()
+        {
+            _hasPendingColor = false;
+            _colorDebounceTimer = 0;
+            _pendingColorText = null;
+        }
+
+        /// <summary>
+        /// Wrap a range in a color tag, replacing a directly surrounding color tag.
+        /// </summary>
+        internal static string ApplyColorToTextAtRange(
+            string text,
+            Color color,
+            ref int lower,
+            ref int upper)
+        {
+            var openTag = $"[color={color.ToHexNoAlpha()}]";
+            var selected = text[lower..upper];
+            var selectedLength = selected.Length;
+
             var openStart = -1;
             var openEnd = -1;
-            if (hadSelection &&
-                lower >= 8 &&
-                upper + 7 <= text.Length &&
-                text.Substring(upper, 7) == "[/color]")
+            if (lower > 0 &&
+                upper + ColorCloseTag.Length <= text.Length &&
+                text.AsSpan(upper, ColorCloseTag.Length).SequenceEqual(ColorCloseTag.AsSpan()) &&
+                text.IndexOf(ColorCloseTag, lower, StringComparison.Ordinal) == upper)
             {
-                var candidate = text.LastIndexOf("[color=", lower - 1, StringComparison.Ordinal);
+                var candidate = text.LastIndexOf(ColorOpenTagPrefix, lower - 1, StringComparison.Ordinal);
                 if (candidate != -1)
                 {
-                    var candidateEnd = text.IndexOf(']', candidate);
+                    var candidateEnd = text.IndexOf(']', candidate + ColorOpenTagPrefix.Length);
                     if (candidateEnd != -1 && candidateEnd + 1 == lower)
                     {
                         openStart = candidate;
@@ -637,30 +758,18 @@ namespace Content.Client.Paper.UI
                 }
             }
 
-            string newText;
-            int cursorStart;
-            int cursorEnd;
             if (openStart != -1)
             {
-                // Replace only the color value of the surrounding tag.
-                newText = text[..openStart] + $"[color={hex}]" + text[openEnd..];
-                cursorStart = openStart + $"[color={hex}]".Length;
-                cursorEnd = cursorStart + selected.Length;
-            }
-            else if (hadSelection)
-            {
-                newText = text[..lower] + $"[color={hex}]{selected}[/color]" + text[upper..];
-                cursorStart = lower + $"[color={hex}]".Length;
-                cursorEnd = cursorStart + selected.Length;
-            }
-            else
-            {
-                newText = text[..lower] + $"[color={hex}][/color]" + text[upper..];
-                cursorStart = lower + $"[color={hex}]".Length;
-                cursorEnd = cursorStart;
+                text = text[..openStart] + openTag + text[openEnd..];
+                lower = openStart + openTag.Length;
+                upper = lower + selectedLength;
+                return text;
             }
 
-            CommitTextChange(newText, cursorEnd, hadSelection ? cursorStart : null);
+            text = text[..lower] + openTag + selected + ColorCloseTag + text[upper..];
+            lower += openTag.Length;
+            upper = lower + selectedLength;
+            return text;
         }
 
         private void UpdateColorButton(Color color)
@@ -682,8 +791,9 @@ namespace Content.Client.Paper.UI
                     Title = Loc.GetString("paper-ui-toolbar-color"),
                     SetSize = new Vector2(320, 170),
                 };
+                _colorPickerWindow.OnClose += OnColorPickerClosed;
 
-                var sliders = new ColorSelectorSliders
+                _colorPickerSliders = new ColorSelectorSliders
                 {
                     SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv,
                     IsAlphaVisible = false,
@@ -691,14 +801,51 @@ namespace Content.Client.Paper.UI
                     VerticalExpand = true,
                     Margin = new Thickness(8),
                 };
-                sliders.OnColorChanged += ApplyColor;
-                _colorPickerWindow.Contents.AddChild(sliders);
+                _colorPickerSliders.OnColorChanged += ApplyColor;
+                _colorPickerWindow.Contents.AddChild(_colorPickerSliders);
             }
 
             if (_colorPickerWindow.IsOpen)
                 _colorPickerWindow.Close();
             else
                 _colorPickerWindow.Open();
+        }
+
+        private void OnColorPickerClosed()
+        {
+            FlushPendingColor();
+        }
+
+        private void CleanupColorPicker()
+        {
+            CancelPendingColor();
+
+            if (_colorPickerSliders != null)
+                _colorPickerSliders.OnColorChanged -= ApplyColor;
+
+            if (_colorPickerWindow != null)
+            {
+                _colorPickerWindow.OnClose -= OnColorPickerClosed;
+                _colorPickerWindow.Close();
+            }
+
+            _colorPickerSliders = null;
+            _colorPickerWindow = null;
+        }
+
+        public override void Close()
+        {
+            CleanupColorPicker();
+            base.Close();
+        }
+
+        [Obsolete("Controls should only be removed from UI tree instead of being disposed")]
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                CleanupColorPicker();
+
+            base.Dispose(disposing);
         }
 
         private void UpdatePreview()
@@ -715,7 +862,7 @@ namespace Content.Client.Paper.UI
         /// Expand the given range so that it covers whole lines of <paramref name="text"/>.
         /// A collapsed cursor is expanded to the single line under it.
         /// </summary>
-        private static void ExpandSelectionToLines(string text, ref int lower, ref int upper)
+        internal static void ExpandSelectionToLines(string text, ref int lower, ref int upper)
         {
             if (lower == upper)
             {
@@ -728,30 +875,52 @@ namespace Content.Client.Paper.UI
             {
                 while (lower > 0 && text[lower - 1] != '\n')
                     lower--;
-                while (upper < text.Length && text[upper] != '\n')
-                    upper++;
+
+                if (text[upper - 1] == '\n')
+                    upper--;
+                else
+                {
+                    while (upper < text.Length && text[upper] != '\n')
+                        upper++;
+                }
             }
+
+            if (upper > lower && upper < text.Length && text[upper] == '\n' && text[upper - 1] == '\r')
+                upper--;
         }
 
         /// <summary>
         /// Replace the whole editor text, restore the cursor (and optionally a
         /// selection) and refresh all dependent UI.
         /// </summary>
-        private void CommitTextChange(string newText, int cursorPos, int? selectionStart = null)
+        private void CommitTextChange(
+            string newText,
+            int cursorPos,
+            int? selectionStart = null,
+            bool grabFocus = true)
         {
             Input.TextRope = new Rope.Leaf(newText);
             // CursorPosition first: its setter collapses the selection.
-            Input.CursorPosition = new TextEdit.CursorPos(cursorPos, TextEdit.LineBreakBias.Bottom);
+            Input.CursorPosition = new TextEdit.CursorPos(cursorPos, GetLineBreakBias(newText, cursorPos));
             if (selectionStart != null)
             {
-                Input.SelectionStart = new TextEdit.CursorPos(selectionStart.Value, TextEdit.LineBreakBias.Bottom);
+                Input.SelectionStart = new TextEdit.CursorPos(
+                    selectionStart.Value,
+                    GetLineBreakBias(newText, selectionStart.Value));
             }
 
             UpdateFillState();
             UpdatePreview();
 
-            if (!_previewMode)
+            if (grabFocus && !_previewMode)
                 Input.GrabKeyboardFocus();
+        }
+
+        internal static TextEdit.LineBreakBias GetLineBreakBias(string text, int index)
+        {
+            return index == text.Length || text[index] == '\n'
+                ? TextEdit.LineBreakBias.Top
+                : TextEdit.LineBreakBias.Bottom;
         }
 
         /// <summary>
@@ -767,11 +936,8 @@ namespace Content.Client.Paper.UI
 
             _colorDebounceTimer -= args.DeltaSeconds;
             if (_colorDebounceTimer <= 0)
-            {
-                _hasPendingColor = false;
-                ApplyColorToText(_pendingColor);
-            }
+                FlushPendingColor();
         }
-        // DS14-End
+        // DS14-end
     }
 }
