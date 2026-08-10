@@ -1,4 +1,6 @@
 using System.Numerics;
+using System.Text; // DS14
+using System.Text.RegularExpressions; // DS14
 using Content.Client.RichText;
 using Content.Client.UserInterface.RichText;
 using Content.Shared.Paper;
@@ -11,6 +13,7 @@ using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.RichText;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Input;
+using Robust.Shared.Timing; // DS14
 using Robust.Shared.Utility;
 using System.Linq;
 
@@ -53,6 +56,22 @@ namespace Content.Client.Paper.UI
             }
         }
 
+        // DS14-Start
+        private bool _previewMode;
+
+        private static readonly Regex HeadingWrapRegex = new(@"^\[head=[123]\]([\s\S]*)\[/head\]$");
+
+        private DefaultWindow? _colorPickerWindow;
+
+        // Color picker debounce: while dragging the sliders we only update the
+        // swatch button. The text is rewritten once the user pauses for a moment,
+        // so a single drag doesn't produce dozens of text edits.
+        private const float ColorApplyDelay = 0.35f;
+        private float _colorDebounceTimer;
+        private bool _hasPendingColor;
+        private Color _pendingColor;
+        // DS14-End
+
         public PaperWindow()
         {
             IoCManager.InjectDependencies(this);
@@ -81,6 +100,7 @@ namespace Content.Client.Paper.UI
             Input.OnTextChanged += _ =>
             {
                 UpdateFillState();
+                UpdatePreview(); // DS14
             };
 
             SaveButton.OnPressed += _ =>
@@ -90,6 +110,54 @@ namespace Content.Client.Paper.UI
 
             SaveButton.Text = Loc.GetString("paper-ui-save-button",
                 ("keybind", _inputManager.GetKeyFunctionButtonString(EngineKeyFunctions.MultilineTextSubmit)));
+
+            // DS14-Start
+            BoldButton.OnPressed += _ => ToggleInlineFormat("[bold]", "[/bold]");
+            ItalicButton.OnPressed += _ => ToggleInlineFormat("[italic]", "[/italic]");
+            UnderlineButton.OnPressed += _ => ToggleInlineFormat("[uline]", "[/uline]");
+            StrikeButton.OnPressed += _ => ToggleInlineFormat("[cut]", "[/cut]");
+            MonoButton.OnPressed += _ => ToggleInlineFormat("[mono]", "[/mono]");
+            SmallButton.OnPressed += _ => ToggleInlineFormat("[small=2]", "[/small]");
+            ShiftButton.OnPressed += _ => ToggleInlineFormat("[shift]", "[/shift]");
+            ConfusionButton.OnPressed += _ => ToggleInlineFormat("[conf=2]", "[/conf]");
+            CyrillicConfusionButton.OnPressed += _ => ToggleInlineFormat("[сonf=2]", "[/сonf]");
+            BulletButton.OnPressed += _ => ToggleBlockFormat("[bullet]", "[/bullet]");
+            ColorButton.OnPressed += _ => ToggleColorPicker();
+
+            FormatDropdown.AddItem(Loc.GetString("paper-ui-toolbar-text"));
+            FormatDropdown.AddItem(Loc.GetString("paper-ui-toolbar-heading-1"));
+            FormatDropdown.AddItem(Loc.GetString("paper-ui-toolbar-heading-2"));
+            FormatDropdown.AddItem(Loc.GetString("paper-ui-toolbar-heading-3"));
+            FormatDropdown.Select(0);
+            FormatDropdown.OnItemSelected += args =>
+            {
+                var level = args.Id switch
+                {
+                    1 => (int?) 1,
+                    2 => (int?) 2,
+                    3 => (int?) 3,
+                    _ => null,
+                };
+                ApplyHeading(level);
+                FormatDropdown.Select(0);
+            };
+
+            PreviewToggleButton.OnPressed += _ =>
+            {
+                _previewMode = PreviewToggleButton.Pressed;
+                Input.Visible = !_previewMode;
+                PreviewLabel.Visible = _previewMode;
+                if (_previewMode)
+                {
+                    PreviewToggleButton.Text = Loc.GetString("paper-ui-toolbar-edit");
+                    UpdatePreview();
+                }
+                else
+                {
+                    PreviewToggleButton.Text = Loc.GetString("paper-ui-toolbar-preview");
+                    Input.GrabKeyboardFocus();
+                }
+            }; // DS14-End
         }
 
         /// <summary>
@@ -242,6 +310,7 @@ namespace Content.Client.Paper.UI
 
             InputContainer.Visible = isEditing;
             EditButtons.Visible = isEditing;
+            FormatToolbar.Visible = isEditing; // DS14
 
             var msg = new FormattedMessage();
             msg.AddMarkupPermissive(state.Text);
@@ -362,5 +431,347 @@ namespace Content.Client.Paper.UI
                 SaveButton.Disabled = false;
             }
         }
+        
+        // DS14-Start
+        /// <summary>
+        /// Wrap the current selection (or cursor) in a formatting tag pair. If the
+        /// selection is already wrapped in exactly this pair, the tags are removed.
+        /// </summary>
+        private void ToggleInlineFormat(string openTag, string closeTag)
+        {
+            var text = Rope.Collapse(Input.TextRope);
+            var lower = Input.SelectionLower.Index;
+            var upper = Input.SelectionUpper.Index;
+            var selected = text[lower..upper];
+            var hadSelection = selected.Length > 0;
+
+            string inner;
+            var unwrapped = false;
+            if (hadSelection &&
+                selected.Length >= openTag.Length + closeTag.Length &&
+                selected.StartsWith(openTag) &&
+                selected.EndsWith(closeTag))
+            {
+                unwrapped = true;
+                inner = selected[openTag.Length..^closeTag.Length];
+            }
+            else
+            {
+                inner = openTag + selected + closeTag;
+            }
+
+            var newText = text[..lower] + inner + text[upper..];
+
+            if (hadSelection)
+            {
+                var start = unwrapped ? lower : lower + openTag.Length;
+                var end = start + (unwrapped ? inner.Length : selected.Length);
+                CommitTextChange(newText, end, start);
+            }
+            else
+            {
+                CommitTextChange(newText, lower + openTag.Length);
+            }
+        }
+
+        /// <summary>
+        /// Wrap every non-empty line of the current selection (or the current line)
+        /// in a tag pair, toggling the tags off if all lines are already wrapped.
+        /// </summary>
+        private void ToggleBlockFormat(string openTag, string closeTag)
+        {
+            var text = Rope.Collapse(Input.TextRope);
+            var lower = Input.SelectionLower.Index;
+            var upper = Input.SelectionUpper.Index;
+
+            ExpandSelectionToLines(text, ref lower, ref upper);
+
+            var lines = text[lower..upper].Split('\n');
+            var nonEmpty = lines.Where(static l => l.Length > 0).ToList();
+            var allWrapped = nonEmpty.Count > 0 &&
+                nonEmpty.All(l => l.StartsWith(openTag) && l.EndsWith(closeTag));
+
+            var sb = new StringBuilder();
+            if (allWrapped)
+            {
+                foreach (var line in lines)
+                {
+                    if (line.Length == 0)
+                        continue;
+                    sb.Append(line, openTag.Length, line.Length - openTag.Length - closeTag.Length);
+                    sb.Append('\n');
+                }
+            }
+            else
+            {
+                foreach (var line in lines)
+                {
+                    if (line.Length == 0)
+                        continue;
+                    sb.Append(openTag).Append(line).Append(closeTag).Append('\n');
+                }
+            }
+
+            if (sb.Length == 0)
+            {
+                // The block only contains empty lines, insert empty tags for the user to type into.
+                sb.Append(openTag).Append(closeTag);
+            }
+            else
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
+
+            var processed = sb.ToString();
+
+            if (lines.All(static l => l.Length == 0))
+            {
+                CommitTextChange(text[..lower] + processed + text[upper..], lower + openTag.Length);
+            }
+            else
+            {
+                CommitTextChange(text[..lower] + processed + text[upper..], lower + processed.Length);
+            }
+        }
+
+        /// <summary>
+        /// Apply a heading level (1-3) to the whole lines of the selection. A null
+        /// level removes heading tags from the affected lines.
+        /// </summary>
+        private void ApplyHeading(int? level)
+        {
+            var text = Rope.Collapse(Input.TextRope);
+            var lower = Input.SelectionLower.Index;
+            var upper = Input.SelectionUpper.Index;
+
+            ExpandSelectionToLines(text, ref lower, ref upper);
+
+            var lines = text[lower..upper].Split('\n');
+            var sb = new StringBuilder();
+            foreach (var line in lines)
+            {
+                if (line.Length == 0)
+                    continue;
+                sb.Append(ApplyHeadingToLine(line, level)).Append('\n');
+            }
+
+            if (sb.Length == 0)
+            {
+                if (level == null)
+                    return;
+                sb.Append($"[head={level}][/head]");
+            }
+            else
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
+
+            var processed = sb.ToString();
+
+            if (lines.All(static l => l.Length == 0) && level != null)
+            {
+                CommitTextChange(text[..lower] + processed + text[upper..], lower + $"[head={level}]".Length);
+            }
+            else
+            {
+                CommitTextChange(text[..lower] + processed + text[upper..], lower + processed.Length);
+            }
+        }
+
+        private static string ApplyHeadingToLine(string line, int? level)
+        {
+            var match = HeadingWrapRegex.Match(line);
+            if (match.Success)
+            {
+                var content = match.Groups[1].Value;
+                return level == null ? content : $"[head={level}]{content}[/head]";
+            }
+
+            return level == null ? line : $"[head={level}]{line}[/head]";
+        }
+
+        /// <summary>
+        /// Called by the color picker on every slider/spinbox change. Only the swatch
+        /// is updated live; the text is rewritten after the debounce timer expires.
+        /// </summary>
+        private void ApplyColor(Color color)
+        {
+            UpdateColorButton(color);
+
+            _pendingColor = color;
+            _hasPendingColor = true;
+            _colorDebounceTimer = ColorApplyDelay;
+        }
+
+        /// <summary>
+        /// Wrap the current selection in a color tag, replacing the color value of
+        /// an already surrounding color tag.
+        /// </summary>
+        private void ApplyColorToText(Color color)
+        {
+            var hex = color.ToHexNoAlpha();
+
+            var text = Rope.Collapse(Input.TextRope);
+            var lower = Input.SelectionLower.Index;
+            var upper = Input.SelectionUpper.Index;
+            var selected = text[lower..upper];
+            var hadSelection = selected.Length > 0;
+
+            // Detect a directly surrounding [color=...]...[/color] tag.
+            var openStart = -1;
+            var openEnd = -1;
+            if (hadSelection &&
+                lower >= 8 &&
+                upper + 7 <= text.Length &&
+                text.Substring(upper, 7) == "[/color]")
+            {
+                var candidate = text.LastIndexOf("[color=", lower - 1, StringComparison.Ordinal);
+                if (candidate != -1)
+                {
+                    var candidateEnd = text.IndexOf(']', candidate);
+                    if (candidateEnd != -1 && candidateEnd + 1 == lower)
+                    {
+                        openStart = candidate;
+                        openEnd = candidateEnd + 1;
+                    }
+                }
+            }
+
+            string newText;
+            int cursorStart;
+            int cursorEnd;
+            if (openStart != -1)
+            {
+                // Replace only the color value of the surrounding tag.
+                newText = text[..openStart] + $"[color={hex}]" + text[openEnd..];
+                cursorStart = openStart + $"[color={hex}]".Length;
+                cursorEnd = cursorStart + selected.Length;
+            }
+            else if (hadSelection)
+            {
+                newText = text[..lower] + $"[color={hex}]{selected}[/color]" + text[upper..];
+                cursorStart = lower + $"[color={hex}]".Length;
+                cursorEnd = cursorStart + selected.Length;
+            }
+            else
+            {
+                newText = text[..lower] + $"[color={hex}][/color]" + text[upper..];
+                cursorStart = lower + $"[color={hex}]".Length;
+                cursorEnd = cursorStart;
+            }
+
+            CommitTextChange(newText, cursorEnd, hadSelection ? cursorStart : null);
+        }
+
+        private void UpdateColorButton(Color color)
+        {
+            ColorButton.StyleBoxOverride = new StyleBoxFlat
+            {
+                BackgroundColor = color,
+                BorderColor = Color.FromHex("#3b4e60"),
+                BorderThickness = new Thickness(1),
+            };
+        }
+
+        private void ToggleColorPicker()
+        {
+            if (_colorPickerWindow == null)
+            {
+                _colorPickerWindow = new DefaultWindow
+                {
+                    Title = Loc.GetString("paper-ui-toolbar-color"),
+                    SetSize = new Vector2(320, 170),
+                };
+
+                var sliders = new ColorSelectorSliders
+                {
+                    SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv,
+                    IsAlphaVisible = false,
+                    HorizontalExpand = true,
+                    VerticalExpand = true,
+                    Margin = new Thickness(8),
+                };
+                sliders.OnColorChanged += ApplyColor;
+                _colorPickerWindow.Contents.AddChild(sliders);
+            }
+
+            if (_colorPickerWindow.IsOpen)
+                _colorPickerWindow.Close();
+            else
+                _colorPickerWindow.Open();
+        }
+
+        private void UpdatePreview()
+        {
+            if (!_previewMode)
+                return;
+
+            var msg = new FormattedMessage();
+            msg.AddMarkupPermissive(Rope.Collapse(Input.TextRope));
+            PreviewLabel.SetMessage(msg, UserFormattableTags.BaseAllowedTags, DefaultTextColor);
+        }
+
+        /// <summary>
+        /// Expand the given range so that it covers whole lines of <paramref name="text"/>.
+        /// A collapsed cursor is expanded to the single line under it.
+        /// </summary>
+        private static void ExpandSelectionToLines(string text, ref int lower, ref int upper)
+        {
+            if (lower == upper)
+            {
+                if (lower > 0 && text[lower - 1] != '\n')
+                    lower = text.LastIndexOf('\n', lower - 1) + 1;
+                var end = text.IndexOf('\n', lower);
+                upper = end == -1 ? text.Length : end;
+            }
+            else
+            {
+                while (lower > 0 && text[lower - 1] != '\n')
+                    lower--;
+                while (upper < text.Length && text[upper] != '\n')
+                    upper++;
+            }
+        }
+
+        /// <summary>
+        /// Replace the whole editor text, restore the cursor (and optionally a
+        /// selection) and refresh all dependent UI.
+        /// </summary>
+        private void CommitTextChange(string newText, int cursorPos, int? selectionStart = null)
+        {
+            Input.TextRope = new Rope.Leaf(newText);
+            // CursorPosition first: its setter collapses the selection.
+            Input.CursorPosition = new TextEdit.CursorPos(cursorPos, TextEdit.LineBreakBias.Bottom);
+            if (selectionStart != null)
+            {
+                Input.SelectionStart = new TextEdit.CursorPos(selectionStart.Value, TextEdit.LineBreakBias.Bottom);
+            }
+
+            UpdateFillState();
+            UpdatePreview();
+
+            if (!_previewMode)
+                Input.GrabKeyboardFocus();
+        }
+
+        /// <summary>
+        /// Fires the pending color change once the user has stopped dragging the
+        /// color sliders for a moment.
+        /// </summary>
+        protected override void FrameUpdate(FrameEventArgs args)
+        {
+            base.FrameUpdate(args);
+
+            if (!_hasPendingColor)
+                return;
+
+            _colorDebounceTimer -= args.DeltaSeconds;
+            if (_colorDebounceTimer <= 0)
+            {
+                _hasPendingColor = false;
+                ApplyColorToText(_pendingColor);
+            }
+        }
+        // DS14-End
     }
 }
