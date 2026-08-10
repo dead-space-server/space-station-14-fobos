@@ -51,9 +51,11 @@
     - MindRoleGhostRoleSoloAntagonist
     raffle:
     settings: default
+    #DS14-start
     requirements:
     - !type:OverallPlaytimeRequirement
-      time: 180000 # 50 hours
+      time: 540000 # 150 hours
+    #DS14-end
   - type: GhostTakeoverAvailable
   - type: Revenant
     malfunctionWhitelist:
