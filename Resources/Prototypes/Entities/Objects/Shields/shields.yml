@@ -377,7 +377,6 @@
     - type: Item
       heldPrefix: ratvarian
       sprite: Objects/Weapons/Melee/ratvarian-shield.rsi
-      heldPrefix: icon
     - type: Clothing
       sprite: Objects/Weapons/Melee/ratvarian-shield.rsi
       quickEquip: false
