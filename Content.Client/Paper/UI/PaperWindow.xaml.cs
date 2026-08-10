@@ -416,10 +416,12 @@ namespace Content.Client.Paper.UI
 
         private void RunOnSaved()
         {
+            // DS14-start
             FlushPendingColor();
             UpdateFillState();
             if (SaveButton.Disabled)
                 return;
+            // DS14-end
 
             // Prevent further saving while text processing still in
             SaveButton.Disabled = true;
