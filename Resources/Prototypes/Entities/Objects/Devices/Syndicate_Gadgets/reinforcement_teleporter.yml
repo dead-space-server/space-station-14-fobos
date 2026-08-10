@@ -45,7 +45,7 @@
     prototype: MobHumanSyndicateAgentSpy
     selectablePrototypes: ["SyndicateAgentMedic", "SyndicateAgentSpy", "SyndicateAgentThief"]
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SyndicateGroup
   #DS14-end
 
@@ -62,12 +62,18 @@
     rules: ghost-role-information-nukeop-reinforcement-rules
     mindRoles:
     - MindRoleGhostRoleTeamAntagonist
+    requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 1080000 # 30 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 108000 # 30 hours
     raffle:
       settings: default
   - type: GhostRoleMobSpawner
-    prototype: MobHumanSyndicateAgentNukeops  
+    prototype: MobHumanSyndicateAgentNukeops
     #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: Operativeping
     #DS14-end
 
@@ -89,7 +95,7 @@
     prototype: MobMonkeySyndicateAgent
     selectablePrototypes: ["SyndicateMonkey", "SyndicateKobold"]
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SyndicateGroup
   #DS14-end
 
@@ -127,7 +133,7 @@
   - type: EmitSoundOnUse
     sound: /Audio/Animals/cat_meow.ogg
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: ExplosiveCat
   #DS14-end
 
@@ -144,12 +150,18 @@
       rules: ghost-role-information-silicon-rules
       mindRoles:
       - MindRoleGhostRoleSilicon
+      requirements:
+      - !type:OverallPlaytimeRequirement
+        time: 900000 # 250 hours
+      - !type:DepartmentTimeRequirement
+        department: Security
+        time: 72000 # 20 hours
       raffle:
         settings: default
       job: Borg
     - type: GhostRoleMobSpawner
       prototype: PlayerBorgSyndicateAssaultBattery
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: SyndicateGroup
     #DS14-end
