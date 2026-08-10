@@ -247,7 +247,7 @@
       storagebase: !type:AllSelector
         children:
         - id: ClothingMaskGasSecurity
-        - id: EmergencyOxygenTankFilled
+        - id: ExtendedEmergencyOxygenTankFilled
         - id: EmergencyMedipen
         - id: Flare
         - id: FoodSnackNutribrick
@@ -267,7 +267,7 @@
       storagebase: !type:AllSelector
         children:
         - id: ClothingMaskGasSecurity
-        - id: EmergencyNitrogenTankFilled
+        - id: ExtendedEmergencyNitrogenTankFilled
         - id: EmergencyMedipen
         - id: Flare
         - id: FoodSnackNutribrick
@@ -289,7 +289,7 @@
       storagebase: !type:AllSelector
         children:
         - id: ClothingMaskGasSecurity
-        - id: EmergencyOxygenTankFilled
+        - id: ExtendedEmergencyOxygenTankFilled
         - id: EmergencyMedipen
         - id: Flare
         - id: FoodSnackNutribrick
@@ -305,7 +305,7 @@
       storagebase: !type:AllSelector
         children:
         - id: ClothingMaskGasSecurity
-        - id: EmergencyOxygenTankFilled
+        - id: ExtendedEmergencyOxygenTankFilled
         - id: EmergencyMedipen
         - id: Flare
         - id: FoodSnackFabricbrick
