@@ -15,7 +15,6 @@ paper-ui-fill-level = { $currentLength }/{ $maxLength }
 paper-ui-save-button = Сохранить ({ $keybind })
 paper-tamper-proof-modified-message = Текст на странице был написан с использованием нефальсицицируемых чернил.
 
-# DS14 paper formatting toolbar
 paper-ui-toolbar-bold = Жирный
 paper-ui-toolbar-italic = Курсив
 paper-ui-toolbar-underline = Подчёркнутый
