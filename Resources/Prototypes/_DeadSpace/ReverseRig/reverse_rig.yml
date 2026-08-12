@@ -5,6 +5,7 @@
   id: ClothingOuterRIGReverse
   name: скафандр системы обратного рига
   description: Скафандр, который носит собственный ранец. При надевании ранец автоматически крепится на спину, вытесняя прежний рюкзак.
+  categories: [ HideSpawnMenu ]
   components:
   - type: ReverseRig
     backpackPrototype: ClothingBackpackRIGReverse
@@ -47,6 +48,7 @@
   id: ClothingBackpackRIGReverse
   name: ранец системы обратного рига
   description: Несъёмный ранец системы обратного рига, снимается только вместе со скафандром. Вместимость обычного рюкзака, 100% защита от взрывов. Внутренний слот - под кислородный баллон, питающий дыхание и джет.
+  categories: [ HideSpawnMenu ]
   components:
   - type: ReverseRigBackpack
   - type: Sprite
@@ -90,6 +92,7 @@
   id: ClothingHeadHelmetRIGReverse
   name: шлем системы обратного рига
   description: Шлем системы обратного рига. Надевается автоматически вместе со скафандром.
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Engineer/helmet.rsi
