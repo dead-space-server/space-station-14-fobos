@@ -99,6 +99,14 @@ namespace Content.Shared.Damage
             return false;
         }
 
+        public DamageSpecifier Invert()
+        {
+            var copy = new DamageSpecifier(this);
+            foreach (var key in copy.DamageDict.Keys)
+                copy.DamageDict[key] *= -1;
+            return copy;
+        }
+
         /// <summary>
         ///     Whether this damage specifier has any entries.
         /// </summary>

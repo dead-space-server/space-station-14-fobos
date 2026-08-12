@@ -1,5 +1,6 @@
 ﻿using Content.Shared.Body.Components;
 using Content.Shared.Body.Systems;
+using Content.Shared._Starlight.Medical.Limbs;
 using Robust.Shared.Containers;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
@@ -7,7 +8,7 @@ using Robust.Shared.Serialization;
 namespace Content.Shared.Body.Part;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-[Access(typeof(SharedBodySystem))]
+[Access(typeof(SharedBodySystem), typeof(SharedLimbSystem))]//starlight
 public sealed partial class BodyPartComponent : Component
 {
     // Need to set this on container changes as it may be several transform parents up the hierarchy.
