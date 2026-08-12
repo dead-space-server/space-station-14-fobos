@@ -323,7 +323,6 @@
     back:
     - ERTloadoutRedPrimary
     - ERTloadoutRedSecondary
-    - ERTloadoutMelee
     - BoxCardboardERT
     - CrowbarRed
     - PinpointerNuclear
@@ -383,8 +382,7 @@
   storage:
     back:
     - ERTloadoutGammaPrimary
-    - ERTloadoutGammaSecondary
-    - ERTloadoutMelee
+    - ERTloadoutGammaSecondaryэ
     - BoxCardboardERT
     - CrowbarRed
     - PinpointerNuclear
