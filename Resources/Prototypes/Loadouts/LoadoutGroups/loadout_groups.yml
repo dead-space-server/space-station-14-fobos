@@ -1713,7 +1713,7 @@
   - DetectiveGreyFlatCap # DS14
   - DetectiveBrownFlatCap # DS14
 
-# - type: loadoutGroup
+#- type: loadoutGroup
 #  id: DetectiveNeck
 #  name: loadout-group-detective-neck
 #  minLimit: 0
