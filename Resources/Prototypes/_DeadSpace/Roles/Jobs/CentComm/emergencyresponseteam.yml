@@ -380,7 +380,7 @@
   storage:
     back:
     - ERTloadoutGammaPrimary
-    - ERTloadoutGammaSecondaryэ
+    - ERTloadoutGammaSecondary
     - BoxCardboardERT
     - CrowbarRed
     - PinpointerNuclear
