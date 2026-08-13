@@ -1400,6 +1400,9 @@
   id: SurgeryTool # Storage whitelist: ClothingBeltMedical
 
 - type: Tag
+  id: BoneGel
+
+- type: Tag
   id: SurveillanceCameraMonitorCircuitboard # ConstructionGraph: WallmountTelescreen
 
 - type: Tag
