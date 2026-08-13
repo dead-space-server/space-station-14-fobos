@@ -1,0 +1,28 @@
+- type: constructionGraph
+  id: DumplingCraft
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: dumpling
+      steps:
+      - tag: FoodDoughSmallFlat
+        name: Добавьте тесто
+        icon:
+          sprite: _DeadSpace/Objects/Consumable/Food/ingredients.rsi
+          state: FoodDoughSmallFlat
+        doAfter: 1
+      - tag: FoodMeatSmallBall
+        name: Добавьте мясо
+        icon:
+          sprite: _DeadSpace/Objects/Consumable/Food/ingredients.rsi
+          state: FoodMeatSmallBall
+        doAfter: 1
+      - tag: FoodDoughSmallFlat
+        name: Добавьте тесто
+        icon:
+          sprite: _DeadSpace/Objects/Consumable/Food/ingredients.rsi
+          state: FoodDoughSmallFlat
+        doAfter: 1
+  - node: dumpling
+    entity: FoodDumpling
