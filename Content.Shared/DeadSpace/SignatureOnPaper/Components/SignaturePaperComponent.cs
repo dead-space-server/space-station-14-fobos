@@ -4,12 +4,12 @@ using Robust.Shared.GameStates;
 
 namespace Content.Shared.DeadSpace.SignatureOnPaper.Components;
 
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class SignaturePaperComponent : Component
 {
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
+    [DataField, ViewVariables(VVAccess.ReadOnly), AutoNetworkedField]
     public int NumberSignatures = 0;
 
-    [DataField]
+    [DataField, AutoNetworkedField]
     public int MaximumSignatures = 10;
 }

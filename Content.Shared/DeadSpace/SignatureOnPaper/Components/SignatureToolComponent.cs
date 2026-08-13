@@ -5,9 +5,9 @@ using Robust.Shared.Audio;
 
 namespace Content.Shared.DeadSpace.SignatureOnPaper.Components;
 
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class SignatureToolComponent : Component
 {
-    [DataField]
-    public SoundSpecifier? Sound { get; private set; } = new SoundCollectionSpecifier("PaperScribbles", AudioParams.Default.WithVariation(0.1f));
+    [DataField, AutoNetworkedField]
+    public SoundSpecifier? Sound = new SoundCollectionSpecifier("PaperScribbles", AudioParams.Default.WithVariation(0.1f));
 }
