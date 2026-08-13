@@ -1,5 +1,61 @@
 - type: entity
   parent: SurgeryStepBase
+  id: SurgeryLimbAttachmentStep
+  name: attach a limb
+  components:
+  - type: SurgeryStep
+    duration: 4
+    tools:
+    - type: MetaData
+  - type: Sprite
+    sprite: Objects/Consumable/Food/Baked/pizza.rsi
+    state: meat-slice
+  - type: SurgeryStepAttachLimbEffect
+
+- type: entity
+  parent: SurgeryStepBase
+  id: SurgeryLimbAttachmentStepLeftArm
+  name: attach a limb
+  components:
+  - type: SurgeryStep
+    duration: 4
+    tools:
+    - type: LeftArm
+  - type: Sprite
+    sprite: Objects/Consumable/Food/Baked/pizza.rsi
+    state: meat-slice
+  - type: SurgeryStepAttachLimbEffect
+
+- type: entity
+  parent: SurgeryStepBase
+  id: SurgeryLimbAttachmentStepRightArm
+  name: attach a limb
+  components:
+  - type: SurgeryStep
+    duration: 4
+    tools:
+    - type: RightArm
+  - type: Sprite
+    sprite: Objects/Consumable/Food/Baked/pizza.rsi
+    state: meat-slice
+  - type: SurgeryStepAttachLimbEffect
+
+- type: entity
+  parent: SurgeryStepBase
+  id: SurgeryStepRejoinNerves
+  name: Rejoin Nerves
+  components:
+  - type: SurgeryStep
+    duration: 5
+    tools:
+    - type: Hemostat
+  - type: Sprite
+    sprite: Objects/Specific/Medical/Surgery/scissors.rsi
+    state: hemostat
+  - type: SurgeryStepEmoteEffect
+
+- type: entity
+  parent: SurgeryStepBase
   id: SurgeryStepRejoinBloodVessels
   name: Rejoin Blood Vessels
   components:

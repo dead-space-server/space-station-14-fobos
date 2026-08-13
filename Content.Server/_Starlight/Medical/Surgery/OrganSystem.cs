@@ -16,6 +16,7 @@ using Robust.Shared.Containers;
 using Content.Shared.FixedPoint;
 using Robust.Shared.Timing;
 using Content.Shared._Starlight.Medical.Surgery.Components;
+using Content.Shared._Starlight.Antags.Abductor.Components;
 using Robust.Shared.Serialization.Manager;
 
 namespace Content.Server._Starlight.Medical.Surgery;
@@ -56,6 +57,9 @@ public sealed partial class OrganSystem : EntitySystem
 
         SubscribeLocalEvent<OrganVisualizationComponent, SurgeryOrganImplantationCompleted>(OnVisualizationImplanted);
         SubscribeLocalEvent<OrganVisualizationComponent, SurgeryOrganExtracted>(OnVisualizationExtracted);
+
+        SubscribeLocalEvent<AbductorOrganComponent, SurgeryOrganImplantationCompleted>(OnAbductorOrganImplanted);
+        SubscribeLocalEvent<AbductorOrganComponent, SurgeryOrganExtracted>(OnAbductorOrganExtracted);
     }
 
     //
@@ -246,5 +250,28 @@ public sealed partial class OrganSystem : EntitySystem
         _humanoidAppearanceSystem.SetBaseLayerId(args.Body, ent.Comp.Layer,
         TryComp(args.Body, out HumanoidAppearanceComponent? humanoid) && ent.Comp.Prototypes.TryGetValue(humanoid.Species, out var layer) ? layer :
         ent.Comp.Prototypes.TryGetValue("Default", out var defaultLayer) ? defaultLayer : null);
+    }
+
+    //
+
+    private void OnAbductorOrganImplanted(Entity<AbductorOrganComponent> ent, ref SurgeryOrganImplantationCompleted args)
+    {
+        var victim = EnsureComp<AbductorVictimComponent>(args.Body);
+        victim.Organ = ent.Comp.Organ;
+        Dirty(args.Body, victim);
+    }
+
+    private void OnAbductorOrganExtracted(Entity<AbductorOrganComponent> ent, ref SurgeryOrganExtracted args)
+    {
+        if (!TryComp<AbductorVictimComponent>(args.Body, out var victim))
+            return;
+
+        if (victim.Organ == ent.Comp.Organ)
+            victim.Organ = AbductorOrganType.None;
+
+        if (victim.Organ == AbductorOrganType.None)
+            RemComp<AbductorVictimComponent>(args.Body);
+        else
+            Dirty(args.Body, victim);
     }
 }

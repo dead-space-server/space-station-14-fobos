@@ -49,6 +49,7 @@
   - type: BodyPart
     partType: Arm
     symmetry: Left
+  - type: LeftArm
 
 - type: entity
   id: BaseRightArm
@@ -59,6 +60,7 @@
   - type: BodyPart
     partType: Arm
     symmetry: Right
+  - type: RightArm
 
 - type: entity
   id: BaseLeftHand

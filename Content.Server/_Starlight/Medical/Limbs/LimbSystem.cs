@@ -9,8 +9,12 @@ using Content.Shared.Body.Systems;
 using Content.Shared.Hands.Components;
 using Content.Shared.Humanoid;
 using Content.Shared.Interaction.Components;
+using Content.Shared.Throwing;
 using Robust.Server.Containers;
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
+using System.Numerics;
 using Content.Shared._Starlight.Medical.Surgery.Components;
 
 namespace Content.Server._Starlight.Medical.Limbs;
@@ -22,10 +26,14 @@ public sealed partial class LimbSystem : SharedLimbSystem
     [Dependency] private HumanoidAppearanceSystem _humanoidAppearanceSystem = default!;
     [Dependency] private MetaDataSystem _metadata = default!;
     [Dependency] private IPrototypeManager _prototype = default!;
+    [Dependency] private ThrowingSystem _throwing = default!;
+    [Dependency] private IRobustRandom _random = default!;
 
     private readonly EntProtoId _virtual = "PartVirtual";
     public override void Initialize()
-        => base.Initialize();
+    {
+        base.Initialize();
+    }
 
     public bool AttachLimb(Entity<HumanoidAppearanceComponent> body, string slot, Entity<BodyPartComponent> part, Entity<BodyPartComponent> limb)
     {
@@ -72,6 +80,7 @@ public sealed partial class LimbSystem : SharedLimbSystem
         {
             RemoveLimbVisual(body, limb);
             RemoveLimb(body, limb);
+            EjectLimb(limb.Owner);
         }
     }
 
@@ -92,7 +101,17 @@ public sealed partial class LimbSystem : SharedLimbSystem
         var layer = VisualLayers.GetLayer(slotId);
         vizualizer.Layers.Remove(layer);
         Dirty(body, vizualizer);
+        EjectLimb(virtualLimb.Item);
         QueueDel(limb.Owner);
+    }
+
+    private void EjectLimb(EntityUid uid)
+    {
+        if (!TryComp<PhysicsComponent>(uid, out var physics))
+            return;
+
+        var direction = new Vector2(_random.NextFloat(-1f, 1f), _random.NextFloat(-0.5f, 0.5f));
+        _throwing.TryThrow(uid, direction, 8f, playSound: false, doSpin: true);
     }
 
     private void AddItemHand(EntityUid bodyId, EntityUid itemId, string handId)

@@ -39,13 +39,14 @@ public sealed partial class LimbSystem : SharedLimbSystem
         var layers = new List<HumanoidVisualLayers>();
         foreach (var partLimbId in _body.GetBodyPartAdjacentParts(limb, limb).Concat([limb]))
         {
-            if (!TryComp<BaseLayerIdComponent>(partLimbId, out var baseLayerStorage)
-                || !TryComp(partLimbId, out BodyPartComponent? partLimb))
-                continue;
+            if (!TryComp(partLimbId, out BodyPartComponent? partLimb)) continue;
 
             var layer = partLimb.ToHumanoidLayers();
             if (layer is null) continue;
             layers.Add(layer.Value);
+
+            if (!TryComp<BaseLayerIdComponent>(partLimbId, out var baseLayerStorage))
+                continue;
 
             if (humanoid.CustomBaseLayers.TryGetValue(layer.Value, out var customBaseLayer))
                 if (baseLayerStorage.Layers.ContainsKey(humanoid.Species))
