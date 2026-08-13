@@ -70,11 +70,12 @@
   - type: Sprite
     sprite: _DeadSpace/Objects/Consumable/Food/ingredients.rsi
     state: FoodMeatSmallBall
+  - type: SolutionContainerManager
     solutions:
       food:
         maxVol: 3
         reagents:
-        - ReagentId: protein
+        - ReagentId: Protein
           Quantity: 2
 
 #Пельмень
