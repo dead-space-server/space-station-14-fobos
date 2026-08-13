@@ -30,7 +30,7 @@ using Robust.Shared.Configuration;
 using Content.Server.DeadSpace.Languages;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
-using Content.Server.GameTicking.Events; //DS14
+using Content.Server.GameTicking; //DS14
 
 namespace Content.Server.Communications
 {
