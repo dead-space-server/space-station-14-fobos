@@ -396,7 +396,7 @@ SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRestartRound);
             _adminLogger.Add(LogType.Action, LogImpact.High, $"{ToPrettyString(message.Actor):player} has recalled the shuttle.");
         }
         // DS14-start
-        private void   OnRoundRestartCleanup(RoundRestartCleanupEvent ev)
+        private void   OnRestartRound(RoundRestartCleanupEvent ev)
 {
     _cfg.SetCVar(CCVars.EvacLocked, false);
 }
