@@ -834,7 +834,7 @@
     state: meatball
   - type: SliceableFood
     count: 3
-    slice: FoodMeatSmallSlice
+    slice: FoodMeatSmallBall
   - type: Construction
     graph: MeatMeatballCooked
     node: start
