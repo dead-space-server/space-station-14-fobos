@@ -1,5 +1,5 @@
 - type: marking
-  id: ADTHorseEars
+  id: HorseEars
   bodyPart: HeadTop
   markingCategory: HeadTop
   speciesRestriction: [Human, Dwarf, Felinid]
@@ -29,7 +29,7 @@
     state: ears_horse_inner
 
 - type: marking
-  id: ADTHorseTail
+  id: HorseTail
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Human, Dwarf, Felinid]
