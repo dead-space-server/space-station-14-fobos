@@ -7,7 +7,7 @@
     - to: dumpling
       steps:
       - tag: FoodDoughSmallFlat
-        name: Добавьте тесто
+        name: construction-graph-tag-dough-small-flat
         icon:
           sprite: _DeadSpace/Objects/Consumable/Food/ingredients.rsi
           state: FoodDoughSmallFlat
