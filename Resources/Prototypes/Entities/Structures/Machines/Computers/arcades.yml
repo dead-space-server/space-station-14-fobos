@@ -162,7 +162,7 @@
     - PlushieGoldShip
     - PlushieBourbon
     - PlushieLieutenant
-    - id: PlushieCobla
+    - PlushieCobla
   - type: WiresPanel
   - type: Wires
     layoutId: Arcade
