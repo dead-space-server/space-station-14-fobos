@@ -4,6 +4,7 @@ using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
+using Robust.Shared.Network;
 
 namespace Content.Shared.DeadSpace.Clothing.ReverseRig;
 
@@ -11,6 +12,7 @@ public sealed class ReverseRigSystem : EntitySystem
 {
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly INetManager _net = default!;
 
     public override void Initialize()
     {
@@ -102,7 +104,7 @@ public sealed class ReverseRigSystem : EntitySystem
     private void OnComponentRemove(Entity<ReverseRigComponent> ent, ref ComponentRemove args)
     {
         var (_, component) = ent;
-        if (component.BackpackUid is { } backpack && !Deleted(backpack))
+        if (component.BackpackUid is { } backpack && !Deleted(backpack) && !_net.IsClient)
             QueueDel(backpack);
     }
 
