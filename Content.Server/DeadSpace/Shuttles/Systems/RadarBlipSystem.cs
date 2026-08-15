@@ -115,6 +115,10 @@ public sealed class RadarBlipSystem : EntitySystem
 
                 foreach (var ent in entities)
                 {
+                    // DS14-start
+                    if (TryComp<ExclusionFromRadarComponent>(ent, out var comp) && comp.Exclusion)
+                        continue;
+                    // DS14-end
                     if (!_seenIndexed.Add(ent))
                         continue;
 
@@ -154,6 +158,11 @@ public sealed class RadarBlipSystem : EntitySystem
         var blips = new List<BlipState>(_candidates.Count);
         foreach (var ent in _candidates)
         {
+            // DS14-start
+            if (TryComp<ExclusionFromRadarComponent>(ent, out var comp) && comp.Exclusion)
+                continue;
+            // DS14-end
+
             if (!TryGetBlipTransform(ent, consoleUid, consoleParent, config, out var entXform))
                 continue;
 

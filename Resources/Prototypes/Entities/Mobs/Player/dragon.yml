@@ -194,6 +194,7 @@
     necroPrototype: NecroBrute
   - type: GhostRoleNotifys 
     groupPrototype: Dragonping
+  - type: ExclusionFromRadar
   # DS14-end
 
 - type: entity
