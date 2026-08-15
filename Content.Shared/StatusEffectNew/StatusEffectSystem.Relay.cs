@@ -5,6 +5,7 @@ using Content.Shared.Chemistry.Events;
 using Content.Shared.Climbing.Events;
 using Content.Shared.Damage.Events;
 using Content.Shared.Damage.Systems;
+using Content.Shared.Examine;
 using Content.Shared.Medical;
 using Content.Shared.Mobs.Events;
 using Content.Shared.Movement.Events;
@@ -44,6 +45,7 @@ public sealed partial class StatusEffectsSystem
         SubscribeLocalEvent<StatusEffectContainerComponent, BeforeForceSayEvent>(RelayStatusEffectEvent);
         SubscribeLocalEvent<StatusEffectContainerComponent, BeforeAlertSeverityCheckEvent>(RelayStatusEffectEvent);
         SubscribeLocalEvent<StatusEffectContainerComponent, SpeakAttemptEvent>(RelayStatusEffectEvent);
+        SubscribeLocalEvent<StatusEffectContainerComponent, ExaminedEvent>(RelayStatusEffectEvent);
 
         // DS14-start: EmoteActionEvent and shared vocal systems are not available on the current baseline.
         SubscribeLocalEvent<StatusEffectContainerComponent, ScreamActionEvent>(RelayStatusEffectEvent);

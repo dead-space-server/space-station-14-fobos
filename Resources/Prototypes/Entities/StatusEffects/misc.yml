@@ -119,6 +119,8 @@
   name: hallucinations
   components:
   - type: SeeingRainbowsStatusEffect
+  - type: ExaminableStatusEffect
+    messageId: status-effect-examine-seeing-rainbow
 
 # Causes your vision to become blurry and gives me a headache.
 - type: entity
@@ -130,6 +132,13 @@
 
 # Causes you to get drunk
 - type: entity
-  parent: [ StatusEffectWoozy, StatusEffectSlurred ]
+  parent: [ StatusEffectWoozy, StatusEffectSlurred, StatusEffectClumsyDrunk ]
   id: StatusEffectDrunk
   name: drunk
+  components:
+  - type: ExaminableStatusEffect
+    messageId: status-effect-examine-drunk
+  - type: StatusEffectAlert
+    alert: DrunkAlert
+
+# DS14: blindness and flashed status effects are unavailable on the current baseline.
