@@ -40,6 +40,8 @@
     bluntStaminaDamageFactor: 2.0
     angle: 60
     animation: WeaponArcThrust
+    undamagedAlertThreshold: 0
+    # DS14: charge and toggle stamina handling remains in the legacy StunbatonSystem.
   - type: StaminaDamageOnHit
     damage: 35
     sound: /Audio/Weapons/egloves.ogg
