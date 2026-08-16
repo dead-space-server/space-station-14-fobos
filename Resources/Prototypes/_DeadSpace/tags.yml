@@ -89,6 +89,9 @@
   id: CloningPodMachineCircuitboard
 
 - type: Tag
+  id: CorruptTeleportItem
+
+- type: Tag
   id: CompactDefibrillator
 
 - type: Tag
