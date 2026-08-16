@@ -16,18 +16,30 @@ public sealed class ArenaLoadoutEuiState : EuiStateBase
 
     public List<int> EquippedCostumes { get; }
 
+    public List<ArenaTdmListingData> TdmStoreListings { get; }
+
+    public List<string> TdmPurchasedItems { get; }
+
+    public int RemainingBalance { get; }
+
     public ArenaLoadoutEuiState(
         List<ArenaLoadoutOption> weapons,
         List<ArenaCostumeOption> costumes,
         int balance,
         HashSet<int> ownedCostumes,
-        List<int> equippedCostumes)
+        List<int> equippedCostumes,
+        List<ArenaTdmListingData> tdmStoreListings,
+        List<string> tdmPurchasedItems,
+        int remainingBalance)
     {
         Weapons = weapons;
         Costumes = costumes;
         Balance = balance;
         OwnedCostumes = ownedCostumes;
         EquippedCostumes = equippedCostumes;
+        TdmStoreListings = tdmStoreListings;
+        TdmPurchasedItems = tdmPurchasedItems;
+        RemainingBalance = remainingBalance;
     }
 }
 
@@ -84,5 +96,27 @@ public sealed class ArenaCostumeEquipMessage : EuiMessageBase
     public ArenaCostumeEquipMessage(List<int> costumeIndexes)
     {
         CostumeIndexes = costumeIndexes;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class ArenaTdmListingData
+{
+    public string Id { get; set; } = string.Empty;
+    public LocId Name { get; set; } = string.Empty;
+    public LocId Description { get; set; } = string.Empty;
+    public int Cost { get; set; }
+    public string SpritePrototype { get; set; } = string.Empty;
+    public LocId Category { get; set; } = string.Empty;
+}
+
+[Serializable, NetSerializable]
+public sealed class ArenaTdmPurchaseConfirmMessage : EuiMessageBase
+{
+    public List<string> ListingIds { get; }
+
+    public ArenaTdmPurchaseConfirmMessage(List<string> listingIds)
+    {
+        ListingIds = listingIds;
     }
 }

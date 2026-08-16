@@ -1,0 +1,63 @@
+# == Арена: TDM. ==
+
+- type: entity
+  parent: ArenaSpawnPoint
+  id: ArenaTeamSpawnBlue
+  components:
+  - type: ArenaTeamSpawn
+    team: Blue
+
+- type: entity
+  parent: ArenaSpawnPoint
+  id: ArenaTeamSpawnRed
+  components:
+  - type: ArenaTeamSpawn
+    team: Red
+
+- type: arenaLoadoutPreset
+  id: ArenaTeamBlue
+  nameLoc: arena-tdm-team-blue
+  descLoc: arena-tdm-desc-blue
+  iconPrototype: ClothingOuterArmorBasic
+  category: arena-category-team-blue
+  mode: TDM
+  team: Blue
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  storage:
+    back:
+      - MedkitCombatFilled
+    belt:
+      - MagazinePistol
+      - MagazinePistol
+
+- type: arenaLoadoutPreset
+  id: ArenaTeamRed
+  nameLoc: arena-tdm-team-red
+  descLoc: arena-tdm-desc-red
+  iconPrototype: ClothingOuterArmorBasic
+  category: arena-category-team-red
+  mode: TDM
+  team: Red
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  storage:
+    back:
+      - MedkitCombatFilled
+    belt:
+      - MagazinePistol
+      - MagazinePistol

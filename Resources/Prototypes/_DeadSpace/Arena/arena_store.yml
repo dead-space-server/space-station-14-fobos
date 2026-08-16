@@ -1,0 +1,5 @@
+- type: arenaStore
+  id: ArenaStore
+  # Запрет на аплинк в арене
+  excludedListings:
+  - UplinkThrowingKnivesKit # Ножички крашат клиент почему то, пришлось бред

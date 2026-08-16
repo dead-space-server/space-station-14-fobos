@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Numerics;
 using Content.Client.Humanoid;
 using Content.Client.Inventory;
@@ -22,6 +23,7 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
     public event Action<int>? OnLoadoutConfirmed;
     public event Action<int>? OnCostumeBuy;
     public event Action<List<int>>? OnCostumeEquip;
+    public event Action<List<string>>? OnStorePurchaseConfirm;
 
     private int _weaponSelection = -1;
     private ArenaWeaponCard? _selectedCard;
@@ -44,6 +46,19 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
     private int _balance;
     private string _activeCategory = "cloak";
     private readonly List<ArenaCostumeCard> _costumeCards = new();
+
+    // TDM магазин.
+    private readonly HashSet<string> _storeSelection = new();
+    private readonly Label _storeBalanceLabel;
+    private readonly Button _storeSaveButton;
+    private readonly LineEdit _storeSearchInput;
+    private string _storeSearchText = string.Empty;
+    private List<ArenaTdmListingData> _storeListings = new();
+    private List<ArenaTdmListingData> _filteredListings = new();
+    private readonly Dictionary<string, PanelContainer> _storeRows = new();
+    private readonly BoxContainer _storeContent;
+    private bool _storeDirty = true;
+    private int _maxBalance = 40;
 
     // Превью перса.
     private EntityUid? _previewDummy;
@@ -233,6 +248,76 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
         _tabs.AddChild(costumeTab);
         _tabs.SetTabTitle(1, Loc.GetString("arena-tab-costume"));
 
+        // TDM магазин вкладка.
+        var storeTab = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+        };
+
+        var storeCaption = new Label
+        {
+            Text = Loc.GetString("arena-store-title", ("balance", _maxBalance)),
+            HorizontalAlignment = HAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 4),
+        };
+        storeTab.AddChild(storeCaption);
+
+        _storeBalanceLabel = new Label
+        {
+            Text = Loc.GetString("arena-store-balance", ("remaining", _maxBalance)),
+            HorizontalAlignment = HAlignment.Center,
+            FontColorOverride = new Color(0.3f, 0.9f, 0.3f),
+            Margin = new Thickness(0, 0, 0, 4),
+        };
+        storeTab.AddChild(_storeBalanceLabel);
+
+        _storeSearchInput = new LineEdit
+        {
+            PlaceHolder = Loc.GetString("arena-store-search-placeholder"),
+            HorizontalExpand = true,
+            Margin = new Thickness(6, 0, 6, 4),
+        };
+        _storeSearchInput.OnTextChanged += args =>
+        {
+            _storeSearchText = args.Text;
+            _storeDirty = true;
+            RebuildStoreTab();
+        };
+        storeTab.AddChild(_storeSearchInput);
+
+        _storeContent = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            Margin = new Thickness(6, 0),
+        };
+        var storeScroll = new ScrollContainer
+        {
+            VerticalExpand = true,
+            HorizontalExpand = true,
+        };
+        storeScroll.AddChild(_storeContent);
+        storeTab.AddChild(storeScroll);
+
+        _storeSaveButton = new Button
+        {
+            Text = Loc.GetString("arena-store-save"),
+            Disabled = true,
+            Margin = new Thickness(8, 6),
+        };
+        _storeSaveButton.OnPressed += _ =>
+        {
+            var ids = _storeSelection.ToList();
+            OnStorePurchaseConfirm?.Invoke(ids);
+        };
+        storeTab.AddChild(_storeSaveButton);
+
+        _tabs.AddChild(storeTab);
+        _tabs.SetTabTitle(2, Loc.GetString("arena-tab-store"));
+
         _confirmButton = new Button
         {
             Text = Loc.GetString("arena-loadout-confirm"),
@@ -291,6 +376,19 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
         UpdateCategoryButtons();
         RebuildCostumeList();
         RebuildPreview();
+
+        UpdateStoreState(state);
+    }
+
+    private void UpdateStoreState(ArenaLoadoutEuiState state)
+    {
+        _storeListings = state.TdmStoreListings;
+        _maxBalance = 40;
+        _storeSelection.Clear();
+        foreach (var id in state.TdmPurchasedItems)
+            _storeSelection.Add(id);
+        _storeDirty = true;
+        RebuildStoreTab();
     }
 
     private void UpdateWeaponState(ArenaLoadoutEuiState state)
@@ -447,6 +545,154 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
         if (_previewDummy is { } dummy && _entManager.EntityExists(dummy))
             _entManager.DeleteEntity(dummy);
         _previewDummy = null;
+    }
+
+    private void RebuildStoreTab()
+    {
+        if (!_storeDirty && _storeRows.Count > 0)
+        {
+            UpdateStoreBalance();
+            return;
+        }
+
+        _storeContent.RemoveAllChildren();
+        _storeRows.Clear();
+
+        _filteredListings = _storeListings;
+        if (!string.IsNullOrWhiteSpace(_storeSearchText))
+        {
+            var query = _storeSearchText.ToLowerInvariant();
+            _filteredListings = _storeListings
+                .Where(l => Loc.GetString(l.Name).ToLowerInvariant().Contains(query))
+                .ToList();
+        }
+
+        var categoryMap = new Dictionary<string, List<ArenaTdmListingData>>();
+        foreach (var listing in _filteredListings)
+        {
+            var cat = Loc.GetString(listing.Category);
+            if (!categoryMap.TryGetValue(cat, out var list))
+            {
+                list = new List<ArenaTdmListingData>();
+                categoryMap[cat] = list;
+            }
+            list.Add(listing);
+        }
+
+        foreach (var (cat, items) in categoryMap)
+        {
+            var header = new Label
+            {
+                Text = cat,
+                Margin = new Thickness(4, 6, 0, 2),
+                FontColorOverride = new Color(0.8f, 0.8f, 1.0f),
+            };
+            _storeContent.AddChild(header);
+
+            foreach (var item in items)
+            {
+                var row = BuildStoreItemRow(item);
+                _storeContent.AddChild(row);
+            }
+        }
+
+        _storeDirty = false;
+        UpdateStoreBalance();
+    }
+
+    private static readonly StyleBoxFlat _defaultRowStyle = new()
+    {
+        BackgroundColor = new Color(0.12f, 0.12f, 0.14f),
+        BorderColor = new Color(0.2f, 0.2f, 0.25f),
+        BorderThickness = new Thickness(1, 1, 1, 1),
+    };
+
+    private static readonly StyleBoxFlat _selectedRowStyle = new()
+    {
+        BackgroundColor = new Color(0.15f, 0.3f, 0.15f),
+        BorderColor = new Color(0.3f, 0.9f, 0.3f),
+        BorderThickness = new Thickness(2, 2, 2, 2),
+    };
+
+    private Control BuildStoreItemRow(ArenaTdmListingData item)
+    {
+        var row = new PanelContainer
+        {
+            MinHeight = 34,
+            HorizontalExpand = true,
+            Margin = new Thickness(0, 1),
+            MouseFilter = MouseFilterMode.Stop,
+        };
+        row.PanelOverride = _storeSelection.Contains(item.Id) ? _selectedRowStyle : _defaultRowStyle;
+
+        var hbox = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Horizontal,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+        };
+
+        var nameLabel = new Label
+        {
+            Text = Loc.GetString(item.Name),
+            HorizontalExpand = true,
+            VerticalAlignment = VAlignment.Center,
+            Margin = new Thickness(8, 0, 0, 0),
+        };
+        hbox.AddChild(nameLabel);
+
+        var costLabel = new Label
+        {
+            Text = Loc.GetString("arena-store-cost-format", ("cost", item.Cost)),
+            MinSize = new Vector2(48, 28),
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            FontColorOverride = new Color(0.3f, 0.9f, 0.3f),
+        };
+        hbox.AddChild(costLabel);
+        row.AddChild(hbox);
+
+        row.OnKeyBindDown += args =>
+        {
+            if (args.Function != EngineKeyFunctions.UIClick)
+                return;
+            if (_storeSelection.Contains(item.Id))
+            {
+                _storeSelection.Remove(item.Id);
+                row.PanelOverride = _defaultRowStyle;
+            }
+            else
+            {
+                var spent = GetCurrentSpent();
+                if (spent + item.Cost > _maxBalance)
+                    return;
+                _storeSelection.Add(item.Id);
+                row.PanelOverride = _selectedRowStyle;
+            }
+            UpdateStoreBalance();
+            args.Handle();
+        };
+
+        _storeRows[item.Id] = row;
+        return row;
+    }
+
+    private int GetCurrentSpent()
+    {
+        return _storeListings
+            .Where(l => _storeSelection.Contains(l.Id))
+            .Sum(l => l.Cost);
+    }
+
+    private void UpdateStoreBalance()
+    {
+        var spent = GetCurrentSpent();
+        var remaining = _maxBalance - spent;
+        _storeBalanceLabel.Text = Loc.GetString("arena-store-balance", ("remaining", remaining));
+        _storeBalanceLabel.FontColorOverride = remaining >= 0
+            ? new Color(0.3f, 0.9f, 0.3f)
+            : new Color(0.9f, 0.3f, 0.3f);
+        _storeSaveButton.Disabled = _storeSelection.Count == 0 || remaining < 0;
     }
 
     private void OnCardSelected(ArenaWeaponCard card)

@@ -834,6 +834,10 @@ namespace Content.Client.RoundEnd
                 HorizontalExpand = true,
             };
 
+            // Итоги TDM: счёт команд и победитель.
+            if (ev.BlueScore > 0 || ev.RedScore > 0)
+                container.AddChild(MakeArenaTdmScoreBoard(ev));
+
             var topThree = ev.Players.Take(3).ToArray();
             if (topThree.Length > 0)
             {
@@ -1004,6 +1008,105 @@ namespace Content.Client.RoundEnd
                 Text = player.KD.ToString("0.##"),
                 MinWidth = 70,
                 HorizontalAlignment = HAlignment.Right,
+            });
+
+            panel.AddChild(box);
+            return panel;
+        }
+
+        private static Control MakeArenaTdmScoreBoard(ArenaManifestEvent ev)
+        {
+            var scoreRow = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Horizontal,
+                SeparationOverride = 16,
+                HorizontalAlignment = HAlignment.Center,
+                HorizontalExpand = true,
+            };
+
+            scoreRow.AddChild(MakeArenaTeamScoreCard(
+                Loc.GetString("arena-tdm-team-blue"),
+                ev.BlueScore,
+                ArenaConstants.TdmTeamBlueColor,
+                ev.BlueScore >= ev.RedScore));
+
+            scoreRow.AddChild(new Label
+            {
+                Text = ":",
+                StyleClasses = { "LabelHeading" },
+                HorizontalAlignment = HAlignment.Center,
+                VerticalAlignment = VAlignment.Center,
+            });
+
+            scoreRow.AddChild(MakeArenaTeamScoreCard(
+                Loc.GetString("arena-tdm-team-red"),
+                ev.RedScore,
+                ArenaConstants.TdmTeamRedColor,
+                ev.RedScore >= ev.BlueScore));
+
+            var resultText = ev.BlueScore > ev.RedScore
+                ? Loc.GetString("arena-manifest-tdm-win-blue")
+                : ev.RedScore > ev.BlueScore
+                    ? Loc.GetString("arena-manifest-tdm-win-red")
+                    : Loc.GetString("arena-manifest-tdm-draw");
+
+            var box = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Vertical,
+                SeparationOverride = 8,
+                HorizontalExpand = true,
+                Margin = new Thickness(0, 0, 0, 12),
+            };
+
+            box.AddChild(scoreRow);
+            box.AddChild(new Label
+            {
+                Text = resultText,
+                StyleClasses = { "LabelBig" },
+                FontColorOverride = Color.Gold,
+                HorizontalAlignment = HAlignment.Center,
+            });
+
+            return box;
+        }
+
+        private static Control MakeArenaTeamScoreCard(string teamName, int score, Color color, bool winner)
+        {
+            var panel = new PanelContainer
+            {
+                PanelOverride = new StyleBoxFlat
+                {
+                    BackgroundColor = ManifestBodyBackground,
+                    BorderColor = winner ? color : ManifestPanelBorder,
+                    BorderThickness = new Thickness(winner ? 2 : 1),
+                },
+                MinWidth = 160,
+                HorizontalExpand = true,
+            };
+
+            var box = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Vertical,
+                SeparationOverride = 4,
+                Margin = new Thickness(12),
+                HorizontalAlignment = HAlignment.Center,
+                HorizontalExpand = true,
+            };
+
+            box.AddChild(new Label
+            {
+                Text = teamName,
+                StyleClasses = { "LabelHeading" },
+                FontColorOverride = color,
+                HorizontalAlignment = HAlignment.Center,
+                HorizontalExpand = true,
+            });
+            box.AddChild(new Label
+            {
+                Text = score.ToString(),
+                StyleClasses = { "LabelBig" },
+                FontColorOverride = Color.White,
+                HorizontalAlignment = HAlignment.Center,
             });
 
             panel.AddChild(box);

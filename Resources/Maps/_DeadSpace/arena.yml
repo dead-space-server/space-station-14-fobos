@@ -14,13 +14,13 @@ orphans: []
 nullspace: []
 tilemap:
   5: Space
-  6: FloorMetalDiamond
-  7: FloorReinforcedHardened
-  2: FloorTechMaint2
-  0: FloorTechMaintDark
-  3: FloorWhite
-  4: FloorWhiteOffset
-  1: Plating
+  6: ArenaFloorMetalDiamond
+  7: ArenaFloorReinforcedHardened
+  2: ArenaFloorTechMaint2
+  0: ArenaFloorTechMaintDark
+  3: ArenaFloorWhite
+  4: ArenaFloorWhiteOffset
+  1: ArenaPlating
 entities:
 - proto: ""
   entities:

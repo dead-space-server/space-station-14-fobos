@@ -22,6 +22,12 @@ public sealed partial class ArenaLoadoutPresetPrototype : IPrototype, IEquipment
     public string Category = string.Empty;
 
     [DataField]
+    public ArenaMode Mode = ArenaMode.Deathmatch;
+
+    [DataField]
+    public ArenaTeam Team = ArenaTeam.None;
+
+    [DataField]
     public Dictionary<string, EntProtoId> Equipment { get; set; } = new();
 
     [DataField]

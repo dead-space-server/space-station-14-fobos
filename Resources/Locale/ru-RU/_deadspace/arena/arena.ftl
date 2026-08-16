@@ -76,3 +76,33 @@ arena-manifest-kd = K: { $kills } | D: { $deaths } | K/D: { $kd }
 arena-manifest-row-place = #{ $place }
 arena-manifest-row-kills = Убийств: { $kills }
 arena-manifest-row-deaths = Смертей: { $deaths }
+## Arena modes
+arena-mode-deathmatch = Deathmatch
+arena-mode-tdm = TDM
+arena-state-intermission = Перерыв
+arena-state-preparation = Подготовка
+arena-tdm-team-blue = Команда Синих
+arena-tdm-desc-blue = Базовый бронежилет, пистолет.
+arena-category-team-blue = СИНИЕ
+arena-tdm-team-red = Команда Красных
+arena-tdm-desc-red = Базовый бронежилет, пистолет.
+arena-category-team-red = КРАСНЫЕ
+## Arena manifest (round-end tab)
+arena-manifest-tdm-win-blue = Синяя команда победила!
+arena-manifest-tdm-win-red = Красная команда победила!
+arena-manifest-tdm-draw = Ничья в TDM
+## Arena store tab
+arena-tab-presets = Пресеты
+arena-tab-store = Закуп ТДМ
+arena-store-title = Выберите предметы ({ $balance } ТК)
+arena-store-balance = Остаток: { $remaining } ТК
+arena-store-search-placeholder = Поиск...
+arena-store-save = Сохранить
+arena-store-cost-format = { $cost } ТК
+## Arena winners
+arena-winner-dm = { $name } победил с K/D { $kills }/{ $deaths }!
+arena-winner-dm-wrap = *{ $name } побеждает в Deathmatch с K/D { $kills }/{ $deaths }!*
+arena-winner-tdm-draw = Ничья!
+arena-winner-tdm-draw-wrap = *Ничья в TDM!*
+arena-winner-tdm = { $team } победила!
+arena-winner-tdm-wrap = *{ $team } побеждает в TDM!*

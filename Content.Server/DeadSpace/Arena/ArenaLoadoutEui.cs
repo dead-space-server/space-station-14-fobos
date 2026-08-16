@@ -20,7 +20,7 @@ public sealed class ArenaLoadoutEui : BaseEui
 
     public override EuiStateBase GetNewState()
     {
-        return _arena.GetLoadoutState(_session);
+        return _arena.GetLoadoutState(_session.UserId);
     }
 
     public override void HandleMessage(EuiMessageBase msg)
@@ -44,6 +44,11 @@ public sealed class ArenaLoadoutEui : BaseEui
 
             case ArenaCostumeEquipMessage equip:
                 _arena.SetEquippedCostumes(_session, equip.CostumeIndexes);
+                StateDirty();
+                break;
+
+            case ArenaTdmPurchaseConfirmMessage purchase:
+                _arena.SetTdmPurchases(_session.UserId, purchase.ListingIds);
                 StateDirty();
                 break;
         }

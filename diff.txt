@@ -1,0 +1,3038 @@
+Content.Client/DeadSpace/Arena/ArenaLoadoutEui.cs‎
++4
+Lines changed: 4 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+        {
+            SendMessage(new ArenaLoadoutSelectedMessage(weaponIdx));
+        };
+        _window.OnStorePurchaseConfirm += listingIds =>
+        {
+            SendMessage(new ArenaTdmPurchaseConfirmMessage(listingIds));
+        };
+    }
+
+    public override void Opened()
+‎Content.Client/DeadSpace/Arena/ArenaLoadoutWindow.cs‎
++296
+-9
+Lines changed: 296 additions & 9 deletions
+Original file line number	Diff line number	Diff line change
+using System.Linq;
+using System.Numerics;
+using Content.Shared.DeadSpace.Arena;
+using Robust.Client.Graphics;
+public sealed class ArenaLoadoutWindow : DefaultWindow
+{
+    public event Action<int>? OnLoadoutConfirmed;
+    public event Action<List<string>>? OnStorePurchaseConfirm;
+
+    private int _weaponSelection = -1;
+    private ArenaWeaponCard? _selectedCard;
+    private readonly BoxContainer _categoriesContainer;
+    private readonly Button _confirmButton;
+
+    private readonly TabContainer _tabContainer;
+    private readonly BoxContainer _presetsTab;
+    private readonly BoxContainer _storeTab;
+    // Store tab state
+    private readonly HashSet<string> _storeSelection = new();
+    private readonly Label _storeBalanceLabel;
+    private readonly Button _storeSaveButton;
+    private readonly LineEdit _storeSearchInput;
+    private string _storeSearchText = string.Empty;
+    private List<ArenaTdmListingData> _storeListings = new();
+    private List<ArenaTdmListingData> _filteredListings = new();
+    private readonly Dictionary<string, PanelContainer> _storeRows = new();
+    private readonly BoxContainer _storeContent;
+    private bool _storeDirty = true;
+    private int _maxBalance = 40;
+    public ArenaLoadoutWindow()
+    {
+        Title = Loc.GetString("arena-loadout-title");
+        MinSize = new Vector2(450, 500);
+        SetSize = new Vector2(450, 500);
+        MinSize = new Vector2(650, 550);
+        SetSize = new Vector2(650, 550);
+        _tabContainer = new TabContainer
+        {
+            HorizontalExpand = true,
+            VerticalExpand = true,
+        };
+
+        var outerContainer = new BoxContainer
+        // === Tab 0: Presets ===
+        _presetsTab = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            HorizontalAlignment = HAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 6),
+        };
+        outerContainer.AddChild(subtitle);
+        _presetsTab.AddChild(subtitle);
+
+        _categoriesContainer = new BoxContainer
+        {
+            SeparationOverride = 4,
+        };
+
+        var scroll = new ScrollContainer
+        var presetsScroll = new ScrollContainer
+        {
+            VerticalExpand = true,
+            HorizontalExpand = true,
+            Margin = new Thickness(6, 0),
+        };
+        scroll.AddChild(_categoriesContainer);
+        outerContainer.AddChild(scroll);
+        presetsScroll.AddChild(_categoriesContainer);
+        _presetsTab.AddChild(presetsScroll);
+
+        _confirmButton = new Button
+        {
+            if (_weaponSelection >= 0)
+                OnLoadoutConfirmed?.Invoke(_weaponSelection);
+        };
+        outerContainer.AddChild(_confirmButton);
+        _presetsTab.AddChild(_confirmButton);
+        TabContainer.SetTabTitle(_presetsTab, Loc.GetString("arena-tab-presets"));
+        _tabContainer.AddChild(_presetsTab);
+        // === Tab 1: TDM Store ===
+        _storeTab = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+        };
+
+        Contents.AddChild(outerContainer);
+        var storeCaption = new Label
+        {
+            Text = Loc.GetString("arena-store-title", ("balance", 40)),
+            HorizontalAlignment = HAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 4),
+        };
+        _storeTab.AddChild(storeCaption);
+        _storeBalanceLabel = new Label
+        {
+            Text = Loc.GetString("arena-store-balance", ("remaining", 40)),
+            HorizontalAlignment = HAlignment.Center,
+            FontColorOverride = new Color(0.3f, 0.9f, 0.3f),
+            Margin = new Thickness(0, 0, 0, 4),
+        };
+        _storeTab.AddChild(_storeBalanceLabel);
+        _storeSearchInput = new LineEdit
+        {
+            PlaceHolder = Loc.GetString("arena-store-search-placeholder"),
+            HorizontalExpand = true,
+            Margin = new Thickness(6, 0, 6, 4),
+        };
+        _storeSearchInput.OnTextChanged += args =>
+        {
+            _storeSearchText = args.Text;
+            _storeDirty = true;
+            RebuildStoreTab();
+        };
+        _storeTab.AddChild(_storeSearchInput);
+        _storeContent = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            Margin = new Thickness(6, 0),
+        };
+        var storeScroll = new ScrollContainer
+        {
+            VerticalExpand = true,
+            HorizontalExpand = true,
+        };
+        storeScroll.AddChild(_storeContent);
+        _storeTab.AddChild(storeScroll);
+        _storeSaveButton = new Button
+        {
+            Text = Loc.GetString("arena-store-save"),
+            Disabled = true,
+            Margin = new Thickness(8, 6),
+        };
+        _storeSaveButton.OnPressed += _ =>
+        {
+            var ids = _storeSelection.ToList();
+            OnStorePurchaseConfirm?.Invoke(ids);
+        };
+        _storeTab.AddChild(_storeSaveButton);
+        TabContainer.SetTabTitle(_storeTab, Loc.GetString("arena-tab-store"));
+        _tabContainer.AddChild(_storeTab);
+        Contents.AddChild(_tabContainer);
+    }
+
+    public void UpdateState(ArenaLoadoutEuiState state)
+    {
+        // Tab 0: Presets
+        _categoriesContainer.RemoveAllChildren();
+        _selectedCard = null;
+        _weaponSelection = -1;
+                _categoriesContainer.AddChild(card);
+            }
+        }
+        // Tab 1: TDM Store
+        _storeTab.Visible = true;
+        var prevListings = _storeListings;
+        _storeListings = state.TdmStoreListings;
+        _maxBalance = 40;
+        // Only full rebuild if the listing set changed (different IDs or count)
+        var listingChanged = prevListings.Count != _storeListings.Count ||
+                             _storeListings.Any(l => !prevListings.Any(p => p.Id == l.Id));
+        _storeDirty = _storeRows.Count == 0 || listingChanged;
+        if (!_storeDirty)
+        {
+            // Sync server-side purchases with local selection
+            var serverPurchased = new HashSet<string>(state.TdmPurchasedItems);
+            foreach (var listing in _storeListings)
+            {
+                if (serverPurchased.Contains(listing.Id))
+                    _storeSelection.Add(listing.Id);
+                else
+                    _storeSelection.Remove(listing.Id);
+            }
+        }
+        else
+        {
+            _storeSelection.Clear();
+            foreach (var id in state.TdmPurchasedItems)
+                _storeSelection.Add(id);
+        }
+        RebuildStoreTab();
+    }
+    private void RebuildStoreTab()
+    {
+        if (!_storeDirty && _storeRows.Count > 0)
+        {
+            UpdateStoreBalance();
+            return;
+        }
+        _storeContent.RemoveAllChildren();
+        _storeRows.Clear();
+        // Filter by search text
+        _filteredListings = _storeListings;
+        if (!string.IsNullOrWhiteSpace(_storeSearchText))
+        {
+            var query = _storeSearchText.ToLowerInvariant();
+            _filteredListings = _storeListings
+                .Where(l => Loc.GetString(l.Name).ToLowerInvariant().Contains(query))
+                .ToList();
+        }
+        var categoryMap = new Dictionary<string, List<ArenaTdmListingData>>();
+        foreach (var listing in _filteredListings)
+        {
+            var cat = Loc.GetString(listing.Category);
+            if (!categoryMap.TryGetValue(cat, out var list))
+            {
+                list = new List<ArenaTdmListingData>();
+                categoryMap[cat] = list;
+            }
+            list.Add(listing);
+        }
+        foreach (var (cat, items) in categoryMap)
+        {
+            var header = new Label
+            {
+                Text = cat,
+                Margin = new Thickness(4, 6, 0, 2),
+                FontColorOverride = new Color(0.8f, 0.8f, 1.0f),
+            };
+            _storeContent.AddChild(header);
+            foreach (var item in items)
+            {
+                var row = BuildStoreItemRow(item);
+                _storeContent.AddChild(row);
+            }
+        }
+        _storeDirty = false;
+        UpdateStoreBalance();
+    }
+    private static readonly StyleBoxFlat _defaultRowStyle = new()
+    {
+        BackgroundColor = new Color(0.12f, 0.12f, 0.14f),
+        BorderColor = new Color(0.2f, 0.2f, 0.25f),
+        BorderThickness = new Thickness(1, 1, 1, 1),
+    };
+    private static readonly StyleBoxFlat _selectedRowStyle = new()
+    {
+        BackgroundColor = new Color(0.15f, 0.3f, 0.15f),
+        BorderColor = new Color(0.3f, 0.9f, 0.3f),
+        BorderThickness = new Thickness(2, 2, 2, 2),
+    };
+    private Control BuildStoreItemRow(ArenaTdmListingData item)
+    {
+        var row = new PanelContainer
+        {
+            MinHeight = 34,
+            HorizontalExpand = true,
+            Margin = new Thickness(0, 1),
+            MouseFilter = MouseFilterMode.Stop,
+        };
+        row.PanelOverride = _storeSelection.Contains(item.Id) ? _selectedRowStyle : _defaultRowStyle;
+        var hbox = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Horizontal,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+        };
+        // Item name
+        var nameLabel = new Label
+        {
+            Text = Loc.GetString(item.Name),
+            HorizontalExpand = true,
+            VerticalAlignment = VAlignment.Center,
+            Margin = new Thickness(8, 0, 0, 0),
+        };
+        hbox.AddChild(nameLabel);
+        // Cost
+        var costLabel = new Label
+        {
+            Text = Loc.GetString("arena-store-cost-format", ("cost", item.Cost)),
+            MinSize = new Vector2(48, 28),
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            FontColorOverride = new Color(0.3f, 0.9f, 0.3f),
+        };
+        hbox.AddChild(costLabel);
+        row.AddChild(hbox);
+        // Click to toggle
+        row.OnKeyBindDown += args =>
+        {
+            if (args.Function != EngineKeyFunctions.UIClick)
+                return;
+            if (_storeSelection.Contains(item.Id))
+            {
+                _storeSelection.Remove(item.Id);
+                row.PanelOverride = _defaultRowStyle;
+            }
+            else
+            {
+                var spent = GetCurrentSpent();
+                if (spent + item.Cost > _maxBalance)
+                    return;
+                _storeSelection.Add(item.Id);
+                row.PanelOverride = _selectedRowStyle;
+            }
+            UpdateStoreBalance();
+            args.Handle();
+        };
+        _storeRows[item.Id] = row;
+        return row;
+    }
+    private int GetCurrentSpent()
+    {
+        // Sum across ALL listings, not just filtered, so search doesn't affect balance
+        return _storeListings
+            .Where(l => _storeSelection.Contains(l.Id))
+            .Sum(l => l.Cost);
+    }
+    private void UpdateStoreBalance()
+    {
+        var spent = GetCurrentSpent();
+        var remaining = _maxBalance - spent;
+        _storeBalanceLabel.Text = Loc.GetString("arena-store-balance", ("remaining", remaining));
+        _storeBalanceLabel.FontColorOverride = remaining >= 0
+            ? new Color(0.3f, 0.9f, 0.3f)
+            : new Color(0.9f, 0.3f, 0.3f);
+        _storeSaveButton.Disabled = _storeSelection.Count == 0 || remaining < 0;
+    }
+
+    private void OnCardSelected(ArenaWeaponCard card)
+‎Content.Client/DeadSpace/Arena/ArenaUIController.cs‎
++387
+Lines changed: 387 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+using System.Linq;
+using Content.Client.Gameplay;
+using Content.Shared.DeadSpace.Arena;
+using Robust.Client.Graphics;
+using Robust.Client.Player;
+using Robust.Client.ResourceManagement;
+using Robust.Client.UserInterface;
+using Robust.Client.UserInterface.Controls;
+using Robust.Client.UserInterface.Controllers;
+using Robust.Shared.Maths;
+using Robust.Shared.Timing;
+namespace Content.Client.DeadSpace.Arena;
+public sealed class ArenaUIController : UIController, IOnStateEntered<GameplayState>, IOnStateExited<GameplayState>
+{
+    [Dependency] private readonly IResourceCache _resourceCache = default!;
+    [Dependency] private readonly IPlayerManager _playerMan = default!;
+    [Dependency] private readonly IEntityNetworkManager _net = default!;
+    private PanelContainer? _arenaPanel;
+    private Label? _arenaLabel;
+    private PanelContainer? _votePanel;
+    private Button? _voteDmButton;
+    private Button? _votePhButton;
+    private Button? _voteTdmButton;
+    private Label? _voteStateLabel;
+    private Label? _seekerLabel;
+    private ArenaMode _mode;
+    private ArenaRoundState _roundState;
+    private float _timeRemaining = -1f;
+    private float _localTimer;
+    private int _blueKills;
+    private int _redKills;
+    private bool _isSeekerFrozen;
+    private Font _seekerFont = default!;
+    private List<ArenaMode> _availableModes = new();
+    private Dictionary<NetEntity, ArenaMode> _votes = new();
+    private int _lastDmVotes;
+    private int _lastPhVotes;
+    private int _lastTdmVotes;
+    public override void Initialize()
+    {
+        SubscribeNetworkEvent<ArenaRoundUpdateEvent>(OnRoundUpdate);
+        SubscribeNetworkEvent<ArenaSeekerFreezeEvent>(OnSeekerFreeze);
+        SubscribeNetworkEvent<ArenaSeekerUnfreezeEvent>(OnSeekerUnfreeze);
+        SubscribeNetworkEvent<ArenaSeekerNotifyEvent>(OnSeekerNotify);
+        SubscribeNetworkEvent<ArenaVoteStateEvent>(OnVoteState);
+        _seekerFont = new VectorFont(
+            _resourceCache.GetResource<FontResource>("/Fonts/NotoSans/NotoSans-Bold.ttf"), 24);
+    }
+    public void OnStateEntered(GameplayState state)
+    {
+        CreateArenaPanel();
+        CreateVotePanel();
+        CreateSeekerLabel();
+    }
+    public void OnStateExited(GameplayState state)
+    {
+        RemoveArenaPanel();
+        RemoveVotePanel();
+        RemoveSeekerLabel();
+    }
+    private void CreateArenaPanel()
+    {
+        if (_arenaPanel != null)
+            return;
+        _arenaLabel = new Label
+        {
+            Text = "",
+            FontColorOverride = Color.White,
+        };
+        _arenaPanel = new PanelContainer
+        {
+            PanelOverride = new StyleBoxFlat
+            {
+                BackgroundColor = new Color(0, 0, 0, 0.6f),
+                ContentMarginLeftOverride = 10,
+                ContentMarginRightOverride = 10,
+                ContentMarginTopOverride = 4,
+                ContentMarginBottomOverride = 4,
+            },
+            HorizontalAlignment = Control.HAlignment.Center,
+            VerticalAlignment = Control.VAlignment.Top,
+            Margin = new Thickness(0, 8, 0, 0),
+            Visible = false,
+            Children = { _arenaLabel }
+        };
+        UIManager.RootControl.AddChild(_arenaPanel);
+    }
+    private void RemoveArenaPanel()
+    {
+        if (_arenaPanel == null)
+            return;
+        UIManager.RootControl.RemoveChild(_arenaPanel);
+        _arenaPanel.Dispose();
+        _arenaPanel = null;
+        _arenaLabel = null;
+    }
+    private void CreateVotePanel()
+    {
+        if (_votePanel != null)
+            return;
+        _voteDmButton = new Button
+        {
+            Text = "Deathmatch",
+            MinHeight = 30,
+        };
+        _voteDmButton.OnPressed += _ => SendVote(ArenaMode.Deathmatch);
+        _votePhButton = new Button
+        {
+            Text = "PropHunt",
+        };
+        _votePhButton.OnPressed += _ => SendVote(ArenaMode.PropHunt);
+        _voteTdmButton = new Button
+        {
+            Text = "TDM",
+        };
+        _voteTdmButton.OnPressed += _ => SendVote(ArenaMode.TDM);
+        _voteStateLabel = new Label
+        {
+            Text = "",
+            FontColorOverride = Color.White,
+            HorizontalAlignment = Control.HAlignment.Center,
+        };
+        _votePanel = new PanelContainer
+        {
+            PanelOverride = new StyleBoxFlat
+            {
+                BackgroundColor = new Color(0, 0, 0, 0.6f),
+                ContentMarginLeftOverride = 10,
+                ContentMarginRightOverride = 10,
+                ContentMarginTopOverride = 4,
+                ContentMarginBottomOverride = 4,
+            },
+            HorizontalAlignment = Control.HAlignment.Center,
+            VerticalAlignment = Control.VAlignment.Top,
+            Margin = new Thickness(0, 50, 0, 0),
+            Visible = false,
+            Children =
+            {
+                new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Vertical,
+                    SeparationOverride = 4,
+                    Children =
+                    {
+                        new Label
+                        {
+                            Text = "Голосование за режим",
+                            FontColorOverride = Color.White,
+                            HorizontalAlignment = Control.HAlignment.Center,
+                        },
+                        new BoxContainer
+                        {
+                            Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                            SeparationOverride = 8,
+                            HorizontalAlignment = Control.HAlignment.Center,
+                            Children = { _voteDmButton, _voteTdmButton, _votePhButton }
+                        },
+                        _voteStateLabel
+                    }
+                }
+            }
+        };
+        UIManager.RootControl.AddChild(_votePanel);
+    }
+    private void RemoveVotePanel()
+    {
+        if (_votePanel == null)
+            return;
+        UIManager.RootControl.RemoveChild(_votePanel);
+        _votePanel.Dispose();
+        _votePanel = null;
+        _voteDmButton = null;
+        _votePhButton = null;
+        _voteTdmButton = null;
+        _voteStateLabel = null;
+    }
+    private void CreateSeekerLabel()
+    {
+        if (_seekerLabel != null)
+            return;
+        _seekerLabel = new Label
+        {
+            Text = "",
+            FontColorOverride = Color.White,
+            FontOverride = _seekerFont,
+            HorizontalAlignment = Control.HAlignment.Center,
+            VerticalAlignment = Control.VAlignment.Center,
+            Visible = false,
+        };
+        UIManager.RootControl.AddChild(_seekerLabel);
+    }
+    private void RemoveSeekerLabel()
+    {
+        if (_seekerLabel == null)
+            return;
+        UIManager.RootControl.RemoveChild(_seekerLabel);
+        _seekerLabel.Dispose();
+        _seekerLabel = null;
+    }
+    private void SendVote(ArenaMode vote)
+    {
+        _net.SendSystemNetworkMessage(new ArenaVoteCastEvent(vote));
+    }
+    private void OnRoundUpdate(ArenaRoundUpdateEvent ev, EntitySessionEventArgs args)
+    {
+        _mode = ev.Mode;
+        _roundState = ev.RoundState;
+        _timeRemaining = ev.TimeRemaining;
+        _localTimer = 0f;
+        _blueKills = ev.BlueKills;
+        _redKills = ev.RedKills;
+    }
+    private void OnSeekerFreeze(ArenaSeekerFreezeEvent ev, EntitySessionEventArgs args)
+    {
+        _isSeekerFrozen = true;
+        _timeRemaining = ev.FreezeDuration;
+        _localTimer = 0f;
+        if (_seekerLabel != null)
+        {
+            _seekerLabel.Text = $"{Loc.GetString("arena-seeker-title")}\n{Loc.GetString("arena-seeker-subtitle")}";
+            _seekerLabel.Visible = true;
+        }
+    }
+    private void OnSeekerUnfreeze(ArenaSeekerUnfreezeEvent ev, EntitySessionEventArgs args)
+    {
+        _isSeekerFrozen = false;
+        if (_seekerLabel != null)
+            _seekerLabel.Visible = false;
+    }
+    private void OnSeekerNotify(ArenaSeekerNotifyEvent ev, EntitySessionEventArgs args)
+    {
+        if (_seekerLabel != null)
+            _seekerLabel.Text = ev.Message;
+    }
+    private void OnVoteState(ArenaVoteStateEvent ev, EntitySessionEventArgs args)
+    {
+        _availableModes = ev.AvailableModes;
+        _votes = ev.Votes;
+        _lastDmVotes = ev.Votes.Values.Count(v => v == ArenaMode.Deathmatch);
+        _lastPhVotes = ev.Votes.Values.Count(v => v == ArenaMode.PropHunt);
+        _lastTdmVotes = ev.Votes.Values.Count(v => v == ArenaMode.TDM);
+    }
+    public override void FrameUpdate(FrameEventArgs args)
+    {
+        UpdateArenaPanel(args);
+        UpdateVotePanel();
+        UpdateSeekerLabel(args);
+    }
+    private bool IsPlayerOnArena()
+    {
+        var ent = _playerMan.LocalEntity;
+        return ent.HasValue && EntityManager.HasComponent<ArenaPlayerComponent>(ent.Value);
+    }
+    private void UpdateArenaPanel(FrameEventArgs args)
+    {
+        if (_arenaPanel == null || _arenaLabel == null)
+            return;
+        if (!IsPlayerOnArena() || _timeRemaining < 0f)
+        {
+            _arenaPanel.Visible = false;
+            return;
+        }
+        _arenaPanel.Visible = true;
+        _localTimer += (float)args.DeltaSeconds;
+        var remaining = Math.Max(0f, _timeRemaining - _localTimer);
+        if (remaining <= 0f)
+        {
+            _arenaPanel.Visible = false;
+            return;
+        }
+        _arenaLabel.Text = FormatArenaText(remaining);
+    }
+    private string FormatArenaText(float remaining)
+    {
+        var modeName = _mode switch
+        {
+            ArenaMode.Deathmatch => "Deathmatch",
+            ArenaMode.PropHunt => "PropHunt",
+            ArenaMode.TDM => "TDM",
+            _ => "Unknown"
+        };
+        var statePrefix = _roundState switch
+        {
+            ArenaRoundState.Intermission => "[Intermission] ",
+            ArenaRoundState.Hiding => "[Hiding] ",
+            ArenaRoundState.Preparation => "[Prep] ",
+            _ => ""
+        };
+        var score = _mode == ArenaMode.TDM
+            ? $" | Синие: {_blueKills} | Красные: {_redKills}"
+            : "";
+        var minutes = (int)remaining / 60;
+        var seconds = (int)remaining % 60;
+        return $"{statePrefix}{modeName}{score} | {minutes:D2}:{seconds:D2}";
+    }
+    private void UpdateVotePanel()
+    {
+        if (_votePanel == null || _voteDmButton == null || _votePhButton == null || _voteTdmButton == null || _voteStateLabel == null)
+            return;
+        if (!IsPlayerOnArena() || _timeRemaining < 0f || _roundState != ArenaRoundState.Intermission)
+        {
+            _votePanel.Visible = false;
+            return;
+        }
+        _votePanel.Visible = true;
+        _voteDmButton.Visible = _availableModes.Contains(ArenaMode.Deathmatch);
+        _votePhButton.Visible = _availableModes.Contains(ArenaMode.PropHunt);
+        _voteTdmButton.Visible = _availableModes.Contains(ArenaMode.TDM);
+        var totalVotes = _lastDmVotes + _lastPhVotes + _lastTdmVotes;
+        _voteStateLabel.Text = totalVotes > 0
+            ? $"Deathmatch: {_lastDmVotes} | TDM: {_lastTdmVotes} | PropHunt: {_lastPhVotes}"
+            : "Нажмите на кнопку, чтобы проголосовать";
+    }
+    private void UpdateSeekerLabel(FrameEventArgs args)
+    {
+        if (_seekerLabel == null || !_seekerLabel.Visible || !_isSeekerFrozen)
+            return;
+        _localTimer += (float)args.DeltaSeconds;
+        var remaining = Math.Max(0f, _timeRemaining - _localTimer);
+        if (remaining <= 0f)
+        {
+            _seekerLabel.Visible = false;
+            _isSeekerFrozen = false;
+            return;
+        }
+        var minutes = (int)remaining / 60;
+        var seconds = (int)remaining % 60;
+        _seekerLabel.Text = $"{Loc.GetString("arena-seeker-title")}\n{minutes:D2}:{seconds:D2}";
+    }
+}
+‎Content.Client/Effects/ColorFlashEffectSystem.cs‎
++2
+-1
+Lines changed: 2 additions & 1 deletion
+Original file line number	Diff line number	Diff line change
+#endif
+            }
+
+            _animation.Stop(ent, AnimationKey);
+            var animation = GetDamageAnimation(ent, color, sprite);
+
+            if (animation == null)
+            RaiseLocalEvent(ent, ref targetEv);
+            ent = targetEv.Target;
+
+            _animation.Stop(ent, AnimationKey);
+            EnsureComp<ColorFlashEffectComponent>(ent, out comp);
+            comp.NetSyncEnabled = false;
+            comp.Color = sprite.Color;
+‎Content.Client/RoundEnd/RoundEndSummaryUIController.cs‎
++16
+Lines changed: 16 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+using Content.Client.GameTicking.Managers;
+using Content.Shared.DeadSpace.Arena;
+using Content.Shared.GameTicking;
+using Content.Shared.Input;
+using JetBrains.Annotations;
+    [Dependency] private readonly IInputManager _input = default!;
+
+    private RoundEndSummaryWindow? _window;
+    private ArenaManifestEvent? _arenaManifest;
+    public override void Initialize()
+    {
+        SubscribeNetworkEvent<ArenaManifestEvent>(OnArenaManifest);
+    }
+    private void OnArenaManifest(ArenaManifestEvent ev, EntitySessionEventArgs args)
+    {
+        _arenaManifest = ev;
+        _window?.SetArenaManifest(ev);
+    }
+
+    private void ToggleScoreboardWindow(ICommonSession? session = null)
+    {
+
+        _window = new RoundEndSummaryWindow(message.GamemodeTitle, message.RoundEndText,
+            message.RoundDuration, message.RoundId, message.AllPlayersEndInfo, EntityManager);
+        if (_arenaManifest != null)
+            _window.SetArenaManifest(_arenaManifest);
+    }
+
+    public void OnSystemLoaded(ClientGameTicker system)
+‎Content.Client/RoundEnd/RoundEndSummaryWindow.cs‎
++173
+-7
+Lines changed: 173 additions & 7 deletions
+Original file line number	Diff line number	Diff line change
+using Content.Client.Message;
+using Content.Client.UserInterface.Controls;
+using Content.Shared.Chat.TypingIndicator;
+using Content.Shared.DeadSpace.Arena;
+using Content.Shared.GameTicking;
+using Robust.Client.GameObjects;
+using Robust.Client.Graphics;
+{
+    public sealed class RoundEndSummaryWindow : DefaultWindow
+    {
+        private readonly IEntityManager _entityManager;
+        private readonly List<RoundEndManifestDollView> _manifestDollViews = new();
+        public int RoundId;
+    private readonly IEntityManager _entityManager;
+    private readonly List<RoundEndManifestDollView> _manifestDollViews = new();
+    private readonly TabContainer _roundEndTabs;
+    public int RoundId;
+
+        public RoundEndSummaryWindow(string gm, string roundEnd, TimeSpan roundTimeSpan, int roundId,
+            RoundEndMessageEvent.RoundEndPlayerInfo[] info, IEntityManager entityManager)
+            // Also good for serious info.
+
+            RoundId = roundId;
+            var roundEndTabs = new TabContainer();
+            roundEndTabs.AddChild(MakeRoundEndSummaryTab(gm, roundEnd, roundTimeSpan, roundId, info));
+            roundEndTabs.AddChild(MakePlayerManifestTab(info));
+            _roundEndTabs = new TabContainer();
+            _roundEndTabs.AddChild(MakeRoundEndSummaryTab(gm, roundEnd, roundTimeSpan, roundId, info));
+            _roundEndTabs.AddChild(MakePlayerManifestTab(info));
+
+            ContentsContainer.AddChild(roundEndTabs);
+            ContentsContainer.AddChild(_roundEndTabs);
+
+            OpenCenteredRight();
+            MoveToFront();
+            return Loc.TryGetString(value, out var localized) ? localized : value;
+        }
+
+        public void SetArenaManifest(ArenaManifestEvent ev)
+        {
+            // Remove old arena tab if exists
+            for (var i = 0; i < _roundEndTabs.ChildCount; i++)
+            {
+                if (_roundEndTabs.GetChild(i) is BoxContainer tab && tab.Name == "ArenaTab")
+                {
+                    _roundEndTabs.RemoveChild(tab);
+                    tab.Dispose();
+                    break;
+                }
+            }
+            _roundEndTabs.AddChild(MakeArenaManifestTab(ev));
+        }
+        private BoxContainer MakeArenaManifestTab(ArenaManifestEvent ev)
+        {
+            var tab = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Vertical,
+                Name = Loc.GetString("arena-manifest-tab-title"),
+            };
+            var scroll = new ScrollContainer
+            {
+                VerticalExpand = true,
+                HorizontalExpand = true,
+                HScrollEnabled = false,
+                Margin = new Thickness(10),
+            };
+            var container = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Vertical,
+                SeparationOverride = 10,
+                HorizontalExpand = true,
+            };
+            // Title
+            container.AddChild(new Label
+            {
+                Text = Loc.GetString("arena-manifest-title"),
+                FontColorOverride = Color.White,
+                HorizontalAlignment = Control.HAlignment.Center,
+                Margin = new Thickness(0, 0, 0, 10),
+            });
+            // DM section
+            container.AddChild(new Label
+            {
+                Text = Loc.GetString("arena-manifest-dm-section"),
+                FontColorOverride = Color.Orange,
+                HorizontalAlignment = Control.HAlignment.Left,
+            });
+            var dmTop = ev.DmPlayers.Take(3).ToList();
+            if (dmTop.Count == 0)
+            {
+                container.AddChild(new Label { Text = Loc.GetString("arena-manifest-no-data"), FontColorOverride = Color.Gray });
+            }
+            else
+            {
+                for (var i = 0; i < dmTop.Count; i++)
+                {
+                    var p = dmTop[i];
+                    container.AddChild(new Label
+                    {
+                        Text = $"{i + 1}. {p.PlayerName} — {p.Kills}/{p.Deaths} (K/D: {p.KD:F2})",
+                        FontColorOverride = Color.White,
+                    });
+                }
+            }
+            // TDM section
+            container.AddChild(new Label
+            {
+                Text = Loc.GetString("arena-manifest-tdm-section"),
+                FontColorOverride = Color.LightSkyBlue,
+                Margin = new Thickness(0, 10, 0, 0),
+            });
+            var tdmTop = ev.TdmPlayers.Take(3).ToList();
+            if (tdmTop.Count == 0)
+            {
+                container.AddChild(new Label { Text = Loc.GetString("arena-manifest-no-data"), FontColorOverride = Color.Gray });
+            }
+            else
+            {
+                for (var i = 0; i < tdmTop.Count; i++)
+                {
+                    var p = tdmTop[i];
+                    container.AddChild(new Label
+                    {
+                        Text = $"{i + 1}. {p.PlayerName} — {p.Kills}/{p.Deaths} (K/D: {p.KD:F2})",
+                        FontColorOverride = Color.White,
+                    });
+                }
+            }
+            // Best TDM team
+            if (ev.BestTdmTeam != null)
+            {
+                var teamName = ev.BestTdmTeam == ArenaTeam.Blue
+                    ? Loc.GetString("arena-tdm-team-blue")
+                    : Loc.GetString("arena-tdm-team-red");
+                container.AddChild(new Label
+                {
+                    Text = Loc.GetString("arena-manifest-best-team", ("team", teamName)),
+                    FontColorOverride = Color.Yellow,
+                    Margin = new Thickness(0, 10, 0, 0),
+                });
+            }
+            else if (ev.TdmPlayers.Count > 0)
+            {
+                container.AddChild(new Label
+                {
+                    Text = Loc.GetString("arena-manifest-tdm-draw"),
+                    FontColorOverride = Color.Yellow,
+                    Margin = new Thickness(0, 10, 0, 0),
+                });
+            }
+            // Overall best player
+            if (ev.OverallBest != null)
+            {
+                var o = ev.OverallBest;
+                container.AddChild(new Label
+                {
+                    Text = Loc.GetString("arena-manifest-overall-title"),
+                    FontColorOverride = Color.Gold,
+                    Margin = new Thickness(0, 10, 0, 0),
+                });
+                var kdStr = o.KD.ToString("F2");
+                container.AddChild(new Label
+                {
+                    Text = Loc.GetString("arena-manifest-overall-player",
+                        ("name", o.PlayerName),
+                        ("kills", o.Kills),
+                        ("deaths", o.Deaths),
+                        ("kd", kdStr)),
+                    FontColorOverride = Color.White,
+                });
+                container.AddChild(new Label
+                {
+                    Text = Loc.GetString("arena-manifest-overall-detail",
+                        ("dmk", o.DmKills), ("dmd", o.DmDeaths),
+                        ("tdmk", o.TdmKills), ("tdmd", o.TdmDeaths)),
+                    FontColorOverride = Color.Gray,
+                });
+            }
+            tab.AddChild(new PanelContainer
+            {
+                StyleClasses = { "BackgroundPanelDark" },
+                HorizontalExpand = true,
+                VerticalExpand = true,
+                Children = { scroll },
+            });
+            scroll.AddChild(container);
+            return tab;
+        }
+        private sealed class RoundEndManifestDollView : SpriteView
+        {
+            private const string SnapshotPrototype = "clientsideclone";
+‎Content.Server/DeadSpace/Arena/ArenaEndRoundCommand.cs‎
++27
+Lines changed: 27 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+using Content.Server.Administration;
+using Content.Shared.Administration;
+using Robust.Shared.Console;
+namespace Content.Server.DeadSpace.Arena;
+[AdminCommand(AdminFlags.Fun)]
+public sealed class ArenaEndRoundCommand : LocalizedCommands
+{
+    public override string Command => "arenaendround";
+    public override void Execute(IConsoleShell shell, string argStr, string[] args)
+    {
+        var arenaSystem = EntitySystem.Get<ArenaSystem>();
+        if (!arenaSystem.Enabled)
+        {
+            shell.WriteLine("Arena is disabled");
+            return;
+        }
+        arenaSystem.EndRound();
+        shell.WriteLine("Arena round ended");
+    }
+}
+‎Content.Server/DeadSpace/Arena/ArenaLoadoutEui.cs‎
++6
+-1
+Lines changed: 6 additions & 1 deletion
+Original file line number	Diff line number	Diff line change
+
+    public override EuiStateBase GetNewState()
+    {
+        return _arena.GetLoadoutState();
+        return _arena.GetLoadoutState(_session.UserId);
+    }
+
+    public override void HandleMessage(EuiMessageBase msg)
+            if (!IsShutDown)
+                Close();
+        }
+        else if (msg is ArenaTdmPurchaseConfirmMessage purchase)
+        {
+            _arena.SetTdmPurchases(_session.UserId, purchase.ListingIds);
+            StateDirty();
+        }
+    }
+
+    public override void Opened()
+‎Content.Server/DeadSpace/Arena/ArenaSetModeCommand.cs‎
++53
+Lines changed: 53 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+using Content.Server.Administration;
+using Content.Shared.Administration;
+using Content.Shared.DeadSpace.Arena;
+using Robust.Shared.Console;
+namespace Content.Server.DeadSpace.Arena;
+[AdminCommand(AdminFlags.Fun)]
+public sealed class ArenaSetModeCommand : LocalizedCommands
+{
+    public override string Command => "arenasetmode";
+    public override void Execute(IConsoleShell shell, string argStr, string[] args)
+    {
+        if (args.Length < 1)
+        {
+            shell.WriteLine("Usage: arenasetmode <deathmatch|prophunt|tdm>");
+            return;
+        }
+        var arenaSystem = EntitySystem.Get<ArenaSystem>();
+        if (!arenaSystem.Enabled)
+        {
+            shell.WriteLine("Arena is disabled");
+            return;
+        }
+        var modeStr = args[0].ToLowerInvariant();
+        ArenaMode mode;
+        switch (modeStr)
+        {
+            case "deathmatch":
+                mode = ArenaMode.Deathmatch;
+                break;
+            case "prophunt":
+                mode = ArenaMode.PropHunt;
+                break;
+            case "tdm":
+                mode = ArenaMode.TDM;
+                break;
+            default:
+                shell.WriteLine("Unknown mode. Use: deathmatch, prophunt, tdm");
+                return;
+        }
+        arenaSystem.NextMode = mode;
+        shell.WriteLine($"Next arena mode set to {mode}");
+    }
+}
+‎Content.Server/DeadSpace/Arena/ArenaSystem.cs‎
++1 232
+-21
+Lines changed: 1232 additions & 21 deletions
+Original file line number	Diff line number	Diff line change
+using System.Linq;
+using Content.Server.Antag.Components;
+using Content.Server.Chat.Managers;
+using Content.Server.EUI;
+using Content.Server.GameTicking;
+using Content.Server.Ghost;
+using Content.Server.Hands.Systems;
+using Content.Server.Mind;
+using Content.Server.Preferences.Managers;
+using Content.Server.Doors.Systems;
+using Content.Server.Stunnable;
+using Content.Shared.Body.Part;
+using Content.Shared.Chat;
+using Content.Shared.CombatMode.Pacification;
+using Content.Shared.DeadSpace.Arena;
+using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
+using Content.Shared.Damage.Systems;
+using Content.Shared.Doors.Components;
+using Content.Shared.FixedPoint;
+using Content.Shared.Fluids.Components;
+using Content.Shared.GameTicking;
+using Content.Shared.Ghost;
+using Content.Shared.Hands.Components;
+using Content.Shared.Humanoid;
+using Content.Shared.Inventory;
+using Content.Shared.Humanoid.Prototypes;
+using Content.Shared.Mind;
+using Content.Shared.Mobs;
+using Content.Shared.Mobs.Components;
+using Content.Shared.Preferences;
+using Content.Shared.Roles;
+using Content.Shared.Roles.Jobs;
+using Content.Shared.Storage;
+using Content.Shared.Storage.Components;
+using Content.Shared.Storage.EntitySystems;
+using Content.Shared.Station;
+using Content.Shared.Store;
+using Content.Shared.Store.Components;
+using Robust.Server.GameObjects;
+using Robust.Server.Player;
+using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
+using Robust.Shared.Maths;
+using Robust.Shared.EntitySerialization.Systems;
+using Robust.Shared.Enums;
+using Robust.Shared.Player;
+using Robust.Shared.Network;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
+using Robust.Shared.Utility;
+    [Dependency] private readonly IServerPreferencesManager _prefs = default!;
+    [Dependency] private readonly SharedHumanoidAppearanceSystem _humanoid = default!;
+    [Dependency] private readonly SharedRoleSystem _roles = default!;
+    [Dependency] private readonly DoorSystem _doorSystem = default!;
+    [Dependency] private readonly StunSystem _stun = default!;
+    [Dependency] private readonly HandsSystem _hands = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly IChatManager _chat = default!;
+    [Dependency] private readonly SharedStorageSystem _storage = default!;
+    [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
+
+    private const string ArenaMapFile = "/Maps/_DeadSpace/arena.yml";
+
+    private const float DeathmatchDuration = 600f;
+    private const float PropHuntHuntDuration = 300f;
+    private const float PropHuntHidingDuration = 30f;
+    private const float TDMPreparationDuration = 30f;
+    private const float TDMRoundDuration = 600f;
+    private const float IntermissionDuration = 25f;
+    public bool Enabled { get; private set; } = true;
+
+    public void ToggleEnabled()
+    {
+        Enabled = !Enabled;
+    }
+
+    public ArenaMode CurrentMode { get; private set; } = ArenaMode.Deathmatch;
+    public ArenaMode NextMode { get; set; } = ArenaMode.Deathmatch;
+    public ArenaRoundState RoundState { get; private set; } = ArenaRoundState.Intermission;
+    public float RoundTimeRemaining { get; private set; } = IntermissionDuration;
+    public bool RoundStarted { get; private set; }
+    private readonly HashSet<NetEntity> _seekerNetEntities = new();
+    private readonly Dictionary<NetEntity, ArenaMode> _votes = new();
+    private readonly Dictionary<NetEntity, ArenaTeam> _playerTeams = new();
+    private readonly List<EntityCoordinates> _blueSpawns = new();
+    private readonly List<EntityCoordinates> _redSpawns = new();
+    private readonly List<EntityUid> _tdmDoors = new();
+    private readonly Dictionary<NetUserId, int> _dmKills = new();
+    private readonly Dictionary<NetUserId, int> _dmDeaths = new();
+    private readonly Dictionary<ArenaTeam, int> _tdmTeamKills = new()
+    {
+        [ArenaTeam.Blue] = 0,
+        [ArenaTeam.Red] = 0,
+    };
+    // Lock players to their first chosen team for the current TDM round
+    private readonly Dictionary<NetUserId, ArenaTeam> _tdmTeamLocks = new();
+    // TDM pre-round purchases (listing IDs chosen from the store tab)
+    private readonly Dictionary<NetUserId, List<string>> _tdmPurchases = new();
+    // Persistent stats across sub-rounds (not cleared between DM/TDM rounds)
+    private readonly Dictionary<NetUserId, int> _persistDmKills = new();
+    private readonly Dictionary<NetUserId, int> _persistDmDeaths = new();
+    private readonly Dictionary<NetUserId, int> _persistTdmKills = new();
+    private readonly Dictionary<NetUserId, int> _persistTdmDeaths = new();
+    private readonly Dictionary<NetUserId, string> _persistPlayerNames = new();
+    private int _persistTdmBlueKills;
+    private int _persistTdmRedKills;
+    public void EndRound()
+    {
+        if (RoundState != ArenaRoundState.Active && RoundState != ArenaRoundState.Hiding)
+            return;
+        StartIntermission();
+    }
+    private EntityUid? _arenaMap;
+    private readonly HashSet<NetEntity> _roster = new();
+    private readonly List<ArenaLoadoutPresetPrototype> _presets = new();
+    private readonly Dictionary<ICommonSession, ArenaLoadoutEui> _activeEuis = new();
+    private float _broadcastTimer;
+
+    public override void Initialize()
+    {
+        SubscribeNetworkEvent<ArenaJoinEvent>(OnJoin);
+        SubscribeNetworkEvent<ArenaLeaveEvent>(OnLeave);
+        SubscribeNetworkEvent<ArenaVoteCastEvent>(OnVoteCast);
+        SubscribeLocalEvent<MobStateChangedEvent>(OnDeath);
+        SubscribeLocalEvent<PlayerDetachedEvent>(OnPlayerDetached);
+        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
+        SubscribeLocalEvent<RoundEndTextAppendEvent>(OnRoundEndTextAppend);
+    }
+    private void StartDeathmatch()
+    {
+        _seekerNetEntities.Clear();
+        _playerTeams.Clear();
+        _dmKills.Clear();
+        _dmDeaths.Clear();
+        _tdmTeamKills[ArenaTeam.Blue] = 0;
+        _tdmTeamKills[ArenaTeam.Red] = 0;
+        RoundState = ArenaRoundState.Active;
+        RoundTimeRemaining = DeathmatchDuration;
+        CurrentMode = ArenaMode.Deathmatch;
+        RoundStarted = true;
+        foreach (var netEnt in _roster)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            RemComp<PacifiedComponent>(uid.Value);
+        }
+        BroadcastRoundState();
+        Log.Info("Arena deathmatch started");
+    }
+    private void StartPropHunt()
+    {
+        _playerTeams.Clear();
+        _dmKills.Clear();
+        _dmDeaths.Clear();
+        _tdmTeamKills[ArenaTeam.Blue] = 0;
+        _tdmTeamKills[ArenaTeam.Red] = 0;
+        CurrentMode = ArenaMode.PropHunt;
+        RoundStarted = true;
+        AssignSeekers();
+        RoundState = ArenaRoundState.Hiding;
+        RoundTimeRemaining = PropHuntHidingDuration;
+        foreach (var netEnt in _roster)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            RemComp<PacifiedComponent>(uid.Value);
+        }
+        EquipHiders();
+        ApplyHiderPacifism();
+        FreezeSeekers();
+        NotifySeekers();
+        BroadcastRoundState();
+        Log.Info("Arena Prop Hunt — hiding phase started");
+    }
+    private void StartTDM()
+    {
+        _playerTeams.Clear();
+        _dmKills.Clear();
+        _dmDeaths.Clear();
+        _tdmTeamKills[ArenaTeam.Blue] = 0;
+        _tdmTeamKills[ArenaTeam.Red] = 0;
+        CurrentMode = ArenaMode.TDM;
+        RoundStarted = true;
+        CacheTeamSpawns();
+        CacheTDMDoors();
+        AssignTDTeams();
+        RespawnAllForTDM();
+        CloseTDMDoors();
+        _cleanTick = 0f;
+        RoundState = ArenaRoundState.Preparation;
+        RoundTimeRemaining = TDMPreparationDuration;
+        BroadcastRoundState();
+        Log.Info("Arena TDM — preparation phase started");
+    }
+    private void CacheTeamSpawns()
+    {
+        _blueSpawns.Clear();
+        _redSpawns.Clear();
+        if (_arenaMap is not { } map)
+            return;
+        var cursor = AllEntityQuery<ArenaTeamSpawnComponent, TransformComponent>();
+        while (cursor.MoveNext(out var comp, out var xform))
+        {
+            if (xform.MapID != Transform(map).MapID)
+                continue;
+            if (comp.Team == ArenaTeam.Blue)
+                _blueSpawns.Add(xform.Coordinates);
+            else if (comp.Team == ArenaTeam.Red)
+                _redSpawns.Add(xform.Coordinates);
+        }
+    }
+    private void CacheTDMDoors()
+    {
+        _tdmDoors.Clear();
+        if (_arenaMap is not { } map)
+            return;
+        var mid = Transform(map).MapID;
+        var cursor = AllEntityQuery<DoorComponent, TransformComponent>();
+        while (cursor.MoveNext(out var uid, out _, out var xform))
+        {
+            if (xform.MapID == mid)
+                _tdmDoors.Add(uid);
+        }
+    }
+    private void CloseTDMDoors()
+    {
+        foreach (var door in _tdmDoors)
+        {
+            if (TryComp<DoorComponent>(door, out var doorComp) && doorComp.State == DoorState.Open)
+                _doorSystem.StartClosing(door);
+        }
+    }
+    private void OpenTDMDoors()
+    {
+        foreach (var door in _tdmDoors)
+        {
+            if (TryComp<DoorComponent>(door, out var doorComp) && doorComp.State != DoorState.Open)
+                _doorSystem.StartOpening(door);
+        }
+    }
+    private void AssignTDTeams()
+    {
+        _tdmTeamLocks.Clear();
+        var players = _roster.ToList();
+        _luck.Shuffle(players);
+        var half = players.Count / 2;
+        for (var i = 0; i < players.Count; i++)
+        {
+            var team = i < half ? ArenaTeam.Blue : ArenaTeam.Red;
+            _playerTeams[players[i]] = team;
+            // Lock player to their team for this TDM round
+            if (TryGetEntity(players[i], out var uid) &&
+                _minds.TryGetMind(uid.Value, out _, out var mind) &&
+                mind?.UserId is { } userId)
+            {
+                _tdmTeamLocks[userId] = team;
+            }
+        }
+        Log.Info($"TDM: {_playerTeams.Count(v => v.Value == ArenaTeam.Blue)} blue, {_playerTeams.Count(v => v.Value == ArenaTeam.Red)} red");
+    }
+    private void RespawnAllForTDM()
+    {
+        var oldRoster = _roster.ToList();
+        _roster.Clear();
+        // Delete old bodies and spawn new ones with team equipment
+        foreach (var netEnt in oldRoster)
+        {
+            if (!TryGetEntity(netEnt, out var oldUid))
+                continue;
+            if (!TryComp<ArenaPlayerComponent>(oldUid, out var arenaPlayer))
+                continue;
+            if (!_minds.TryGetMind(oldUid.Value, out var mindId, out var mind))
+                continue;
+            var team = _playerTeams.GetValueOrDefault(netEnt, ArenaTeam.Blue);
+            // Use team default preset (saved preset is only for mid-round auto-respawn)
+            var nullablePreset = _presets.FirstOrDefault(p => p.Team == team && p.Mode == ArenaMode.TDM);
+            if (nullablePreset == null)
+                nullablePreset = _presets.FirstOrDefault();
+            if (nullablePreset == null)
+                continue;
+            var preset = nullablePreset;
+            // Spawn at team spawn
+            var spot = GetTeamSpawn(team);
+            string speciesId;
+            HumanoidCharacterProfile? profile = null;
+            if (mind.UserId != null)
+            {
+                profile = _prefs.GetPreferences(mind.UserId.Value).SelectedCharacter as HumanoidCharacterProfile;
+                speciesId = profile?.Species ?? SharedHumanoidAppearanceSystem.DefaultSpecies;
+            }
+            else
+            {
+                speciesId = SharedHumanoidAppearanceSystem.DefaultSpecies;
+            }
+            // Force human species for Vox/IPC
+            if (profile != null && (profile.Species == "Vox" || profile.Species == "IPC"))
+            {
+                profile = profile.WithSpecies("Human")
+                    .WithCharacterAppearance(HumanoidCharacterAppearance.DefaultWithSpecies("Human"));
+                speciesId = "Human";
+            }
+            var species = _protos.Index<SpeciesPrototype>(speciesId);
+            var fresh = Spawn(species.Prototype, spot);
+            var entityName = mind.CharacterName ?? "Unknown";
+            _meta.SetEntityName(fresh, entityName);
+            if (profile != null)
+                _humanoid.LoadProfile(fresh, profile);
+            _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
+            if (mind.UserId is { } tdmUserId)
+                ApplyTdmPurchases(fresh, tdmUserId);
+            var newArenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
+            newArenaPlayer.OriginalMind = arenaPlayer.OriginalMind;
+            newArenaPlayer.OriginalGhost = arenaPlayer.OriginalGhost;
+            newArenaPlayer.CanReturnToBody = arenaPlayer.CanReturnToBody;
+            newArenaPlayer.Team = team;
+            newArenaPlayer.SavedPresetIndex = _presets.IndexOf(preset);
+            EnsureComp<AntagImmuneComponent>(fresh);
+            EnsureComp<PacifiedComponent>(fresh);
+            _minds.TransferTo(mindId, fresh, mind: mind);
+            // Delete old body
+            QueueDel(oldUid.Value);
+            var newNetEnt = GetNetEntity(fresh);
+            _roster.Add(newNetEnt);
+            _playerTeams[newNetEnt] = team;
+        }
+    }
+    private EntityCoordinates GetTeamSpawn(ArenaTeam team)
+    {
+        var spawns = team == ArenaTeam.Blue ? _blueSpawns : _redSpawns;
+        if (spawns.Count > 0)
+            return _luck.Pick(spawns);
+        if (_arenaMap is { } map)
+            return new EntityCoordinates(map, System.Numerics.Vector2.Zero);
+        return EntityCoordinates.Invalid;
+    }
+    private void StartTDMActive()
+    {
+        RoundState = ArenaRoundState.Active;
+        RoundTimeRemaining = TDMRoundDuration;
+        foreach (var netEnt in _roster)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            RemComp<PacifiedComponent>(uid.Value);
+        }
+        OpenTDMDoors();
+        BroadcastRoundState();
+        Log.Info("Arena TDM — round started");
+    }
+    private void EquipHiders()
+    {
+        foreach (var netEnt in _roster)
+        {
+            if (_seekerNetEntities.Contains(netEnt))
+                continue;
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            var projector = Spawn("ArenaChameleonProjector", Transform(uid.Value).Coordinates);
+            _hands.TryPickupAnyHand(uid.Value, projector);
+        }
+    }
+    private void ApplyHiderPacifism()
+    {
+        foreach (var netEnt in _roster)
+        {
+            if (_seekerNetEntities.Contains(netEnt))
+                continue;
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            EnsureComp<PacifiedComponent>(uid.Value);
+        }
+    }
+    private void AssignSeekers()
+    {
+        _seekerNetEntities.Clear();
+        var players = _roster.ToList();
+        if (players.Count == 0)
+            return;
+        _luck.Shuffle(players);
+        var seekerCount = Math.Max(1, (players.Count + 4) / 6);
+        seekerCount = Math.Min(seekerCount, players.Count - 1);
+        for (var i = 0; i < seekerCount; i++)
+        {
+            _seekerNetEntities.Add(players[i]);
+            if (TryGetEntity(players[i], out var uid))
+                EquipSeeker(uid.Value);
+        }
+        Log.Info($"Prop Hunt: {_seekerNetEntities.Count} seekers, {players.Count - _seekerNetEntities.Count} hiders");
+    }
+    private void FreezeSeekers()
+    {
+        foreach (var netEnt in _seekerNetEntities)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            _stun.TryAddParalyzeDuration(uid.Value, TimeSpan.FromSeconds(PropHuntHidingDuration));
+            var blindfold = Spawn("ClothingEyesBlindfold", Transform(uid.Value).Coordinates);
+            if (_inventory.TryEquip(uid.Value, blindfold, "eyes", true, true))
+                _seekerBlindfolds[netEnt] = blindfold;
+        }
+    }
+    [DataField]
+    public Dictionary<NetEntity, EntityUid> _seekerBlindfolds = new();
+    private void NotifySeekers()
+    {
+        foreach (var netEnt in _seekerNetEntities)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            if (!TryComp<ActorComponent>(uid.Value, out var actor))
+                continue;
+            RaiseNetworkEvent(new ArenaSeekerFreezeEvent(PropHuntHidingDuration),
+                Filter.SinglePlayer(actor.PlayerSession));
+        }
+    }
+    private void StartPropHuntHunt()
+    {
+        RoundState = ArenaRoundState.Active;
+        RoundTimeRemaining = PropHuntHuntDuration;
+        UnfreezeSeekers();
+        BroadcastRoundState();
+        Log.Info("Arena Prop Hunt — hunt phase started");
+    }
+    private void UnfreezeSeekers()
+    {
+        foreach (var netEnt in _seekerNetEntities)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            _stun.TryUnstun(uid.Value);
+            RemComp<PacifiedComponent>(uid.Value);
+            if (_seekerBlindfolds.TryGetValue(netEnt, out var blindfold))
+            {
+                _inventory.TryUnequip(uid.Value, "eyes");
+                QueueDel(blindfold);
+                _seekerBlindfolds.Remove(netEnt);
+            }
+            if (TryComp<ActorComponent>(uid.Value, out var actor))
+                RaiseNetworkEvent(new ArenaSeekerUnfreezeEvent(),
+                Filter.SinglePlayer(actor.PlayerSession));
+        }
+    }
+    private void StartIntermission()
+    {
+        _seekerNetEntities.Clear();
+        _playerTeams.Clear();
+        _votes.Clear();
+        RoundState = ArenaRoundState.Intermission;
+        RoundTimeRemaining = IntermissionDuration;
+        RoundStarted = true;
+        foreach (var netEnt in _roster)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            EnsureComp<PacifiedComponent>(uid.Value);
+        }
+        BroadcastRoundState();
+        BroadcastVoteState();
+        Log.Info("Arena intermission started");
+    }
+    private bool CheckPropHuntWinCondition()
+    {
+        if (CurrentMode != ArenaMode.PropHunt || RoundState != ArenaRoundState.Active)
+            return false;
+        foreach (var netEnt in _roster)
+        {
+            if (_seekerNetEntities.Contains(netEnt))
+                continue;
+            if (TryGetEntity(netEnt, out var uid) && !HasComp<ActorComponent>(uid.Value))
+                continue;
+            return false;
+        }
+        Log.Info("Prop Hunt: all hiders eliminated, seekers win!");
+        _chat.ChatMessageToAll(ChatChannel.Server,
+            Loc.GetString("arena-winner-prophunt-seekers"),
+            Loc.GetString("arena-winner-prophunt-seekers-wrap"),
+            EntityUid.Invalid, false, true, Color.OrangeRed);
+        StartIntermission();
+        return true;
+    }
+    private void BroadcastRoundState()
+    {
+        var ev = new ArenaRoundUpdateEvent(CurrentMode, RoundState, RoundTimeRemaining,
+            _tdmTeamKills[ArenaTeam.Blue], _tdmTeamKills[ArenaTeam.Red]);
+        RaiseNetworkEvent(ev, Filter.Broadcast());
+    }
+    private void BroadcastVoteState()
+    {
+        var available = new List<ArenaMode> { ArenaMode.Deathmatch, ArenaMode.TDM };
+        if (_roster.Count >= 999) // пропхант пока под перепилкой, вместо удаления пока мягкий блок
+            available.Add(ArenaMode.PropHunt);
+        var ev = new ArenaVoteStateEvent(available, new Dictionary<NetEntity, ArenaMode>(_votes));
+        RaiseNetworkEvent(ev, Filter.Broadcast());
+    }
+    private void BroadcastRoundEndWinner()
+    {
+        switch (CurrentMode)
+        {
+            case ArenaMode.Deathmatch:
+            {
+                NetUserId? bestPlayer = null;
+                var bestKd = -1.0;
+                foreach (var (userId, kills) in _dmKills)
+                {
+                    var deaths = _dmDeaths.GetValueOrDefault(userId, 0);
+                    var kd = deaths == 0 ? kills : (double)kills / deaths;
+                    if (kd > bestKd)
+                    {
+                        bestKd = kd;
+                        bestPlayer = userId;
+                    }
+                }
+                if (bestPlayer is { } winner)
+                {
+                    var name = _prefs.GetPreferences(winner).SelectedCharacter?.Name ?? "Unknown";
+                    var kills = _dmKills.GetValueOrDefault(winner, 0);
+                    var deaths = _dmDeaths.GetValueOrDefault(winner, 0);
+                    _chat.ChatMessageToAll(ChatChannel.Server,
+                        Loc.GetString("arena-winner-dm", ("name", name), ("kills", kills), ("deaths", deaths)),
+                        Loc.GetString("arena-winner-dm-wrap", ("name", name), ("kills", kills), ("deaths", deaths)),
+                        EntityUid.Invalid, false, true, Color.OrangeRed);
+                }
+                break;
+            }
+            case ArenaMode.PropHunt:
+            {
+                // Timer expired — hiders win
+                _chat.ChatMessageToAll(ChatChannel.Server,
+                    Loc.GetString("arena-winner-prophunt-hiders"),
+                    Loc.GetString("arena-winner-prophunt-hiders-wrap"),
+                    EntityUid.Invalid, false, true, Color.OrangeRed);
+                break;
+            }
+            case ArenaMode.TDM:
+            {
+                ArenaTeam winner;
+                if (_tdmTeamKills[ArenaTeam.Blue] > _tdmTeamKills[ArenaTeam.Red])
+                    winner = ArenaTeam.Blue;
+                else if (_tdmTeamKills[ArenaTeam.Red] > _tdmTeamKills[ArenaTeam.Blue])
+                    winner = ArenaTeam.Red;
+                else
+                {
+                    // Draw — no winner
+                    _chat.ChatMessageToAll(ChatChannel.Server,
+                        Loc.GetString("arena-winner-tdm-draw"),
+                        Loc.GetString("arena-winner-tdm-draw-wrap"),
+                        EntityUid.Invalid, false, true, Color.OrangeRed);
+                    break;
+                }
+                var teamName = winner == ArenaTeam.Blue
+                    ? Loc.GetString("arena-tdm-team-blue")
+                    : Loc.GetString("arena-tdm-team-red");
+                _chat.ChatMessageToAll(ChatChannel.Server,
+                    Loc.GetString("arena-winner-tdm", ("team", teamName)),
+                    Loc.GetString("arena-winner-tdm-wrap", ("team", teamName)),
+                    EntityUid.Invalid, false, true, Color.OrangeRed);
+                break;
+            }
+        }
+    }
+    private void TallyVotes()
+    {
+        var dmVotes = _votes.Values.Count(v => v == ArenaMode.Deathmatch);
+        var phVotes = _votes.Values.Count(v => v == ArenaMode.PropHunt);
+        var tdmVotes = _votes.Values.Count(v => v == ArenaMode.TDM);
+        if (tdmVotes > dmVotes && tdmVotes > phVotes)
+            NextMode = ArenaMode.TDM;
+        else if (phVotes > dmVotes && _roster.Count >= 999) // пропхант пока под перепилкой, вместо удаления пока мягкий блок
+            NextMode = ArenaMode.PropHunt;
+        else
+            NextMode = ArenaMode.Deathmatch;
+        _votes.Clear();
+    }
+    private void TickRound(float frameTime)
+    {
+        if (!RoundStarted || !Enabled || _arenaMap == null)
+            return;
+        RoundTimeRemaining -= frameTime;
+        _broadcastTimer -= frameTime;
+        if (_broadcastTimer <= 0f)
+        {
+            _broadcastTimer = 1f;
+            BroadcastRoundState();
+        }
+        if (RoundTimeRemaining > 0f)
+            return;
+        switch (RoundState)
+        {
+            case ArenaRoundState.Intermission:
+                TallyVotes();
+                CurrentMode = NextMode;
+                if (CurrentMode == ArenaMode.PropHunt)
+                    StartPropHunt();
+                else if (CurrentMode == ArenaMode.TDM)
+                    StartTDM();
+                else
+                    StartDeathmatch();
+                break;
+            case ArenaRoundState.Hiding:
+                StartPropHuntHunt();
+                break;
+            case ArenaRoundState.Preparation:
+                StartTDMActive();
+                break;
+            case ArenaRoundState.Active:
+                BroadcastRoundEndWinner();
+                // Clean up dead bodies before intermission
+                SweepArenaBodies();
+                ZapArena();
+                StartIntermission();
+                break;
+        }
+    }
+
+    private void RefreshPresets()
+        if (_activeEuis.ContainsKey(who))
+            return;
+
+        if (CurrentMode == ArenaMode.PropHunt && RoundState != ArenaRoundState.Intermission)
+            return;
+        if (CurrentMode == ArenaMode.TDM && RoundState != ArenaRoundState.Intermission)
+        {
+            // During TDM, joining is only allowed for new ghosts during intermission
+            if (_roster.Contains(GetNetEntity(ghost)))
+                return;
+        }
+        if (_presets.Count == 0)
+            RefreshPresets();
+
+        _activeEuis[who] = eui;
+    }
+
+    private void OnVoteCast(ArenaVoteCastEvent msg, EntitySessionEventArgs args)
+    {
+        var who = (ICommonSession)args.SenderSession;
+        if (RoundState != ArenaRoundState.Intermission)
+            return;
+        if (who.AttachedEntity is not { Valid: true } uid ||
+            !TryComp<ArenaPlayerComponent>(uid, out _) ||
+            !_roster.Contains(GetNetEntity(uid)))
+            return;
+        var netEnt = GetNetEntity(uid);
+        _votes[netEnt] = msg.Vote;
+        BroadcastVoteState();
+    }
+    private void OnLeave(ArenaLeaveEvent msg, EntitySessionEventArgs args)
+    {
+        var who = (ICommonSession)args.SenderSession;
+            !_roster.Contains(GetNetEntity(body)))
+            return;
+
+        _playerTeams.Remove(GetNetEntity(body));
+        RestorePlayer(body, arenaPlayer);
+    }
+
+            !_roster.Contains(GetNetEntity(ev.Target)))
+            return;
+
+        var victimNet = GetNetEntity(ev.Target);
+        // Find killer and track kills
+        if (TryGetKillerMind(ev.Origin, out var killerMind, out _) &&
+            killerMind?.UserId is { } killerUserId)
+        {
+            if (CurrentMode == ArenaMode.TDM &&
+                killerMind.OwnedEntity is { } killerEnt &&
+                TryComp<ArenaPlayerComponent>(killerEnt, out var killerArena) &&
+                killerArena.Team != ArenaTeam.None)
+            {
+                _tdmTeamKills[killerArena.Team]++;
+                // Persistent
+                _persistTdmKills.TryAdd(killerUserId, 0);
+                _persistTdmKills[killerUserId]++;
+                if (killerArena.Team == ArenaTeam.Blue)
+                    _persistTdmBlueKills++;
+                else
+                    _persistTdmRedKills++;
+            }
+            else if (CurrentMode == ArenaMode.Deathmatch)
+            {
+                _dmKills.TryAdd(killerUserId, 0);
+                _dmKills[killerUserId]++;
+                // Persistent
+                _persistDmKills.TryAdd(killerUserId, 0);
+                _persistDmKills[killerUserId]++;
+            }
+            CachePlayerName(killerUserId);
+            // Heal the killer on kill
+            if (killerMind.OwnedEntity is { } healKillerEnt && Exists(healKillerEnt) && TryComp<DamageableComponent>(healKillerEnt, out var damageable))
+                _damageable.SetAllDamage(healKillerEnt, FixedPoint2.Zero);
+        }
+        // Track death for Deathmatch K/D
+        if (CurrentMode == ArenaMode.Deathmatch)
+        {
+            _minds.TryGetMind(ev.Target, out var victimMindId, out var victimMind);
+            if (victimMind?.UserId is { } victimUserId)
+            {
+                _dmDeaths.TryAdd(victimUserId, 0);
+                _dmDeaths[victimUserId]++;
+                _persistDmDeaths.TryAdd(victimUserId, 0);
+                _persistDmDeaths[victimUserId]++;
+                CachePlayerName(victimUserId);
+            }
+        }
+        // Track death for TDM
+        if (CurrentMode == ArenaMode.TDM)
+        {
+            _minds.TryGetMind(ev.Target, out var victimMindId, out var victimMind);
+            if (victimMind?.UserId is { } victimUserId)
+            {
+                _persistTdmDeaths.TryAdd(victimUserId, 0);
+                _persistTdmDeaths[victimUserId]++;
+            }
+        }
+        if (CurrentMode == ArenaMode.PropHunt && RoundState == ArenaRoundState.Active)
+        {
+            if (!_seekerNetEntities.Contains(victimNet))
+            {
+                _roster.Remove(victimNet);
+                _seekerNetEntities.Remove(victimNet);
+                RestorePlayer(ev.Target, arenaPlayer);
+                CheckPropHuntWinCondition();
+                return;
+            }
+        }
+        _playerTeams.Remove(victimNet);
+        // TDM auto-respawn with saved preset
+        if (CurrentMode == ArenaMode.TDM && arenaPlayer.SavedPresetIndex >= 0 && arenaPlayer.SavedPresetIndex < _presets.Count)
+        {
+            if (RespawnWithSavedPreset(ev.Target, arenaPlayer))
+                return;
+        }
+        RestorePlayer(ev.Target, arenaPlayer);
+    }
+
+    private bool TryGetKillerMind(EntityUid? origin, out MindComponent? mind, out EntityUid mindId)
+    {
+        mind = null;
+        mindId = default;
+        if (origin == null)
+            return false;
+        if (_minds.TryGetMind(origin.Value, out mindId, out mind) && mind != null)
+            return true;
+        // Try parent chain (projectiles, vehicles, etc.)
+        if (TryComp(origin.Value, out TransformComponent? xform))
+        {
+            var current = origin.Value;
+            for (var i = 0; i < 5; i++)
+            {
+                var parent = xform.ParentUid;
+                if (!parent.IsValid() || parent == current)
+                    break;
+                if (_minds.TryGetMind(parent, out mindId, out mind) && mind != null)
+                    return true;
+                current = parent;
+            }
+        }
+        return false;
+    }
+    private void OnPlayerDetached(PlayerDetachedEvent ev)
+    {
+        if (_activeEuis.TryGetValue(ev.Player, out var eui) && eui.SourceGhost == ev.Entity && !eui.IsShutDown)
+            return;
+        }
+
+        var netEnt = GetNetEntity(ev.Entity);
+        // Prop Hunt: if a seeker ghosts, reassign a new seeker
+        if (CurrentMode == ArenaMode.PropHunt &&
+            _seekerNetEntities.Contains(netEnt) &&
+            _roster.Count - _seekerNetEntities.Count > 0)
+        {
+            _seekerNetEntities.Remove(netEnt);
+            AssignNewSeeker();
+        }
+        // Player re-attached elsewhere (role change, admin takeover, etc.) — just clean up the arena body
+        _roster.Remove(GetNetEntity(ev.Entity));
+        _roster.Remove(netEnt);
+        _playerTeams.Remove(netEnt);
+        QueueDel(ev.Entity);
+    }
+
+            _activeEuis.Remove(session);
+    }
+
+    private void OnRoundEndTextAppend(RoundEndTextAppendEvent ev)
+    {
+        if (_persistDmKills.Count == 0 && _persistTdmKills.Count == 0)
+            return;
+        // Build DM player records sorted by K/D
+        var dmPlayers = new List<ArenaPlayerRecord>();
+        foreach (var (userId, kills) in _persistDmKills)
+        {
+            var deaths = _persistDmDeaths.GetValueOrDefault(userId, 0);
+            dmPlayers.Add(new ArenaPlayerRecord
+            {
+                PlayerName = _persistPlayerNames.GetValueOrDefault(userId, "Unknown"),
+                Kills = kills,
+                Deaths = deaths,
+                KD = deaths == 0 ? kills : (double)kills / deaths,
+            });
+        }
+        dmPlayers = dmPlayers.OrderByDescending(p => p.KD).Take(10).ToList();
+        // Build TDM player records
+        var tdmPlayers = new List<ArenaPlayerRecord>();
+        foreach (var (userId, kills) in _persistTdmKills)
+        {
+            var deaths = _persistTdmDeaths.GetValueOrDefault(userId, 0);
+            tdmPlayers.Add(new ArenaPlayerRecord
+            {
+                PlayerName = _persistPlayerNames.GetValueOrDefault(userId, "Unknown"),
+                Kills = kills,
+                Deaths = deaths,
+                KD = deaths == 0 ? kills : (double)kills / deaths,
+            });
+        }
+        tdmPlayers = tdmPlayers.OrderByDescending(p => p.KD).Take(10).ToList();
+        // Determine best TDM team by total kills
+        ArenaTeam? bestTeam = _persistTdmBlueKills > _persistTdmRedKills ? ArenaTeam.Blue :
+                              _persistTdmRedKills > _persistTdmBlueKills ? ArenaTeam.Red : null;
+        // Find overall best player across both modes
+        ArenaPlayerRecord? overallBest = null;
+        var allUserIds = new HashSet<NetUserId>(_persistDmKills.Keys);
+        allUserIds.UnionWith(_persistTdmKills.Keys);
+        foreach (var userId in allUserIds)
+        {
+            var dmK = _persistDmKills.GetValueOrDefault(userId, 0);
+            var dmD = _persistDmDeaths.GetValueOrDefault(userId, 0);
+            var tdmK = _persistTdmKills.GetValueOrDefault(userId, 0);
+            var tdmD = _persistTdmDeaths.GetValueOrDefault(userId, 0);
+            var totalK = dmK + tdmK;
+            var totalD = dmD + tdmD;
+            var kd = totalD == 0 ? totalK : (double)totalK / totalD;
+            if (overallBest == null || kd > overallBest.KD)
+            {
+                overallBest = new ArenaPlayerRecord
+                {
+                    PlayerName = _persistPlayerNames.GetValueOrDefault(userId, "Unknown"),
+                    Kills = totalK,
+                    Deaths = totalD,
+                    KD = kd,
+                    DmKills = dmK,
+                    DmDeaths = dmD,
+                    TdmKills = tdmK,
+                    TdmDeaths = tdmD,
+                };
+            }
+        }
+        var manifest = new ArenaManifestEvent
+        {
+            DmPlayers = dmPlayers,
+            TdmPlayers = tdmPlayers,
+            BestTdmTeam = bestTeam,
+            OverallBest = overallBest,
+        };
+        RaiseNetworkEvent(manifest);
+    }
+    private void OnRoundRestart(RoundRestartCleanupEvent ev)
+    {
+        var openEuis = new List<ArenaLoadoutEui>(_activeEuis.Values);
+
+        _activeEuis.Clear();
+        _roster.Clear();
+        _seekerNetEntities.Clear();
+        _playerTeams.Clear();
+        _blueSpawns.Clear();
+        _redSpawns.Clear();
+        _tdmDoors.Clear();
+        _arenaMap = null;
+        _tdmTeamLocks.Clear();
+        _tdmPurchases.Clear();
+        _persistDmKills.Clear();
+        _persistDmDeaths.Clear();
+        _persistTdmKills.Clear();
+        _persistTdmDeaths.Clear();
+        _persistPlayerNames.Clear();
+        _persistTdmBlueKills = 0;
+        _persistTdmRedKills = 0;
+        RoundStarted = false;
+        RoundState = ArenaRoundState.Intermission;
+        RoundTimeRemaining = IntermissionDuration;
+        CurrentMode = ArenaMode.Deathmatch;
+    }
+
+    public ArenaLoadoutEuiState GetLoadoutState()
+    public ArenaLoadoutEuiState GetLoadoutState(NetUserId userId)
+    {
+        if (_presets.Count == 0)
+            RefreshPresets();
+        for (var i = 0; i < _presets.Count; i++)
+        {
+            var p = _presets[i];
+            // Filter presets by current mode
+            if (CurrentMode == ArenaMode.TDM && p.Mode != ArenaMode.TDM)
+                continue;
+            if (CurrentMode != ArenaMode.TDM && p.Mode == ArenaMode.TDM)
+                continue;
+            options.Add(new ArenaLoadoutOption
+            {
+                Index = i,
+            });
+        }
+
+        return new ArenaLoadoutEuiState(options);
+        List<ArenaTdmListingData> storeListings;
+        List<string> purchased;
+        int remaining;
+        storeListings = GetTdmStoreListings();
+        purchased = _tdmPurchases.TryGetValue(userId, out var list) ? list : new List<string>();
+        var spent = storeListings
+            .Where(l => purchased.Contains(l.Id))
+            .Sum(l => l.Cost);
+        remaining = 40 - spent;
+        return new ArenaLoadoutEuiState(options, storeListings, purchased, remaining);
+    }
+    private List<ArenaTdmListingData> GetTdmStoreListings()
+    {
+        var uplinkCategories = new HashSet<ProtoId<StoreCategoryPrototype>>
+        {
+            "UplinkWeaponry", "UplinkAmmo", "UplinkExplosives", "UplinkChemicals",
+            "UplinkDeception", "UplinkDisruption", "UplinkImplants", "UplinkAllies",
+            "UplinkWearables", "UplinkJob", "UplinkPointless", "UplinkPresets",
+        };
+        var result = new List<ArenaTdmListingData>();
+        foreach (var listing in _protos.EnumeratePrototypes<ListingPrototype>())
+        {
+            if (!listing.Categories.Overlaps(uplinkCategories))
+                continue;
+            var cost = listing.Cost?.GetValueOrDefault("Telecrystal", FixedPoint2.Zero) ?? FixedPoint2.Zero;
+            if (cost == 0)
+                continue;
+            result.Add(new ArenaTdmListingData
+            {
+                Id = listing.ID,
+                Name = listing.Name ?? string.Empty,
+                Description = listing.Description ?? string.Empty,
+                Cost = (int)cost.Int(),
+                SpritePrototype = listing.ProductEntity ?? string.Empty,
+                Category = listing.Categories.Count > 0 ? listing.Categories.First().Id : string.Empty,
+            });
+        }
+        return result;
+    }
+    public void SetTdmPurchases(NetUserId userId, List<string> listingIds)
+    {
+        // Validate that all IDs are real store listings
+        var validIds = new HashSet<string>(GetTdmStoreListings().Select(l => l.Id));
+        var filtered = listingIds.Where(id => validIds.Contains(id)).ToList();
+        if (filtered.Count > 0)
+            _tdmPurchases[userId] = filtered;
+        else
+            _tdmPurchases.Remove(userId);
+    }
+
+    public bool SpawnPlayer(ArenaLoadoutEui eui, ICommonSession who, EntityUid sourceGhost, int kitIdx)
+        if (_presets.Count == 0)
+            RefreshPresets();
+
+        var sites = new List<EntityCoordinates>();
+        var cursor = AllEntityQuery<ArenaSpawnPointComponent, TransformComponent>();
+        while (cursor.MoveNext(out _, out _, out var where))
+        var kitIdxClamped = Math.Clamp(kitIdx, 0, _presets.Count - 1);
+        var preset = _presets[kitIdxClamped];
+        // Determine spawn position based on mode and team
+        EntityCoordinates spot;
+        if (CurrentMode == ArenaMode.TDM)
+        {
+            if (where.MapID == Transform(map).MapID)
+                sites.Add(where.Coordinates);
+            // Enforce team lock: player must use the same team they were first assigned
+            if (_tdmTeamLocks.TryGetValue(who.UserId, out var lockedTeam))
+            {
+                if (preset.Team != lockedTeam)
+                    return false;
+            }
+            else
+            {
+                _tdmTeamLocks[who.UserId] = preset.Team;
+            }
+            var team = preset.Team;
+            spot = GetTeamSpawn(team);
+            _playerTeams[GetNetEntity(sourceGhost)] = team;
+        }
+        else
+        {
+            var sites = new List<EntityCoordinates>();
+            var cursor = AllEntityQuery<ArenaSpawnPointComponent, TransformComponent>();
+            while (cursor.MoveNext(out var uid, out _, out var where))
+            {
+                if (where.MapID != Transform(map).MapID)
+                    continue;
+                // Don't use TDM team spawns in non-TDM modes
+                if (CurrentMode != ArenaMode.TDM && HasComp<ArenaTeamSpawnComponent>(uid))
+                    continue;
+                sites.Add(where.Coordinates);
+            }
+
+        var spot = sites.Count > 0
+            ? _luck.Pick(sites)
+            : new EntityCoordinates(map, System.Numerics.Vector2.Zero);
+            spot = sites.Count > 0
+                ? _luck.Pick(sites)
+                : new EntityCoordinates(map, System.Numerics.Vector2.Zero);
+        }
+
+        var profile = _prefs.GetPreferences(who.UserId).SelectedCharacter as HumanoidCharacterProfile;
+        string speciesId = profile?.Species ?? SharedHumanoidAppearanceSystem.DefaultSpecies;
+        // Force human species for Vox/IPC
+        if (profile != null && (profile.Species == "Vox" || profile.Species == "IPC"))
+        {
+            profile = profile
+                .WithSpecies("Human")
+                .WithCharacterAppearance(HumanoidCharacterAppearance.DefaultWithSpecies("Human"));
+            speciesId = "Human";
+        }
+        var species = _protos.Index<SpeciesPrototype>(speciesId);
+        var fresh = Spawn(species.Prototype, spot);
+
+
+        _meta.SetEntityName(fresh, who.Name);
+
+        if (_presets.Count > 0)
+        {
+            var idx = Math.Clamp(kitIdx, 0, _presets.Count - 1);
+            _stationSpawning.EquipStartingGear(fresh, _presets[idx], raiseEvent: false);
+        }
+        _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
+        if (CurrentMode == ArenaMode.TDM)
+            ApplyTdmPurchases(fresh, who.UserId);
+
+        var arenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
+        arenaPlayer.OriginalMind = originalMindId;
+        arenaPlayer.OriginalGhost = sourceGhost;
+        arenaPlayer.CanReturnToBody = ghost.CanReturnToBody;
+        arenaPlayer.Team = preset.Team;
+        arenaPlayer.SavedPresetIndex = kitIdxClamped;
+        EnsureComp<AntagImmuneComponent>(fresh);
+
+        if (RoundState == ArenaRoundState.Intermission)
+            EnsureComp<PacifiedComponent>(fresh);
+        // The disposable arena body must never inherit the round mind's roles or objectives.
+        _minds.SetUserId(originalMindId, null, originalMind);
+        _minds.TransferTo(originalMindId, null, createGhost: false, mind: originalMind);
+        QueueDel(sourceGhost);
+        _roles.MindAddJobRole(temporaryMind, silent: true, jobPrototype: "ArenaWarrior");
+
+        _roster.Add(GetNetEntity(fresh));
+        var netEnt = GetNetEntity(fresh);
+        _roster.Add(netEnt);
+        if (CurrentMode == ArenaMode.TDM && preset.Team != ArenaTeam.None)
+            _playerTeams[netEnt] = preset.Team;
+        return true;
+    }
+
+    private void RestorePlayer(EntityUid body, ArenaPlayerComponent arenaPlayer)
+    {
+        _roster.Remove(GetNetEntity(body));
+        _playerTeams.Remove(GetNetEntity(body));
+
+        if (!_minds.TryGetMind(body, out var temporaryMindId, out var temporaryMind))
+        {
+            _ghosts.SpawnGhost((arenaPlayer.OriginalMind, originalMind), arenaBody, false);
+    }
+
+    private void AssignNewSeeker()
+    {
+        var hiders = _roster
+            .Where(n => !_seekerNetEntities.Contains(n))
+            .ToList();
+        if (hiders.Count == 0)
+            return;
+        _luck.Shuffle(hiders);
+        var newSeeker = hiders[0];
+        _seekerNetEntities.Add(newSeeker);
+        if (TryGetEntity(newSeeker, out var uid) &&
+            TryComp<ActorComponent>(uid, out var actor))
+        {
+            EquipSeeker(uid.Value);
+            var msg = Loc.GetString("arena-seeker-assigned");
+            RaiseNetworkEvent(new ArenaSeekerNotifyEvent(msg),
+                Filter.SinglePlayer(actor.PlayerSession));
+        }
+        Log.Info($"Prop Hunt: new seeker assigned");
+    }
+    private void EquipSeeker(EntityUid uid)
+    {
+        var sword = Spawn("EnergySwordDouble", Transform(uid).Coordinates);
+        if (_inventory.TryGetSlotEntity(uid, "back", out var backpack) &&
+            TryComp<StorageComponent>(backpack, out var storageComp) &&
+            _storage.Insert(backpack.Value, sword, out _, storageComp: storageComp, playSound: false))
+        {
+            return;
+        }
+        _hands.TryPickupAnyHand(uid, sword);
+    }
+    private void EnsureMap()
+    {
+        if (_arenaMap != null && Exists(_arenaMap.Value))
+            return;
+
+        if (!RoundStarted)
+            StartIntermission();
+        var opts = Robust.Shared.EntitySerialization.DeserializationOptions.Default with { InitializeMaps = true };
+
+        if (_loader.TryLoadMap(new ResPath(ArenaMapFile), out var entry, out _, opts))
+        }
+    }
+
+    private void CachePlayerName(NetUserId userId)
+    {
+        try
+        {
+            if (_player.TryGetSessionById(userId, out var session))
+                _persistPlayerNames[userId] = session.Name;
+            else
+                _persistPlayerNames[userId] = "Unknown";
+        }
+        catch { _persistPlayerNames[userId] = "Unknown"; }
+    }
+    private void ApplyTdmPurchases(EntityUid fresh, NetUserId userId)
+    {
+        if (!_tdmPurchases.TryGetValue(userId, out var listingIds) || listingIds.Count == 0)
+            return;
+        if (!_inventory.TryGetSlotEntity(fresh, "back", out var backpack) ||
+            !TryComp<StorageComponent>(backpack, out var storage))
+            return;
+        // Collect proto IDs already on the character for dedup
+        var existingItems = new HashSet<string>();
+        if (TryComp<InventoryComponent>(fresh, out var inv))
+        {
+            var checkEnumerator = _inventory.GetSlotEnumerator((fresh, inv));
+            while (checkEnumerator.NextItem(out var equipItem, out _))
+            {
+                var protoId = MetaData(equipItem).EntityPrototype?.ID;
+                if (!string.IsNullOrEmpty(protoId))
+                    existingItems.Add(protoId);
+                if (TryComp<StorageComponent>(equipItem, out var eqStorage))
+                {
+                    foreach (var stored in eqStorage.Container.ContainedEntities)
+                    {
+                        var storedProto = MetaData(stored).EntityPrototype?.ID;
+                        if (!string.IsNullOrEmpty(storedProto))
+                            existingItems.Add(storedProto);
+                    }
+                }
+            }
+        }
+        if (TryComp<HandsComponent>(fresh, out var hands))
+        {
+            foreach (var hand in _hands.EnumerateHands((fresh, hands)))
+            {
+                if (!_hands.TryGetHeldItem((fresh, hands), hand, out var held))
+                    continue;
+                var protoId = MetaData(held.Value).EntityPrototype?.ID;
+                if (!string.IsNullOrEmpty(protoId))
+                    existingItems.Add(protoId);
+            }
+        }
+        var coords = Transform(fresh).Coordinates;
+        foreach (var listingId in listingIds)
+        {
+            var listing = _protos.Index<ListingPrototype>(listingId);
+            if (listing.ProductEntity is not { } product)
+                continue;
+            if (existingItems.Contains(product))
+                continue;
+            var item = Spawn(product, coords);
+            _storage.Insert(backpack.Value, item, out _, storageComp: storage, playSound: false);
+            existingItems.Add(product);
+        }
+    }
+    private bool RespawnWithSavedPreset(EntityUid oldBody, ArenaPlayerComponent arenaPlayer)
+    {
+        if (!_minds.TryGetMind(oldBody, out var mindId, out var mind))
+        {
+            QueueDel(oldBody);
+            return false;
+        }
+        var preset = _presets[arenaPlayer.SavedPresetIndex];
+        var team = preset.Team;
+        if (team == ArenaTeam.None)
+            team = arenaPlayer.Team;
+        // Safety: if team lock exists and preset doesn't match, ghost instead of spawning on wrong team
+        if (mind.UserId is { } lockUserId &&
+            _tdmTeamLocks.TryGetValue(lockUserId, out var lockedTeam) &&
+            lockedTeam != team)
+        {
+            return false;
+        }
+        var spot = GetTeamSpawn(team);
+        var speciesId = SharedHumanoidAppearanceSystem.DefaultSpecies;
+        HumanoidCharacterProfile? profile = null;
+        if (mind.UserId != null)
+        {
+            profile = _prefs.GetPreferences(mind.UserId.Value).SelectedCharacter as HumanoidCharacterProfile;
+            if (profile != null)
+                speciesId = profile.Species;
+        }
+        var species = _protos.Index<SpeciesPrototype>(speciesId);
+        var fresh = Spawn(species.Prototype, spot);
+        if (profile != null)
+            _humanoid.LoadProfile(fresh, profile);
+        _meta.SetEntityName(fresh, mind.CharacterName ?? "Unknown");
+        _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
+        if (mind.UserId is { } userId)
+        {
+            ApplyTdmPurchases(fresh, userId);
+        }
+        var newArenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
+        newArenaPlayer.OriginalMind = arenaPlayer.OriginalMind;
+        newArenaPlayer.OriginalGhost = arenaPlayer.OriginalGhost;
+        newArenaPlayer.CanReturnToBody = arenaPlayer.CanReturnToBody;
+        newArenaPlayer.Team = team;
+        newArenaPlayer.SavedPresetIndex = arenaPlayer.SavedPresetIndex;
+        EnsureComp<AntagImmuneComponent>(fresh);
+        if (RoundState == ArenaRoundState.Intermission)
+            EnsureComp<PacifiedComponent>(fresh);
+        _minds.TransferTo(mindId, fresh, mind: mind);
+        QueueDel(oldBody);
+        _roster.Remove(GetNetEntity(oldBody));
+        _playerTeams.Remove(GetNetEntity(oldBody));
+        var newNetEnt = GetNetEntity(fresh);
+        _roster.Add(newNetEnt);
+        _playerTeams[newNetEnt] = team;
+        return true;
+    }
+    private void ZapArena()
+    {
+        if (_arenaMap is not { } map || !Exists(map))
+    public override void Update(float frameTime)
+    {
+        _cleanTick += frameTime;
+        if (_cleanTick < 60f)
+            return;
+        var threshold = CurrentMode == ArenaMode.TDM ? 180f : 60f;
+        if (_cleanTick >= threshold)
+        {
+            _cleanTick = 0f;
+            if (!(CurrentMode == ArenaMode.TDM && RoundState == ArenaRoundState.Preparation))
+                ZapArena();
+        }
+
+        _cleanTick = 0f;
+        ZapArena();
+        TickRound(frameTime);
+    }
+
+    private float _cleanTick;
+‎Content.Shared/DeadSpace/Arena/Components/ArenaPlayerComponent.cs‎
++4
+-1
+Lines changed: 4 additions & 1 deletion
+Original file line number	Diff line number	Diff line change
+using Robust.Shared.GameObjects;
+using Robust.Shared.GameStates;
+using Robust.Shared.Serialization.Manager.Attributes;
+
+namespace Content.Shared.DeadSpace.Arena;
+
+[RegisterComponent]
+[RegisterComponent, NetworkedComponent]
+public sealed partial class ArenaPlayerComponent : Component
+{
+    public EntityUid OriginalMind;
+    public EntityUid OriginalGhost;
+    public bool CanReturnToBody;
+    public ArenaTeam Team = ArenaTeam.None;
+    public int SavedPresetIndex = -1;
+}
+‎Content.Shared/DeadSpace/Arena/Components/ArenaTeamSpawnComponent.cs‎
++11
+Lines changed: 11 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+using Robust.Shared.GameObjects;
+using Robust.Shared.Serialization.Manager.Attributes;
+namespace Content.Shared.DeadSpace.Arena;
+[RegisterComponent]
+public sealed partial class ArenaTeamSpawnComponent : Component
+{
+    [DataField]
+    public ArenaTeam Team = ArenaTeam.None;
+}
+‎Content.Shared/DeadSpace/Arena/ArenaLoadoutEuiMessages.cs‎
++33
+-1
+Lines changed: 33 additions & 1 deletion
+Original file line number	Diff line number	Diff line change
+public sealed class ArenaLoadoutEuiState : EuiStateBase
+{
+    public List<ArenaLoadoutOption> Weapons { get; }
+    public List<ArenaTdmListingData> TdmStoreListings { get; }
+    public List<string> TdmPurchasedItems { get; }
+    public int RemainingBalance { get; }
+
+    public ArenaLoadoutEuiState(List<ArenaLoadoutOption> weapons)
+    public ArenaLoadoutEuiState(
+        List<ArenaLoadoutOption> weapons,
+        List<ArenaTdmListingData> tdmStoreListings,
+        List<string> tdmPurchasedItems,
+        int remainingBalance)
+    {
+        Weapons = weapons;
+        TdmStoreListings = tdmStoreListings;
+        TdmPurchasedItems = tdmPurchasedItems;
+        RemainingBalance = remainingBalance;
+    }
+}
+
+        WeaponIndex = weaponIndex;
+    }
+}
+[Serializable, NetSerializable]
+public sealed class ArenaTdmListingData
+{
+    public string Id { get; set; } = string.Empty;
+    public LocId Name { get; set; } = string.Empty;
+    public LocId Description { get; set; } = string.Empty;
+    public int Cost { get; set; }
+    public string SpritePrototype { get; set; } = string.Empty;
+    public LocId Category { get; set; } = string.Empty;
+}
+[Serializable, NetSerializable]
+public sealed class ArenaTdmPurchaseConfirmMessage : EuiMessageBase
+{
+    public List<string> ListingIds { get; }
+    public ArenaTdmPurchaseConfirmMessage(List<string> listingIds)
+    {
+        ListingIds = listingIds;
+    }
+}
+‎Content.Shared/DeadSpace/Arena/ArenaLoadoutPresetPrototype.cs‎
++6
+Lines changed: 6 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+    [DataField]
+    public string Category = string.Empty;
+
+    [DataField]
+    public ArenaMode Mode = ArenaMode.Deathmatch;
+    [DataField]
+    public ArenaTeam Team = ArenaTeam.None;
+    [DataField]
+    public Dictionary<string, EntProtoId> Equipment { get; set; } = new();
+
+‎Content.Shared/DeadSpace/Arena/ArenaMessages.cs‎
++99
+-14
+Lines changed: 99 additions & 14 deletions
+Original file line number	Diff line number	Diff line change
+public sealed class ArenaLeaveEvent : EntityEventArgs;
+
+[Serializable, NetSerializable]
+public sealed class ArenaOfferEvent : EntityEventArgs
+public enum ArenaMode : byte
+{
+    public List<ArenaOfferEntry> Catalog { get; }
+    Deathmatch,
+    PropHunt,
+    TDM
+}
+[Serializable, NetSerializable]
+public enum ArenaTeam : byte
+{
+    None,
+    Blue,
+    Red
+}
+
+    public ArenaOfferEvent(List<ArenaOfferEntry> catalog)
+[Serializable, NetSerializable]
+public enum ArenaRoundState : byte
+{
+    Intermission,
+    Hiding,
+    Preparation,
+    Active
+}
+[Serializable, NetSerializable]
+public sealed class ArenaRoundUpdateEvent : EntityEventArgs
+{
+    public ArenaMode Mode { get; }
+    public ArenaRoundState RoundState { get; }
+    public float TimeRemaining { get; }
+    public int BlueKills { get; }
+    public int RedKills { get; }
+    public ArenaRoundUpdateEvent(ArenaMode mode, ArenaRoundState roundState, float timeRemaining, int blueKills = 0, int redKills = 0)
+    {
+        Mode = mode;
+        RoundState = roundState;
+        TimeRemaining = timeRemaining;
+        BlueKills = blueKills;
+        RedKills = redKills;
+    }
+}
+[Serializable, NetSerializable]
+public sealed class ArenaSeekerFreezeEvent : EntityEventArgs
+{
+    public float FreezeDuration { get; }
+    public ArenaSeekerFreezeEvent(float freezeDuration)
+    {
+        Catalog = catalog;
+        FreezeDuration = freezeDuration;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class ArenaOfferEntry
+public sealed class ArenaSeekerUnfreezeEvent : EntityEventArgs
+{
+    public int Idx;
+    public string Title = string.Empty;
+    public string Hint = string.Empty;
+    public string Style = string.Empty;
+    public string Icon = string.Empty;
+}
+
+[Serializable, NetSerializable]
+public sealed class ArenaPickEvent : EntityEventArgs
+public sealed class ArenaSeekerNotifyEvent : EntityEventArgs
+{
+    public int Pick { get; }
+    public string Message { get; }
+
+    public ArenaPickEvent(int pick)
+    public ArenaSeekerNotifyEvent(string message)
+    {
+        Pick = pick;
+        Message = message;
+    }
+}
+[Serializable, NetSerializable]
+public sealed class ArenaVoteCastEvent : EntityEventArgs
+{
+    public ArenaMode Vote { get; }
+    public ArenaVoteCastEvent(ArenaMode vote)
+    {
+        Vote = vote;
+    }
+}
+[Serializable, NetSerializable]
+public sealed class ArenaVoteStateEvent : EntityEventArgs
+{
+    public List<ArenaMode> AvailableModes { get; }
+    public Dictionary<NetEntity, ArenaMode> Votes { get; }
+    public ArenaVoteStateEvent(List<ArenaMode> availableModes, Dictionary<NetEntity, ArenaMode> votes)
+    {
+        AvailableModes = availableModes;
+        Votes = votes;
+    }
+}
+[Serializable, NetSerializable]
+public sealed class ArenaPlayerRecord
+{
+    public string PlayerName = "";
+    public int Kills;
+    public int Deaths;
+    public double KD;
+    public int DmKills;
+    public int DmDeaths;
+    public int TdmKills;
+    public int TdmDeaths;
+}
+[Serializable, NetSerializable]
+public sealed class ArenaManifestEvent : EntityEventArgs
+{
+    public List<ArenaPlayerRecord> DmPlayers = new();
+    public List<ArenaPlayerRecord> TdmPlayers = new();
+    public ArenaTeam? BestTdmTeam;
+    public ArenaPlayerRecord? OverallBest;
+}
+‎Resources/Locale/en-US/_deadspace/arena/arena.ftl‎
++9
+Lines changed: 9 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+arena-category-rifles = RIFLES
+arena-category-revolvers = PISTOLS
+arena-category-melee = MELEE
+## Arena store tab
+arena-tab-presets = Presets
+arena-tab-store = TDM Store
+arena-store-title = TDM Store — choose items ({ $balance } TC)
+arena-store-balance = Remaining: { $remaining } TC
+arena-store-search-placeholder = Search...
+arena-store-save = Save
+arena-store-cost-format = { $cost } TC
+‎Resources/Locale/ru-RU/_deadspace/arena/arena.ftl‎
++51
+-1
+Lines changed: 51 additions & 1 deletion
+Original file line number	Diff line number	Diff line change
+arena-loadout-title = Выбери экипировку
+arena-loadout-subtitle = Выбери класс оружия:
+arena-loadout-confirm = ВОЙТИ НА АРЕНУ
+arena-loadout-shotgun = Силовик
+arena-loadout-shotgun = Бульдог
+arena-loadout-smg = Дрозд
+arena-loadout-rifle = Лектер
+arena-loadout-revolver = Пустынный орёл
+arena-category-rifles = RIFLES
+arena-category-revolvers = PISTOLS
+arena-category-melee = MELEE
+## Arena modes
+arena-mode-deathmatch = Deathmatch
+arena-mode-prophunt = PropHunt
+arena-state-intermission = Перерыв
+arena-state-hiding = Прятки
+arena-seeker-title = ВЫ ИСКАТЕЛЬ
+arena-seeker-subtitle = Дабла в вашей сумке
+arena-seeker-assigned = Вы были назначены искателем!
+arena-mode-tdm = TDM
+arena-state-preparation = Подготовка
+arena-tdm-team-blue = Команда Синих
+arena-tdm-desc-blue = Тяжелая броня, винтовка.
+arena-category-team-blue = СИНИЕ
+arena-tdm-team-red = Команда Красных
+arena-tdm-desc-red = Тяжелая броня, винтовка.
+arena-category-team-red = КРАСНЫЕ
+## Arena manifest (round-end tab)
+arena-manifest-tab-title = Итоги Арены
+arena-manifest-title = Итоги Арены
+arena-manifest-dm-section = Deathmatch (Топ-3):
+arena-manifest-tdm-section = TDM (Топ-3):
+arena-manifest-no-data = Нет данных
+arena-manifest-best-team = Лучшая команда TDM: { $team }
+arena-manifest-tdm-draw = Ничья в TDM
+arena-manifest-overall-title = Лучший игрок арены (DM + TDM):
+arena-manifest-overall-player = { $name } — всего { $kills }/{ $deaths } (K/D: { $kd })
+arena-manifest-overall-detail = DM: { $dmk }/{ $dmd } | TDM: { $tdmk }/{ $tdmd }
+## Arena store tab
+arena-tab-presets = Пресеты
+arena-tab-store = Закуп ТДМ
+arena-store-title = Выберите предметы ({ $balance } ТК)
+arena-store-balance = Остаток: { $remaining } ТК
+arena-store-search-placeholder = Поиск...
+arena-store-save = Сохранить
+arena-store-cost-format = { $cost } ТК
+## Arena winners
+arena-winner-dm = { $name } победил с K/D { $kills }/{ $deaths }!
+arena-winner-dm-wrap = *{ $name } побеждает в Deathmatch с K/D { $kills }/{ $deaths }!*
+arena-winner-prophunt-seekers = Искатели победили!
+arena-winner-prophunt-seekers-wrap = *Искатели уничтожили всех прячущихся!*
+arena-winner-prophunt-hiders = Прячущиеся победили!
+arena-winner-prophunt-hiders-wrap = *Прячущиеся выжили до конца раунда!*
+arena-winner-tdm-draw = Ничья!
+arena-winner-tdm-draw-wrap = *Ничья в TDM!*
+arena-winner-tdm = { $team } победила!
+arena-winner-tdm-wrap = *{ $team } побеждает в TDM!*
+‎Resources/Maps/_DeadSpace/arena.yml‎
++5 019
+-1 907
+Lines changed: 5019 additions & 1907 deletions
+Large diffs are not rendered by default.
+‎Resources/Maps/_DeadSpace/arenaByLivOLD.yml‎
++3 239
+Lines changed: 3239 additions & 0 deletions
+Large diffs are not rendered by default.
+‎Resources/Prototypes/_DeadSpace/Arena/arena_doors.yml‎
++21
+Lines changed: 21 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+- type: entity
+  id: ArenaDoor
+  parent: BaseShutter
+  name: дверь арены
+  description: Дверь арены, открывается при начале раунда TDM.
+  components:
+  - type: Door
+    closeTimeOne: 0.2
+    closeTimeTwo: 1.2
+    openTimeOne: 1.2
+    openTimeTwo: 0.2
+    openingAnimationTime: 1.4
+    closingAnimationTime: 1.4
+    bumpOpen: false
+    clickOpen: false
+    openSound:
+      path: /Audio/Machines/shutter.ogg
+    closeSound:
+      path: /Audio/Machines/shutter.ogg
+  - type: Destructible
+    thresholds: []
+‎Resources/Prototypes/_DeadSpace/Arena/arena_prophunt.yml‎
++11
+Lines changed: 11 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+- type: entity
+  parent: ChameleonProjector
+  id: ArenaChameleonProjector
+  name: chameleon projector
+  suffix: Arena Prop Hunt
+  components:
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default
+        startingItem: PowerCellMicroreactor
+‎Resources/Prototypes/_DeadSpace/Arena/arena_tdm.yml‎
++121
+Lines changed: 121 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+- type: entity
+  parent: ClothingOuterArmorHeavy
+  id: ArenaOuterArmorBlue
+  name: синяя броня
+  description: Тяжелая броня команды синих.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Arena/armor_blue.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Arena/armor_blue.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
+  - type: SelfUnremovableClothing
+- type: entity
+  parent: ClothingOuterArmorHeavy
+  id: ArenaOuterArmorRed
+  name: красная броня
+  description: Тяжелая броня команды красных.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Arena/armor_red.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Arena/armor_red.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
+  - type: SelfUnremovableClothing
+- type: entity
+  parent: ClothingHeadHelmetArmoredBase
+  id: ArenaHelmetBlue
+  name: синий шлем
+  description: Шлем команды синих.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Arena/helmet_blue.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Arena/helmet_blue.rsi
+  - type: SelfUnremovableClothing
+- type: entity
+  parent: ClothingHeadHelmetArmoredBase
+  id: ArenaHelmetRed
+  name: красный шлем
+  description: Шлем команды красных.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Arena/helmet_red.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Arena/helmet_red.rsi
+  - type: SelfUnremovableClothing
+- type: entity
+  parent: ArenaSpawnPoint
+  id: ArenaTeamSpawnBlue
+  components:
+  - type: ArenaTeamSpawn
+    team: Blue
+- type: entity
+  parent: ArenaSpawnPoint
+  id: ArenaTeamSpawnRed
+  components:
+  - type: ArenaTeamSpawn
+    team: Red
+- type: arenaLoadoutPreset
+  id: ArenaTeamBlue
+  nameLoc: arena-tdm-team-blue
+  descLoc: arena-tdm-desc-blue
+  iconPrototype: ArenaOuterArmorBlue
+  category: arena-category-team-blue
+  mode: TDM
+  team: Blue
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ArenaOuterArmorBlue
+    head: ArenaHelmetBlue
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  storage:
+    back:
+      - MedkitCombatFilled
+    belt:
+      - MagazinePistol
+      - MagazinePistol
+- type: arenaLoadoutPreset
+  id: ArenaTeamRed
+  nameLoc: arena-tdm-team-red
+  descLoc: arena-tdm-desc-red
+  iconPrototype: ArenaOuterArmorRed
+  category: arena-category-team-red
+  mode: TDM
+  team: Red
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ArenaOuterArmorRed
+    head: ArenaHelmetRed
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  storage:
+    back:
+      - MedkitCombatFilled
+    belt:
+      - MagazinePistol
+      - MagazinePistol
+‎Resources/Prototypes/_DeadSpace/Arena/loadout_presets.yml‎
++42
+-15
+Lines changed: 42 additions & 15 deletions
+Original file line number	Diff line number	Diff line change
+  id: ArenaShotgun
+  nameLoc: arena-loadout-shotgun
+  descLoc: arena-desc-shotgun
+  iconPrototype: WeaponShotgunEnforcer
+  iconPrototype: WeaponShotgunBulldog
+  category: arena-category-shotguns
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponShotgunEnforcer
+    - WeaponShotgunBulldog
+  storage:
+    back:
+      - MedkitFilled
+      - BoxLethalshot
+      - BoxShotgunSlug
+      - MedkitCombatFilled
+    belt:
+      - MagazineShotgun
+      - MagazineShotgun
+      - MagazineShotgun
+      - MagazineShotgunSlug
+      - MagazineShotgunSlug
+
+- type: arenaLoadoutPreset
+  id: ArenaSmg
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponSubMachineGunDrozd
+  storage:
+    back:
+      - MedkitFilled
+      - MedkitCombatFilled
+    belt:
+      - MagazinePistolSubMachineGun
+      - MagazinePistolSubMachineGun
+      - MagazinePistolSubMachineGun
+      - MagazinePistolSubMachineGun
+      - MagazinePistolSubMachineGun
+
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponRifleLecter
+  storage:
+    back:
+      - MedkitFilled
+      - MedkitCombatFilled
+    belt:
+      - MagazineRifle
+      - MagazineRifle
+      - MagazineRifle
+      - MagazineRifle
+      - MagazineRifleIncendiary
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponPistolDesertEagle
+  storage:
+    back:
+      - MedkitFilled
+      - MedkitCombatFilled
+    belt:
+      - MagazineEagle
+      - MagazineEagle
+      - MagazineEagle
+      - MagazineEagle
+
+- type: arenaLoadoutPreset
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - WeaponSniperHristov
+  storage:
+    back:
+      - MedkitFilled
+      - MedkitCombatFilled
+    belt:
+      - MagazineHristov
+      - MagazineHristov
+      - MagazineHristov
+      - MagazineHristov
+
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+  inhand:
+    - EnergySword
+  storage:
+    back:
+      - MedkitFilled
+      - MedkitCombatFilled
+    belt:
+      - Stimpack
+      - Stimpack
+      - Stimpack
+
+- type: arenaLoadoutPreset
+  id: ArenaArkalyse
+  nameLoc: arena-loadout-arkalyse
+  descLoc: arena-desc-arkalyse
+  iconPrototype: ClothingHandsGlovesArkalyse
+  iconPrototype: BookArkalyse
+  category: arena-category-melee
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    pocket1: WeaponPistolMk58
+    pocket2: MagazinePistol
+    belt: ClothingBeltSalvageWebbing
+  inhand:
+    - ClothingHandsGlovesArkalyse
+    - BookArkalyse
+  storage:
+    back:
+      - MedkitFilled
+      - MedkitCombatFilled
+    belt:
+      - Stimpack
+      - Stimpack
+      - Stimpack
+‎Resources/Textures/_DeadSpace/Arena/armor_blue.rsi/equipped-OUTERCLOTHING-vox.png‎
+1.11 KB
+
+‎Resources/Textures/_DeadSpace/Arena/armor_blue.rsi/equipped-OUTERCLOTHING.png‎
+1.11 KB
+
+‎Resources/Textures/_DeadSpace/Arena/armor_blue.rsi/icon.png‎
+801 Bytes
+
+‎Resources/Textures/_DeadSpace/Arena/armor_blue.rsi/meta.json‎
++22
+Lines changed: 22 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Created for Dead Space 14 arena system",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "icon"
+        },
+        {
+            "name": "equipped-OUTERCLOTHING",
+            "directions": 4
+        },
+        {
+            "name": "equipped-OUTERCLOTHING-vox",
+            "directions": 4
+        }
+    ]
+}
+‎Resources/Textures/_DeadSpace/Arena/armor_red.rsi/equipped-OUTERCLOTHING-vox.png‎
+1.16 KB
+
+‎Resources/Textures/_DeadSpace/Arena/armor_red.rsi/equipped-OUTERCLOTHING.png‎
+1.11 KB
+
+‎Resources/Textures/_DeadSpace/Arena/armor_red.rsi/icon.png‎
+800 Bytes
+
+‎Resources/Textures/_DeadSpace/Arena/armor_red.rsi/meta.json‎
++22
+Lines changed: 22 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Created for Dead Space 14 arena system",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "icon"
+        },
+        {
+            "name": "equipped-OUTERCLOTHING",
+            "directions": 4
+        },
+        {
+            "name": "equipped-OUTERCLOTHING-vox",
+            "directions": 4
+        }
+    ]
+}
+‎Resources/Textures/_DeadSpace/Arena/helmet_blue.rsi/equipped-HELMET-vox.png‎
+1.07 KB
+
+‎Resources/Textures/_DeadSpace/Arena/helmet_blue.rsi/equipped-HELMET.png‎
+1.09 KB
+
+‎Resources/Textures/_DeadSpace/Arena/helmet_blue.rsi/icon.png‎
+780 Bytes
+
+‎Resources/Textures/_DeadSpace/Arena/helmet_blue.rsi/meta.json‎
++22
+Lines changed: 22 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Created for Dead Space 14 arena system",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "icon"
+        },
+        {
+            "name": "equipped-HELMET",
+            "directions": 4
+        },
+        {
+            "name": "equipped-HELMET-vox",
+            "directions": 4
+        }
+    ]
+}
+‎Resources/Textures/_DeadSpace/Arena/helmet_red.rsi/equipped-HELMET-vox.png‎
+1.08 KB
+
+‎Resources/Textures/_DeadSpace/Arena/helmet_red.rsi/equipped-HELMET.png‎
+1.11 KB
+
+‎Resources/Textures/_DeadSpace/Arena/helmet_red.rsi/icon.png‎
+786 Bytes
+
+‎Resources/Textures/_DeadSpace/Arena/helmet_red.rsi/meta.json‎
++22
+Lines changed: 22 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Created for Dead Space 14 arena system",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "icon"
+        },
+        {
+            "name": "equipped-HELMET",
+            "directions": 4
+        },
+        {
+            "name": "equipped-HELMET-vox",
+            "directions": 4
+        }
+    ]
+}

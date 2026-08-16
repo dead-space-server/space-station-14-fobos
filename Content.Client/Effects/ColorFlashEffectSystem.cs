@@ -129,6 +129,7 @@ public sealed class ColorFlashEffectSystem : SharedColorFlashEffectSystem
             RaiseLocalEvent(ent, ref targetEv);
             ent = targetEv.Target;
 
+            _animation.Stop(ent, AnimationKey);
             EnsureComp<ColorFlashEffectComponent>(ent, out comp);
             comp.NetSyncEnabled = false;
             comp.Color = sprite.Color;

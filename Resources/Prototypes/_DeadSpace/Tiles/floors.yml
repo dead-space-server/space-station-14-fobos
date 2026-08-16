@@ -515,3 +515,46 @@
     collection: FootstepTile
   itemDrop: FloorTileItemUranium
   heatCapacity: 10000
+
+# Arena tiles (never break - indestructible, not pryable)
+- type: tile
+  id: ArenaFloorMetalDiamond
+  parent: FloorMetalDiamond
+  indestructible: true
+  deconstructTools: []
+
+- type: tile
+  id: ArenaFloorReinforcedHardened
+  parent: FloorReinforcedHardened
+  indestructible: true
+  deconstructTools: []
+
+- type: tile
+  id: ArenaFloorTechMaint2
+  parent: FloorTechMaint2
+  indestructible: true
+  deconstructTools: []
+
+- type: tile
+  id: ArenaFloorTechMaintDark
+  parent: FloorTechMaintDark
+  indestructible: true
+  deconstructTools: []
+
+- type: tile
+  id: ArenaFloorWhite
+  parent: FloorWhite
+  indestructible: true
+  deconstructTools: []
+
+- type: tile
+  id: ArenaFloorWhiteOffset
+  parent: FloorWhiteOffset
+  indestructible: true
+  deconstructTools: []
+
+- type: tile
+  id: ArenaPlating
+  parent: Plating
+  indestructible: true
+  deconstructTools: []

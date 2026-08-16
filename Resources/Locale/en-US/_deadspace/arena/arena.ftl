@@ -25,3 +25,33 @@ arena-category-smgs = SMGS
 arena-category-rifles = RIFLES
 arena-category-revolvers = PISTOLS
 arena-category-melee = MELEE
+## Arena modes
+arena-mode-deathmatch = Deathmatch
+arena-mode-tdm = TDM
+arena-state-intermission = Intermission
+arena-state-preparation = Preparation
+arena-tdm-team-blue = Blue Team
+arena-tdm-desc-blue = Basic vest, pistol.
+arena-category-team-blue = BLUE
+arena-tdm-team-red = Red Team
+arena-tdm-desc-red = Basic vest, pistol.
+arena-category-team-red = RED
+## Arena manifest (round-end tab)
+arena-manifest-tdm-win-blue = Blue Team wins!
+arena-manifest-tdm-win-red = Red Team wins!
+arena-manifest-tdm-draw = TDM draw
+## Arena store tab
+arena-tab-presets = Presets
+arena-tab-store = TDM Store
+arena-store-title = TDM Store — choose items ({ $balance } TC)
+arena-store-balance = Remaining: { $remaining } TC
+arena-store-search-placeholder = Search...
+arena-store-save = Save
+arena-store-cost-format = { $cost } TC
+## Arena winners
+arena-winner-dm = { $name } won with K/D { $kills }/{ $deaths }!
+arena-winner-dm-wrap = *{ $name } wins Deathmatch with K/D { $kills }/{ $deaths }!*
+arena-winner-tdm-draw = Draw!
+arena-winner-tdm-draw-wrap = *TDM ends in a draw!*
+arena-winner-tdm = { $team } wins!
+arena-winner-tdm-wrap = *{ $team } wins TDM!*
