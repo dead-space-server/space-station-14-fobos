@@ -9,6 +9,7 @@
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Melee/gavelhammer.rsi
     state: icon
+    drawdepth: BelowMobs # Always render on top of other items on the floor/table
   - type: Item
     size: Small
     sprite: _DeadSpace/Objects/Weapons/Melee/gavelhammer.rsi
@@ -25,6 +26,15 @@
   - type: StaminaDamageOnHit
     damage: 8
   - type: DisarmMalus
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
   - type: GavelHammer
 
 - type: entity
@@ -40,5 +50,14 @@
     size: Small
     sprite: _DeadSpace/Objects/Weapons/Melee/gavelblock.rsi
   - type: UseDelay
-    delay: 0.6
+    delay: 1.5
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
   - type: GavelBlock
