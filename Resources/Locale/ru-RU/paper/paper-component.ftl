@@ -13,7 +13,7 @@ paper-component-action-stamp-paper-full = На бумаге закончилос
 # Indicator to show how full a paper is
 paper-ui-fill-level = { $currentLength }/{ $maxLength }
 paper-ui-save-button = Сохранить ({ $keybind })
-paper-tamper-proof-modified-message = Текст на странице был написан с использованием нефальсицицируемых чернил.
+paper-tamper-proof-modified-message = Текст на странице был написан с использованием нефальсифицируемых чернил.
 
 paper-ui-toolbar-bold = Жирный
 paper-ui-toolbar-italic = Курсив
