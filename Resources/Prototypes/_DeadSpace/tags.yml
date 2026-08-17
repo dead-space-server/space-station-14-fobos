@@ -197,6 +197,9 @@
   id: GasTank
 
 - type: Tag
+  id: GasTankBorg
+
+- type: Tag
   id: GiantSpiderSpace
 
 - type: Tag

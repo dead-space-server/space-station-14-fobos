@@ -823,7 +823,7 @@
         emptyLabel: borg-slot-gastankfuel-empty
         whitelist:
           tags:
-          - GasTank
+          - GasTankBorg
 #DS14-End
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: construction-module }
