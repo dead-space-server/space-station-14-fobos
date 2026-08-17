@@ -40,7 +40,8 @@ public enum ArenaMode : byte
 {
     Deathmatch,
     PropHunt,
-    TDM
+    TDM,
+    Paintball
 }
 
 [Serializable, NetSerializable]
@@ -69,13 +70,19 @@ public sealed class ArenaRoundUpdateEvent : EntityEventArgs
     public int BlueKills { get; }
     public int RedKills { get; }
 
-    public ArenaRoundUpdateEvent(ArenaMode mode, ArenaRoundState roundState, float timeRemaining, int blueKills = 0, int redKills = 0)
+    /// <summary>Цвета команд пеинтболла (для отображения цветных блоков в HUD).</summary>
+    public Color BlueColor { get; }
+    public Color RedColor { get; }
+
+    public ArenaRoundUpdateEvent(ArenaMode mode, ArenaRoundState roundState, float timeRemaining, int blueKills = 0, int redKills = 0, Color blueColor = default, Color redColor = default)
     {
         Mode = mode;
         RoundState = roundState;
         TimeRemaining = timeRemaining;
         BlueKills = blueKills;
         RedKills = redKills;
+        BlueColor = blueColor;
+        RedColor = redColor;
     }
 }
 

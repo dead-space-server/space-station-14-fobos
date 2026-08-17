@@ -85,12 +85,14 @@ public sealed class ArenaSystem : EntitySystem
     [Dependency] private readonly HandsSystem _hands = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private readonly PaintballSystem _paintball = default!;
 
     private const string ArenaMapFile = "/Maps/_DeadSpace/arena.yml";
 
     private const float DeathmatchDuration = 600f;
     private const float TDMPreparationDuration = 30f;
     private const float TDMRoundDuration = 600f;
+    private const float PaintballDuration = 600f;
     private const float IntermissionDuration = 25f;
 
     /// <summary>Бюджет закупки в TDM (в ТК).</summary>
@@ -136,6 +138,8 @@ public sealed class ArenaSystem : EntitySystem
     };
     // Lock players to their first chosen team for the current TDM round
     private readonly Dictionary<NetUserId, ArenaTeam> _tdmTeamLocks = new();
+    // Цвета команд пеинтболла на текущий раунд (случайные, несхожие).
+    private readonly Dictionary<ArenaTeam, Color> _paintballTeamColors = new();
     // TDM pre-round purchases (listing IDs chosen from the store tab)
     private readonly Dictionary<NetUserId, List<string>> _tdmPurchases = new();
     // Persistent stats across sub-rounds (not cleared between DM/TDM rounds)
@@ -267,8 +271,8 @@ public sealed class ArenaSystem : EntitySystem
             return;
         }
 
-        // TDM: мгновенное возрождение с сохранённым пресетом.
-        if (CurrentMode == ArenaMode.TDM &&
+        // TDM/Пеинтболл: мгновенное возрождение с сохранённым пресетом.
+        if (CurrentMode is ArenaMode.TDM or ArenaMode.Paintball &&
             arenaPlayer.SavedPresetIndex >= 0 &&
             arenaPlayer.SavedPresetIndex < _presets.Count &&
             RespawnWithSavedPreset(victim, arenaPlayer))
@@ -285,7 +289,7 @@ public sealed class ArenaSystem : EntitySystem
     /// </summary>
     private void OnGhostAttempt(GhostAttemptHandleEvent ev)
     {
-        if (CurrentMode != ArenaMode.TDM || !_cfg.GetCVar(CCVars.GhostKillCrit))
+        if (CurrentMode is not (ArenaMode.TDM or ArenaMode.Paintball) || !_cfg.GetCVar(CCVars.GhostKillCrit))
             return;
 
         if (ev.Mind.CurrentEntity is not { Valid: true } body)
@@ -558,6 +562,52 @@ public sealed class ArenaSystem : EntitySystem
         Log.Info("Arena TDM — preparation phase started");
     }
 
+    /// <summary>
+    /// Пеинтболл: раунд сразу активен и длится 10 минут, победа — по количеству
+    /// закрашенных тайлов пола на момент окончания раунда.
+    /// </summary>
+    private void StartPaintball()
+    {
+        _playerTeams.Clear();
+        _dmKills.Clear();
+        _dmDeaths.Clear();
+        _tdmTeamKills[ArenaTeam.Blue] = 0;
+        _tdmTeamKills[ArenaTeam.Red] = 0;
+        CurrentMode = ArenaMode.Paintball;
+        RoundStarted = true;
+        CacheTeamSpawns();
+        CacheTDMDoors();
+        AssignTDTeams();
+        RollPaintballColors();
+        _paintball.ResetPaint(_arenaMap);
+        RespawnAllForPaintball();
+        OpenTDMDoors();
+        _cleanTick = 0f;
+        RoundState = ArenaRoundState.Active;
+        RoundTimeRemaining = PaintballDuration;
+        foreach (var netEnt in _roster)
+        {
+            if (!TryGetEntity(netEnt, out var uid))
+                continue;
+            RemComp<PacifiedComponent>(uid.Value);
+        }
+        BroadcastRoundState();
+        Log.Info("Arena paintball started");
+    }
+
+    /// <summary>
+    /// Случайные несхожие цвета команд пеинтболла: оттенки разнесены на пол-круга.
+    /// </summary>
+    private void RollPaintballColors()
+    {
+        var hue1 = (float)_luck.NextDouble();
+        var hue2 = (hue1 + 0.5f + (float)((_luck.NextDouble() - 0.5f) * 0.25f)) % 1f;
+        var saturation = 0.8f + (float)_luck.NextDouble() * 0.2f;
+        var value = 0.9f;
+        _paintballTeamColors[ArenaTeam.Blue] = Color.FromHsv(new System.Numerics.Vector4(hue1, saturation, value, 1f));
+        _paintballTeamColors[ArenaTeam.Red] = Color.FromHsv(new System.Numerics.Vector4(hue2, saturation, value, 1f));
+    }
+
     private void CacheTeamSpawns()
     {
         _blueSpawns.Clear();
@@ -633,6 +683,16 @@ public sealed class ArenaSystem : EntitySystem
 
     private void RespawnAllForTDM()
     {
+        RespawnAllForTeams(ArenaMode.TDM, pacified: true);
+    }
+
+    private void RespawnAllForPaintball()
+    {
+        RespawnAllForTeams(ArenaMode.Paintball, pacified: false);
+    }
+
+    private void RespawnAllForTeams(ArenaMode mode, bool pacified)
+    {
         var oldRoster = _roster.ToList();
         _roster.Clear();
         // Delete old bodies and spawn new ones with team equipment
@@ -647,7 +707,7 @@ public sealed class ArenaSystem : EntitySystem
 
             var team = _playerTeams.GetValueOrDefault(netEnt, ArenaTeam.Blue);
             // Use team default preset (saved preset is only for mid-round auto-respawn)
-            var nullablePreset = _presets.FirstOrDefault(p => p.Team == team && p.Mode == ArenaMode.TDM);
+            var nullablePreset = _presets.FirstOrDefault(p => p.Team == team && p.Mode == mode);
             if (nullablePreset == null)
                 nullablePreset = _presets.FirstOrDefault();
             if (nullablePreset == null)
@@ -684,12 +744,19 @@ public sealed class ArenaSystem : EntitySystem
                 _humanoid.LoadProfile(fresh, profile);
 
             _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
-            if (mind.UserId is { } tdmUserId)
+            if (mode == ArenaMode.TDM)
             {
-                ApplyTdmPurchases(fresh, tdmUserId);
-                EquipCostumes(fresh, tdmUserId);
+                if (mind.UserId is { } tdmUserId)
+                {
+                    ApplyTdmPurchases(fresh, tdmUserId);
+                    EquipCostumes(fresh, tdmUserId);
+                }
+                ApplyTdmTeamClothing(fresh, team);
             }
-            ApplyTdmTeamClothing(fresh, team);
+            else if (mode == ArenaMode.Paintball)
+            {
+                ApplyPaintballGear(fresh, team);
+            }
 
             var newArenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
             newArenaPlayer.OriginalMind = arenaPlayer.OriginalMind;
@@ -698,7 +765,8 @@ public sealed class ArenaSystem : EntitySystem
             newArenaPlayer.Team = team;
             newArenaPlayer.SavedPresetIndex = _presets.IndexOf(preset);
             EnsureComp<AntagImmuneComponent>(fresh);
-            EnsureComp<PacifiedComponent>(fresh);
+            if (pacified)
+                EnsureComp<PacifiedComponent>(fresh);
             _minds.TransferTo(mindId, fresh, mind: mind);
 
             // Delete old body
@@ -717,6 +785,25 @@ public sealed class ArenaSystem : EntitySystem
         if (_arenaMap is { } map)
             return new EntityCoordinates(map, System.Numerics.Vector2.Zero);
         return EntityCoordinates.Invalid;
+    }
+
+    /// <summary>
+    /// Отображение команды пеинтболла: цветной блок █ в цвет команды.
+    /// </summary>
+    private string GetPaintballTeamDisplay(ArenaTeam team)
+    {
+        var color = _paintballTeamColors.GetValueOrDefault(team, Color.White);
+        return $"[color={color.ToHex()}]\u2588[/color]";
+    }
+
+    /// <summary>
+    /// Баланс команд: в команду нельзя войти, если в ней уже больше игроков, чем в другой.
+    /// </summary>
+    private bool IsTeamOverfull(ArenaTeam team)
+    {
+        var blue = _playerTeams.Count(v => v.Value == ArenaTeam.Blue);
+        var red = _playerTeams.Count(v => v.Value == ArenaTeam.Red);
+        return team == ArenaTeam.Blue ? blue > red : red > blue;
     }
 
     private void StartTDMActive()
@@ -738,6 +825,7 @@ public sealed class ArenaSystem : EntitySystem
     {
         _playerTeams.Clear();
         _votes.Clear();
+        _paintball.ResetPaint(_arenaMap);
         RoundState = ArenaRoundState.Intermission;
         RoundTimeRemaining = IntermissionDuration;
         RoundStarted = true;
@@ -754,14 +842,23 @@ public sealed class ArenaSystem : EntitySystem
 
     private void BroadcastRoundState()
     {
-        var ev = new ArenaRoundUpdateEvent(CurrentMode, RoundState, RoundTimeRemaining,
-            _tdmTeamKills[ArenaTeam.Blue], _tdmTeamKills[ArenaTeam.Red]);
+        var blueScore = _tdmTeamKills[ArenaTeam.Blue];
+        var redScore = _tdmTeamKills[ArenaTeam.Red];
+        var blueColor = _paintballTeamColors.GetValueOrDefault(ArenaTeam.Blue, Color.White);
+        var redColor = _paintballTeamColors.GetValueOrDefault(ArenaTeam.Red, Color.White);
+        if (CurrentMode == ArenaMode.Paintball)
+        {
+            blueScore = _paintball.GetTeamTiles(ArenaTeam.Blue);
+            redScore = _paintball.GetTeamTiles(ArenaTeam.Red);
+        }
+
+        var ev = new ArenaRoundUpdateEvent(CurrentMode, RoundState, RoundTimeRemaining, blueScore, redScore, blueColor, redColor);
         RaiseNetworkEvent(ev, Filter.Broadcast());
     }
 
     private void BroadcastVoteState()
     {
-        var available = new List<ArenaMode> { ArenaMode.Deathmatch, ArenaMode.TDM };
+        var available = new List<ArenaMode> { ArenaMode.Deathmatch, ArenaMode.TDM, ArenaMode.Paintball };
         var ev = new ArenaVoteStateEvent(available, new Dictionary<NetEntity, ArenaMode>(_votes));
         RaiseNetworkEvent(ev, Filter.Broadcast());
     }
@@ -821,6 +918,27 @@ public sealed class ArenaSystem : EntitySystem
                     EntityUid.Invalid, false, true, Color.OrangeRed);
                 break;
             }
+            case ArenaMode.Paintball:
+            {
+                var blueTiles = _paintball.GetTeamTiles(ArenaTeam.Blue);
+                var redTiles = _paintball.GetTeamTiles(ArenaTeam.Red);
+                if (blueTiles == redTiles)
+                {
+                    // Draw — no winner
+                    _chat.ChatMessageToAll(ChatChannel.Server,
+                        Loc.GetString("arena-winner-paintball-draw", ("blue", blueTiles), ("red", redTiles)),
+                        Loc.GetString("arena-winner-paintball-draw-wrap", ("blue", blueTiles), ("red", redTiles)),
+                        EntityUid.Invalid, false, true, Color.OrangeRed);
+                    break;
+                }
+                var winner = blueTiles > redTiles ? ArenaTeam.Blue : ArenaTeam.Red;
+                var paintTeamName = GetPaintballTeamDisplay(winner);
+                _chat.ChatMessageToAll(ChatChannel.Server,
+                    Loc.GetString("arena-winner-paintball", ("team", paintTeamName), ("blue", blueTiles), ("red", redTiles)),
+                    Loc.GetString("arena-winner-paintball-wrap", ("team", paintTeamName), ("blue", blueTiles), ("red", redTiles)),
+                    EntityUid.Invalid, false, true, Color.OrangeRed);
+                break;
+            }
         }
     }
 
@@ -828,7 +946,10 @@ public sealed class ArenaSystem : EntitySystem
     {
         var dmVotes = _votes.Values.Count(v => v == ArenaMode.Deathmatch);
         var tdmVotes = _votes.Values.Count(v => v == ArenaMode.TDM);
-        if (tdmVotes > dmVotes)
+        var paintballVotes = _votes.Values.Count(v => v == ArenaMode.Paintball);
+        if (paintballVotes > dmVotes && paintballVotes > tdmVotes)
+            NextMode = ArenaMode.Paintball;
+        else if (tdmVotes > dmVotes)
             NextMode = ArenaMode.TDM;
         else
             NextMode = ArenaMode.Deathmatch;
@@ -872,6 +993,8 @@ public sealed class ArenaSystem : EntitySystem
                 CurrentMode = NextMode;
                 if (CurrentMode == ArenaMode.TDM)
                     StartTDM();
+                else if (CurrentMode == ArenaMode.Paintball)
+                    StartPaintball();
                 else
                     StartDeathmatch();
                 break;
@@ -1078,14 +1201,19 @@ public sealed class ArenaSystem : EntitySystem
             _humanoid.LoadProfile(fresh, profile);
         _meta.SetEntityName(fresh, mind.CharacterName ?? "Unknown");
         _stationSpawning.EquipStartingGear(fresh, preset, raiseEvent: false);
-        if (mind.UserId is { } userId)
+        if (CurrentMode != ArenaMode.Paintball && mind.UserId is { } userId)
         {
             ApplyTdmPurchases(fresh, userId);
             EquipCostumes(fresh, userId);
         }
 
         if (team != ArenaTeam.None)
-            ApplyTdmTeamClothing(fresh, team);
+        {
+            if (CurrentMode == ArenaMode.Paintball)
+                ApplyPaintballGear(fresh, team);
+            else
+                ApplyTdmTeamClothing(fresh, team);
+        }
 
         var newArenaPlayer = EnsureComp<ArenaPlayerComponent>(fresh);
         newArenaPlayer.OriginalMind = arenaPlayer.OriginalMind;
@@ -1189,17 +1317,18 @@ public sealed class ArenaSystem : EntitySystem
         for (var i = 0; i < _presets.Count; i++)
         {
             var p = _presets[i];
-            // Пресеты режима показываются только в соответствующем режиме.
-            if (CurrentMode == ArenaMode.TDM && p.Mode != ArenaMode.TDM)
-                continue;
-            if (CurrentMode != ArenaMode.TDM && p.Mode == ArenaMode.TDM)
+            // Пресеты показываются только в своём режиме.
+            if (p.Mode != CurrentMode)
                 continue;
             options.Add(new ArenaLoadoutOption
             {
                 Index = i,
                 Name = p.NameLoc,
                 Description = p.DescLoc,
-                Category = p.Category,
+                // В пеинтболле вместо названий команд — цветные блоки █.
+                Category = CurrentMode == ArenaMode.Paintball && p.Team is ArenaTeam.Blue or ArenaTeam.Red
+                    ? GetPaintballTeamDisplay(p.Team)
+                    : p.Category,
                 SpritePrototype = p.IconPrototype,
             });
         }
@@ -1289,8 +1418,9 @@ public sealed class ArenaSystem : EntitySystem
         var preset = _presets[kitIdxClamped];
 
         // Позиция спавна зависит от режима и команды.
+        var teamMode = CurrentMode is ArenaMode.TDM or ArenaMode.Paintball;
         EntityCoordinates spot;
-        if (CurrentMode == ArenaMode.TDM)
+        if (teamMode)
         {
             // Enforce team lock: player must use the same team they were first assigned
             if (_tdmTeamLocks.TryGetValue(who.UserId, out var lockedTeam))
@@ -1300,6 +1430,19 @@ public sealed class ArenaSystem : EntitySystem
             }
             else
             {
+                // Баланс команд: в более полную команду новых игроков не пускаем,
+                // пока в другой команде не станет столько же или больше игроков.
+                if (preset.Team != ArenaTeam.None && IsTeamOverfull(preset.Team))
+                {
+                    var blue = _playerTeams.Count(v => v.Value == ArenaTeam.Blue);
+                    var red = _playerTeams.Count(v => v.Value == ArenaTeam.Red);
+                    var teamDisplay = CurrentMode == ArenaMode.Paintball
+                        ? GetPaintballTeamDisplay(preset.Team)
+                        : Loc.GetString(preset.Team == ArenaTeam.Blue ? "arena-tdm-team-blue" : "arena-tdm-team-red");
+                    _chat.DispatchServerMessage(who, Loc.GetString("arena-team-full",
+                        ("team", teamDisplay), ("blue", blue), ("red", red)));
+                    return false;
+                }
                 _tdmTeamLocks[who.UserId] = preset.Team;
             }
             spot = GetTeamSpawn(preset.Team);
@@ -1350,6 +1493,10 @@ public sealed class ArenaSystem : EntitySystem
             EquipCostumes(fresh, who.UserId);
             ApplyTdmTeamClothing(fresh, preset.Team);
         }
+        else if (CurrentMode == ArenaMode.Paintball)
+        {
+            ApplyPaintballGear(fresh, preset.Team);
+        }
         else
         {
             EquipCostumes(fresh, who.UserId);
@@ -1359,7 +1506,7 @@ public sealed class ArenaSystem : EntitySystem
         arenaPlayer.OriginalMind = originalMindId;
         arenaPlayer.OriginalGhost = sourceGhost;
         arenaPlayer.CanReturnToBody = ghost.CanReturnToBody;
-        arenaPlayer.Team = CurrentMode == ArenaMode.TDM ? preset.Team : ArenaTeam.None;
+        arenaPlayer.Team = teamMode ? preset.Team : ArenaTeam.None;
         arenaPlayer.SavedPresetIndex = kitIdxClamped;
         EnsureComp<AntagImmuneComponent>(fresh);
 
@@ -1377,7 +1524,7 @@ public sealed class ArenaSystem : EntitySystem
 
         var netEnt = GetNetEntity(fresh);
         _roster.Add(netEnt);
-        if (CurrentMode == ArenaMode.TDM && arenaPlayer.Team != ArenaTeam.None)
+        if (teamMode && arenaPlayer.Team != ArenaTeam.None)
             _playerTeams[netEnt] = arenaPlayer.Team;
         return true;
     }
@@ -1606,6 +1753,40 @@ public sealed class ArenaSystem : EntitySystem
         var teamClothing = EnsureComp<ArenaTeamClothingComponent>(itemUid);
         teamClothing.Team = team;
         Dirty(itemUid, teamClothing);
+    }
+
+    /// <summary>
+    /// В режиме Пеинтболл тело игрока и всё его снаряжение окрашивается в случайный цвет команды.
+    /// Краска (пули и гранаты) наследует цвет стрелка/бросившего через ArenaPaintColorComponent.
+    /// </summary>
+    private void ApplyPaintballGear(EntityUid body, ArenaTeam team)
+    {
+        if (!_paintballTeamColors.TryGetValue(team, out var color))
+            color = ArenaConstants.GetTeamColor(team) ?? Color.White;
+
+        ApplyPaintColor(body, color, team);
+        if (TryComp<InventoryComponent>(body, out var inv))
+        {
+            var enumerator = _inventory.GetSlotEnumerator((body, inv));
+            while (enumerator.NextItem(out var item, out _))
+                ApplyPaintColor(item, color, team);
+        }
+        if (TryComp<HandsComponent>(body, out var hands))
+        {
+            foreach (var hand in _hands.EnumerateHands((body, hands)))
+            {
+                if (_hands.TryGetHeldItem((body, hands), hand, out var held))
+                    ApplyPaintColor(held.Value, color, team);
+            }
+        }
+    }
+
+    private void ApplyPaintColor(EntityUid target, Color color, ArenaTeam team)
+    {
+        var paint = EnsureComp<ArenaPaintColorComponent>(target);
+        paint.Color = color;
+        paint.Team = team;
+        Dirty(target, paint);
     }
 
     /// <summary>
@@ -1838,6 +2019,8 @@ public sealed class ArenaSystem : EntitySystem
         _persistTdmBlueKills = 0;
         _persistTdmRedKills = 0;
         _ghostOutRequests.Clear();
+        _paintballTeamColors.Clear();
+        _paintball.ResetPaint(null);
         RoundStarted = false;
         RoundState = ArenaRoundState.Intermission;
         RoundTimeRemaining = IntermissionDuration;

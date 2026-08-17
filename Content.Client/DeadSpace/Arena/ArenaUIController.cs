@@ -19,10 +19,11 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
     [Dependency] private readonly IEntityNetworkManager _net = default!;
 
     private PanelContainer? _arenaPanel;
-    private Label? _arenaLabel;
+    private RichTextLabel? _arenaLabel;
     private PanelContainer? _votePanel;
     private Button? _voteDmButton;
     private Button? _voteTdmButton;
+    private Button? _votePaintballButton;
     private Label? _voteStateLabel;
 
     private ArenaMode _mode;
@@ -31,10 +32,13 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
     private float _localTimer;
     private int _blueKills;
     private int _redKills;
+    private Color _blueColor = Color.White;
+    private Color _redColor = Color.White;
     private List<ArenaMode> _availableModes = new();
     private Dictionary<NetEntity, ArenaMode> _votes = new();
     private int _lastDmVotes;
     private int _lastTdmVotes;
+    private int _lastPaintballVotes;
 
     public override void Initialize()
     {
@@ -59,10 +63,9 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         if (_arenaPanel != null)
             return;
 
-        _arenaLabel = new Label
+        _arenaLabel = new RichTextLabel
         {
             Text = "",
-            FontColorOverride = Color.White,
         };
         _arenaPanel = new PanelContainer
         {
@@ -109,6 +112,11 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
             Text = Loc.GetString("arena-mode-tdm"),
         };
         _voteTdmButton.OnPressed += _ => SendVote(ArenaMode.TDM);
+        _votePaintballButton = new Button
+        {
+            Text = Loc.GetString("arena-mode-paintball"),
+        };
+        _votePaintballButton.OnPressed += _ => SendVote(ArenaMode.Paintball);
 
         _voteStateLabel = new Label
         {
@@ -149,7 +157,7 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
                             Orientation = BoxContainer.LayoutOrientation.Horizontal,
                             SeparationOverride = 8,
                             HorizontalAlignment = Control.HAlignment.Center,
-                            Children = { _voteDmButton, _voteTdmButton }
+                            Children = { _voteDmButton, _voteTdmButton, _votePaintballButton }
                         },
                         _voteStateLabel
                     }
@@ -168,6 +176,7 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         _votePanel = null;
         _voteDmButton = null;
         _voteTdmButton = null;
+        _votePaintballButton = null;
         _voteStateLabel = null;
     }
 
@@ -184,6 +193,8 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         _localTimer = 0f;
         _blueKills = ev.BlueKills;
         _redKills = ev.RedKills;
+        _blueColor = ev.BlueColor;
+        _redColor = ev.RedColor;
     }
 
     private void OnVoteState(ArenaVoteStateEvent ev, EntitySessionEventArgs args)
@@ -192,6 +203,7 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         _votes = ev.Votes;
         _lastDmVotes = ev.Votes.Values.Count(v => v == ArenaMode.Deathmatch);
         _lastTdmVotes = ev.Votes.Values.Count(v => v == ArenaMode.TDM);
+        _lastPaintballVotes = ev.Votes.Values.Count(v => v == ArenaMode.Paintball);
     }
 
     public override void FrameUpdate(FrameEventArgs args)
@@ -232,6 +244,7 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         {
             ArenaMode.Deathmatch => Loc.GetString("arena-mode-deathmatch"),
             ArenaMode.TDM => Loc.GetString("arena-mode-tdm"),
+            ArenaMode.Paintball => Loc.GetString("arena-mode-paintball"),
             _ => "Unknown"
         };
         var statePrefix = _roundState switch
@@ -240,17 +253,21 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
             ArenaRoundState.Preparation => $"[{Loc.GetString("arena-state-preparation")}] ",
             _ => ""
         };
-        var score = _mode == ArenaMode.TDM
-            ? $" | Синие: {_blueKills} | Красные: {_redKills}"
-            : "";
+        var score = _mode switch
+        {
+            ArenaMode.TDM => $" | Синие: {_blueKills} | Красные: {_redKills}",
+            ArenaMode.Paintball => $" | [color={_blueColor.ToHex()}]\u2588[/color]: {_blueKills} | [color={_redColor.ToHex()}]\u2588[/color]: {_redKills}",
+            _ => ""
+        };
         var minutes = (int)remaining / 60;
         var seconds = (int)remaining % 60;
-        return $"{statePrefix}{modeName}{score} | {minutes:D2}:{seconds:D2}";
+        return $"[color=#ffffff]{statePrefix}{modeName}{score} | {minutes:D2}:{seconds:D2}[/color]";
     }
 
     private void UpdateVotePanel()
     {
-        if (_votePanel == null || _voteDmButton == null || _voteTdmButton == null || _voteStateLabel == null)
+        if (_votePanel == null || _voteDmButton == null || _voteTdmButton == null ||
+            _votePaintballButton == null || _voteStateLabel == null)
             return;
         if (!IsPlayerOnArena() || _timeRemaining < 0f || _roundState != ArenaRoundState.Intermission)
         {
@@ -260,9 +277,10 @@ public sealed class ArenaUIController : UIController, IOnStateEntered<GameplaySt
         _votePanel.Visible = true;
         _voteDmButton.Visible = _availableModes.Contains(ArenaMode.Deathmatch);
         _voteTdmButton.Visible = _availableModes.Contains(ArenaMode.TDM);
-        var totalVotes = _lastDmVotes + _lastTdmVotes;
+        _votePaintballButton.Visible = _availableModes.Contains(ArenaMode.Paintball);
+        var totalVotes = _lastDmVotes + _lastTdmVotes + _lastPaintballVotes;
         _voteStateLabel.Text = totalVotes > 0
-            ? $"Deathmatch: {_lastDmVotes} | TDM: {_lastTdmVotes}"
+            ? $"Deathmatch: {_lastDmVotes} | TDM: {_lastTdmVotes} | Paintball: {_lastPaintballVotes}"
             : "Нажмите на кнопку, чтобы проголосовать";
     }
 }

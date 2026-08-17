@@ -16,7 +16,7 @@ public sealed class ArenaSetModeCommand : LocalizedCommands
     {
         if (args.Length < 1)
         {
-            shell.WriteLine("Usage: arenasetmode <deathmatch|tdm>");
+            shell.WriteLine("Usage: arenasetmode <deathmatch|tdm|paintball>");
             return;
         }
         var arenaSystem = EntitySystem.Get<ArenaSystem>();
@@ -35,8 +35,11 @@ public sealed class ArenaSetModeCommand : LocalizedCommands
             case "tdm":
                 mode = ArenaMode.TDM;
                 break;
+            case "paintball":
+                mode = ArenaMode.Paintball;
+                break;
             default:
-                shell.WriteLine("Unknown mode. Use: deathmatch, tdm");
+                shell.WriteLine("Unknown mode. Use: deathmatch, tdm, paintball");
                 return;
         }
         arenaSystem.NextMode = mode;

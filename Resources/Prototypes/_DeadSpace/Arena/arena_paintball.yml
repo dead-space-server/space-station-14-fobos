@@ -1,0 +1,422 @@
+# == Арена: Пеинтболл. ==
+# Победа — по количеству закрашенных тайлов пола на конец раунда (10 минут).
+# Пули красят пол шлейфом вдоль траектории, гранаты — кругом. Цвет берётся от стрелка.
+# Патроны — в обычных магазинах: вставил магазин — стреляй, закончился — смени.
+
+# Декаль краски: сплошная заливка тайла, окрашиваемая в цвет команды.
+- type: decal
+  id: PaintballSplat
+  defaultCustomColor: true
+  sprite:
+    sprite: _Mono/Decals/overlays_shiptest.rsi
+    state: mono
+
+# == Пули ==
+# trailWidth — ширина шлейфа (радиус вокруг линии полёта), impactRadius — пятно в точке попадания.
+
+# Винтовка: тонкий шлейф в 1 тайл, небольшое пятно на попадании.
+- type: entity
+  parent: BulletTrace
+  id: PaintballBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Tag
+    tags: [ PaintballAmmo ]
+  - type: PaintballProjectile
+    trailWidth: 0.35
+    impactRadius: 0.5
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Blunt: 12
+
+# Автомат: только тонкий шлейф в 1 тайл, без пятна взрыва.
+- type: entity
+  parent: BulletTrace
+  id: PaintballBulletSMG
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Tag
+    tags: [ PaintballAmmo ]
+  - type: PaintballProjectile
+    trailWidth: 0.35
+    impactRadius: 0
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Blunt: 8
+
+# Снайперская винтовка: шлейф чуть шире и больше урона.
+- type: entity
+  parent: BulletTrace
+  id: PaintballBulletSniper
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Tag
+    tags: [ PaintballAmmo ]
+  - type: HitscanBasicRaycast
+    collisionMask: BulletImpassable
+    maxDistance: 80
+  - type: PaintballProjectile
+    trailWidth: 0.55
+    impactRadius: 0.5
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Blunt: 30
+
+# == Магазины ==
+
+- type: entity
+  parent: BaseMagazineRifle
+  id: MagazinePaintballRifle
+  name: paintball rifle magazine
+  description: A 60-round magazine of paint rifle cartridges.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Tag
+    tags: [ MagazinePaintballRifle ]
+  - type: BallisticAmmoProvider
+    proto: PaintballBullet
+    whitelist:
+      tags: [ PaintballAmmo ]
+    capacity: 60
+
+- type: entity
+  parent: BaseMagazinePistolSubMachineGun
+  id: MagazinePaintballSMG
+  name: paintball SMG magazine
+  description: A small 30-round magazine of paint SMG cartridges. Make them count.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Tag
+    tags: [ MagazinePaintballSMG ]
+  - type: BallisticAmmoProvider
+    proto: PaintballBulletSMG
+    whitelist:
+      tags: [ PaintballAmmo ]
+    capacity: 30
+
+- type: entity
+  parent: MagazineRifle
+  id: MagazinePaintballSniper
+  name: paintball sniper magazine
+  description: A slim 10-round magazine of heavy paint sniper slugs.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Tag
+    tags: [ MagazinePaintballSniper ]
+  - type: BallisticAmmoProvider
+    proto: PaintballBulletSniper
+    whitelist:
+      tags: [ PaintballAmmo ]
+    capacity: 10
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Magazine/magazine_heavy_sniper.rsi
+    layers:
+    - state: base
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+# == Оружие ==
+# Обычные магазинные винтовки: магазин вставляется в слот gun_magazine.
+
+- type: entity
+  parent: WeaponRifleLecter
+  id: WeaponPaintballRifle
+  name: paintball rifle
+  description: A combat rifle modified to fire paint cartridges. Leaves a trail of paint.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazinePaintballRifle
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazinePaintballRifle
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: PaintballBullet
+        priority: 1
+        whitelist:
+          tags:
+            - PaintballAmmo
+  - type: Gun
+    fireRate: 4
+    selectedMode: FullAuto
+    availableModes: [ FullAuto ]
+  - type: ChamberMagazineAmmoProvider
+    boltClosed: true
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+
+- type: entity
+  parent: WeaponSubMachineGunDrozd
+  id: WeaponPaintballSMG
+  name: paintball SMG
+  description: A rapid-fire SMG spraying a one-tile-wide trail of paint. Few rounds — make them count.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazinePaintballSMG
+        insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazinePaintballSMG
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: PaintballBulletSMG
+        priority: 1
+        whitelist:
+          tags:
+            - PaintballAmmo
+  - type: Gun
+    fireRate: 7.5
+    selectedMode: FullAuto
+    availableModes: [ FullAuto ]
+  - type: ChamberMagazineAmmoProvider
+    boltClosed: true
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+
+- type: entity
+  parent: WeaponSniperHristov
+  id: WeaponPaintballSniper
+  name: paintball sniper
+  description: A long-range sniper rifle firing a single heavy precision paint slug.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazinePaintballSniper
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazinePaintballSniper
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: PaintballBulletSniper
+        priority: 1
+        whitelist:
+          tags:
+            - PaintballAmmo
+  - type: Gun
+    fireRate: 0.6
+    selectedMode: SemiAuto
+    availableModes: [ SemiAuto ]
+  - type: ChamberMagazineAmmoProvider
+    boltClosed: true
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+
+# == Граната ==
+# Взводится кликом в руке или автоматически при броске, детонирует через 3 секунды.
+
+- type: entity
+  parent: TimerGrenadeBase
+  id: GrenadePaintball
+  name: paintball grenade
+  description: A burst grenade that showers the floor with paint. Throwing it starts the fuse.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TriggerOnThrown
+  - type: PaintballGrenade
+    paintRadius: 4
+    damageRadius: 3
+    damage:
+      types:
+        Blunt: 25
+
+# == Пресеты команд ==
+
+# Винтовка
+- type: arenaLoadoutPreset
+  id: ArenaPaintballRifleBlue
+  nameLoc: arena-paintball-preset-rifle
+  descLoc: arena-paintball-desc-rifle
+  iconPrototype: WeaponPaintballRifle
+  category: arena-category-team-blue
+  mode: Paintball
+  team: Blue
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: GrenadePaintball
+  storage:
+    back:
+      - MagazinePaintballRifle
+      - MagazinePaintballRifle
+      - MedkitCombatFilled
+    belt:
+      - MagazinePaintballRifle
+      - GrenadePaintball
+  inhand:
+    - WeaponPaintballRifle
+
+- type: arenaLoadoutPreset
+  id: ArenaPaintballRifleRed
+  nameLoc: arena-paintball-preset-rifle
+  descLoc: arena-paintball-desc-rifle
+  iconPrototype: WeaponPaintballRifle
+  category: arena-category-team-red
+  mode: Paintball
+  team: Red
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: GrenadePaintball
+  storage:
+    back:
+      - MagazinePaintballRifle
+      - MagazinePaintballRifle
+      - MedkitCombatFilled
+    belt:
+      - MagazinePaintballRifle
+      - GrenadePaintball
+  inhand:
+    - WeaponPaintballRifle
+
+# Автомат (патронов мало!)
+- type: arenaLoadoutPreset
+  id: ArenaPaintballSMGBlue
+  nameLoc: arena-paintball-preset-smg
+  descLoc: arena-paintball-desc-smg
+  iconPrototype: WeaponPaintballSMG
+  category: arena-category-team-blue
+  mode: Paintball
+  team: Blue
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: GrenadePaintball
+  storage:
+    back:
+      - MagazinePaintballSMG
+      - MedkitCombatFilled
+    belt:
+      - MagazinePaintballSMG
+      - GrenadePaintball
+  inhand:
+    - WeaponPaintballSMG
+
+- type: arenaLoadoutPreset
+  id: ArenaPaintballSMGRed
+  nameLoc: arena-paintball-preset-smg
+  descLoc: arena-paintball-desc-smg
+  iconPrototype: WeaponPaintballSMG
+  category: arena-category-team-red
+  mode: Paintball
+  team: Red
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: GrenadePaintball
+  storage:
+    back:
+      - MagazinePaintballSMG
+      - MedkitCombatFilled
+    belt:
+      - MagazinePaintballSMG
+      - GrenadePaintball
+  inhand:
+    - WeaponPaintballSMG
+
+# Гранаты
+- type: arenaLoadoutPreset
+  id: ArenaPaintballGrenadeBlue
+  nameLoc: arena-paintball-preset-grenade
+  descLoc: arena-paintball-desc-grenade
+  iconPrototype: GrenadePaintball
+  category: arena-category-team-blue
+  mode: Paintball
+  team: Blue
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: GrenadePaintball
+  storage:
+    back:
+      - MedkitCombatFilled
+      - GrenadePaintball
+      - GrenadePaintball
+      - GrenadePaintball
+    belt:
+      - GrenadePaintball
+      - GrenadePaintball
+  inhand:
+    - GrenadePaintball
+
+- type: arenaLoadoutPreset
+  id: ArenaPaintballGrenadeRed
+  nameLoc: arena-paintball-preset-grenade
+  descLoc: arena-paintball-desc-grenade
+  iconPrototype: GrenadePaintball
+  category: arena-category-team-red
+  mode: Paintball
+  team: Red
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSuitCheckered
+    outerClothing: ClothingOuterArmorBasic
+    head: ClothingHeadHelmetBasic
+    shoes: ClothingShoesBootsCombatFilled
+    back: ClothingBackpack
+    belt: ClothingBeltSalvageWebbing
+    pocket1: GrenadePaintball
+  storage:
+    back:
+      - MedkitCombatFilled
+      - GrenadePaintball
+      - GrenadePaintball
+      - GrenadePaintball
+    belt:
+      - GrenadePaintball
+      - GrenadePaintball
+  inhand:
+    - GrenadePaintball

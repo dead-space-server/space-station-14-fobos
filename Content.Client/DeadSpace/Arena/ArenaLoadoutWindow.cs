@@ -415,7 +415,9 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
 
         foreach (var (category, options) in categories)
         {
-            var header = new Label
+            // RichTextLabel — чтобы заголовки категорий с разметкой
+            // (цветной блок █ в пеинтболле) отображались цветом.
+            var header = new RichTextLabel
             {
                 Text = category,
                 Margin = new Thickness(4, 6, 0, 2),
