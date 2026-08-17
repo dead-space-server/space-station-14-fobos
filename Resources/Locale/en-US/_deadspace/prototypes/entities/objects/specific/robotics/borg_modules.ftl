@@ -2,4 +2,4 @@ ent-BorgModuleMiningWeapon = оружейный утилизаторский м�
     .desc = { ent-BaseBorgModuleCargo.desc }
 
 borg-slot-amejarfuel-empty = AME fuel jar slot
-borg-slot-plasmatankfuel-empty = plasma tank slot
+borg-slot-gastankfuel-empty = tanks slot

@@ -56,6 +56,9 @@
   - type: EmitSoundOnLand
     sound:
       path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  - type: Tag
+    tags:
+    - GasTank
   #DS14-End
 
 - type: entity
@@ -289,6 +292,3 @@
     slots:
     - Belt
     - suitStorage
-  - type: Tag #DS14
-    tags:
-    - PlasmaTank
