@@ -348,9 +348,6 @@
   id: Plasteel
 
 - type: Tag
-  id: PlasmaTank
-
-- type: Tag
   id: Radiance
 
 - type: Tag
