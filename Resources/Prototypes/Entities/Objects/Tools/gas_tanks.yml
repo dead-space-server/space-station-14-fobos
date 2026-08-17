@@ -289,3 +289,6 @@
     slots:
     - Belt
     - suitStorage
+  - type: Tag #DS14
+    tags:
+    - PlasmaTank
