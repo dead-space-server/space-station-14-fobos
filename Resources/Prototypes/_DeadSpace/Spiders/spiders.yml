@@ -122,6 +122,7 @@
   - type: Bloodstream
     bloodlossThreshold: 0.4
   - type: PassiveDamage
+    intervalHaltOnDamageTaken: 5s
     allowedStates:
     - Alive
     - Critical
@@ -814,6 +815,7 @@
   - type: NeededBloodForAutoInject
     cost: 20 # Цена крови за действие
   - type: PassiveDamage
+    intervalHaltOnDamageTaken: 5s
     allowedStates:
     - Alive
     - Critical

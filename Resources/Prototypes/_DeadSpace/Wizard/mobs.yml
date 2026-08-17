@@ -58,6 +58,7 @@
       Alive:
       - ActionHellspawnFireSpawn
   - type: PassiveDamage
+    intervalHaltOnDamageTaken: 5s
     allowedStates:
     - Alive
     damageCap: 0

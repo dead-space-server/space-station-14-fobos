@@ -14,6 +14,7 @@
     baseWalkSpeed: 5
     baseSprintSpeed: 5
   - type: PassiveDamage
+    intervalHaltOnDamageTaken: 5s
     allowedStates:
     - Alive
     - Critical

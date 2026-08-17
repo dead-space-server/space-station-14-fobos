@@ -328,6 +328,7 @@
     unlockLanguagesAfterMakeSentient:
     - GeneralLanguage
   - type: PassiveDamage
+    intervalHaltOnDamageTaken: 5s
     allowedStates:
     - Alive
     - Critical
