@@ -1,5 +1,5 @@
 using Content.Server.Objectives.Systems;
-using Content.Shared.DeadSpace.Ninja.Systems; //DS-14
+using Content.Shared.Ninja.Systems;
 
 namespace Content.Server.Objectives.Components;
 

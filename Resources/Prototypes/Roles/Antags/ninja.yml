@@ -23,6 +23,8 @@
     pocket1: SpiderCharge
     pocket2: PinpointerStation
     belt: ClothingBeltNinjaSheath #DS14
+  inhand:
+    - JetpackBlackFilled
   storage:
     back: # belt holds katana so satchel has the tools for sabotaging things
     - Crowbar

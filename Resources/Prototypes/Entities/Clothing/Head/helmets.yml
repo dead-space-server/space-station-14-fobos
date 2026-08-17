@@ -225,9 +225,6 @@
       - state: equipped-HELMET-reptilian
       - state: equipped-head-unshaded-reptilian
         shader: unshaded
-  - type: ChameleonClothing
-    slot: head
-    default: ClothingHeadHelmetSpaceNinja
 #DS14-end
   - type: Tag
     tags:

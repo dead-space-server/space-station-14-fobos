@@ -13,7 +13,6 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.DeadSpace.Medical;
 using System.Text;
 using Content.Shared.Damage.Prototypes;
-using Content.Shared.DeadSpace.Ninja.Components;
 // DS14-end
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Damage.Components;
@@ -107,7 +106,7 @@ public sealed class HealthAnalyzerSystem : EntitySystem
     /// </summary>
     private void OnAfterInteract(Entity<HealthAnalyzerComponent> uid, ref AfterInteractEvent args)
     {
-        if (args.Target == null || !args.CanReach || !HasComp<MobStateComponent>(args.Target) || HasComp<SelfHealthAnalyzerComponent>(uid.Owner) || !_cell.HasDrawCharge(uid.Owner, user: args.User)) //DS14
+        if (args.Target == null || !args.CanReach || !HasComp<MobStateComponent>(args.Target) || !_cell.HasDrawCharge(uid.Owner, user: args.User))
             return;
 
         _audio.PlayPvs(uid.Comp.ScanningBeginSound, uid);

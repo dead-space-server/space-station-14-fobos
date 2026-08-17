@@ -12,11 +12,7 @@
     useDelay: 120
     checkCanInteract: false
   - type: InstantAction
-    event: !type:UseInjectReagentsActionEvent
-  - type: InjectReagentsAction
-    popup: adrenal-implant-activated
-    reagents:
-      Stimulants: 30
+    event: !type:UseInjectReagentsImplantEvent
 
 - type: entity
   parent: BaseAction

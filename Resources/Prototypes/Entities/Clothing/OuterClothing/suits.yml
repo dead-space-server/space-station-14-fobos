@@ -117,7 +117,7 @@
   - type: IgnoreContactDamage #DS14
 
 - type: entity
-  parent: [ClothingOuterBaseLarge, GeigerCounterClothing, AllowSuitStorageClothing] #DS14
+  parent: [ClothingOuterBaseLarge, GeigerCounterClothing, AllowSuitStorageClothing]
   id: ClothingOuterSuitRad
   name: radiation suit
   description: "A suit that protects against radiation. The label reads, 'Made with lead. Please do not consume insulation.'"
@@ -145,7 +145,7 @@
     - Tail
 
 - type: entity
-  parent: [ClothingOuterBaseLarge, AllowSuitStorageClothing, BaseHighlyIllegalContraband]
+  parent: [ClothingOuterBaseLarge, AllowSuitStorageClothing, BaseToggleClothing, BaseHighlyIllegalContraband]
   id: ClothingOuterSuitSpaceNinja
   name: space ninja suit
   description: This black technologically advanced, cybernetically-enhanced suit provides many abilities like invisibility or teleportation.
@@ -171,55 +171,30 @@
   - type: StaminaResistance #DS14
     damageCoefficient: 0.5
   # phase cloak
-  - type: NinjaCloak #DS14
-  - type: Appearance #DS14
+  - type: ToggleClothing
+    action: ActionTogglePhaseCloak
+    disableOnUnequip: true
+  - type: ComponentToggler
+    parent: true
+    components:
+    - type: Stealth
+      minVisibility: 0.1
+      lastVisibility: 0.1
+  - type: PowerCellDraw
+    drawRate: 3.6 # 100 seconds on the default cell
+  - type: ToggleCellDraw
+  # throwing star ability
+  - type: ItemCreator
+    action: ActionCreateThrowingStar
+    charge: 14.4
+    spawnedPrototype: ThrowingStarNinja
+    noPowerPopup: ninja-no-power
   # core ninja suit stuff
   - type: NinjaSuit
-  #DS14 start
-  - type: UserInterface
-    interfaces: 
-      enum.SpiderOSUiKey.Key:
-        type: SpiderOSWindowBoundUserInterface
-      enum.HealthAnalyzerUiKey.Key:
-        type: HealthAnalyzerBoundUserInterface
-      enum.NinjaScannerUiKey.Key:
-        type: NinjaScannerBoundUserInterface
-  - type: SelfHealthAnalyzer
-  - type: HealthAnalyzer
-  - type: AutoDust
-  - type: NinjaSmokeAbility
-    spreadAmount: 10
-    spreadAmountAutoMode: 5
-  - type: NinjaEmpAbility
-  - type: NinjaSuitActions
-    actions: 
-    - ToggleNinjaShurikenAbility
-    - ToggleNinjaJohyoAbility
-    - ActionNinjaAdrenal
-    - ActionNinjaHealingCocktail
-  - type: NinjaSuitRefill
-    actionMaterials:
-      ActionNinjaHealingCocktail:
-        stack: ClearBluspaceCrystal
-        amount: 10
-      ActionNinjaAdrenal:
-        stack: Uranium
-        amount: 10
-  - type: Jetpack
-    requiresGas: false
-    toggleAction: NinjaActionToggleJetpack
-  - type: NinjaSuitHeat
-    maxHeat: 100
-    heatRate: 5
-    coolRate: 10
-    effectsThreshold: 50 
-  - type: NinjaScanner
-  - type: ChameleonClothing
-    slot: outerclothing
-    default: ClothingOuterSuitSpaceNinja
-  #DS14 end
   - type: EmpResistance
     strengthMultiplier: 0
+  - type: UseDelay
+    delay: 5 # disable time
   - type: PowerCellSlot
     cellSlotId: cell_slot
     # throwing in a recharger would bypass glove charging mechanic

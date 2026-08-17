@@ -186,8 +186,6 @@
     - 0,0,0,3
   - type: EnergyKatana
   - type: DashAbility
-    corruptByBluespaceItems: true #DS14
-    beamProto: NinjaBeam #DS14
   - type: LimitedCharges
     maxCharges: 3
   - type: AutoRecharge

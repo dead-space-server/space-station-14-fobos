@@ -1,4 +1,4 @@
-using Content.Server.DeadSpace.Ninja.Systems; //DS-14
+using Content.Server.Ninja.Systems;
 using Content.Server.Objectives.Systems;
 using Content.Shared.Whitelist;
 

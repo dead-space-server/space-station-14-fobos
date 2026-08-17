@@ -18,9 +18,9 @@
   - type: Action
     useDelay: 0.5
     icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: shuriken
-    itemIconStyle: BigAction
+      sprite: Objects/Weapons/Throwable/throwing_star.rsi
+      state: icon
+    itemIconStyle: NoItem
     priority: -10
   - type: InstantAction
     event: !type:CreateItemEvent {}
@@ -49,12 +49,25 @@
   components:
   - type: Action
     icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi #DS14
-      state: emp #DS14
+      sprite: Objects/Weapons/Grenades/empgrenade.rsi
+      state: icon
     itemIconStyle: BigAction
     priority: -13
   - type: InstantAction
     event: !type:NinjaEmpEvent {}
+
+- type: entity
+  parent: BaseAction
+  id: ActionTogglePhaseCloak
+  name: Phase cloak
+  description: Toggles your suit's phase cloak. Beware that if you are hit, all abilities are disabled for 5 seconds, including your cloak!
+  components:
+  - type: Action
+    # have to plan (un)cloaking ahead of time
+    useDelay: 5
+    priority: -9
+  - type: InstantAction
+    event: !type:ToggleActionEvent
 
 # katana
 - type: entity
@@ -78,228 +91,3 @@
     range: 0
   - type: WorldTargetAction
     event: !type:DashEvent
-
-#DS-14 Start
-- type: entity
-  id: SpiderOSAction
-  name: Spider OS
-  description: Операционная система вашего костюма, позволяющая менять некоторые его свойства.
-  components:
-  - type: Action
-    itemIconStyle: BigAction
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: spider
-    priority: -10
-  - type: InstantAction
-    event: !type:OpenSpiderOSEvent
-
-- type: entity
-  id: SelfAnalyzeAction
-  name: анализатор здоровья
-  description: Позволяет быстро и точно просканировать своего владельца, для выявления проблем со здоровьем.
-  components:
-  - type: Action
-    itemIconStyle: BigAction
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: healthstatus
-    priority: -10
-  - type: InstantAction
-    event: !type:SelfAnalyzeActionEvent
-  
-- type: entity
-  id: ToggleAutoDustModeAction
-  name: Auto-Dust
-  description: Преключает режим программы Auto-Dust.
-  components:
-  - type: Action
-    useDelay: 1
-    itemIconStyle: BigAction
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: dust
-    priority: -10
-  - type: InstantAction
-    event: !type:ToggleAutoDustModeActionEvent
-
-- type: entity
-  parent: BaseAction
-  id: NinjaActionToggleJetpack
-  name: переключить встроенный джетпак
-  description: переключить джетпак в костюме, дающий дополнительную мобильность вне станции.
-  components:
-  - type: Action
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: jetpack-off
-    iconOn:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: jetpack-on
-    useDelay: 1.0
-    itemIconStyle: BigAction
-  - type: InstantAction
-    event: !type:ToggleJetpackEvent
-
-- type: entity
-  parent: BaseAction
-  id: NinjaActionToggleCloak
-  name: фазовый покров
-  description: переключить джетпак в костюме, дающий дополнительную мобильность вне станции.
-  components:
-  - type: Action
-    raiseOnUser: true
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: cloak
-    useDelay: 10
-    itemIconStyle: BigAction
-  - type: InstantAction
-    event: !type:ToggleCloakNinjaEvent
-
-- type: entity  
-  id: NinjaSmokeAction
-  name: дымовая завеса
-  description: Создает объемную дымовую завесу, которая может помочь сбежать. Ну или напасть..
-  components:
-  - type: Action
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: smoke
-    useDelay: 3.0
-    itemIconStyle: BigAction
-  - type: InstantAction
-    event: !type:NinjaSmokeAbilityActionEvent
-
-- type: entity
-  parent: BaseAction
-  id: ToggleNinjaAutoSmokeAction
-  name: автоматический режим дымовой завесы.
-  description: Позволяет автоматически создавать дымовую завесу при использовании некоторых других способностей в ослабленном виде и за уменьшенную цену.
-  components:
-  - type: Action
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: smokeauto-off
-    iconOn:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: smokeauto-on
-    useDelay: 1.0
-    itemIconStyle: BigAction
-  - type: InstantAction
-    event: !type:NinjaToggleAutoSmokeActionEvent
-
-- type: entity
-  parent: BaseAction
-  id: ToggleNinjaShurikenAbility
-  name: сюрикены.
-  description: Позволяет автоматически создавать дымовую завесу при использовании некоторых других способностей в ослабленном виде и за уменьшенную цену.
-  components:
-  - type: Action
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: shuriken
-    useDelay: 1.0
-    itemIconStyle: BigAction
-    raiseOnAction: true
-  - type: InstantAction
-    event: !type:OnRetractableItemActionEvent
-  - type: RetractableItemAction
-    spawnedPrototype: WeaponNinjaShuriken
-
-- type: entity
-  parent: BaseAction
-  id: ToggleNinjaJohyoAbility
-  name: Энергетическое джохьё
-  description: Дает вам кунай с цепью, который позволяет притянуть жертву к себе. Притянутая жертва при этом оглушается на небольшое время
-  components:
-  - type: Action
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: kunai
-    useDelay: 1.0
-    itemIconStyle: BigAction
-    raiseOnAction: true
-  - type: InstantAction
-    event: !type:OnRetractableItemActionEvent
-  - type: RetractableItemAction
-    spawnedPrototype: NinjaJohyo
-
-- type: entity
-  id: ActionNinjaScan
-  parent: BaseAction
-  name: маскировка
-  description: Сканирует цель для маскировки
-  components:
-  - type: Action
-    useDelay: 10
-    itemIconStyle: BigAction
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: scanner
-  - type: TargetAction
-  - type: EntityTargetAction
-    canTargetSelf: false
-    event: !type:NinjaScanActionEvent
-
-- type: entity
-  id: ActionNinjaOpenScanner
-  parent: BaseAction
-  name: открыть сканер
-  description: Открывает сканер для маскировки
-  components:
-  - type: Action
-    itemIconStyle: BigAction
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: scanner
-  - type: InstantAction
-    event: !type:NinjaOpenScannerActionEvent
-
-- type: entity
-  parent: BaseAction
-  id: ActionNinjaAdrenal
-  name: всплеск адреналина
-  description: Пускает по вене особый реагент, который поможет удрать из любой ситуации. Есть побочные эффекты.
-  components:
-  - type: Action
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: adrenal
-    useDelay: 120
-    itemIconStyle: BigAction
-    raiseOnAction: true
-  - type: InstantAction
-    event: !type:UseInjectReagentsActionEvent
-  - type: InjectReagentsAction
-    injectSound: /Audio/Items/hypospray.ogg
-    popup: ninja-inject-adrenal
-    reagents: 
-      Velaxin: 15
-      Radium: 2.5
-  - type: LimitedCharges
-    maxCharges: 3
-
-- type: entity
-  parent: BaseAction
-  id: ActionNinjaHealingCocktail
-  name: исцеляющий коктейль
-  description: Вводит вам в организм химикат "Чиюризин". Мощный, экспериментальный лечащий реагент который способен даже отрастить обратно потерянные конечности и залечить кости и органы.
-  components:
-  - type: Action
-    icon:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: cheminjector
-    useDelay: 60
-    itemIconStyle: BigAction
-    raiseOnAction: true
-  - type: InstantAction
-    event: !type:UseInjectReagentsActionEvent
-  - type: InjectReagentsAction
-    injectSound: /Audio/Items/hypospray.ogg
-    popup: ninja-inject-healing-cocktail
-    reagents: 
-      Chiyurizine: 10
-  - type: LimitedCharges
-    maxCharges: 3
-#DS-14 End

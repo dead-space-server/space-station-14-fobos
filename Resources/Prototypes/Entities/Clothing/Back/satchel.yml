@@ -209,13 +209,6 @@
     - 0,0,19,9
   - type: ExplosionResistance # DS14
     damageCoefficient: 0.1
-  #DS14-start
-  - type: Tag
-    tags:
-    - WhitelistChameleon
-    - Backpack
-    - CorruptTeleportItem
-  #DS14-end
 
 - type: entity
   parent: ClothingBackpackSatchelHolding

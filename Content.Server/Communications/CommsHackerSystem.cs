@@ -1,6 +1,6 @@
 using Content.Server.Chat.Systems;
 using Content.Server.GameTicking;
-using Content.Server.DeadSpace.Ninja.Systems; //DS-14
+using Content.Server.Ninja.Systems;
 using Content.Shared.Communications;
 using Content.Shared.DoAfter;
 using Content.Shared.Interaction;
