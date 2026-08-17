@@ -77,19 +77,20 @@
 
 - type: entity
   parent: BaseWeaponRifle
-  id: WeaponRifleXC67
-  name: штурмовая винтовка xC-67
-  description: Прототип новой штурмовой винтовки от создателей знаменитой С-20r. Использует патрон 5.56х45 мм. Усовершенствованная эргономика позволяет достичь превосходных показателей точности стрельбы.
+  id: WeaponRifleHK416
+  name: HK416
+  description: Надёжный автомат, адаптированный под модульную систему AR-15, созданный фирмой Heckler & Koch.
+  suffix: Автомат
   components:
   - type: Sprite
-    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/hk416.rsi
     layers:
       - state: base
         map: ["enum.GunVisualLayers.Base"]
       - state: mag-0
         map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
-    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/hk416.rsi
     quickEquip: false
     slots:
     - Back
@@ -105,7 +106,7 @@
     - SemiAuto
     - FullAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/ltrifle.ogg
+      path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/hk416.ogg
   - type: ItemSlots
     slots:
       gun_magazine:

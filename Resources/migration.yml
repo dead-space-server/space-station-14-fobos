@@ -714,8 +714,8 @@ ADTEclipsedEclispeGlass: null
 ADTSpaceBushGlass: null
 ADTAppleMartiniGlass: null
 ADTBacardiAppleGlass: null
-ADTClothingBackpackDuffelSyndicateFilledXC67Ammo: ClothingBackpackDuffelSyndicateFilledXC67Ammo
-ADTClothingBackpackDuffelSyndicateFilledXC67: ClothingBackpackDuffelSyndicateFilledXC67
+#ADTClothingBackpackDuffelSyndicateFilledXC67Ammo: ClothingBackpackDuffelSyndicateFilledXC67Ammo
+#ADTClothingBackpackDuffelSyndicateFilledXC67: ClothingBackpackDuffelSyndicateFilledXC67
 ClothingBackpackDuffelSyndicateFilledBuldogAmmoXL: ClothingBackpackDuffelSyndicateFilledBuldogAmmoXL
 ADTClothingBackpackDuffelSyndicateFilledBuldogAmmo: ClothingBackpackDuffelSyndicateFilledBuldogAmmo
 ADTClothingBackpackDuffelSyndicateFilledC20Ammo: ClothingBackpackDuffelSyndicateFilledC20Ammo
@@ -1117,7 +1117,7 @@ ToySkeleton: ToyFigurineSkeleton
 DrinkKiraSpecial: DrinkOrangeLimeSodaGlass
 
 # 2025-11-08
-ADTWeaponRifleXC67: WeaponRifleXC67
+#ADTWeaponRifleXC67: WeaponRifleXC67
 DebugSMES: SMESBasicEmpty
 DebugSubstation: SubstationBasicEmpty
 DebugSubstationWall: BaseSubstationWall
@@ -1308,3 +1308,9 @@ WeaponTurretLaserTaipan: WeaponEnergyTurretTaipanAI
 
 # 2026-08-10 - DS14
 WaterCooler: WaterCoolerTransfer
+
+# 2026-08-17 - DS14
+ADTWeaponRifleXC67: WeaponRifleHK416
+ADTClothingBackpackDuffelSyndicateFilledXC67Ammo: ClothingBackpackDuffelSyndicateFilledHK416Ammo
+ADTClothingBackpackDuffelSyndicateFilledXC67: ClothingBackpackDuffelSyndicateFilledHK416
+ClothingBackpackSatchelTaipanBundleХС67: ClothingBackpackSatchelTaipanBundleHK416

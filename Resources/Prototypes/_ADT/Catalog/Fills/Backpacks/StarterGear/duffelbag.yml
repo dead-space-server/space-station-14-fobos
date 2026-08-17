@@ -41,17 +41,17 @@
 
 - type: entity
   parent: ClothingBackpackDuffelSyndicateBundle
-  id: ClothingBackpackDuffelSyndicateFilledXC67
+  id: ClothingBackpackDuffelSyndicateFilledHK416
   components:
   - type: StorageFill
     contents:
-      - id: WeaponRifleXC67
+      - id: WeaponRifleHK416
       - id: ADTExtMagazineRifle
         amount: 2
 
 - type: entity
   parent: ClothingBackpackDuffelSyndicateAmmoBundle
-  id: ClothingBackpackDuffelSyndicateFilledXC67Ammo
+  id: ClothingBackpackDuffelSyndicateFilledHK416Ammo
   components:
   - type: StorageFill
     contents:

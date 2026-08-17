@@ -152,6 +152,7 @@
   id: WeaponDragonFoxBolter
   name: болтер
   description: Вид ствольного огнестрельного оружия, стреляющего саморазгоняющимися на траектории болтами. Ввиду политики NanoTrasen калибр был изменён на .45 магнум.
+  suffix: Адмемы
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/DragonFox/boltgun.rsi
