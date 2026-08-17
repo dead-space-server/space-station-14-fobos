@@ -1,7 +1,7 @@
 - type: entity
   parent: BaseItem
   id: BaseWeaponRevolver357
-  name: Питон .357
+  name: питон .357
   description: Робастный револьвер. Данный вариант использует патрон .357 магнум.
   abstract: true
   components:
@@ -55,7 +55,7 @@
 - type: entity
   parent: BaseWeaponRevolver357
   id: WeaponRevolverPython357
-  name: Питон .357
+  name: питон .357
   description: Робастный револьвер. Испольует патрон .357 магнум.
   components:
   - type: Sprite
