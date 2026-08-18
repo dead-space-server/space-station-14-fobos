@@ -198,9 +198,9 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
             _popup.PopupEntity("Разум цели защищён имплантом!", uid, uid, PopupType.Medium);
             return;
         }
-        if (_mobState.IsDead(target) || _mobState.IsCritical(target))
+        if (_mobState.IsDead(target))
         {
-            _popup.PopupEntity("Цель должна быть в сознании!", uid, uid, PopupType.Medium);
+            _popup.PopupEntity("Цель должна быть жива!", uid, uid, PopupType.Medium);
             return;
         }
         if (!HasComp<HumanoidAppearanceComponent>(target))
@@ -257,9 +257,9 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
             return;
         }
 
-        if (_mobState.IsDead(targetUid) || _mobState.IsCritical(targetUid))
+        if (_mobState.IsDead(targetUid))
         {
-            _popup.PopupEntity("Цель должна быть в сознании!", uid, uid, PopupType.Medium);
+            _popup.PopupEntity("Цель должна быть жива!", uid, uid, PopupType.Medium);
             return;
         }
 
