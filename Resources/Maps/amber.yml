@@ -12,6 +12,7 @@ grids:
 - 2
 - 21175
 orphans: []
+nullspace: []
 tilemap:
   46: Space
   68: FloorArcadeBlue2
