@@ -15,3 +15,19 @@ public sealed class RingerSetRingtoneMessage : BoundUserInterfaceMessage
         Ringtone = ringTone;
     }
 }
+
+// DS14-Start
+[Serializable, NetSerializable]
+public sealed class RingerSetMidiRingtoneMessage : BoundUserInterfaceMessage
+{
+    public byte[] MidiData { get; }
+
+    public RingerSetMidiRingtoneMessage(byte[] midiData)
+    {
+        MidiData = midiData;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class RingerResetMidiRingtoneMessage : BoundUserInterfaceMessage;
+// DS14-End

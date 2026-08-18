@@ -1,8 +1,8 @@
 <controls:FancyWindow xmlns="https://spacestation14.io"
                       xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
                       Title="{Loc 'comp-ringer-ui-menu-title'}"
-            MinSize="320 100"
-            SetSize="320 100">
+            MinSize="320 160"
+            SetSize="320 160">
         <BoxContainer Orientation="Vertical"
                     VerticalExpand="True"
                     HorizontalExpand="True"
@@ -90,5 +90,33 @@
                             StyleClasses="OpenLeft" />
                 </BoxContainer>
             </PanelContainer>
+            <!-- DS14-Start -->
+            <PanelContainer>
+                <BoxContainer Orientation="Horizontal"
+                            VerticalExpand="True"
+                            HorizontalExpand="True"
+                            HorizontalAlignment="Center"
+                            MinSize="200 30">
+                    <Button Name = "LoadMidiRingtoneButton"
+                            Access="Public"
+                            Text="{Loc 'comp-ringer-ui-load-midi-ringtone-button'}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            MinSize="160 30" />
+                    <Label Name = "MidiRingtoneStatus"
+                            Access="Public"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            MinSize="30 30"
+                            Text="" />
+                    <Button Name = "ResetMidiRingtoneButton"
+                            Access="Public"
+                            Text="{Loc 'comp-ringer-ui-reset-midi-ringtone-button'}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            MinSize="100 30" />
+                </BoxContainer>
+            </PanelContainer>
+            <!-- DS14-End -->
         </BoxContainer>
 </controls:FancyWindow>
