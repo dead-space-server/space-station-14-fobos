@@ -57,16 +57,22 @@ public sealed partial class PrisonPlanetPrototype : IPrototype
     public int ResidenceReservationSize = 112;
 
     [DataField]
+    public bool RandomizeResidencePositions;
+
+    [DataField]
+    public float ResidenceMinSeparation = 128f;
+
+    [DataField]
+    public int ResidencePlacementAttempts = 256;
+
+    [DataField]
+    public float ResidenceMapEdgePadding = 16f;
+
+    [DataField]
     public string ResidenceTile = "FloorSnowDug";
 
     [DataField]
-    public ResPath? ResidenceGridPath;
-
-    [DataField]
-    public Vector2 ResidenceGridOffset = Vector2.Zero;
-
-    [DataField]
-    public string? ResidenceGridName = "Prison Base";
+    public List<PrisonResidenceDefinition> Residences = new();
 
     [DataField]
     public bool FtlEnabled = true;
@@ -173,4 +179,23 @@ public sealed partial class PrisonFaunaSpawnEntry
 
     [DataField]
     public int SentenceReductionMinutes = 1;
+}
+
+[DataDefinition]
+public sealed partial class PrisonResidenceDefinition
+{
+    [DataField(required: true)]
+    public ResPath GridPath;
+
+    [DataField]
+    public Vector2 GridOffset;
+
+    [DataField]
+    public Vector2i ReservationSize;
+
+    [DataField]
+    public Vector2i ReservationOffset;
+
+    [DataField]
+    public string? GridName;
 }

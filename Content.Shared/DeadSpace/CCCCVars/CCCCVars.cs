@@ -134,6 +134,15 @@ public sealed class CCCCVars
     public static readonly CVarDef<int> PrisonMurderPenaltyMinutes =
         CVarDef.Create("prison.murder_penalty_minutes", 60, CVar.SERVERONLY);
 
+    public static readonly CVarDef<float> PrisonSentenceTimeMultiplier =
+        CVarDef.Create("prison.sentence_time_multiplier", 1.1f, CVar.SERVERONLY);
+
+    public static readonly CVarDef<int> PrisonCrossFactionKillRewardMinutes =
+        CVarDef.Create("prison.cross_faction_kill_reward_minutes", 2, CVar.SERVERONLY);
+
+    public static readonly CVarDef<int> PrisonFactionSelectionSeconds =
+        CVarDef.Create("prison.faction_selection_seconds", 20, CVar.SERVERONLY);
+
     /// <summary>
     /// Moves long-stuck dynamic physics bodies out of static hard overlaps.
     /// </summary>

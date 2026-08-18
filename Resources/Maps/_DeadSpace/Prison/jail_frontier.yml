@@ -5,7 +5,7 @@ meta:
   forkId: ""
   forkVersion: ""
   time: 07/30/2026 18:24:19
-  entityCount: 3034
+  entityCount: 3032
 maps: []
 grids:
 - 2
@@ -16082,18 +16082,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: 8.5,-25.5
       parent: 2
-- proto: PrisonOreProcessor
-  entities:
-  - uid: 2602
-    components:
-    - type: Transform
-      pos: 7.5,-19.5
-      parent: 2
-  - uid: 2604
-    components:
-    - type: Transform
-      pos: 8.5,-19.5
-      parent: 2
 - proto: Protolathe
   entities:
   - uid: 1224
@@ -17404,7 +17392,7 @@ entities:
     - type: Transform
       pos: -2.5,0.5
       parent: 2
-- proto: SpawnPointPrisonerSlag
+- proto: SpawnPointPrisonerFrontier
   entities:
   - uid: 1
     components:
