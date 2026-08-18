@@ -466,7 +466,7 @@
      - id: SoapOmega
      - id: MegaSprayBottleSpaceCleaner
        amount: 2
-     - id: LightReplacer
+     - id: LightReplacerFilled
      - id: WireBrush
      - id: BagOfSummoningGarbage
      - id: Holoprojector

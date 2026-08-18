@@ -1308,3 +1308,7 @@ WeaponTurretLaserTaipan: WeaponEnergyTurretTaipanAI
 
 # 2026-08-10 - DS14
 WaterCooler: WaterCoolerTransfer
+
+# 2026-08-18
+LightReplacer: LightReplacerFilled
+LightReplacerEmpty: LightReplacer # DS14: preserve empty replacers placed on fork maps

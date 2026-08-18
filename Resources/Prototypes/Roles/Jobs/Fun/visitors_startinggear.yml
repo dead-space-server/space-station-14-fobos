@@ -542,7 +542,7 @@
     back: ClothingBackpackEngineering
     ears: ClothingHeadsetEngineering
     eyes: ClothingEyesGlassesMeson
-    pocket1: LightReplacer
+    pocket1: LightReplacerFilled
     pocket2: Welder
     underwearb: ClothingUnderwearBottomBoxersTechnicalAssistant ## DS-14
     socks: ClothingUnderwearSocksTechnicalAssistant ## DS-14
