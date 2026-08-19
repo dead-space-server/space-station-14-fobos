@@ -1,7 +1,7 @@
-using Content.Shared.PipeShuttle;
+using Content.Shared.DeadSpace.PipeShuttle;
 using JetBrains.Annotations;
 
-namespace Content.Client.PipeShuttle.UI;
+namespace Content.Client.DeadSpace.PipeShuttle.UI;
 
 [UsedImplicitly]
 public sealed partial class PipeShuttleBoundUserInterface(EntityUid owner, Enum uiKey) : BoundUserInterface(owner, uiKey)

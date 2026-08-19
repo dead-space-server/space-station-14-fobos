@@ -1,6 +1,6 @@
 using Robust.Shared.Serialization;
 
-namespace Content.Shared.PipeShuttle;
+namespace Content.Shared.DeadSpace.PipeShuttle;
 
 [Serializable, NetSerializable]
 public enum PipeShuttleUiKey : byte

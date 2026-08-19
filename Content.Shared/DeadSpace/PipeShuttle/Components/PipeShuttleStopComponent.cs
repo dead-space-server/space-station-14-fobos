@@ -1,6 +1,6 @@
 using Robust.Shared.GameStates;
 
-namespace Content.Shared.PipeShuttle.Components;
+namespace Content.Shared.DeadSpace.PipeShuttle.Components;
 
 [RegisterComponent, NetworkedComponent]
 [AutoGenerateComponentState]

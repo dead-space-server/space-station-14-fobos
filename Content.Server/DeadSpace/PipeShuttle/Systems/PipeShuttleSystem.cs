@@ -1,6 +1,6 @@
 using Content.Server.Shuttles.Components;
-using Content.Shared.PipeShuttle;
-using Content.Shared.PipeShuttle.Components;
+using Content.Shared.DeadSpace.PipeShuttle;
+using Content.Shared.DeadSpace.PipeShuttle.Components;
 using Content.Shared.Popups;
 using Content.Shared.UserInterface;
 using Robust.Server.GameObjects;
@@ -10,7 +10,7 @@ using Robust.Shared.Physics.Systems;
 using Robust.Shared.Timing;
 using System.Numerics;
 
-namespace Content.Server.PipeShuttle.Systems;
+namespace Content.Server.DeadSpace.PipeShuttle.Systems;
 
 public sealed class PipeShuttleSystem : EntitySystem
 {

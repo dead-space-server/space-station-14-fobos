@@ -2,7 +2,7 @@ using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
 using System.Numerics;
 
-namespace Content.Shared.PipeShuttle.Components;
+namespace Content.Shared.DeadSpace.PipeShuttle.Components;
 
 [RegisterComponent, NetworkedComponent]
 [AutoGenerateComponentState]
