@@ -13,6 +13,7 @@ using Content.Shared.Humanoid;
 using Content.Shared.Mobs;
 using Robust.Shared.Audio;
 using Content.Server.Antag;
+using Content.Server.DeadSpace.Prison;
 using Content.Shared.Radio.Components;
 using Content.Server.DeadSpace.Components.NightVision;
 using Content.Server.DeadSpace.Races;
@@ -31,6 +32,7 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
     [Dependency] private readonly RoleSystem _role = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly PrisonSystem _prison = default!;
 
     private const string ShadowlingChannel = "Shadowling";
 
@@ -50,6 +52,7 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
         SubscribeLocalEvent<ShadowlingFreezingVeinsComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingBlackMedComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingAscendanceComponent, ComponentStartup>(OnAbilityStartup);
+        SubscribeLocalEvent<ShadowlingMindShieldBreakComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingRecruitComponent, ComponentStartup>(OnMasterStartup);
     }
 
@@ -271,6 +274,9 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
             return;
         }
 
+        if (_prison.IsEntityPrisoner(targetUid))
+            return;
+
         var slave = EnsureComp<ShadowlingSlaveComponent>(targetUid);
         slave.Master = uid;
         component.TotalRecruited++;
@@ -326,14 +332,21 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
         }
         component.CurrentSlaves = count;
 
-        if (count >= 15)
+        var ruleQuery = EntityQueryEnumerator<ShadowlingRuleComponent>();
+        var alertThreshold = 15;
+        while (ruleQuery.MoveNext(out var ruleComp))
         {
-            var ruleQuery = EntityQueryEnumerator<ShadowlingRuleComponent>();
-            while (ruleQuery.MoveNext(out var ruleComp))
+            alertThreshold = ruleComp.AlertThreshold;
+        }
+
+        if (count >= alertThreshold)
+        {
+            var alertRuleQuery = EntityQueryEnumerator<ShadowlingRuleComponent>();
+            while (alertRuleQuery.MoveNext(out var alertRuleComp))
             {
-                if (!ruleComp.AlertAnnounced)
+                if (!alertRuleComp.AlertAnnounced)
                 {
-                    ruleComp.AlertAnnounced = true;
+                    alertRuleComp.AlertAnnounced = true;
                     var message = Loc.GetString("shadowling-alert-announcement");
                     var sender = Loc.GetString("shadowling-alert-sender");
                     _chat.DispatchGlobalAnnouncement(message, sender,
@@ -399,6 +412,20 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
             {
                 _actions.RemoveAction(uid, med.ActionBlackMedEntity);
                 med.ActionBlackMedEntity = null;
+            }
+        }
+
+        if (TryComp<ShadowlingMindShieldBreakComponent>(uid, out var mindShieldBreak))
+        {
+            if (isAscended || count >= mindShieldBreak.RequiredSlaves)
+            {
+                if (mindShieldBreak.ActionMindShieldBreakEntity == null)
+                    _actions.AddAction(uid, ref mindShieldBreak.ActionMindShieldBreakEntity, mindShieldBreak.ActionMindShieldBreak);
+            }
+            else if (mindShieldBreak.ActionMindShieldBreakEntity != null)
+            {
+                _actions.RemoveAction(uid, mindShieldBreak.ActionMindShieldBreakEntity);
+                mindShieldBreak.ActionMindShieldBreakEntity = null;
             }
         }
     }

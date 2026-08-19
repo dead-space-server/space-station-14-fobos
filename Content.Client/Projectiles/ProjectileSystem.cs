@@ -6,7 +6,7 @@ using TimedDespawnComponent = Robust.Shared.Spawners.TimedDespawnComponent;
 
 namespace Content.Client.Projectiles;
 
-public sealed partial class ProjectileSystem : SharedProjectileSystem
+public sealed class ProjectileSystem : SharedProjectileSystem
 {
     [Dependency] private readonly AnimationPlayerSystem _player = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
@@ -15,15 +15,9 @@ public sealed partial class ProjectileSystem : SharedProjectileSystem
     {
         base.Initialize();
         SubscribeNetworkEvent<ImpactEffectEvent>(OnProjectileImpact);
-        InitializePrediction();
     }
 
     private void OnProjectileImpact(ImpactEffectEvent ev)
-    {
-        PlayImpact(ev);
-    }
-
-    private void PlayImpact(ImpactEffectEvent ev)
     {
         var coords = GetCoordinates(ev.Coordinates);
 
@@ -60,18 +54,5 @@ public sealed partial class ProjectileSystem : SharedProjectileSystem
 
             _player.Play(ent, anim, "impact-effect");
         }
-    }
-
-    internal void PlayPredictedImpact(EntityUid projectile)
-    {
-        if (!TryComp<ProjectileComponent>(projectile, out var component) ||
-            component.ImpactEffect == null)
-        {
-            return;
-        }
-
-        PlayImpact(new ImpactEffectEvent(
-            component.ImpactEffect,
-            GetNetCoordinates(Transform(projectile).Coordinates)));
     }
 }

@@ -9,34 +9,6 @@ namespace Content.Shared.DeadSpace.CCCCVars;
 // ReSharper disable once InconsistentNaming
 public sealed class CCCCVars
 {
-    /// <summary>
-    /// Predict hitscan traces for the shooter instead of waiting for the server visual event.
-    /// Damage and hit validation remain server authoritative.
-    /// </summary>
-    public static readonly CVarDef<bool> HitscanPredictionEnabled =
-        CVarDef.Create("weapons.hitscan_prediction", true, CVar.SERVER | CVar.REPLICATED);
-
-    /// <summary>
-    /// Predict physical projectile visuals for the shooter while keeping collision and damage server authoritative.
-    /// </summary>
-    public static readonly CVarDef<bool> ProjectilePredictionEnabled =
-        CVarDef.Create("weapons.projectile_prediction", true, CVar.SERVER | CVar.REPLICATED);
-
-    public static readonly CVarDef<bool> ProjectilePredictionPreventCollision =
-        CVarDef.Create("weapons.projectile_prediction_prevent_collision", false, CVar.SERVER | CVar.REPLICATED);
-
-    public static readonly CVarDef<bool> ProjectilePredictionLogHits =
-        CVarDef.Create("weapons.projectile_prediction_log_hits", false, CVar.SERVER | CVar.REPLICATED);
-
-    public static readonly CVarDef<float> ProjectilePredictionCoordinateDeviation =
-        CVarDef.Create("weapons.projectile_prediction_coordinate_deviation", 3f, CVar.SERVER | CVar.REPLICATED);
-
-    public static readonly CVarDef<float> ProjectilePredictionLowestCoordinateDeviation =
-        CVarDef.Create("weapons.projectile_prediction_lowest_coordinate_deviation", 3f, CVar.SERVER | CVar.REPLICATED);
-
-    public static readonly CVarDef<float> ProjectilePredictionAabbEnlargement =
-        CVarDef.Create("weapons.projectile_prediction_aabb_enlargement", 1.5f, CVar.SERVER | CVar.REPLICATED);
-
     /*
 	* GCF
 	*/
@@ -94,7 +66,7 @@ public sealed class CCCCVars
         CVarDef.Create("jukebox.volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
 
     public static readonly CVarDef<float> JukeboxAutoVolume =
-        CVarDef.Create("jukebox.auto_volume", 0.5f, CVar.CLIENTONLY | CVar.ARCHIVE);
+        CVarDef.Create("jukebox.auto_volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
 
     /*
      * Alert Level
@@ -151,6 +123,16 @@ public sealed class CCCCVars
     /// </summary>
     public static readonly CVarDef<bool> LavalandAutoGenerate =
         CVarDef.Create("lavaland.auto_generate", true, CVar.SERVERONLY);
+
+    /*
+    * Prison
+    */
+
+    public static readonly CVarDef<bool> PrisonEnabled =
+        CVarDef.Create("prison.enabled", false, CVar.SERVERONLY);
+
+    public static readonly CVarDef<int> PrisonMurderPenaltyMinutes =
+        CVarDef.Create("prison.murder_penalty_minutes", 60, CVar.SERVERONLY);
 
     /// <summary>
     /// Moves long-stuck dynamic physics bodies out of static hard overlaps.

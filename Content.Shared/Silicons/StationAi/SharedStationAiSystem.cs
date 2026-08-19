@@ -23,6 +23,7 @@ using Content.Shared.Power.EntitySystems;
 using Content.Shared.Repairable;
 using Content.Shared.StationAi;
 using Content.Shared.Verbs;
+using Content.Shared.Xenoborgs.Components; // DS14
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
@@ -95,6 +96,11 @@ public abstract partial class SharedStationAiSystem : EntitySystem
         SubscribeLocalEvent<StationAiOverlayComponent, AccessibleOverrideEvent>(OnAiAccessible);
         SubscribeLocalEvent<StationAiOverlayComponent, InRangeOverrideEvent>(OnAiInRange);
         SubscribeLocalEvent<StationAiOverlayComponent, MenuVisibilityEvent>(OnAiMenu);
+        // DS14-start
+        SubscribeLocalEvent<MothershipCoreComponent, AccessibleOverrideEvent>(OnMothershipAccessible);
+        SubscribeLocalEvent<MothershipCoreComponent, InRangeOverrideEvent>(OnMothershipInRange);
+        SubscribeLocalEvent<MothershipCoreComponent, MenuVisibilityEvent>(OnMothershipMenu);
+        // DS14-end
 
         SubscribeLocalEvent<StationAiHolderComponent, ComponentInit>(OnHolderInit);
         SubscribeLocalEvent<StationAiHolderComponent, ComponentRemove>(OnHolderRemove);
@@ -174,6 +180,45 @@ public abstract partial class SharedStationAiSystem : EntitySystem
         args.Visibility &= ~MenuVisibility.NoFov;
     }
 
+    // DS14-start
+    private void OnMothershipAccessible(Entity<MothershipCoreComponent> ent, ref AccessibleOverrideEvent args)
+    {
+        if (args.Accessible || args.User != ent.Owner)
+            return;
+
+        args.Handled = true;
+
+        if (!IsOnMothershipGrid(ent.Owner, args.Target) ||
+            _containers.TryGetContainingContainer(args.Target, out var targetContainer) ||
+            !_containers.IsInSameOrTransparentContainer(ent.Owner, args.Target, otherContainer: targetContainer))
+        {
+            return;
+        }
+
+        args.Accessible = true;
+    }
+
+    private void OnMothershipInRange(Entity<MothershipCoreComponent> ent, ref InRangeOverrideEvent args)
+    {
+        if (args.User != ent.Owner)
+            return;
+
+        args.Handled = true;
+        args.InRange = IsOnMothershipGrid(ent.Owner, args.Target);
+    }
+
+    private void OnMothershipMenu(Entity<MothershipCoreComponent> ent, ref MenuVisibilityEvent args)
+    {
+        args.Visibility &= ~MenuVisibility.NoFov;
+    }
+
+    private bool IsOnMothershipGrid(EntityUid core, EntityUid target)
+    {
+        var coreGrid = Transform(core).GridUid;
+        return coreGrid != null && Transform(target).GridUid == coreGrid;
+    }
+    // DS14-end
+
     private void OnAiBuiCheck(Entity<StationAiWhitelistComponent> ent, ref BoundUserInterfaceCheckRangeEvent args)
     {
         if (!HasComp<StationAiHeldComponent>(args.Actor))
@@ -190,6 +235,14 @@ public abstract partial class SharedStationAiSystem : EntitySystem
             return;
         }
 
+        // The mothership eye uses ordinary vision rather than the station camera network.
+        // Its interaction range is still restricted to the core's grid.
+        if (HasComp<MothershipCoreComponent>(args.Actor)) // DS14
+        {
+            args.Result = BoundUserInterfaceRangeResult.Pass;
+            return;
+        }
+
         if (!_broadphaseQuery.TryComp(targetXform.GridUid, out var broadphase) || !_gridQuery.TryComp(targetXform.GridUid, out var grid))
         {
             return;
@@ -199,7 +252,7 @@ public abstract partial class SharedStationAiSystem : EntitySystem
 
         lock (_vision)
         {
-            if (_vision.IsAccessible((targetXform.GridUid.Value, broadphase, grid), targetTile, fastPath: true))
+            if (_vision.IsAccessible((targetXform.GridUid.Value, broadphase, grid), targetTile, fastPath: true, requirePoweredSource: true)) // DS14: unpowered cameras provide vision, but not interaction.
             {
                 args.Result = BoundUserInterfaceRangeResult.Pass;
             }
@@ -226,7 +279,7 @@ public abstract partial class SharedStationAiSystem : EntitySystem
 
         var targetTile = Maps.LocalToTile(targetXform.GridUid.Value, grid, targetXform.Coordinates);
 
-        args.InRange = _vision.IsAccessible((targetXform.GridUid.Value, broadphase, grid), targetTile);
+        args.InRange = _vision.IsAccessible((targetXform.GridUid.Value, broadphase, grid), targetTile, requirePoweredSource: true); // DS14: unpowered cameras provide vision, but not interaction.
     }
 
 

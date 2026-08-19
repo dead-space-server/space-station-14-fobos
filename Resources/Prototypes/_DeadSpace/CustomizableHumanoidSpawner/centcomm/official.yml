@@ -19,8 +19,7 @@
       - Arachnid
       - SlimePerson
       - Tajaran
-      randomNameFirstDataset: CustomizableSpawnerCentralCommandOfficialFirstName
-      randomNameSecondLocalized: NamesLastERT
+      - Vulpkanin
     - type: GhostRole
       name: ghost-role-information-centcom-official-name
       description: ghost-role-information-ert-centcom-official-description
@@ -40,11 +39,6 @@
           time: 20h
       raffle:
         settings: default
-
-- type: dataset
-  id: CustomizableSpawnerCentralCommandOfficialFirstName
-  values:
-  - Представитель
 
 - type: roleLoadout
   id: JobCentralCommandOfficial

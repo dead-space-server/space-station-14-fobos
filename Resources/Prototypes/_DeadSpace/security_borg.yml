@@ -186,7 +186,7 @@
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/taser2.ogg
   - type: BatteryAmmoProvider
-    proto: BulletDisabler
+    proto: BulletDisablerTrace
     fireCost: 50
 
 - type: entity
@@ -244,10 +244,6 @@
         whitelist:
           tags:
           - Handcuffs
-  - type: ComponentBorgModule
-    components:
-    - type: SecurityBorgArrestModule
-
 - type: entity
   id: BaseBorgModuleSecurity
   parent: BaseBorgModule

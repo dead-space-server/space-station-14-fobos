@@ -77,6 +77,9 @@
             "name": "DeathSquad"
         },
         {
+            "name": "Dismissed"
+        },
+        {
             "name": "ERTChaplain"
         },
         {
@@ -99,6 +102,9 @@
         },
         {
             "name": "Geneticist"
+        },
+        {
+            "name": "GreenBeret"
         },
         {
             "name": "HeadOfPersonnel"
@@ -216,6 +222,9 @@
         },
         {
             "name": "Roboticist"
+        },
+        {
+            "name": "RedSword"
         },
         {
             "name": "Scientist"

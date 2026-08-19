@@ -47,7 +47,7 @@
   - type: Speech
     speechSounds: Lizard
     speechVerb: Reptilian
-    # allowedEmotes: ['Thump']
+    allowedEmotes: ['Weh']
   - type: TypingIndicator
     proto: lizard
   - type: Vocal
@@ -90,9 +90,6 @@
     baseSprintSpeed: 4.9
   - type: Stamina
   - type: Sanity # DS14
-  # - type: FootPrints
-    # leftBarePrint: "footprint-left-bare-lizard"
-    # rightBarePrint: "footprint-right-bare-lizard"
   - type: Language
     selectedLanguage: GeneralLanguage
     knownLanguages:
@@ -100,6 +97,16 @@
     - GeneralLanguage
   - type: SpeedSliding
     minSlideSpeed: 5
+  - type: SlowOnDamage
+    speedModifierThresholds:
+      50: 0.7
+      70: 0.5
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      90: PreCritical
+      110: Critical
+      190: Dead
 
 - type: entity
   parent: BaseSpeciesDummy

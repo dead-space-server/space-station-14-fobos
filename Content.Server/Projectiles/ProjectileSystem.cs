@@ -1,4 +1,3 @@
-using System.Numerics;
 using Content.Server.Administration.Logs;
 using Content.Server.Destructible;
 using Content.Server.Effects;
@@ -12,8 +11,6 @@ using Content.Shared.DeadSpace.Player;
 using Content.Shared.FixedPoint;
 using Content.Shared.Projectiles;
 using Robust.Shared.Physics.Events;
-using Robust.Shared.Physics.Components;
-using Robust.Shared.Map;
 using Robust.Shared.Player;
 
 namespace Content.Server.Projectiles;
@@ -41,54 +38,13 @@ public sealed class ProjectileSystem : SharedProjectileSystem
             || component.ProjectileSpent || component is { Weapon: null, OnlyCollideWhenShot: true })
             return;
 
-        if (TryComp(uid, out PredictedProjectileComponent? predicted) &&
-            predicted.ProcessedTargets.Contains(args.OtherEntity))
-        {
-            return;
-        }
-
-        MapCoordinates? collisionCoordinates = null;
-        if (args.PointCount > 0)
-        {
-            var points = args.WorldPoints;
-            var contact = Vector2.Zero;
-            foreach (var point in points)
-                contact += point;
-
-            collisionCoordinates = new MapCoordinates(
-                contact / points.Length,
-                _transform.GetMapCoordinates(uid).MapId);
-        }
-
-        ProjectileCollide(
-            (uid, component, args.OurBody),
-            args.OtherEntity,
-            collisionCoordinates: collisionCoordinates);
-    }
-
-    public void ProjectileCollide(
-        Entity<ProjectileComponent, PhysicsComponent> projectile,
-        EntityUid target,
-        bool predicted = false,
-        MapCoordinates? collisionCoordinates = null,
-        bool suppressPredictedShooterEffects = true)
-    {
-        var (uid, component, body) = projectile;
-        if (component.ProjectileSpent)
-            return;
-
+        var target = args.OtherEntity;
         // DS14-start
         // Filter.Pvs ignores session view subscriptions used by remote eyes.
         var effectOrigin = _transform.GetMapCoordinates(target);
         var effectFilter = Filter.Empty().AddPlayersByPvs(effectOrigin, entManager: EntityManager)
             .AddPlayersByViewSubscriptions(effectOrigin, entityManager: EntityManager);
         // DS14-end
-        if (suppressPredictedShooterEffects &&
-            TryComp<PredictedProjectileComponent>(uid, out var predictedProjectile) &&
-            TryComp<ActorComponent>(predictedProjectile.Shooter, out var predictedActor))
-        {
-            effectFilter.RemovePlayer(predictedActor.PlayerSession);
-        }
 
         // it's here so this check is only done once before possible hit
         var attemptEv = new ProjectileReflectAttemptEvent(uid, component, false);
@@ -96,8 +52,6 @@ public sealed class ProjectileSystem : SharedProjectileSystem
         if (attemptEv.Cancelled)
         {
             SetShooter(uid, component, target);
-            if (predicted)
-                ReconcilePredictedProjectile(uid);
             return;
         }
 
@@ -133,59 +87,18 @@ public sealed class ProjectileSystem : SharedProjectileSystem
 
         if (!deleted)
         {
-            _guns.PlayImpactSound(target, damage, component.SoundHit, component.ForceSound, effectFilter);
+            _guns.PlayImpactSound(target, damage, component.SoundHit, component.ForceSound);
 
-            if (!body.LinearVelocity.IsLengthZero())
-                _sharedCameraRecoil.KickCamera(target, body.LinearVelocity.Normalized());
+            if (!args.OurBody.LinearVelocity.IsLengthZero())
+                _sharedCameraRecoil.KickCamera(target, args.OurBody.LinearVelocity.Normalized());
         }
 
-        if (!predicted && component.DeleteOnCollide && component.ProjectileSpent)
+        if (component.DeleteOnCollide && component.ProjectileSpent)
             QueueDel(uid);
-
-        if (predicted && component.DeleteOnCollide && component.ProjectileSpent)
-        {
-            var predictedHit = EnsureComp<PredictedProjectileHitComponent>(uid);
-            var origin = TryComp<PredictedProjectileComponent>(uid, out var prediction) &&
-                         prediction.Origin.MapId != MapId.Nullspace
-                ? prediction.Origin
-                : _transform.GetMapCoordinates(uid);
-            predictedHit.Origin = _transform.GetMoverCoordinates(_transform.ToCoordinates(origin));
-
-            var targetCoordinates = _transform.GetMoverCoordinates(
-                _transform.ToCoordinates(collisionCoordinates ?? _transform.GetMapCoordinates(target)));
-            if (predictedHit.Origin.TryDistance(EntityManager, _transform, targetCoordinates, out var distance))
-                predictedHit.Distance = distance;
-
-            Dirty(uid, predictedHit);
-        }
-        else if (predicted && (!component.ProjectileSpent || !component.DeleteOnCollide))
-        {
-            ReconcilePredictedProjectile(uid);
-        }
 
         if (component.ImpactEffect != null && TryComp(uid, out TransformComponent? xform))
         {
-            var effectCoordinates = collisionCoordinates is { } contact
-                ? _transform.ToCoordinates(contact)
-                : xform.Coordinates;
-            RaiseNetworkEvent(
-                new ImpactEffectEvent(component.ImpactEffect, GetNetCoordinates(effectCoordinates)),
-                effectFilter);
-        }
-    }
-
-    public void ReconcilePredictedProjectile(EntityUid uid)
-    {
-        if (!TryComp(uid, out PredictedProjectileComponent? predicted) || predicted.Reconciled)
-            return;
-
-        predicted.Reconciled = true;
-
-        if (TryComp<ActorComponent>(predicted.Shooter, out var actor))
-        {
-            RaiseNetworkEvent(
-                new PredictedProjectileReconcileEvent(predicted.PredictionId, predicted.ProjectileIndex),
-                Filter.SinglePlayer(actor.PlayerSession));
+            RaiseNetworkEvent(new ImpactEffectEvent(component.ImpactEffect, GetNetCoordinates(xform.Coordinates)), effectFilter);
         }
     }
 

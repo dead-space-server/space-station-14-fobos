@@ -5,7 +5,6 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Inventory;
 using Content.Shared.Throwing;
-using Content.Shared.Weapons.Ranged.Components;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
@@ -204,9 +203,6 @@ public abstract partial class SharedProjectileSystem : EntitySystem
     {
         if (component.IgnoreShooter && (args.OtherEntity == component.Shooter || args.OtherEntity == component.Weapon))
         {
-            if (TryComp(uid, out TargetedProjectileComponent? targeted) && targeted.Target == args.OtherEntity)
-                return;
-
             args.Cancelled = true;
         }
     }

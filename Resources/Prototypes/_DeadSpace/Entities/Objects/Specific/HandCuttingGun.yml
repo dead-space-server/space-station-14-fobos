@@ -35,6 +35,7 @@
       - FloorConcreteTilesStatic
       - CircuitFloorsStatic
       - FloorMarbleTilesStatic
+      - SpecialFloorTilesStatic
       dynamicPacks:
       - FauxTiles
 
@@ -68,7 +69,7 @@
           volume: 1
       selectedMode: SemiAuto
     - type: BatteryAmmoProvider
-      proto: LaserRifleBullet
+      proto: LaserRifleBulletTrace
       fireCost: 40
     - type: Battery
       maxCharge: 640
@@ -89,6 +90,7 @@
       - FloorConcreteTilesStatic
       - CircuitFloorsStatic
       - FloorMarbleTilesStatic
+      - SpecialFloorTilesStatic
       dynamicPacks:
       - FauxTiles
 

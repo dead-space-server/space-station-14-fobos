@@ -197,6 +197,8 @@
         orGroup: GiftPool
       - id: PlushieHqdishka
         orGroup: GiftPool
+      - id: PlushieDrGnarAlt
+        orGroup: GiftPool
       - id: PlushieWillie
         orGroup: GiftPool
       - id: PlushieAinnete
@@ -260,6 +262,20 @@
       - id: PlushieDosDydosYukari
         orGroup: GiftPool
       - id: PlushieYosugaMarsel
+        orGroup: GiftPool
+      - id: PlushiePERedGora
+        orGroup: GiftPool
+      - id: PlushieKarasuNaomi
+        orGroup: GiftPool
+      - id: PlushieSmetanaJohnFrost
+        orGroup: GiftPool
+      - id: PlushieRavanesusDeath
+        orGroup: GiftPool
+      - id: PlushieRavanesusOperativ
+        orGroup: GiftPool
+      - id: PlushieDajidanNikita
+        orGroup: GiftPool
+      - id: PlushieCobla
         orGroup: GiftPool
 
 - type: entity
