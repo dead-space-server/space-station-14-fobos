@@ -1,0 +1,13 @@
+- type: entity
+  id: PipeShuttleStop
+  parent: MarkerBase
+  name: pipe shuttle stop
+  description: A designated stop for the pipe shuttle. Place on the map to define routes.
+  suffix: Pipe Shuttle
+  components:
+  - type: PipeShuttleStop
+    stopId: ""
+    stopName: "Unknown Stop"
+  - type: Sprite
+    layers:
+    - state: pink
