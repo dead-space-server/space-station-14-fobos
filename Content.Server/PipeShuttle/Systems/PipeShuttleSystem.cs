@@ -7,6 +7,7 @@ using Robust.Server.GameObjects;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
+using Robust.Shared.Timing;
 using System.Numerics;
 
 namespace Content.Server.PipeShuttle.Systems;
@@ -17,9 +18,12 @@ public sealed class PipeShuttleSystem : EntitySystem
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     private EntityQuery<TransformComponent> _xformQuery;
     private EntityQuery<PhysicsComponent> _physicsQuery;
+
+    private readonly Dictionary<EntityUid, TimeSpan> _cooldowns = new();
 
     public override void Initialize()
     {
@@ -138,6 +142,13 @@ public sealed class PipeShuttleSystem : EntitySystem
             return;
         }
 
+        if (_cooldowns.TryGetValue(shuttleUid.Value, out var cooldownEnd) && _timing.CurTime < cooldownEnd)
+        {
+            var remaining = (cooldownEnd - _timing.CurTime).TotalSeconds;
+            _popup.PopupEntity($"Wait {remaining:F0}s before calling shuttle again.", callerUid ?? default);
+            return;
+        }
+
         var dest = FindDestination(shuttleComp, targetDestId);
         if (dest == null)
         {
@@ -164,6 +175,7 @@ public sealed class PipeShuttleSystem : EntitySystem
         Dirty(shuttleUid, shuttle);
 
         _popup.PopupEntity($"Shuttle arrived at {dest.Name}!", shuttleUid);
+        _cooldowns[shuttleUid] = _timing.CurTime + TimeSpan.FromSeconds(shuttle.Cooldown);
         SendStateToAll();
     }
 

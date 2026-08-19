@@ -25,6 +25,9 @@ public sealed partial class PipeShuttleComponent : Component
 
     [DataField("arrivalThreshold")]
     public float ArrivalThreshold = 0.5f;
+
+    [DataField("cooldown")]
+    public float Cooldown = 10f;
 }
 
 [Serializable, DataDefinition, NetSerializable]
