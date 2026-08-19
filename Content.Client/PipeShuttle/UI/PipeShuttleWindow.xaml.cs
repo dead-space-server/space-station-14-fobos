@@ -43,9 +43,9 @@ public sealed partial class PipeShuttleWindow : FancyWindow
         {
             var label = dest.Name;
             if (state.CurrentDestId == dest.Id)
-                label += " (current)";
+                label += " (уже здесь)";
             else if (state.Travelling && state.TargetDestId == dest.Id)
-                label += " (incoming)";
+                label += " (прибываем)";
 
             StopList.AddItem(label, metadata: dest.Id);
         }
@@ -61,7 +61,7 @@ public sealed partial class PipeShuttleWindow : FancyWindow
                     break;
                 }
             }
-            StatusLabel.Text = $"Status: In transit to {targetName}";
+            StatusLabel.Text = $"Статус: Направляемся {targetName}";
             CallButton.Disabled = true;
         }
         else if (state.CurrentDestId != null)
@@ -75,11 +75,11 @@ public sealed partial class PipeShuttleWindow : FancyWindow
                     break;
                 }
             }
-            StatusLabel.Text = $"Status: Docked at {currentName}";
+            StatusLabel.Text = $"Статус: Пристыкованы {currentName}";
         }
         else
         {
-            StatusLabel.Text = "Status: Idle";
+            StatusLabel.Text = "Статус: Простаиваем";
         }
     }
 }

@@ -1,8 +1,8 @@
 - type: entity
   parent: BaseWallmountMachine
   id: PipeShuttleCallButton
-  name: pipe shuttle call button
-  description: A wall-mounted button for calling the pipe shuttle.
+  name: кнопка вызова шаттла
+  description: Настенная кнопка с экранчиком для вызова шаттла.
   components:
   - type: WallMount
     arc: 360

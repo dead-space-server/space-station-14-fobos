@@ -126,33 +126,33 @@ public sealed class PipeShuttleSystem : EntitySystem
 
         if (shuttleUid == null || shuttleComp == null)
         {
-            _popup.PopupEntity("No pipe shuttle found!", callerUid ?? default);
+            _popup.PopupEntity("Не обнаружен шаттл!", callerUid ?? default);
             return;
         }
 
         if (shuttleComp.Travelling)
         {
-            _popup.PopupEntity("Shuttle is already in transit!", callerUid ?? default);
+            _popup.PopupEntity("Шаттл уже прибывает!", callerUid ?? default);
             return;
         }
 
         if (shuttleComp.CurrentDestId == targetDestId)
         {
-            _popup.PopupEntity("Shuttle is already here!", callerUid ?? default);
+            _popup.PopupEntity("Шаттл уже прибыл!", callerUid ?? default);
             return;
         }
 
         if (_cooldowns.TryGetValue(shuttleUid.Value, out var cooldownEnd) && _timing.CurTime < cooldownEnd)
         {
             var remaining = (cooldownEnd - _timing.CurTime).TotalSeconds;
-            _popup.PopupEntity($"Wait {remaining:F0}s before calling shuttle again.", callerUid ?? default);
+            _popup.PopupEntity($"Подождите {remaining:F0}сек. перед вызовом.", callerUid ?? default);
             return;
         }
 
         var dest = FindDestination(shuttleComp, targetDestId);
         if (dest == null)
         {
-            _popup.PopupEntity("Invalid destination!", callerUid ?? default);
+            _popup.PopupEntity("Неправильный пункт назначения!", callerUid ?? default);
             return;
         }
 
@@ -161,7 +161,7 @@ public sealed class PipeShuttleSystem : EntitySystem
         shuttleComp.CurrentDestId = null;
         Dirty(shuttleUid.Value, shuttleComp);
 
-        _popup.PopupEntity($"Shuttle heading to {dest.Name}!", shuttleUid.Value);
+        _popup.PopupEntity($"Шаттл прибывает в {dest.Name}!", shuttleUid.Value);
         SendStateToAll();
     }
 
@@ -174,7 +174,7 @@ public sealed class PipeShuttleSystem : EntitySystem
         shuttle.CurrentDestId = dest.Id;
         Dirty(shuttleUid, shuttle);
 
-        _popup.PopupEntity($"Shuttle arrived at {dest.Name}!", shuttleUid);
+        _popup.PopupEntity($"Шаттл прибыл в {dest.Name}!", shuttleUid);
         _cooldowns[shuttleUid] = _timing.CurTime + TimeSpan.FromSeconds(shuttle.Cooldown);
         SendStateToAll();
     }
