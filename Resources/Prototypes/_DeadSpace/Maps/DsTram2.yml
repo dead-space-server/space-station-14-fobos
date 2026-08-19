@@ -4,14 +4,14 @@
   mapPath: /Maps/_DeadSpace/DsTram2.yml
   maxRandomOffset: 0
   randomRotation: false
-  minPlayers: 30
+  minPlayers: 0
   maxPlayers: 70
   stations:
-    DsTram2:
+    Tram2:
       stationProto: StandardNanotrasenStation
       components:
         - type: StationNameSetup
-          mapNameTemplate: 'Tramstation "{0}" {1}-{2}'
+          mapNameTemplate: 'Tramstation "{0}" {1}'
           nameGenerator:
             !type:NanotrasenNameGenerator
             prefixCreator: 'ED'
