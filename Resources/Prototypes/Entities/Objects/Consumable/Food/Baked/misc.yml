@@ -655,7 +655,7 @@
       - sweet
       - chocolate
   - type: Sprite
-    sprite: Objects/Consumable/Food/Baked/brownie.rsi
+    sprite: _DeadSpace/Objects/Consumable/Food/Baked/brownie.rsi # DS14
     state: brownie-batch
   - type: SolutionContainerManager
     solutions:
@@ -682,7 +682,10 @@
       - sweet
       - chocolate
   - type: Sprite
-    sprite: Objects/Consumable/Food/snacks.rsi
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
+    state: mre-brownie-open
+  - type: Item
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
     state: mre-brownie-open
   - type: SolutionContainerManager
     solutions:
@@ -705,6 +708,7 @@
   components:
   - type: Item
     size: Normal
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
     storedOffset: 0,-3
   - type: FlavorProfile
     flavors:
@@ -712,7 +716,7 @@
       - magical
       - chocolate
   - type: Sprite
-    sprite: Objects/Consumable/Food/Baked/brownie.rsi
+    sprite: _DeadSpace/Objects/Consumable/Food/Baked/brownie.rsi # DS14
     state: brownie-batch
   - type: SolutionContainerManager
     solutions:
@@ -741,8 +745,10 @@
       - magical
       - chocolate
   - type: Sprite
-    sprite: Objects/Consumable/Food/snacks.rsi
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
     state: mre-brownie-open
+  - type: Item
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
   - type: SolutionContainerManager
     solutions:
       food:

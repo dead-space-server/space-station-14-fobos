@@ -443,13 +443,14 @@
   components:
   - type: Item
     size: Small
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
     storedOffset: -1,0
     heldPrefix: nutribrick
   - type: Tag
     tags:
       - FoodSnack
   - type: Sprite
-    sprite: Objects/Consumable/Food/snacks.rsi
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
     state: nutribrick
   - type: SpawnItemsOnUse
     items:
@@ -468,6 +469,7 @@
     flavors:
       - nutribrick
   - type: Item
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
     size: Small
     storedOffset: -1,0
     heldPrefix: nutribrick-open
@@ -475,6 +477,7 @@
     tags:
       - ReptilianFood
   - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
     state: nutribrick-open
   - type: SolutionContainerManager
     solutions:
@@ -491,9 +494,10 @@
   description: A precisely mixed brownie, made to withstand blunt trauma and harsh conditions. Tastes like shit.
   components:
   - type: Sprite
-    sprite: Objects/Consumable/Food/snacks.rsi
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
     state: mre-brownie
   - type: Item
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
     heldPrefix: mre-brownie
     size: Tiny
     storedOffset: -1,-1
@@ -518,8 +522,10 @@
     flavors:
       - mrebrownie
   - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
     state: mre-brownie-open
   - type: Item
+    sprite: _DeadSpace/Objects/Consumable/Food/snacks.rsi # DS14
     heldPrefix: mre-brownie-open
     storedOffset: -1,-1
   - type: SolutionContainerManager
