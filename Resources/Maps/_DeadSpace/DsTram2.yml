@@ -13612,6 +13612,7 @@ entities:
     - type: Transform
       parent: 853
     - type: Action
+      container: 853
       originalIconColor: '#FFFFFFFF'
 - proto: BedsheetBlack
   entities:
