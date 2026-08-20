@@ -37,6 +37,13 @@
   - type: ReagentTank
   - type: Drain
     autoDrain: false
+  ## DS-14-S
+  - type: Edible
+    edible: Drink
+    solution: tank
+    destroyOnEmpty: false
+    utensil: Spoon
+  ## DS-14-E
   - type: DumpableSolution
     solution: drainBuffer
   - type: Damageable
