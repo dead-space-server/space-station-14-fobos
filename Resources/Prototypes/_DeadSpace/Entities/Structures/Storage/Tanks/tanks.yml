@@ -76,11 +76,6 @@
         map: ["enum.SolutionContainerLayers.Fill"]
         visible: false
   - type: Appearance
-  - type: Edible
-    edible: Drink
-    solution: tank
-    destroyOnEmpty: false
-    utensil: Spoon
   - type: SolutionContainerVisuals
     maxFillLevels: 4
     fillBaseName: watercooler-2-
@@ -120,11 +115,6 @@
   parent: WaterCoolerTransfer
   id: WaterCoolerEmpty
   suffix: Пустой
-  - type: Edible
-    edible: Drink
-    solution: tank
-    destroyOnEmpty: false
-    utensil: Spoon
   components:
   - type: SolutionContainerManager
     solutions:
