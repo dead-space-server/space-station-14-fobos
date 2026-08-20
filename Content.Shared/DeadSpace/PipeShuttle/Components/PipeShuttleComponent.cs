@@ -28,6 +28,9 @@ public sealed partial class PipeShuttleComponent : Component
 
     [DataField("cooldown")]
     public float Cooldown = 10f;
+
+    [DataField("positionOffset")]
+    public Vector2 PositionOffset;
 }
 
 [Serializable, DataDefinition, NetSerializable]

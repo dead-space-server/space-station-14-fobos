@@ -13563,14 +13563,6 @@ entities:
         actions: !type:Container
           ents:
           - 8956
-  - uid: 8956
-    mapInit: true
-    paused: true
-    components:
-    - type: Transform
-      parent: 853
-    - type: Action
-      originalIconColor: '#FFFFFFFF'
   - uid: 854
     components:
     - type: Transform
@@ -13611,6 +13603,16 @@ entities:
     - type: Transform
       pos: -20.5,19.5
       parent: 2
+- proto: ActionSleep
+  entities:
+  - uid: 8956
+    mapInit: true
+    paused: true
+    components:
+    - type: Transform
+      parent: 853
+    - type: Action
+      originalIconColor: '#FFFFFFFF'
 - proto: BedsheetBlack
   entities:
   - uid: 861

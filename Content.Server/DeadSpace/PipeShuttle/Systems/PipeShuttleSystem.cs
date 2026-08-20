@@ -20,7 +20,6 @@ public sealed class PipeShuttleSystem : EntitySystem
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
 
-    private EntityQuery<TransformComponent> _xformQuery;
     private EntityQuery<PhysicsComponent> _physicsQuery;
 
     private readonly Dictionary<EntityUid, TimeSpan> _cooldowns = new();
@@ -29,7 +28,6 @@ public sealed class PipeShuttleSystem : EntitySystem
     {
         base.Initialize();
 
-        _xformQuery = GetEntityQuery<TransformComponent>();
         _physicsQuery = GetEntityQuery<PhysicsComponent>();
 
         SubscribeLocalEvent<PipeShuttleComponent, MapInitEvent>(OnShuttleMapInit);
@@ -48,8 +46,6 @@ public sealed class PipeShuttleSystem : EntitySystem
         var shuttleQuery = AllEntityQuery<PipeShuttleComponent, TransformComponent>();
         while (shuttleQuery.MoveNext(out var uid, out var shuttle, out var xform))
         {
-            EnforcePhysics(uid);
-
             if (!shuttle.Travelling || string.IsNullOrEmpty(shuttle.TargetDestId))
                 continue;
 
@@ -61,7 +57,8 @@ public sealed class PipeShuttleSystem : EntitySystem
             }
 
             var currentPos = _transform.GetWorldPosition(xform);
-            var diff = dest.Position - currentPos;
+            var targetPos = dest.Position + shuttle.PositionOffset;
+            var diff = targetPos - currentPos;
             var dist = diff.Length();
 
             if (dist < shuttle.ArrivalThreshold)
@@ -74,31 +71,26 @@ public sealed class PipeShuttleSystem : EntitySystem
         }
     }
 
-    private void EnforcePhysics(EntityUid uid)
-    {
-        if (!_physicsQuery.TryComp(uid, out var body))
-            return;
-
-        if (body.BodyType != BodyType.Dynamic)
-            _physics.SetBodyType(uid, BodyType.Dynamic, body: body);
-
-        if (!body.FixedRotation)
-            _physics.SetFixedRotation(uid, true, body: body);
-
-        if (body.CanCollide)
-            _physics.SetCanCollide(uid, false, body: body);
-
-        if (body.LinearVelocity != Vector2.Zero)
-            _physics.SetLinearVelocity(uid, Vector2.Zero, body: body);
-
-        if (body.AngularVelocity != 0f)
-            _physics.SetAngularVelocity(uid, 0f, body: body);
-    }
-
     private void OnShuttleMapInit(EntityUid uid, PipeShuttleComponent component, MapInitEvent args)
     {
         RemComp<ShuttleComponent>(uid);
-        EnforcePhysics(uid);
+
+        if (_physicsQuery.TryComp(uid, out var body))
+        {
+            _physics.SetBodyType(uid, BodyType.Static, body: body);
+            _physics.SetFixedRotation(uid, true, body: body);
+            _physics.SetCanCollide(uid, false, body: body);
+        }
+
+        if (!string.IsNullOrEmpty(component.CurrentDestId))
+        {
+            var dest = FindDestination(component, component.CurrentDestId);
+            if (dest != null)
+            {
+                var gridPos = _transform.GetWorldPosition(uid);
+                component.PositionOffset = gridPos - dest.Position;
+            }
+        }
     }
 
     private void OnCallOpened(EntityUid uid, PipeShuttleCallComponent component, AfterActivatableUIOpenEvent args)
@@ -167,7 +159,7 @@ public sealed class PipeShuttleSystem : EntitySystem
 
     private void ArriveAtDestination(EntityUid shuttleUid, PipeShuttleComponent shuttle, PipeShuttleDestination dest)
     {
-        _transform.SetWorldPosition(shuttleUid, dest.Position);
+        _transform.SetWorldPosition(shuttleUid, dest.Position + shuttle.PositionOffset);
 
         shuttle.TargetDestId = null;
         shuttle.Travelling = false;
