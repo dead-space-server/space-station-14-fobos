@@ -462,7 +462,7 @@ public sealed partial class GunSystem : SharedGunSystem
         // The player rotates in combat mode, so player-relative aim can be replayed by the
         // server with a different rotation under latency and send shots sideways or backwards.
         EntityCoordinates coordinates;
-        if (MapManager.TryFindGridAt(mousePos, out var gridUid, out _))
+        if (Maps.TryFindGridAt(mousePos, out var gridUid, out _))
         {
             coordinates = TransformSystem.ToCoordinates(gridUid, mousePos);
         }

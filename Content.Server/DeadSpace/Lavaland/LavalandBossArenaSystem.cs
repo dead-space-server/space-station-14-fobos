@@ -67,7 +67,6 @@ public sealed class LavalandBossArenaSystem : EntitySystem
     [Dependency] private readonly BiomeSystem _biome = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!;
     [Dependency] private readonly IPlayerManager _players = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly ITileDefinitionManager _tileDefinition = default!;
@@ -199,7 +198,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         await Timer.Delay(1, cancellation);
 
         var mapId = Transform(mapUid).MapID;
-        var grid = _mapManager.CreateGridEntity(mapId);
+        var grid = _map.CreateGridEntity(mapId);
         _metadata.SetEntityName(grid.Owner, arenaPrototype.ArenaName);
         _transform.SetMapCoordinates(grid.Owner, new MapCoordinates(new Vector2(center.X, center.Y), mapId));
 
@@ -1124,7 +1123,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
 
         var mapId = Transform(terrainGridUid).MapID;
         var bounds = Box2.CenteredAround(center, Vector2.One * (radius * 2f + 1f));
-        _mapManager.FindGridsIntersecting(mapId, bounds, ref _nearbyGrids);
+        _map.FindGridsIntersecting(mapId, bounds, ref _nearbyGrids);
 
         foreach (var grid in _nearbyGrids)
         {

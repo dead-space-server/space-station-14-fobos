@@ -367,11 +367,10 @@ public sealed partial class EmagCommunicationsInterface : FancyWindow
         if (value.Length != ColorShortLength && value.Length != ColorLongLength)
             return false;
 
-        var parsed = Color.TryFromHex($"#{value}");
-        if (parsed == null)
+        if (!Color.TryFromHex($"#{value}", out var parsed))
             return false;
 
-        color = parsed.Value;
+        color = parsed;
         return true;
     }
 

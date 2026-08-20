@@ -24,7 +24,7 @@ public sealed class CrayonGhostSystem : EntitySystem
         _transform = EntityManager.System<SharedTransformSystem>();
         _sprite = EntityManager.System<SpriteSystem>();
 
-        _overlay.AddOverlay(new CrayonGhostOverlay(this, _transform, _sprite));
+        _overlay.AddOverlay(new CrayonGhostOverlay(this, EntityManager.System<SharedMapSystem>(), _transform, _sprite));
     }
 
     public void SetRotation(Angle rotation)

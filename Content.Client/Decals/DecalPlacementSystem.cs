@@ -23,6 +23,7 @@ public sealed class DecalPlacementSystem : EntitySystem
     [Dependency] private readonly InputSystem _inputSystem = default!;
     [Dependency] private readonly MetaDataSystem _metaData = default!;
     [Dependency] private readonly SharedActionsSystem _actions = default!;
+    [Dependency] private readonly SharedMapSystem _maps = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
 
@@ -49,7 +50,7 @@ public sealed class DecalPlacementSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
-        _overlay.AddOverlay(new DecalPlacementOverlay(this, _transform, _sprite));
+        _overlay.AddOverlay(new DecalPlacementOverlay(this, _maps, _transform, _sprite));
 
         CommandBinds.Builder.Bind(EngineKeyFunctions.EditorPlaceObject, new PointerStateInputCmdHandler(
             (session, coords, uid) =>

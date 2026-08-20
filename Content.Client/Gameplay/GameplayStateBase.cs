@@ -37,7 +37,6 @@ namespace Content.Client.Gameplay
         [Dependency] private readonly IPlayerManager _playerManager = default!;
         [Dependency] private readonly IEntitySystemManager _entitySystemManager = default!;
         [Dependency] private readonly IGameTiming _timing = default!;
-        [Dependency] private readonly IMapManager _mapManager = default!;
         [Dependency] protected readonly IUserInterfaceManager UserInterfaceManager = default!;
         [Dependency] private readonly IEntityManager _entityManager = default!;
         [Dependency] private readonly IViewVariablesManager _vvm = default!;
@@ -243,9 +242,9 @@ namespace Content.Client.Gameplay
                 var mapSystem = _entitySystemManager.GetEntitySystem<MapSystem>();
 
                 // DS14-start
-                coordinates = !_mapManager.MapExists(mousePosWorld.MapId)
+                coordinates = !mapSystem.MapExists(mousePosWorld.MapId)
                     ? EntityCoordinates.Invalid
-                    : _mapManager.TryFindGridAt(mousePosWorld, out var uid, out _)
+                    : mapSystem.TryFindGridAt(mousePosWorld, out var uid, out _)
                         ? mapSystem.MapToGrid(uid, mousePosWorld)
                         : transformSystem.ToCoordinates(mousePosWorld);
                 // DS14-end
