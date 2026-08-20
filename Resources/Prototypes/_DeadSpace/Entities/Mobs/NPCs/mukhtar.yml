@@ -131,6 +131,7 @@
   id: MobMukhtarGear
   equipment:
     id: MukhtarIDCard
+    outerClothing: ClothingOuterArmorMukhtar
 
 - type: entity
   name: спавнер Мухтар
