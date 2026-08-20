@@ -6938,18 +6938,6 @@ entities:
       parent: 2
     - type: Physics
       canCollide: False
-- proto: ActionSleep
-  entities:
-  - uid: 8956
-    mapInit: true
-    paused: true
-    components:
-    - type: Transform
-      parent: 853
-    - type: Action
-      originalIconColor: '#FFFFFFFF'
-      container: 853
-      attachedEntity: invalid
 - proto: AirAlarm
   entities:
   - uid: 4
@@ -13568,8 +13556,6 @@ entities:
     - type: HealOnBuckle
       sleepAction: 8956
     - type: Strap
-      buckledEntities:
-      - invalid
     - type: HealOnBuckleHealing
     - type: ActionsContainer
     - type: ContainerContainer
@@ -13577,6 +13563,14 @@ entities:
         actions: !type:Container
           ents:
           - 8956
+  - uid: 8956
+    mapInit: true
+    paused: true
+    components:
+    - type: Transform
+      parent: 853
+    - type: Action
+      originalIconColor: '#FFFFFFFF'
   - uid: 854
     components:
     - type: Transform
