@@ -75,7 +75,7 @@ public sealed partial class PrisonPlanetPrototype : IPrototype
     public List<PrisonResidenceDefinition> Residences = new();
 
     [DataField]
-    public bool FtlEnabled = true;
+    public bool FtlEnabled;
 
     [DataField]
     public bool FtlBeaconsOnly = true;

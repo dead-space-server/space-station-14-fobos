@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.Chat.Managers;
 using Content.Server.Database;
+using Content.Server.DeadSpace.Languages;
 using Content.Server.DeadSpace.Prison.Components;
 using Content.Server.EUI;
 using Content.Server.GameTicking;
@@ -14,11 +15,13 @@ using Content.Server.Preferences.Managers;
 using Content.Server.Roles;
 using Content.Server.Station.Systems;
 using Content.Shared.CCVar;
+using Content.Shared.Chat;
 using Content.Shared.Database;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.CCCCVars;
+using Content.Shared.DeadSpace.Languages.Components;
 using Content.Shared.DeadSpace.Prison;
 using Content.Shared.Examine;
 using Content.Shared.FixedPoint;
@@ -74,8 +77,11 @@ public sealed class PrisonSystem : EntitySystem
     [Dependency] private readonly MindSystem _mind = default!;
     [Dependency] private readonly RoleSystem _role = default!;
     [Dependency] private readonly StationSpawningSystem _spawning = default!;
+    [Dependency] private readonly LanguageSystem _language = default!;
 
     private readonly HashSet<NetUserId> _prisonUsers = [];
+    private readonly Dictionary<NetUserId, ICommonSession> _prisonSessions = new();
+    private readonly Dictionary<NetUserId, TimeSpan> _pendingPrisonConnections = new();
     private readonly Dictionary<EntityUid, Dictionary<EntityUid, FixedPoint2>> _prisonDamageByTarget = new();
     private readonly Dictionary<EntityUid, Dictionary<EntityUid, FixedPoint2>> _prisonFaunaDamageByTarget = new();
     private readonly HashSet<NetUserId> _crossFactionRewardedVictims = [];
@@ -89,6 +95,7 @@ public sealed class PrisonSystem : EntitySystem
     private readonly Dictionary<NetUserId, EntityUid> _factionSelectionLocks = new();
     private readonly Dictionary<NetUserId, TimeSpan> _pendingSentenceAcceleration = new();
     private static readonly ProtoId<StartingGearPrototype> PrisonerGear = "PrisonerGear";
+    private static readonly TimeSpan PendingPrisonConnectionLifetime = TimeSpan.FromMinutes(2);
     private const int SourceParentSearchDepth = 6;
     private bool _enabled;
     private int _murderPenaltyMinutes;
@@ -137,6 +144,7 @@ public sealed class PrisonSystem : EntitySystem
         SubscribeLocalEvent<PlayerBeforeSpawnEvent>(OnPlayerBeforeSpawn);
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
         SubscribeLocalEvent<MindRoleAddAttemptEvent>(OnMindRoleAddAttempt);
+        SubscribeLocalEvent<InGameOocMessageAttemptEvent>(OnInGameOocMessageAttempt);
         SubscribeLocalEvent<AttackAttemptEvent>(OnPrisonerAttackAttempt);
         SubscribeLocalEvent<AttemptShootEvent>(OnPrisonerAttemptShoot);
         SubscribeLocalEvent<DamageableComponent, DamageModifyEvent>(OnPrisonerDamageModify);
@@ -291,6 +299,8 @@ public sealed class PrisonSystem : EntitySystem
             return false;
 
         _prisonUsers.Add(userId);
+        _prisonSessions.Remove(userId);
+        _pendingPrisonConnections[userId] = _timing.RealTime + PendingPrisonConnectionLifetime;
         return true;
     }
 
@@ -310,7 +320,7 @@ public sealed class PrisonSystem : EntitySystem
         if (!_enabled || !Ready || !IsPrisonServerBan(ban))
             return false;
 
-        _prisonUsers.Add(session.UserId);
+        BindPrisonSession(session);
         var registered = new PrisonerRegisteredEvent(session);
         RaiseLocalEvent(ref registered);
 
@@ -324,6 +334,14 @@ public sealed class PrisonSystem : EntitySystem
 
         if (!_prisonFactions.TryGetValue(session.UserId, out var faction))
         {
+            if (session.AttachedEntity is { } waitingEntity &&
+                Exists(waitingEntity) &&
+                !HasComp<GhostComponent>(waitingEntity) &&
+                TryGetSpawnCoordinates(out var waitingCoordinates))
+            {
+                SendEntityToPrison(waitingEntity, waitingCoordinates, session.UserId);
+            }
+
             BeginFactionSelection(session);
             SendPrisonMessage(session, ban);
             return true;
@@ -734,6 +752,7 @@ public sealed class PrisonSystem : EntitySystem
         if (!IsUserPrisoner(ev.Player.UserId))
             return;
 
+        BindPrisonSession(ev.Player);
         ev.Handled = true;
 
         if (!_enabled || !TryGetSpawnCoordinates(out _))
@@ -768,7 +787,7 @@ public sealed class PrisonSystem : EntitySystem
         if (!IsUserPrisoner(ev.Player.UserId) && !HasComp<PrisonBoundComponent>(ev.Entity))
             return;
 
-        _prisonUsers.Add(ev.Player.UserId);
+        BindPrisonSession(ev.Player);
 
         if (!_enabled || !TryGetSpawnCoordinates(out _))
         {
@@ -779,12 +798,15 @@ public sealed class PrisonSystem : EntitySystem
         if (HasComp<GhostComponent>(ev.Entity))
         {
             UnlockFactionSelection(ev.Player.UserId);
-            RemComp<PrisonBoundComponent>(ev.Entity);
+            RemovePrisonBound(ev.Entity);
             return;
         }
 
         if (!_prisonFactions.TryGetValue(ev.Player.UserId, out var faction))
         {
+            if (TryGetSpawnCoordinates(out var waitingCoordinates))
+                SendEntityToPrison(ev.Entity, waitingCoordinates, ev.Player.UserId);
+
             BeginFactionSelection(ev.Player);
             return;
         }
@@ -799,7 +821,8 @@ public sealed class PrisonSystem : EntitySystem
         if (IsPrisonMap(xform.MapID))
         {
             var hadPrisonEquipment = HasComp<PrisonBoundComponent>(ev.Entity);
-            EnsureComp<PrisonBoundComponent>(ev.Entity);
+            var prisonBound = EnsureComp<PrisonBoundComponent>(ev.Entity);
+            ApplyPrisonLanguage(ev.Entity, prisonBound);
             SetPrisonFaction(ev.Entity, faction);
             if (!hadPrisonEquipment)
             {
@@ -814,34 +837,80 @@ public sealed class PrisonSystem : EntitySystem
 
     private void OnPlayerStatusChanged(object? sender, SessionStatusEventArgs e)
     {
-        if (e.NewStatus == SessionStatus.Disconnected)
+        if (e.NewStatus != SessionStatus.Disconnected)
         {
-            UnlockFactionSelection(e.Session.UserId);
-            if (_pendingSentenceAcceleration.Remove(e.Session.UserId, out var reduction) &&
-                reduction > TimeSpan.Zero)
-            {
-                ApplySentenceAcceleration(
-                    e.Session.UserId,
-                    CreateBanRefreshCheck(e.Session),
-                    reduction);
-            }
-
-            _prisonUsers.Remove(e.Session.UserId);
-            _factionSelectionDeadlines.Remove(e.Session.UserId);
-            if (_factionEuis.Remove(e.Session.UserId, out var eui) && !eui.IsShutDown)
-                eui.Close();
+            if (_prisonUsers.Contains(e.Session.UserId))
+                BindPrisonSession(e.Session);
+            return;
         }
+
+        // Authorization for a replacement connection happens before its session is created.
+        // Do not let the old session's late disconnect erase the newly registered prison state.
+        if (_pendingPrisonConnections.ContainsKey(e.Session.UserId))
+            return;
+
+        if (_prisonSessions.TryGetValue(e.Session.UserId, out var trackedSession) &&
+            !ReferenceEquals(trackedSession, e.Session))
+        {
+            return;
+        }
+
+        UnlockFactionSelection(e.Session.UserId);
+        if (_pendingSentenceAcceleration.Remove(e.Session.UserId, out var reduction) &&
+            reduction > TimeSpan.Zero)
+        {
+            ApplySentenceAcceleration(
+                e.Session.UserId,
+                CreateBanRefreshCheck(e.Session),
+                reduction);
+        }
+
+        RemoveDisconnectedPrisonState(e.Session.UserId);
+    }
+
+    private void BindPrisonSession(ICommonSession session)
+    {
+        _prisonUsers.Add(session.UserId);
+        _pendingPrisonConnections.Remove(session.UserId);
+        _prisonSessions[session.UserId] = session;
+    }
+
+    private void RemoveDisconnectedPrisonState(NetUserId userId)
+    {
+        _prisonUsers.Remove(userId);
+        _prisonSessions.Remove(userId);
+        _pendingPrisonConnections.Remove(userId);
+        _factionSelectionDeadlines.Remove(userId);
+        if (_factionEuis.Remove(userId, out var eui) && !eui.IsShutDown)
+            eui.Close();
     }
 
     private void OnMindRoleAddAttempt(MindRoleAddAttemptEvent args)
     {
-        if (!args.Antagonist || args.Mind.UserId is not { } userId || !IsUserPrisoner(userId))
+        if (!args.Antagonist)
+            return;
+
+        var userId = args.Mind.UserId;
+        var prisoner = userId is { } prisonerId && IsUserPrisoner(prisonerId);
+        var onPrisonMap = args.Mind.OwnedEntity is { } body &&
+                          TryComp(body, out TransformComponent? xform) &&
+                          IsPrisonMap(xform.MapID);
+        if (!prisoner && !onPrisonMap)
             return;
 
         args.Cancel();
 
-        if (_player.TryGetSessionById(userId, out var session))
+        if (userId is { } blockedUserId && _player.TryGetSessionById(blockedUserId, out var session))
             _chat.DispatchServerMessage(session, Loc.GetString("prison-antag-role-blocked"));
+    }
+
+    private void OnInGameOocMessageAttempt(ref InGameOocMessageAttemptEvent args)
+    {
+        if (args.Type != InGameOOCChatType.Dead || !IsUserPrisoner(args.Session.UserId))
+            return;
+
+        args.Cancelled = true;
+        _chat.DispatchServerMessage(args.Session, Loc.GetString("prison-ghost-chat-blocked"));
     }
 
     private void OnPrisonDamageChanged(EntityUid uid, PrisonBoundComponent component, DamageChangedEvent args)
@@ -1166,7 +1235,7 @@ public sealed class PrisonSystem : EntitySystem
         var mob = _spawning.SpawnPlayerMob(coordinates, null, profile, null);
         EnsureComp<PrisonBoundComponent>(mob);
         EquipPrisoner(mob, session.UserId);
-        _prisonUsers.Add(session.UserId);
+        BindPrisonSession(session);
         _mind.TransferTo(newMind, mob);
     }
 
@@ -1199,6 +1268,9 @@ public sealed class PrisonSystem : EntitySystem
 
     private void EquipPrisoner(EntityUid entity, NetUserId userId)
     {
+        var prisonBound = EnsureComp<PrisonBoundComponent>(entity);
+        ApplyPrisonLanguage(entity, prisonBound);
+
         if (!_prisonFactions.TryGetValue(userId, out var factionId) ||
             !_prototype.TryIndex(factionId, out var faction))
         {
@@ -1208,6 +1280,55 @@ public sealed class PrisonSystem : EntitySystem
         SetPrisonFaction(entity, factionId);
         _spawning.EquipStartingGear(entity, PrisonerGear, raiseEvent: false);
         _spawning.EquipStartingGear(entity, faction.Gear, raiseEvent: false);
+    }
+
+    private void ApplyPrisonLanguage(EntityUid entity, PrisonBoundComponent prisonBound)
+    {
+        if (!prisonBound.LanguageOverridden)
+        {
+            prisonBound.HadLanguageComponent = TryComp<LanguageComponent>(entity, out var previous);
+            if (previous != null)
+            {
+                prisonBound.PreviousKnownLanguages.UnionWith(previous.KnownLanguages);
+                prisonBound.PreviousCantSpeakLanguages.UnionWith(previous.CantSpeakLanguages);
+                prisonBound.PreviousUnlockLanguages.UnionWith(previous.UnlockLanguagesAfterMakeSentient);
+                prisonBound.PreviousSelectedLanguage = previous.SelectedLanguage;
+            }
+
+            prisonBound.LanguageOverridden = true;
+        }
+
+        _language.SetExclusiveLanguage(entity, LanguageSystem.PrisonLanguageId);
+    }
+
+    private void RestorePrisonLanguage(EntityUid entity, PrisonBoundComponent prisonBound)
+    {
+        if (!prisonBound.LanguageOverridden)
+            return;
+
+        if (!prisonBound.HadLanguageComponent)
+        {
+            RemComp<LanguageComponent>(entity);
+            return;
+        }
+
+        var language = EnsureComp<LanguageComponent>(entity);
+        language.KnownLanguages.Clear();
+        language.KnownLanguages.UnionWith(prisonBound.PreviousKnownLanguages);
+        language.CantSpeakLanguages.Clear();
+        language.CantSpeakLanguages.UnionWith(prisonBound.PreviousCantSpeakLanguages);
+        language.UnlockLanguagesAfterMakeSentient.Clear();
+        language.UnlockLanguagesAfterMakeSentient.UnionWith(prisonBound.PreviousUnlockLanguages);
+        language.SelectedLanguage = prisonBound.PreviousSelectedLanguage;
+        Dirty(entity, language);
+    }
+
+    private void RemovePrisonBound(EntityUid entity)
+    {
+        if (TryComp<PrisonBoundComponent>(entity, out var prisonBound))
+            RestorePrisonLanguage(entity, prisonBound);
+
+        RemComp<PrisonBoundComponent>(entity);
     }
 
     private void DropInventory(EntityUid entity)
@@ -1344,12 +1465,17 @@ public sealed class PrisonSystem : EntitySystem
         {
             if (HasComp<GhostComponent>(uid))
             {
+                if (TryComp<PrisonBoundComponent>(uid, out var prisonBound))
+                    RestorePrisonLanguage(uid, prisonBound);
                 RemCompDeferred<PrisonBoundComponent>(uid);
                 continue;
             }
 
             if (IsPrisonMap(xform.MapID))
             {
+                if (TryComp<PrisonBoundComponent>(uid, out var prisonBound))
+                    ApplyPrisonLanguage(uid, prisonBound);
+
                 if (TryGetPrisonerMind(uid, out _, out var prisonerMind) &&
                     prisonerMind.UserId is { } prisonerId &&
                     !_prisonFactions.ContainsKey(prisonerId) &&
@@ -1363,8 +1489,11 @@ public sealed class PrisonSystem : EntitySystem
             if (!TryGetPrisonerMind(uid, out _, out var mind) || mind.UserId is not { } userId)
                 continue;
 
-            _prisonFactions.TryGetValue(userId, out var faction);
-            if (TryGetSpawnCoordinates(faction, out var coordinates))
+            EntityCoordinates coordinates;
+            var foundCoordinates = _prisonFactions.TryGetValue(userId, out var faction)
+                ? TryGetSpawnCoordinates(faction, out coordinates)
+                : TryGetSpawnCoordinates(out coordinates);
+            if (foundCoordinates)
                 SendEntityToPrison(uid, coordinates, userId);
         }
     }
@@ -1375,25 +1504,34 @@ public sealed class PrisonSystem : EntitySystem
 
         try
         {
-            var checks = new List<PrisonBanRefreshCheck>();
+            var checks = new List<PrisonBanRefreshRequest>();
 
             foreach (var userId in _prisonUsers.ToArray())
             {
-                if (!_player.TryGetSessionById(userId, out var session))
+                if (_pendingPrisonConnections.TryGetValue(userId, out var deadline) &&
+                    _timing.RealTime < deadline)
                 {
-                    _prisonUsers.Remove(userId);
                     continue;
                 }
 
-                checks.Add(CreateBanRefreshCheck(session));
+                _pendingPrisonConnections.Remove(userId);
+                if (!_player.TryGetSessionById(userId, out var session))
+                {
+                    RemoveDisconnectedPrisonState(userId);
+                    continue;
+                }
+
+                BindPrisonSession(session);
+                checks.Add(new PrisonBanRefreshRequest(session, CreateBanRefreshCheck(session)));
             }
 
             if (checks.Count == 0)
                 return;
 
             var results = new List<PrisonBanRefreshResult>();
-            foreach (var check in checks)
+            foreach (var request in checks)
             {
+                var check = request.Check;
                 var bans = await _db.GetBansAsync(
                     check.Address,
                     check.UserId,
@@ -1402,7 +1540,7 @@ public sealed class PrisonSystem : EntitySystem
                     includeUnbanned: false);
 
                 results.Add(new PrisonBanRefreshResult(
-                    check.UserId,
+                    request.Session,
                     GetLatestActiveServerBan(bans)));
             }
 
@@ -1437,9 +1575,12 @@ public sealed class PrisonSystem : EntitySystem
     {
         foreach (var result in results)
         {
-            if (!_player.TryGetSessionById(result.UserId, out var session))
+            var userId = result.Session.UserId;
+            if (!_prisonSessions.TryGetValue(userId, out var trackedSession) ||
+                !ReferenceEquals(trackedSession, result.Session) ||
+                !_player.TryGetSessionById(userId, out var session) ||
+                !ReferenceEquals(session, result.Session))
             {
-                _prisonUsers.Remove(result.UserId);
                 continue;
             }
 
@@ -1468,17 +1609,13 @@ public sealed class PrisonSystem : EntitySystem
     private void ClearPrisonState(ICommonSession session)
     {
         UnlockFactionSelection(session.UserId);
-        _prisonUsers.Remove(session.UserId);
+        RemoveDisconnectedPrisonState(session.UserId);
         _prisonFactions.Remove(session.UserId);
-        _factionSelectionDeadlines.Remove(session.UserId);
         _pendingSentenceAcceleration.Remove(session.UserId);
-
-        if (_factionEuis.Remove(session.UserId, out var eui) && !eui.IsShutDown)
-            eui.Close();
 
         if (session.AttachedEntity is { } entity && Exists(entity))
         {
-            RemComp<PrisonBoundComponent>(entity);
+            RemovePrisonBound(entity);
             RemComp<PrisonFactionMemberComponent>(entity);
         }
     }
@@ -1852,6 +1989,14 @@ public sealed class PrisonSystem : EntitySystem
 
     public bool IsPrisonMap(MapId mapId)
     {
+        var mapQuery = EntityQueryEnumerator<PrisonMapComponent, TransformComponent>();
+        while (mapQuery.MoveNext(out _, out _, out var mapXform))
+        {
+            if (mapXform.MapID == mapId)
+                return true;
+        }
+
+        // Keep spawn points as a fallback for tests and manually loaded prison maps.
         var query = EntityQueryEnumerator<PrisonSpawnPointComponent, TransformComponent>();
         while (query.MoveNext(out _, out _, out var xform))
         {
@@ -1926,12 +2071,16 @@ public sealed class PrisonSystem : EntitySystem
         ImmutableArray<byte>? HwId,
         ImmutableArray<ImmutableArray<byte>> ModernHwIds);
 
+    private readonly record struct PrisonBanRefreshRequest(
+        ICommonSession Session,
+        PrisonBanRefreshCheck Check);
+
     private readonly record struct PendingFaunaReward(
         PrisonBanRefreshCheck Check,
         int Minutes);
 
     private readonly record struct PrisonBanRefreshResult(
-        NetUserId UserId,
+        ICommonSession Session,
         BanDef? LatestBan);
 }
 

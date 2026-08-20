@@ -5,6 +5,7 @@ prison-arrival-message = You have arrived in the correctional zone. While you ar
 prison-unavailable-message = Prison is not available right now. Try again later.
 prison-release-message = Your prison server ban is no longer active. Prison restrictions have been lifted.
 prison-ooc-blocked = You cannot use OOC while serving a prison sentence.
+prison-ghost-chat-blocked = You cannot use ghost chat while serving a prison sentence.
 prison-bwoink-blocked = You cannot use adminhelp while serving a prison sentence.
 prison-ghost-role-blocked = You cannot take ghost roles while serving a prison sentence.
 prison-antag-role-blocked = You cannot become an antagonist while serving a prison sentence.

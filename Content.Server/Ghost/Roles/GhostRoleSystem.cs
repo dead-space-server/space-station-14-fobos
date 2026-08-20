@@ -579,7 +579,16 @@ public sealed class GhostRoleSystem : EntitySystem
     /// <returns>True if takeover was successful, otherwise false.</returns>
     public bool Takeover(ICommonSession player, uint identifier)
     {
-        if (!_ghostRoles.TryGetValue(identifier, out var role))
+        // DS14-start: enforce prison restrictions for raffles and direct server-side callers too.
+        if (_prison.IsUserPrisoner(player.UserId))
+        {
+            LeaveAllRaffles(player);
+            _popupSystem.PopupCursor(Loc.GetString("prison-ghost-role-blocked"), player);
+            return false;
+        }
+        // DS14-end
+
+        if (!_ghostRoles.TryGetValue(identifier, out var role) || !IsRoleOnValidMap(role.Owner))
             return false;
 
         var ev = new TakeGhostRoleEvent(player);
@@ -863,7 +872,9 @@ public sealed class GhostRoleSystem : EntitySystem
         if (!TryComp(uid, out TransformComponent? xform))
             return false;
 
-        return xform.MapUid != null && xform.MapID != MapId.Nullspace;
+        return xform.MapUid != null &&
+               xform.MapID != MapId.Nullspace &&
+               !_prison.IsPrisonMap(xform.MapID);
     }
     // DS14-end
 

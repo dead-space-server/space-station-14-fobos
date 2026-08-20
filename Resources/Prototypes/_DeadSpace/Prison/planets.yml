@@ -28,7 +28,7 @@
     reservationSize: 64,80
     reservationOffset: -8,-16
     gridName: Frontier Base
-  ftlEnabled: true
+  ftlEnabled: false
   ftlBeaconsOnly: true
   ftlBeaconName: Prison Landing Zone
   ftlBeaconOffset: -112,-112
