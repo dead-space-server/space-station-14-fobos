@@ -117,3 +117,4 @@ messenger-notification-message = {$sender} sent a message
 messenger-typing-popup = Typing in a PDA...
 messenger-disable-chat = Disable chat
 messenger-enable-chat = Enable chat
+messenger-unread-header = New messages

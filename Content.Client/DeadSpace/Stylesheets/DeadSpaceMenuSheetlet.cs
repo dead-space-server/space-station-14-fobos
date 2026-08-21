@@ -36,6 +36,7 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
     public const string ListHeader = "DS14MenuListHeader";
     public const string ListRow = "DS14MenuListRow";
     public const string ListRowAlt = "DS14MenuListRowAlt";
+    public const string ListRowUnread = "DS14MenuListRowUnread"; // DS14
     public const string Input = "DS14MenuInput";
     public const string TextArea = "DS14MenuTextArea";
     public const string TextField = "DS14MenuTextField";
@@ -449,6 +450,20 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             BackgroundColor = Color.FromHex("#10161FC8"),
             BorderColor = Color.FromHex("#293844"),
         };
+
+        // DS14-start: highlighted row for dialogs with new messages (NanoChat)
+        var listRowUnread = new StyleBoxFlat(listRow)
+        {
+            BackgroundColor = Color.FromHex("#173B26F4"),
+            BorderColor = Color.FromHex("#2EA043"),
+        };
+
+        var listRowUnreadHover = new StyleBoxFlat(listRowUnread)
+        {
+            BackgroundColor = Color.FromHex("#1D5635F8"),
+            BorderColor = Color.FromHex("#3FB950"),
+        };
+        // DS14-end
 
         var input = new StyleBoxFlat
         {
@@ -993,6 +1008,32 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
                 .PseudoPressed()
                 .Box(actionButtonPositivePressed)
                 .Modulate(Color.White),
+
+            // DS14-start: unread dialog row (NanoChat), declared after ListRow so it overrides it
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRowUnread)
+                .PseudoNormal()
+                .Box(listRowUnread)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRowUnread)
+                .PseudoHovered()
+                .Box(listRowUnreadHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRowUnread)
+                .PseudoPressed()
+                .Box(listRowPressed)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRowUnread)
+                .ParentOf(E<Label>())
+                .Font(sheet.BaseFont.GetFont(12)),
+            // DS14-end
         ];
     }
 }
