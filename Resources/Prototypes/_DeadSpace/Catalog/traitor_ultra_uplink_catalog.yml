@@ -4001,7 +4001,7 @@
   id: UplinkTraitorUltraNukeHK
   name: Пресет "Хёкля"
   description: Используемый опытным оперативником набор вещей, основа которого - XC67. Придумал ебанутый слайм.
-  productEntity: CrateBundleNukeXC67
+  productEntity: CrateBundleNukexC67
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
   cost:
     Telecrystal: 79
