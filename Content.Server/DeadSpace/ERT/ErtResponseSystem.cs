@@ -32,6 +32,8 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Maths;
+using Content.Shared.Administration;
+using Content.Server.Administration.Managers;
 
 namespace Content.Server.DeadSpace.ERT;
 
@@ -92,6 +94,7 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
     [Dependency] private SharedPinpointerSystem _pinpointerSystem = default!;
     [Dependency] private GameTicker _gameTicker = default!;
     [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private IAdminManager _adminManager = default!;
 
     private readonly Dictionary<int, PendingErtRequestData> _pendingRequests = new();
     private readonly Dictionary<int, ManualApprovedErtRequestData> _manualApprovedRequests = new();
@@ -143,6 +146,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnRequestErtAdminState(RequestErtAdminStateMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         var pendingEntries = new List<ErtPendingRequestEntry>();
         var approvedEntries = new List<ErtApprovedRequestEntry>();
         var manualApprovedEntries = new List<ErtManualApprovedRequestEntry>();
@@ -207,6 +217,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnAdminModifyErtEntry(AdminModifyErtEntryMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         if (!_approvedRequests.TryGetValue(msg.RequestId, out var data))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "No approved ERT request with that id"), args.SenderSession.Channel);
@@ -223,6 +240,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnAdminSetPoints(AdminSetPointsMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         _points = msg.Points;
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} set ERT points to {_points}");
@@ -233,6 +257,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnDeleteErt(AdminDeleteErtMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         if (!_approvedRequests.Remove(msg.RequestId))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "No approved ERT request with that id"), args.SenderSession.Channel);
@@ -247,6 +278,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnAdminSetCooldown(AdminSetCooldownMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         var window = new TimedWindow(TimeSpan.FromSeconds(msg.Seconds), TimeSpan.FromSeconds(msg.Seconds));
         _timedWindowSystem.Reset(window);
         _coolDown = window;
@@ -259,6 +297,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnAdminSetReason(AdminSetErtReasonMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         if (!_approvedRequests.TryGetValue(msg.RequestId, out var data))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "No approved ERT request with that id"), args.SenderSession.Channel);
@@ -275,6 +320,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnAdminCallErt(AdminCallErtMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         var teamId = new ProtoId<ErtTeamPrototype>(msg.ProtoId);
         var success = TryCallErt(
             teamId,
@@ -293,6 +345,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnRejectRequest(AdminRejectErtRequestMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         if (!_pendingRequests.Remove(msg.RequestId))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "No pending ERT request with that id"), args.SenderSession.Channel);
@@ -319,6 +378,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnApproveRequestManual(AdminApproveErtRequestManualMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         if (!_pendingRequests.TryGetValue(msg.RequestId, out var request))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "No pending ERT request with that id"), args.SenderSession.Channel);
@@ -354,6 +420,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnApproveRequestAuto(AdminApproveErtRequestAutoMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         if (!_pendingRequests.TryGetValue(msg.RequestId, out var request))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "No pending ERT request with that id"), args.SenderSession.Channel);
@@ -379,6 +452,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnSetApprovedTeam(AdminSetApprovedErtTeamMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         if (!_approvedRequests.TryGetValue(msg.RequestId, out var request))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "No approved ERT request with that id"), args.SenderSession.Channel);
@@ -412,6 +492,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnSendErtNow(AdminSendErtNowMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         if (!_approvedRequests.TryGetValue(msg.RequestId, out var request))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "No approved ERT request with that id"), args.SenderSession.Channel);
@@ -428,6 +515,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnPromoteManualApprovedRequest(AdminPromoteManualApprovedErtMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         if (!_manualApprovedRequests.TryGetValue(msg.RequestId, out var request))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "No manual-approved ERT request with that id"), args.SenderSession.Channel);
@@ -450,6 +544,13 @@ public sealed partial class ErtResponseSystem : SharedErtResponseSystem
 
     private void OnMoveApprovedRequestToManual(AdminMoveApprovedErtToManualMessage msg, EntitySessionEventArgs args)
     {
+        if (!_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Admin) ||
+            !_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+        {
+            Log.Warning($"Послан в пешее эротическое взаимодействие неадмина с админ обром " +
+                        $"{args.SenderSession.Name} ({args.SenderSession.UserId}).");
+            return;
+        }
         if (!_approvedRequests.TryGetValue(msg.RequestId, out var request))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "No approved ERT request with that id"), args.SenderSession.Channel);
