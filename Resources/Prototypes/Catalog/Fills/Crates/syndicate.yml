@@ -34,17 +34,17 @@
 # DS14-start
 - type: entity
   parent: CrateSyndicate
-  id: CrateBundleNukeHK416
-  name: Набор Хёкля
-  suffix: Готовый закуп, HK416
-  description: Историю пишут победители. Лично я думаю, что мы победили.
+  id: CrateBundleNukeхС67
+  name: Набор xC-67
+  suffix: Готовый закуп, хС67
+  description: Дорогого стоит.
   components:
   - type: EntityTableContainerFill
     containers:
       entity_storage: !type:AllSelector
         children:
-        - id: ClothingBackpackSatchelTaipanBundleHK416
-        - id: WeaponRifleHK416
+        - id: ClothingBackpackSatchelTaipanBundleХС67
+        - id: WeaponRifleXC67
 
 - type: entity
   parent: CrateSyndicate

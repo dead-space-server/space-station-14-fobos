@@ -245,11 +245,11 @@
       - SurplusBundle
 
 - type: listing
-  id: UplinkHK416Bundle
-  name: uplink-hk416-bundle-name
-  description: uplink-hk416-bundle-desc
-  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/hk416.rsi, state: icon }
-  productEntity: ClothingBackpackDuffelSyndicateFilledHK416
+  id: UplinkXC67Bundle
+  name: uplink-xc67-bundle-name
+  description: uplink-xc67-bundle-desc
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
+  productEntity: ClothingBackpackDuffelSyndicateFilledXC67
   cost:
     Telecrystal: 18
   categories:
@@ -309,11 +309,11 @@
       - NukeOpsUplink
 
 - type: listing
-  id: UplinkHK416AmmoBundle
-  name: uplink-hk416-ammo-bundle-name
-  description: uplink-hk416-ammo-bundle-description
+  id: UplinkXC67AmmoBundle
+  name: uplink-xc67-ammo-bundle-name
+  description: uplink-xc67-ammo-bundle-description
   icon: { sprite: /Textures/_ADT/Objects/Weapons/Guns/Ammunition/Magazine/ext_rifle_mag.rsi, state: base }
-  productEntity: ClothingBackpackDuffelSyndicateFilledHK416Ammo
+  productEntity: ClothingBackpackDuffelSyndicateFilledXC67Ammo
   cost:
     Telecrystal: 10
   categories:
@@ -1181,11 +1181,11 @@
       - NukeOpsUplink
 
 - type: listing
-  id: UplinkNukeHK
-  name: Пресет "Хёкля"
-  description: Используемый опытным оперативником набор вещей, основа которого - HK416.
-  productEntity: CrateBundleNukeHK416
-  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/hk416.rsi, state: icon }
+  id: UplinkNukeХС
+  name: Пресет "хС-67"
+  description: Используемый опытным оперативником набор вещей, основа которого - хС-67.
+  productEntity: CrateBundleNukeхС67
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
   cost:
     Telecrystal: 79
   categories:

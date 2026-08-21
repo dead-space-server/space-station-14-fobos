@@ -3038,11 +3038,11 @@
       - SurplusBundle
 
 - type: listing
-  id: UplinkTraitorUltraHK416Bundle
-  name: uplink-hk416-bundle-name
-  description: uplink-hk416-bundle-desc
-  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/hk416.rsi, state: icon }
-  productEntity: ClothingBackpackDuffelSyndicateFilledHK416
+  id: UplinkTraitorUltraXC67Bundle
+  name: uplink-XC67-bundle-name
+  description: uplink-XC67-bundle-desc
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/XC67.rsi, state: icon }
+  productEntity: ClothingBackpackDuffelSyndicateFilledXC67
   cost:
     Telecrystal: 14
   categories:
@@ -3101,11 +3101,11 @@
       - NukeOpsUplink
 
 - type: listing
-  id: UplinkTraitorUltraHK416AmmoBundle
-  name: uplink-hk416-ammo-bundle-name
-  description: uplink-hk416-ammo-bundle-description
+  id: UplinkTraitorUltraXC67AmmoBundle
+  name: uplink-xc67-ammo-bundle-name
+  description: uplink-xc67-ammo-bundle-description
   icon: { sprite: /Textures/_ADT/Objects/Weapons/Guns/Ammunition/Magazine/ext_rifle_mag.rsi, state: base }
-  productEntity: ClothingBackpackDuffelSyndicateFilledHK416Ammo
+  productEntity: ClothingBackpackDuffelSyndicateFilledXC67Ammo
   cost:
     Telecrystal: 10
   categories:
@@ -4000,9 +4000,9 @@
 - type: listing
   id: UplinkTraitorUltraNukeHK
   name: Пресет "Хёкля"
-  description: Используемый опытным оперативником набор вещей, основа которого - HK416. Придумал ебанутый слайм.
-  productEntity: CrateBundleNukeHK416
-  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/hk416.rsi, state: icon }
+  description: Используемый опытным оперативником набор вещей, основа которого - XC67. Придумал ебанутый слайм.
+  productEntity: CrateBundleNukeXC67
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
   cost:
     Telecrystal: 79
   categories:
