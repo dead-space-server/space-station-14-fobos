@@ -17,14 +17,14 @@ using Robust.Shared.Audio;
 
 namespace Content.Server.Radio.EntitySystems;
 
-public sealed class HeadsetSystem : SharedHeadsetSystem
+public sealed partial class HeadsetSystem : SharedHeadsetSystem
 {
-    [Dependency] private readonly INetManager _netMan = default!;
-    [Dependency] private readonly RadioSystem _radio = default!;
-    [Dependency] private readonly AudioSystem _audio = default!; // DS14-TTS
-    [Dependency] private readonly LanguageSystem _language = default!; // DS14-Languages
-    [Dependency] private readonly IAdminManager _admin = default!; // DS14
-    [Dependency] private readonly GameTicker _gameTicker = default!; // DS14
+    [Dependency] private INetManager _netMan = default!;
+    [Dependency] private RadioSystem _radio = default!;
+    [Dependency] private AudioSystem _audio = default!; // DS14-TTS
+    [Dependency] private LanguageSystem _language = default!; // DS14-Languages
+    [Dependency] private IAdminManager _admin = default!; // DS14
+    [Dependency] private GameTicker _gameTicker = default!; // DS14
 
     public override void Initialize()
     {

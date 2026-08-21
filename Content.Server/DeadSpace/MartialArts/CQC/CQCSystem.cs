@@ -23,20 +23,20 @@ using Content.Shared.DeadSpace.MartialArts.CQC.Components;
 
 namespace Content.Server.DeadSpace.MartialArts.CQC;
 
-public sealed class CQCSystem : CQCSharedSystem
+public sealed partial class CQCSystem : CQCSharedSystem
 {
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly StaminaSystem _stamina = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
-    [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly SharedStunSystem _stun = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly TransformSystem _transform = default!;
-    [Dependency] private readonly SharedActionsSystem _action = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private StaminaSystem _stamina = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedPhysicsSystem _physics = default!;
+    [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private EntityLookupSystem _entityLookup = default!;
+    [Dependency] private DamageableSystem _damageable = default!;
+    [Dependency] private SharedStunSystem _stun = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private TransformSystem _transform = default!;
+    [Dependency] private SharedActionsSystem _action = default!;
+    [Dependency] private IGameTiming _timing = default!;
 
     private readonly HashSet<EntityUid> _receivers = new();
     public override void Initialize()

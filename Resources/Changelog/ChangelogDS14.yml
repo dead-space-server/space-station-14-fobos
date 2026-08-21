@@ -6247,3 +6247,126 @@ Entries:
   changes:
   - type: Add
     message: К внешнему виду христова был добавлен прицел 😱😮🙈🫨OMG
+- id: 605
+  author: pe4enkakris
+  time: '2026-08-18T06:35:32.894472+00:00'
+  pr: 2168
+  changes:
+  - type: Add
+    message: В кабельный модуль боргов добавлена портативная консоль контроля питания
+      питания. В строительный модуль боргов добавлены слоты для канистр топлива для
+      ДАМ и плазмы.
+- id: 606
+  author: zubekkk
+  time: '2026-08-18T06:38:20.354458+00:00'
+  pr: 2174
+  changes:
+  - type: Tweak
+    message: Спрайты гарнитур
+- id: 607
+  author: KillFroozy
+  time: '2026-08-18T13:46:48.782947+00:00'
+  pr: 2182
+  changes:
+  - type: Fix
+    message: спрайт пушистого хвоста таяр спереди теперь не выше на пиксель на один
+      кадр.
+- id: 608
+  author: pe4enkakris
+  time: '2026-08-18T16:09:10.199299+00:00'
+  pr: 2170
+  changes:
+  - type: Tweak
+    message: Спрайт кирок и спрайт пчелы by Nano_Jump
+- id: 609
+  author: pe4enkakris
+  time: '2026-08-18T16:40:03.445648+00:00'
+  pr: 2183
+  changes:
+  - type: Fix
+    message: Спрайт пчёлок откачен до старого, предназначен для другого :face_holding_back_tears:.
+- id: 610
+  author: Atickov
+  time: '2026-08-18T18:12:53.528977+00:00'
+  pr: 2176
+  changes:
+  - type: Fix
+    message: Баги локализации
+- id: 611
+  author: ZekA1L
+  time: '2026-08-19T04:38:25.760030+00:00'
+  pr: 2187
+  changes:
+  - type: Fix
+    message: Убрано требование инженерного доступа с пожарных шлюзов на шаттле ядерных
+      оперативников.
+- id: 612
+  author: ZekA1L
+  time: '2026-08-20T02:33:07.231349+00:00'
+  pr: 2185
+  changes:
+  - type: Tweak
+    message: Шейдер термалов стал в 1.5 раза менее ярким.
+- id: 613
+  author: sastr457
+  time: '2026-08-20T02:35:01.731701+00:00'
+  pr: 2190
+  changes:
+  - type: Fix
+    message: Лошадка 🐎
+- id: 614
+  author: pe4enkakris
+  time: '2026-08-21T10:38:09.989506+00:00'
+  pr: 2196
+  changes:
+  - type: Tweak
+    message: Респрайт медицинского сканера и капсулы клонирования by amaliz
+- id: 615
+  author: ZekA1L
+  time: '2026-08-21T10:40:25.106833+00:00'
+  pr: 2186
+  changes:
+  - type: Tweak
+    message: Теперь Тенеморф может вербовать существ в крите.
+- id: 616
+  author: Manstari
+  time: '2026-08-21T10:43:41.945183+00:00'
+  pr: 2191
+  changes:
+  - type: Add
+    message: Возможность питья из-под крана и кулера.
+  - type: Fix
+    message: Газовые приборы больше не сбрасывают введённое при применении других
+      параметров.
+- id: 617
+  author: pe4enkakris
+  time: '2026-08-21T10:49:11.039911+00:00'
+  pr: 2197
+  changes:
+  - type: Tweak
+    message: Респрайт питательного | волокнистого батончика и брауни by mutemaid
+- id: 618
+  author: pe4enkakris
+  time: '2026-08-21T10:50:47.177519+00:00'
+  pr: 2194
+  changes:
+  - type: Tweak
+    message: Отныне мухтар появляется в своей броне.
+  - type: Fix
+    message: Сетевые ошибки в компоненте кулера.
+- id: 619
+  author: CyberBobeks
+  time: '2026-08-21T17:02:02.087209+00:00'
+  pr: 2198
+  changes:
+  - type: Tweak
+    message: Версия движка обновлена до версии 288.1.0.
+  - type: Fix
+    message: Некоторые баги с тюрмой и безопасностью.
+- id: 620
+  author: vv210410-bit
+  time: '2026-08-21T17:35:19.433595+00:00'
+  pr: 2166
+  changes:
+  - type: Tweak
+    message: Теперь дракона не видно на сканере масс

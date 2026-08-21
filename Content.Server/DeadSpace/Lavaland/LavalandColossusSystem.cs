@@ -22,7 +22,7 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Lavaland;
 
-public sealed class LavalandColossusSystem : EntitySystem
+public sealed partial class LavalandColossusSystem : EntitySystem
 {
     private static readonly float[] ShotgunOffsets = [12.5f, 7.5f, 2.5f, -2.5f, -7.5f, -12.5f];
     private static readonly float[] EnragedShotgunOffsets = [17.5f, 12.5f, 7.5f, 2.5f, -2.5f, -7.5f, -12.5f, -17.5f];
@@ -30,18 +30,18 @@ public sealed class LavalandColossusSystem : EntitySystem
     private static readonly float[] Diagonals = [45f, 135f, 225f, 315f];
     private static readonly float[] AllDirections = [0f, 45f, 90f, 135f, 180f, 225f, 270f, 315f];
 
-    [Dependency] private readonly GunSystem _gun = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IPlayerManager _players = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedCameraRecoilSystem _camera = default!;
-    [Dependency] private readonly SharedColorFlashEffectSystem _color = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
-    [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
-    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private GunSystem _gun = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private IPlayerManager _players = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedCameraRecoilSystem _camera = default!;
+    [Dependency] private SharedColorFlashEffectSystem _color = default!;
+    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private MovementSpeedModifierSystem _movement = default!;
+    [Dependency] private SharedPhysicsSystem _physics = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
 
     private readonly List<EntityUid> _participants = new();
     private readonly List<EntityUid> _telegraphTargets = new();

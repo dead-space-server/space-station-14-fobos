@@ -11,16 +11,16 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.PatrolTablet;
 
-public sealed class PatrolTabletSystem : EntitySystem
+public sealed partial class PatrolTabletSystem : EntitySystem
 {
     private const int MaxSquads = 16;
     private const int MaxSquadNameLength = 30;
     private const string SquadIconPrototypePrefix = "DeadSpaceSquadIcon";
 
-    [Dependency] private readonly UserInterfaceSystem _ui = default!;
-    [Dependency] private readonly PopupSystem _popup = default!;
-    [Dependency] private readonly SharedIdCardSystem _idCard = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private UserInterfaceSystem _ui = default!;
+    [Dependency] private PopupSystem _popup = default!;
+    [Dependency] private SharedIdCardSystem _idCard = default!;
+    [Dependency] private IPrototypeManager _prototype = default!;
 
     public override void Initialize()
     {

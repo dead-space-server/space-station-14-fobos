@@ -20,7 +20,7 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Prison;
 
-public sealed class PrisonFaunaPopulationSystem : EntitySystem
+public sealed partial class PrisonFaunaPopulationSystem : EntitySystem
 {
     private const CollisionGroup SpawnBlockerMask =
         CollisionGroup.Impassable |
@@ -36,15 +36,14 @@ public sealed class PrisonFaunaPopulationSystem : EntitySystem
         new(0, -1),
     ];
 
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly BiomeSystem _biome = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private BiomeSystem _biome = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private IPrototypeManager _prototype = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private TurfSystem _turf = default!;
 
     private readonly Dictionary<EntProtoId, int> _counts = new();
     private readonly HashSet<EntityUid> _tileEntities = new();
@@ -121,13 +120,20 @@ public sealed class PrisonFaunaPopulationSystem : EntitySystem
         }
     }
 
-    public void SetupMap(EntityUid mapUid, PrisonPlanetPrototype planet)
+    public void SetupMap(
+        EntityUid mapUid,
+        PrisonPlanetPrototype planet,
+        IReadOnlyList<Box2> residenceBounds)
     {
         if (!planet.FaunaEnabled || planet.FaunaSpawns.Count == 0)
             return;
 
         var population = EnsureComp<PrisonFaunaPopulationComponent>(mapUid);
         population.SectorCooldowns.Clear();
+        population.ResidenceExclusions.Clear();
+        var residencePadding = Math.Max(0f, planet.FaunaResidenceExclusionPadding);
+        foreach (var bounds in residenceBounds)
+            population.ResidenceExclusions.Add(bounds.Enlarged(residencePadding));
         population.InitialSpawnRemaining = Math.Min(
             Math.Max(0, planet.FaunaInitialSpawnCount),
             Math.Max(0, planet.FaunaHardCap));
@@ -277,7 +283,7 @@ public sealed class PrisonFaunaPopulationSystem : EntitySystem
 
                 if (avoidUsedSectors && usedSectors.Contains(sector) ||
                     population.SectorCooldowns.ContainsKey(sector) ||
-                    IsInsideExclusion(center, planet) ||
+                    IsInsideExclusion(center, planet, population) ||
                     HasNearbyPlayer(mapId, center, planet.FaunaMinPlayerDistance) ||
                     HasNearbyNonTerrainGrid(mapUid, center, Math.Max(2f, planet.FaunaSpawnClearance + 1f)) ||
                     !IsTileSafeForSpawn(mapUid, grid, biome, indices, planet.FaunaSpawnClearance, true) ||
@@ -402,7 +408,7 @@ public sealed class PrisonFaunaPopulationSystem : EntitySystem
     {
         _nearbyGrids.Clear();
         var bounds = Box2.CenteredAround(center, Vector2.One * (radius * 2f + 1f));
-        _mapManager.FindGridsIntersecting(Transform(mapUid).MapID, bounds, ref _nearbyGrids);
+        _map.FindGridsIntersecting(Transform(mapUid).MapID, bounds, ref _nearbyGrids);
         foreach (var grid in _nearbyGrids)
         {
             if (grid.Owner != mapUid)
@@ -412,13 +418,14 @@ public sealed class PrisonFaunaPopulationSystem : EntitySystem
         return false;
     }
 
-    private static bool IsInsideExclusion(Vector2 center, PrisonPlanetPrototype planet)
+    private static bool IsInsideExclusion(
+        Vector2 center,
+        PrisonPlanetPrototype planet,
+        PrisonFaunaPopulationComponent population)
     {
-        if (planet.ResidenceReservationEnabled)
+        foreach (var bounds in population.ResidenceExclusions)
         {
-            var halfSize = Math.Max(1, planet.ResidenceReservationSize) / 2f +
-                           Math.Max(0f, planet.FaunaResidenceExclusionPadding);
-            if (MathF.Abs(center.X) <= halfSize && MathF.Abs(center.Y) <= halfSize)
+            if (bounds.Contains(center))
                 return true;
         }
 

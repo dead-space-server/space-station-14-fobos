@@ -243,6 +243,10 @@
   components:
   - type: Sprite
     state: ml
+  - type: Item
+    size: Normal
+    shape:
+    - 0,0,1,1
   - type: ThiefUndeterminedBackpack
     possibleSets:
     - TruncheonsecSet

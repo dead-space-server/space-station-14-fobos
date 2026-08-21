@@ -19,9 +19,9 @@ public sealed partial class ServerApi
     private const int DefaultRoundStatsDays = 7;
     private const int MaxRoundStatsDays = 365;
 
-    [Dependency] private readonly IServerDbManager _db = default!;
-    [Dependency] private readonly ServerDbEntryManager _serverDbEntry = default!;
-    [Dependency] private readonly PlayTimeTrackingManager _playTimeTracking = default!;
+    [Dependency] private IServerDbManager _db = default!;
+    [Dependency] private ServerDbEntryManager _serverDbEntry = default!;
+    [Dependency] private PlayTimeTrackingManager _playTimeTracking = default!;
 
     /// <summary>
     /// Get players and active admins list

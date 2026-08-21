@@ -7,11 +7,10 @@ using Robust.Shared.Prototypes; // DS14
 
 namespace Content.Server.Weapons.Misc;
 
-public sealed class TetherGunSystem : SharedTetherGunSystem
+public sealed partial class TetherGunSystem : SharedTetherGunSystem
 {
-    [Dependency] private readonly PowerCellSystem _cell = default!;
-    [Dependency] private readonly TagSystem _tagSystem = default!; // DS14
-    [Dependency] private readonly ItemToggleSystem _toggle = default!;
+    [Dependency] private PowerCellSystem _cell = default!;
+    [Dependency] private ItemToggleSystem _toggle = default!;
 
     private static readonly ProtoId<TagPrototype> CannotTetherTag = "CannotTether"; // DS14
 

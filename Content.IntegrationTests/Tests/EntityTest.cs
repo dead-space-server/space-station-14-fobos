@@ -11,6 +11,7 @@ using Robust.Shared.Map;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Manager.Attributes;
+using Robust.Shared.Spawners;
 
 namespace Content.IntegrationTests.Tests
 {
@@ -30,7 +31,7 @@ namespace Content.IntegrationTests.Tests
             var server = pair.Server;
 
             var entityMan = server.ResolveDependency<IEntityManager>();
-            var mapManager = server.ResolveDependency<IMapManager>();
+            var mapManager = server.System<SharedMapSystem>();
             var prototypeMan = server.ResolveDependency<IPrototypeManager>();
             var mapSystem = entityMan.System<SharedMapSystem>();
 
@@ -154,7 +155,7 @@ namespace Content.IntegrationTests.Tests
 
             var cfg = server.ResolveDependency<IConfigurationManager>();
             var prototypeMan = server.ResolveDependency<IPrototypeManager>();
-            var mapManager = server.ResolveDependency<IMapManager>();
+            var mapManager = server.System<SharedMapSystem>();
             var sEntMan = server.ResolveDependency<IEntityManager>();
             var mapSys = server.System<SharedMapSystem>();
 
@@ -168,47 +169,52 @@ namespace Content.IntegrationTests.Tests
                 .Select(p => p.ID)
                 .ToList();
 
-            await server.WaitPost(() =>
+            // DS14 start - Avoid exhausting CI memory by keeping every prototype, map and grid alive at once.
+            foreach (var batch in protoIds.Chunk(4000))
             {
-                foreach (var protoId in protoIds)
+                await server.WaitPost(() =>
                 {
-                    mapSys.CreateMap(out var mapId);
-                    var grid = mapManager.CreateGridEntity(mapId);
-                    var ent = sEntMan.SpawnEntity(protoId, new EntityCoordinates(grid.Owner, 0.5f, 0.5f));
-                    foreach (var (_, component) in sEntMan.GetNetComponents(ent))
+                    foreach (var protoId in batch)
                     {
-                        sEntMan.Dirty(ent, component);
+                        mapSys.CreateMap(out var mapId);
+                        var grid = mapManager.CreateGridEntity(mapId);
+                        var ent = sEntMan.SpawnEntity(protoId, new EntityCoordinates(grid.Owner, 0.5f, 0.5f));
+                        foreach (var (_, component) in sEntMan.GetNetComponents(ent))
+                        {
+                            sEntMan.Dirty(ent, component);
+                        }
                     }
-                }
-            });
+                });
 
-            await pair.RunTicksSync(15);
+                await pair.RunUntilSynced();
 
-            // Make sure the client actually received the entities
-            // 500 is completely arbitrary. Note that the client & sever entity counts aren't expected to match.
-            Assert.That(client.ResolveDependency<IEntityManager>().EntityCount, Is.GreaterThan(500));
+                // Make sure the client actually received the entities
+                // 500 is completely arbitrary. Note that the client & sever entity counts aren't expected to match.
+                Assert.That(client.ResolveDependency<IEntityManager>().EntityCount, Is.GreaterThan(500));
 
-            await server.WaitPost(() =>
-            {
-                static IEnumerable<(EntityUid, TComp)> Query<TComp>(IEntityManager entityMan)
-                    where TComp : Component
+                await server.WaitPost(() =>
                 {
-                    var query = entityMan.AllEntityQueryEnumerator<TComp>();
-                    while (query.MoveNext(out var uid, out var meta))
+                    static IEnumerable<(EntityUid, TComp)> Query<TComp>(IEntityManager entityMan)
+                        where TComp : Component
                     {
-                        yield return (uid, meta);
+                        var query = entityMan.AllEntityQueryEnumerator<TComp>();
+                        while (query.MoveNext(out var uid, out var meta))
+                        {
+                            yield return (uid, meta);
+                        }
                     }
-                }
 
-                var entityMetas = Query<MetaDataComponent>(sEntMan).ToList();
-                foreach (var (uid, meta) in entityMetas)
-                {
-                    if (!meta.EntityDeleted)
-                        sEntMan.DeleteEntity(uid);
-                }
+                    var entityMetas = Query<MetaDataComponent>(sEntMan).ToList();
+                    foreach (var (uid, meta) in entityMetas)
+                    {
+                        if (!meta.EntityDeleted)
+                            sEntMan.DeleteEntity(uid);
+                    }
 
-                Assert.That(sEntMan.EntityCount, Is.Zero);
-            });
+                    Assert.That(sEntMan.EntityCount, Is.Zero);
+                });
+            }
+            // DS14 end
 
             await pair.CleanReturnAsync();
         }
@@ -289,6 +295,8 @@ namespace Content.IntegrationTests.Tests
                     // If the entity deleted itself, check that it didn't spawn other entities
                     if (!server.EntMan.EntityExists(uid))
                     {
+                        await CleanupTransientEntities(pair, serverEntities);
+
                         Assert.That(Count(server.EntMan), Is.EqualTo(count), $"Server prototype {protoId} failed on deleting itself\n" +
                             BuildDiffString(serverEntities, Entities(server.EntMan), server.EntMan));
                         Assert.That(Count(client.EntMan), Is.EqualTo(clientCount), $"Client prototype {protoId} failed on deleting itself\n" +
@@ -308,6 +316,7 @@ namespace Content.IntegrationTests.Tests
 
                     await server.WaitPost(() => server.EntMan.DeleteEntity(uid));
                     await pair.RunTicksSync(3);
+                    await CleanupTransientEntities(pair, serverEntities);
 
                     // Check that the number of entities has gone back to the original value.
                     Assert.That(Count(server.EntMan), Is.EqualTo(count), $"Server prototype {protoId} failed on deletion: count didn't reset properly\n" +
@@ -320,6 +329,30 @@ namespace Content.IntegrationTests.Tests
             });
 
             await pair.CleanReturnAsync();
+        }
+
+        /// <summary>
+        /// Deletes transient side-effect entities created while a prototype is spawned or deleted.
+        /// </summary>
+        private static async Task CleanupTransientEntities(Pair.TestPair pair, HashSet<EntityUid> baselineEntities)
+        {
+            var server = pair.Server;
+            await server.WaitPost(() =>
+            {
+                var toRemove = new List<EntityUid>();
+                var query = server.EntMan.AllEntityQueryEnumerator<TimedDespawnComponent>();
+                while (query.MoveNext(out var uid, out _))
+                {
+                    if (!baselineEntities.Contains(uid))
+                        toRemove.Add(uid);
+                }
+
+                foreach (var uid in toRemove)
+                {
+                    server.EntMan.DeleteEntity(uid);
+                }
+            });
+            await pair.RunTicksSync(3);
         }
 
         private static string BuildDiffString(IEnumerable<EntityUid> oldEnts, IEnumerable<EntityUid> newEnts, IEntityManager entMan)

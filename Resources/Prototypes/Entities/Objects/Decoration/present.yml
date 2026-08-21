@@ -275,6 +275,8 @@
         orGroup: GiftPool
       - id: PlushieDajidanNikita
         orGroup: GiftPool
+      - id: PlushieCobla
+        orGroup: GiftPool
 
 - type: entity
   id: PresentFigurine

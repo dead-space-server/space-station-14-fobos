@@ -14,15 +14,15 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Abilities.Evolution;
 
-public sealed class EvolutionSystem : EntitySystem
+public sealed partial class EvolutionSystem : EntitySystem
 {
-    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly SharedMindSystem _mindSystem = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly GhostRoleSystem _ghost = default!;
-    [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private SharedActionsSystem _actionsSystem = default!;
+    [Dependency] private SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private SharedMindSystem _mindSystem = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private GhostRoleSystem _ghost = default!;
+    [Dependency] private ISharedPlayerManager _player = default!;
 
     public override void Initialize()
     {

@@ -13,11 +13,11 @@ using Content.Shared.Gibbing;
 
 namespace Content.Server.DeadSpace.Abilities.Cocoon;
 
-public sealed class CocoonSystem : EntitySystem
+public sealed partial class CocoonSystem : EntitySystem
 {
-    [Dependency] private readonly SharedContainerSystem _container = default!;
-    [Dependency] private readonly IGameTiming _gameTiming = default!;
-    [Dependency] private readonly RespiratorSystem _respirator = default!;
+    [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private IGameTiming _gameTiming = default!;
+    [Dependency] private RespiratorSystem _respirator = default!;
     private ISawmill _sawmill = default!;
 
     const float Factor = 1f;

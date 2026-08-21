@@ -7,10 +7,10 @@ using Robust.Shared.GameObjects;
 
 namespace Content.Client.DeadSpace.Crayon;
 
-public sealed class CrayonGhostSystem : EntitySystem
+public sealed partial class CrayonGhostSystem : EntitySystem
 {
-    [Dependency] private readonly IOverlayManager _overlay = default!;
-    [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private IOverlayManager _overlay = default!;
+    [Dependency] private IPlayerManager _player = default!;
 
     private SharedHandsSystem _hands = default!;
     private SharedTransformSystem _transform = default!;
@@ -24,7 +24,7 @@ public sealed class CrayonGhostSystem : EntitySystem
         _transform = EntityManager.System<SharedTransformSystem>();
         _sprite = EntityManager.System<SpriteSystem>();
 
-        _overlay.AddOverlay(new CrayonGhostOverlay(this, _transform, _sprite));
+        _overlay.AddOverlay(new CrayonGhostOverlay(this, EntityManager.System<SharedMapSystem>(), _transform, _sprite));
     }
 
     public void SetRotation(Angle rotation)

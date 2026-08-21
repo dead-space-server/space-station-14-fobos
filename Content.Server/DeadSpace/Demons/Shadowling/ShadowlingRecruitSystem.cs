@@ -21,18 +21,18 @@ using Content.Server.Chat.Systems;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
-public sealed class ShadowlingRecruitSystem : EntitySystem
+public sealed partial class ShadowlingRecruitSystem : EntitySystem
 {
-    [Dependency] private readonly SharedActionsSystem _actions = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly MindSystem _mind = default!;
-    [Dependency] private readonly SharedStunSystem _stun = default!;
-    [Dependency] private readonly RoleSystem _role = default!;
-    [Dependency] private readonly AntagSelectionSystem _antag = default!;
-    [Dependency] private readonly ChatSystem _chat = default!;
-    [Dependency] private readonly PrisonSystem _prison = default!;
+    [Dependency] private SharedActionsSystem _actions = default!;
+    [Dependency] private SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private MindSystem _mind = default!;
+    [Dependency] private SharedStunSystem _stun = default!;
+    [Dependency] private RoleSystem _role = default!;
+    [Dependency] private AntagSelectionSystem _antag = default!;
+    [Dependency] private ChatSystem _chat = default!;
+    [Dependency] private PrisonSystem _prison = default!;
 
     private const string ShadowlingChannel = "Shadowling";
 
@@ -198,9 +198,9 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
             _popup.PopupEntity("Разум цели защищён имплантом!", uid, uid, PopupType.Medium);
             return;
         }
-        if (_mobState.IsDead(target) || _mobState.IsCritical(target))
+        if (_mobState.IsDead(target))
         {
-            _popup.PopupEntity("Цель должна быть в сознании!", uid, uid, PopupType.Medium);
+            _popup.PopupEntity("Цель должна быть жива!", uid, uid, PopupType.Medium);
             return;
         }
         if (!HasComp<HumanoidAppearanceComponent>(target))
@@ -257,9 +257,9 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
             return;
         }
 
-        if (_mobState.IsDead(targetUid) || _mobState.IsCritical(targetUid))
+        if (_mobState.IsDead(targetUid))
         {
-            _popup.PopupEntity("Цель должна быть в сознании!", uid, uid, PopupType.Medium);
+            _popup.PopupEntity("Цель должна быть жива!", uid, uid, PopupType.Medium);
             return;
         }
 

@@ -9,12 +9,12 @@ using Robust.Shared.Network;
 
 namespace Content.Shared.DeadSpace.Clothing;
 
-public sealed class MultiClothingSystem : EntitySystem
+public sealed partial class MultiClothingSystem : EntitySystem
 {
-    [Dependency] private readonly InventorySystem _inventory = default!;
-    [Dependency] private readonly SharedContainerSystem _container = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private InventorySystem _inventory = default!;
+    [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private INetManager _net = default!;
 
     public const string ContainerId = "multi-clothing-container";
 

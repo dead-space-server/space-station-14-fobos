@@ -14,14 +14,14 @@ using Robust.Shared.Utility;
 
 namespace Content.Server.DeadSpace.Skill;
 
-public sealed class SkillShareSystem : EntitySystem
+public sealed partial class SkillShareSystem : EntitySystem
 {
-    [Dependency] private readonly IAdminManager _adminManager = default!;
-    [Dependency] private readonly EuiManager _euiManager = default!;
-    [Dependency] private readonly IPlayerManager _playerManager = default!;
-    [Dependency] private readonly MindSystem _mindSystem = default!;
-    [Dependency] private readonly SkillSystem _skillSystem = default!;
-    [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
+    [Dependency] private IAdminManager _adminManager = default!;
+    [Dependency] private EuiManager _euiManager = default!;
+    [Dependency] private IPlayerManager _playerManager = default!;
+    [Dependency] private MindSystem _mindSystem = default!;
+    [Dependency] private SkillSystem _skillSystem = default!;
+    [Dependency] private SharedTransformSystem _transformSystem = default!;
 
     private const float MaxShareDistance = 3f;
 

@@ -128,7 +128,6 @@
     back:
     - ERTloadoutRedPrimary
     - ERTloadoutRedSecondary
-    - ERTloadoutMelee
     - BoxCardboardERT
     - PinpointerNuclear
     - CrowbarRed
@@ -195,7 +194,6 @@
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
-    - ERTloadoutMelee
     - BoxCardboardERT
     - PinpointerNuclear
     - CrowbarRed
@@ -323,7 +321,6 @@
     back:
     - ERTloadoutRedPrimary
     - ERTloadoutRedSecondary
-    - ERTloadoutMelee
     - BoxCardboardERT
     - CrowbarRed
     - PinpointerNuclear
@@ -384,7 +381,6 @@
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
-    - ERTloadoutMelee
     - BoxCardboardERT
     - CrowbarRed
     - PinpointerNuclear

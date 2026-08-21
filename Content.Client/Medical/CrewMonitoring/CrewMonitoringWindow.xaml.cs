@@ -26,9 +26,9 @@ namespace Content.Client.Medical.CrewMonitoring;
 [GenerateTypedNameReferences]
 public sealed partial class CrewMonitoringWindow : FancyWindow
 {
-    [Dependency] private readonly IEntityManager _entManager = default!;
-    [Dependency] private readonly IPlayerManager _player = default!; // DS14
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private IEntityManager _entManager = default!;
+    [Dependency] private IPlayerManager _player = default!; // DS14
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
     private readonly SharedTransformSystem _transformSystem;
     private readonly StationAiTrackEntitySystem _stationAiTrack; // DS14
     private readonly SpriteSystem _spriteSystem;

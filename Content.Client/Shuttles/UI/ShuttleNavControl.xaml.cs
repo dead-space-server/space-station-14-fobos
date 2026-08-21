@@ -21,7 +21,7 @@ namespace Content.Client.Shuttles.UI;
 [GenerateTypedNameReferences]
 public sealed partial class ShuttleNavControl : BaseShuttleControl
 {
-    [Dependency] private readonly IMapManager _mapManager = default!;
+    private readonly SharedMapSystem _maps;
     private readonly SharedShuttleSystem _shuttles;
     private readonly SharedTransformSystem _transform;
 
@@ -55,6 +55,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
     public ShuttleNavControl() : base(64f, 256f, 256f)
     {
         RobustXamlLoader.Load(this);
+        _maps = EntManager.System<SharedMapSystem>();
         _shuttles = EntManager.System<SharedShuttleSystem>();
         _transform = EntManager.System<SharedTransformSystem>();
     }
@@ -191,7 +192,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         var viewAABB = viewBounds.CalcBoundingBox();
 
         _grids.Clear();
-        _mapManager.FindGridsIntersecting(xform.MapID, new Box2(mapPos.Position - MaxRadarRangeVector, mapPos.Position + MaxRadarRangeVector), ref _grids, approx: true, includeMap: false);
+        _maps.FindGridsIntersecting(xform.MapID, new Box2(mapPos.Position - MaxRadarRangeVector, mapPos.Position + MaxRadarRangeVector), ref _grids, approx: true, includeMap: false);
 
         // Draw other grids... differently
         foreach (var grid in _grids)

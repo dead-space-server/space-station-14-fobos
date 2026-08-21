@@ -17,12 +17,12 @@ namespace Content.Client.Corvax.TTS;
 /// Plays TTS audio in world
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public sealed class TTSSystem : EntitySystem
+public sealed partial class TTSSystem : EntitySystem
 {
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly IResourceManager _res = default!;
-    [Dependency] private readonly AudioSystem _audio = default!;
-    [Dependency] private readonly LanguageSystem _languageSystem = default!;
+    [Dependency] private IConfigurationManager _cfg = default!;
+    [Dependency] private IResourceManager _res = default!;
+    [Dependency] private AudioSystem _audio = default!;
+    [Dependency] private LanguageSystem _languageSystem = default!;
 
     private ISawmill _sawmill = default!;
     // Static so the root survives system shutdown/reinit (e.g. round restart).

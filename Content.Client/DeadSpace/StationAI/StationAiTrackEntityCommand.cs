@@ -8,9 +8,9 @@ using Robust.Shared.GameObjects;
 namespace Content.Client.DeadSpace.StationAI;
 
 [AnyCommand]
-public sealed class StationAiTrackEntityCommand : IConsoleCommand
+public sealed partial class StationAiTrackEntityCommand : IConsoleCommand
 {
-    [Dependency] private readonly IEntitySystemManager _entitySystem = default!;
+    [Dependency] private IEntitySystemManager _entitySystem = default!;
 
     public string Command => "ai_track_entity";
     public string Description => Loc.GetString("cmd-ai-track-entity-desc");

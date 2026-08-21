@@ -12,9 +12,9 @@ namespace Content.Shared.Armor;
 /// <summary>
 ///     This handles logic relating to <see cref="ArmorComponent" />
 /// </summary>
-public abstract class SharedArmorSystem : EntitySystem
+public abstract partial class SharedArmorSystem : EntitySystem
 {
-    [Dependency] private readonly ExamineSystemShared _examine = default!;
+    [Dependency] private ExamineSystemShared _examine = default!;
 
     /// <inheritdoc />
     public override void Initialize()
@@ -62,6 +62,9 @@ public abstract class SharedArmorSystem : EntitySystem
         if (TryComp<MaskComponent>(uid, out var mask) && mask.IsToggled)
             return;
 
+        if (component.Modifiers == null) // DS14
+            return; // DS14
+
         args.Args.Damage = DamageSpecifier.ApplyModifierSet(args.Args.Damage, component.Modifiers);
     }
 
@@ -70,6 +73,9 @@ public abstract class SharedArmorSystem : EntitySystem
     {
         if (TryComp<MaskComponent>(uid, out var mask) && mask.IsToggled)
             return;
+
+        if (component.Modifiers == null) // DS14
+            return; // DS14
 
         args.Args.Damage = DamageSpecifier.ApplyModifierSet(args.Args.Damage, component.Modifiers);
     }

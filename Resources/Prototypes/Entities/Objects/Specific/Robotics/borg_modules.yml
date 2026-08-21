@@ -516,6 +516,7 @@
           - CableCoil
     - item: Wirecutter
     - item: Crowbar
+    - item: TabletPowerMonitoring # DS14
     - item: trayScanner
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: wire-module }
@@ -713,7 +714,23 @@
     - item: WeaponPlasmaCutter # DS14
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: adv-tools-module }
+#DS14-Start
+- type: entity
+  id: BorgModuleConstructionAmeJarPlaceholder
+  parent: BaseItem
+  components:
+  - type: Sprite
+    sprite: Objects/Power/AME/ame_jar.rsi
+    state: jar
 
+- type: entity
+  id: BorgModuleConstructionGasTankPlaceholder
+  parent: BaseItem
+  components:
+  - type: Sprite
+    sprite: Objects/Tanks/oxygen.rsi
+    state: icon
+#DS14-End
 - type: entity
   id: BorgModuleConstructionMaterialPlaceholder
   parent: BaseItem
@@ -794,6 +811,20 @@
         whitelist:
           components:
           - FloorTile
+#DS14-Start
+    - hand:
+        emptyRepresentative: BorgModuleConstructionAmeJarPlaceholder
+        emptyLabel: borg-slot-amejarfuel-empty
+        whitelist:
+          tags:
+          - AmeJar
+    - hand:
+        emptyRepresentative: BorgModuleConstructionGasTankPlaceholder
+        emptyLabel: borg-slot-gastankfuel-empty
+        whitelist:
+          tags:
+          - GasTankBorg
+#DS14-End
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: construction-module }
 

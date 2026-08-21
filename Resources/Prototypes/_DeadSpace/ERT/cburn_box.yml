@@ -413,6 +413,7 @@
   components:
   - type: StorageFill
     contents:
+      - id: ERTloadoutMelee
       - id: ADTtelescopicBaton
       - id: Handcuffs
       - id: Handcuffs
@@ -430,6 +431,7 @@
   components:
   - type: StorageFill
     contents:
+      - id: ERTloadoutMelee
       - id: ADTtelescopicBaton
       - id: Handcuffs
       - id: Handcuffs

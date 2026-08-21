@@ -33,7 +33,7 @@ using Timer = Robust.Shared.Timing.Timer;
 
 namespace Content.Server.DeadSpace.Lavaland;
 
-public sealed class LavalandBossArenaSystem : EntitySystem
+public sealed partial class LavalandBossArenaSystem : EntitySystem
 {
     private const int ArenaEntityBatchSize = 128;
     private const int DefaultArenaSize = 35;
@@ -64,21 +64,20 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         Vector2i.Zero,
     };
 
-    [Dependency] private readonly BiomeSystem _biome = default!;
-    [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!;
-    [Dependency] private readonly IPlayerManager _players = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly ITileDefinitionManager _tileDefinition = default!;
-    [Dependency] private readonly MetaDataSystem _metadata = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly HTNSystem _htn = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly TileSystem _tile = default!;
-    [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
-    [Dependency] private readonly ShuttleSystem _shuttle = default!;
+    [Dependency] private BiomeSystem _biome = default!;
+    [Dependency] private DamageableSystem _damageable = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private IPlayerManager _players = default!;
+    [Dependency] private IPrototypeManager _prototype = default!;
+    [Dependency] private ITileDefinitionManager _tileDefinition = default!;
+    [Dependency] private MetaDataSystem _metadata = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private HTNSystem _htn = default!;
+    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private TileSystem _tile = default!;
+    [Dependency] private MobThresholdSystem _mobThreshold = default!;
+    [Dependency] private ShuttleSystem _shuttle = default!;
 
     private List<Entity<MapGridComponent>> _nearbyGrids = new();
     private readonly List<EntityUid> _anchoredToDelete = new();
@@ -199,7 +198,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         await Timer.Delay(1, cancellation);
 
         var mapId = Transform(mapUid).MapID;
-        var grid = _mapManager.CreateGridEntity(mapId);
+        var grid = _map.CreateGridEntity(mapId);
         _metadata.SetEntityName(grid.Owner, arenaPrototype.ArenaName);
         _transform.SetMapCoordinates(grid.Owner, new MapCoordinates(new Vector2(center.X, center.Y), mapId));
 
@@ -1124,7 +1123,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
 
         var mapId = Transform(terrainGridUid).MapID;
         var bounds = Box2.CenteredAround(center, Vector2.One * (radius * 2f + 1f));
-        _mapManager.FindGridsIntersecting(mapId, bounds, ref _nearbyGrids);
+        _map.FindGridsIntersecting(mapId, bounds, ref _nearbyGrids);
 
         foreach (var grid in _nearbyGrids)
         {

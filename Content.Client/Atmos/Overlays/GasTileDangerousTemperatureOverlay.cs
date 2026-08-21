@@ -13,15 +13,15 @@ namespace Content.Client.Atmos.Overlays;
 /// <summary>
 /// Renders a thermal heatmap overlay for gas tiles, used for equipment like thermal glasses.
 /// /// </summary>
-public sealed class GasTileDangerousTemperatureOverlay : Overlay
+public sealed partial class GasTileDangerousTemperatureOverlay : Overlay
 {
     public override bool RequestScreenTexture { get; set; } = false;
 
-    [Dependency] private readonly IEntityManager _entManager = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!;
-    [Dependency] private readonly IClyde _clyde = default!;
+    [Dependency] private IEntityManager _entManager = default!;
+    [Dependency] private IClyde _clyde = default!;
 
     private GasTileOverlaySystem? _gasTileOverlay;
+    private readonly SharedMapSystem _mapSys;
     private readonly SharedTransformSystem _xformSys;
     private EntityQuery<GasTileOverlayComponent> _overlayQuery;
 
@@ -35,6 +35,7 @@ public sealed class GasTileDangerousTemperatureOverlay : Overlay
     public GasTileDangerousTemperatureOverlay()
     {
         IoCManager.InjectDependencies(this);
+        _mapSys = _entManager.System<SharedMapSystem>();
         _xformSys = _entManager.System<SharedTransformSystem>();
 
         _overlayQuery = _entManager.GetEntityQuery<GasTileOverlayComponent>();
@@ -174,7 +175,7 @@ public sealed class GasTileDangerousTemperatureOverlay : Overlay
             () =>
             {
                 grids.Clear();
-                _mapManager.FindGridsIntersecting(mapId, worldAABB, ref grids);
+                _mapSys.FindGridsIntersecting(mapId, worldAABB, ref grids);
 
                 foreach (var grid in grids)
                 {

@@ -9,23 +9,24 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Client.DeadSpace.Crayon;
 
-public sealed class CrayonGhostOverlay : Overlay
+public sealed partial class CrayonGhostOverlay : Overlay
 {
-    [Dependency] private readonly IEyeManager _eyeManager = default!;
-    [Dependency] private readonly IInputManager _inputManager = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!;
-    [Dependency] private readonly IPrototypeManager _protoMan = default!;
+    [Dependency] private IEyeManager _eyeManager = default!;
+    [Dependency] private IInputManager _inputManager = default!;
+    [Dependency] private IPrototypeManager _protoMan = default!;
 
     private readonly CrayonGhostSystem _crayonSystem;
+    private readonly SharedMapSystem _maps;
     private readonly SharedTransformSystem _transform;
     private readonly SpriteSystem _sprite;
 
     public override OverlaySpace Space => OverlaySpace.WorldSpaceEntities;
 
-    public CrayonGhostOverlay(CrayonGhostSystem crayonSystem, SharedTransformSystem transform, SpriteSystem sprite)
+    public CrayonGhostOverlay(CrayonGhostSystem crayonSystem, SharedMapSystem maps, SharedTransformSystem transform, SpriteSystem sprite)
     {
         IoCManager.InjectDependencies(this);
         _crayonSystem = crayonSystem;
+        _maps = maps;
         _transform = transform;
         _sprite = sprite;
         ZIndex = 999;
@@ -41,7 +42,7 @@ public sealed class CrayonGhostOverlay : Overlay
         if (mousePos.MapId != args.MapId)
             return;
 
-        if (!_mapManager.TryFindGridAt(mousePos, out var gridUid, out var grid))
+        if (!_maps.TryFindGridAt(mousePos, out var gridUid, out var grid))
             return;
 
         var worldMatrix = _transform.GetWorldMatrix(gridUid);
