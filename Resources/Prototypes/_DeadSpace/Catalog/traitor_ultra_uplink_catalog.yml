@@ -3039,9 +3039,9 @@
 
 - type: listing
   id: UplinkTraitorUltraXC67Bundle
-  name: uplink-XC67-bundle-name
-  description: uplink-XC67-bundle-desc
-  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/XC67.rsi, state: icon }
+  name: uplink-xc67-bundle-name
+  description: uplink-xc67-bundle-desc
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
   productEntity: ClothingBackpackDuffelSyndicateFilledXC67
   cost:
     Telecrystal: 14
