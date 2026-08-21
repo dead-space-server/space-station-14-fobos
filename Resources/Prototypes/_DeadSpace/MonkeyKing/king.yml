@@ -90,7 +90,7 @@
     baseRadialAcceleration: -10
     durationAnimation: 1
     state: crawling
-    stunState: stunradius
+    stunState: crawling #заглушка РП, нужно дорисовать анимацию
     effectPrototype: StunRadiusEffect
     actionStunRadius: ActionStunRadiusMonkeyKing
     strenght: 1
@@ -112,7 +112,7 @@
   - type: Insulated
   - type: Language
     selectedLanguage: MonkeyLanguage
-    knownLanguages: 
+    knownLanguages:
     - MonkeyLanguage
   - type: TTS
     voice: Pudge
