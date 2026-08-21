@@ -54,7 +54,7 @@ traitor-ultra-bounty-announcer =
     Syndicate
 
 traitor-ultra-bounty-announcement =
-    Attention on all channels. One of our agents has changed their contract terms—their name is {$agent}. Effective immediately upon this notification, the Syndicate is offering a substantial, personalized reward for the assassination of this individual. Reminder: any cooperation with this agent is punishable by immediate liquidation. Death to NanoTrasen!
+    Attention on all channels. {$agent} has changed the terms of the contract. Starting from the date of this notification, the Syndicate is offering a large reward on an individual basis for the assassination of this person. Reminder: any cooperation with this agent will result in immediate elimination. Death to NanoTrasen!
 # traitor-ultra-bounty-announcement-cybersun =
 #     Cybersun Industries black protocol is active. {$agent} has defected from {$oldCorp} to {$newCorp} and is no longer considered recoverable property. The asset is marked for disposal. Confirmed liquidation will be rewarded: shadow-market agents will receive individually calculated payouts, and {$oldCorp} will contact independent contractors directly.
 # traitor-ultra-bounty-announcement-gorlex =
