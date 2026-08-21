@@ -12,10 +12,10 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.Backmen.Blob;
 
-public sealed partial class BlobFactorySystem : EntitySystem
+public sealed class BlobFactorySystem : EntitySystem
 {
-    [Dependency] private IGameTiming _gameTiming = default!;
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
     public override void Initialize()
     {

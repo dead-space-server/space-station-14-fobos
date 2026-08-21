@@ -4,9 +4,9 @@ using Content.Shared.Weapons.Melee.Events;
 
 namespace Content.Server.DeadSpace.Temperature;
 
-public sealed partial class ChangeTemperatureOnMeleeHitSystem : EntitySystem
+public sealed class ChangeTemperatureOnMeleeHitSystem : EntitySystem
 {
-    [Dependency] private TemperatureSystem _temperature = default!;
+    [Dependency] private readonly TemperatureSystem _temperature = default!;
 
     public override void Initialize()
     {

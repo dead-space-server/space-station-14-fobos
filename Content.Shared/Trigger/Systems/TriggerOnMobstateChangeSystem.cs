@@ -8,7 +8,7 @@ namespace Content.Shared.Trigger.Systems;
 
 public sealed partial class TriggerOnMobstateChangeSystem : TriggerOnXSystem
 {
-    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     public override void Initialize()
     {

@@ -10,11 +10,11 @@ using Robust.Shared.Utility;
 
 namespace Content.Server.DeadSpace.Ports.Jukebox;
 
-public sealed partial class JukeboxSystem : EntitySystem
+public sealed class JukeboxSystem : EntitySystem
 {
-    [Dependency] private SharedContainerSystem _containerSystem = default!;
-    [Dependency] private SharedHandsSystem _handsSystem = default!;
-    [Dependency] private PvsOverrideSystem _pvsOverrideSystem = default!;
+    [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
+    [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
+    [Dependency] private readonly PvsOverrideSystem _pvsOverrideSystem = default!;
 
     private readonly List<Entity<WhiteJukeboxComponent>> _playingJukeboxes = new() { };
 

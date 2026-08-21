@@ -9,11 +9,11 @@ using Content.Server.Actions;
 
 namespace Content.Server.DeadSpace.Instruments;
 
-public sealed partial class HeadphonesInstrumentSystem : EntitySystem
+public sealed class HeadphonesInstrumentSystem : EntitySystem
 {
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private ActionsSystem _actions = default!;
-    [Dependency] private ItemToggleSystem _itemToggle = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly ActionsSystem _actions = default!;
+    [Dependency] private readonly ItemToggleSystem _itemToggle = default!;
 
     public override void Initialize()
     {

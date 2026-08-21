@@ -13,7 +13,7 @@ namespace Content.Client.Weapons.Ranged.Systems;
 
 public sealed partial class GunSystem
 {
-    [Dependency] private TagSystem _tagSystem = default!;
+    [Dependency] private readonly TagSystem _tagSystem = default!;
 
     private static readonly ProtoId<TagPrototype> BatteryWeaponFireModesTag = "BatteryWeaponFireModesSprites";
 

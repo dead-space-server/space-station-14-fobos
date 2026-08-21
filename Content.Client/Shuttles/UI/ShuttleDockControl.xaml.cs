@@ -17,9 +17,9 @@ namespace Content.Client.Shuttles.UI;
 [GenerateTypedNameReferences]
 public sealed partial class ShuttleDockControl : BaseShuttleControl
 {
-    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IMapManager _mapManager = default!;
     private readonly DockingSystem _dockSystem;
-    private readonly SharedMapSystem _maps;
     private readonly SharedShuttleSystem _shuttles;
     private readonly SharedTransformSystem _xformSystem;
 
@@ -62,7 +62,6 @@ public sealed partial class ShuttleDockControl : BaseShuttleControl
     {
         RobustXamlLoader.Load(this);
         _dockSystem = EntManager.System<DockingSystem>();
-        _maps = EntManager.System<SharedMapSystem>();
         _shuttles = EntManager.System<SharedShuttleSystem>();
         _xformSystem = EntManager.System<SharedTransformSystem>();
         MinSize = new Vector2(SizeFull, SizeFull);
@@ -122,7 +121,7 @@ public sealed partial class ShuttleDockControl : BaseShuttleControl
         // Draw nearby grids
         var controlBounds = PixelSizeBox;
         _grids.Clear();
-        _maps.FindGridsIntersecting(gridXform.MapID, viewBoundsWorld, ref _grids);
+        _mapManager.FindGridsIntersecting(gridXform.MapID, viewBoundsWorld, ref _grids);
 
         // offset the dotted-line position to the bounds.
         Vector2? viewedDockPos = _viewedState != null ? MidPointVector : null;

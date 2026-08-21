@@ -12,12 +12,13 @@ using Robust.Shared.Map;
 namespace Content.Client.NodeContainer
 {
     [UsedImplicitly]
-    public sealed partial class NodeGroupSystem : EntitySystem
+    public sealed class NodeGroupSystem : EntitySystem
     {
-        [Dependency] private IOverlayManager _overlayManager = default!;
-        [Dependency] private EntityLookupSystem _entityLookup = default!;
-        [Dependency] private IInputManager _inputManager = default!;
-        [Dependency] private IResourceCache _resourceCache = default!;
+        [Dependency] private readonly IOverlayManager _overlayManager = default!;
+        [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
+        [Dependency] private readonly IMapManager _mapManager = default!;
+        [Dependency] private readonly IInputManager _inputManager = default!;
+        [Dependency] private readonly IResourceCache _resourceCache = default!;
 
         public bool VisEnabled { get; private set; }
 
@@ -87,6 +88,7 @@ namespace Content.Client.NodeContainer
                 var overlay = new NodeVisualizationOverlay(
                     this,
                     _entityLookup,
+                    _mapManager,
                     _inputManager,
                     _resourceCache,
                     EntityManager);

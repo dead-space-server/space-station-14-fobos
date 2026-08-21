@@ -6,9 +6,9 @@ using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 
 namespace Content.Client.Necromorphs.InfectionDead;
 
-public sealed partial class InfectionDeadMutationAnalyzerSystem : EntitySystem
+public sealed class InfectionDeadMutationAnalyzerSystem : EntitySystem
 {
-    [Dependency] private SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
 
     public override void Initialize()
     {

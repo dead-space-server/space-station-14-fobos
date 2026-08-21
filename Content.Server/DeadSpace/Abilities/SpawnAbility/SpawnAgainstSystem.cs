@@ -16,16 +16,17 @@ using Content.Server.Spreader;
 
 namespace Content.Server.DeadSpace.Abilities.SpawnAbility;
 
-public sealed partial class SpawnAgainstSystem : EntitySystem
+public sealed class SpawnAgainstSystem : EntitySystem
 {
-    [Dependency] private PopupSystem _popupSystem = default!;
-    [Dependency] private SharedActionsSystem _actionsSystem = default!;
-    [Dependency] private SharedContainerSystem _container = default!;
-    [Dependency] private SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private TurfSystem _turf = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private SpreaderSystem _spreader = default!;
+    [Dependency] private readonly PopupSystem _popupSystem = default!;
+    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly IMapManager _mapMan = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly SpreaderSystem _spreader = default!;
 
     public override void Initialize()
     {
@@ -100,7 +101,7 @@ public sealed partial class SpawnAgainstSystem : EntitySystem
         var xform = Transform(uid);
         // Get the tile in front of the uni
         var offsetValue = xform.LocalRotation.ToWorldVec();
-        var coords = xform.Coordinates.Offset(offsetValue).SnapToGrid(EntityManager);
+        var coords = xform.Coordinates.Offset(offsetValue).SnapToGrid(EntityManager, _mapMan);
         var tile = _turf.GetTileRef(coords);
         if (tile == null)
             return null;

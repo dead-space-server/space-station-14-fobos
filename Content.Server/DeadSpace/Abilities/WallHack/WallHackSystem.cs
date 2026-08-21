@@ -4,7 +4,7 @@ namespace Content.Server.DeadSpace.Abilities.WallHack;
 
 public sealed partial class WallHackSystem : EntitySystem
 {
-    [Dependency] private SharedEyeSystem _eye = default!;
+    [Dependency] private readonly SharedEyeSystem _eye = default!;
 
     public override void Initialize()
     {

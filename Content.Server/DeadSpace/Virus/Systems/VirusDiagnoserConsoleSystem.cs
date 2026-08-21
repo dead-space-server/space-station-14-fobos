@@ -13,13 +13,13 @@ using Content.Shared.DeadSpace.Virus.Components;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
-public sealed partial class VirusDiagnoserConsoleSystem : EntitySystem
+public sealed class VirusDiagnoserConsoleSystem : EntitySystem
 {
-    [Dependency] private UserInterfaceSystem _uiSystem = default!;
-    [Dependency] private PowerReceiverSystem _powerReceiverSystem = default!;
-    [Dependency] private VirusDiagnoserDataServerSystem _dataServer = default!;
-    [Dependency] private VirusDiagnoserSystem _diagnoser = default!;
-    [Dependency] private VirusSolutionAnalyzerSystem _virusSolutionAnalyzer = default!;
+    [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
+    [Dependency] private readonly PowerReceiverSystem _powerReceiverSystem = default!;
+    [Dependency] private readonly VirusDiagnoserDataServerSystem _dataServer = default!;
+    [Dependency] private readonly VirusDiagnoserSystem _diagnoser = default!;
+    [Dependency] private readonly VirusSolutionAnalyzerSystem _virusSolutionAnalyzer = default!;
 
     public override void Initialize()
     {

@@ -5,9 +5,9 @@ using Robust.Client.GameObjects;
 
 namespace Content.Client.DeadSpace.Necromorphs.Necroobelisk;
 
-public sealed partial class NecroobeliskSystem : EntitySystem
+public sealed class NecroobeliskSystem : EntitySystem
 {
-    [Dependency] private SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
 
     public override void Initialize()
     {

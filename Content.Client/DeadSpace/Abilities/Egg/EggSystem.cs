@@ -10,9 +10,9 @@ namespace Content.Client.DeadSpace.Abilities.Egg;
 /// <summary>
 /// Used for the client to get status icons from other unitologs.
 /// </summary>
-public sealed partial class EggSystem : SharedEggSystem
+public sealed class EggSystem : SharedEggSystem
 {
-    [Dependency] private IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
 
     public override void Initialize()
     {

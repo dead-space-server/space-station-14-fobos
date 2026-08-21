@@ -15,7 +15,7 @@ namespace Content.Server.Shuttles.Systems;
 
 public sealed partial class ShuttleConsoleSystem
 {
-    [Dependency] private EntityWhitelistSystem _whitelist = default!;
+    [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
 
     private void InitializeFTL()
     {

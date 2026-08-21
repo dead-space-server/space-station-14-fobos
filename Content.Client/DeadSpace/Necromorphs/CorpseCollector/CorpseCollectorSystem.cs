@@ -7,9 +7,9 @@ using Content.Client.Necromorphs.InfectionDead;
 
 namespace Content.Client.DeadSpace.Necromorphs.CorpseCollector;
 
-public sealed partial class CorpseCollectorSystem : EntitySystem
+public sealed class CorpseCollectorSystem : EntitySystem
 {
-    [Dependency] private SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     public override void Initialize()
     {
         base.Initialize();

@@ -10,9 +10,9 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.GhostTypes;
 
-public sealed partial class StoreDamageTakenOnMindSystem : EntitySystem
+public sealed class StoreDamageTakenOnMindSystem : EntitySystem
 {
-    [Dependency] private IPrototypeManager _proto = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
     public override void Initialize()
     {
         SubscribeLocalEvent<StoreDamageTakenOnMindComponent, DestructionEventArgs>(SaveBodyOnGib);

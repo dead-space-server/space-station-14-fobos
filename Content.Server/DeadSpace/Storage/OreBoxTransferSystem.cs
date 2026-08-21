@@ -10,10 +10,10 @@ using System.Linq;
 
 namespace Content.Server.DeadSpace.Storage;
 
-public sealed partial class OreBoxTransferSystem : EntitySystem
+public sealed class OreBoxTransferSystem : EntitySystem
 {
-    [Dependency] private SharedMaterialStorageSystem _materialStorage = default!;
-    [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private readonly SharedMaterialStorageSystem _materialStorage = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
 
     public override void Initialize()
     {

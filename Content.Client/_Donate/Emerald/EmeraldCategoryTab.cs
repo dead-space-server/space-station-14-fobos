@@ -8,9 +8,9 @@ using Robust.Shared.Input;
 
 namespace Content.Client._Donate.Emerald;
 
-public sealed partial class EmeraldCategoryTab : Control
+public sealed class EmeraldCategoryTab : Control
 {
-    [Dependency] private IResourceCache _resourceCache = default!;
+    [Dependency] private readonly IResourceCache _resourceCache = default!;
 
     private const int BaseFontSize = 9;
 

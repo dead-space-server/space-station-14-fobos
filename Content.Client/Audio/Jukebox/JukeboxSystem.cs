@@ -9,14 +9,14 @@ using Robust.Shared.Prototypes;
 namespace Content.Client.Audio.Jukebox;
 
 
-public sealed partial class JukeboxSystem : SharedJukeboxSystem
+public sealed class JukeboxSystem : SharedJukeboxSystem
 {
-    [Dependency] private IPrototypeManager _protoManager = default!;
-    [Dependency] private AnimationPlayerSystem _animationPlayer = default!;
-    [Dependency] private SharedAppearanceSystem _appearanceSystem = default!;
-    [Dependency] private SharedUserInterfaceSystem _uiSystem = default!;
-    [Dependency] private SpriteSystem _sprite = default!;
-    [Dependency] private IConfigurationManager _cfg = default!; // DS14
+    [Dependency] private readonly IPrototypeManager _protoManager = default!;
+    [Dependency] private readonly AnimationPlayerSystem _animationPlayer = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearanceSystem = default!;
+    [Dependency] private readonly SharedUserInterfaceSystem _uiSystem = default!;
+    [Dependency] private readonly SpriteSystem _sprite = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!; // DS14
 
     private const float MinimalVolume = -14f; // DS14
     private float _jukeboxAutoVolume; // DS14

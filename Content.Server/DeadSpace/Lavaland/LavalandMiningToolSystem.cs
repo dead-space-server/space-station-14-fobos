@@ -11,7 +11,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Lavaland;
 
-public sealed partial class LavalandMiningToolSystem : EntitySystem
+public sealed class LavalandMiningToolSystem : EntitySystem
 {
     private static readonly ProtoId<TagPrototype> WallTag = "Wall";
     private static readonly Vector2i[] CardinalOffsets =
@@ -22,13 +22,13 @@ public sealed partial class LavalandMiningToolSystem : EntitySystem
         new(0, -1),
     ];
 
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private EntityWhitelistSystem _whitelist = default!;
-    [Dependency] private GatherableSystem _gatherable = default!;
-    [Dependency] private SharedMapSystem _map = default!;
-    [Dependency] private LavalandSonicJackhammerSystem _sonicJackhammer = default!;
-    [Dependency] private TagSystem _tag = default!;
-    [Dependency] private TurfSystem _turf = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
+    [Dependency] private readonly GatherableSystem _gatherable = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
+    [Dependency] private readonly LavalandSonicJackhammerSystem _sonicJackhammer = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
+    [Dependency] private readonly TurfSystem _turf = default!;
 
     private readonly HashSet<EntityUid> _entities = new();
     private readonly List<CleaveTarget> _cleaveTargets = new();

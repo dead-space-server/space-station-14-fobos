@@ -11,9 +11,9 @@ using Robust.Shared.Timing;
 namespace Content.Client._Donate.Emerald;
 
 [Virtual]
-public partial class EmeraldDefaultWindow : EmeraldBaseWindow
+public class EmeraldDefaultWindow : EmeraldBaseWindow
 {
-    [Dependency] private IResourceCache _resourceCache = default!;
+    [Dependency] private readonly IResourceCache _resourceCache = default!;
 
     public float WindowEdgeSeparation = 30;
     public float WindowEdgeBump = 50;

@@ -5,9 +5,9 @@ using Robust.Shared.IoC;
 
 namespace Content.Client.DeadSpace.MovementLimit;
 
-public sealed partial class DistanceLimitOverlaySystem : EntitySystem
+public sealed class DistanceLimitOverlaySystem : EntitySystem
 {
-    [Dependency] private IOverlayManager _overlayManager = default!;
+    [Dependency] private readonly IOverlayManager _overlayManager = default!;
 
     public override void Initialize()
     {

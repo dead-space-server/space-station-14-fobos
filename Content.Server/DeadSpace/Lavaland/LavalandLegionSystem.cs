@@ -9,12 +9,12 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Lavaland;
 
-public sealed partial class LavalandLegionSystem : EntitySystem
+public sealed class LavalandLegionSystem : EntitySystem
 {
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private MobStateSystem _mobState = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {

@@ -7,11 +7,11 @@ using Robust.Shared.Random;
 
 namespace Content.Server.Speech.EntitySystems
 {
-    public sealed partial class ScrambledAccentSystem : EntitySystem
+    public sealed class ScrambledAccentSystem : EntitySystem
     {
         private static readonly Regex RegexLoneI = new(@"(?<=\ )i(?=[\ \.\?]|$)");
 
-        [Dependency] private IRobustRandom _random = default!;
+        [Dependency] private readonly IRobustRandom _random = default!;
 
         public override void Initialize()
         {

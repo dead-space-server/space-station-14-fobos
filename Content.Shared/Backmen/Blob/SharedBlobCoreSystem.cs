@@ -6,9 +6,9 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Backmen.Blob;
 
-public abstract partial class SharedBlobCoreSystem : EntitySystem
+public abstract class SharedBlobCoreSystem : EntitySystem
 {
-    [Dependency] private AlertsSystem _alerts = default!;
+    [Dependency] private readonly AlertsSystem _alerts = default!;
     public override void Initialize()
     {
         base.Initialize();

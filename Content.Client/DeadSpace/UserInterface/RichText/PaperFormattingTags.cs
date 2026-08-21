@@ -30,12 +30,12 @@ public sealed class ShiftTag : IMarkupTagHandler
     }
 }
 
-public sealed partial class SmallTag : IMarkupTagHandler
+public sealed class SmallTag : IMarkupTagHandler
 {
     private const int MaxDecrease = 6;
 
-    [Dependency] private IResourceCache _resourceCache = default!;
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly IResourceCache _resourceCache = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
     public string Name => "small";
 
@@ -280,50 +280,6 @@ internal sealed class PaperFormattingFont : Font
         return advance;
     }
 
-    public override float DrawCharOutline(
-        DrawingHandleBase handle,
-        Rune rune,
-        Vector2 baseline,
-        float scale,
-        TextOutline outline,
-        bool fallback = true)
-    {
-        if (_effects.ConfusionStrength <= 0 || rune.Value == '\n' || rune.Value == '\r')
-            return _inner.DrawCharOutline(handle, rune, baseline, scale, outline, fallback);
-
-        var variation = GetHandwritingVariation(rune, _sequence.OutlineRuneIndex++);
-        var drawOffset = new Vector2(
-            MathF.Round(variation.OffsetX * scale),
-            MathF.Round(variation.OffsetY * scale));
-        var drawPosition = baseline + drawOffset;
-        var widthScale = variation.WidthPermille / 1000f;
-        var heightScale = variation.HeightPermille / 1000f;
-        var rotation = variation.RotationTenths * MathF.PI / 1800f;
-        var originalTransform = handle.GetTransform();
-        var characterTransform = Matrix3x2.CreateScale(new Vector2(widthScale, heightScale), drawPosition) *
-            Matrix3x2.CreateRotation(rotation, drawPosition);
-        handle.SetTransform(characterTransform * originalTransform);
-
-        float advance;
-        try
-        {
-            advance = _inner.DrawCharOutline(handle, rune, drawPosition, scale, outline, fallback);
-        }
-        finally
-        {
-            handle.SetTransform(originalTransform);
-        }
-
-        if (advance > 0)
-        {
-            advance = MathF.Max(
-                1f,
-                MathF.Round(advance * widthScale) + MathF.Round(variation.Spacing * scale));
-        }
-
-        return advance;
-    }
-
     public override CharMetrics? GetCharMetrics(Rune rune, float scale, bool fallback = true)
     {
         if (_effects.ConfusionStrength <= 0 || rune.Value == '\n' || rune.Value == '\r')
@@ -453,7 +409,6 @@ internal sealed class PaperFormattingFont : Font
     private sealed class HandwritingSequence
     {
         public int DrawRuneIndex;
-        public int OutlineRuneIndex;
         public int MeasureRuneIndex;
     }
 }

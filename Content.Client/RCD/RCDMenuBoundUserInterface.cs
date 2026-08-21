@@ -12,7 +12,7 @@ using Robust.Shared.Utility;
 namespace Content.Client.RCD;
 
 [UsedImplicitly]
-public sealed partial class RCDMenuBoundUserInterface : BoundUserInterface
+public sealed class RCDMenuBoundUserInterface : BoundUserInterface
 {
     private const string TopLevelActionCategory = "Main";
 
@@ -29,8 +29,8 @@ public sealed partial class RCDMenuBoundUserInterface : BoundUserInterface
             // DS14-end
         };
 
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
-    [Dependency] private ISharedPlayerManager _playerManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly ISharedPlayerManager _playerManager = default!;
 
     private SimpleRadialMenu? _menu;
 

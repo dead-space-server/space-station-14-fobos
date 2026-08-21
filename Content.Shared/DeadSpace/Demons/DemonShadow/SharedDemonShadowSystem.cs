@@ -6,9 +6,9 @@ using Content.Shared.Popups;
 
 namespace Content.Shared.DeadSpace.Demons.DemonShadow;
 
-public abstract partial class SharedDemonShadowSystem : EntitySystem
+public abstract class SharedDemonShadowSystem : EntitySystem
 {
-    [Dependency] protected SharedPopupSystem Popup = default!;
+    [Dependency] protected readonly SharedPopupSystem Popup = default!;
 
     public override void Initialize()
     {

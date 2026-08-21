@@ -8,10 +8,10 @@ using Robust.Shared.Audio.Systems;
 
 namespace Content.Shared.DeadSpace.Abilities.Invisibility;
 
-public abstract partial class SharedInvisibilitySystem : EntitySystem
+public abstract class SharedInvisibilitySystem : EntitySystem
 {
-    [Dependency] private SharedStealthSystem _stealth = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedStealthSystem _stealth = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
 
     public override void Initialize()
     {

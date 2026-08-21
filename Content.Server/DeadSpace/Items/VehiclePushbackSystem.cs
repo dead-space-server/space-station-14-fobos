@@ -4,9 +4,9 @@ using Robust.Shared.Physics.Systems;
 
 namespace Content.Server.DeadSpace.Items;
 
-public sealed partial class VehiclePushbackSystem : EntitySystem
+public sealed class VehiclePushbackSystem : EntitySystem
 {
-    [Dependency] private SharedPhysicsSystem _physics = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
 
     public override void Update(float frameTime)
     {

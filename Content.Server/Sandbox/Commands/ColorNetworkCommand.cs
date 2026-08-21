@@ -9,11 +9,11 @@ using Robust.Shared.Console;
 namespace Content.Server.Sandbox.Commands
 {
     [AnyCommand]
-    public sealed partial class ColorNetworkCommand : LocalizedEntityCommands
+    public sealed class ColorNetworkCommand : LocalizedEntityCommands
     {
-        [Dependency] private IAdminManager _adminManager = default!;
-        [Dependency] private AtmosPipeColorSystem _pipeColorSystem = default!;
-        [Dependency] private SandboxSystem _sandboxSystem = default!;
+        [Dependency] private readonly IAdminManager _adminManager = default!;
+        [Dependency] private readonly AtmosPipeColorSystem _pipeColorSystem = default!;
+        [Dependency] private readonly SandboxSystem _sandboxSystem = default!;
 
         public override string Command => "colornetwork";
 
@@ -56,13 +56,14 @@ namespace Content.Server.Sandbox.Commands
                 return;
             }
 
-            if (!Color.TryFromHex(args[2], out var color))
+            var color = Color.TryFromHex(args[2]);
+            if (!color.HasValue)
             {
                 shell.WriteError(Loc.GetString("shell-invalid-color-hex"));
                 return;
             }
 
-            PaintNodes(nodeContainerComponent, nodeGroupId, color);
+            PaintNodes(nodeContainerComponent, nodeGroupId, color.Value);
         }
 
         private void PaintNodes(NodeContainerComponent nodeContainerComponent, NodeGroupID nodeGroupId, Color color)

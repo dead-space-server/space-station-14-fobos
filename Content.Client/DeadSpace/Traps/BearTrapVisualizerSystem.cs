@@ -6,9 +6,9 @@ using Robust.Shared.GameStates;
 
 namespace Content.Client.DeadSpace.Traps;
 
-public sealed partial class BearTrapVisualizerSystem : EntitySystem
+public sealed class BearTrapVisualizerSystem : EntitySystem
 {
-    [Dependency] private SpriteSystem _sprites = default!;
+    [Dependency] private readonly SpriteSystem _sprites = default!;
 
     public override void Initialize()
     {

@@ -1,4 +1,5 @@
-<Control xmlns="https://spacestation14.io">
+<Control xmlns="https://spacestation14.io"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
     <BoxContainer Orientation="Horizontal">
         <BoxContainer
             Name="RecipeDisplayContainer"
@@ -24,7 +25,11 @@
             Name="Delete"
             Margin="0"
             Text="✖"
-            ToolTip="{Loc 'lathe-menu-delete-item-tooltip'}"
-            StyleClasses="negative OpenLeft" />
+            ToolTip="{Loc 'lathe-menu-delete-item-tooltip'}">
+            <Button.StyleClasses>
+                <system:String>Caution</system:String>
+                <system:String>OpenLeft</system:String>
+            </Button.StyleClasses>
+        </Button>
     </BoxContainer>
 </Control>

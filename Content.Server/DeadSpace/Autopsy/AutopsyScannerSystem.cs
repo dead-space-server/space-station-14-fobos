@@ -18,14 +18,14 @@ using Content.Shared.Mobs;
 
 namespace Content.Server.DeadSpace.Autopsy;
 
-public sealed partial class AutopsyScannerSystem : EntitySystem
+public sealed class AutopsyScannerSystem : EntitySystem
 {
-    [Dependency] private PowerCellSystem _cell = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private SharedDoAfterSystem _doAfterSystem = default!;
-    [Dependency] private UserInterfaceSystem _uiSystem = default!;
-    [Dependency] private BuckleSystem _buckleSystem = default!;
-    [Dependency] private PopupSystem _popupSystem = default!;
+    [Dependency] private readonly PowerCellSystem _cell = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
+    [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
+    [Dependency] private readonly BuckleSystem _buckleSystem = default!;
+    [Dependency] private readonly PopupSystem _popupSystem = default!;
 
     public override void Initialize()
     {

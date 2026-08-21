@@ -19,16 +19,16 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Lavaland;
 
-public sealed partial class LavalandNecropolisTendrilSystem : EntitySystem
+public sealed class LavalandNecropolisTendrilSystem : EntitySystem
 {
-    [Dependency] private AudioSystem _audio = default!;
-    [Dependency] private BiomeSystem _biome = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private MobStateSystem _mobState = default!;
-    [Dependency] private SharedMapSystem _map = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private TurfSystem _turf = default!;
+    [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly BiomeSystem _biome = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly TurfSystem _turf = default!;
 
     private readonly List<(Vector2i Index, Tile Tile)> _reservedTiles = new();
     private readonly List<Vector2i> _spawnTiles = new();

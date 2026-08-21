@@ -6,14 +6,14 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.NicotineAddiction;
 
-public sealed partial class NicotineAddictionSystem : EntitySystem
+public sealed class NicotineAddictionSystem : EntitySystem
 {
     private const string NicotineReagentId = "Nicotine";
     private const float UpdateInterval = 1f;
 
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private SharedSolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
 
     private float _updateAccumulator;
 

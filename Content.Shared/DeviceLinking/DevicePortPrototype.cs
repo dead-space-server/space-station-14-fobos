@@ -7,8 +7,7 @@ namespace Content.Shared.DeviceLinking;
 /// <summary>
 ///     A prototype for a device port, for use with device linking.
 /// </summary>
-[DataDefinition]
-public abstract partial class DevicePortPrototype
+public abstract class DevicePortPrototype
 {
     [IdDataField]
     public string ID { get; private set; } = default!;

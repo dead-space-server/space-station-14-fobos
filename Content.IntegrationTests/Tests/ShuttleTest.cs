@@ -18,7 +18,7 @@ namespace Content.IntegrationTests.Tests
             var server = pair.Server;
             await server.WaitIdleAsync();
 
-            var mapMan = server.System<SharedMapSystem>();
+            var mapMan = server.ResolveDependency<IMapManager>();
             var entManager = server.ResolveDependency<IEntityManager>();
             var physicsSystem = entManager.System<SharedPhysicsSystem>();
 

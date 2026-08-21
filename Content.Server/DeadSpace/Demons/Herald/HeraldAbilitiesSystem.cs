@@ -7,9 +7,9 @@ using Content.Shared.DeadSpace.Demons.Herald.EntitySystems;
 
 namespace Content.Server.DeadSpace.Demons.Herald;
 
-public sealed partial class HeraldAbilitiesSystem : SharedHeraldSystem
+public sealed class HeraldAbilitiesSystem : SharedHeraldSystem
 {
-    [Dependency] private SharedActionsSystem _actionsSystem = default!;
+    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
 
     public override void Initialize()
     {

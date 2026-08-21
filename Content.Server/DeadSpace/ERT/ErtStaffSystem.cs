@@ -10,10 +10,10 @@ namespace Content.Server.DeadSpace.ERT;
 /// Система для управления бойцами ERT отряда.
 /// При добавлении mind назначает им objective с целью вызова.
 /// </summary>
-public sealed partial class ErtStaffSystem : EntitySystem
+public sealed class ErtStaffSystem : EntitySystem
 {
-    [Dependency] private MindSystem _mind = default!;
-    [Dependency] private MetaDataSystem _metaData = default!;
+    [Dependency] private readonly MindSystem _mind = default!;
+    [Dependency] private readonly MetaDataSystem _metaData = default!;
     private const string ErtMissionObjectiveProto = "ErtMissionObjective";
 
     public override void Initialize()

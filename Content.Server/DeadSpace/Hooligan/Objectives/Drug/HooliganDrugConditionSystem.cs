@@ -11,10 +11,10 @@ namespace Content.Server.DeadSpace.Hooligan.Objectives;
 /// <summary>
 /// Логика для цели "Употребить". Считает прогресс и количество употреблённых наркотиков.
 /// </summary>
-public sealed partial class HooliganDrugConditionSystem : EntitySystem
+public sealed class HooliganDrugConditionSystem : EntitySystem
 {
 
-    [Dependency] private SharedMindSystem _mind = default!;
+    [Dependency] private readonly SharedMindSystem _mind = default!;
 
     public override void Initialize()
     {

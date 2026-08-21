@@ -10,9 +10,9 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
-public sealed partial class ZombificationSymptom : VirusSymptomBase
+public sealed class ZombificationSymptom : VirusSymptomBase
 {
-    [Dependency] private EntityManager _entityManager = default!;
+    [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.Zombification;
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "ZombificationSymptom";
 

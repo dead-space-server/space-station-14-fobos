@@ -10,9 +10,9 @@ namespace Content.Client.Revolutionary;
 /// <summary>
 /// Used for the client to get status icons from other revs.
 /// </summary>
-public sealed partial class RevolutionarySystem : SharedRevolutionarySystem
+public sealed class RevolutionarySystem : SharedRevolutionarySystem
 {
-    [Dependency] private IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
 
     // DS14-start
     private readonly Dictionary<NetEntity, ProtoId<FactionIconPrototype>> _revolutionaries = new();

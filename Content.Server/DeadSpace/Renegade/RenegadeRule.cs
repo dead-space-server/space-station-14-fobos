@@ -17,14 +17,14 @@ using Robust.Shared.Audio;
 
 namespace Content.Server.DeadSpace.Renegade;
 
-public sealed partial class RenegadeRule : StationEventSystem<Renegade.Components.RenegadeRuleComponent>
+public sealed class RenegadeRule : StationEventSystem<Renegade.Components.RenegadeRuleComponent>
 {
-    [Dependency] private AntagSelectionSystem _antag = default!;
-    [Dependency] private MindSystem _mindSystem = default!;
-    [Dependency] private ChatSystem _chatSystem = default!;
-    [Dependency] private RoleSystem _role = default!;
-    [Dependency] private StationSystem _stationSystem = default!;
-    [Dependency] private SharedObjectivesSystem _objectives = default!;
+    [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    [Dependency] private readonly MindSystem _mindSystem = default!;
+    [Dependency] private readonly ChatSystem _chatSystem = default!;
+    [Dependency] private readonly RoleSystem _role = default!;
+    [Dependency] private readonly StationSystem _stationSystem = default!;
+    [Dependency] private readonly SharedObjectivesSystem _objectives = default!;
 
     public override void Initialize()
     {

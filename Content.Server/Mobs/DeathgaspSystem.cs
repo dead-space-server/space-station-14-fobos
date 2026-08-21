@@ -11,12 +11,12 @@ using Robust.Shared.Prototypes;
 namespace Content.Server.Mobs;
 
 /// <see cref="DeathgaspComponent"/>
-public sealed partial class DeathgaspSystem: EntitySystem
+public sealed class DeathgaspSystem: EntitySystem
 {
-    [Dependency] private ChatSystem _chat = default!;
+    [Dependency] private readonly ChatSystem _chat = default!;
     // DS14-start
-    [Dependency] private InventorySystem _inventory = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
     // DS14-end
 
     public override void Initialize()

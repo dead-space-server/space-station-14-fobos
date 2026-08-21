@@ -4,9 +4,9 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared.DeadSpace.Necromorphs.Sanity;
 
-public abstract partial class SharedSanitySystem : EntitySystem
+public abstract class SharedSanitySystem : EntitySystem
 {
-    [Dependency] private IGameTiming _gameTiming = default!;
+    [Dependency] private readonly IGameTiming _gameTiming = default!;
 
     public override void Initialize()
     {

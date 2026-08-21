@@ -8,11 +8,11 @@ using Content.Shared.StatusEffectNew;
 
 namespace Content.Server.Revenant.EntitySystems;
 
-public sealed partial class RevenantForcedSleepSystem : EntitySystem
+public sealed class RevenantForcedSleepSystem : EntitySystem
 {
-    [Dependency] private StatusEffectsSystem _statusEffects = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private readonly StatusEffectsSystem _statusEffects = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     public override void Initialize()
     {

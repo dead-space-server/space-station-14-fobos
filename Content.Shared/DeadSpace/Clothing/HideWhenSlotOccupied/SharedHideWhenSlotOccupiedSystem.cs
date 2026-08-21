@@ -6,10 +6,10 @@ using Content.Shared.Whitelist;
 
 namespace Content.Shared.DeadSpace.Clothing.HideWhenSlotOccupied;
 
-public abstract partial class SharedHideWhenSlotOccupiedSystem : EntitySystem
+public abstract class SharedHideWhenSlotOccupiedSystem : EntitySystem
 {
-    [Dependency] private InventorySystem _inventory = default!;
-    [Dependency] private EntityWhitelistSystem _entityWhitelistSystem = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly EntityWhitelistSystem _entityWhitelistSystem = default!;
 
     public override void Initialize()
     {

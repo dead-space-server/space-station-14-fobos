@@ -17,14 +17,14 @@ using Content.Server.Damage.Systems;
 
 namespace Content.Server.DeadSpace.MartialArts.Arkalyse;
 
-public sealed partial class ArkalyseSystem : EntitySystem
+public sealed class ArkalyseSystem : EntitySystem
 {
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private StaminaSystem _stamina = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private SharedStunSystem _stun = default!;
-    [Dependency] private DamageableSystem _damageable = default!;
-    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly StaminaSystem _stamina = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedStunSystem _stun = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     public override void Initialize()
     {
         base.Initialize();

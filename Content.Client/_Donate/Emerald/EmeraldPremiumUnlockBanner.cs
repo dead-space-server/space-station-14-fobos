@@ -5,9 +5,9 @@ using Robust.Client.UserInterface;
 
 namespace Content.Client._Donate.Emerald;
 
-public sealed partial class EmeraldPremiumUnlockBanner : Control
+public sealed class EmeraldPremiumUnlockBanner : Control
 {
-    [Dependency] private IResourceCache _resourceCache = default!;
+    [Dependency] private readonly IResourceCache _resourceCache = default!;
 
     private const int TitleFontSize = 11;
     private const int MessageFontSize = 9;

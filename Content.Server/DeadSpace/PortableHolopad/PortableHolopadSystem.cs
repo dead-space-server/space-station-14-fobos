@@ -14,13 +14,13 @@ using Robust.Shared.Utility;
 
 namespace Content.Server.DeadSpace.PortableHolopad;
 
-public sealed partial class PortableHolopadSystem : EntitySystem
+public sealed class PortableHolopadSystem : EntitySystem
 {
-    [Dependency] private SharedContainerSystem _container = default!;
-    [Dependency] private PopupSystem _popupSystem = default!;
-    [Dependency] private TransformSystem _xformSystem = default!;
-    [Dependency] private TelephoneSystem _telephoneSystem = default!;
-    [Dependency] private HolopadSystem _holopadSystem = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly PopupSystem _popupSystem = default!;
+    [Dependency] private readonly TransformSystem _xformSystem = default!;
+    [Dependency] private readonly TelephoneSystem _telephoneSystem = default!;
+    [Dependency] private readonly HolopadSystem _holopadSystem = default!;
 
     public override void Initialize()
     {

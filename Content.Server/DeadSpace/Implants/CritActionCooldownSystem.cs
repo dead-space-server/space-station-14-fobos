@@ -8,10 +8,10 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Implants;
 
-public sealed partial class CritActionCooldownSystem : EntitySystem
+public sealed class CritActionCooldownSystem : EntitySystem
 {
-    [Dependency] private SharedActionsSystem _actions = default!;
-    [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private readonly SharedActionsSystem _actions = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
 
     public override void Initialize()
     {

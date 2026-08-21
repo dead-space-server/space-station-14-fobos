@@ -156,7 +156,7 @@ namespace Content.MapRenderer.Painters
             await _pair.RunTicksSync(10);
             await Task.WhenAll(client.WaitIdleAsync(), server.WaitIdleAsync());
 
-            var sMapManager = server.System<SharedMapSystem>();
+            var sMapManager = server.ResolveDependency<IMapManager>();
 
             var tilePainter = new TilePainter(client, server);
             var entityPainter = new GridPainter(client, server);

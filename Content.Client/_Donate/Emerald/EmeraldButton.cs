@@ -9,9 +9,9 @@ using Robust.Shared.Input;
 namespace Content.Client._Donate.Emerald;
 
 [Virtual]
-public partial class EmeraldButton : Control
+public class EmeraldButton : Control
 {
-    [Dependency] private IResourceCache _resourceCache = default!;
+    [Dependency] private readonly IResourceCache _resourceCache = default!;
 
     private const int BaseFontSize = 12;
 

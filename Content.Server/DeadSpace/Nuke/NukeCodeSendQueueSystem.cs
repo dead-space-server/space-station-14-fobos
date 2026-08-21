@@ -25,14 +25,14 @@ public sealed class PendingNukeCodeRequestData
     public string RequestedByName { get; set; } = string.Empty;
 }
 
-public sealed partial class NukeCodeSendQueueSystem : EntitySystem
+public sealed class NukeCodeSendQueueSystem : EntitySystem
 {
-    [Dependency] private NukeCodePaperSystem _nukeCodePaper = default!;
-    [Dependency] private IChatManager _chatManager = default!;
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
-    [Dependency] private TimedWindowSystem _timedWindowSystem = default!;
-    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private IAdminManager _adminManager = default!;
+    [Dependency] private readonly NukeCodePaperSystem _nukeCodePaper = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly IAdminManager _adminManager = default!;
 
     private static readonly TimeSpan DecisionLifetime = TimeSpan.FromMinutes(1);
 

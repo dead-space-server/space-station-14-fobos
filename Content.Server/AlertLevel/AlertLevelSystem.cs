@@ -10,12 +10,12 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.AlertLevel;
 
-public sealed partial class AlertLevelSystem : EntitySystem
+public sealed class AlertLevelSystem : EntitySystem
 {
-    [Dependency] private IConfigurationManager _cfg = default!;
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
-    [Dependency] private ChatSystem _chatSystem = default!;
-    [Dependency] private ServerGlobalSoundSystem _sound = default!; // DS14
+    [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly ChatSystem _chatSystem = default!;
+    [Dependency] private readonly ServerGlobalSoundSystem _sound = default!; // DS14
 
     // Until stations are a prototype, this is how it's going to have to be.
     public const string DefaultAlertLevelSet = "stationAlerts";

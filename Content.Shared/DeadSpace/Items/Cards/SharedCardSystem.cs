@@ -3,9 +3,9 @@ using Content.Shared.DeadSpace.Items.Cards.Components;
 
 namespace Content.Shared.DeadSpace.Items.Cards;
 
-public abstract partial class SharedCardSystem : EntitySystem
+public abstract class SharedCardSystem : EntitySystem
 {
-    [Dependency] private SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
 
     public void TurnOver(EntityUid uid, CardComponent component)
     {

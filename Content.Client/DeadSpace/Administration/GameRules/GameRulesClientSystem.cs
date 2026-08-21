@@ -8,10 +8,10 @@ using Robust.Shared.Console;
 
 namespace Content.Client.DeadSpace.Administration.GameRules;
 
-public sealed partial class GameRulesClientSystem : EntitySystem
+public sealed class GameRulesClientSystem : EntitySystem
 {
-    [Dependency] private IClientConsoleHost _consoleHost = default!;
-    [Dependency] private IUserInterfaceManager _uiManager = default!;
+    [Dependency] private readonly IClientConsoleHost _consoleHost = default!;
+    [Dependency] private readonly IUserInterfaceManager _uiManager = default!;
 
     public event Action<GameRulesListResponseMessage>? RulesUpdated;
 

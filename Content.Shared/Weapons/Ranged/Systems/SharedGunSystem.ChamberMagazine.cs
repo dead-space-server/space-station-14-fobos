@@ -330,12 +330,6 @@ public abstract partial class SharedGunSystem
 
     private bool TryInsertChamber(EntityUid uid, EntityUid ammo)
     {
-        // Ammo created while predicting a shot is client-side. Mark it as a predicted spawn so
-        // it is removed before the authoritative container state is applied instead of blocking
-        // the networked chamber slot.
-        if (_netManager.IsClient && IsClientSide(ammo))
-            FlagPredicted(ammo);
-
         return Containers.TryGetContainer(uid, ChamberSlot, out var container) &&
                container is ContainerSlot slot &&
                Containers.Insert(ammo, slot);

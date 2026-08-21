@@ -5,9 +5,9 @@ using Robust.Shared.Containers;
 
 namespace Content.Server.DeadSpace.UniformAccessories;
 
-public sealed partial class UniformAccessorySystem : SharedUniformAccessorySystem
+public sealed class UniformAccessorySystem : SharedUniformAccessorySystem
 {
-    [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
 
     public override void Initialize()
     {

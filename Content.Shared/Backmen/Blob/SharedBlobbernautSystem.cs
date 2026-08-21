@@ -7,10 +7,10 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared.Backmen.Blob;
 
-public abstract partial class SharedBlobbernautSystem : EntitySystem
+public abstract class SharedBlobbernautSystem : EntitySystem
 {
-    [Dependency] private SharedMapSystem _map = default!;
-    [Dependency] private IGameTiming _gameTiming = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
+    [Dependency] private readonly IGameTiming _gameTiming = default!;
 
     protected abstract DamageSpecifier? TryChangeDamage(string msg, EntityUid ent, DamageSpecifier dmg);
 

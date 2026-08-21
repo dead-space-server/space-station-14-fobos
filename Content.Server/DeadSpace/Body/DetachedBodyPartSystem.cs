@@ -11,10 +11,10 @@ namespace Content.Server.DeadSpace.Body;
 /// <summary>
 /// Keeps equipment and identity consistent when visible body parts are severed.
 /// </summary>
-public sealed partial class DetachedBodyPartSystem : EntitySystem
+public sealed class DetachedBodyPartSystem : EntitySystem
 {
-    [Dependency] private InventorySystem _inventory = default!;
-    [Dependency] private MetaDataSystem _metaData = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly MetaDataSystem _metaData = default!;
 
     public override void Initialize()
     {

@@ -7,10 +7,10 @@ using Content.Shared.DeadSpace.Demons.Shadowling;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
-public sealed partial class ShadowlingAscendedPhaseReturnSystem : EntitySystem
+public sealed class ShadowlingAscendedPhaseReturnSystem : EntitySystem
 {
-    [Dependency] private SharedActionsSystem _actions = default!;
-    [Dependency] private PolymorphSystem _polymorph = default!;
+    [Dependency] private readonly SharedActionsSystem _actions = default!;
+    [Dependency] private readonly PolymorphSystem _polymorph = default!;
     private const string ActionReturnId = "ActionShadowlingAscendedPhaseReturn";
 
     public override void Initialize()

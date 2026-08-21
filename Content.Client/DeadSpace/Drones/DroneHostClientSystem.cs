@@ -4,9 +4,9 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Client.DeadSpace.Drones;
 
-public sealed partial class DroneHostClientSystem : EntitySystem
+public sealed class DroneHostClientSystem : EntitySystem
 {
-    [Dependency] private IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
 
     public override void Initialize()
     {

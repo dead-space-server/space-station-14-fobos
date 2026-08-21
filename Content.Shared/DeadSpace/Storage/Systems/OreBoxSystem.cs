@@ -12,10 +12,10 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Storage.Systems;
 
-public sealed partial class OreBoxSystem : EntitySystem
+public sealed class OreBoxSystem : EntitySystem
 {
-    [Dependency] private TagSystem _tag = default!;
-    [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
 
     [ValidatePrototypeId<TagPrototype>]
     private static readonly ProtoId<TagPrototype> OreTag = "Ore";

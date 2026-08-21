@@ -10,9 +10,9 @@ using System;
 
 namespace Content.Server.DeadSpace.Hooligan.Objectives;
 
-public sealed partial class HooliganProfitConditionSystem : EntitySystem
+public sealed class HooliganProfitConditionSystem : EntitySystem
 {
-    [Dependency] private SharedRoleSystem _role = default!;
+    [Dependency] private readonly SharedRoleSystem _role = default!;
     public override void Initialize()
     {
         base.Initialize();

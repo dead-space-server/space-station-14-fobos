@@ -24,18 +24,18 @@ using Content.Shared.Medical;
 
 namespace Content.Server.DeadSpace.Races;
 
-public sealed partial class FelinidSystem : EntitySystem
+public sealed class FelinidSystem : EntitySystem
 {
-    [Dependency] private SharedActionsSystem _actionsSystem = default!;
-    [Dependency] private HungerSystem _hungerSystem = default!;
-    [Dependency] private VomitSystem _vomitSystem = default!;
-    [Dependency] private SolutionContainerSystem _solutionContainer = default!;
-    [Dependency] private IRobustRandom _robustRandom = default!;
-    [Dependency] private PopupSystem _popupSystem = default!;
-    [Dependency] private InventorySystem _inventorySystem = default!;
-    [Dependency] private AudioSystem _audio = default!;
-    [Dependency] private TagSystem _tagSystem = default!;
-    [Dependency] private SharedChargesSystem _charges = default!;
+    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
+    [Dependency] private readonly HungerSystem _hungerSystem = default!;
+    [Dependency] private readonly VomitSystem _vomitSystem = default!;
+    [Dependency] private readonly SolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private readonly IRobustRandom _robustRandom = default!;
+    [Dependency] private readonly PopupSystem _popupSystem = default!;
+    [Dependency] private readonly InventorySystem _inventorySystem = default!;
+    [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly TagSystem _tagSystem = default!;
+    [Dependency] private readonly SharedChargesSystem _charges = default!;
 
     private static readonly ProtoId<TagPrototype> FelinidFoodTag = "FelinidFood";
     private static readonly EntProtoId EatMouseActionId = "EatMouseAction";

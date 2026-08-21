@@ -18,7 +18,7 @@ namespace Content.Client.Administration.UI
     [GenerateTypedNameReferences]
     public sealed partial class AdminAnnounceWindow : DefaultWindow
     {
-        [Dependency] private ILocalizationManager _localization = default!;
+        [Dependency] private readonly ILocalizationManager _localization = default!;
 
         private readonly List<TTSVoicePrototype> _voices; // Corvax-TTS
         private readonly List<LanguagePrototype> _languages; // DS14-Languages

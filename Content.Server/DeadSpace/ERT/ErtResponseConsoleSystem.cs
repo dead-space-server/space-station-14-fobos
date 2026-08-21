@@ -17,16 +17,16 @@ using Robust.Shared.GameObjects;
 
 namespace Content.Server.DeadSpace.ERT;
 
-public sealed partial class ErtResponseConsoleSystem : EntitySystem
+public sealed class ErtResponseConsoleSystem : EntitySystem
 {
-    [Dependency] private UserInterfaceSystem _uiSystem = default!;
-    [Dependency] private PowerReceiverSystem _powerReceiver = default!;
-    [Dependency] private StationSystem _stationSystem = default!;
-    [Dependency] private ErtResponseSystem _ertResponseSystem = default!;
-    [Dependency] private ChatSystem _chatSystem = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private IdCardSystem _idCardSystem = default!;
-    [Dependency] private ItemSlotsSystem _itemSlots = default!;
+    [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
+    [Dependency] private readonly PowerReceiverSystem _powerReceiver = default!;
+    [Dependency] private readonly StationSystem _stationSystem = default!;
+    [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!;
+    [Dependency] private readonly ChatSystem _chatSystem = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly IdCardSystem _idCardSystem = default!;
+    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
 
     public override void Initialize()
     {

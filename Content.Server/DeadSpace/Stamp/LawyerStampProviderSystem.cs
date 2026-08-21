@@ -6,9 +6,9 @@ using Content.Shared.Paper;
 
 namespace Content.Server.DeadSpace.Stamp;
 
-public sealed partial class LawyerStampProviderSystem : EntitySystem
+public sealed class LawyerStampProviderSystem : EntitySystem
 {
-    [Dependency] private ServerInventorySystem _inventory = default!;
+    [Dependency] private readonly ServerInventorySystem _inventory = default!;
 
     public override void Initialize()
     {

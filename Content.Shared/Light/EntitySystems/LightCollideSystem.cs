@@ -5,10 +5,10 @@ using Robust.Shared.Physics.Systems;
 
 namespace Content.Shared.Light.EntitySystems;
 
-public sealed partial class LightCollideSystem : EntitySystem
+public sealed class LightCollideSystem : EntitySystem
 {
-    [Dependency] private SharedPhysicsSystem _physics = default!;
-    [Dependency] private SlimPoweredLightSystem _lights = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
+    [Dependency] private readonly SlimPoweredLightSystem _lights = default!;
 
     private EntityQuery<LightOnCollideComponent> _lightQuery;
     private EntityQuery<LightOnCollideColliderComponent> _colliderQuery;

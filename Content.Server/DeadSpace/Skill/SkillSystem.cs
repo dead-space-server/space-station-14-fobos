@@ -11,10 +11,10 @@ using Content.Shared.Cloning.Events;
 
 namespace Content.Server.DeadSpace.Skill;
 
-public sealed partial class SkillSystem : EntitySystem
+public sealed class SkillSystem : EntitySystem
 {
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
-    [Dependency] private PopupSystem _popup = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly PopupSystem _popup = default!;
     private ISawmill _sawmill = default!;
     public override void Initialize()
     {

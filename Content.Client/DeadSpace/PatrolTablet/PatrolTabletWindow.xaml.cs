@@ -22,10 +22,10 @@ namespace Content.Client.DeadSpace.PatrolTablet;
 [GenerateTypedNameReferences]
 public sealed partial class PatrolTabletWindow : DefaultWindow
 {
-    [Dependency] private IEntityManager _entManager = default!;
-    [Dependency] private IPrototypeManager _prototype = default!;
-    [Dependency] private IGameTiming _gameTiming = default!;
-    [Dependency] private IEntitySystemManager _entitySystem = default!;
+    [Dependency] private readonly IEntityManager _entManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private readonly IEntitySystemManager _entitySystem = default!;
     private readonly SpriteSystem _sprite;
     private readonly ClientGameTicker _gameTicker;
 

@@ -10,12 +10,12 @@ using Content.Shared.Mobs.Components;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
-public sealed partial class ShadowlingSmokeActionSystem : EntitySystem
+public sealed class ShadowlingSmokeActionSystem : EntitySystem
 {
-    [Dependency] private SharedActionsSystem _actions = default!;
-    [Dependency] private SmokeSystem _smoke = default!;
-    [Dependency] private DamageableSystem _damageable = default!;
-    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly SharedActionsSystem _actions = default!;
+    [Dependency] private readonly SmokeSystem _smoke = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
 
     private float _smokeTickAccumulator;
 

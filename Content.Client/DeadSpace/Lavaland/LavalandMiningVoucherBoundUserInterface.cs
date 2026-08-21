@@ -7,11 +7,11 @@ using Robust.Shared.Prototypes;
 namespace Content.Client.DeadSpace.Lavaland;
 
 [UsedImplicitly]
-public sealed partial class LavalandMiningVoucherBoundUserInterface : BoundUserInterface
+public sealed class LavalandMiningVoucherBoundUserInterface : BoundUserInterface
 {
     private static readonly EntProtoId VoucherPrototype = "LavalandMiningVoucher";
 
-    [Dependency] private IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
 
     private SimpleRadialMenu? _menu;
 

@@ -11,13 +11,13 @@ using Content.Server.DeadSpace.Necromorphs.NecroWall.Components;
 
 namespace Content.Server.DeadSpace.Necromorphs.NecroWall;
 
-public sealed partial class NecroWallSystem : EntitySystem
+public sealed class NecroWallSystem : EntitySystem
 {
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private IGameTiming _gameTiming = default!;
-    [Dependency] private TagSystem _tags = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
-    [Dependency] private SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private readonly TagSystem _tags = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     private const float DurationActive = 5f;
     private const float Duration = 60f;
     private const float Range = 1f;

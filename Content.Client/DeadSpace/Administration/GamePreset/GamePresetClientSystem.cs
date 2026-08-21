@@ -13,11 +13,11 @@ using Robust.Shared.Console;
 
 namespace Content.Client.DeadSpace.Administration.GamePreset;
 
-public sealed partial class GamePresetClientSystem : EntitySystem
+public sealed class GamePresetClientSystem : EntitySystem
 {
-    [Dependency] private IClientConsoleHost _consoleHost = default!;
-    [Dependency] private IClientAdminManager _adminManager = default!;
-    [Dependency] private IUserInterfaceManager _uiManager = default!;
+    [Dependency] private readonly IClientConsoleHost _consoleHost = default!;
+    [Dependency] private readonly IClientAdminManager _adminManager = default!;
+    [Dependency] private readonly IUserInterfaceManager _uiManager = default!;
 
     public event Action<GamePresetsResponseMessage>? PresetsUpdated;
 

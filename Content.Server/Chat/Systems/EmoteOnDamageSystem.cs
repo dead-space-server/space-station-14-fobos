@@ -11,13 +11,13 @@ using Content.Shared.StatusEffectNew; // DS14
 
 namespace Content.Server.Chat.Systems;
 
-public sealed partial class EmoteOnDamageSystem : EntitySystem
+public sealed class EmoteOnDamageSystem : EntitySystem
 {
-    [Dependency] private IGameTiming _gameTiming = default!;
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private ChatSystem _chatSystem = default!;
-    [Dependency] private StatusEffectsSystem _statusEffects = default!; // DS14
+    [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly ChatSystem _chatSystem = default!;
+    [Dependency] private readonly StatusEffectsSystem _statusEffects = default!; // DS14
 
     public override void Initialize()
     {

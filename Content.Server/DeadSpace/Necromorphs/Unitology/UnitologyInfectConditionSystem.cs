@@ -8,9 +8,9 @@ using Content.Shared.Humanoid;
 
 namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 
-public sealed partial class UnitologyInfectConditionSystem : EntitySystem
+public sealed class UnitologyInfectConditionSystem : EntitySystem
 {
-    [Dependency] private NumberObjectiveSystem _number = default!;
+    [Dependency] private readonly NumberObjectiveSystem _number = default!;
 
     public override void Initialize()
     {

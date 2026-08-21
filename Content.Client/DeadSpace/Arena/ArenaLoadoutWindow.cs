@@ -17,7 +17,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Client.DeadSpace.Arena;
 
-public sealed partial class ArenaLoadoutWindow : DefaultWindow
+public sealed class ArenaLoadoutWindow : DefaultWindow
 {
     public event Action<int>? OnLoadoutConfirmed;
     public event Action<int>? OnCostumeBuy;
@@ -49,9 +49,9 @@ public sealed partial class ArenaLoadoutWindow : DefaultWindow
     private EntityUid? _previewDummy;
     private readonly List<EntityUid> _previewItems = new();
 
-    [Dependency] private IEntityManager _entManager = default!;
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
-    [Dependency] private IClientPreferencesManager _preferencesManager = default!;
+    [Dependency] private readonly IEntityManager _entManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly IClientPreferencesManager _preferencesManager = default!;
 
     public ArenaLoadoutWindow()
     {

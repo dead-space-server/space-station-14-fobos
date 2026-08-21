@@ -9,9 +9,9 @@ namespace Content.Shared.DeadSpace.Xenoborgs;
 /// <summary>
 /// Predicts the portal gun cooldown so holding the trigger cannot create client-only shots.
 /// </summary>
-public sealed partial class SharedXenoborgPortalGunSystem : EntitySystem
+public sealed class SharedXenoborgPortalGunSystem : EntitySystem
 {
-    [Dependency] private UseDelaySystem _useDelay = default!;
+    [Dependency] private readonly UseDelaySystem _useDelay = default!;
 
     public override void Initialize()
     {

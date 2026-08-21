@@ -6,9 +6,9 @@ using Content.Server.Objectives.Systems;
 
 namespace Content.Server.DeadSpace.Renegade;
 
-public sealed partial class RenegadeSubmissionConditionSystem : EntitySystem
+public sealed class RenegadeSubmissionConditionSystem : EntitySystem
 {
-    [Dependency] private NumberObjectiveSystem _number = default!;
+    [Dependency] private readonly NumberObjectiveSystem _number = default!;
 
     public override void Initialize()
     {

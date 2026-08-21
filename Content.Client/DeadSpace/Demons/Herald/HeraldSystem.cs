@@ -6,9 +6,9 @@ using Robust.Client.GameObjects;
 
 namespace Content.Client.DeadSpace.Demons.Herald;
 
-public sealed partial class HeraldSystem : EntitySystem
+public sealed class HeraldSystem : EntitySystem
 {
-    [Dependency] private SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
 
     public override void Initialize()
     {

@@ -6,9 +6,9 @@ using Robust.Client.GameObjects;
 
 namespace Content.Client.DeadSpace.Spiders.SmokeAbility;
 
-public sealed partial class SmokeAbilitySystem : EntitySystem
+public sealed class SmokeAbilitySystem : EntitySystem
 {
-    [Dependency] private SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
 
     public override void Initialize()
     {

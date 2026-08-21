@@ -78,23 +78,23 @@ public sealed class ApprovedErtRequestData
 }
 
 // Работает для одной станции, потому что пока нет смысла делать для множества
-public sealed partial class ErtResponseSystem : SharedErtResponseSystem
+public sealed class ErtResponseSystem : SharedErtResponseSystem
 {
-    [Dependency] private ChatSystem _chatSystem = default!;
-    [Dependency] private StationSystem _stationSystem = default!;
-    [Dependency] private IChatManager _chatManager = default!;
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
-    [Dependency] private TimedWindowSystem _timedWindowSystem = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private MapSystem _mapSystem = default!;
-    [Dependency] private MapLoaderSystem _mapLoaderSystem = default!;
-    [Dependency] private AlertLevelSystem _alertLevelSystem = default!;
-    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private SharedPinpointerSystem _pinpointerSystem = default!;
-    [Dependency] private GameTicker _gameTicker = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private IAdminManager _adminManager = default!;
+    [Dependency] private readonly ChatSystem _chatSystem = default!;
+    [Dependency] private readonly StationSystem _stationSystem = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly MapSystem _mapSystem = default!;
+    [Dependency] private readonly MapLoaderSystem _mapLoaderSystem = default!;
+    [Dependency] private readonly AlertLevelSystem _alertLevelSystem = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedPinpointerSystem _pinpointerSystem = default!;
+    [Dependency] private readonly GameTicker _gameTicker = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly IAdminManager _adminManager = default!;
 
     private readonly Dictionary<int, PendingErtRequestData> _pendingRequests = new();
     private readonly Dictionary<int, ManualApprovedErtRequestData> _manualApprovedRequests = new();

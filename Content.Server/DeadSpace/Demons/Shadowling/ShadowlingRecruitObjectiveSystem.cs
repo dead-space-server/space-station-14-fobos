@@ -6,10 +6,10 @@ using Content.Shared.Mobs.Systems;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
-public sealed partial class ShadowlingRecruitObjectiveSystem : EntitySystem
+public sealed class ShadowlingRecruitObjectiveSystem : EntitySystem
 {
-    [Dependency] private MobStateSystem _mobState = default!;
-    [Dependency] private MetaDataSystem _metaData = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly MetaDataSystem _metaData = default!;
 
     public override void Initialize()
     {

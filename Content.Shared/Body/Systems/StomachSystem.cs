@@ -9,10 +9,10 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared.Body.Systems
 {
-    public sealed partial class StomachSystem : EntitySystem
+    public sealed class StomachSystem : EntitySystem
     {
-        [Dependency] private IGameTiming _gameTiming = default!;
-        [Dependency] private SharedSolutionContainerSystem _solutionContainerSystem = default!;
+        [Dependency] private readonly IGameTiming _gameTiming = default!;
+        [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
 
         public const string DefaultSolutionName = "stomach";
 

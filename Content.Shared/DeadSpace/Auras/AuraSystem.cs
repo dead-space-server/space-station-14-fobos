@@ -9,12 +9,12 @@ using Robust.Shared.Physics.Components;
 
 namespace Content.Shared.DeadSpace.Auras;
 
-public sealed partial class AuraSystem : EntitySystem
+public sealed class AuraSystem : EntitySystem
 {
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private MovementSpeedModifierSystem _movementSpeed = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
-    [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
 
     private readonly Dictionary<EntityUid, HashSet<EntityUid>> _currentOverlaps = new();
     private readonly HashSet<EntityUid> _inRangeBuffer = new();

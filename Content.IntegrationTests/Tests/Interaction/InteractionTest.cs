@@ -105,7 +105,7 @@ public abstract partial class InteractionTest
     // SERVER dependencies
     protected IEntityManager SEntMan = default!;
     protected ITileDefinitionManager TileMan = default!;
-    protected SharedMapSystem MapMan = default!;
+    protected IMapManager MapMan = default!;
     protected IPrototypeManager ProtoMan = default!;
     protected IGameTiming STiming = default!;
     protected IComponentFactory Factory = default!;
@@ -180,7 +180,7 @@ public abstract partial class InteractionTest
         // server dependencies
         SEntMan = Server.ResolveDependency<IEntityManager>();
         TileMan = Server.ResolveDependency<ITileDefinitionManager>();
-        MapMan = Server.System<SharedMapSystem>();
+        MapMan = Server.ResolveDependency<IMapManager>();
         ProtoMan = Server.ResolveDependency<IPrototypeManager>();
         Factory = Server.ResolveDependency<IComponentFactory>();
         STiming = Server.ResolveDependency<IGameTiming>();

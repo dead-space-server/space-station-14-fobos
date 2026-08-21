@@ -7,9 +7,9 @@ using Content.Shared.Movement.Systems;
 
 namespace Content.Shared.DeadSpace.TheCircle.CursedVant;
 
-public sealed partial class CursedVantSystem : EntitySystem
+public sealed class CursedVantSystem : EntitySystem
 {
-    [Dependency] private MovementSpeedModifierSystem _movement = default!;
+    [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
 
     public override void Initialize()
     {

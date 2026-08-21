@@ -6,10 +6,10 @@ using System.Numerics;
 
 namespace Content.Shared.DeadSpace.Abilities.Slide;
 
-public sealed partial class SpeedSlidingSystem : EntitySystem
+public sealed class SpeedSlidingSystem : EntitySystem
 {
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private SharedPhysicsSystem _physics = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
 
     public bool TrySlide(EntityUid uid)
     {

@@ -11,9 +11,9 @@ using Content.Shared.Blink;
 
 namespace Content.Client.BlinkSystem;
 
-public sealed partial class EyeBlinkSystem : EntitySystem
+public sealed class EyeBlinkSystem : EntitySystem
 {
-    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
     private const string BlinkLayerKey = "humanoid_blink_layer";
     private const float UpdateInterval = 0.1f;
 

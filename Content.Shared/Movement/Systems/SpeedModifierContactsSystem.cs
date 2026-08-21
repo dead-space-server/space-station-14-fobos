@@ -13,13 +13,13 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared.Movement.Systems;
 
-public sealed partial class SpeedModifierContactsSystem : EntitySystem
+public sealed class SpeedModifierContactsSystem : EntitySystem
 {
-    [Dependency] private SharedPhysicsSystem _physics = default!;
-    [Dependency] private SharedGravitySystem _gravity = default!;
-    [Dependency] private MovementSpeedModifierSystem _speedModifierSystem = default!;
-    [Dependency] private EntityWhitelistSystem _whitelistSystem = default!;
-    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
+    [Dependency] private readonly SharedGravitySystem _gravity = default!;
+    [Dependency] private readonly MovementSpeedModifierSystem _speedModifierSystem = default!;
+    [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     // TODO full-game-save
     // Either these need to be processed before a map is saved, or slowed/slowing entities need to update on init.

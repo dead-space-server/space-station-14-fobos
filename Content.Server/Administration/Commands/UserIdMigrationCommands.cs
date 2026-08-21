@@ -11,9 +11,9 @@ using Robust.Shared.Console;
 namespace Content.Server.Administration.Commands;
 
 [AdminCommand(AdminFlags.Host)]
-public sealed partial class UserIdMigrationDryRunCommand : IConsoleCommand
+public sealed class UserIdMigrationDryRunCommand : IConsoleCommand
 {
-    [Dependency] private IServerDbManager _db = default!;
+    [Dependency] private readonly IServerDbManager _db = default!;
 
     public string Command => "migrate_user_uuid_dryrun";
     public string Description => "Shows what would be migrated from a WizDen UUID to an MK UUID.";
@@ -37,10 +37,10 @@ public sealed partial class UserIdMigrationDryRunCommand : IConsoleCommand
 }
 
 [AdminCommand(AdminFlags.Host)]
-public sealed partial class UserIdMigrationApplyCommand : IConsoleCommand
+public sealed class UserIdMigrationApplyCommand : IConsoleCommand
 {
-    [Dependency] private IServerDbManager _db = default!;
-    [Dependency] private IPlayerManager _players = default!;
+    [Dependency] private readonly IServerDbManager _db = default!;
+    [Dependency] private readonly IPlayerManager _players = default!;
 
     public string Command => "migrate_user_uuid_apply";
     public string Description => "Migrates local game database rows from a WizDen UUID to an MK UUID.";
@@ -70,10 +70,10 @@ public sealed partial class UserIdMigrationApplyCommand : IConsoleCommand
 }
 
 [AdminCommand(AdminFlags.Host)]
-public sealed partial class UserIdMigrationBatchCommand : IConsoleCommand
+public sealed class UserIdMigrationBatchCommand : IConsoleCommand
 {
-    [Dependency] private IServerDbManager _db = default!;
-    [Dependency] private IPlayerManager _players = default!;
+    [Dependency] private readonly IServerDbManager _db = default!;
+    [Dependency] private readonly IPlayerManager _players = default!;
 
     public string Command => "migrate_user_uuid_batch";
     public string Description => "Runs UUID migration dry-run or apply for a CSV file.";

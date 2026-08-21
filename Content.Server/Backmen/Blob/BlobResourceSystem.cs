@@ -6,10 +6,10 @@ using Content.Shared.Popups;
 
 namespace Content.Server.Backmen.Blob;
 
-public sealed partial class BlobResourceSystem : EntitySystem
+public sealed class BlobResourceSystem : EntitySystem
 {
-    [Dependency] private BlobCoreSystem _blobCoreSystem = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private readonly BlobCoreSystem _blobCoreSystem = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     public override void Initialize()
     {

@@ -11,15 +11,15 @@ using Robust.Shared.Network;
 
 namespace Content.Shared.DeadSpace.UniformAccessories;
 
-public abstract partial class SharedUniformAccessorySystem : EntitySystem
+public abstract class SharedUniformAccessorySystem : EntitySystem
 {
     private const string RemoveCategoryKey = "uniform-accessory-remove";
 
-    [Dependency] private SharedContainerSystem _container = default!;
-    [Dependency] private SharedHandsSystem _hands = default!;
-    [Dependency] private INetManager _net = default!;
-    [Dependency] private SharedItemSystem _item = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly SharedHandsSystem _hands = default!;
+    [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly SharedItemSystem _item = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     public override void Initialize()
     {

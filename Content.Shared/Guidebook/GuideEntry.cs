@@ -9,8 +9,8 @@ public sealed partial class GuideEntryPrototype : GuideEntry, IPrototype
     public string ID => Id;
 }
 
-[Virtual, DataDefinition]
-public partial class GuideEntry
+[Virtual]
+public class GuideEntry
 {
     /// <summary>
     ///     The file containing the contents of this guide.

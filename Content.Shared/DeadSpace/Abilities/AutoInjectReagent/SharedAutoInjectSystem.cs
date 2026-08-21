@@ -8,9 +8,9 @@ using Content.Shared.FixedPoint;
 
 namespace Content.Shared.DeadSpace.Abilities.AutoInjectReagent;
 
-public abstract partial class SharedReagentSystem : EntitySystem
+public abstract class SharedReagentSystem : EntitySystem
 {
-    [Dependency] private SharedSolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
 
     public override void Initialize()
     {

@@ -16,7 +16,7 @@ namespace Content.Client.UserInterface.Systems.Chat;
 public sealed partial class ChatWindow : FancyWindow
 {
     // DS14-start
-    [Dependency] private IClyde _clyde = default!;
+    [Dependency] private readonly IClyde _clyde = default!;
 
     private readonly Button _popOutButton = new()
     {

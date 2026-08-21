@@ -13,15 +13,16 @@ using Robust.Shared.Map.Components;
 
 namespace Content.Client.RCD;
 
-public sealed partial class AlignRCDConstruction : PlacementMode
+public sealed class AlignRCDConstruction : PlacementMode
 {
-    [Dependency] private IEntityManager _entityManager = default!;
+    [Dependency] private readonly IEntityManager _entityManager = default!;
+    [Dependency] private readonly IMapManager _mapManager = default!;
     private readonly SharedMapSystem _mapSystem;
     private readonly HandsSystem _handsSystem;
     private readonly RCDSystem _rcdSystem;
     private readonly SharedTransformSystem _transformSystem;
-    [Dependency] private IPlayerManager _playerManager = default!;
-    [Dependency] private IStateManager _stateManager = default!;
+    [Dependency] private readonly IPlayerManager _playerManager = default!;
+    [Dependency] private readonly IStateManager _stateManager = default!;
 
     private const float SearchBoxSize = 2f;
     private const float PlaceColorBaseAlpha = 0.5f;
@@ -45,7 +46,7 @@ public sealed partial class AlignRCDConstruction : PlacementMode
     public override void AlignPlacementMode(ScreenCoordinates mouseScreen)
     {
         _unalignedMouseCoords = ScreenToCursorGrid(mouseScreen);
-        MouseCoords = _unalignedMouseCoords.AlignWithClosestGridTile(SearchBoxSize, _entityManager);
+        MouseCoords = _unalignedMouseCoords.AlignWithClosestGridTile(SearchBoxSize, _entityManager, _mapManager);
 
         var gridId = _transformSystem.GetGrid(MouseCoords);
 

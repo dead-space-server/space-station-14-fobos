@@ -11,11 +11,11 @@ using Robust.Server.Audio;
 
 namespace Content.Server.DeadSpace.Wear;
 
-public sealed partial class WearSystem : EntitySystem
+public sealed class WearSystem : EntitySystem
 {
-    [Dependency] private AudioSystem _audio = default!;
-    [Dependency] private DestructibleSystem _destructible = default!;
-    [Dependency] private DamageableSystem _damage = default!;
+    [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly DestructibleSystem _destructible = default!;
+    [Dependency] private readonly DamageableSystem _damage = default!;
     public override void Initialize()
     {
         base.Initialize();

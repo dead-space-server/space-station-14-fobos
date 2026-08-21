@@ -17,7 +17,7 @@ using Robust.Shared.Player;
 
 namespace Content.Server.Singularity.EntitySystems;
 
-public sealed partial class SingularityGeneratorSystem : SharedSingularityGeneratorSystem
+public sealed class SingularityGeneratorSystem : SharedSingularityGeneratorSystem
 {
     // DS14-start
     private const string TeslaEnergyBallPrototype = "TeslaEnergyBall";
@@ -30,14 +30,14 @@ public sealed partial class SingularityGeneratorSystem : SharedSingularityGenera
 
     #region Dependencies
     // DS14-start
-    [Dependency] private ChatSystem _chat = default!;
-    [Dependency] private StationSystem _station = default!;
+    [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly StationSystem _station = default!;
     // DS14-end
 
-    [Dependency] private IViewVariablesManager _vvm = default!;
-    [Dependency] private SharedTransformSystem _transformSystem = default!;
-    [Dependency] private PhysicsSystem _physics = default!;
-    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private readonly IViewVariablesManager _vvm = default!;
+    [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
+    [Dependency] private readonly PhysicsSystem _physics = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     #endregion Dependencies
 
     public override void Initialize()

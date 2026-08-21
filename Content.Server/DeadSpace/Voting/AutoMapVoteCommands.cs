@@ -7,9 +7,9 @@ using Robust.Shared.Console;
 namespace Content.Server.DeadSpace.Voting;
 
 [AdminCommand(AdminFlags.Round)]
-public sealed partial class ToggleAutoMapVoteCommand : LocalizedEntityCommands
+public sealed class ToggleAutoMapVoteCommand : LocalizedEntityCommands
 {
-    [Dependency] private AutoMapVoteSystem _autoMapVote = default!;
+    [Dependency] private readonly AutoMapVoteSystem _autoMapVote = default!;
 
     public override string Command => "toggleautomapvote";
 
@@ -46,9 +46,9 @@ public sealed partial class ToggleAutoMapVoteCommand : LocalizedEntityCommands
 }
 
 [AdminCommand(AdminFlags.Server)]
-public sealed partial class SetAutoMapVoteConfigCommand : LocalizedEntityCommands
+public sealed class SetAutoMapVoteConfigCommand : LocalizedEntityCommands
 {
-    [Dependency] private AutoMapVoteSystem _autoMapVote = default!;
+    [Dependency] private readonly AutoMapVoteSystem _autoMapVote = default!;
 
     public override string Command => "setautomapvoteconfig";
 
@@ -126,9 +126,9 @@ public sealed partial class SetAutoMapVoteConfigCommand : LocalizedEntityCommand
 }
 
 [AdminCommand(AdminFlags.Round)]
-public sealed partial class InitiateAutoMapVoteCommand : LocalizedEntityCommands
+public sealed class InitiateAutoMapVoteCommand : LocalizedEntityCommands
 {
-    [Dependency] private AutoMapVoteSystem _autoMapVote = default!;
+    [Dependency] private readonly AutoMapVoteSystem _autoMapVote = default!;
 
     public override string Command => "initautomapvote";
 

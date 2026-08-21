@@ -13,13 +13,14 @@ namespace Content.Server.Anomaly.Effects;
 /// <summary>
 /// This handles <see cref="ProjectileAnomalyComponent"/> and the events from <seealso cref="AnomalySystem"/>
 /// </summary>
-public sealed partial class ProjectileAnomalySystem : EntitySystem
+public sealed class ProjectileAnomalySystem : EntitySystem
 {
-    [Dependency] private TransformSystem _xform = default!;
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private GunSystem _gunSystem = default!;
-    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private readonly TransformSystem _xform = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IMapManager _mapManager = default!;
+    [Dependency] private readonly GunSystem _gunSystem = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
 
     private EntityQuery<TransformComponent> _xFormQuery;
     private EntityQuery<MobStateComponent> _mobQuery;
@@ -97,7 +98,7 @@ public sealed partial class ProjectileAnomalySystem : EntitySystem
     {
         var mapPos = _xform.ToMapCoordinates(coords);
 
-        var spawnCoords = _map.TryFindGridAt(mapPos, out var gridUid, out _)
+        var spawnCoords = _mapManager.TryFindGridAt(mapPos, out var gridUid, out _)
                 ? _xform.WithEntityId(coords, gridUid)
                 : new(_map.GetMapOrInvalid(mapPos.MapId), mapPos.Position);
 

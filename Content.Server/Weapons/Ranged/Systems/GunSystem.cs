@@ -25,8 +25,8 @@ namespace Content.Server.Weapons.Ranged.Systems;
 
 public sealed partial class GunSystem : SharedGunSystem
 {
-    [Dependency] private PricingSystem _pricing = default!;
-    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private readonly PricingSystem _pricing = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
 
     // DS14-start
     private readonly Dictionary<EntityUid, BallisticConstructionTransferData> _ballisticConstructionTransfers = new();
@@ -124,7 +124,7 @@ public sealed partial class GunSystem : SharedGunSystem
         var angle = GetRecoilAngle(Timing.CurTime, gun, mapAngle);
 
         // If applicable, this ensures the projectile is parented to grid on spawn, instead of the map.
-        var fromEnt = Maps.TryFindGridAt(fromMap, out var gridUid, out _)
+        var fromEnt = MapManager.TryFindGridAt(fromMap, out var gridUid, out _)
             ? TransformSystem.WithEntityId(fromCoordinates, gridUid)
             : new EntityCoordinates(_map.GetMapOrInvalid(fromMap.MapId), fromMap.Position);
 

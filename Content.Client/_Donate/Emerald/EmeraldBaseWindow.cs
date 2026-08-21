@@ -8,6 +8,7 @@ using Robust.Shared.Input;
 
 namespace Content.Client._Donate.Emerald;
 
+[Virtual]
 public abstract class EmeraldBaseWindow : Control
 {
     [Flags]

@@ -6,9 +6,9 @@ using Content.Shared.DeadSpace.StationAi;
 
 namespace Content.Client.DeadSpace.StationAI;
 
-public sealed partial class StationAiCameraListClientSystem : EntitySystem
+public sealed class StationAiCameraListClientSystem : EntitySystem
 {
-    [Dependency] private SharedUserInterfaceSystem _ui = default!;
+    [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
 
     public override void Initialize()
     {

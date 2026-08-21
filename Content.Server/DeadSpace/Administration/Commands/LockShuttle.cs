@@ -7,9 +7,9 @@ using Robust.Shared.Console;
 namespace Content.Server.Administration.Commands
 {
     [AdminCommand(AdminFlags.Round)]
-    public sealed partial class LockShuttleCommand : LocalizedEntityCommands
+    public sealed class LockShuttleCommand : LocalizedEntityCommands
     {
-        [Dependency] private CommunicationsConsoleSystem _comms = default!;
+        [Dependency] private readonly CommunicationsConsoleSystem _comms = default!;
 
         public override string Command => "lockshuttle";
 

@@ -22,19 +22,19 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Lavaland;
 
-public sealed partial class LavalandJaunterSystem : EntitySystem
+public sealed class LavalandJaunterSystem : EntitySystem
 {
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private SharedLavalandJaunterSystem _jaunter = default!;
-    [Dependency] private IPrototypeManager _prototype = default!;
-    [Dependency] private SharedMapSystem _map = default!;
-    [Dependency] private PullingSystem _pulling = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
-    [Dependency] private TurfSystem _turf = default!;
-    [Dependency] private UseDelaySystem _useDelay = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedLavalandJaunterSystem _jaunter = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
+    [Dependency] private readonly PullingSystem _pulling = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly UseDelaySystem _useDelay = default!;
 
     public override void Initialize()
     {

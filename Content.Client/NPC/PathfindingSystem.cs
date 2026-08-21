@@ -14,16 +14,17 @@ using Robust.Shared.Utility;
 
 namespace Content.Client.NPC
 {
-    public sealed partial class PathfindingSystem : SharedPathfindingSystem
+    public sealed class PathfindingSystem : SharedPathfindingSystem
     {
-        [Dependency] private IEyeManager _eyeManager = default!;
-        [Dependency] private IGameTiming _timing = default!;
-        [Dependency] private IInputManager _inputManager = default!;
-        [Dependency] private IOverlayManager _overlayManager = default!;
-        [Dependency] private IResourceCache _cache = default!;
-        [Dependency] private NPCSteeringSystem _steering = default!;
-        [Dependency] private MapSystem _mapSystem = default!;
-        [Dependency] private SharedTransformSystem _transformSystem = default!;
+        [Dependency] private readonly IEyeManager _eyeManager = default!;
+        [Dependency] private readonly IGameTiming _timing = default!;
+        [Dependency] private readonly IInputManager _inputManager = default!;
+        [Dependency] private readonly IMapManager _mapManager = default!;
+        [Dependency] private readonly IOverlayManager _overlayManager = default!;
+        [Dependency] private readonly IResourceCache _cache = default!;
+        [Dependency] private readonly NPCSteeringSystem _steering = default!;
+        [Dependency] private readonly MapSystem _mapSystem = default!;
+        [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
 
         public PathfindingDebugMode Modes
         {
@@ -38,7 +39,7 @@ namespace Content.Client.NPC
                 }
                 else if (!_overlayManager.HasOverlay<PathfindingOverlay>())
                 {
-                    _overlayManager.AddOverlay(new PathfindingOverlay(EntityManager, _eyeManager, _inputManager, _cache, this, _mapSystem, _transformSystem));
+                    _overlayManager.AddOverlay(new PathfindingOverlay(EntityManager, _eyeManager, _inputManager, _mapManager, _cache, this, _mapSystem, _transformSystem));
                 }
 
                 if ((value & PathfindingDebugMode.Steering) != 0x0)
@@ -136,6 +137,7 @@ namespace Content.Client.NPC
         private readonly IEntityManager _entManager;
         private readonly IEyeManager _eyeManager;
         private readonly IInputManager _inputManager;
+        private readonly IMapManager _mapManager;
         private readonly PathfindingSystem _system;
         private readonly MapSystem _mapSystem;
         private readonly SharedTransformSystem _transformSystem;
@@ -149,6 +151,7 @@ namespace Content.Client.NPC
             IEntityManager entManager,
             IEyeManager eyeManager,
             IInputManager inputManager,
+            IMapManager mapManager,
             IResourceCache cache,
             PathfindingSystem system,
             MapSystem mapSystem,
@@ -157,6 +160,7 @@ namespace Content.Client.NPC
             _entManager = entManager;
             _eyeManager = eyeManager;
             _inputManager = inputManager;
+            _mapManager = mapManager;
             _system = system;
             _mapSystem = mapSystem;
             _transformSystem = transformSystem;
@@ -189,7 +193,7 @@ namespace Content.Client.NPC
                 var found = false;
 
                 _grids.Clear();
-                _mapSystem.FindGridsIntersecting(mouseWorldPos.MapId, aabb, ref _grids);
+                _mapManager.FindGridsIntersecting(mouseWorldPos.MapId, aabb, ref _grids);
 
                 foreach (var grid in _grids)
                 {
@@ -265,7 +269,7 @@ namespace Content.Client.NPC
             if ((_system.Modes & PathfindingDebugMode.Poly) != 0x0 &&
                 mouseWorldPos.MapId == args.MapId)
             {
-                if (!_mapSystem.TryFindGridAt(mouseWorldPos, out var gridUid, out var grid) || !xformQuery.TryGetComponent(gridUid, out var gridXform))
+                if (!_mapManager.TryFindGridAt(mouseWorldPos, out var gridUid, out var grid) || !xformQuery.TryGetComponent(gridUid, out var gridXform))
                     return;
 
                 if (!_system.Polys.TryGetValue(_entManager.GetNetEntity(gridUid), out var data))
@@ -342,7 +346,7 @@ namespace Content.Client.NPC
                 mouseWorldPos.MapId == args.MapId)
             {
                 _grids.Clear();
-                _mapSystem.FindGridsIntersecting(mouseWorldPos.MapId, aabb, ref _grids);
+                _mapManager.FindGridsIntersecting(mouseWorldPos.MapId, aabb, ref _grids);
 
                 foreach (var grid in _grids)
                 {
@@ -404,7 +408,7 @@ namespace Content.Client.NPC
                 mouseWorldPos.MapId == args.MapId)
             {
                 _grids.Clear();
-                _mapSystem.FindGridsIntersecting(args.MapId, aabb, ref _grids);
+                _mapManager.FindGridsIntersecting(args.MapId, aabb, ref _grids);
 
                 foreach (var grid in _grids)
                 {
@@ -443,7 +447,7 @@ namespace Content.Client.NPC
                 mouseWorldPos.MapId == args.MapId)
             {
                 _grids.Clear();
-                _mapSystem.FindGridsIntersecting(args.MapId, aabb, ref _grids);
+                _mapManager.FindGridsIntersecting(args.MapId, aabb, ref _grids);
 
                 foreach (var grid in _grids)
                 {
@@ -502,7 +506,7 @@ namespace Content.Client.NPC
             if ((_system.Modes & PathfindingDebugMode.Chunks) != 0x0)
             {
                 _grids.Clear();
-                _mapSystem.FindGridsIntersecting(args.MapId, args.WorldBounds, ref _grids);
+                _mapManager.FindGridsIntersecting(args.MapId, args.WorldBounds, ref _grids);
 
                 foreach (var grid in _grids)
                 {

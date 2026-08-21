@@ -48,28 +48,28 @@ using Content.Shared.Damage.Components;
 
 namespace Content.Server.DeadSpace.Demons.DemonShadow;
 
-public sealed partial class DemonShadowSystem : SharedDemonShadowSystem
+public sealed class DemonShadowSystem : SharedDemonShadowSystem
 {
-    [Dependency] private MobStateSystem _mobState = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
-    [Dependency] private SharedActionsSystem _actionsSystem = default!;
-    [Dependency] private BeamSystem _beam = default!;
-    [Dependency] private SharedAppearanceSystem _appearance = default!;
-    [Dependency] private VisibilitySystem _visibility = default!;
-    [Dependency] private SharedPhysicsSystem _physics = default!;
-    [Dependency] private MovementSpeedModifierSystem _movement = default!;
-    [Dependency] private SharedStunSystem _stun = default!;
-    [Dependency] private IGameTiming _gameTiming = default!;
-    [Dependency] private ExamineSystemShared _examine = default!;
-    [Dependency] private DamageableSystem _damageable = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private NpcFactionSystem _faction = default!;
-    [Dependency] private SharedInteractionSystem _interaction = default!;
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private TurfSystem _turf = default!;
-    [Dependency] private SharedContainerSystem _containerSystem = default!;
-    [Dependency] private TagSystem _tag = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
+    [Dependency] private readonly BeamSystem _beam = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly VisibilitySystem _visibility = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
+    [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
+    [Dependency] private readonly SharedStunSystem _stun = default!;
+    [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private readonly ExamineSystemShared _examine = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly NpcFactionSystem _faction = default!;
+    [Dependency] private readonly SharedInteractionSystem _interaction = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
 
     private const float ConeHalfAngle = 60f * MathF.PI / 180f;
     private static readonly ProtoId<TagPrototype> FlareTag = "Flare";
@@ -451,7 +451,7 @@ public sealed partial class DemonShadowSystem : SharedDemonShadowSystem
 
     private bool IsInsideLightCone(EntityUid uid, EntityUid lightUid, PointLightComponent light)
     {
-        if (light.LightMask == null)
+        if (light.MaskPath == null)
             return true;
 
         var demonPosition = _transform.GetWorldPosition(uid);

@@ -6,10 +6,10 @@ using Robust.Shared.Configuration;
 
 namespace Content.Client.Camera;
 
-public sealed partial class CameraRecoilSystem : SharedCameraRecoilSystem
+public sealed class CameraRecoilSystem : SharedCameraRecoilSystem
 {
-    [Dependency] private IConfigurationManager _configManager = default!;
-    [Dependency] private ScreenshakeSystem _screenshake = default!;
+    [Dependency] private readonly IConfigurationManager _configManager = default!;
+    [Dependency] private readonly ScreenshakeSystem _screenshake = default!;
 
     private float _intensity;
 

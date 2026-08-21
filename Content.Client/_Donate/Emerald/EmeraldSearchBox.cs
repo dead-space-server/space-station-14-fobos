@@ -9,10 +9,10 @@ using Robust.Shared.Timing;
 
 namespace Content.Client._Donate.Emerald;
 
-public sealed partial class EmeraldSearchBox : Control
+public sealed class EmeraldSearchBox : Control
 {
-    [Dependency] private IResourceCache _resourceCache = default!;
-    [Dependency] private IClipboardManager _clipboard = default!;
+    [Dependency] private readonly IResourceCache _resourceCache = default!;
+    [Dependency] private readonly IClipboardManager _clipboard = default!;
 
     private const int BaseFontSize = 10;
 

@@ -6,11 +6,11 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared.DeadSpace.Lavaland;
 
-public sealed partial class SharedLavalandJaunterSystem : EntitySystem
+public sealed class SharedLavalandJaunterSystem : EntitySystem
 {
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private InventorySystem _inventory = default!;
-    [Dependency] private INetManager _net = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly INetManager _net = default!;
 
     public override void Initialize()
     {

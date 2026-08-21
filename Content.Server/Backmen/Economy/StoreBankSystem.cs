@@ -16,11 +16,11 @@ using Robust.Shared.Audio.Systems;
 
 namespace Content.Server.Backmen.Economy;
 
-public sealed partial class StoreBankSystem : EntitySystem
+public sealed class StoreBankSystem : EntitySystem
 {
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     private ISawmill _sawmill = default!;
 

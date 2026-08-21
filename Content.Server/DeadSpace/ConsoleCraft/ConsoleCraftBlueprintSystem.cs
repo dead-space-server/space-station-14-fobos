@@ -6,10 +6,10 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.ConsoleCraft;
 
-public sealed partial class ConsoleCraftBlueprintSystem : SharedConsoleCraftBlueprintSystem
+public sealed class ConsoleCraftBlueprintSystem : SharedConsoleCraftBlueprintSystem
 {
-    [Dependency] private ConsoleCraftSystem _craftSystem = default!;
-    [Dependency] private IPrototypeManager _proto = default!;
+    [Dependency] private readonly ConsoleCraftSystem _craftSystem = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
 
     protected override void OnBlueprintInserted(
         Entity<ConsoleCraftBlueprintReceiverComponent> receiver,

@@ -10,10 +10,10 @@ namespace Content.Server.Shuttles.Commands;
 /// Delays the round from ending via the shuttle call. Can still be ended via other means.
 /// </summary>
 [AdminCommand(AdminFlags.Fun)]
-public sealed partial class DelayRoundEndCommand : LocalizedEntityCommands
+public sealed class DelayRoundEndCommand : LocalizedEntityCommands
 {
-    [Dependency] private IChatManager _chatManager = default!; // DS14
-    [Dependency] private RoundEndSystem _roundEndSystem = default!; // DS14
+    [Dependency] private readonly IChatManager _chatManager = default!; // DS14
+    [Dependency] private readonly RoundEndSystem _roundEndSystem = default!; // DS14
 
     public override string Command => "delayroundend";
 

@@ -7,10 +7,10 @@ using Timer = Robust.Shared.Timing.Timer;
 
 namespace Content.Server.DeadSpace.Physics.Systems;
 
-public sealed partial class HazardTileOverlapCleanupSystem : EntitySystem
+public sealed class HazardTileOverlapCleanupSystem : EntitySystem
 {
-    [Dependency] private SharedContainerSystem _container = default!;
-    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
 
     private EntityQuery<ChasmComponent> _chasmQuery;
     private EntityQuery<MapGridComponent> _gridQuery;

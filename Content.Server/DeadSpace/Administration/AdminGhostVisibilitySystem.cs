@@ -8,11 +8,11 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Administration;
 
-public sealed partial class AdminGhostVisibilitySystem : EntitySystem
+public sealed class AdminGhostVisibilitySystem : EntitySystem
 {
-    [Dependency] private SharedActionsSystem _actions = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private TagSystem _tag = default!;
+    [Dependency] private readonly SharedActionsSystem _actions = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
 
     private static readonly ProtoId<TagPrototype> HideContextMenuTag = "HideContextMenu";
 

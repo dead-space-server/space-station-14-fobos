@@ -12,10 +12,10 @@ using Content.Shared.Antag;
 
 namespace Content.Client.DeadSpace.Demons.Shadowling;
 
-public sealed partial class ShadowlingSlaveClientSystem : EntitySystem
+public sealed class ShadowlingSlaveClientSystem : EntitySystem
 {
-    [Dependency] private IPrototypeManager _prototype = default!;
-    [Dependency] private IPlayerManager _player = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IPlayerManager _player = default!;
 
     private const string SlaveFactionId = "ShadowlingSlaveFaction";
     private const string SlaveFactionAllyId = "ShadowlingSlaveFactionAlly";

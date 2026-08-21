@@ -5,9 +5,9 @@ using Robust.Client.UserInterface.CustomControls;
 namespace Content.Client.ViewVariables;
 
 // i hate ui
-public sealed partial class ViewVariablesFixSystem : EntitySystem
+public sealed class ViewVariablesFixSystem : EntitySystem
 {
-    [Dependency] private IUserInterfaceManager _uiManager = default!;
+    [Dependency] private readonly IUserInterfaceManager _uiManager = default!;
 
     private readonly HashSet<int> _patchedWindows = new();
 

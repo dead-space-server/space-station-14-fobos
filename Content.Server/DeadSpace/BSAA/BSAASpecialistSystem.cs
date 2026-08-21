@@ -5,9 +5,9 @@ using Content.Shared.NPC.Systems;
 
 namespace Content.Server.DeadSpace.BSAA;
 
-public sealed partial class BSAASpecialistSystem : EntitySystem
+public sealed class BSAASpecialistSystem : EntitySystem
 {
-    [Dependency] private NpcFactionSystem _factions = default!;
+    [Dependency] private readonly NpcFactionSystem _factions = default!;
 
     public override void Initialize()
     {

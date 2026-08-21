@@ -6,9 +6,9 @@ using Content.Shared.Weapons.Ranged.Events;
 
 namespace Content.Shared.DeadSpace.Weapons.Ranged;
 
-public sealed partial class SharedGunUsageBlockerSystem : EntitySystem
+public sealed class SharedGunUsageBlockerSystem : EntitySystem
 {
-    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     public override void Initialize()
     {

@@ -14,15 +14,15 @@ using Content.Server.Actions;
 
 namespace Content.Server.DeadSpace.ERT;
 
-public sealed partial class ResponseErtOnAllowedStateSystem : EntitySystem
+public sealed class ResponseErtOnAllowedStateSystem : EntitySystem
 {
-    [Dependency] private EuiManager _euiManager = default!;
-    [Dependency] private IPlayerManager _playerManager = default!;
-    [Dependency] private ILogManager _logManager = default!;
-    [Dependency] private ErtResponseSystem _ertResponseSystem = default!;
-    [Dependency] private RoleSystem _roleSystem = default!;
-    [Dependency] private MindSystem _mindSystem = default!;
-    [Dependency] private ActionsSystem _actionsSystem = default!;
+    [Dependency] private readonly EuiManager _euiManager = default!;
+    [Dependency] private readonly IPlayerManager _playerManager = default!;
+    [Dependency] private readonly ILogManager _logManager = default!;
+    [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!;
+    [Dependency] private readonly RoleSystem _roleSystem = default!;
+    [Dependency] private readonly MindSystem _mindSystem = default!;
+    [Dependency] private readonly ActionsSystem _actionsSystem = default!;
 
     public override void Initialize()
     {

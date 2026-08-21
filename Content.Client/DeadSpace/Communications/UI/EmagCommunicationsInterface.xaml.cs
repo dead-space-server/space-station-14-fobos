@@ -39,12 +39,12 @@ public sealed partial class EmagCommunicationsInterface : FancyWindow
     private const int ColorShortLength = 3;
     private const int ColorLongLength = 6;
 
-    [Dependency] private IAudioManager _audioManager = default!;
-    [Dependency] private IConfigurationManager _configuration = default!;
-    [Dependency] private ILocalizationManager _localization = default!;
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
-    [Dependency] private IResourceCache _resourceCache = default!;
-    [Dependency] private IUserInterfaceManager _uiManager = default!;
+    [Dependency] private readonly IAudioManager _audioManager = default!;
+    [Dependency] private readonly IConfigurationManager _configuration = default!;
+    [Dependency] private readonly ILocalizationManager _localization = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly IResourceCache _resourceCache = default!;
+    [Dependency] private readonly IUserInterfaceManager _uiManager = default!;
 
     private readonly int _maxAnnouncementLength;
     private EmagCommunicationsUiMode _mode = EmagCommunicationsUiMode.Unavailable;
@@ -367,10 +367,11 @@ public sealed partial class EmagCommunicationsInterface : FancyWindow
         if (value.Length != ColorShortLength && value.Length != ColorLongLength)
             return false;
 
-        if (!Color.TryFromHex($"#{value}", out var parsed))
+        var parsed = Color.TryFromHex($"#{value}");
+        if (parsed == null)
             return false;
 
-        color = parsed;
+        color = parsed.Value;
         return true;
     }
 

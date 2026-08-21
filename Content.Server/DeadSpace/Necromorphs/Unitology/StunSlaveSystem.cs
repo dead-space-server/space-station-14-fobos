@@ -11,11 +11,11 @@ using Content.Shared.Examine;
 
 namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 
-public sealed partial class StunSlaveSystem : EntitySystem
+public sealed class StunSlaveSystem : EntitySystem
 {
-    [Dependency] private PopupSystem _popup = default!;
-    [Dependency] private StatusEffectsSystem _statusEffect = default!;
-    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly StatusEffectsSystem _statusEffect = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     public override void Initialize()
     {
         base.Initialize();

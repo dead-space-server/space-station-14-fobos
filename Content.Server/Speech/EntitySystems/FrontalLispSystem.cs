@@ -7,9 +7,9 @@ using Content.Shared.Speech;
 
 namespace Content.Server.Speech.EntitySystems;
 
-public sealed partial class FrontalLispSystem : EntitySystem
+public sealed class FrontalLispSystem : EntitySystem
 {
-    [Dependency] private IRobustRandom _random = default!; // Corvax-Localization
+    [Dependency] private readonly IRobustRandom _random = default!; // Corvax-Localization
 
     // @formatter:off
     private static readonly Regex RegexUpperTh = new(@"[T]+[Ss]+|[S]+[Cc]+(?=[IiEeYy]+)|[C]+(?=[IiEeYy]+)|[P][Ss]+|([S]+[Tt]+|[T]+)(?=[Ii]+[Oo]+[Uu]*[Nn]*)|[C]+[Hh]+(?=[Ii]*[Ee]*)|[Z]+|[S]+|[X]+(?=[Ee]+)");

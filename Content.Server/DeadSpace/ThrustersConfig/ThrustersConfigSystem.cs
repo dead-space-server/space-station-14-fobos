@@ -6,10 +6,10 @@ using Content.Shared.Shuttles.Events;
 
 namespace Content.Server.DeadSpace.ThrustersConfig;
 
-public sealed partial class ThrustersConfigSystem : EntitySystem
+public sealed class ThrustersConfigSystem : EntitySystem
 {
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private ThrusterSystem _thrusterSystem = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly ThrusterSystem _thrusterSystem = default!;
 
     private readonly HashSet<Entity<ThrusterComponent>> _thrustersSet = new();
     private const int MaxGyroscopeThrust = 2000;

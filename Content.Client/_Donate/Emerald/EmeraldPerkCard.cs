@@ -7,9 +7,9 @@ using Robust.Client.UserInterface;
 
 namespace Content.Client._Donate.Emerald;
 
-public sealed partial class EmeraldPerkCard : Control
+public sealed class EmeraldPerkCard : Control
 {
-    [Dependency] private IResourceCache _resourceCache = default!;
+    [Dependency] private readonly IResourceCache _resourceCache = default!;
 
     private const int BaseTitleFontSize = 9;
     private const int BaseValueFontSize = 11;

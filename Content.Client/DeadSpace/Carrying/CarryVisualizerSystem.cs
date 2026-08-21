@@ -10,12 +10,12 @@ using Robust.Client.Graphics;
 
 namespace Content.Client.DeadSpace.Carrying;
 
-public sealed partial class CarryVisualizerSystem : EntitySystem
+public sealed class CarryVisualizerSystem : EntitySystem
 {
-    [Dependency] private AppearanceSystem _appearance = default!;
-    [Dependency] private IEyeManager _eye = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
-    [Dependency] private SpriteSystem _sprite = default!;
+    [Dependency] private readonly AppearanceSystem _appearance = default!;
+    [Dependency] private readonly IEyeManager _eye = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly SpriteSystem _sprite = default!;
 
     private readonly Dictionary<EntityUid, CarryVisualState> _states = new();
 

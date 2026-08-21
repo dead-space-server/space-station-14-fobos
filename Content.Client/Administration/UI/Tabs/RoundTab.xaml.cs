@@ -9,7 +9,7 @@ namespace Content.Client.Administration.UI.Tabs
     [GenerateTypedNameReferences]
     public sealed partial class RoundTab : Control
     {
-        [Dependency] private IClientConsoleHost _console = default!;
+        [Dependency] private readonly IClientConsoleHost _console = default!;
 
         public RoundTab()
         {

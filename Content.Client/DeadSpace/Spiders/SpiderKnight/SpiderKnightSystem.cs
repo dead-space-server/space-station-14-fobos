@@ -7,9 +7,9 @@ using Content.Shared.Examine;
 
 namespace Content.Client.DeadSpace.Spiders.SpiderKnight;
 
-public sealed partial class SpiderKnightSystem : EntitySystem
+public sealed class SpiderKnightSystem : EntitySystem
 {
-    [Dependency] private SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
 
     public override void Initialize()
     {

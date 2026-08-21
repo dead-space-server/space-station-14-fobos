@@ -8,10 +8,10 @@ using Content.Shared.Actions;
 
 namespace Content.Shared.DeadSpace.Abilities.Egg;
 
-public abstract partial class SharedEggSystem : EntitySystem
+public abstract class SharedEggSystem : EntitySystem
 {
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private SharedActionsSystem _actionsSystem = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
 
     public override void Initialize()
     {
