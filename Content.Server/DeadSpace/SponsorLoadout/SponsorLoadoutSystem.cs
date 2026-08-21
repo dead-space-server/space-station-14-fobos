@@ -5,10 +5,10 @@ using Content.DeadSpace.Interfaces.Server;
 
 namespace Content.Server.DeadSpace.SponsorLoadout;
 
-public sealed class SponsorLoadoutSystem : EntitySystem
+public sealed partial class SponsorLoadoutSystem : EntitySystem
 {
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly HandsSystem _handsSystem = default!;
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private HandsSystem _handsSystem = default!;
     private IServerSponsorsManager? _sponsorsManager; // DS14-sponsors
 
     public override void Initialize()

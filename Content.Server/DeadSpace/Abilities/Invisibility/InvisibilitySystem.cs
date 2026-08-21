@@ -9,7 +9,7 @@ namespace Content.Server.DeadSpace.Abilities.Invisibility;
 
 public sealed partial class InvisibilitySystem : SharedInvisibilitySystem
 {
-    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
+    [Dependency] private SharedActionsSystem _actionsSystem = default!;
 
     public override void Initialize()
     {

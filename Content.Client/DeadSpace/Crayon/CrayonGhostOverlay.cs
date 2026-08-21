@@ -9,11 +9,11 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Client.DeadSpace.Crayon;
 
-public sealed class CrayonGhostOverlay : Overlay
+public sealed partial class CrayonGhostOverlay : Overlay
 {
-    [Dependency] private readonly IEyeManager _eyeManager = default!;
-    [Dependency] private readonly IInputManager _inputManager = default!;
-    [Dependency] private readonly IPrototypeManager _protoMan = default!;
+    [Dependency] private IEyeManager _eyeManager = default!;
+    [Dependency] private IInputManager _inputManager = default!;
+    [Dependency] private IPrototypeManager _protoMan = default!;
 
     private readonly CrayonGhostSystem _crayonSystem;
     private readonly SharedMapSystem _maps;

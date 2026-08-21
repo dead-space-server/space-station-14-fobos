@@ -17,8 +17,8 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
     [GenerateTypedNameReferences]
     public sealed partial class ERTCallWindow : DefaultWindow
     {
-        [Dependency] private readonly IEntityManager _entMan = default!;
-        [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+        [Dependency] private IEntityManager _entMan = default!;
+        [Dependency] private IPrototypeManager _prototypeManager = default!;
 
         private readonly ErtResponseSystem _ertSystem;
         private readonly NukeCodeAdminSystem _nukeCodeSystem;

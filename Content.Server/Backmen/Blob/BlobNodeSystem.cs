@@ -15,12 +15,12 @@ using Robust.Shared.Random;
 
 namespace Content.Server.Backmen.Blob;
 
-public sealed class BlobNodeSystem : EntitySystem
+public sealed partial class BlobNodeSystem : EntitySystem
 {
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly MapSystem _map = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly MobStateSystem _mob = default!;
+    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private MapSystem _map = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private MobStateSystem _mob = default!;
 
     private EntityQuery<BlobTileComponent> _tileQuery;
 

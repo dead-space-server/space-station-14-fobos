@@ -18,17 +18,17 @@ using Content.Shared.Silicons.Borgs.Components;
 
 namespace Content.Server.DeadSpace.Necromorphs.Necroobelisk;
 
-public sealed class NecroobeliskSplinterSystem : EntitySystem
+public sealed partial class NecroobeliskSplinterSystem : EntitySystem
 {
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedChargesSystem _charges = default!;
-    [Dependency] private readonly EmpSystem _epm = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly ISharedPlayerManager _player = default!;
-    [Dependency] private readonly SharedSanitySystem _sharedSanity = default!;
-    [Dependency] private readonly SharedStunSystem _stun = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedChargesSystem _charges = default!;
+    [Dependency] private EmpSystem _epm = default!;
+    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private ISharedPlayerManager _player = default!;
+    [Dependency] private SharedSanitySystem _sharedSanity = default!;
+    [Dependency] private SharedStunSystem _stun = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {

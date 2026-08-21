@@ -4,9 +4,9 @@ using Robust.Shared.Utility;
 
 namespace Content.Server.DeadSpace.Ports.Jukebox;
 
-public sealed class ServerJukeboxSongsSyncManager : JukeboxSongsSyncManager
+public sealed partial class ServerJukeboxSongsSyncManager : JukeboxSongsSyncManager
 {
-    [Dependency] private readonly INetManager _netManager = default!;
+    [Dependency] private INetManager _netManager = default!;
 
     public override void Initialize()
     {

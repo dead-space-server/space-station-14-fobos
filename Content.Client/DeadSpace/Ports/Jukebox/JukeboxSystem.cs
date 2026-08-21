@@ -15,14 +15,14 @@ using Robust.Shared.Utility;
 
 namespace Content.Client.DeadSpace.Ports.Jukebox;
 
-public sealed class JukeboxSystem : EntitySystem
+public sealed partial class JukeboxSystem : EntitySystem
 {
-    [Dependency] private readonly IPlayerManager _playerManager = default!;
-    [Dependency] private readonly IResourceCache _resource = default!;
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly IAudioManager _clydeAudio = default!;
-    [Dependency] private readonly SharedPhysicsSystem _physicsSystem = default!;
-    [Dependency] private readonly TransformSystem _transform = default!;
+    [Dependency] private IPlayerManager _playerManager = default!;
+    [Dependency] private IResourceCache _resource = default!;
+    [Dependency] private IConfigurationManager _cfg = default!;
+    [Dependency] private IAudioManager _clydeAudio = default!;
+    [Dependency] private SharedPhysicsSystem _physicsSystem = default!;
+    [Dependency] private TransformSystem _transform = default!;
 
     private const CollisionGroup CollisionMask = CollisionGroup.Impassable;
 

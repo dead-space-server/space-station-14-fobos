@@ -16,7 +16,7 @@ namespace Content.Client.DeadSpace.Skill;
 [GenerateTypedNameReferences]
 public sealed partial class SkillsListWindow : DefaultWindow
 {
-    [Dependency] private readonly IEntityManager _entManager = default!;
+    [Dependency] private IEntityManager _entManager = default!;
 
     public SkillsListWindow()
     {

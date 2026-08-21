@@ -2,9 +2,9 @@ using Content.Shared.GameTicking;
 
 namespace Content.Server.DeadSpace.Ports.Jukebox;
 
-public sealed class ServerJukeboxSongsSyncSystem : EntitySystem
+public sealed partial class ServerJukeboxSongsSyncSystem : EntitySystem
 {
-    [Dependency] private readonly ServerJukeboxSongsSyncManager _jukeboxManager = default!;
+    [Dependency] private ServerJukeboxSongsSyncManager _jukeboxManager = default!;
 
     public override void Initialize()
     {

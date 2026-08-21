@@ -11,9 +11,9 @@ using System.ComponentModel;
 
 namespace Content.Client.Sirena.Animations;
 
-public sealed class EmoteAnimationSystem : SharedEmoteAnimationSystem
+public sealed partial class EmoteAnimationSystem : SharedEmoteAnimationSystem
 {
-    [Dependency] private readonly AnimationPlayerSystem AnimationSystem = default!;
+    [Dependency] private AnimationPlayerSystem AnimationSystem = default!;
     public override void Initialize()
     {
         base.Initialize();

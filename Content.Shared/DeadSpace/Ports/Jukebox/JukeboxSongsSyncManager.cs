@@ -4,10 +4,10 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared.DeadSpace.Ports.Jukebox;
 
-public abstract class JukeboxSongsSyncManager : IDisposable
+public abstract partial class JukeboxSongsSyncManager : IDisposable
 {
-    [Dependency] private readonly INetManager _netManager = default!;
-    [Dependency] protected readonly IResourceManager ResourceManager = default!;
+    [Dependency] private INetManager _netManager = default!;
+    [Dependency] protected IResourceManager ResourceManager = default!;
 
     public static readonly ResPath Prefix = ResPath.Root / "Jukebox";
 

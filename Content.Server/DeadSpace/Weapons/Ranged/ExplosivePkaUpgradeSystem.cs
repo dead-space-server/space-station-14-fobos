@@ -16,13 +16,13 @@ using Robust.Shared.Spawners;
 
 namespace Content.Server.DeadSpace.Weapons.Ranged;
 
-public sealed class ExplosivePkaUpgradeSystem : EntitySystem
+public sealed partial class ExplosivePkaUpgradeSystem : EntitySystem
 {
-    [Dependency] private readonly DamageableSystem _damage = default!;
-    [Dependency] private readonly ExplosionSystem _explosion = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private DamageableSystem _damage = default!;
+    [Dependency] private ExplosionSystem _explosion = default!;
+    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private SharedPhysicsSystem _physics = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {

@@ -30,12 +30,12 @@ public sealed class ShiftTag : IMarkupTagHandler
     }
 }
 
-public sealed class SmallTag : IMarkupTagHandler
+public sealed partial class SmallTag : IMarkupTagHandler
 {
     private const int MaxDecrease = 6;
 
-    [Dependency] private readonly IResourceCache _resourceCache = default!;
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private IResourceCache _resourceCache = default!;
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
 
     public string Name => "small";
 
