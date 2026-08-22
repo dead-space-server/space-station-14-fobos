@@ -282,9 +282,9 @@
       settings: default
   - type: Sprite
     sprite: Markers/jobs.rsi
-    - sprite: Objects/Weapons/Melee/energykatana.rsi
     layers:
     - state: green
+    - sprite: Objects/Weapons/Melee/energykatana.rsi
       state: icon
   #DS14-start
   - type: GhostRoleNotifys
