@@ -62,14 +62,14 @@
     rules: ghost-role-information-nukeop-reinforcement-rules
     mindRoles:
     - MindRoleGhostRoleTeamAntagonist
-    #ds-14 starts
+    #DS14-start
     requirements:
     - !type:OverallPlaytimeRequirement
       time: 900000 # 250 hours
     - !type:DepartmentTimeRequirement
       department: Security
       time: 108000 # 30 hours
-    #ds-14 ends
+    #DS14-end
     raffle:
       settings: default
   - type: GhostRoleMobSpawner
@@ -152,14 +152,14 @@
       rules: ghost-role-information-silicon-rules
       mindRoles:
       - MindRoleGhostRoleSilicon
-      #ds-14 starts
+      #DS14-start
       requirements:
       - !type:OverallPlaytimeRequirement
         time: 900000 # 250 hours
       - !type:DepartmentTimeRequirement
         department: Security
         time: 72000 # 20 hours
-      #ds-14 ends
+      #DS14-end
       raffle:
         settings: default
       job: Borg
