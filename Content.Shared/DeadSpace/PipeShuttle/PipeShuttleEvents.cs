@@ -1,3 +1,5 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.DeadSpace.PipeShuttle;
@@ -18,7 +20,7 @@ public sealed class PipeShuttleCallMessage : BoundUserInterfaceMessage
 public sealed class PipeShuttleDestInfo
 {
     public string Id = string.Empty;
-    public string Name = string.Empty;
+    public LocId Name = string.Empty;
 }
 
 [Serializable, NetSerializable]

@@ -1,6 +1,12 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
+using System.Numerics;
 using Content.Server.Shuttles.Components;
 using Content.Shared.DeadSpace.PipeShuttle;
 using Content.Shared.DeadSpace.PipeShuttle.Components;
+using Content.Shared.Doors.Components;
+using Content.Shared.Doors.Systems;
+using Content.Shared.GameTicking;
 using Content.Shared.Popups;
 using Content.Shared.UserInterface;
 using Robust.Server.GameObjects;
@@ -8,12 +14,12 @@ using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Timing;
-using System.Numerics;
 
 namespace Content.Server.DeadSpace.PipeShuttle.Systems;
 
 public sealed class PipeShuttleSystem : EntitySystem
 {
+    [Dependency] private readonly SharedDoorSystem _door = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
@@ -31,6 +37,8 @@ public sealed class PipeShuttleSystem : EntitySystem
         _physicsQuery = GetEntityQuery<PhysicsComponent>();
 
         SubscribeLocalEvent<PipeShuttleComponent, MapInitEvent>(OnShuttleMapInit);
+        SubscribeLocalEvent<PipeShuttleComponent, ComponentShutdown>(OnShuttleShutdown);
+        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
 
         SubscribeLocalEvent<PipeShuttleCallComponent, AfterActivatableUIOpenEvent>(OnCallOpened);
         Subs.BuiEvents<PipeShuttleCallComponent>(PipeShuttleUiKey.Key, subs =>
@@ -56,6 +64,25 @@ public sealed class PipeShuttleSystem : EntitySystem
                 continue;
             }
 
+            if (!shuttle.DoorsSecured)
+            {
+                var result = TrySecureDoors(uid);
+                if (result == DoorSecureResult.Invalid)
+                {
+                    _popup.PopupEntity(Loc.GetString("pipe-shuttle-popup-doors-unavailable"), uid);
+                    CancelShuttle(uid, shuttle);
+                    continue;
+                }
+
+                if (result == DoorSecureResult.InProgress)
+                    continue;
+
+                shuttle.DoorsSecured = true;
+                shuttle.CurrentDestId = null;
+                Dirty(uid, shuttle);
+                SendStateForShuttle(uid, shuttle);
+            }
+
             var currentPos = _transform.GetWorldPosition(xform);
             var targetPos = dest.Position + shuttle.PositionOffset;
             var diff = targetPos - currentPos;
@@ -74,6 +101,7 @@ public sealed class PipeShuttleSystem : EntitySystem
     private void OnShuttleMapInit(EntityUid uid, PipeShuttleComponent component, MapInitEvent args)
     {
         RemComp<ShuttleComponent>(uid);
+        component.DoorsSecured = false;
 
         if (_physicsQuery.TryComp(uid, out var body))
         {
@@ -82,79 +110,93 @@ public sealed class PipeShuttleSystem : EntitySystem
             _physics.SetCanCollide(uid, false, body: body);
         }
 
-        if (!string.IsNullOrEmpty(component.CurrentDestId))
+        if (string.IsNullOrEmpty(component.CurrentDestId))
+            return;
+
+        var dest = FindDestination(component, component.CurrentDestId);
+        if (dest != null)
         {
-            var dest = FindDestination(component, component.CurrentDestId);
-            if (dest != null)
-            {
-                var gridPos = _transform.GetWorldPosition(uid);
-                component.PositionOffset = gridPos - dest.Position;
-            }
+            var gridPos = _transform.GetWorldPosition(uid);
+            component.PositionOffset = gridPos - dest.Position;
         }
+    }
+
+    private void OnShuttleShutdown(EntityUid uid, PipeShuttleComponent component, ComponentShutdown args)
+    {
+        _cooldowns.Remove(uid);
+
+        if (!TerminatingOrDeleted(uid))
+            ReleaseDoors(uid);
+    }
+
+    private void OnRoundRestart(RoundRestartCleanupEvent args)
+    {
+        _cooldowns.Clear();
     }
 
     private void OnCallOpened(EntityUid uid, PipeShuttleCallComponent component, AfterActivatableUIOpenEvent args)
     {
-        SendStateToAll();
+        SendState((uid, component));
     }
 
     private void OnCallMessage(EntityUid uid, PipeShuttleCallComponent component, PipeShuttleCallMessage args)
     {
-        CallShuttleToDest(args.DestId, uid);
+        TryCallShuttleToDest(args.DestId, (uid, component), args.Actor);
     }
 
-    public void CallShuttleToDest(string targetDestId, EntityUid? callerUid = null)
+    public bool TryCallShuttleToDest(
+        string targetDestId,
+        Entity<PipeShuttleCallComponent> call,
+        EntityUid caller)
     {
-        EntityUid? shuttleUid = null;
-        PipeShuttleComponent? shuttleComp = null;
-
-        var shuttleQuery = AllEntityQuery<PipeShuttleComponent>();
-        while (shuttleQuery.MoveNext(out var uid, out var comp))
+        if (!TryGetBoundShuttle(call, out var shuttle))
         {
-            shuttleUid = uid;
-            shuttleComp = comp;
-            break;
+            PopupCaller(Loc.GetString("pipe-shuttle-popup-not-found"), call.Owner, caller);
+            return false;
         }
 
-        if (shuttleUid == null || shuttleComp == null)
+        if (shuttle.Comp.Travelling)
         {
-            _popup.PopupEntity("Не обнаружен шаттл!", callerUid ?? default);
-            return;
+            PopupCaller(Loc.GetString("pipe-shuttle-popup-already-travelling"), call.Owner, caller);
+            return false;
         }
 
-        if (shuttleComp.Travelling)
+        if (shuttle.Comp.CurrentDestId == targetDestId)
         {
-            _popup.PopupEntity("Шаттл уже прибывает!", callerUid ?? default);
-            return;
+            PopupCaller(Loc.GetString("pipe-shuttle-popup-already-here"), call.Owner, caller);
+            return false;
         }
 
-        if (shuttleComp.CurrentDestId == targetDestId)
+        if (_cooldowns.TryGetValue(shuttle.Owner, out var cooldownEnd) && _timing.CurTime < cooldownEnd)
         {
-            _popup.PopupEntity("Шаттл уже прибыл!", callerUid ?? default);
-            return;
+            var remaining = (int) Math.Ceiling((cooldownEnd - _timing.CurTime).TotalSeconds);
+            PopupCaller(Loc.GetString("pipe-shuttle-popup-cooldown", ("seconds", remaining)), call.Owner, caller);
+            return false;
         }
 
-        if (_cooldowns.TryGetValue(shuttleUid.Value, out var cooldownEnd) && _timing.CurTime < cooldownEnd)
-        {
-            var remaining = (cooldownEnd - _timing.CurTime).TotalSeconds;
-            _popup.PopupEntity($"Подождите {remaining:F0}сек. перед вызовом.", callerUid ?? default);
-            return;
-        }
-
-        var dest = FindDestination(shuttleComp, targetDestId);
+        var dest = FindDestination(shuttle.Comp, targetDestId);
         if (dest == null)
         {
-            _popup.PopupEntity("Неправильный пункт назначения!", callerUid ?? default);
-            return;
+            PopupCaller(Loc.GetString("pipe-shuttle-popup-invalid-destination"), call.Owner, caller);
+            return false;
         }
 
-        shuttleComp.TargetDestId = targetDestId;
-        shuttleComp.Travelling = true;
-        shuttleComp.CurrentDestId = null;
-        Dirty(shuttleUid.Value, shuttleComp);
+        if (!HasManagedDoors(shuttle.Owner))
+        {
+            PopupCaller(Loc.GetString("pipe-shuttle-popup-doors-unavailable"), call.Owner, caller);
+            return false;
+        }
 
-        _popup.PopupEntity($"Шаттл прибывает в {dest.Name}!", shuttleUid.Value);
-        SendStateToAll();
+        shuttle.Comp.TargetDestId = targetDestId;
+        shuttle.Comp.Travelling = true;
+        shuttle.Comp.DoorsSecured = false;
+        Dirty(shuttle);
+
+        _popup.PopupEntity(
+            Loc.GetString("pipe-shuttle-popup-departing", ("destination", Loc.GetString(dest.Name))),
+            shuttle.Owner);
+        SendStateForShuttle(shuttle);
+        return true;
     }
 
     private void ArriveAtDestination(EntityUid shuttleUid, PipeShuttleComponent shuttle, PipeShuttleDestination dest)
@@ -164,19 +206,163 @@ public sealed class PipeShuttleSystem : EntitySystem
         shuttle.TargetDestId = null;
         shuttle.Travelling = false;
         shuttle.CurrentDestId = dest.Id;
+        shuttle.DoorsSecured = false;
         Dirty(shuttleUid, shuttle);
 
-        _popup.PopupEntity($"Шаттл прибыл в {dest.Name}!", shuttleUid);
+        ReleaseDoors(shuttleUid);
+        _popup.PopupEntity(
+            Loc.GetString("pipe-shuttle-popup-arrived", ("destination", Loc.GetString(dest.Name))),
+            shuttleUid);
         _cooldowns[shuttleUid] = _timing.CurTime + TimeSpan.FromSeconds(shuttle.Cooldown);
-        SendStateToAll();
+        SendStateForShuttle(shuttleUid, shuttle);
     }
 
     private void CancelShuttle(EntityUid uid, PipeShuttleComponent shuttle)
     {
         shuttle.Travelling = false;
         shuttle.TargetDestId = null;
+        shuttle.DoorsSecured = false;
         Dirty(uid, shuttle);
-        SendStateToAll();
+
+        ReleaseDoors(uid);
+        SendStateForShuttle(uid, shuttle);
+    }
+
+    private DoorSecureResult TrySecureDoors(EntityUid shuttleUid)
+    {
+        var foundDoor = false;
+        var secured = true;
+        var query = AllEntityQuery<DoorComponent, DoorBoltComponent, TransformComponent>();
+
+        while (query.MoveNext(out var uid, out var door, out var bolt, out var xform))
+        {
+            if (xform.GridUid != shuttleUid)
+                continue;
+
+            foundDoor = true;
+
+            if (door.State == DoorState.Welded)
+                continue;
+
+            if (door.State != DoorState.Closed)
+            {
+                secured = false;
+
+                if (bolt.BoltsDown)
+                {
+                    _door.SetBoltsDown((uid, bolt), false);
+                    continue;
+                }
+
+                if (door.State != DoorState.Closing)
+                    _door.TryClose(uid, door);
+
+                continue;
+            }
+
+            if (!bolt.BoltsDown)
+                _door.SetBoltsDown((uid, bolt), true);
+
+            if (!bolt.BoltsDown)
+                secured = false;
+        }
+
+        if (!foundDoor)
+            return DoorSecureResult.Invalid;
+
+        return secured ? DoorSecureResult.Secured : DoorSecureResult.InProgress;
+    }
+
+    private bool HasManagedDoors(EntityUid shuttleUid)
+    {
+        var query = AllEntityQuery<DoorComponent, DoorBoltComponent, TransformComponent>();
+        while (query.MoveNext(out _, out _, out _, out var xform))
+        {
+            if (xform.GridUid == shuttleUid)
+                return true;
+        }
+
+        return false;
+    }
+
+    private void ReleaseDoors(EntityUid shuttleUid)
+    {
+        var query = AllEntityQuery<DoorComponent, DoorBoltComponent, TransformComponent>();
+        while (query.MoveNext(out var uid, out _, out var bolt, out var xform))
+        {
+            if (xform.GridUid != shuttleUid)
+                continue;
+
+            if (bolt.BoltsDown)
+                _door.SetBoltsDown((uid, bolt), false);
+        }
+    }
+
+    private bool TryGetBoundShuttle(
+        Entity<PipeShuttleCallComponent> call,
+        out Entity<PipeShuttleComponent> shuttle)
+    {
+        shuttle = default;
+
+        if (call.Comp.Shuttle is not { } shuttleUid ||
+            !TryComp<PipeShuttleComponent>(shuttleUid, out var shuttleComp) ||
+            Transform(call.Owner).MapID != Transform(shuttleUid).MapID)
+        {
+            return false;
+        }
+
+        shuttle = (shuttleUid, shuttleComp);
+        return true;
+    }
+
+    private void SendState(Entity<PipeShuttleCallComponent> call)
+    {
+        if (!TryGetBoundShuttle(call, out var shuttle))
+        {
+            _ui.SetUiState(call.Owner, PipeShuttleUiKey.Key, new PipeShuttleUiState());
+            return;
+        }
+
+        _ui.SetUiState(call.Owner, PipeShuttleUiKey.Key, CreateState(shuttle.Comp));
+    }
+
+    private void SendStateForShuttle(Entity<PipeShuttleComponent> shuttle)
+    {
+        SendStateForShuttle(shuttle.Owner, shuttle.Comp);
+    }
+
+    private void SendStateForShuttle(EntityUid shuttleUid, PipeShuttleComponent shuttle)
+    {
+        var state = CreateState(shuttle);
+        var callerQuery = AllEntityQuery<PipeShuttleCallComponent>();
+        while (callerQuery.MoveNext(out var uid, out var call))
+        {
+            if (call.Shuttle != shuttleUid || Transform(uid).MapID != Transform(shuttleUid).MapID)
+                continue;
+
+            _ui.SetUiState(uid, PipeShuttleUiKey.Key, state);
+        }
+    }
+
+    private static PipeShuttleUiState CreateState(PipeShuttleComponent shuttle)
+    {
+        var dests = new List<PipeShuttleDestInfo>();
+        foreach (var dest in shuttle.Destinations)
+        {
+            dests.Add(new PipeShuttleDestInfo
+            {
+                Id = dest.Id,
+                Name = dest.Name,
+            });
+        }
+
+        return new PipeShuttleUiState
+        {
+            Destinations = dests,
+            CurrentDestId = shuttle.CurrentDestId,
+            Travelling = shuttle.Travelling,
+            TargetDestId = shuttle.TargetDestId,
+        };
     }
 
     private static PipeShuttleDestination? FindDestination(PipeShuttleComponent shuttle, string destId)
@@ -186,47 +372,19 @@ public sealed class PipeShuttleSystem : EntitySystem
             if (dest.Id == destId)
                 return dest;
         }
+
         return null;
     }
 
-    private void SendStateToAll()
+    private void PopupCaller(string message, EntityUid callUid, EntityUid caller)
     {
-        EntityUid? shuttleUid = null;
-        PipeShuttleComponent? shuttleComp = null;
+        _popup.PopupEntity(message, callUid, caller);
+    }
 
-        var shuttleQuery = AllEntityQuery<PipeShuttleComponent>();
-        while (shuttleQuery.MoveNext(out var uid, out var comp))
-        {
-            shuttleUid = uid;
-            shuttleComp = comp;
-            break;
-        }
-
-        var dests = new List<PipeShuttleDestInfo>();
-        if (shuttleComp != null)
-        {
-            foreach (var dest in shuttleComp.Destinations)
-            {
-                dests.Add(new PipeShuttleDestInfo
-                {
-                    Id = dest.Id,
-                    Name = dest.Name,
-                });
-            }
-        }
-
-        var state = new PipeShuttleUiState
-        {
-            Destinations = dests,
-            CurrentDestId = shuttleComp?.CurrentDestId,
-            Travelling = shuttleComp?.Travelling ?? false,
-            TargetDestId = shuttleComp?.TargetDestId,
-        };
-
-        var callerQuery = AllEntityQuery<PipeShuttleCallComponent>();
-        while (callerQuery.MoveNext(out var uid, out _))
-        {
-            _ui.SetUiState(uid, PipeShuttleUiKey.Key, state);
-        }
+    private enum DoorSecureResult : byte
+    {
+        Invalid,
+        InProgress,
+        Secured,
     }
 }

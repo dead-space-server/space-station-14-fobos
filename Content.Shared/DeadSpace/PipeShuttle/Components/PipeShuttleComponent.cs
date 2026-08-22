@@ -1,6 +1,8 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
+using System.Numerics;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
-using System.Numerics;
 
 namespace Content.Shared.DeadSpace.PipeShuttle.Components;
 
@@ -31,6 +33,9 @@ public sealed partial class PipeShuttleComponent : Component
 
     [DataField("positionOffset")]
     public Vector2 PositionOffset;
+
+    [ViewVariables]
+    public bool DoorsSecured;
 }
 
 [Serializable, DataDefinition, NetSerializable]
@@ -40,7 +45,7 @@ public sealed partial class PipeShuttleDestination
     public string Id = string.Empty;
 
     [DataField("name")]
-    public string Name = string.Empty;
+    public LocId Name = string.Empty;
 
     [DataField("position")]
     public Vector2 Position;
