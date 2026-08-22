@@ -447,19 +447,42 @@ namespace Content.Client.Administration.UI
                 return;
             }
 
+            if (_templatesWindow is { } oldTemplatesWindow)
+                oldTemplatesWindow.OnTemplateSelected -= OnTemplateSelected;
+
             _templatesWindow = new AnnouncementTemplatesWindow();
-            _templatesWindow.OnTemplateSelected += text =>
-            {
-                Announcement.TextRope = new Rope.Leaf(text);
-                AnnounceButton.Disabled = string.IsNullOrWhiteSpace(text);
-            };
+            _templatesWindow.OnTemplateSelected += OnTemplateSelected;
             _templatesWindow.OpenCentered();
+        }
+
+        private void OnTemplateSelected(string text)
+        {
+            Announcement.TextRope = new Rope.Leaf(text);
+            AnnounceButton.Disabled = string.IsNullOrWhiteSpace(text);
         }
 
         private void CloseTemplatesWindow()
         {
             if (_templatesWindow is { Disposed: false, IsOpen: true })
                 _templatesWindow.Close();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                TemplatesButton.OnPressed -= OpenTemplatesWindow;
+
+                if (_templatesWindow is { } templatesWindow)
+                {
+                    templatesWindow.OnTemplateSelected -= OnTemplateSelected;
+                    if (!templatesWindow.Disposed)
+                        templatesWindow.Dispose();
+                    _templatesWindow = null;
+                }
+            }
+
+            base.Dispose(disposing);
         }
         // DS14-end
     }
