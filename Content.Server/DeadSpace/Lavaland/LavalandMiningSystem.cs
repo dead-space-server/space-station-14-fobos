@@ -172,7 +172,7 @@ public sealed class LavalandMiningSystem : EntitySystem
         }
 
         var delta = result.Points - result.Debt;
-        points.Balance += delta;
+        points.Balance += (result.Debt > 0) ? 0 : delta;
         Dirty(cardUid, points);
 
         if (result.Debt > 0)
