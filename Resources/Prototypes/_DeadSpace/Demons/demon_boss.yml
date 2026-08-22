@@ -5,6 +5,13 @@
   description: Монстр!
   abstract: true
   components:
+  - type: TemperatureDamage
+    heatDamageThreshold: 100000
+    coldDamageThreshold: -100000
+    heatDamage:
+      types: {}
+    coldDamage:
+      types: {}
   - type: HTN
     rootTask:
       task: SimpleHostileCompound
