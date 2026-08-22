@@ -302,14 +302,14 @@
     rules: ghost-role-information-antagonist-rules
     mindRoles:
     - MindRoleParadoxClone
-    #ds-14 starts
+    #DS14-start
     requirements:
     - !type:OverallPlaytimeRequirement
       time: 540000 # 150 hours
     - !type:DepartmentTimeRequirement
       department: Security
       time: 72000 # 20 hours
-    #ds-14 ends
+    #DS14-end
     raffle:
       settings: default
   - type: Sprite
