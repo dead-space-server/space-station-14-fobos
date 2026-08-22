@@ -21,7 +21,6 @@ namespace Content.Shared.Medical;
 public sealed class VomitSystem : EntitySystem
 {
     [Dependency] private readonly INetManager _netManager = default!;
-    [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly HungerSystem _hunger = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly MovementModStatusSystem _movementMod = default!;
@@ -40,8 +39,6 @@ public sealed class VomitSystem : EntitySystem
 
         SubscribeLocalEvent<BodyComponent, TryVomitEvent>(TryBodyVomitSolution);
     }
-
-    private const float ChemMultiplier = 0.1f;
 
     private static readonly ProtoId<SoundCollectionPrototype> VomitCollection = "Vomit";
 
@@ -64,7 +61,7 @@ public sealed class VomitSystem : EntitySystem
         foreach (var stomach in stomachList)
         {
             if (_solutionContainer.ResolveSolution(stomach.Owner, StomachSystem.DefaultSolutionName, ref stomach.Comp1.Solution, out var sol))
-                _solutionContainer.TryTransferSolution(stomach.Comp1.Solution.Value, args.Sol, sol.AvailableVolume);
+                _solutionContainer.TryTransferSolution(stomach.Comp1.Solution.Value, args.Sol, sol.Volume); // DS14
         }
 
         args.Handled = true;
@@ -102,27 +99,13 @@ public sealed class VomitSystem : EntitySystem
         // Apply a bit of slowdown
         _movementMod.TryUpdateMovementSpeedModDuration(uid, MovementModStatusSystem.VomitingSlowdown, TimeSpan.FromSeconds(solutionSize), 0.5f);
 
-        // Adds a tiny amount of the chem stream from earlier along with vomit
+        // DS14-start
+        // Bloodstream chemicals have already been absorbed and should not be removed by vomiting.
         if (TryComp<BloodstreamComponent>(uid, out var bloodStream))
         {
-            var vomitAmount = solutionSize;
-
-            // Flushes small portion of the chemicals removed from the bloodstream stream
-            if (_solutionContainer.ResolveSolution(uid, bloodStream.BloodSolutionName, ref bloodStream.BloodSolution))
-            {
-                var vomitChemstreamAmount = _bloodstream.FlushChemicals((uid, bloodStream), vomitAmount);
-
-                if (vomitChemstreamAmount != null)
-                {
-                    vomitChemstreamAmount.ScaleSolution(ChemMultiplier);
-                    solution.AddSolution(vomitChemstreamAmount, _proto);
-                    vomitAmount -= (float)vomitChemstreamAmount.Volume;
-                }
-            }
-
-            // Makes a vomit solution the size of 90% of the chemicals removed from the chemstream
-            solution.AddReagent(new ReagentId(VomitPrototype, _bloodstream.GetEntityBloodData((uid, bloodStream))), vomitAmount);
+            solution.AddReagent(new ReagentId(VomitPrototype, _bloodstream.GetEntityBloodData((uid, bloodStream))), solutionSize);
         }
+        // DS14-end
 
         if (_puddle.TrySpillAt(uid, solution, out var puddle, false))
         {
