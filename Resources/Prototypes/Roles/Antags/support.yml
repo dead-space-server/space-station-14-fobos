@@ -53,7 +53,7 @@
     description: ghost-role-information-sindy-agent-sup-description
     rules: ghost-role-information-rules-team-antagonist
     category: ghost-role-information-syndicate-reinforcement-name
-    #ds-14 starts
+    #DS14-start
     requirements:
       - !type:OveralPlaytimeRequirement
         time: 1260000 # 350 hours
@@ -66,7 +66,7 @@
       - !type:DepartmentTimeRequirement
         department: Command
         time: 36000 # 10 hours
-      #ds-14 ends
+      #DS14-end
     raffle:
       settings: short
   - type: RandomMetadata
