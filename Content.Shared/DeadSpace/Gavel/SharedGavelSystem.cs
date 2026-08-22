@@ -45,8 +45,8 @@ public sealed class SharedGavelSystem : EntitySystem
 
         _audio.PlayPredicted(ent.Comp.Sound, ent, args.User);
         _popup.PopupPredicted(
-            Loc.GetString("gavel-block-strike-others", ("user", args.User)),
             Loc.GetString("gavel-block-strike-self"),
+            Loc.GetString("gavel-block-strike-others", ("user", args.User)),
             ent,
             args.User);
 
