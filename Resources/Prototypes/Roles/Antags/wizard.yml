@@ -11,12 +11,14 @@
   antagonist: true
   # setPreference: true # Disabled as roundstart gamemode until reworked
   objective: roles-antag-wizard-objective # TODO: maybe give random objs and stationary ones from AntagObjectives and AntagRandomObjectives
+  #ds-14 starts
   requirements: # I hate time locked roles but this should be enough time for someone to be acclimated
   - !type:OverallPlaytimeRequirement
     time: 1800000 # 500 hours
   - !type:DepartmentTimeRequirement
     department: Security
     time: 144000 # 40 hours
+  #ds-14 ends
   guides: [ Wizard ]
 
 # See wizard_startinggear for wiz start gear options
