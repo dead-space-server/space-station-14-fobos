@@ -16,4 +16,11 @@ public sealed partial class ReverseRigBackpackComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public EntityUid? AttachedUid;
+
+    /// <summary>
+    ///     Tank that supplied the gas currently held in the backpack buffer.
+    ///     This is server-side bookkeeping used to return the reserve to the correct tank when it is removed.
+    /// </summary>
+    [ViewVariables]
+    public EntityUid? BufferSourceUid;
 }

@@ -10,8 +10,8 @@ namespace Content.Shared.DeadSpace.Clothing.ReverseRig;
 /// <summary>
 ///     The Reverse RIG (СОР) system. Unlike a standard RIG - a backpack that unfolds into a suit - this
 ///     component is placed on the suit itself. While the suit is worn it automatically equips its attached
-///     backpack into the back slot, forcibly dropping whatever previously occupied that slot. The backpack
-///     can not be removed manually and is stowed back inside the suit when the suit is taken off.
+///     backpack into the back slot, displacing whatever previously occupied that slot when normal unequip rules
+///     permit it. The backpack can not be removed manually and is stowed back inside the suit when the suit is taken off.
 /// </summary>
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class ReverseRigComponent : Component
