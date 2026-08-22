@@ -40,6 +40,30 @@
   components:
   - type: BorgSwitchableType
     selectedBorgType: generic
+  - type: BorgTransponder
+    sprite:
+      sprite: _DeadSpace/Mobs/Silicon/chassis_generic.rsi
+      state: universal
+  - type: Sprite
+    sprite: _DeadSpace/Mobs/Silicon/chassis_generic.rsi
+    layers:
+    - state: robot
+      map: ["enum.BorgVisualLayers.Body", "movement"]
+    - state: robot_e_r
+      map: ["enum.BorgVisualLayers.Light"]
+      shader: unshaded
+      visible: false
+    - state: robot_l
+      shader: unshaded
+      map: ["light","enum.BorgVisualLayers.LightStatus"]
+      visible: false
+  - type: SpriteMovement
+    movementLayers:
+      movement:
+        state: robot_moving
+    noMovementLayers:
+      movement:
+        state: robot
 
 - type: entity
   id: BorgChassisMining
