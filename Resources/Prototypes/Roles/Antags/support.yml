@@ -55,7 +55,7 @@
     category: ghost-role-information-syndicate-reinforcement-name
     #DS14-start
     requirements:
-      - !type:OveralPlaytimeRequirement
+      - !type:OverallPlaytimeRequirement
         time: 1260000 # 350 hours
       - !type:DepartmentTimeRequirement
         department: Medical
