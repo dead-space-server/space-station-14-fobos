@@ -50,12 +50,12 @@
     mindRoles:
     - MindRoleGhostRoleSoloAntagonist
     raffle:
-    settings: default
+      settings: default
     requirements:
     - !type:OverallPlaytimeRequirement
-      time: 180000 # 50 hours
-  - type: GhostTakeoverAvailable
-  - type: Revenant
+      time: 540000 # 150 hours
+    - type: GhostTakeoverAvailable
+    - type: Revenant
     malfunctionWhitelist:
       components:
       # emag lockers open
