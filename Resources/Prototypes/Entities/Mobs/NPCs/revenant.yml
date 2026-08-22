@@ -51,11 +51,13 @@
     - MindRoleGhostRoleSoloAntagonist
     raffle:
       settings: default
+    #ds-14 starts
     requirements:
     - !type:OverallPlaytimeRequirement
       time: 540000 # 150 hours
-    - type: GhostTakeoverAvailable
-    - type: Revenant
+    #ds-14 ends
+  - type: GhostTakeoverAvailable
+  - type: Revenant
     malfunctionWhitelist:
       components:
       # emag lockers open
