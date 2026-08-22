@@ -1,9 +1,9 @@
 using Content.Shared.Item.ItemToggle;
 using Content.Shared.PowerCell;
-using Content.Shared.Tag; // DS14
+using Content.Shared.Tag;
 using Content.Shared.Weapons.Misc;
 using Robust.Shared.Physics.Components;
-using Robust.Shared.Prototypes; // DS14
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.Weapons.Misc;
 
@@ -12,7 +12,11 @@ public sealed partial class TetherGunSystem : SharedTetherGunSystem
     [Dependency] private PowerCellSystem _cell = default!;
     [Dependency] private ItemToggleSystem _toggle = default!;
 
-    private static readonly ProtoId<TagPrototype> CannotTetherTag = "CannotTether"; // DS14
+    // DS14-start
+    [Dependency] private TagSystem _tagSystem = default!;
+
+    private static readonly ProtoId<TagPrototype> CannotTetherTag = "CannotTether";
+    // DS14-end
 
     public override void Initialize()
     {
@@ -31,8 +35,10 @@ public sealed partial class TetherGunSystem : SharedTetherGunSystem
         if (!base.CanTether(uid, component, target, user))
             return false;
 
-        if (_tagSystem.HasTag(target, CannotTetherTag)) // DS14
-            return false; // DS14
+        // DS14-start
+        if (_tagSystem.HasTag(target, CannotTetherTag))
+            return false;
+        // DS14-end
 
         if (!_cell.HasDrawCharge(uid, user: user))
             return false;

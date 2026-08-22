@@ -223,8 +223,10 @@
 - type: Tag
   id: CannotSuicide # Used by SuicideSystem. Tagged entities ghost when attempting to suicide.
 
-- type: Tag # DS14
-  id: CannotTether # DS14 Used by TetherGunSystem. Tagged entities cannot be picked up by tether/force guns.
+# DS14-start
+- type: Tag
+  id: CannotTether
+# DS14-end
 
 - type: Tag
   id: CanPilot # Used by ShuttleConsoleSystem to guard who's allowed to pilot ships. Semi-synonymous with a sentient person/creature.
