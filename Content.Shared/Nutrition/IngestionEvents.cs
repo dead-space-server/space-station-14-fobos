@@ -39,7 +39,7 @@ public record struct EdibleEvent(EntityUid User)
 /// <param name="Ingested">What are we trying to ingest?</param>
 /// <param name="Ingest">Should we actually try and ingest? Or are we just testing if it's even possible </param>
 [ByRefEvent]
-public record struct AttemptIngestEvent(EntityUid User, EntityUid Ingested, bool Ingest, bool Handled = false);
+public record struct AttemptIngestEvent(EntityUid User, EntityUid Ingested, bool Ingest, EntityUid? Utensil = null, bool Handled = false); // DS14
 
 /// <summary>
 ///     Raised on an entity that is consuming another entity to see if there is anything attached to the entity
