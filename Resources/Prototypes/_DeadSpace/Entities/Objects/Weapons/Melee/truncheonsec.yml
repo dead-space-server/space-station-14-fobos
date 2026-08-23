@@ -4,6 +4,14 @@
   id: Truncheonsec
   description: Электрошоковое мачете для обездвиживания или убийства людей. Имеет нелетальный и летальный режимы. Является улучшением шоковой дубинки для действительно трудных ситуаций.
   components:
+  - type: Parry
+    parryableWeapons:
+      tags:
+      - ParryStandardWeapon
+      - ParryEnergySword
+  - type: Tag
+    tags:
+    - ParryStandardWeapon
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Melee/truncheon_sec.rsi
     layers:

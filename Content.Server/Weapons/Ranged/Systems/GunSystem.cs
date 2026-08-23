@@ -6,6 +6,7 @@ using Content.Server.DeadSpace.Weapons.Ranged;
 using Content.Server.Weapons.Ranged.Components;
 using Content.Shared.Cargo;
 using Content.Shared.Damage;
+using Content.Shared.DeadSpace.Weapons.Akimbo; // DS14
 using Content.Shared.DeadSpace.Player;
 using Content.Shared.Projectiles;
 using Content.Shared.Weapons.Melee;
@@ -25,6 +26,7 @@ namespace Content.Server.Weapons.Ranged.Systems;
 
 public sealed partial class GunSystem : SharedGunSystem
 {
+    [Dependency] private readonly AkimboSystem _akimbo = default!; // DS14
     [Dependency] private readonly PricingSystem _pricing = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
 
@@ -121,7 +123,12 @@ public sealed partial class GunSystem : SharedGunSystem
         }
 
         var mapAngle = mapDirection.ToAngle();
-        var angle = GetRecoilAngle(Timing.CurTime, gun, mapAngle);
+        // DS14-start
+        var accuracy = user is { } shooter
+            ? _akimbo.GetShotAccuracy(shooter, gun)
+            : 1f;
+        var angle = GetRecoilAngle(Timing.CurTime, gun, mapAngle, accuracy);
+        // DS14-end
 
         // If applicable, this ensures the projectile is parented to grid on spawn, instead of the map.
         var fromEnt = MapManager.TryFindGridAt(fromMap, out var gridUid, out _)
@@ -318,7 +325,7 @@ public sealed partial class GunSystem : SharedGunSystem
         return angles;
     }
 
-    private Angle GetRecoilAngle(TimeSpan curTime, GunComponent component, Angle direction)
+    private Angle GetRecoilAngle(TimeSpan curTime, GunComponent component, Angle direction, float accuracy = 1f)
     {
         var timeSinceLastFire = (curTime - component.LastFire).TotalSeconds;
         var newTheta = MathHelper.Clamp(component.CurrentAngle.Theta + component.AngleIncreaseModified.Theta - component.AngleDecayModified.Theta * timeSinceLastFire, component.MinAngleModified.Theta, component.MaxAngleModified.Theta);
@@ -327,9 +334,12 @@ public sealed partial class GunSystem : SharedGunSystem
 
         // Convert it so angle can go either side.
         var random = Random.NextFloat(-0.5f, 0.5f);
-        var spread = component.CurrentAngle.Theta * random;
-        var angle = new Angle(direction.Theta + component.CurrentAngle.Theta * random);
-        DebugTools.Assert(spread <= component.MaxAngleModified.Theta);
+        // DS14-start: lower akimbo accuracy widens this shot's spread for either hand.
+        var spreadMultiplier = 1f / Math.Clamp(accuracy, 0.01f, 1f);
+        var spread = component.CurrentAngle.Theta * random * spreadMultiplier;
+        var angle = new Angle(direction.Theta + spread);
+        DebugTools.Assert(Math.Abs(spread) <= component.MaxAngleModified.Theta * spreadMultiplier);
+        // DS14-end
         return angle;
     }
 

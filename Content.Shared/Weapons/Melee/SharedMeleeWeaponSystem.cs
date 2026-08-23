@@ -10,6 +10,7 @@ using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Events;
 using Content.Shared.Damage.Systems;
+using Content.Shared.DeadSpace.Weapons.Parry;
 using Content.Shared.Database;
 using Content.Shared.FixedPoint;
 using Content.Shared.Hands;
@@ -555,6 +556,13 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
         if (hitEvent.Handled)
             return;
 
+        // DS14-start
+        var parryEvent = new BeforeMeleeDamageEvent(user, meleeUid);
+        RaiseLocalEvent(target.Value, ref parryEvent);
+        if (parryEvent.Cancelled)
+            return;
+        // DS14-end
+
         var targets = new List<EntityUid>(1)
         {
             target.Value
@@ -726,6 +734,16 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
                 targets.RemoveAt(i);
                 continue;
             }
+
+            // DS14-start
+            var parryEvent = new BeforeMeleeDamageEvent(user, meleeUid);
+            RaiseLocalEvent(entity, ref parryEvent);
+            if (parryEvent.Cancelled)
+            {
+                targets.RemoveAt(i);
+                continue;
+            }
+            // DS14-end
 
             var attackedEvent = new AttackedEvent(meleeUid, user, GetCoordinates(ev.Coordinates));
             RaiseLocalEvent(entity, attackedEvent);

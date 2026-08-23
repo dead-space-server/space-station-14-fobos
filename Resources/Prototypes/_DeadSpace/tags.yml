@@ -149,6 +149,15 @@
   id: EnergySwordDouble
 
 - type: Tag
+  id: ParryEnergySword
+
+- type: Tag
+  id: ParryAll
+
+- type: Tag
+  id: ParryStandardWeapon
+
+- type: Tag
   id: EncryptionTaipan
 
 - type: Tag

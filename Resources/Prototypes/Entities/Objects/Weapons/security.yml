@@ -120,11 +120,18 @@
     soundHit:
       collection: MetalThud
     bluntStaminaDamageFactor: 1.5
+  # DS14-start
+  - type: Parry
+    parryableWeapons:
+      tags:
+      - ParryStandardWeapon
+  # DS14-end
   - type: Item
     size: Normal
   - type: Tag
     tags:
     - Truncheon
+    - ParryStandardWeapon # DS14
   - type: Clothing
     sprite: Objects/Weapons/Melee/truncheon.rsi
     quickEquip: false
