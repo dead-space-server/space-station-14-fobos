@@ -17,10 +17,10 @@ public sealed partial class AkimboComponent : Component
     public float FireDelayMultiplier = 0.7f;
 
     /// <summary>
-    /// Accuracy retained by both weapons while akimbo is active. 0.7 means 70% accuracy.
+    /// Accuracy retained by both weapons while akimbo is active. 0.6 means 60% accuracy.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public float AkimboAccuracy = 0.7f;
+    public float AkimboAccuracy = 0.6f;
 
     /// <summary>
     /// Optional tag that permits different prototypes to form a pair.

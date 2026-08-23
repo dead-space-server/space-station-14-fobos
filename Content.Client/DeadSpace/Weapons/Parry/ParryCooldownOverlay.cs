@@ -40,44 +40,33 @@ public sealed class ParryCooldownOverlay : Overlay
         if (_players.LocalEntity is not { } user ||
             !_hands.TryGetActiveItem(user, out var held) ||
             !_entities.TryGetComponent<ParryComponent>(held, out var parry) ||
-            parry.NextParry <= _timing.CurTime)
+            parry.ActiveUntil <= _timing.CurTime)
         {
             return;
         }
 
-        var active = parry.ActiveUntil > _timing.CurTime;
-        var phaseStart = active || parry.ActiveUntil > parry.CooldownStart
-            ? parry.ActiveUntil
-            : parry.CooldownStart;
-        var phaseEnd = active ? parry.ActiveUntil : parry.NextParry;
-        if (active)
-            phaseStart = parry.CooldownStart;
-
-        var duration = (phaseEnd - phaseStart).TotalSeconds;
+        var duration = (parry.ActiveUntil - parry.CooldownStart).TotalSeconds;
         if (duration <= 0)
             return;
 
-        var remaining = Math.Clamp(
-            (phaseEnd - _timing.CurTime).TotalSeconds / duration,
+        var remaining = (float) Math.Clamp(
+            (parry.ActiveUntil - _timing.CurTime).TotalSeconds / duration,
             0d,
             1d);
 
         var handle = args.ScreenHandle;
         var center = _input.MouseScreenPosition.Position;
         var time = (float) _timing.CurTime.TotalSeconds;
-        var pulse = 0.82f + MathF.Sin(time * (active ? 10f : 4f)) * 0.12f;
-        var color = active
-            ? Color.FromHex("#7BEAFFFF")
-            : Color.FromHex("#FFB75EFF");
+        var pulse = 0.84f + MathF.Sin(time * 10f) * 0.12f;
+        var color = Color.FromHex("#7BEAFFFF");
 
-        DrawArcRing(handle, center, 32f, 42f, 0f, MathF.Tau, Color.Black.WithAlpha(0.38f));
-        DrawSegmentedRing(handle, center, 34f, 40f, (float) remaining, color.WithAlpha(0.82f * pulse));
-        DrawArcRing(handle, center, 42f, 43.5f, 0f, MathF.Tau, color.WithAlpha(0.16f * pulse));
+        DrawArcRing(handle, center, 27f, 35f, 0f, MathF.Tau, Color.Black.WithAlpha(0.34f));
+        DrawSegmentedRing(handle, center, 29f, 34f, remaining, color.WithAlpha(0.86f * pulse));
+        DrawArcRing(handle, center, 35f, 36f, 0f, MathF.Tau, color.WithAlpha(0.18f * pulse));
 
-        var glintAngle = -MathF.PI / 2f + time * (active ? 3.5f : 1.4f);
-        DrawArcRing(handle, center, 41f, 45f, glintAngle, glintAngle + 0.22f, color.WithAlpha(0.75f));
-
-        handle.DrawCircle(center, 29f, color.WithAlpha(active ? 0.07f * pulse : 0.035f));
+        var glintAngle = -MathF.PI / 2f + time * 3.5f;
+        DrawArcRing(handle, center, 34f, 38f, glintAngle, glintAngle + 0.22f, color.WithAlpha(0.78f));
+        handle.DrawCircle(center, 24f, color.WithAlpha(0.06f * pulse));
     }
 
     private static void DrawSegmentedRing(

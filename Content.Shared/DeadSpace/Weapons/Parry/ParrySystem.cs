@@ -1,6 +1,8 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Numerics;
+using Content.Shared.Alert;
+using Content.Shared.Hands;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Input;
@@ -31,6 +33,7 @@ public sealed class ParrySystem : EntitySystem
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly ThrowingSystem _throwing = default!;
+    [Dependency] private readonly AlertsSystem _alerts = default!;
     [Dependency] private readonly INetManager _net = default!;
 
     private static readonly ProtoId<TagPrototype> ParryAllTag = "ParryAll";
@@ -39,6 +42,9 @@ public sealed class ParrySystem : EntitySystem
     {
         base.Initialize();
         SubscribeLocalEvent<HandsComponent, BeforeMeleeDamageEvent>(OnBeforeMeleeDamage);
+        SubscribeLocalEvent<ParryComponent, HandSelectedEvent>(OnHandSelected);
+        SubscribeLocalEvent<ParryComponent, HandDeselectedEvent>(OnHandDeselected);
+        SubscribeLocalEvent<ParryComponent, GotUnequippedHandEvent>(OnUnequippedHand);
         SubscribeAllEvent<ParryPressedEvent>(OnParryPressed);
 
         CommandBinds.Builder
@@ -77,6 +83,7 @@ public sealed class ParrySystem : EntitySystem
         weapon.Comp.ActiveUntil = _timing.CurTime + weapon.Comp.ParryWindow;
         weapon.Comp.NextParry = weapon.Comp.ActiveUntil + weapon.Comp.FailureCooldown;
         Dirty(weapon);
+        UpdateAlert(user, weapon.Comp);
     }
 
     private void OnBeforeMeleeDamage(Entity<HandsComponent> defender, ref BeforeMeleeDamageEvent args)
@@ -92,7 +99,10 @@ public sealed class ParrySystem : EntitySystem
         parryWeapon.Comp.ActiveUntil = TimeSpan.Zero;
         Dirty(parryWeapon);
         args.Cancelled = true;
-        KnockBackAttacker(args.Attacker, defender.Owner, parryWeapon.Comp);
+        if (_net.IsServer)
+            KnockBackAttacker(args.Attacker, defender.Owner, parryWeapon.Comp);
+
+        UpdateAlert(defender.Owner, parryWeapon.Comp);
 
         if (_net.IsServer)
         {
@@ -110,6 +120,31 @@ public sealed class ParrySystem : EntitySystem
             return true;
 
         return !_whitelist.IsWhitelistFail(parryWeapon.Comp.ParryableWeapons, attackingWeapon);
+    }
+
+    private void OnHandSelected(Entity<ParryComponent> weapon, ref HandSelectedEvent args)
+    {
+        UpdateAlert(args.User, weapon.Comp);
+    }
+
+    private void OnHandDeselected(Entity<ParryComponent> weapon, ref HandDeselectedEvent args)
+    {
+        _alerts.ClearAlert(args.User, weapon.Comp.CooldownAlert);
+    }
+
+    private void OnUnequippedHand(Entity<ParryComponent> weapon, ref GotUnequippedHandEvent args)
+    {
+        if (!TryGetParryWeapon(args.User, out _))
+            _alerts.ClearAlert(args.User, weapon.Comp.CooldownAlert);
+    }
+
+    private void UpdateAlert(EntityUid user, ParryComponent component)
+    {
+        var cooldown = component.NextParry > _timing.CurTime
+            ? (component.CooldownStart, component.NextParry)
+            : ((TimeSpan, TimeSpan)?) null;
+
+        _alerts.ShowAlert(user, component.CooldownAlert, cooldown: cooldown, autoRemove: false);
     }
 
     private bool TryGetParryWeapon(EntityUid defender, out Entity<ParryComponent> parryWeapon)
@@ -138,7 +173,10 @@ public sealed class ParrySystem : EntitySystem
             direction.Normalized() * component.KnockbackDistance,
             component.KnockbackSpeed,
             defender,
-            compensateFriction: true);
+            compensateFriction: false,
+            recoil: false,
+            playSound: false,
+            doSpin: false);
     }
 
     private void SetCooldown(Entity<ParryComponent> weapon, TimeSpan cooldown)
