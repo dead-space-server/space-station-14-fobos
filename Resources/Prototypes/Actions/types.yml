@@ -165,10 +165,10 @@
   name: Activate EMP
   description: Triggers a small EMP pulse around you
   components:
-# DS14-start
-#  - type: LimitedCharges
-#    maxCharges: 3
-# DS14-end
+  # DS14-start
+  - type: LimitedCharges
+    maxCharges: 3
+  # DS14-end
   - type: Action
     checkCanInteract: false
     useDelay: 10 #DS14-value

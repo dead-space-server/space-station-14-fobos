@@ -42,10 +42,28 @@
   - type: StorageFill
     contents:
       - id: MedicatedSuture
+      - id: RegenerativeMesh
+      - id: JetInjector
+      - id: ChemistryBottlePuncturase
+      - id: ChemistryBottleDermaline
+      - id: CombatMedipen
+        amount: 2
+      - id: AirlossAutoInjector
+
+- type: entity
+  parent: MedkitCombat
+  id: ERTGammaMedicCombatKitFilled
+  name: боевая аптечка медика ОБР
+  description: Компактный набор полевого медика отряда быстрого реагирования.
+  components:
+  - type: StorageFill
+    contents:
+      - id: MedicatedSuture
         amount: 2
       - id: RegenerativeMesh
       - id: CombatMedipen
-      - id: AirlossAutoInjector
+        amount: 2
+      - id: Tourniquet
 
 - type: entity
   id: InjectorCase

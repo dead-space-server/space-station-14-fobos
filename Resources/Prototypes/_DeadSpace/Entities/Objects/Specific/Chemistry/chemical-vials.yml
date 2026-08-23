@@ -52,4 +52,4 @@
       beaker:
         reagents:
         - ReagentId: Omnizine
-          Quantity: 200
+          Quantity: 100
