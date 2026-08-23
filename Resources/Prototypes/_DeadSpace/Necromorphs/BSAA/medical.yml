@@ -39,6 +39,9 @@
   name: боевая медицина
   description: Для любителей незаменивой классики.
   components:
+  - type: Storage
+    grid:
+    - 0,0,5,1
   - type: StorageFill
     contents:
       - id: MedicatedSuture
@@ -56,6 +59,9 @@
   name: боевая аптечка медика ОБР
   description: Компактный набор полевого медика отряда быстрого реагирования.
   components:
+  - type: Storage
+    grid:
+    - 0,0,5,1
   - type: StorageFill
     contents:
       - id: MedicatedSuture
