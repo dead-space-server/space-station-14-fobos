@@ -6,6 +6,13 @@
   description: Монстр!
   abstract: true
   components:
+  - type: TemperatureDamage
+    heatDamageThreshold: 100000
+    coldDamageThreshold: -100000
+    heatDamage:
+      types: {}
+    coldDamage:
+      types: {}
   - type: StaminaResistance
     damageCoefficient: 0.2
   - type: Sprite

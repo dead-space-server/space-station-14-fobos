@@ -30,6 +30,7 @@ using Robust.Shared.Configuration;
 using Content.Server.DeadSpace.Languages;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
+using Content.Shared.GameTicking; //DS14
 
 namespace Content.Server.Communications
 {
@@ -75,6 +76,8 @@ namespace Content.Server.Communications
             SubscribeLocalEvent<CommunicationsConsoleComponent, EmagCommunicationsConsoleUnlockMessage>(OnUnlockEmagInterface);
             SubscribeLocalEvent<CommunicationsConsoleComponent, BoundUIOpenedEvent>(OnBoundUiOpened);
             SubscribeLocalEvent<CommunicationsConsoleComponent, BoundUIClosedEvent>(OnBoundUiClosed);
+
+            SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRestartRound);
             // DS14-end
 
             // On console init, set cooldown
@@ -393,6 +396,11 @@ namespace Content.Server.Communications
             _adminLogger.Add(LogType.Action, LogImpact.High, $"{ToPrettyString(message.Actor):player} has recalled the shuttle.");
         }
         // DS14-start
+        private void OnRestartRound(RoundRestartCleanupEvent ev)
+        {
+            _cfg.SetCVar(CCVars.EvacLocked, false);
+        }
+
         private void OnBoundUiOpened(EntityUid uid, CommunicationsConsoleComponent component, BoundUIOpenedEvent args)
         {
             if (!args.UiKey.Equals(CommunicationsConsoleUiKey.Key))

@@ -12,6 +12,7 @@ using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Content.Shared.DeadSpace.Languages.Prototypes;
+using Content.Client.DeadSpace.Administration.Announce; //DS14
 
 namespace Content.Client.Administration.UI
 {
@@ -19,6 +20,10 @@ namespace Content.Client.Administration.UI
     public sealed partial class AdminAnnounceWindow : DefaultWindow
     {
         [Dependency] private readonly ILocalizationManager _localization = default!;
+
+        // DS14-start
+        private AnnouncementTemplatesWindow? _templatesWindow;
+        // DS14-end
 
         private readonly List<TTSVoicePrototype> _voices; // Corvax-TTS
         private readonly List<LanguagePrototype> _languages; // DS14-Languages
@@ -76,6 +81,10 @@ namespace Content.Client.Administration.UI
             VoiceSelector.OnItemSelected += AnnounceMethodOnOnTTSItemSelected;
             LanguageSelector.OnItemSelected += AnnounceMethodOnLanguageSelected; // DS14-Languages
             Announcement.OnKeyBindUp += AnnouncementOnOnTextChanged;
+
+            // DS14-start
+            TemplatesButton.OnPressed += OpenTemplatesWindow;
+            // DS14-end
 
             var protoManager = IoCManager.Resolve<IPrototypeManager>(); // DS14-Languages
 
@@ -421,8 +430,60 @@ namespace Content.Client.Administration.UI
         public override void Close()
         {
             _colorPalette?.Close();
+            // DS14-start
+            CloseTemplatesWindow();
+            // DS14-end
             base.Close();
         }
         // DS14-announce-end
+
+        // DS14-start
+        private void OpenTemplatesWindow(BaseButton.ButtonEventArgs _)
+        {
+            if (_templatesWindow is { Disposed: false })
+            {
+                _templatesWindow.OpenCentered();
+                _templatesWindow.MoveToFront();
+                return;
+            }
+
+            if (_templatesWindow is { } oldTemplatesWindow)
+                oldTemplatesWindow.OnTemplateSelected -= OnTemplateSelected;
+
+            _templatesWindow = new AnnouncementTemplatesWindow();
+            _templatesWindow.OnTemplateSelected += OnTemplateSelected;
+            _templatesWindow.OpenCentered();
+        }
+
+        private void OnTemplateSelected(string text)
+        {
+            Announcement.TextRope = new Rope.Leaf(text);
+            AnnounceButton.Disabled = string.IsNullOrWhiteSpace(text);
+        }
+
+        private void CloseTemplatesWindow()
+        {
+            if (_templatesWindow is { Disposed: false, IsOpen: true })
+                _templatesWindow.Close();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                TemplatesButton.OnPressed -= OpenTemplatesWindow;
+
+                if (_templatesWindow is { } templatesWindow)
+                {
+                    templatesWindow.OnTemplateSelected -= OnTemplateSelected;
+                    if (!templatesWindow.Disposed)
+                        templatesWindow.Dispose();
+                    _templatesWindow = null;
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+        // DS14-end
     }
 }

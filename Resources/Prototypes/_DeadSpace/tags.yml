@@ -8,6 +8,9 @@
   id: AmbrosiaDeus
 
 - type: Tag
+  id: AmeJar
+
+- type: Tag
   id: AnimateSpellBlacklist
 
 - type: Tag
@@ -191,7 +194,19 @@
   id: FoodChiliPepper
 
 - type: Tag
+  id: FoodDoughSmallFlat
+
+- type: Tag
+  id: FoodDoughSmallSlice
+
+- type: Tag
+  id: FoodMeatSmallBall
+
+- type: Tag
   id: GasTank
+
+- type: Tag
+  id: GasTankBorg
 
 - type: Tag
   id: GiantSpiderSpace

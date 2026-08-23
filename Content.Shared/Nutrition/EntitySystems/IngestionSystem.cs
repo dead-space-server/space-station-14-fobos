@@ -121,7 +121,7 @@ public sealed partial class IngestionSystem : EntitySystem
     /// <param name="ingested">The entity that is trying to be ingested.</param>
     /// <param name="ingest"> When set to true, it tries to ingest. When false, it only checks if we can.</param>
     /// <returns>Returns true if we can ingest the item.</returns>
-    private bool AttemptIngest(EntityUid user, EntityUid target, EntityUid ingested, bool ingest)
+    private bool AttemptIngest(EntityUid user, EntityUid target, EntityUid ingested, bool ingest, EntityUid? utensil = null) // DS14
     {
         var eatEv = new IngestibleEvent();
         RaiseLocalEvent(ingested, ref eatEv);
@@ -129,7 +129,7 @@ public sealed partial class IngestionSystem : EntitySystem
         if (eatEv.Cancelled)
             return false;
 
-        var ingestionEv = new AttemptIngestEvent(user, ingested, ingest);
+        var ingestionEv = new AttemptIngestEvent(user, ingested, ingest, utensil); // DS14
         RaiseLocalEvent(target, ref ingestionEv);
 
         return ingestionEv.Handled;
@@ -274,8 +274,14 @@ public sealed partial class IngestionSystem : EntitySystem
         if (!CanConsume(args.User, entity, args.Ingested, out var solution, out var time))
             return;
 
-        if (!_doAfter.TryStartDoAfter(GetEdibleDoAfterArgs(args.User, entity, food, time ?? TimeSpan.Zero)))
+        // DS14-start
+        var ingestionTime = time ?? TimeSpan.Zero;
+        if (args.Utensil is { } utensil && IsDrinkingWithFork(food, utensil))
+            ingestionTime *= ForkDrinkDelayMultiplier;
+
+        if (!_doAfter.TryStartDoAfter(GetEdibleDoAfterArgs(args.User, entity, food, ingestionTime, args.Utensil)))
             return;
+        // DS14-end
 
         args.Handled = true;
         var foodSolution = solution.Value.Comp.Solution;
@@ -363,6 +369,11 @@ public sealed partial class IngestionSystem : EntitySystem
 
         var transfer = FixedPoint2.Clamp(beforeEv.Transfer, beforeEv.Min, beforeEv.Max);
 
+        // DS14-start
+        if (args.Used is { } utensil && IsDrinkingWithFork(food, utensil))
+            transfer = FixedPoint2.Min(transfer, ForkDrinkTransferAmount);
+        // DS14-end
+
         var split = _solutionContainer.SplitSolution(solution.Value, transfer);
 
         if (beforeEv.Refresh)
@@ -411,20 +422,20 @@ public sealed partial class IngestionSystem : EntitySystem
     /// <param name="food">Food entity we're trying to eat.</param>
     /// <param name="delay">The time delay for our DoAfter</param>
     /// <returns>Returns true if it was able to successfully start the DoAfter</returns>
-    private DoAfterArgs GetEdibleDoAfterArgs(EntityUid user, EntityUid target, EntityUid food, TimeSpan delay = default)
+    private DoAfterArgs GetEdibleDoAfterArgs(EntityUid user, EntityUid target, EntityUid food, TimeSpan delay = default, EntityUid? utensil = null) // DS14
     {
         var forceFeed = user != target;
 
-        var doAfterArgs = new DoAfterArgs(EntityManager, user, delay, new EatingDoAfterEvent(), target, food)
+        var doAfterArgs = new DoAfterArgs(EntityManager, user, delay, new EatingDoAfterEvent(), target, food, utensil) // DS14
         {
-            BreakOnHandChange = false,
+            BreakOnHandChange = utensil != null, // DS14
             BreakOnMove = forceFeed,
             BreakOnDamage = true,
             MovementThreshold = 0.01f,
             DistanceThreshold = MaxFeedDistance,
             // do-after will stop if item is dropped when trying to feed someone else
             // or if the item started out in the user's own hands
-            NeedHand = forceFeed || _hands.IsHolding(user, food),
+            NeedHand = utensil != null || forceFeed || _hands.IsHolding(user, food), // DS14
         };
 
         return doAfterArgs;

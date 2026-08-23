@@ -128,3 +128,4 @@
   - type: EmitSoundOnLand
     sound:
       path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_drop.ogg
+  - type: ShieldBashTool

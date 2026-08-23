@@ -1822,7 +1822,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         _chat.DispatchGlobalAnnouncement(
             announcement,
-            sender: LocalizeCorporation(state.OriginalCorporation),
+            sender: Loc.GetString("traitor-ultra-bounty-announcer"),
             playSound: true,
             announcementSound: component.BountyAnnouncementSound,
             colorOverride: Color.OrangeRed,
@@ -2445,14 +2445,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
     private string GetBountyAnnouncementLocId(string? locId)
     {
-        return locId switch
-        {
-            "traitor-corporations-dataset-1" => "traitor-ultra-bounty-announcement-cybersun",
-            "traitor-corporations-dataset-2" => "traitor-ultra-bounty-announcement-gorlex",
-            "traitor-corporations-dataset-3" => "traitor-ultra-bounty-announcement-interdyne",
-            "traitor-corporations-dataset-7" => "traitor-ultra-bounty-announcement-donk",
-            _ => "traitor-ultra-bounty-announcement",
-        };
+        return "traitor-ultra-bounty-announcement";
     }
 
     private string? PickRandomAnnouncementVoice()

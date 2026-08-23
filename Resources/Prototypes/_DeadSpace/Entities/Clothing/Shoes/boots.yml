@@ -112,3 +112,17 @@
       sprite: _DeadSpace/Clothing/Shoes/Boots/centcom_officer_black.rsi
     - type: Clothing
       sprite: _DeadSpace/Clothing/Shoes/Boots/centcom_officer_black.rsi
+
+- type: entity
+  parent: ClothingShoesBaseButcherable
+  id: ClothingBootsRunImp
+  name: сапоги бегуна "Импульс"
+  description: Сапоги из плотной огненно-оранжевей кожа и голубым пульсирующим кристаллом. Полированный обсидиан на подошве гарантирует скольжение и частые падения.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Shoes/Boots/impulse_boots.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Shoes/Boots/impulse_boots.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 1.15
+    sprintModifier: 1.15

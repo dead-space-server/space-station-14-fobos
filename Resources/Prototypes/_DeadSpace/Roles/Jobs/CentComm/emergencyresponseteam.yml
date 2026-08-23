@@ -19,7 +19,7 @@
       department: Command
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTLeaderGearAmber
   icon: "JobIconERTLeader"
   supervisors: job-supervisors-centcom
@@ -87,7 +87,7 @@
       department: Command
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTLeaderGearRed
   icon: "JobIconERTLeader"
   supervisors: job-supervisors-centcom
@@ -128,7 +128,6 @@
     back:
     - ERTloadoutRedPrimary
     - ERTloadoutRedSecondary
-    - ERTloadoutMelee
     - BoxCardboardERT
     - PinpointerNuclear
     - CrowbarRed
@@ -154,7 +153,7 @@
       department: Command
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTLeaderGearGamma
   icon: "JobIconERTLeader"
   supervisors: job-supervisors-centcom
@@ -195,7 +194,6 @@
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
-    - ERTloadoutMelee
     - BoxCardboardERT
     - PinpointerNuclear
     - CrowbarRed
@@ -219,7 +217,7 @@
       department: Security
       time: 288000 # 80 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTSecurityGearAmber
   icon: "JobIconERT"
   supervisors: job-supervisors-centcom
@@ -285,7 +283,7 @@
       department: Security
       time: 288000 # 80 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTSecurityGearRed
   icon: "JobIconERT"
   supervisors: job-supervisors-centcom
@@ -323,7 +321,6 @@
     back:
     - ERTloadoutRedPrimary
     - ERTloadoutRedSecondary
-    - ERTloadoutMelee
     - BoxCardboardERT
     - CrowbarRed
     - PinpointerNuclear
@@ -346,7 +343,7 @@
       department: Security
       time: 288000 # 80 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTSecurityGearGamma
   icon: "JobIconERT"
   supervisors: job-supervisors-centcom
@@ -384,7 +381,6 @@
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
-    - ERTloadoutMelee
     - BoxCardboardERT
     - CrowbarRed
     - PinpointerNuclear
@@ -408,7 +404,7 @@
       department: Security
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTMedicalGearAmber
   icon: "JobIconERTMedical"
   supervisors: job-supervisors-centcom
@@ -476,7 +472,7 @@
       department: Security
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTMedicalGearRed
   icon: "JobIconERTMedical"
   supervisors: job-supervisors-centcom
@@ -542,7 +538,7 @@
       department: Security
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTMedicalGearGamma
   icon: "JobIconERTMedical"
   supervisors: job-supervisors-centcom
@@ -606,7 +602,7 @@
       department: Security
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTEngineerGearAmber
   icon: "JobIconERTEngineer"
   supervisors: job-supervisors-centcom
@@ -674,7 +670,7 @@
       department: Security
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTEngineerGearRed
   icon: "JobIconERTEngineer"
   supervisors: job-supervisors-centcom
@@ -736,7 +732,7 @@
       department: Security
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTEngineerGearGamma
   icon: "JobIconERTEngineer"
   supervisors: job-supervisors-centcom
@@ -798,7 +794,7 @@
       department: Security
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTJanitorGearAmber
   icon: "JobIconERTJanitor"
   supervisors: job-supervisors-centcom
@@ -859,7 +855,7 @@
       department: Security
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTJanitorGearRed
   icon: "JobIconERTJanitor"
   supervisors: job-supervisors-centcom
@@ -919,7 +915,7 @@
       department: Security
       time: 144000 # 40 hours
     - !type:OverallPlaytimeRequirement
-      time: 3096000 # 860 hours
+      time: 1944000 # 540 hours
   startingGear: ERTJanitorGearGamma
   icon: "JobIconERTJanitor"
   supervisors: job-supervisors-centcom

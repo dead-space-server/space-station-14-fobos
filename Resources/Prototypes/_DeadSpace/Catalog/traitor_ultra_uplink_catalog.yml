@@ -3998,9 +3998,9 @@
       - NukeOpsUplink
 
 - type: listing
-  id: UplinkTraitorUltraNukeХС
-  name: Пресет "хС-67"
-  description: Используемый опытным оперативником набор вещей, основа которого - хС-67. Придумал ебанутый слайм.
+  id: UplinkTraitorUltraNukeHK
+  name: Пресет "Хёкля"
+  description: Используемый опытным оперативником набор вещей, основа которого - XC67. Придумал ебанутый слайм.
   productEntity: CrateBundleNukeхС67
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
   cost:

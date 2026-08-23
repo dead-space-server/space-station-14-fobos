@@ -1256,3 +1256,19 @@
     Telecrystal: 8
   categories:
   - UplinkWeaponry
+
+- type: listing
+  id: UplinkIchorMedipenLone
+  name: Медипен ихора
+  description: Способен поднять даже быка, а тебя и подавно.
+  icon: { sprite: _DeadSpace/Objects/Specific/Medical/medipen.rsi, state: ichor }
+  productEntity: IchorMedipen
+  cost:
+    Telecrystal: 4
+  categories:
+  - UplinkChemicals
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - LoneOpsUplink

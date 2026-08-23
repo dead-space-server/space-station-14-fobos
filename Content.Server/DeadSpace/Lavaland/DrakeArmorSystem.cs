@@ -4,10 +4,13 @@ using Content.Server.Chat.Systems;
 using Content.Server.Polymorph.Systems;
 using Content.Server.Stunnable;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
+using Content.Shared.Damage.Prototypes;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.Lavaland;
 using Content.Shared.DeadSpace.Lavaland.DrakeArmor;
 using Content.Shared.Humanoid;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Systems;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -31,9 +34,11 @@ public sealed class DrakeArmorSystem : EntitySystem
     [Dependency] private readonly DamageableSystem _damage = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
+    [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly PolymorphSystem _polymorph = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly StunSystem _stun = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
@@ -186,9 +191,35 @@ public sealed class DrakeArmorSystem : EntitySystem
         if (skeleton is not { } skeletonUid)
             return;
 
+        TransferCompatibleDamage(args.Performer, skeletonUid);
         _stun.TryKnockdown(skeletonUid, args.SkeletonStunDuration, autoStand: true, drop: false, force: true);
         _chat.TryEmoteWithChat(skeletonUid, "Scream", ignoreActionBlocker: true, forceEmote: true);
         args.Handled = true;
+    }
+
+    private void TransferCompatibleDamage(EntityUid source, EntityUid skeleton)
+    {
+        if (!TryComp<DamageableComponent>(skeleton, out var damageable) ||
+            !_mobThreshold.GetScaledDamage(source, skeleton, out var sourceDamage) ||
+            sourceDamage == null)
+        {
+            return;
+        }
+
+        DamageModifierSetPrototype? modifiers = null;
+        if (damageable.DamageModifierSetId is { } modifierId)
+            _prototype.TryIndex(modifierId, out modifiers);
+
+        var compatibleDamage = new DamageSpecifier();
+        foreach (var (type, value) in sourceDamage.DamageDict)
+        {
+            if (modifiers?.Coefficients.TryGetValue(type, out var coefficient) == true && coefficient <= 0f)
+                continue;
+
+            compatibleDamage.DamageDict[type] = value;
+        }
+
+        _damage.SetDamage((skeleton, damageable), compatibleDamage);
     }
 
     private void OnFireWalls(DrakeFireBreathActionEvent args)

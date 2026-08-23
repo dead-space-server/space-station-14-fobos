@@ -111,3 +111,4 @@ messenger-block = Блок
 messenger-unblock = Разблок
 messenger-disable-chat = Отключить чат
 messenger-enable-chat = Включить чат
+messenger-unread-header = Новые сообщения

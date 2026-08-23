@@ -58,6 +58,11 @@
     whitelist:
       tags:
         - MonkeyWearable
+# DS14-start
+    blacklist:
+      tags:
+      - PetOnly
+# DS14-end
   - name: back
     slotTexture: back
     slotFlags: BACK

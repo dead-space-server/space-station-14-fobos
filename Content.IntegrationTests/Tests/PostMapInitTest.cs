@@ -100,6 +100,7 @@ namespace Content.IntegrationTests.Tests
             "MeteorArena",
             "dm01-entryway",
             "DSTaipan",
+            "DsTram2",
             "Amber",
             // "Aspid", // remap in progress
             "Bagel",

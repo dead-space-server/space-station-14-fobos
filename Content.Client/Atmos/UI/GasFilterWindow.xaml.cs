@@ -46,6 +46,10 @@ namespace Content.Client.Atmos.UI
 
         public void SetTransferRate(float rate)
         {
+            // ds-14-start
+            if (!SetFilterRate.Disabled)
+                return;
+            // ds-14-end
             FilterTransferRateInput.Text = rate.ToString(CultureInfo.CurrentCulture);
         }
 
@@ -56,6 +60,10 @@ namespace Content.Client.Atmos.UI
 
         public void SetGasFiltered(string? id, string name)
         {
+            // ds-14-start
+            if (!ToggleStatusButton.Disabled)
+                return;
+            // ds-14-end
             CurrentGasId = id;
             CurrentGasLabel.Text = Loc.GetString("comp-gas-filter-ui-filter-gas-current") + $" {name}";
             GasList.ClearSelected();

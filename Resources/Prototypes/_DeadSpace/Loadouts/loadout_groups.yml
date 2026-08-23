@@ -488,6 +488,13 @@
   - UnderwearBottomPantiesVirologist
 
 - type: loadoutGroup
+  id: ChemistHead
+  name: loadout-group-chemist-head
+  minLimit: 0
+  loadouts:
+  - ChemistHead
+
+- type: loadoutGroup
   id: MedicalShoesChemist
   name: loadout-group-chemist-doctor-shoes
   loadouts:
