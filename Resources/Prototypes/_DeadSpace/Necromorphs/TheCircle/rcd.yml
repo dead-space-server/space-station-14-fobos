@@ -31,7 +31,7 @@
 
 - type: rcd
   id: CircleTriggerKudzu
-  name: Триггер кудзу
+  name: rcd-component-circle-trigger-kudzu # DS14
   category: NecromorphTriggers
   sprite: { sprite: /Textures/Tiles/Misc/floortrap.rsi, state: floortrapspawn }
   mode: ConstructObject
@@ -42,7 +42,7 @@
 
 - type: rcd
   id: CircleTriggerMeleeTentacle
-  name: Триггер атакующей тентакли
+  name: rcd-component-circle-trigger-melee-tentacle # DS14
   category: NecromorphTriggers
   sprite: { sprite: /Textures/_DeadSpace/Necromorfs/tentacle.rsi, state: tentacle }
   mode: ConstructObject
@@ -53,7 +53,7 @@
 
 - type: rcd
   id: CircleTriggerRangedTentacle
-  name: Триггер стрелковой тентакли
+  name: rcd-component-circle-trigger-ranged-tentacle # DS14
   category: NecromorphTriggers
   sprite: { sprite: /Textures/_DeadSpace/Necromorfs/bone_tentacle.rsi, state: bonetentacle }
   mode: ConstructObject

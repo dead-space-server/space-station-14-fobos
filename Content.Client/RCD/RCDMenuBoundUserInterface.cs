@@ -2,6 +2,7 @@ using Content.Client.Popups;
 using Content.Client.UserInterface.Controls;
 using Content.Shared.RCD;
 using Content.Shared.RCD.Components;
+using Content.Shared.RCD.Systems;
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
 using Robust.Shared.Collections;
@@ -12,6 +13,7 @@ using Robust.Shared.Utility;
 namespace Content.Client.RCD;
 
 [UsedImplicitly]
+// DS14 - pre-v288 engine
 public sealed class RCDMenuBoundUserInterface : BoundUserInterface
 {
     private const string TopLevelActionCategory = "Main";
@@ -31,6 +33,9 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
 
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly ISharedPlayerManager _playerManager = default!;
+    // DS14-start: readonly dependency for the pre-v288 engine.
+    [Dependency] private readonly RCDSystem _rcd = default!;
+    // DS14-end
 
     private SimpleRadialMenu? _menu;
 
@@ -121,20 +126,12 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
         if (_playerManager.LocalSession?.AttachedEntity == null)
             return;
 
-        var msg = Loc.GetString("rcd-component-change-mode", ("mode", Loc.GetString(proto.SetName)));
+        var rcdName = _rcd.GetPrototypeName(proto);
+
+        var msg = Loc.GetString("rcd-component-change-mode", ("mode", rcdName));
 
         if (proto.Mode is RcdMode.ConstructTile or RcdMode.ConstructObject)
-        {
-            var name = Loc.GetString(proto.SetName);
-
-            if (proto.Prototype != null &&
-                _prototypeManager.TryIndex(proto.Prototype, out var entProto)) // don't use Resolve because this can be a tile
-            {
-                name = entProto.Name;
-            }
-
-            msg = Loc.GetString("rcd-component-change-build-mode", ("name", name));
-        }
+            msg = Loc.GetString("rcd-component-change-build-mode", ("name", rcdName));
 
         // Popup message
         var popup = EntMan.System<PopupSystem>();
@@ -143,19 +140,7 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
 
     private string GetTooltip(RCDPrototype proto)
     {
-        string tooltip;
-
-        if (proto.Mode is RcdMode.ConstructTile or RcdMode.ConstructObject
-            && proto.Prototype != null
-            && _prototypeManager.TryIndex(proto.Prototype, out var entProto)) // don't use Resolve because this can be a tile
-        {
-            tooltip = Loc.GetString(entProto.Name);
-        }
-        else
-        {
-            tooltip = Loc.GetString(proto.SetName);
-        }
-
+        var tooltip = _rcd.GetPrototypeName(proto);
         tooltip = OopsConcat(char.ToUpper(tooltip[0]).ToString(), tooltip.Remove(0, 1));
 
         return tooltip;
