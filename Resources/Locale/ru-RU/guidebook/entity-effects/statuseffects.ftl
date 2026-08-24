@@ -13,4 +13,3 @@ entity-effect-status-effect-RatvarianLanguage = паттерны ратварс�
 entity-effect-status-effect-StaminaModifier = модифицированная выносливость
 entity-effect-status-effect-RadiationProtection = защита от радиации
 entity-effect-status-effect-Drowsiness = сонливость
-entity-effect-status-effect-Adrenaline = адреналин

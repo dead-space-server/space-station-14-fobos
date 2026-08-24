@@ -51,7 +51,7 @@ using Content.Shared.NPC.Components; // DS14
 using System.Linq; // DS14
 using Content.Shared.Cuffs.Components; // DS14
 using Content.Shared.Temperature.Components;
-using Content.Shared.Damage.Components; // DS14
+using Content.Shared.StatusEffectNew; // DS14
 
 namespace Content.Server.Zombies;
 
@@ -81,10 +81,12 @@ public sealed partial class ZombieSystem
     [Dependency] private readonly PrisonSystem _prison = default!;
     [Dependency] private readonly VirusSystem _virus = default!; // DS14
     [Dependency] private readonly LanguageSystem _language = default!; // DS14
+    [Dependency] private readonly StatusEffectsSystem _newStatusEffects = default!; // DS14
 
     private static readonly ProtoId<TagPrototype> InvalidForGlobalSpawnSpellTag = "InvalidForGlobalSpawnSpell";
     private static readonly ProtoId<TagPrototype> CannotSuicideTag = "CannotSuicide";
     private static readonly ProtoId<LanguagePrototype> ZombieLanguage = "ZombieLanguage"; // DS14
+    private static readonly EntProtoId ZombieAdrenalineEffect = "StatusEffectZombieAdrenaline"; // DS14
     private static readonly ProtoId<NpcFactionPrototype> ZombieFaction = "Zombie";
     private static readonly string MindRoleZombie = "MindRoleZombie";
     private static readonly List<ProtoId<AntagPrototype>> BannableZombiePrototypes = ["Zombie"];
@@ -162,7 +164,7 @@ public sealed partial class ZombieSystem
         RemComp<LegsParalyzedComponent>(target);
         RemComp<ComplexInteractionComponent>(target);
         RemComp<SentienceTargetComponent>(target);
-        EnsureComp<IgnoreSlowOnDamageComponent>(target); // DS14
+        _newStatusEffects.TrySetStatusEffectDuration(target, ZombieAdrenalineEffect); // DS14
 
         // DS14-start
         if (HasComp<VirusComponent>(target))
