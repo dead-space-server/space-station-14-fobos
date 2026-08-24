@@ -115,6 +115,12 @@
     sound:
       path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
   #DS14-End
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: base-inhand-left
+      right:
+      - state: base-inhand-right
 
 - type: entity
   parent: [ PersonalAI, BaseSyndicateContraband]
@@ -154,6 +160,12 @@
   - type: Vocal
     sounds:
       Unsexed: UnisexSiliconSyndicate
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: syndi-inhand-left
+      right:
+      - state: syndi-inhand-right
 
 - type: entity
   parent: PersonalAI
@@ -169,6 +181,12 @@
       shader: unshaded
       map: ["screen"]
   - type: Appearance
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: gold-inhand-left
+      right:
+      - state: gold-inhand-right
 
 - type: entity
   parent: PersonalAI
@@ -200,6 +218,12 @@
   - type: Construction
     graph: PotatoAI
     node: potatoai
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: potato-inhand-left
+      right:
+      - state: potato-inhand-right
 
 # PAI Actions
 
