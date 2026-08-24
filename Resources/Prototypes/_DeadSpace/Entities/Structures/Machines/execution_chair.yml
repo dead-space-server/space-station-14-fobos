@@ -38,6 +38,8 @@
     drawRate: 1500
   - type: Transform
     anchored: true
+  - type: Physics
+    bodyType: Static
   - type: Anchorable
   - type: Damageable
     damageModifierSet: Metallic
