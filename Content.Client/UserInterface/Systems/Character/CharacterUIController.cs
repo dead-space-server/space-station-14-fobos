@@ -141,14 +141,17 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             return;
         }
 
-        var (entity, job, objectives, skills, briefing, entityName) = data;
+        var (entity, objectives, skills, briefing, jobId, entityName) = data;
 
         _window.SpriteView.SetEntity(entity);
 
         UpdateRoleType();
 
+        _prototypeManager.Resolve(jobId, out JobPrototype? job);
         _window.NameLabel.Text = entityName;
-        _window.SubText.Text = job;
+        _window.SubText.Text = job != null
+            ? Loc.GetString(job.Name)
+            : Loc.GetString("character-info-no-profession");
         _window.Objectives.RemoveAllChildren();
         _window.ObjectivesLabel.Visible = objectives.Any();
 
