@@ -448,7 +448,7 @@
   name: Jump boost
   components:
   - type: Action
-    useDelay: 16
+    useDelay: 10
     icon:
       sprite: Interface/Actions/actions_borg.rsi
       state: xenoborg-jump-module
