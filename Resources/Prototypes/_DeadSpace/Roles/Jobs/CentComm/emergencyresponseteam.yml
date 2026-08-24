@@ -194,7 +194,7 @@
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
-    - BoxCardboardERT
+    - BoxCardboardERTGamma
     - PinpointerNuclear
     - CrowbarRed
     - BSAACombatKitFilled
@@ -381,7 +381,7 @@
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
-    - BoxCardboardERT
+    - BoxCardboardERTGamma
     - CrowbarRed
     - PinpointerNuclear
     - BSAACombatKitFilled
@@ -577,7 +577,7 @@
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
     - ERTloadoutMelee
-    - BoxCardboardERT
+    - BoxCardboardERTGamma
     - DefibrillatorCompact
     - PinpointerNuclear
     - JugTheCircleOmnizine
@@ -771,7 +771,7 @@
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
     - ERTloadoutMelee
-    - BoxCardboardERT
+    - BoxCardboardERTGamma
     - BoxC4ERT
     - RCDRecharging
     - RCDAmmo
@@ -954,7 +954,7 @@
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
     - ERTloadoutMelee
-    - BoxCardboardERT
+    - BoxCardboardERTGamma
     - BoxLightMixed
     - BoxGrenadeCleanade
     - AdvMopItem

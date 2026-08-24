@@ -13,13 +13,6 @@
     jobPrototype: CentralCommandGreenBeretOfficer
     allowedSpecies:
     - Human
-    - Shark
-    - Demon
-    - Reptilian
-    - Arachnid
-    - SlimePerson
-    - Tajaran
-    - Vulpkanin
     randomNameFirstDataset: CustomizableSpawnerCentralCommandBlueShieldOfficerFirstName
     randomNameSecondLocalized: NamesLastERT
   - type: GhostRole
@@ -49,5 +42,4 @@
 - type: loadout
   id: CentralCommandGreenBeretOfficerLoadout
   equipment:
-    back: ClothingBackpackSatchelBig
     socks: ClothingUnderwearSocksBlueShieldOfficer
