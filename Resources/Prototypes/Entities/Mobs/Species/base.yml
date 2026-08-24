@@ -244,9 +244,21 @@
   - MobAtmosStandard
   - MobFlammable
   - BaseMobSpecies
+  # DS14-start: apply upstream satiation through the current shared organic-species base.
+  - BaseHungerSlowdown
+  - BaseThirstSlowdown
+  # DS14-end
   id: BaseMobSpeciesOrganic
   abstract: true
   components:
+  # DS14-start: apply upstream satiation through the current shared organic-species base.
+  - type: Satiation
+    satiations:
+      Hunger:
+        prototype: NormalSatiationHunger
+      Thirst:
+        prototype: NormalSatiationThirst
+  # DS14-end
   - type: Barotrauma
     damage:
       types:

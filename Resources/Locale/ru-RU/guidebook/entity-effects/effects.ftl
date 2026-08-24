@@ -67,22 +67,13 @@ entity-effect-guidebook-smoke-area =
         *[other] создают
     } густой дым
 
-entity-effect-guidebook-satiate-thirst =
+entity-effect-guidebook-satiate =
     { $chance ->
         [1] Насыщает
-        *[other] Насыщают
+        *[other] насыщают
     } { $relative ->
-        [1] жажду средне
-        *[other] жажду на {NATURALFIXED($relative, 3)}x от средней скорости
-    }
-
-entity-effect-guidebook-satiate-hunger =
-    { $chance ->
-        [1] Насыщает
-        *[other] Насыщают
-    } { $relative ->
-        [1] Сытость средне
-        *[other] сытость на {NATURALFIXED($relative, 3)}x от средней скорости
+        [1] потребность «{ $type }» со средней скоростью
+        *[other] потребность «{ $type }» со скоростью { NATURALFIXED($relative, 3) } от средней
     }
 
 entity-effect-guidebook-health-change =

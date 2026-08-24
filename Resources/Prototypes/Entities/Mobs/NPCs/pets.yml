@@ -846,8 +846,12 @@
     flavors:
     - meaty
     - sadness
-  - type: Hunger
-    baseDecayRate: 0.1 # DS14: not soo hungry
+  - type: Satiation
+    satiations:
+      Hunger:
+        prototype: DeadSpaceHamsterHunger # DS14: not so hungry.
+      Thirst:
+        prototype: SimpleMobBaseThirst
 # DS14-start
   - type: Language
     knownLanguages:

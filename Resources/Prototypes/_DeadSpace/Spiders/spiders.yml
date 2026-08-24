@@ -23,14 +23,10 @@
   - type: Body
     prototype: Bloodsucker
     requiredLegs: 0
-  - type: Hunger
-    thresholds: # only animals and rats are derived from this prototype so let's override it here and in rats' proto
-      Overfed: 100
-      Okay: 50
-      Peckish: 25
-      Starving: 10
-      Dead: 0
-    baseDecayRate: 0 # it is okay for animals to eat and drink less than humans, but more frequently
+  - type: Satiation
+    satiations:
+      Hunger:
+        prototype: SpiderTerrorHunger
   - type: SpiderTerror
   - type: Butcherable
     spawned:

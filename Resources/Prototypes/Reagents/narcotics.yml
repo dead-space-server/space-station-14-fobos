@@ -186,9 +186,11 @@
       effects:
       # DS-14-start
         - !type:ResetNarcolepsy
-        - !type:SatiateHunger
+        - !type:Satiate
+          satiationType: Hunger
           factor: 1
-        - !type:SatiateThirst
+        - !type:Satiate
+          satiationType: Thirst
           factor: 1
         - !type:HealthChange
           conditions:

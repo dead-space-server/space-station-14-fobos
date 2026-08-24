@@ -281,12 +281,15 @@
       types:
         Bloodloss: -1.5
   - type: HumanoidDamageSequence # DS14: for coroner job
-  - type: Hunger
+  - type: Satiation
+    satiations:
+      Hunger:
+        prototype: NormalSatiationHunger
+      Thirst:
+        prototype: SupersoldierThirst
   - type: Icon # It will not have an icon in the adminspawn menu without this. Body parts seem fine for whatever reason.
     sprite: Mobs/Species/Human/parts.rsi
     state: full
-  - type: Thirst
-    baseDecayRate: 0.01 
   - type: Butcherable
     butcheringType: Spike
     spawned:

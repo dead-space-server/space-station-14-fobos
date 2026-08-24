@@ -4,8 +4,6 @@
   id: BaseMobSlimePerson
   abstract: true
   components:
-  - type: Hunger
-  - type: Thirst
   - type: Icon
     sprite: Mobs/Species/Slime/parts.rsi
     state: full
