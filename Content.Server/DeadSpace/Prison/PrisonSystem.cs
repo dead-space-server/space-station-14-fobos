@@ -340,7 +340,7 @@ public sealed class PrisonSystem : EntitySystem
                 TryGetSpawnCoordinates(out var waitingCoordinates))
             {
                 SendEntityToPrison(waitingEntity, waitingCoordinates, session.UserId);
-            }ц
+            }
 
             BeginFactionSelection(session);
             SendPrisonMessage(session, ban);
