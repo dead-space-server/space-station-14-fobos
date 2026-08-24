@@ -126,6 +126,10 @@ public sealed partial class PlantSystem : EntitySystem
         if (!Resolve(ent.Owner, ref ent.Comp, false))
             return;
 
+        // Old maps can still contain PlantHolder on the tray itself. New holders belong to the plant entity.
+        if (!HasComp<PlantComponent>(ent.Owner))
+            return;
+
         var curTime = _gameTiming.CurTime;
 
         if (!force && curTime < ent.Comp.LastCycle + ent.Comp.CycleDelay)
@@ -137,9 +141,11 @@ public sealed partial class PlantSystem : EntitySystem
         if (_plantHolder.IsDead(ent.Owner))
             return;
 
-        TryGetTray(ent.Owner, out var trayEnt);
-        var plantGrow = new PlantGrowEvent(GetNetEntity(trayEnt.Owner));
-        RaiseLocalEvent(ent.Owner, ref plantGrow);
+        if (TryGetTray(ent.Owner, out var trayEnt))
+        {
+            var plantGrow = new PlantGrowEvent(GetNetEntity(trayEnt.Owner));
+            RaiseLocalEvent(ent.Owner, ref plantGrow);
+        }
 
         // Process mutations.
         if (ent.Comp.MutationLevel > 0)
@@ -173,7 +179,7 @@ public sealed partial class PlantSystem : EntitySystem
     public bool TryGetTray(Entity<PlantComponent?> ent, out Entity<PlantTrayComponent> trayEnt)
     {
         trayEnt = default!;
-        if (!Resolve(ent.Owner, ref ent.Comp))
+        if (!Resolve(ent.Owner, ref ent.Comp, false))
             return false;
 
         trayEnt.Owner = Transform(ent.Owner).ParentUid;

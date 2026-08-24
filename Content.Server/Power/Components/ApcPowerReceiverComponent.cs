@@ -14,6 +14,7 @@ namespace Content.Server.Power.Components
         /// <summary>
         ///     Amount of charge this needs from an APC per second to function.
         /// </summary>
+        [DataField("powerLoad")]
         public override float Load
         {
             get => NetworkLoad.DesiredPower;
@@ -33,6 +34,7 @@ namespace Content.Server.Power.Components
         /// <summary>
         ///     When false, causes this to appear powered even if not receiving power from an Apc.
         /// </summary>
+        [ViewVariables(VVAccess.ReadWrite)]
         public override bool NeedsPower
         {
             get => _needsPower;
@@ -48,11 +50,13 @@ namespace Content.Server.Power.Components
             }
         }
 
+        [DataField("needsPower")]
         private bool _needsPower = true;
 
         /// <summary>
         ///     When true, causes this to never appear powered.
         /// </summary>
+        [DataField("powerDisabled")]
         public override bool PowerDisabled
         {
             get => !NetworkLoad.Enabled;

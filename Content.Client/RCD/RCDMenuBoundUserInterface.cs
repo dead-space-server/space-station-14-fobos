@@ -2,7 +2,6 @@ using Content.Client.Popups;
 using Content.Client.UserInterface.Controls;
 using Content.Shared.RCD;
 using Content.Shared.RCD.Components;
-using Content.Shared.RCD.Systems;
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
 using Robust.Shared.Collections;
@@ -33,9 +32,6 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
 
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly ISharedPlayerManager _playerManager = default!;
-    // DS14-start: readonly dependency for the pre-v288 engine.
-    [Dependency] private readonly RCDSystem _rcd = default!;
-    // DS14-end
 
     private SimpleRadialMenu? _menu;
 
@@ -126,7 +122,7 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
         if (_playerManager.LocalSession?.AttachedEntity == null)
             return;
 
-        var rcdName = _rcd.GetPrototypeName(proto);
+        var rcdName = GetPrototypeName(proto);
 
         var msg = Loc.GetString("rcd-component-change-mode", ("mode", rcdName));
 
@@ -140,11 +136,24 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
 
     private string GetTooltip(RCDPrototype proto)
     {
-        var tooltip = _rcd.GetPrototypeName(proto);
+        var tooltip = GetPrototypeName(proto);
         tooltip = OopsConcat(char.ToUpper(tooltip[0]).ToString(), tooltip.Remove(0, 1));
 
         return tooltip;
     }
+
+    // DS14-start: RCDSystem is not registered client-side on the current engine baseline.
+    private string GetPrototypeName(RCDPrototype prototype)
+    {
+        if (prototype.SetName != null)
+            return Loc.GetString(prototype.SetName);
+
+        if (prototype.Prototype != null)
+            return _prototypeManager.Index(prototype.Prototype).Name;
+
+        return Loc.GetString("generic-unknown-title");
+    }
+    // DS14-end
 
     private static string OopsConcat(string a, string b)
     {

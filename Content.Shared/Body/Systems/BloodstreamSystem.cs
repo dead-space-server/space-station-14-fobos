@@ -23,6 +23,7 @@ using Content.Shared.Rejuvenate;
 using Content.Shared.StatusEffectNew;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
+using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
@@ -33,6 +34,7 @@ public sealed partial class BloodstreamSystem : EntitySystem
     public static readonly EntProtoId Bloodloss = "StatusEffectBloodloss";
 
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!; // DS14 - current engine baseline has no EntitySystem.ProtoMan shortcut.
+    [Dependency] private readonly INetManager _netManager = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
@@ -50,7 +52,11 @@ public sealed partial class BloodstreamSystem : EntitySystem
 
         SubscribeLocalEvent<BloodstreamComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<BloodstreamComponent, EntRemovedFromContainerMessage>(OnEntRemoved);
-        SubscribeLocalEvent<BloodstreamComponent, GenerateDnaEvent>(OnDnaGenerated);
+        if (_netManager.IsServer)
+        {
+            SubscribeLocalEvent<BloodstreamComponent, ComponentInit>(OnComponentInit);
+            SubscribeLocalEvent<BloodstreamComponent, GenerateDnaEvent>(OnDnaGenerated);
+        }
         SubscribeLocalEvent<BloodstreamComponent, ReactionAttemptEvent>(OnReactionAttempt);
         SubscribeLocalEvent<BloodstreamComponent, SolutionRelayEvent<ReactionAttemptEvent>>(OnReactionAttempt);
         SubscribeLocalEvent<BloodstreamComponent, DamageChangedEvent>(OnDamageChanged);
@@ -119,7 +125,12 @@ public sealed partial class BloodstreamSystem : EntitySystem
     {
         entity.Comp.NextUpdate = _timing.CurTime + entity.Comp.AdjustedUpdateInterval;
         DirtyField(entity, entity.Comp, nameof(BloodstreamComponent.NextUpdate));
+    }
 
+    // Solution containers are authoritative server entities. Creating them client-side during map init
+    // breaks the initial full state on the pre-v288 engine used by DS14.
+    private void OnComponentInit(Entity<BloodstreamComponent> entity, ref ComponentInit args)
+    {
         // DS14-start: the current solution API returns Solution and has no separate metabolites container.
         if (!_solutionContainer.EnsureSolution(entity.Owner, entity.Comp.BloodSolutionName, out var bloodSolution)
             || !_solutionContainer.EnsureSolution(entity.Owner, entity.Comp.BloodTemporarySolutionName, out var tempSolution))

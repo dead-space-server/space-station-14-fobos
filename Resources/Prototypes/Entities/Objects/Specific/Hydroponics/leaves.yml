@@ -175,11 +175,12 @@
     sprite: Objects/Specific/Hydroponics/tea_plant.rsi
   - type: Produce
     plantId: TeaPlantPlants
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Vitamin
-        Quantity: 15
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: Vitamin
+          Quantity: 15
 
 - type: entity
   name: dried tea leaves
@@ -207,11 +208,12 @@
     sprite: Objects/Specific/Hydroponics/tobacco.rsi
   - type: Produce
     plantId: TobaccoPlants
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Nicotine
-        Quantity: 5
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: Nicotine
+          Quantity: 5
 
 - type: entity
   name: dried tobacco leaves

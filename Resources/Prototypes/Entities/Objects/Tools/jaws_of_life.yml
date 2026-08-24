@@ -121,6 +121,11 @@
   - type: Prying
     force: true
     speedModifier: 3.0
+  - type: Tool
+    useSound: !type:SoundPathSpecifier
+      path: /Audio/Items/jaws_pry.ogg
+      params:
+        volume: -2
   - type: MultipleTool
     entries:
     - behavior: [ Prying ]
