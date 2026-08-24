@@ -8,6 +8,15 @@ namespace Content.Shared.Nutrition.EntitySystems;
 public sealed partial class SatiationSpeedModifierSystem :
     BaseSatiationEffectSystem<SatiationSpeedModifierComponent, float>
 {
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        SubscribeLocalEvent<SatiationSpeedModifierComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshMovementSpeed);
+    }
+    // DS14-end
+
     [Dependency] private readonly MovementSpeedModifierSystem _movementSpeedModifier = default!;
 
     protected override Dictionary<ProtoId<SatiationTypePrototype>, SatiationThresholds<float>> GetThresholds(
@@ -20,7 +29,6 @@ public sealed partial class SatiationSpeedModifierSystem :
         _movementSpeedModifier.RefreshMovementSpeedModifiers(entity.Owner);
     }
 
-    [SubscribeLocalEvent]
     private static void OnRefreshMovementSpeed(
         Entity<SatiationSpeedModifierComponent> entity,
         ref RefreshMovementSpeedModifiersEvent args

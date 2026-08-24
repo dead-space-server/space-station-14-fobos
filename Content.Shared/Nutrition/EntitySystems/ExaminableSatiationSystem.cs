@@ -13,13 +13,21 @@ namespace Content.Shared.Nutrition.EntitySystems;
 /// <seealso cref="ExaminableSatiationComponent"/>
 public sealed partial class ExaminableSatiationSystem : BaseSatiationEffectSystem<ExaminableSatiationComponent, LocId?>
 {
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        SubscribeLocalEvent<ExaminableSatiationComponent, ExaminedEvent>(OnExamine);
+    }
+    // DS14-end
+
     protected override Dictionary<ProtoId<SatiationTypePrototype>, SatiationThresholds<LocId?>> GetThresholds(
         ExaminableSatiationComponent comp
     ) => comp.Satiations;
 
     protected override LocId? DefaultValue() => null;
 
-    [SubscribeLocalEvent]
     private void OnExamine(Entity<ExaminableSatiationComponent> entity, ref ExaminedEvent args)
     {
         var identity = Identity.Entity(entity, EntityManager);
