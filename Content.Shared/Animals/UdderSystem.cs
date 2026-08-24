@@ -112,12 +112,6 @@ public sealed class UdderSystem : EntitySystem
 
         if (!_solutionContainerSystem.ResolveSolution(entity.Owner, entity.Comp.SolutionName, ref entity.Comp.Solution, out var solution))
             return;
-        // ds-14-start
-        if (TryComp<OpenableComponent>(args.Args.Used.Value, out var openable) && !openable.Opened) {
-            _popupSystem.PopupClient(Loc.GetString("udder-sln-cont-closed"), entity.Owner, args.Args.User);
-            return;
-        }
-        // ds-14-end
         if (!_solutionContainerSystem.TryGetRefillableSolution(args.Args.Used.Value, out var targetSoln, out var targetSolution))
             return;
 
@@ -152,17 +146,17 @@ public sealed class UdderSystem : EntitySystem
         {
             Act = () =>
             {
+                // ds-14-start
+                if (TryComp<OpenableComponent>(used, out var openable) && !openable.Opened) {
+                    _popupSystem.PopupClient(Loc.GetString("udder-sln-cont-closed"), uid, user);
+                    return;
+                }
+                // ds-14-end
                 AttemptMilk(uid, user, used);
             },
             Text = Loc.GetString("udder-system-verb-milk"),
             Priority = 2
         };
-        // ds-14-start
-        if (TryComp<OpenableComponent>(args.Using.Value, out var openable) && !openable.Opened) {
-            _popupSystem.PopupClient(Loc.GetString("udder-sln-cont-closed"), entity.Owner, args.User);
-            return;
-        }
-        // ds-14-end
         args.Verbs.Add(verb);
     }
 }
