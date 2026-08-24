@@ -1,3 +1,4 @@
+<!-- DS14: Keep the System namespace while this branch uses explicit system:String style entries. -->
 <DefaultWindow
     xmlns="https://spacestation14.io"
     xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
@@ -37,10 +38,7 @@
                     VerticalExpand="True"
                     HorizontalExpand="True"
                     SizeFlagsStretchRatio="4">
-                    <PanelContainer VerticalExpand="True">
-                        <PanelContainer.PanelOverride>
-                            <gfx:StyleBoxFlat BackgroundColor="#1B1B1E" />
-                        </PanelContainer.PanelOverride>
+                    <PanelContainer VerticalExpand="True" StyleClasses="PanelDeep">
                         <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
                             <BoxContainer
                                 Name="RecipeList"
@@ -140,10 +138,7 @@
             HorizontalExpand="True"
             Orientation="Vertical">
             <Label Text="{Loc 'lathe-menu-materials-title'}" Margin="5 5 5 5" HorizontalAlignment="Center"/>
-            <PanelContainer VerticalExpand="True">
-                <PanelContainer.PanelOverride>
-                    <gfx:StyleBoxFlat BackgroundColor="#1B1B1E" />
-                </PanelContainer.PanelOverride>
+            <PanelContainer VerticalExpand="True" StyleClasses="PanelDeep">
                 <BoxContainer
                     Orientation="Vertical"
                     VerticalExpand="True"
