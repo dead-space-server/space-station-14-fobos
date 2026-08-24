@@ -86,3 +86,4 @@ ent-TeslaGunBullet = молния Тесла-пушки
     .desc = { ent-BaseBullet.desc }
 ent-ADTBulletChargestrong = усиленный заряд
     .desc = Помечает цель для нанесения дополнительного урона.
+ent-BulletXenoborgMechadermisRocket = ракета с мехадермисом
