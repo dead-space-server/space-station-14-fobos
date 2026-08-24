@@ -18,7 +18,7 @@
 
 - type: entity
   id: BasicHitscan
-  name: basic laser ray
+  name: basic hitscan
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanAmmo
@@ -38,6 +38,14 @@
 
 - type: entity
   parent: BasicHitscan
+  id: LaserHitscanBase
+  name: basic laser ray
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: LaserProjectile
+
+- type: entity
+  parent: LaserHitscanBase
   id: RedLightLaser
   name: red light laser ray
   categories: [ HideSpawnMenu ]
@@ -52,7 +60,7 @@
 # DS14-end
 
 - type: entity
-  parent: BasicHitscan
+  parent: LaserHitscanBase
   id: RedLaser
   name: red laser ray
   categories: [ HideSpawnMenu ]
@@ -67,7 +75,7 @@
 # DS14-end
 
 - type: entity
-  parent: BasicHitscan
+  parent: LaserHitscanBase
   id: RedMediumLaser
   name: red amplified laser ray
   categories: [ HideSpawnMenu ]
@@ -82,7 +90,7 @@
 # DS14-end
 
 - type: entity
-  parent: BasicHitscan
+  parent: LaserHitscanBase
   id: RedHeavyLaser
   name: red high-energy laser ray
   categories: [ HideSpawnMenu ]
@@ -108,7 +116,7 @@
 # DS14-end
 
 - type: entity
-  parent: BasicHitscan
+  parent: LaserHitscanBase
   id: RedLaserPractice
   name: red practice laser ray
   categories: [ HideSpawnMenu ]
@@ -196,7 +204,7 @@
 # DS14-end
 
 - type: entity
-  parent: BasicHitscan
+  parent: LaserHitscanBase
   id: RedShuttleLaser
   name: shuttle class red laser ray
   categories: [ HideSpawnMenu ]
@@ -224,7 +232,7 @@
 # DS14-end
 
 - type: entity
-  parent: BasicHitscan
+  parent: LaserHitscanBase
   id: DebugLaser
   name: debug laser ray
   suffix: DEBUG
