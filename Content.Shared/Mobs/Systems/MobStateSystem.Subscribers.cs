@@ -1,6 +1,7 @@
 ﻿using Content.Shared.Bed.Sleep;
 using Content.Shared.Buckle.Components;
 using Content.Shared.CombatMode.Pacification;
+using Content.Shared.Cuffs;
 using Content.Shared.Damage;
 using Content.Shared.Damage.ForceSay;
 using Content.Shared.Damage.Systems;
@@ -356,6 +357,13 @@ public partial class MobStateSystem
 
         ent.Comp.HeldMoveButtons = newMovement;
         Dirty(ent.Owner, ent.Comp);
+    }
+
+    [SubscribeLocalEvent]
+    private void OnIncapCuffCheck(Entity<MobStateComponent> ent, ref CheckIncapacitatedCuffEvent args)
+    {
+        if (IsIncapacitated(ent, ent.Comp))
+            args.Incapacitated = true;
     }
 
     #endregion
