@@ -48,10 +48,7 @@ public sealed class HolosignSystem : EntitySystem
 
         // overlapping of the same holo on one tile remains allowed to allow holofan refreshes
         if (ent.Comp.PredictedSpawn || _net.IsServer)
-        {
-            var holosign = PredictedSpawnAtPosition(ent.Comp.SignProto, args.ClickLocation);
-            Transform(holosign).LocalRotation = Angle.Zero;
-        }
+            PredictedSpawnAtPosition(ent.Comp.SignProto, args.ClickLocation);
 
         args.Handled = true;
     }
