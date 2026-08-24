@@ -2,5 +2,9 @@
   id: Changeling
   name: roles-antag-changeling-name
   antagonist: true
-  setPreference: false # TODO: set this to true once Changeling exits WIP status
+  setPreference: true
   objective: roles-antag-changeling-objective
+  # DS14: guide entry from #44998 is intentionally not included in this build.
+  requirements:
+  - !type:OverallPlaytimeRequirement
+    time: 5h
