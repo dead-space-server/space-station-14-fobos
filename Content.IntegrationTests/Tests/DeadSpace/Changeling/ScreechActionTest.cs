@@ -1,5 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using System.Linq;
 using Content.Client.Effects;
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
@@ -8,6 +9,7 @@ using Content.Shared.Store;
 using Content.Shared.Store.Components;
 using Content.Shared.VoiceMask;
 using Robust.Client.GameObjects;
+using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
 
 namespace Content.IntegrationTests.Tests.DeadSpace.Changeling;
