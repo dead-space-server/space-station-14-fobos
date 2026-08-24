@@ -1,0 +1,168 @@
+- type: entity
+  id: SurgeryBase
+  categories:
+  - HideSpawnMenu
+
+- type: entity
+  parent: SurgeryBase
+  id: SurgeryOpenIncision
+  name: Open Incision
+  components:
+  - type: Surgery
+    priority: -100
+    steps:
+    - SurgeryStepOpenIncisionScalpel
+    - SurgeryStepClampBleeders
+    - SurgeryStepRetractSkin
+  - type: SurgerySpeciesCondition
+    speciesBlacklist:
+    - SlimePerson
+    - NeoSlimePerson
+    - IPC
+
+- type: entity
+  parent: SurgeryOpenIncision
+  id: SurgeryOpenIncisionSlime
+  components:
+  - type: Surgery
+    priority: -100
+    steps:
+    - SurgeryStepOpenIncisionScalpel
+    - SurgeryStepCoagulateJellyFlow
+    - SurgeryStepRetractMembrane
+  - type: SurgerySpeciesCondition
+    speciesBlacklist: []
+    speciesWhitelist:
+    - SlimePerson
+    - NeoSlimePerson
+
+- type: entity
+  parent: SurgeryBase
+  id: SurgeryCloseIncision
+  name: Close Incision
+  components:
+  - type: Surgery
+    requirement:
+    - SurgeryOpenIncision
+    priority: 100
+    steps:
+    - SurgeryStepCloseBones
+    - SurgeryStepMendRibcage
+    - SurgeryStepCloseIncision
+  - type: SurgerySpeciesCondition
+    speciesBlacklist:
+    - SlimePerson
+    - NeoSlimePerson
+    - IPC
+  - type: SurgeryPartCondition
+    parts:
+    - Torso
+
+- type: entity
+  parent: SurgeryCloseIncision
+  id: SurgeryCloseIncisionHead
+  name: Close Incision
+  components:
+  - type: Surgery
+    requirement:
+    - SurgeryOpenIncision
+    priority: 100
+    steps:
+    - SurgeryStepRejoinBloodVessels
+    - SurgeryStepMendSkull
+    - SurgeryStepCloseIncision
+  - type: SurgerySpeciesCondition
+    speciesBlacklist:
+    - SlimePerson
+    - NeoSlimePerson
+    - IPC
+  - type: SurgeryPartCondition
+    parts:
+    - Head
+
+- type: entity
+  parent: SurgeryCloseIncision
+  id: SurgeryCloseIncisionLimb
+  name: Close Incision
+  components:
+  - type: Surgery
+    requirement:
+    - SurgeryOpenIncision
+    priority: 100
+    steps:
+    - SurgeryStepRejoinBloodVessels
+    - SurgeryStepRestoreCartilage
+    - SurgeryStepCloseIncision
+  - type: SurgerySpeciesCondition
+    speciesBlacklist:
+    - SlimePerson
+    - NeoSlimePerson
+    - IPC
+  - type: SurgeryPartCondition
+    parts:
+    - Arm
+    - Leg
+    - Hand
+    - Foot
+
+- type: entity
+  parent: SurgeryCloseIncision
+  id: SurgeryCloseIncisionSlime
+  components:
+  - type: Surgery
+    requirement:
+    - SurgeryOpenIncisionSlime
+    priority: 100
+    steps:
+    - SurgeryStepMendSlime
+    - SurgeryStepCloseIncision
+  - type: SurgerySpeciesCondition
+    speciesBlacklist: []
+    speciesWhitelist:
+    - SlimePerson
+    - NeoSlimePerson
+
+- type: entity
+  parent: SurgeryCloseIncision
+  id: SurgeryCloseIncisionSlimeHead
+  name: Close Incision
+  components:
+  - type: Surgery
+    requirement:
+    - SurgeryOpenIncisionSlime
+    priority: 100
+    steps:
+    - SurgeryStepMendSlime
+    - SurgeryStepCloseIncision
+  - type: SurgerySpeciesCondition
+    speciesBlacklist: []
+    speciesWhitelist:
+    - SlimePerson
+    - NeoSlimePerson
+  - type: SurgeryPartCondition
+    parts:
+    - Head
+
+- type: entity
+  parent: SurgeryCloseIncision
+  id: SurgeryCloseIncisionLimbSlime
+  name: Close Incision
+  components:
+  - type: Surgery
+    requirement:
+    - SurgeryOpenIncisionSlime
+    priority: 100
+    steps:
+    - SurgeryStepMendSlime
+    - SurgeryStepCloseIncision
+  - type: SurgerySpeciesCondition
+    speciesBlacklist: []
+    speciesWhitelist:
+    - SlimePerson
+    - NeoSlimePerson
+  - type: SurgeryPartCondition
+    parts:
+    - Arm
+    - Leg
+    - Hand
+    - Foot

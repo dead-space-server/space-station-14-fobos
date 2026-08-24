@@ -1594,3 +1594,23 @@
           reagent: Heparin
           min: 15
         amount: 0.25
+
+- type: reagent
+  id: BoneGel
+  group: Medicine
+  name: bone gel
+  desc: A viscous gel used in surgery to mend bones and cartilage.
+  physicalDesc: reagent-physical-desc-opaque
+  flavor: medicine
+  color: "#dadada"
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:GenericStatusEffect
+        key: Drunk
+        time: 1.0
+        type: Remove
+      - !type:HealthChange
+        damage:
+          types:
+            Poison: 1.5 # You don't want to drink bonegel, because it's for bones and joints

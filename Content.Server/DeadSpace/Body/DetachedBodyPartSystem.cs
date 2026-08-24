@@ -5,6 +5,7 @@ using Content.Shared.Body.Part;
 using Content.Shared.DeadSpace.Necromorphs.PlasmaCutter;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
+using Content.Shared.Standing;
 
 namespace Content.Server.DeadSpace.Body;
 
@@ -15,13 +16,24 @@ public sealed class DetachedBodyPartSystem : EntitySystem
 {
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly MetaDataSystem _metaData = default!;
+    [Dependency] private readonly StandingStateSystem _standing = default!;
 
     public override void Initialize()
     {
         base.Initialize();
         SubscribeLocalEvent<BodyComponent, BodyPartRemovedEvent>(OnBodyPartRemoved);
+        SubscribeLocalEvent<BodyComponent, StandAttemptEvent>(OnStandAttempt);
         SubscribeLocalEvent<NecromorphMissingHeadComponent, IsEquippingTargetAttemptEvent>(OnMissingHeadEquipAttempt);
         SubscribeLocalEvent<NecromorphPlasmaCutterWoundsComponent, IsEquippingTargetAttemptEvent>(OnMissingLegEquipAttempt);
+    }
+
+    private void OnStandAttempt(Entity<BodyComponent> body, ref StandAttemptEvent args)
+    {
+        if (body.Comp.RequiredLegs <= 0)
+            return;
+
+        if (body.Comp.LegEntities.Count < body.Comp.RequiredLegs)
+            args.Cancel();
     }
 
     private void OnMissingHeadEquipAttempt(
@@ -54,6 +66,10 @@ public sealed class DetachedBodyPartSystem : EntitySystem
         {
             case BodyPartType.Leg:
                 DropEquipment(ent.Owner, SlotFlags.LEGS | SlotFlags.FEET | SlotFlags.SOCKS);
+                // The removed leg is still present in LegEntities while this event is raised.
+                if (ent.Comp.RequiredLegs > 0
+                    && ent.Comp.LegEntities.Count - 1 < ent.Comp.RequiredLegs)
+                    _standing.Down(ent.Owner);
                 break;
             case BodyPartType.Head:
                 DropEquipment(ent.Owner, SlotFlags.HEAD | SlotFlags.MASK | SlotFlags.EYES | SlotFlags.EARS);
