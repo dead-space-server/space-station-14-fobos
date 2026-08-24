@@ -20,8 +20,7 @@
   - type: InteractionOutline
   - type: Physics
   - type: Damageable
-  - type: Injurable
-    damageContainer: Biological
+    damageContainer: Biological # DS14: Injurable belongs to an unpicked damage refactor.
   - type: Destructible
     thresholds:
     - trigger:

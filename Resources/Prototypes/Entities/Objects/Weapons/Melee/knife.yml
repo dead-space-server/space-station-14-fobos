@@ -223,7 +223,7 @@
     # The rest of these are just so we don't clog up the menu with useless items.
     - Bloodsucker
     - Dragon
-    - Changeling
+    # DS14: Changelings use human metabolism on this content baseline.
     damage:
       types:
         Poison: 10

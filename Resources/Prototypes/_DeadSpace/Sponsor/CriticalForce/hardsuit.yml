@@ -55,7 +55,7 @@
     virusResistanceCoefficient: 0.9
 
 - type: entity
-  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase]
   id: ClothingHeadHelmetHardsuitOfficerCriticalForce
   categories: [ HideSpawnMenu ]
   name: шлем скафандра офицера CriticalForce Apollo

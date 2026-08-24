@@ -1717,8 +1717,11 @@
   metabolisms:
     Drink:
       effects:
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectRatvarianLanguage
+      # DS14-Start: Ratvarian language still uses the current branch's status-effect API.
+      - !type:GenericStatusEffect
+        key: RatvarianLanguage
+        component: RatvarianLanguage
+      # DS14-End
       - !type:Satiate
         satiationType: Thirst
         factor: 2

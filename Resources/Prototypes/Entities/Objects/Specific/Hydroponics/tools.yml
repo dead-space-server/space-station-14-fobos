@@ -58,9 +58,7 @@
     materialComposition:
       Steel: 100
   - type: BotanySampleTaker
-  - type: Tool
-    qualities:
-    - Shearing
+  # DS14: The current baseline has no animal shearing tool quality.
   #DS14-Start
   - type: EmitSoundOnPickup
     sound:

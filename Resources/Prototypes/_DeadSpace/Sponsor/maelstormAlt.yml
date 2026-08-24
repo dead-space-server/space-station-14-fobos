@@ -179,7 +179,7 @@
     clothingPrototype: ClothingHeadHelmetHardsuitMaelstormAlt
 
 - type: entity
-  parent: ClothingHeadHelmetHardsuitBlueShield
+  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetHardsuitBlueShield]
   id: ClothingHeadHelmetHardsuitMaelstormAlt
   categories: [ HideSpawnMenu ]
   name: шлем экспериментального скафандра ВОХР КГБ

@@ -1,5 +1,5 @@
 - type: entity
-  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase] # DS14
   id: ADTClothingHeadHelmetHardsuitCybersunBodyGuard
   categories: [ HideSpawnMenu ]
   name: шлем телохранителя Cybersun
@@ -26,7 +26,7 @@
         Radiation: 0.9
 
 - type: entity
-  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase] # DS14
   id: ADTClothingHeadHelmetHardsuitCybersunCrysis
   categories: [ HideSpawnMenu ]
   name: шлем суперсолдата Cybersun
@@ -55,7 +55,7 @@
         Radiation: 0
 
 - type: entity
-  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase] # DS14
   id: ADTClothingHeadHelmetHardsuitCerber
   categories: [ HideSpawnMenu ]
   name: шлем скафандра "Цербера"
@@ -79,7 +79,7 @@
         Radiation: 0.9
 
 - type: entity
-  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase] # DS14
   id: ADTClothingHeadHelmetHardsuitSaibaSain
   categories: [ HideSpawnMenu ]
   name: шлем элитного скафандра самурая
@@ -108,7 +108,7 @@
         Radiation: 0
 
 - type: entity
-  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase] # DS14
   id: ADTClothingHeadHelmetIlisium
   categories: [ HideSpawnMenu ]
   name: шлем Ilisium

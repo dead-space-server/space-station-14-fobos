@@ -135,7 +135,7 @@
         acts: [ "Destruction" ]
 
 - type: entity
-  parent: [SolutionTiny, BaseChemistryAmpoule]
+  parent: BaseChemistryAmpoule # DS14: SolutionTiny belongs to the unpicked solution-prototype refactor.
   id: ChemistryEmptyAmpoule
   name: ampoule
   description: Break to open.
@@ -147,6 +147,12 @@
   - type: SolutionContainerVisuals
     maxFillLevels: 6
     inHandsMaxFillLevels: 4
+  # DS14-Start: Keep the ampoule solution in the current branch's container format.
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+  # DS14-End
   - type: StaticPrice
     price: 100
   - type: PhysicalComposition
@@ -242,14 +248,18 @@
   suffix: xenoborg oil
   components:
   - type: Label
-    localizedLabel: reagent-name-xenoborg-oil
+    currentLabel: reagent-name-xenoborg-oil # DS14: Label uses the current baseline field name.
   - type: ThrowingAngle
     angle: 90
     angularVelocity: true
-  - type: Solution
-    solution:
-      reagents:
+  # DS14-Start: Keep the ampoule solution in the current branch's container format.
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
         - ReagentId: XenoborgOil
           Quantity: 30
+  # DS14-End
   - type: Tag
     tags: *TagVial

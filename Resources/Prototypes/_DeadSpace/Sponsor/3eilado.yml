@@ -174,7 +174,7 @@
     nonlethal: true
 
 - type: entity
-  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase]
   id: ClothingHeadHelmetHardsuit3eilado
   name: шлем скафардра Виндемиатрикс
   description: Скафандр модификации Виндемиатрикс собранный на станции 1’А.

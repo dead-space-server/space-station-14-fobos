@@ -134,7 +134,7 @@
 
 # Helmet
 - type: entity
-  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase]
   id: ClothingHeadHelmetHardsuitTheZuTi
   name: шлем скафандра королевской стражи
   description: Смотря в глаза данного латного и тёмного шлема, на удивление, вы наполняетесь решимостью.

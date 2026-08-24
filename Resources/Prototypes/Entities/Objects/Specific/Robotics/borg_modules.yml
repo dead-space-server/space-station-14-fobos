@@ -1683,7 +1683,7 @@
           tags:
           - CableCoil
     - hand:
-        emptyRepresentative: FloorTileItemExoBorg
+        emptyRepresentative: FloorTileItemSteel # DS14: Preserve the current build's tile ammunition.
         emptyLabel: borg-slot-tiles-empty
         whitelist:
           components:
