@@ -88,7 +88,9 @@ public sealed partial class SatiationDictionary : IRobustCloneable<SatiationDict
 /// </summary>
 /// <remarks>TODO This is a hack. See the remark on <see cref="SatiationDictionary"/></remarks>
 [TypeSerializer]
-public sealed partial class SatiationDictionarySerializer : ITypeSerializer<SatiationDictionary, MappingDataNode>
+public sealed partial class SatiationDictionarySerializer :
+    ITypeSerializer<SatiationDictionary, MappingDataNode>,
+    ITypeCopyCreator<SatiationDictionary> // DS14: Prototype instances need an explicit copy creator on this engine.
 {
     private static readonly DictionarySerializer<ProtoId<SatiationTypePrototype>, Satiation> Delegate = new();
 
@@ -99,6 +101,16 @@ public sealed partial class SatiationDictionarySerializer : ITypeSerializer<Sati
         IDependencyCollection dependencies,
         ISerializationContext? context = null
     ) => Delegate.Validate(serializationManager, node, dependencies, context);
+
+    // DS14-Start: Use the wrapper's deep clone when copying prototype components.
+    public SatiationDictionary CreateCopy(
+        ISerializationManager serializationManager,
+        SatiationDictionary source,
+        IDependencyCollection dependencies,
+        SerializationHookContext hookCtx,
+        ISerializationContext? context = null
+    ) => source.Clone();
+    // DS14-End
 
     /// <inheritdoc/>
     public SatiationDictionary Read(
