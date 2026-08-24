@@ -28,6 +28,7 @@
             <Button Access="Public" Name="PatrionButton" Text="{Loc 'ui-escape-patrion'}" StyleClasses="DS14MenuAction" />
             <changelog:ChangelogButton Access="Public" Name="ChangelogButton" StyleClasses="DS14MenuAction" />
             <Button Access="Public" Name="FeedbackButton" Text="{Loc 'ui-escape-feedback'}" StyleClasses="DS14MenuAction"/>
+            <Button Access="Public" Name="AdminRemarksButton" Text="{Loc 'ui-escape-remarks'}" StyleClasses="DS14MenuAction" />
             <PanelContainer StyleClasses="DS14MenuAccentDim" />
 
             <Button Access="Public" Name="OptionsButton" Text="{Loc 'ui-escape-options'}" StyleClasses="DS14MenuAction" />
