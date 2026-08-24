@@ -163,7 +163,8 @@ namespace Content.Server.Communications
         {
             var stationUid = _stationSystem.GetOwningStation(uid);
             List<string>? levels = null;
-            string currentLevel = default!;
+            var currentLevel = string.Empty;
+            var currentLevelColor = Color.White; // DS14 - send server-only alert prototype color to the client UI.
             float currentDelay = 0;
 
             if (stationUid != null)
@@ -184,6 +185,8 @@ namespace Content.Server.Communications
                     }
 
                     currentLevel = alertComp.CurrentLevel;
+                    if (alertComp.AlertLevels.Levels.TryGetValue(currentLevel, out var currentLevelDetails))
+                        currentLevelColor = currentLevelDetails.Color; // DS14
                     currentDelay = _alertLevelSystem.GetAlertLevelDelay(stationUid.Value, alertComp);
                 }
             }
@@ -192,6 +195,7 @@ namespace Content.Server.Communications
                 CanCallOrRecall(comp),
                 levels,
                 currentLevel,
+                currentLevelColor, // DS14
                 currentDelay,
                 _roundEndSystem.ExpectedCountdownEnd
             ));
