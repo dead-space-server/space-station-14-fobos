@@ -27,6 +27,7 @@ public sealed partial class StationJobsSystem : EntitySystem
 {
     [Dependency] private readonly IConfigurationManager _configurationManager = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!; // DS14 - current engine baseline has no EntitySystem.ProtoMan shortcut.
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
 
@@ -38,6 +39,7 @@ public sealed partial class StationJobsSystem : EntitySystem
         SubscribeLocalEvent<StationJobsComponent, StationRenamedEvent>(OnStationRenamed);
         SubscribeLocalEvent<StationJobsComponent, ComponentShutdown>(OnStationDeletion);
         SubscribeLocalEvent<PlayerJoinedLobbyEvent>(OnPlayerJoinedLobby);
+        SubscribeLocalEvent<StationPostInitEvent>(OnStationPostInit); // DS14 - current engine baseline requires explicit event subscriptions.
         Subs.CVar(_configurationManager, CCVars.GameDisallowLateJoins, _ => UpdateJobsAvailable(), true);
     }
 
@@ -82,7 +84,6 @@ public sealed partial class StationJobsSystem : EntitySystem
         UpdateJobsAvailable();
     }
 
-    [SubscribeLocalEvent]
     private void OnStationPostInit(ref StationPostInitEvent ev)
     {
         // Station data receives the game map's job-weight profile during station initialization.

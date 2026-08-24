@@ -77,8 +77,8 @@ public sealed class RCDSystem : EntitySystem
     {
         if (prototype.SetName != null)
             return Loc.GetString(prototype.SetName);
-        else if (prototype.Prototype != null)
-            return ProtoMan.Index(prototype.Prototype).Name; // already localized
+        else if (prototype.Prototype != null) // DS14 - current engine baseline has no EntitySystem.ProtoMan shortcut.
+            return _protoManager.Index(prototype.Prototype).Name; // already localized
         else
             return Loc.GetString(DefaultPrototypeNameLocId);
     }

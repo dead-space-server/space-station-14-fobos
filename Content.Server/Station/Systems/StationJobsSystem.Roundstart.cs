@@ -41,13 +41,13 @@ public sealed partial class StationJobsSystem
         out int weight)
     {
         if (mapWeights != null
-            && ProtoMan.TryIndex(mapWeights.Value, out var mapProfile)
+            && _prototypeManager.TryIndex(mapWeights.Value, out var mapProfile)
             && mapProfile.Weights.TryGetValue(job.ID, out weight))
         {
             return true;
         }
 
-        if (ProtoMan.TryIndex(JobWeightPrototype.Default, out var defaultProfile)
+        if (_prototypeManager.TryIndex(JobWeightPrototype.Default, out var defaultProfile)
             && defaultProfile.Weights.TryGetValue(job.ID, out weight))
         {
             return true;
@@ -62,7 +62,7 @@ public sealed partial class StationJobsSystem
     /// </summary>
     public bool HasDefaultJobWeights()
     {
-        return ProtoMan.HasIndex<JobWeightPrototype>(JobWeightPrototype.Default);
+        return _prototypeManager.HasIndex<JobWeightPrototype>(JobWeightPrototype.Default);
     }
 
     /// <summary>
@@ -122,7 +122,7 @@ public sealed partial class StationJobsSystem
         {
             var requiredJobs = stationMinimumJobs[station]
                 .Where(x => x.Value is > 0)
-                .OrderByDescending(x => GetJobWeight(station, ProtoMan.Index(x.Key)))
+                .OrderByDescending(x => GetJobWeight(station, _prototypeManager.Index(x.Key)))
                 .ThenBy(x => x.Key.Id)
                 .ToList();
 
@@ -348,7 +348,7 @@ public sealed partial class StationJobsSystem
                 if (!profile.JobPriorities.TryGetValue(jobId, out var priority) || priority == JobPriority.Never)
                     continue;
 
-                if (!ProtoMan.Resolve(jobId, out var job))
+                if (!_prototypeManager.Resolve(jobId, out var job))
                     continue;
 
                 // DS14-start - local antag selection blocks jobs that explicitly disallow antagonists.
@@ -438,7 +438,7 @@ public sealed partial class StationJobsSystem
         IReadOnlyDictionary<NetUserId, HumanoidCharacterProfile> profiles,
         out NetUserId player)
     {
-        if (!ProtoMan.TryIndex(job, out var jobPrototype))
+        if (!_prototypeManager.TryIndex(job, out var jobPrototype))
         {
             player = default;
             return false;

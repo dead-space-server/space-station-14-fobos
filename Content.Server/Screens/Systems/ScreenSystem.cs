@@ -14,11 +14,18 @@ public sealed partial class ScreenSystem : EntitySystem
     [Dependency] private readonly IGameTiming _gameTiming = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearanceSystem = default!;
 
+    // DS14-start - current engine baseline requires explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
+        SubscribeLocalEvent<ScreenComponent, DeviceNetworkPacketEvent>(OnPacketReceived);
+    }
+    // DS14-end
+
     /// <summary>
     /// Calls either a normal screen text update or shuttle timer update based on the presence of
     /// <see cref="ShuttleTimerMasks.ShuttleMap"/> in <see cref="args.Data"/>
     /// </summary>
-    [SubscribeLocalEvent]
     private void OnPacketReceived(Entity<ScreenComponent> ent, ref DeviceNetworkPacketEvent args)
     {
         if (args.Data.TryGetValue(ShuttleTimerMasks.ShuttleMap, out _))

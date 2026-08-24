@@ -1,6 +1,7 @@
 using Content.Server.Chat.Systems;
 using Content.Shared.Chat;
 using Content.Shared.Speech.EntitySystems;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Serilog.Events;
@@ -16,6 +17,7 @@ public sealed partial class SpeakOnExceptionSystem : EntitySystem
     // DS14-start: current engine baseline uses readonly IoC fields and explicit event subscriptions.
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly ILogManager _log = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
 
@@ -77,7 +79,7 @@ public sealed partial class SpeakOnExceptionSystem : EntitySystem
 
     private string CensorMessage(SpeakOnExceptionComponent comp)
     {
-        return Loc.GetString(_random.Pick(ProtoMan.Index(comp.Dataset).Values));
+        return Loc.GetString(_random.Pick(_prototypeManager.Index(comp.Dataset).Values));
     }
 
     // Log handler for SpeakOnException entities.

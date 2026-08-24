@@ -236,7 +236,8 @@ public sealed class CrewManifestSystem : EntitySystem
         }
 
         var jobWeights = Comp<StationDataComponent>(station).JobWeights;
-        if (JobUIComparer.TryCreate(ProtoMan, jobWeights, out var comparer))
+        // DS14 - current engine baseline has no EntitySystem.ProtoMan shortcut.
+        if (JobUIComparer.TryCreate(_prototypeManager, jobWeights, out var comparer))
         {
             entriesSort.Sort((a, b) =>
             {

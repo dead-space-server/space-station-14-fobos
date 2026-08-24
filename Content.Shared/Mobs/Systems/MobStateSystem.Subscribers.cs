@@ -66,6 +66,8 @@ public partial class MobStateSystem
 
         SubscribeLocalEvent<MobStateComponent, UnbuckleAttemptEvent>(OnUnbuckleAttempt);
         SubscribeLocalEvent<MobStateComponent, AfterAutoHandleStateEvent>(OnAfterAutoHandleState); // DS14
+        // DS14 - current engine baseline requires explicit event subscriptions.
+        SubscribeLocalEvent<MobStateComponent, CheckIncapacitatedCuffEvent>(OnIncapCuffCheck);
     }
 
     private void OnUnbuckleAttempt(Entity<MobStateComponent> ent, ref UnbuckleAttemptEvent args)
@@ -359,7 +361,6 @@ public partial class MobStateSystem
         Dirty(ent.Owner, ent.Comp);
     }
 
-    [SubscribeLocalEvent]
     private void OnIncapCuffCheck(Entity<MobStateComponent> ent, ref CheckIncapacitatedCuffEvent args)
     {
         if (IsIncapacitated(ent, ent.Comp))

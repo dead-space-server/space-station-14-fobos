@@ -32,6 +32,7 @@ public sealed partial class BloodstreamSystem : EntitySystem
 {
     public static readonly EntProtoId Bloodloss = "StatusEffectBloodloss";
 
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!; // DS14 - current engine baseline has no EntitySystem.ProtoMan shortcut.
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
@@ -133,7 +134,7 @@ public sealed partial class BloodstreamSystem : EntitySystem
         // The DNA string might not be initialized yet, but the reagent data gets updated in the GenerateDnaEvent subscription
         var solution = entity.Comp.BloodReferenceSolution.Clone();
         solution.ScaleTo(entity.Comp.BloodReferenceSolution.Volume - bloodSolution.Comp.Solution.Volume);
-        bloodSolution.Comp.Solution.AddSolution(solution, ProtoMan);
+        bloodSolution.Comp.Solution.AddSolution(solution, _prototypeManager);
     }
 
     // prevent the infamous UdderSystem debug assert, see https://github.com/space-wizards/space-station-14/pull/35314
@@ -220,7 +221,7 @@ public sealed partial class BloodstreamSystem : EntitySystem
         }
 
         // TODO probably cache this or something. humans get hurt a lot
-        if (!ProtoMan.Resolve(ent.Comp.DamageBleedModifiers, out var modifiers))
+        if (!_prototypeManager.Resolve(ent.Comp.DamageBleedModifiers, out var modifiers))
             return;
 
         // some reagents may deal and heal different damage types in the same tick, which means DamageIncreased will be true
@@ -505,7 +506,7 @@ public sealed partial class BloodstreamSystem : EntitySystem
         if (!_solutionContainer.ResolveSolution(ent.Owner, ent.Comp.BloodTemporarySolutionName, ref ent.Comp.TemporarySolution, out var tempSolution))
             return true;
 
-        tempSolution.AddSolution(leakedBlood, ProtoMan);
+        tempSolution.AddSolution(leakedBlood, _prototypeManager);
 
         if (tempSolution.Volume > ent.Comp.BleedPuddleThreshold)
         {
@@ -562,14 +563,14 @@ public sealed partial class BloodstreamSystem : EntitySystem
         if (_solutionContainer.ResolveSolution(ent.Owner, ent.Comp.BloodSolutionName, ref ent.Comp.BloodSolution, out var bloodSolution))
         {
             tempSol.MaxVolume += bloodSolution.MaxVolume;
-            tempSol.AddSolution(bloodSolution, ProtoMan);
+            tempSol.AddSolution(bloodSolution, _prototypeManager);
             _solutionContainer.RemoveAllSolution(ent.Comp.BloodSolution.Value);
         }
 
         if (_solutionContainer.ResolveSolution(ent.Owner, ent.Comp.BloodTemporarySolutionName, ref ent.Comp.TemporarySolution, out var tempSolution))
         {
             tempSol.MaxVolume += tempSolution.MaxVolume;
-            tempSol.AddSolution(tempSolution, ProtoMan);
+            tempSol.AddSolution(tempSolution, _prototypeManager);
             _solutionContainer.RemoveAllSolution(ent.Comp.TemporarySolution.Value);
         }
 

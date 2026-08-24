@@ -73,6 +73,8 @@ public sealed partial class SleepingSystem : EntitySystem
         SubscribeLocalEvent<SleepingComponent, InteractHandEvent>(OnInteractHand);
         SubscribeLocalEvent<SleepingComponent, StunEndAttemptEvent>(OnStunEndAttempt);
         SubscribeLocalEvent<SleepingComponent, StandUpAttemptEvent>(OnStandUpAttempt);
+        // DS14 - current engine baseline requires explicit event subscriptions.
+        SubscribeLocalEvent<SleepingComponent, CheckIncapacitatedCuffEvent>(OnIncapCuffCheck);
 
         SubscribeLocalEvent<ForcedSleepingStatusEffectComponent, StatusEffectAppliedEvent>(OnStatusEffectApplied);
         SubscribeLocalEvent<SleepingComponent, UnbuckleAttemptEvent>(OnUnbuckleAttempt);
@@ -206,7 +208,6 @@ public sealed partial class SleepingSystem : EntitySystem
         args.Cancelled = true;
     }
 
-    [SubscribeLocalEvent]
     private void OnIncapCuffCheck(Entity<SleepingComponent> ent, ref CheckIncapacitatedCuffEvent args)
     {
         args.Incapacitated = true;

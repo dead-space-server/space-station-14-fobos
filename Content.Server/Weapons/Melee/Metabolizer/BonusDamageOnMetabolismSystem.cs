@@ -5,12 +5,14 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Verbs;
 using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Weapons.Melee.Metabolizer;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.Weapons.Melee.Metabolizer;
 
 public sealed class BonusDamageOnMetabolismSystem : EntitySystem // DS14 - metabolism is server-side on this baseline
 {
     [Dependency] private readonly MetabolizerSystem _metabolizer = default!; // DS14 - pre-v288 IoC
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!; // DS14 - current engine baseline has no EntitySystem.ProtoMan shortcut.
 
     // DS14-Start - pre-v288 explicit event subscriptions
     public override void Initialize()
@@ -26,7 +28,7 @@ public sealed class BonusDamageOnMetabolismSystem : EntitySystem // DS14 - metab
         if (!args.CanAccess || !args.CanInteract)
             return;
 
-        var allMetabolizers = ProtoMan.EnumeratePrototypes<MetabolizerTypePrototype>().ToList().OrderBy(x => Loc.GetString(x.LocalizedName));
+        var allMetabolizers = _prototypeManager.EnumeratePrototypes<MetabolizerTypePrototype>().ToList().OrderBy(x => Loc.GetString(x.LocalizedName));
 
         byte index = 0;
         foreach (var metabolizer in allMetabolizers)

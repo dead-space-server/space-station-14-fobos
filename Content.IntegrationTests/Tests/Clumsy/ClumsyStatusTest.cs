@@ -1,5 +1,4 @@
 using System.Numerics;
-using Content.IntegrationTests.Fixtures.Attributes;
 using Content.IntegrationTests.Tests.Helpers;
 using Content.IntegrationTests.Tests.Interaction;
 using Content.Shared.CCVar;
@@ -29,9 +28,20 @@ public sealed class ClumsyStatusTest : InteractionTest
     private sealed class GunListenerSystem : TestListenerSystem<SelfBeforeGunShotEvent>;
     private sealed class InjectListenerSystem : TestListenerSystem<SelfBeforeInjectEvent>;
 
-    [SidedDependency(Side.Server)] private readonly ClimbSystem _sClimbSystem = default!;
-    [SidedDependency(Side.Server)] private readonly StatusEffectsSystem _sStatusSystem = default!;
-    [SidedDependency(Side.Server)] private readonly ThrowingSystem _sThrowSystem = default!;
+    private ClimbSystem _sClimbSystem = default!;
+    private StatusEffectsSystem _sStatusSystem = default!;
+    private ThrowingSystem _sThrowSystem = default!;
+
+    // DS14-start - current integration-test harness resolves systems explicitly.
+    [SetUp]
+    public override async Task Setup()
+    {
+        await base.Setup();
+        _sClimbSystem = SEntMan.System<ClimbSystem>();
+        _sStatusSystem = SEntMan.System<StatusEffectsSystem>();
+        _sThrowSystem = SEntMan.System<ThrowingSystem>();
+    }
+    // DS14-end
 
     [Test, Description("Test that a ball thrown at someone clumsy is not caught.")]
     public async Task TestClumsyCatch()
@@ -133,35 +143,47 @@ public sealed class ClumsyStatusTest : InteractionTest
     }
 
     [Test, Description("Test that a clumsy mob fails to climb and stuns themselves.")]
-    [EnsureCVar(Side.Server, typeof(CCVars), nameof(CCVars.GameTableBonk), true)]
     public async Task TestClumsyClimb()
     {
-        await Server.WaitPost(() =>
+        // DS14-start - current integration-test harness has no EnsureCVar attribute.
+        var previousTableBonk = Server.CfgMan.GetCVar(CCVars.GameTableBonk);
+        await Server.WaitPost(() => Server.CfgMan.SetCVar(CCVars.GameTableBonk, true));
+        try
         {
-            SEntMan.EnsureComponent<ClimbingComponent>(SPlayer); // So that we can climb tables
-            SEntMan.EnsureComponent<MobStateComponent>(SPlayer); // So that we are a valid target for SharedStunSystem.StunId
-            SEntMan.EnsureComponent<TestListenerComponent>(SPlayer);
+            // DS14-end
+            await Server.WaitPost(() =>
+            {
+                SEntMan.EnsureComponent<ClimbingComponent>(SPlayer); // So that we can climb tables
+                SEntMan.EnsureComponent<MobStateComponent>(SPlayer); // So that we are a valid target for SharedStunSystem.StunId
+                SEntMan.EnsureComponent<TestListenerComponent>(SPlayer);
 
-            _sStatusSystem.TrySetStatusEffectDuration(SPlayer, ClumsyStatusAll100);
-        });
+                _sStatusSystem.TrySetStatusEffectDuration(SPlayer, ClumsyStatusAll100);
+            });
 
-        Assume.That(_sStatusSystem.HasStatusEffect(SPlayer, ClumsyStatusAll100), Is.True);
+            Assume.That(_sStatusSystem.HasStatusEffect(SPlayer, ClumsyStatusAll100), Is.True);
 
-        await Server.WaitPost(() =>
-        {
-            var location = SEntMan.EnsureComponent<TransformComponent>(SPlayer).Coordinates;
-            var table = SSpawnAtPosition(TableProto, location);
+            await Server.WaitPost(() =>
+            {
+                var location = SEntMan.EnsureComponent<TransformComponent>(SPlayer).Coordinates;
+                var table = SSpawnAtPosition(TableProto, location);
 
-            SEntMan.EnsureComponent<ClimbingComponent>(SPlayer);
-            _sClimbSystem.TryClimb(SPlayer, SPlayer, table, out _);
-        });
+                SEntMan.EnsureComponent<ClimbingComponent>(SPlayer);
+                _sClimbSystem.TryClimb(SPlayer, SPlayer, table, out _);
+            });
 
-        await AwaitDoAfters();
+            await AwaitDoAfters();
 
-        Assert.That(_sStatusSystem.HasStatusEffect(SPlayer, SharedStunSystem.StunId), Is.True, "Clumsy mob wasn't stunned climbing a table.");
-        foreach (var ev in GetEvents<SelfBeforeClimbEvent>(SPlayer))
-        {
-            Assert.That(ev.Cancelled, Is.True, "Clumsy mob didn't cancel climb event.");
+            Assert.That(_sStatusSystem.HasStatusEffect(SPlayer, SharedStunSystem.StunId), Is.True, "Clumsy mob wasn't stunned climbing a table.");
+            foreach (var ev in GetEvents<SelfBeforeClimbEvent>(SPlayer))
+            {
+                Assert.That(ev.Cancelled, Is.True, "Clumsy mob didn't cancel climb event.");
+            }
         }
+        // DS14-start - restore the shared pooled server configuration.
+        finally
+        {
+            await Server.WaitPost(() => Server.CfgMan.SetCVar(CCVars.GameTableBonk, previousTableBonk));
+        }
+        // DS14-end
     }
 }

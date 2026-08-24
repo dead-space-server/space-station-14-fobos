@@ -111,6 +111,11 @@ public sealed partial class TextScreenSystem : VisualizerSystem<TextScreenVisual
         _screenTimerQuery = GetEntityQuery<TextScreenTimerComponent>();
         // DS14-end
 
+        // DS14-start - current engine baseline requires explicit event subscriptions.
+        SubscribeLocalEvent<TextScreenVisualsComponent, ComponentStartup>(OnStartup);
+        SubscribeLocalEvent<TextScreenVisualsComponent, EntityUnpausedEvent>(OnUnpaused);
+        // DS14-end
+
         UpdatesOutsidePrediction = true;
     }
 
@@ -256,7 +261,6 @@ public sealed partial class TextScreenSystem : VisualizerSystem<TextScreenVisual
     #endregion Public API
 
     #region Event Handlers
-    [SubscribeLocalEvent]
     private void OnStartup(Entity<TextScreenVisualsComponent> ent, ref ComponentStartup args)
     {
         if (!_spriteQuery.TryComp(ent, out var sprite))
@@ -273,7 +277,6 @@ public sealed partial class TextScreenSystem : VisualizerSystem<TextScreenVisual
     /// <summary>
     /// Handles non-trivial pause timing for scrolling.
     /// </summary>
-    [SubscribeLocalEvent]
     private void OnUnpaused(Entity<TextScreenVisualsComponent> ent, ref EntityUnpausedEvent args)
     {
         for (int i = 0; i < ent.Comp.NextScrollTime.Length; i++)

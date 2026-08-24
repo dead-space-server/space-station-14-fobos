@@ -65,6 +65,8 @@ public abstract partial class SharedStaminaSystem : EntitySystem
         SubscribeLocalEvent<StaminaComponent, AfterAutoHandleStateEvent>(OnStamHandleState);
         SubscribeLocalEvent<StaminaComponent, DisarmedEvent>(OnDisarmed);
         SubscribeLocalEvent<StaminaComponent, RejuvenateEvent>(OnRejuvenate);
+        // DS14 - current engine baseline requires explicit event subscriptions.
+        SubscribeLocalEvent<StaminaComponent, CheckIncapacitatedCuffEvent>(OnIncapCuffCheck);
 
         SubscribeLocalEvent<StaminaDamageOnEmbedComponent, EmbedEvent>(OnProjectileEmbed);
 
@@ -132,7 +134,6 @@ public abstract partial class SharedStaminaSystem : EntitySystem
         Dirty(entity);
     }
 
-    [SubscribeLocalEvent]
     private void OnIncapCuffCheck(Entity<StaminaComponent> ent, ref CheckIncapacitatedCuffEvent args)
     {
         if (ent.Comp.Critical)

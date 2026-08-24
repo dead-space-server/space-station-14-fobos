@@ -23,6 +23,7 @@ public sealed class CluwneSystem : EntitySystem
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly IRobustRandom _robustRandom = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!; // DS14 - current engine baseline has no EntitySystem.ProtoMan shortcut.
     [Dependency] private readonly SharedStunSystem _stunSystem = default!;
     [Dependency] private readonly DamageableSystem _damageableSystem = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
@@ -95,7 +96,7 @@ public sealed class CluwneSystem : EntitySystem
         if (!ent.Comp.RandomEmote)
             return;
 
-        ProtoMan.TryIndex(ent.Comp.EmoteSoundsId, out var emoteSounds);
+        _prototypeManager.TryIndex(ent.Comp.EmoteSoundsId, out var emoteSounds);
         args.Handled = _chat.TryPlayEmoteSound(ent.Owner, emoteSounds, args.Emote);
 
         if (_robustRandom.Prob(ent.Comp.GiggleRandomChance))
