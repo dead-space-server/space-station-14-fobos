@@ -67,17 +67,12 @@
   [bold]Базовые модули шасси:[/bold]
   <Box>
     <GuideEntityEmbed Entity="XenoborgModuleAccessBreaker" Caption="модуль ксеноборга с взломщиком доступа"/>
-    <GuideEntityEmbed Entity="XenoborgModuleFireExtinguisher" Caption="огнетушащий модуль ксеноборга"/>
   </Box>
 
   [bold]Так же инженерный Ксеноборг начинает с некоторыми инженерными модулями, такими как:[/bold]
   <Box>
-    <GuideEntityEmbed Entity="BorgModuleAdvancedTool" Caption="продвинутый инструментальный модуль киборга"/>
-    <GuideEntityEmbed Entity="BorgModuleConstruction" Caption="строительный модуль киборга"/>
-  </Box>
-  <Box>
-    <GuideEntityEmbed Entity="BorgModuleRCD" Caption="инженерный модуль киборга"/>
-    <GuideEntityEmbed Entity="BorgModuleCable" Caption="кабельный модуль киборга"/>
+    <GuideEntityEmbed Entity="XenoborgModuleAdvancedTool" Caption="продвинутый инструментальный модуль ксеноборга"/>
+    <GuideEntityEmbed Entity="XenoborgModuleConstruction" Caption="строительный модуль ксеноборга"/>
   </Box>
 
   ### Тяжелый Ксеноборг
