@@ -60,7 +60,53 @@
     Glass: 1500
     Plastic: 1000 # DS14
 
-# TODO: XenoborgModuleOilGun
+- type: latheRecipe
+  parent: BaseXenoborgModulesRecipe
+  id: XenoborgModuleDeflectorFieldRecipe
+  result: XenoborgModuleDeflectorField
+  materials:
+    # DS14-start - use the existing DS14 material economy
+    Steel: 2000
+    Glass: 1500
+    Plastic: 1000
+    # DS14-end
+
+- type: latheRecipe
+  parent: BaseXenoborgModulesRecipe
+  id: XenoborgModuleZapRecipe
+  result: XenoborgModuleZap
+  materials:
+    # DS14-start - use the existing DS14 material economy
+    Steel: 2000
+    Glass: 1500
+    Plastic: 1000
+    # DS14-end
+
+- type: latheRecipe
+  parent: BaseXenoborgModulesRecipe
+  id: XenoborgModuleOilGunRecipe
+  result: XenoborgModuleOilGun
+  materials:
+    # DS14-start - use the existing DS14 material economy
+    Steel: 1500
+    Glass: 1000
+    Plasma: 1500
+    Plastic: 1000
+    Diamond: 25
+    # DS14-end
+
+- type: latheRecipe
+  parent: BaseXenoborgModulesRecipe
+  id: XenoborgModuleNaniteGunRecipe
+  result: XenoborgModuleNaniteGun
+  materials:
+    # DS14-start - use the existing DS14 material economy
+    Steel: 2000
+    Glass: 1500
+    Plasma: 1000
+    Plastic: 500
+    Diamond: 25
+    # DS14-end
 
 ## heavy xenoborg modules
 
@@ -77,6 +123,57 @@
     Diamond: 25
     # DS14-end
 
+- type: latheRecipe
+  parent: BaseXenoborgModulesRecipe
+  id: XenoborgModuleGuidedMissileLauncherRecipe
+  result: XenoborgModuleGuidedMissileLauncher
+  materials:
+    # DS14-start - use the existing DS14 material economy
+    Steel: 1500
+    Glass: 1000
+    Plasma: 1500
+    Plastic: 1000
+    Diamond: 25
+    # DS14-end
+
+- type: latheRecipe
+  parent: BaseXenoborgModulesRecipe
+  id: XenoborgModuleRocketRecipe
+  result: XenoborgModuleRocket
+  materials:
+    # DS14-start - use the existing DS14 material economy
+    Steel: 1500
+    Glass: 1000
+    Plasma: 1500
+    Plastic: 1000
+    Diamond: 25
+    # DS14-end
+
+- type: latheRecipe
+  parent: BaseXenoborgModulesRecipe
+  id: XenoborgModuleBurstFireLaserRecipe
+  result: XenoborgModuleBurstFireLaser
+  materials:
+    # DS14-start - use the existing DS14 material economy
+    Steel: 2000
+    Glass: 1500
+    Plasma: 1000
+    Plastic: 500
+    Diamond: 25
+    # DS14-end
+
+- type: latheRecipe
+  parent: BaseXenoborgModulesRecipe
+  id: XenoborgModuleHeavyRadioactiveRecipe
+  result: XenoborgModuleHeavyRadioactive
+  materials:
+    # DS14-start - use the existing DS14 material economy
+    Steel: 2000
+    Glass: 1500
+    Plastic: 1000
+    Uranium: 1000
+    # DS14-end
+
 ## scout xenoborg modules
 
 - type: latheRecipe
@@ -89,6 +186,30 @@
     Glass: 1000
     Plasma: 1500
     Plastic: 1000
+    Diamond: 25
+    # DS14-end
+
+- type: latheRecipe
+  parent: BaseXenoborgModulesRecipe
+  id: XenoborgModuleJumpRecipe
+  result: XenoborgModuleJump
+  materials:
+    # DS14-start - use the existing DS14 material economy
+    Steel: 2000
+    Glass: 1500
+    Plastic: 1000
+    # DS14-end
+
+- type: latheRecipe
+  parent: BaseXenoborgModulesRecipe
+  id: XenoborgModuleBioKnifeRecipe # DS14 - fix upstream typo
+  result: XenoborgModuleBioKnife # DS14 - fix upstream typo
+  materials:
+    # DS14-start - use the existing DS14 material economy
+    Steel: 2000
+    Glass: 1500
+    Plasma: 1000
+    Plastic: 500
     Diamond: 25
     # DS14-end
 
