@@ -3,24 +3,24 @@
 - type: satiation
   id: XenomorphHunger
   parent: NormalSatiationHunger
-  baseDecayRate: 0.05
+  baseChangeRate: -0.05
 
 - type: satiation
   id: XenomorphThirst
   parent: NormalSatiationThirst
-  baseDecayRate: 0.05
+  baseChangeRate: -0.05
 
 - type: satiation
   id: SupersoldierThirst
   parent: NormalSatiationThirst
-  baseDecayRate: 0.01
+  baseChangeRate: -0.01
 
 - type: satiation
   id: SpiderTerrorHunger
   parent: SimpleMobBaseHunger
-  baseDecayRate: 0
+  baseChangeRate: 0
 
 - type: satiation
   id: DeadSpaceHamsterHunger
   parent: HamsterHunger
-  baseDecayRate: 0.1
+  baseChangeRate: -0.1

@@ -73,8 +73,9 @@
   - MobRespirator
   - MobAtmosStandard
   - SimpleSpaceMobBase
-  - BaseHungerSlowdown
-  - BaseThirstSlowdown
+  # DS14-start: keep satiation on the current air-breathing simple-mob base.
+  - BaseHungerThirstSlowdown
+  # DS14-end
   id: SimpleMobBase # for air breathers
   suffix: AI
   abstract: true

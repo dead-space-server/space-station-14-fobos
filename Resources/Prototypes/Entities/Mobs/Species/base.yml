@@ -244,8 +244,7 @@
   - MobFlammable
   - BaseMobSpecies
   # DS14-start: apply upstream satiation through the current shared organic-species base.
-  - BaseHungerSlowdown
-  - BaseThirstSlowdown
+  - BaseHungerThirstSlowdown
   # DS14-end
   id: BaseMobSpeciesOrganic
   abstract: true
