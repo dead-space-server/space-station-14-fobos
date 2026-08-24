@@ -512,7 +512,6 @@
     whitelist:
       components:
       - Door
-      tags:
       - Wall
 
 - type: entity
@@ -617,7 +616,6 @@
     whitelist:
       components:
       - Door
-      tags:
       - Wall
 
 - type: entity

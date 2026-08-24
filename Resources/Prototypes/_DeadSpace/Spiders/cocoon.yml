@@ -3,9 +3,7 @@
   parent: BaseMob
   id: CocoonSpider
   components:
-  - type: Tag
-    tags:
-    - Wall
+  - type: Wall
   - type: Physics
     bodyType: Static
   - type: Sprite
@@ -55,9 +53,7 @@
   parent: BaseMob
   id: CocoonKingBloodSpider
   components:
-  - type: Tag
-    tags:
-    - Wall
+  - type: Wall
   - type: Physics
     bodyType: Static
   - type: Sprite
