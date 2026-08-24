@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Content.IntegrationTests.Fixtures;
-using Content.IntegrationTests.Fixtures.Attributes;
+using Content.IntegrationTests.Tests.Interaction;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Nutrition.EntitySystems;
 using Content.Shared.Nutrition.Prototypes;
 using NUnit.Framework.Constraints;
+using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
@@ -14,7 +14,7 @@ namespace Content.IntegrationTests.Tests.Nutrition;
 [TestFixture]
 [TestOf(typeof(SatiationSystem))]
 [TestOf(typeof(SatiationPrototype))]
-public sealed class SatiationTest : GameTest
+public sealed class SatiationTest : InteractionTest // DS14 - current branch uses the InteractionTest harness.
 {
     private const string TestSatiationId = "TestSatiation";
     private const string DeadKey = "Dead";
@@ -54,14 +54,30 @@ public sealed class SatiationTest : GameTest
         prototype: {TestSatiationId}
 ";
 
-    [SidedDependency(Side.Server)] private readonly SatiationSystem _satiation = default!;
+    private SatiationSystem _satiation = default!;
 
-    [Test, RunOnSide(Side.Server)]
+    // DS14-start - resolve server systems explicitly with the current integration-test harness.
+    [SetUp]
+    public override async Task Setup()
+    {
+        await base.Setup();
+        _satiation = SEntMan.System<SatiationSystem>();
+    }
+
+    private async Task<Entity<SatiationComponent>> SpawnSatiationEntity()
+    {
+        var netEntity = await Spawn(TestProto);
+        var uid = ToServer(netEntity);
+        return new Entity<SatiationComponent>(uid, SEntMan.GetComponent<SatiationComponent>(uid));
+    }
+    // DS14-end
+
+    [Test]
     [Description(
         "Verifies the basic operations of 'SatiationSystem.SetValue', 'SatiationSystem.ModifyValue', and 'SatiationSystem.GetValueOrNull'")]
-    public void SatiationBasicTest()
+    public async Task SatiationBasicTest()
     {
-        var entity = SEntity<SatiationComponent>(SSpawn(TestProto));
+        var entity = await SpawnSatiationEntity();
 
         // Verify the starting value is in the starting range.
         using (Assert.EnterMultipleScope())
@@ -91,11 +107,11 @@ public sealed class SatiationTest : GameTest
         }
     }
 
-    [Test, RunOnSide(Side.Server)]
+    [Test]
     [Description("Verifies 'SatiationSystem.TryGetValueByThreshold' when threshold keys are integers")]
-    public void SatiationGetValueByThresholdTest()
+    public async Task SatiationGetValueByThresholdTest()
     {
-        var entity = SEntity<SatiationComponent>(SSpawn(TestProto));
+        var entity = await SpawnSatiationEntity();
         var dict = new Dictionary<SatiationValue, int>
         {
             // Arbitrary order to test that the implementation doesn't care about order.
@@ -155,11 +171,11 @@ public sealed class SatiationTest : GameTest
         }
     }
 
-    [Test, RunOnSide(Side.Server)]
+    [Test]
     [Description("Verifies 'SatiationSystem.TryGetValueByThreshold' when threshold keys are strings")]
-    public void SatiationGetValueByThresholdKeysTest()
+    public async Task SatiationGetValueByThresholdKeysTest()
     {
-        var entity = SEntity<SatiationComponent>(SSpawn(TestProto));
+        var entity = await SpawnSatiationEntity();
         var dict = new Dictionary<SatiationValue, int>
         {
             // Arbitrary order to test that the implementation doesn't care about order.
@@ -232,14 +248,14 @@ public sealed class SatiationTest : GameTest
         }
     }
 
-    [Test, RunOnSide(Side.Server)]
+    [Test]
     [Description("Verifies 'SatiationSystem.IsValueInRange'")]
     [SuppressMessage("Assertion",
         "NUnit2057:Remove unnecessary lambda expression",
         Justification = "Necessity of lambda depends on build configuration")]
-    public void SatiationRangeTests()
+    public async Task SatiationRangeTests()
     {
-        var entity = SEntity<SatiationComponent>(SSpawn(TestProto));
+        var entity = await SpawnSatiationEntity();
 
         // All of these work by setting a value, then asserting that `IsValueInRange` for various ranges returns what's
         // expected.

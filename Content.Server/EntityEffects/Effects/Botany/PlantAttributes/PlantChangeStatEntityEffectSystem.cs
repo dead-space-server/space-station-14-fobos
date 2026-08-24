@@ -33,7 +33,7 @@ public sealed partial class PlantChangeStatEntityEffectSystem : EntityEffectSyst
             return;
         }
 
-        if (!TryComp(entity.Owner, registration.Type, out var plantComp))
+        if (!EntityManager.TryGetComponent(entity.Owner, registration.Type, out var plantComp)) // DS14 - current engine exposes non-generic lookups through EntityManager.
             return;
 
         var field = registration.Type.GetField(targetDataField);

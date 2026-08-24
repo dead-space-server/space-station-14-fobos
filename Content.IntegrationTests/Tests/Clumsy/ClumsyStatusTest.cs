@@ -57,7 +57,7 @@ public sealed class ClumsyStatusTest : InteractionTest
         await Server.WaitPost(() =>
         {
             var location = SEntMan.EnsureComponent<TransformComponent>(SPlayer).Coordinates;
-            var ball = SSpawnAtPosition(BallProto, location);
+            var ball = SEntMan.SpawnAtPosition(BallProto, location); // DS14 - current InteractionTest harness exposes spawning through EntityManager.
 
             _sThrowSystem.TryThrow(ball, Vector2.Zero); // Direction doesn't matter because it spawned on top of the player
         });
@@ -165,7 +165,7 @@ public sealed class ClumsyStatusTest : InteractionTest
             await Server.WaitPost(() =>
             {
                 var location = SEntMan.EnsureComponent<TransformComponent>(SPlayer).Coordinates;
-                var table = SSpawnAtPosition(TableProto, location);
+                var table = SEntMan.SpawnAtPosition(TableProto, location); // DS14 - current InteractionTest harness exposes spawning through EntityManager.
 
                 SEntMan.EnsureComponent<ClimbingComponent>(SPlayer);
                 _sClimbSystem.TryClimb(SPlayer, SPlayer, table, out _);

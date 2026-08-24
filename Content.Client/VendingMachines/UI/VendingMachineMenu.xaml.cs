@@ -159,12 +159,12 @@ public sealed partial class VendingMachineMenu : FancyWindow
     {
         var itemName = prototype.Name;
 
-        if (prototype.TryGetComponent<LabelComponent>(out var label, _componentFactory) && // DS14 - old engine compatibility
-            label.LocalizedLabel is { } locId)
+        if (prototype.TryGetComponent<LabelComponent>(out var label, _componentFactory) &&
+            label.CurrentLabel is { } labelText) // DS14 - current engine stores the already-localized label text.
         {
             itemName = _loc.GetString("comp-label-format",
                 ("baseName", itemName),
-                ("label", _loc.GetString(locId)));
+                ("label", labelText));
         }
 
         return $"[{amount}] {itemName}";
