@@ -1,7 +1,7 @@
 {
     "version": 1,
     "license": "CC0-1.0",
-    "copyright": "Created by EmoGarbage404 (github) for Space Station 14. icon-construction.png created by deltanedas (github). syndicateborgbomb.png created by Mangohydra (github). icon-chem.png & icon-mining-adv.png created by mubururu_ (github) icon-inflatable.png made by FungiFellow (GitHub), Xenoborg modules sprites by Samuka-C (github), icon-artistry by Kittygyat, icon-xenoborg-construction made by ThatGuyUSA (github), icon-xenoborg-shield by august-sun (GitHub), Nanite gun module sprite made by YoungThugSS14 (GitHub), icon-xenoborg-rocket by beck-thompson (GitHub), icon-xenoborg-laser3 by august-sun (GitHub)",
+    "copyright": "Created by EmoGarbage404 (github) for Space Station 14. icon-construction.png created by deltanedas (github). syndicateborgbomb.png created by Mangohydra (github). icon-chem.png & icon-mining-adv.png created by mubururu_ (github) icon-inflatable.png made by FungiFellow (GitHub), Xenoborg modules sprites by Samuka-C (github), icon-artistry by Kittygyat, icon-xenoborg-construction made by ThatGuyUSA (github), icon-xenoborg-shield by august-sun (GitHub), Nanite gun module sprite made by YoungThugSS14 (GitHub), icon-xenoborg-rocket by beck-thompson (GitHub), icon-xenoborg-laser3 by august-sun (GitHub), icon-xenoborg-radioactive by august-sun (GitHub)",
     "size": {
         "x": 32,
         "y": 32
@@ -177,6 +177,9 @@
         },
         {
             "name": "icon-xenoborg-zap"
+        },
+        {
+            "name": "icon-xenoborg-radioactive"
         },
         {
             "name": "icon-syndicate"
