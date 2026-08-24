@@ -1,0 +1,6 @@
+- type: entity
+  parent: Emag
+  id: EmagNukeOps
+  suffix: Limited, Nuclear Operatives
+  components:
+  - type: ContainmentFieldHack

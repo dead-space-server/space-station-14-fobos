@@ -6,4 +6,5 @@ comp-containment-connected = Генератор сдерживающего по�
 comp-containment-disconnected = Генератора сдерживающего поля перестаёт светиться, разрывая барьер.
 comp-containment-anchor-warning = Вы не можете открепить генератор сдерживающего поля пока установлен барьер!
 comp-containment-toggle-warning = Вы не можете переключить генератор, пока он подсоединён.
+comp-containment-hack-inactive = Генератор сдерживающего поля не работает!
 comp-field-vaporized = { CAPITALIZE($entity) } врезается в поле и мгновенно испаряется!

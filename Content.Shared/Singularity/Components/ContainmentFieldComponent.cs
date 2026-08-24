@@ -2,7 +2,7 @@ using Robust.Shared.GameStates;
 
 namespace Content.Shared.Singularity.Components;
 
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState] // DS14
 public sealed partial class ContainmentFieldComponent : Component
 {
     /// <summary>
@@ -24,4 +24,12 @@ public sealed partial class ContainmentFieldComponent : Component
     /// </summary>
     [DataField]
     public bool DestroyGarbage = true;
+
+    // DS14-start
+    [AutoNetworkedField]
+    public TimeSpan? HackEndTime;
+
+    [AutoNetworkedField]
+    public float HackIntensity;
+    // DS14-end
 }

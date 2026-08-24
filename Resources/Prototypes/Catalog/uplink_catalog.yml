@@ -1288,6 +1288,13 @@
     Telecrystal: 5
   categories:
   - UplinkDisruption
+  # DS14-start
+  conditions:
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
+  # DS14-end
 
 - type: listing
   id: UplinkRadioJammer

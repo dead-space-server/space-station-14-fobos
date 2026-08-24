@@ -1,8 +1,12 @@
+using System.Linq;
 using Content.Server.Administration.Logs;
+using Content.Server.Explosion.EntitySystems;
 using Content.Server.Popups;
 using Content.Server.Singularity.Events;
 using Content.Shared.Construction.Components;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.Singularity;
+using Content.Shared.Emag.Systems;
 using Content.Shared.Examine;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
@@ -14,6 +18,7 @@ using Robust.Server.GameObjects;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
 namespace Content.Server.Singularity.EntitySystems;
@@ -22,11 +27,13 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
 {
     [Dependency] private readonly IAdminLogManager _adminLogger = default!;
     [Dependency] private readonly AppearanceSystem _visualizer = default!;
+    [Dependency] private readonly ExplosionSystem _explosion = default!; // DS14
     [Dependency] private readonly PhysicsSystem _physics = default!;
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly SharedPointLightSystem _light = default!;
     [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
     [Dependency] private readonly TagSystem _tags = default!;
+    [Dependency] private readonly IGameTiming _timing = default!; // DS14
 
     public override void Initialize()
     {
@@ -42,6 +49,7 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, ComponentRemove>(OnComponentRemoved);
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, EventHorizonAttemptConsumeEntityEvent>(PreventBreach);
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<ContainmentFieldGeneratorComponent, GotEmaggedEvent>(OnEmagged); // DS14
     }
 
     public override void Update(float frameTime)
@@ -51,6 +59,16 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
         var query = EntityQueryEnumerator<ContainmentFieldGeneratorComponent>();
         while (query.MoveNext(out var uid, out var generator))
         {
+            // DS14-start
+            if (generator.HackEndTime is { } hackEndTime && _timing.CurTime >= hackEndTime)
+            {
+                generator.HackEndTime = null;
+                RemoveConnections((uid, generator));
+                _explosion.TriggerExplosive(uid);
+                continue;
+            }
+            // DS14-end
+
             if (generator.PowerBuffer <= 0) //don't drain power if there's no power, or if it's somehow less than 0.
                 continue;
 
@@ -71,6 +89,60 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
         if (generator.Comp.Enabled)
             ChangeFieldVisualizer(generator);
     }
+
+    // DS14-start
+    private void OnEmagged(Entity<ContainmentFieldGeneratorComponent> generator, ref GotEmaggedEvent args)
+    {
+        if (args.Handled ||
+            args.SourceUid is not { } source ||
+            !HasComp<ContainmentFieldHackComponent>(source) ||
+            generator.Comp.HackEndTime != null)
+        {
+            return;
+        }
+
+        if (!generator.Comp.Enabled ||
+            !generator.Comp.IsConnected ||
+            generator.Comp.Connections.Count == 0 ||
+            generator.Comp.PowerBuffer < generator.Comp.PowerMinimum)
+        {
+            _popupSystem.PopupEntity(
+                Loc.GetString("comp-containment-hack-inactive"),
+                generator,
+                args.UserUid,
+                PopupType.SmallCaution);
+            return;
+        }
+
+        var endTime = _timing.CurTime + TimeSpan.FromSeconds(ContainmentFieldGeneratorComponent.HackDurationSeconds);
+        var generatorPosition = _transformSystem.GetWorldPosition(generator);
+        generator.Comp.HackEndTime = endTime;
+        Dirty(generator);
+
+        foreach (var (_, (otherGenerator, fields)) in generator.Comp.Connections)
+        {
+            var connectionDistance = (_transformSystem.GetWorldPosition(otherGenerator) - generatorPosition).Length();
+            foreach (var field in fields)
+            {
+                if (!TryComp<ContainmentFieldComponent>(field, out var fieldComp) ||
+                    (fieldComp.HackEndTime is { } fieldEndTime && fieldEndTime <= endTime))
+                {
+                    continue;
+                }
+
+                var fieldDistance = (_transformSystem.GetWorldPosition(field) - generatorPosition).Length();
+                fieldComp.HackEndTime = endTime;
+                fieldComp.HackIntensity = Math.Clamp(
+                    1f - (fieldDistance - 1f) / Math.Max(connectionDistance - 1f, 1f),
+                    0f,
+                    1f);
+                Dirty(field, fieldComp);
+            }
+        }
+
+        args.Handled = true;
+    }
+    // DS14-end
 
     /// <summary>
     /// A generator receives power from a source colliding with it.
@@ -184,7 +256,7 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
         var (uid, component) = generator;
         var anyFieldsRemoved = false;
 
-        foreach (var (direction, (otherGen, fields)) in component.Connections)
+        foreach (var (direction, (otherGen, fields)) in component.Connections.ToArray()) // DS14
         {
             if (removePredicate is not null && !removePredicate(generator, otherGen))
             {

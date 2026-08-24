@@ -1,4 +1,22 @@
 - type: listing
+  id: UplinkEmagNukeOps
+  name: uplink-emag-name
+  description: uplink-emag-desc
+  productEntity: EmagNukeOps
+  discountCategory: veryRareDiscounts
+  discountDownTo:
+    Telecrystal: 3
+  cost:
+    Telecrystal: 5
+  categories:
+  - UplinkDisruption
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
   id: UplinkEswordDoubleLone
   name: uplink-esword-double-name
   description: Воскрес и разнёс паблик. Только один к покупке.
