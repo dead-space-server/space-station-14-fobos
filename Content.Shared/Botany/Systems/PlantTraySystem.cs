@@ -9,6 +9,7 @@ using Content.Shared.FixedPoint;
 using Content.Shared.Random.Helpers;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
 namespace Content.Shared.Botany.Systems;
@@ -32,6 +33,7 @@ public sealed partial class PlantTraySystem : EntitySystem
 
     // DS14-start: current engine uses readonly IoC fields.
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
     [Dependency] private readonly PlantSystem _plant = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
@@ -128,7 +130,7 @@ public sealed partial class PlantTraySystem : EntitySystem
 
         foreach (var entry in contents)
         {
-            var reagentProto = ProtoMan.Index<ReagentPrototype>(entry.Reagent.Prototype);
+            var reagentProto = _prototypeManager.Index<ReagentPrototype>(entry.Reagent.Prototype); // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
             _entityEffects.ApplyEffects(trayUid, [.. reagentProto.PlantMetabolisms], entry.Quantity.Float());
             _entityEffects.ApplyEffects(plantUid.Value, [.. reagentProto.PlantMetabolisms], entry.Quantity.Float());
         }

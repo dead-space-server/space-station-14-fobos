@@ -25,6 +25,7 @@ public sealed partial class PlantMutationSystem : EntitySystem
     // DS14-start: current engine uses readonly IoC fields.
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly BotanySystem _botany = default!;
     [Dependency] private readonly ISerializationManager _serialization = default!;
     [Dependency] private readonly PlantSystem _plant = default!;
@@ -34,7 +35,7 @@ public sealed partial class PlantMutationSystem : EntitySystem
 
     public override void Initialize()
     {
-        _randomMutations = ProtoMan.Index(RandomPlantMutations);
+        _randomMutations = _prototypeManager.Index(RandomPlantMutations); // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
     }
 
     /// <summary>

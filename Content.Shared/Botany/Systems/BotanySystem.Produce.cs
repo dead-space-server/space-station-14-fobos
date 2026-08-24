@@ -47,8 +47,11 @@ public sealed partial class BotanySystem
                 _entityEffects.TryApplyEffect(ent.Owner, mutation.Effect);
         }
 
-        _solutionContainer.EnsureSolution(ent.Owner, ent.Comp.TargetSolution, out var solution);
-        solution.Comp.Solution.RemoveAllSolution();
+        // DS14-start - current engine returns the solution itself and annotates it through the boolean result.
+        if (!_solutionContainer.EnsureSolution(ent.Owner, ent.Comp.TargetSolution, out var solution))
+            return;
+        solution.RemoveAllSolution();
+        // DS14-end
 
         foreach (var (chem, quantity) in chems.Chemicals)
         {
@@ -56,8 +59,10 @@ public sealed partial class BotanySystem
             if (quantity.PotencyDivisor > 0 && plant.Potency > 0)
                 amount += plant.Potency / quantity.PotencyDivisor;
             amount = FixedPoint2.Clamp(amount, quantity.Min, quantity.Max);
-            solution.Comp.Solution.MaxVolume += amount;
-            solution.Comp.Solution.AddReagent(chem, amount);
+            // DS14-start - current engine returns the solution itself.
+            solution.MaxVolume += amount;
+            solution.AddReagent(chem, amount);
+            // DS14-end
         }
     }
 

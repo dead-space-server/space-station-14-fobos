@@ -32,6 +32,7 @@ public sealed partial class BotanySystem : EntitySystem
     [Dependency] private readonly IComponentFactory _componentFactory = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly MetaDataSystem _metaData = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly PlantSystem _plant = default!;
     [Dependency] private readonly RandomHelperSystem _randomHelper = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
@@ -95,10 +96,10 @@ public sealed partial class BotanySystem : EntitySystem
         if (plantProtoId == null)
             return false;
 
-        if (!ProtoMan.TryIndex(plantProtoId.Value, out var proto))
+        if (!_prototypeManager.TryIndex(plantProtoId.Value, out var proto)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
             return false;
 
-        return proto.TryComp(out plant, _componentFactory);
+        return proto.TryGetComponent(out plant, _componentFactory); // DS14 - use the current EntityPrototype component API.
     }
 
     /// <summary>
@@ -111,7 +112,7 @@ public sealed partial class BotanySystem : EntitySystem
     public EntityUid? ClonePlantSnapshotData(EntityUid source, EntityUid? parent = null, bool cloneLifecycle = false)
     {
         var settingsId = cloneLifecycle ? LifecycleSettingsId : SettingsId;
-        if (!ProtoMan.TryIndex(settingsId, out var settings))
+        if (!_prototypeManager.TryIndex(settingsId, out var settings)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
             return null;
 
         var snapshot = EntityManager.CreateEntityUninitialized(null);
@@ -149,7 +150,7 @@ public sealed partial class BotanySystem : EntitySystem
             return;
 
         var settingsId = cloneLifecycle ? LifecycleSettingsId : SettingsId;
-        if (!ProtoMan.TryIndex(settingsId, out var settings))
+        if (!_prototypeManager.TryIndex(settingsId, out var settings)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
             return;
 
         _cloning.CloneComponents(snapshot.Value, target, settings);

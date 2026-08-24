@@ -70,6 +70,7 @@ public sealed partial class SatiationDictionary : IRobustCloneable<SatiationDict
     public Dictionary<ProtoId<SatiationTypePrototype>, Satiation> Data = new();
 
     /// <inheritdoc/>
+    [Access(Other = AccessPermissions.Execute)] // DS14 - generated component state must clone the networked wrapper.
     public SatiationDictionary Clone()
     {
         var clone = new SatiationDictionary();

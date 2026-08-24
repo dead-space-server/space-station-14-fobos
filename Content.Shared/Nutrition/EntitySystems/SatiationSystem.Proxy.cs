@@ -244,11 +244,11 @@ public sealed partial class SatiationSystem
     )
     {
         if (entity.Comp.GetOrNull(type) is not { } satiation ||
-            !ProtoMan.Resolve(satiation.Prototype, out var proto))
+            !_prototypeManager.Resolve(satiation.Prototype, out var proto)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
             return null;
 
         TryGetValueByThreshold(entity, type, proto.Icons, out var iconProtoId, out _, out _);
-        return ProtoMan.Resolve(iconProtoId, out var icon) ? icon : null;
+        return _prototypeManager.Resolve(iconProtoId, out var icon) ? icon : null; // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
     }
 
     #region Commands

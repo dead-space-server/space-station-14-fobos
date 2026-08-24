@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System.Linq;
 using Content.Shared.Botany.Components;
 using Content.Shared.Botany.Events;
 using Content.Shared.FixedPoint;
@@ -47,8 +48,14 @@ public sealed partial class PlantChemicalsSystem : EntitySystem
             return;
 
         var random = SharedRandomExtensions.PredictedRandom(_timing, GetNetEntity(ent));
-        var (chemicalId, quantity) = randomChems.Pick(random);
-        var amount = FixedPoint2.Max(random.NextFloat(0f, 1f) * quantity, FixedPoint2.Epsilon);
+        // DS14-start - weighted helpers only accept IRobustRandom on the current engine.
+        var randomFill = SharedRandomExtensions.Pick(
+            randomChems.Fills.ToDictionary(fill => fill, fill => fill.Weight),
+            random);
+        var chemicalId = randomFill.Reagents[(int)(random.NextSingle() * randomFill.Reagents.Count)];
+        var quantity = randomFill.Quantity;
+        var amount = FixedPoint2.Max(random.NextSingle() * quantity, FixedPoint2.Epsilon);
+        // DS14-end
         var seedChemQuantity = new PlantChemQuantity();
         if (ent.Comp.Chemicals.TryGetValue(chemicalId, out var value))
         {

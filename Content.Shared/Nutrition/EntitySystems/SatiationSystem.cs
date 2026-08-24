@@ -28,6 +28,7 @@ public sealed partial class SatiationSystem : EntitySystem
 
     // DS14-start: current engine uses readonly IoC fields.
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly AlertsSystem _alerts = default!;
     // DS14-end
 
@@ -50,7 +51,7 @@ public sealed partial class SatiationSystem : EntitySystem
             var entity = new Entity<SatiationComponent>(uid, component);
             foreach (var satiation in component.Satiations.Values)
             {
-                if (!ProtoMan.Resolve(satiation.Prototype, out var proto))
+                if (!_prototypeManager.Resolve(satiation.Prototype, out var proto)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
                     continue;
 
                 if (_timing.CurTime >= satiation.NextAlertUpdateTime)
@@ -73,14 +74,14 @@ public sealed partial class SatiationSystem : EntitySystem
     {
         foreach (var (type, satiation) in entity.Comp.Satiations)
         {
-            if (!ProtoMan.Resolve(satiation.Prototype, out var proto))
+            if (!_prototypeManager.Resolve(satiation.Prototype, out var proto)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
                 continue;
 
             satiation.SatiationType = type;
 
             // TODO: Replace with RandomPredicted once the engine PR is merged
             var rand = SharedRandomExtensions.PredictedRandom(_timing, GetNetEntity(entity));
-            var value = rand.NextFloat(proto.StartingValueMinimum, proto.StartingValueMaximum);
+            var value = rand.NextSingle() * (proto.StartingValueMaximum - proto.StartingValueMinimum) + proto.StartingValueMinimum; // DS14 - use the current System.Random API.
 
             SetAuthoritativeValue(entity, satiation, proto, value);
         }
@@ -95,7 +96,7 @@ public sealed partial class SatiationSystem : EntitySystem
     {
         foreach (var satiation in entity.Comp.Satiations.Values)
         {
-            if (!ProtoMan.Resolve(satiation.Prototype, out var proto))
+            if (!_prototypeManager.Resolve(satiation.Prototype, out var proto)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
                 continue;
 
             _alerts.ClearAlertCategory(entity.Owner, proto.AlertCategory);
@@ -119,7 +120,7 @@ public sealed partial class SatiationSystem : EntitySystem
     private void UpdateAlertsOnSatiationUpdated(Entity<SatiationComponent> entity, ref SatiationUpdateEvent args)
     {
         if (entity.Comp.GetOrNull(args.Type) is not { } satiation ||
-            !ProtoMan.Resolve(satiation.Prototype, out var proto))
+            !_prototypeManager.Resolve(satiation.Prototype, out var proto)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
             return;
 
         UpdateAlerts(entity, satiation, proto);
@@ -136,7 +137,7 @@ public sealed partial class SatiationSystem : EntitySystem
     )
     {
         if (satiations.GetOrNull(type) is not { } satiation ||
-            !ProtoMan.Resolve(satiation.Prototype, out var proto))
+            !_prototypeManager.Resolve(satiation.Prototype, out var proto)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
             return null;
 
         return (satiation, proto);

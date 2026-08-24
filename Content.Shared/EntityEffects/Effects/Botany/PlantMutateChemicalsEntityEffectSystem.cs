@@ -14,11 +14,12 @@ public sealed partial class PlantMutateChemicalsEntityEffectSystem : EntityEffec
 {
     // DS14-start: current engine uses readonly IoC fields.
     [Dependency] private readonly PlantChemicalsSystem _plantChemicals = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     // DS14-end
 
     protected override void Effect(Entity<PlantComponent> entity, ref EntityEffectEvent<PlantMutateChemicals> args)
     {
-        var randomChems = ProtoMan.Index(args.Effect.RandomPickBotanyReagent);
+        var randomChems = _prototypeManager.Index(args.Effect.RandomPickBotanyReagent); // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
         _plantChemicals.MutateRandomChemical(entity.Owner, randomChems);
     }
 }
