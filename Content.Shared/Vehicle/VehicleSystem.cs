@@ -13,9 +13,11 @@ using Content.Shared.Buckle.Components;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Hands.Components;
+using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Interaction.Components;
+using Content.Shared.Inventory.VirtualItem;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Movement.Components;
@@ -44,8 +46,10 @@ public sealed partial class VehicleSystem : EntitySystem
     [Dependency] private SharedContainerSystem _container = default!;
     [Dependency] private DamageableSystem _damageable = default!;
     [Dependency] private EntityWhitelistSystem _entityWhitelist = default!;
+    [Dependency] private SharedHandsSystem _hands = default!;
     [Dependency] private SharedInteractionSystem _interaction = default!;
     [Dependency] private SharedMoverController _mover = default!;
+    [Dependency] private SharedVirtualItemSystem _virtualItem = default!;
     [Dependency] private IGameTiming _timing = default!;
     // DS14-start
     [Dependency] private SharedPopupSystem _popup = default!;
@@ -58,6 +62,7 @@ public sealed partial class VehicleSystem : EntitySystem
     private EntityQuery<AppearanceComponent> _appearanceQuery;
     private EntityQuery<InputMoverComponent> _inputMoverQuery;
     private EntityQuery<HandsComponent> _handsQuery;
+    private EntityQuery<VehicleHandBlockerComponent> _handBlockerQuery;
     private EntityQuery<InteractionRelayComponent> _interactionRelayQuery;
     private EntityQuery<MovementRelayTargetComponent> _relayTargetQuery;
     private EntityQuery<RelayInputMoverComponent> _relayQuery;
@@ -71,6 +76,7 @@ public sealed partial class VehicleSystem : EntitySystem
         _appearanceQuery = GetEntityQuery<AppearanceComponent>();
         _inputMoverQuery = GetEntityQuery<InputMoverComponent>();
         _handsQuery = GetEntityQuery<HandsComponent>();
+        _handBlockerQuery = GetEntityQuery<VehicleHandBlockerComponent>();
         _interactionRelayQuery = GetEntityQuery<InteractionRelayComponent>();
         _relayTargetQuery = GetEntityQuery<MovementRelayTargetComponent>();
         _relayQuery = GetEntityQuery<RelayInputMoverComponent>();
@@ -235,6 +241,9 @@ public sealed partial class VehicleSystem : EntitySystem
             return;
         }
 
+        if (ent.Comp.Vehicle is { } missingVehicle)
+            UnblockHands(missingVehicle, ent.Owner);
+
         CleanupOperatorRelays(ent.Owner, ent.Comp.Vehicle);
     }
 
@@ -274,6 +283,7 @@ public sealed partial class VehicleSystem : EntitySystem
                 }
                 else
                 {
+                    UnblockHands(existingVehicle, newOperator);
                     CleanupOperatorRelays(newOperator, existingVehicle);
                     existingOperator.Vehicle = null;
                     Dirty(newOperator, existingOperator);
@@ -281,6 +291,9 @@ public sealed partial class VehicleSystem : EntitySystem
             }
 
             if (!CanUseOperatorRelays(newOperator, entity.Owner))
+                return false;
+
+            if (oldOperator != newOperator && !TryBlockHands(entity, newOperator))
                 return false;
         }
 
@@ -341,6 +354,7 @@ public sealed partial class VehicleSystem : EntitySystem
             }
         }
 
+        UnblockHands(entity.Owner, oldOperator);
         CleanupOperatorRelays(oldOperator, entity.Owner);
 
         entity.Comp.Operator = null;
@@ -466,6 +480,9 @@ public sealed partial class VehicleSystem : EntitySystem
 
         if (!_vehicleQuery.TryComp(operatorEntity.Comp.Vehicle, out var vehicle))
         {
+            if (operatorEntity.Comp.Vehicle is { } vehicleUid)
+                UnblockHands(vehicleUid, operatorEntity.Owner);
+
             CleanupOperatorRelays(operatorEntity.Owner, operatorEntity.Comp.Vehicle);
             RemCompDeferred<VehicleOperatorComponent>(operatorEntity.Owner);
             return true;
@@ -533,7 +550,39 @@ public sealed partial class VehicleSystem : EntitySystem
         if (entity.Comp.RequiresHands && (!_handsQuery.HasComp(uid) || !_actionBlocker.CanInteract(uid, entity)))
             return false;
 
+        if (_handBlockerQuery.TryComp(entity, out var handBlocker) &&
+            (!_handsQuery.TryComp(uid, out var hands) ||
+             _hands.GetHandCount((uid, hands)) < handBlocker.BlockedHands))
+            return false;
+
         return _actionBlocker.CanConsciouslyPerformAction(uid);
+    }
+
+    /// <summary>
+    /// Attempts to occupy the configured number of the operator's hands.
+    /// </summary>
+    private bool TryBlockHands(Entity<VehicleComponent> vehicle, EntityUid operatorUid)
+    {
+        if (!_handBlockerQuery.TryComp(vehicle, out var handBlocker))
+            return true;
+
+        if (_virtualItem.TrySpawnUnremoveableVirtualItemInHand(
+                vehicle.Owner,
+                operatorUid,
+                handBlocker.BlockedHands,
+                dropOthers: true))
+            return true;
+
+        UnblockHands(vehicle.Owner, operatorUid);
+        return false;
+    }
+
+    /// <summary>
+    /// Removes hand blockers owned by the specified vehicle.
+    /// </summary>
+    private void UnblockHands(EntityUid vehicleUid, EntityUid operatorUid)
+    {
+        _virtualItem.DeleteInHandsMatching(operatorUid, vehicleUid);
     }
 
     /// <summary>

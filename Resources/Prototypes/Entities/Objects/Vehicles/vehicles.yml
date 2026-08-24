@@ -161,6 +161,7 @@
         layer:
         - TableLayer
 #DS14-end
+  - type: VehicleHandBlocker
   - type: Sprite
     sprite: Objects/Vehicles/janicart.rsi
     drawdepth: Mobs # fixes layering like magic.
