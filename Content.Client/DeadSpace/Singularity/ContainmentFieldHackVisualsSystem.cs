@@ -11,6 +11,8 @@ namespace Content.Client.DeadSpace.Singularity;
 
 public sealed class ContainmentFieldHackVisualsSystem : EntitySystem
 {
+    private static readonly ProtoId<ShaderPrototype> HackShader = "ContainmentFieldHack";
+
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
 
@@ -36,10 +38,10 @@ public sealed class ContainmentFieldHackVisualsSystem : EntitySystem
 
             if (!_shaders.TryGetValue(uid, out var shader))
             {
-                shader = _prototypes.Index<ShaderPrototype>("ContainmentFieldHack").InstanceUnique();
+                shader = _prototypes.Index(HackShader).InstanceUnique();
                 _shaders.Add(uid, shader);
                 for (var i = 0; i < sprite.AllLayers.Count(); i++)
-                    sprite.LayerSetShader(i, shader, "ContainmentFieldHack");
+                    sprite.LayerSetShader(i, shader, HackShader.Id);
             }
 
             shader.SetParameter("progress", Math.Clamp(
@@ -56,9 +58,9 @@ public sealed class ContainmentFieldHackVisualsSystem : EntitySystem
 
             if (!_shaders.TryGetValue(uid, out var shader))
             {
-                shader = _prototypes.Index<ShaderPrototype>("ContainmentFieldHack").InstanceUnique();
+                shader = _prototypes.Index(HackShader).InstanceUnique();
                 _shaders.Add(uid, shader);
-                sprite.LayerSetShader(0, shader, "ContainmentFieldHack");
+                sprite.LayerSetShader(0, shader, HackShader.Id);
             }
 
             shader.SetParameter("progress", field.HackIntensity * Math.Clamp(
