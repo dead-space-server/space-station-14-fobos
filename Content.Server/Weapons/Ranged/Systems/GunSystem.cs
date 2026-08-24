@@ -39,6 +39,7 @@ public sealed partial class GunSystem : SharedGunSystem
     public override void Initialize()
     {
         base.Initialize();
+        InitializeTargetAssignment(); // DS14 - pre-v288 explicit event subscription (#45247)
         SubscribeLocalEvent<BallisticAmmoProviderComponent, PriceCalculationEvent>(OnBallisticPrice);
         SubscribeLocalEvent<BallisticAmmoProviderComponent, ConstructionChangeEntityEvent>(OnBallisticConstructionChange); // DS14
         SubscribeLocalEvent<BallisticAmmoProviderComponent, AfterConstructionChangeEntityEvent>(OnBallisticAfterConstructionChange); // DS14

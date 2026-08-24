@@ -83,3 +83,5 @@ ent-WeaponLaserCannonXenoborg = тяжёлая лазерная пушка кс�
     .desc = { ent-WeaponAdvancedLaser.desc }
 ent-WeaponBurstFireLaserXenoborg = импульсный лазер ксеноборга
     .desc = Инопланетное оружие, пропускающее очередь лазерных импульсов через призму и поджигающее цели.
+ent-WeaponRangeFinderXenoborg = лазерный целеуказатель ксеноборга
+    .desc = Связанный с пусковой установкой целеуказатель для наведения управляемых ракет.
