@@ -4,7 +4,7 @@
   id: BaseChangelingObjective
   components:
   - type: Objective
-    issuer: Changeling
+    issuer: objective-issuer-changeling # DS14
     difficulty: 1
   - type: RoleRequirement
     roles:
@@ -68,13 +68,15 @@
   - type: TargetObjective
     title: objective-escape-identity-title
   - type: ChangelingEscapeIdentityCondition
+  # DS14-start
   - type: PickRandomPerson
-    conditions:
-    - !type:RoleCondition
+    filters:
+    - !type:HasRoleMindFilter
       inverted: true # Do not roll changelings here. Their initial identity will be basically impossible to get after they transform.
       whitelist:
         components:
         - ChangelingRole
+  # DS14-end
 
 - type: entity
   parent: [BaseChangelingObjective, BaseLivingObjective]
@@ -89,18 +91,20 @@
   - type: TargetObjective
     title: objective-escape-department-title
   - type: ChangelingEscapeDepartmentCondition
+  # DS14-start
   - type: PickRandomPerson
-    conditions:
-    - !type:RoleCondition # Do not roll changelings here. It will cause problems with weird job mindroles as they transform n stuff.
+    filters:
+    - !type:HasRoleMindFilter # Do not roll changelings here. It will cause problems with weird job mindroles as they transform n stuff.
       inverted: true
       whitelist:
         components:
         - ChangelingRole
-    - !type:RoleCondition
+    - !type:HasRoleMindFilter
       whitelist:
         components:
         - JobRole # Our target has to be employed, obviously.
-    - !type:DifferentDepartmentCondition # I love spawning as a scientist and having to escape as a scientist
+    - !type:DifferentDepartmentMindFilter # I love spawning as a scientist and having to escape as a scientist
+  # DS14-end
 
 - type: entity
   parent: [BaseChangelingObjective, BaseKillObjective]
@@ -112,14 +116,15 @@
     unique: false
   - type: TargetObjective
     title: objective-condition-kill-maroon-title
+  # DS14-start
   - type: PickRandomPerson
-    conditions:
+    filters:
     # Can't have multiple objectives to kill the same person.
-    - !type:ObjectiveTargetCondition
-      inverted: true
-      whitelist:
+    - !type:TargetObjectiveMindFilter
+      blacklist:
         components:
         - KillPersonCondition
+  # DS14-end
   - type: KillPersonCondition
     requireDead: true
     requireMaroon: true

@@ -40,7 +40,7 @@ public sealed partial class ChangelingDevourComponent : Component
         Components =
         [
             "MobState",
-            "HumanoidProfile",
+            "HumanoidAppearance", // DS14
         ],
     };
 
