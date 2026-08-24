@@ -1144,6 +1144,21 @@
         - ReagentId: Stimulants
           Quantity: 15
 
+- type: entity
+  suffix: hivarol
+  parent: PrefilledSyringe
+  id: SyringeHivarol
+  components:
+  - type: Label
+    currentLabel: reagent-name-hivarol
+  - type: SolutionContainerManager
+    solutions:
+      injector:
+        maxVol: 15
+        reagents:
+        - ReagentId: Hivarol
+          Quantity: 15
+
 # Entity Tables
 - type: entityTable
   id: RandomSafePillTable

@@ -1,6 +1,7 @@
 using System.Linq;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Nutrition.Prototypes;
+using Content.Shared.Random.Helpers;
 using Content.Shared.StatusIcon;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
@@ -283,4 +284,42 @@ public sealed partial class SatiationSystem
     ) => GetAndResolveSatiationOfType(entity, type)?.Proto.MaximumValue;
 
     #endregion
+
+    /// <summary>
+    /// Adds a new satiation type to an entity.
+    /// </summary>
+    public void AddSatiation(
+        Entity<SatiationComponent?> entity,
+        ProtoId<SatiationTypePrototype> type,
+        Satiation satiation)
+    {
+        if (!Resolve(entity, ref entity.Comp) ||
+            !_prototypeManager.Resolve(satiation.Prototype, out var proto) ||
+            !entity.Comp.Satiations.TryAdd(type, satiation))
+        {
+            return;
+        }
+
+        satiation.SatiationType = type;
+        var random = SharedRandomExtensions.PredictedRandom(_timing, GetNetEntity(entity));
+        var value = random.NextSingle() * (proto.StartingValueMaximum - proto.StartingValueMinimum) + proto.StartingValueMinimum;
+        SetAuthoritativeValue((entity.Owner, entity.Comp), satiation, proto, value);
+        Dirty(entity);
+    }
+
+    /// <summary>
+    /// Removes a satiation type from an entity.
+    /// </summary>
+    public void RemoveSatiationType(Entity<SatiationComponent?> entity, ProtoId<SatiationTypePrototype> type)
+    {
+        if (!Resolve(entity, ref entity.Comp))
+            return;
+
+        if (GetAndResolveSatiationOfType(entity.Comp, type) is { } satiation)
+        {
+            _alerts.ClearAlertCategory(entity.Owner, satiation.Proto.AlertCategory);
+            entity.Comp.Satiations.Remove(type);
+            Dirty(entity);
+        }
+    }
 }

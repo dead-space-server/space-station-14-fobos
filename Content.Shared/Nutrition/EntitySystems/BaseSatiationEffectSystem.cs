@@ -21,10 +21,10 @@ namespace Content.Shared.Nutrition.EntitySystems;
 /// <remarks>Note that this <b>is not</b> related to <see cref="EntityEffects"/></remarks>
 public abstract partial class BaseSatiationEffectSystem<TComp, T> : EntitySystem where TComp : Component
 {
-    // DS14-start: current engine uses readonly IoC fields.
+    // DS14-start: current engine uses readonly IoC fields and initializes entity queries explicitly.
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SatiationSystem _satiation = default!;
-    [Dependency] private readonly EntityQuery<SatiationComponent> _satiationQuery = default!;
+    private EntityQuery<SatiationComponent> _satiationQuery;
     // DS14-end
 
     /// <summary>
@@ -43,6 +43,7 @@ public abstract partial class BaseSatiationEffectSystem<TComp, T> : EntitySystem
     {
         base.Initialize();
 
+        _satiationQuery = GetEntityQuery<SatiationComponent>(); // DS14
         SubscribeLocalEvent<TComp, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<TComp, SatiationUpdateEvent>(OnSatiationUpdate);
     }

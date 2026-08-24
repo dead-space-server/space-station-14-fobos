@@ -54,4 +54,6 @@
 - type: entity
   parent: MutedStatusEffectBase
   id: TraitStatusEffectMuted
+  components:
+  - type: CloneableStatusEffect
 # DS14-end

@@ -382,6 +382,28 @@
 # DS-14-end
 
 - type: reagent
+  id: TaciticAcid
+  name: reagent-name-tacitic-acid
+  group: Special
+  desc: reagent-desc-tacitic-acid
+  physicalDesc: reagent-physical-desc-syrupy
+  contrabandSeverity: Major
+  color: "#000000"
+  boilingPoint: 255.0
+  meltingPoint: 36.0
+  metabolisms:
+    Narcotic: # DS14 - current metabolism group name.
+      effects:
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectChangelingMuted
+        type: Add
+        time: 5
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ SuperSoldier ]
+          inverted: true
+
+- type: reagent
   id: NorepinephricAcid
   name: reagent-name-norepinephric-acid
   group: Narcotics

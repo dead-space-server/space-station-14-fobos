@@ -13,6 +13,7 @@ ent-StatusEffectSSDSleeping = forced sleep
 ent-StatusEffectPressureImmunity = pressure immunity
     .desc = { ent-MobStatusEffectBase.desc }
 ent-StatusEffectDrowsiness = drowsiness
+ent-StatusEffectChangelingMuted = imperceptibly muted
     .desc = { ent-MobStatusEffectDebuff.desc }
 ent-StatusEffectSeeingRainbow = hallucinations
     .desc = { ent-MobStatusEffectDebuff.desc }

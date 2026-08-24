@@ -1,8 +1,10 @@
 using Content.Shared.Alert;
+using Content.Shared.Actions.Events;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Nutrition.Prototypes;
 using Content.Shared.Random.Helpers;
 using Content.Shared.Rejuvenate;
+using Content.Shared.Popups;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
@@ -19,17 +21,22 @@ public sealed partial class SatiationSystem : EntitySystem
     {
         base.Initialize();
 
+        _satiationQuery = GetEntityQuery<SatiationComponent>(); // DS14
         SubscribeLocalEvent<SatiationComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<SatiationComponent, ComponentShutdown>(OnShutdown);
         SubscribeLocalEvent<SatiationComponent, RejuvenateEvent>(OnRejuvenate);
         SubscribeLocalEvent<SatiationComponent, SatiationUpdateEvent>(UpdateAlertsOnSatiationUpdated);
+        SubscribeLocalEvent<ActionRequireSatiationComponent, ActionAttemptEvent>(OnActionAttempt);
+        SubscribeLocalEvent<ActionRequireSatiationComponent, ActionPerformedEvent>(OnActionPerformed);
     }
     // DS14-end
 
-    // DS14-start: current engine uses readonly IoC fields.
+    // DS14-start: current engine uses readonly IoC fields and initializes entity queries explicitly.
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly AlertsSystem _alerts = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    private EntityQuery<SatiationComponent> _satiationQuery;
     // DS14-end
 
     /// <summary>
@@ -41,6 +48,30 @@ public sealed partial class SatiationSystem : EntitySystem
     /// The ID of the <c>Thirst</c> satiation type. Provided because it is so commonly used in Content.
     /// </summary>
     public static readonly ProtoId<SatiationTypePrototype> Thirst = "Thirst";
+
+    private void OnActionAttempt(Entity<ActionRequireSatiationComponent> ent, ref ActionAttemptEvent args)
+    {
+        if (_satiationQuery.TryComp(args.User, out var satiation) &&
+            GetValueOrNull((args.User, satiation), ent.Comp.Satiation) is { } value &&
+            value >= ent.Comp.Amount)
+        {
+            return;
+        }
+
+        // DS14: the legacy action-attempt event cannot carry a popup reason.
+        if (ent.Comp.FailReason is { } reason)
+            _popup.PopupPredicted(Loc.GetString(reason), args.User, args.User, ent.Comp.FailReasonType);
+
+        args.Cancelled = true;
+    }
+
+    private void OnActionPerformed(Entity<ActionRequireSatiationComponent> ent, ref ActionPerformedEvent args)
+    {
+        if (!ent.Comp.Spend || !_satiationQuery.TryComp(args.Performer, out var satiation))
+            return;
+
+        ModifyValue((args.Performer, satiation), ent.Comp.Satiation, -ent.Comp.Amount.Float());
+    }
 
     /// <inheritdoc/>
     public override void Update(float frameTime)

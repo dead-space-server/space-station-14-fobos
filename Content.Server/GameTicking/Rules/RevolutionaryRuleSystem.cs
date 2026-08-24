@@ -1434,6 +1434,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         if (HasComp<RevolutionaryComponent>(targetUid) ||
             HasComp<HeadRevolutionaryComponent>(targetUid) ||
             HasComp<MindShieldComponent>(targetUid) ||
+            HasComp<RevolutionaryImmuneComponent>(targetUid) ||
             (!HasComp<HumanoidAppearanceComponent>(targetUid) && !alwaysConvertible) ||
             !_mobState.IsAlive(targetUid) ||
             HasComp<ZombieComponent>(targetUid))

@@ -345,6 +345,7 @@
   id: Changeling
   parent: BaseGameRule
   components:
+  - type: ChangelingRule
   - type: GameRule
     minPlayers: 20
     delay:
@@ -358,7 +359,7 @@
     - prefRoles: [ Changeling ]
       max: 3
       playerRatio: 15
-      # DS14-start: preserve the current changeling definition; later upstream changeling refactors are not present.
+      # DS14-start: adapt the upstream changeling definition to the current antag-selection schema.
       briefing:
         text: changeling-role-greeting
         color: Red
@@ -369,29 +370,50 @@
       - type: ChangelingDevour
       - type: ChangelingIdentity
       - type: ChangelingTransform
+      - type: AddMetabolism
+        addedMetabolizer: Changeling
+      - type: DestructionResistance
+      - type: RevolutionaryImmune
+      - type: ZombieImmune
       - type: ActionGrant
+        removeOnShutdown: false
         actions:
         - ActionChangelingStore
-      # TODO: Make it so the changeling gamerule changeling can inherit from the changeling store preset somehow
+        - ActionChangelingStasis
+      - type: SatiationGrant
+        removeOnShutdown: false
+        satiation:
+          Chemicals:
+            prototype: ChemicalsChangeling
       - type: Store
         name: store-preset-name-changeling
         categories:
-        - ChangelingAbilities
+        - ChangelingStoreCombat
+        - ChangelingStoreStealth
+        - ChangelingStoreUtility
         currencyWhitelist:
         - ChangelingDNA
         balance:
-          ChangelingDNA: 50
+          ChangelingDNA: 60
       - type: UserInterface
         interfaces:
           enum.StoreUiKey.Key:
             type: StoreBoundUserInterface
             requireInputValidation: false
+          enum.VoiceMaskUIKey.Key:
+            type: VoiceMaskBoundUserInterface
       mindRoles:
       - MindRoleChangeling
       sponsorsPriority: true
-  - type: AntagObjectives
-    objectives:
-    - ChangelingSurviveObjective
+  - type: AntagRandomObjectives
+    sets:
+    - groups: ChangelingObjectiveGroupDevourDummy
+      maxPicks: 1
+    - groups: ChangelingObjectiveGroupEscapeDummy
+      maxPicks: 1
+    - groups: ChangelingObjectiveGroupKillDummy
+      maxPicks: 1
+    maxDifficulty: 8
   # DS14-end
   - type: DynamicRuleCost
     cost: 75

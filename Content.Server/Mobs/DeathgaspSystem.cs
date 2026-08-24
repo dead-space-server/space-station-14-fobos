@@ -26,7 +26,16 @@ public sealed class DeathgaspSystem: EntitySystem
 
         SubscribeLocalEvent<DeathgaspComponent, MobStateChangedEvent>(OnMobStateChanged);
         SubscribeLocalEvent<DeathgaspComponent, EmoteEvent>(OnEmote, before: [typeof(VocalSystem)]); // DS14
+        // DS14: compatibility event used by shared changeling stasis on the pre-v288 engine.
+        SubscribeLocalEvent<DeathgaspComponent, RequestDeathgaspEvent>(OnDeathgaspRequested);
     }
+
+    // DS14-start
+    private void OnDeathgaspRequested(Entity<DeathgaspComponent> ent, ref RequestDeathgaspEvent args)
+    {
+        Deathgasp(ent, ent.Comp);
+    }
+    // DS14-end
 
     private void OnMobStateChanged(EntityUid uid, DeathgaspComponent component, MobStateChangedEvent args)
     {

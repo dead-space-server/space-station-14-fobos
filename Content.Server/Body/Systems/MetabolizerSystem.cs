@@ -396,5 +396,20 @@ public sealed class MetabolizerSystem : SharedMetabolizerSystem
 
         return false;
     }
+
+    /// <summary>
+    /// Adds a metabolizer type to every metabolizing organ in a body.
+    /// </summary>
+    public void AddMetabolizerToBody(EntityUid targetBody, ProtoId<MetabolizerTypePrototype> metabolizerType)
+    {
+        foreach (var organ in _bodySystem.GetBodyOrgans(targetBody))
+        {
+            if (!TryComp<MetabolizerComponent>(organ.Id, out var metabolizer))
+                continue;
+
+            metabolizer.MetabolizerTypes ??= [];
+            metabolizer.MetabolizerTypes.Add(metabolizerType);
+        }
+    }
     // DS14-End
 }

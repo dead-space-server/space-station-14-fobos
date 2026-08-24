@@ -13,6 +13,7 @@ ent-StatusEffectSSDSleeping = принудительный сон
 ent-StatusEffectPressureImmunity = невосприимчивость к давлению
     .desc = { ent-MobStatusEffectBase.desc }
 ent-StatusEffectDrowsiness = сонливость
+ent-StatusEffectChangelingMuted = незаметная немота
     .desc = { ent-MobStatusEffectDebuff.desc }
 ent-StatusEffectSeeingRainbow = галлюцинации
     .desc = { ent-MobStatusEffectDebuff.desc }

@@ -111,6 +111,9 @@
 - type: cloningSettings
   id: ChangelingCloningSettings
   parent: Body
+  statusEffectWhitelist:
+    components:
+    - ChangelingCloneableStatusEffect
   components:
   # These are already part of the base species prototype that is spawned for the clone,
   # that means we only need to copy them over when switching between species.

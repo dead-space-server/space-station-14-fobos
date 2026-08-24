@@ -1,4 +1,5 @@
 ﻿using Content.Shared.Administration.Logs;
+using Content.Shared.Actions.Events;
 using Content.Shared.Body.Components;
 using Content.Shared.Body.Organ;
 using Content.Shared.Body.Systems;
@@ -89,9 +90,16 @@ public sealed partial class IngestionSystem : EntitySystem
         // Misc
         SubscribeLocalEvent<EdibleComponent, AttemptShakeEvent>(OnAttemptShake);
         SubscribeLocalEvent<EdibleComponent, BeforeFullySlicedEvent>(OnBeforeFullySliced);
+        SubscribeLocalEvent<ActionRequireMouthUncoveredComponent, ActionAttemptEvent>(OnMouthUncoveredActionAttempt);
 
         InitializeBlockers();
         InitializeUtensils();
+    }
+
+    private void OnMouthUncoveredActionAttempt(Entity<ActionRequireMouthUncoveredComponent> ent, ref ActionAttemptEvent args)
+    {
+        if (!HasMouthAvailable(args.User, args.User, ent.Comp.Slots))
+            args.Cancelled = true;
     }
 
     /// <summary>

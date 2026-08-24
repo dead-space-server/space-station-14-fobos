@@ -484,6 +484,12 @@ public abstract partial class InventorySystem
             return false;
         }
 
+        // Give systems which need the acting user a chance to react before the container changes.
+        var beforeGettingUnequipped = new BeforeGettingUnequippedEvent(actor, target, removedItem.Value, slotDefinition);
+        var beforeUnequip = new BeforeUnequipEvent(actor, target, removedItem.Value, slotDefinition);
+        RaiseLocalEvent(removedItem.Value, beforeGettingUnequipped);
+        RaiseLocalEvent(target, beforeUnequip);
+
         if (!_containerSystem.Remove(removedItem.Value, slotContainer, force: force, reparent: reparent))
             return false;
 

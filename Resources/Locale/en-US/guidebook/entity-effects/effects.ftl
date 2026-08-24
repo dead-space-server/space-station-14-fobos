@@ -527,3 +527,15 @@ entity-effect-guidebook-plant-mutate-chemicals =
         [1] Mutates
         *[other] mutate
     } a plant to produce {$name}
+
+entity-effect-guidebook-add-reagent-to-bloodstream =
+    { $chance ->
+        [1] Injects
+        *[other] inject
+    } {$quantity} of {$reagent} directly into the bloodstream
+
+entity-effect-disarm =
+    { $chance ->
+        [1] Disarms
+        *[other] disarm
+    } the entity

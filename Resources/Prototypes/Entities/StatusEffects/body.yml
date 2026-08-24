@@ -27,6 +27,7 @@
   parent: MobStatusEffectBase
   id: PainNumbnessTraitStatusEffect
   components:
+  - type: CloneableStatusEffect
   - type: StatusEffect
     whitelist:
       components:
@@ -38,6 +39,8 @@
   parent: BloodstreamStatusEffectBase
   id: StatusEffectHemophiliaTrait
   components:
+  - type: CloneableStatusEffect
+  - type: ChangelingCloneableStatusEffect
   - type: HemophiliaStatusEffect
 
 - type: entity

@@ -87,6 +87,20 @@ public sealed partial class SharedEntityEffectsSystem : EntitySystem, IEntityEff
     }
 
     /// <summary>
+    /// Applies all effects whose conditions pass and reports whether at least one was applied.
+    /// </summary>
+    public bool TryApplyEffects(EntityUid target, EntityEffect[] effects, float scale = 1f, EntityUid? user = null)
+    {
+        var applied = false;
+        foreach (var effect in effects)
+        {
+            applied |= TryApplyEffect(target, effect, scale, user);
+        }
+
+        return applied;
+    }
+
+    /// <summary>
     /// Applies an entity effect to a target if all conditions pass.
     /// </summary>
     /// <param name="target">Target we're applying an effect to</param>
