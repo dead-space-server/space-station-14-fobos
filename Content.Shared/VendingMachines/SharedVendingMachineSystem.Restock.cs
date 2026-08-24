@@ -45,7 +45,7 @@ public abstract partial class SharedVendingMachineSystem
         var othersMessage = Loc.GetString("vending-machine-restock-start-others",
             ("user", Identity.Entity(args.User, EntityManager)),
             ("target", target));
-        Popup.PopupEntity(selfMessage, othersMessage, target, args.User, PopupType.Medium);
+        Popup.PopupPredicted(selfMessage, othersMessage, target, args.User, PopupType.Medium); // DS14 - pre-self-predicting popup API.
 
 
         if (!Timing.IsFirstTimePredicted)
@@ -80,7 +80,7 @@ public abstract partial class SharedVendingMachineSystem
         var othersMessage = Loc.GetString("vending-machine-restock-done-others",
             ("user", Identity.Entity(args.User, EntityManager)),
             ("target", ent));
-        Popup.PopupEntity(userMessage, othersMessage, ent, args.User, PopupType.Medium);
+        Popup.PopupPredicted(userMessage, othersMessage, ent, args.User, PopupType.Medium); // DS14 - pre-self-predicting popup API.
 
         Audio.PlayPredicted(restockComponent.SoundRestockDone, ent, args.User);
 

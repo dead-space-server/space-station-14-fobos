@@ -249,7 +249,7 @@ public sealed partial class SharedForensicsSystem : EntitySystem
 
             var userPopupText = Loc.GetString("forensics-cleaning-user", ("target", Identity.Entity(target, EntityManager)));
             var othersPopupText = Loc.GetString("forensics-cleaning-others", ("user", Identity.Entity(user, EntityManager)), ("target", Identity.Entity(target, EntityManager)));
-            _popupSystem.PopupEntity(userPopupText, othersPopupText, user, user);
+            _popupSystem.PopupPredicted(userPopupText, othersPopupText, user, user); // DS14 - pre-self-predicting popup API.
 
             return true;
         }

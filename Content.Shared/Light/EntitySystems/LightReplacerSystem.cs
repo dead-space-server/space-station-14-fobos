@@ -7,6 +7,7 @@ using Content.Shared.Popups;
 using Content.Shared.Storage.EntitySystems;
 using Content.Shared.Storage.Events;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.Light.EntitySystems;
@@ -23,6 +24,7 @@ public sealed partial class LightReplacerSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedPoweredLightSystem _poweredLight = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
     private EntityQuery<LightBulbComponent> _lightBulbQuery;
 
@@ -59,7 +61,7 @@ public sealed partial class LightReplacerSystem : EntitySystem
 
             foreach (var bulb in entities)
             {
-                if (!ProtoMan.Resolve(bulb.Key, out var bulbPrototype))
+                if (!_prototypeManager.Resolve(bulb.Key, out var bulbPrototype)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
                     continue;
 
                 args.PushMarkup(Loc.GetString("comp-light-replacer-light-listing", ("amount", bulb.Value), ("name", bulbPrototype.Name)));
@@ -108,7 +110,7 @@ public sealed partial class LightReplacerSystem : EntitySystem
     /// <summary> Attempts to switch currently selected bulb type according to request. </summary>
     private void OnSwitchMessage(Entity<LightReplacerComponent> replacer, ref SwitchLightTypeMessage args)
     {
-        if (!ProtoMan.Resolve(args.LightEntProtoId, out var prototype)
+        if (!_prototypeManager.Resolve(args.LightEntProtoId, out var prototype) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
             || !_provider.TryGetEntityCounter(replacer.Owner, out var entities)
             || !entities.TryGetValue(args.LightEntProtoId, out var amount)
             || amount <= 0)
@@ -159,14 +161,14 @@ public sealed partial class LightReplacerSystem : EntitySystem
 
             if (fixtureBulb.State == LightBulbState.Normal && prototype != null && prototype.ID == activeType)
             {
-                _popup.PopupEntity(Loc.GetString("comp-light-replacer-same-light", ("light", currentBulbInHolder)), lightHolder, userUid, PopupType.Medium);
+                _popup.PopupClient(Loc.GetString("comp-light-replacer-same-light", ("light", currentBulbInHolder)), lightHolder, userUid, PopupType.Medium); // DS14 - pre-self-predicting popup API.
                 return false;
             }
         }
 
         if (!_provider.TryGetEntity(replacer.Owner, activeType, out var insertedBulb))
         {
-            if (userUid == null || !ProtoMan.Resolve(activeType, out var bulbPrototype))
+            if (userUid == null || !_prototypeManager.Resolve(activeType, out var bulbPrototype)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
                 return false;
 
             var msg = Loc.GetString("comp-light-replacer-missing-light",

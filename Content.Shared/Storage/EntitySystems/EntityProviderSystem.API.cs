@@ -29,7 +29,7 @@ public sealed partial class EntityProviderSystem
 
         if (ev.FailureMessage != null)
         {
-            _popup.PopupEntity(ev.FailureMessage, provider, user, PopupType.Medium);
+            _popup.PopupClient(ev.FailureMessage, provider, user, PopupType.Medium); // DS14 - pre-self-predicting popup API.
             return false;
         }
 
@@ -164,7 +164,7 @@ public sealed partial class EntityProviderSystem
         if (entities.Count == 0)
         {
             var message = Loc.GetString("comp-entity-provider-no-ejected");
-            _popup.PopupEntity(message, provider, user, PopupType.Medium);
+            _popup.PopupClient(message, provider, user, PopupType.Medium); // DS14 - pre-self-predicting popup API.
             return false;
         }
 
@@ -173,7 +173,7 @@ public sealed partial class EntityProviderSystem
             _container.Remove(entity, provider.Comp.Container);
         }
 
-        if (!ProtoMan.Resolve(protoId, out var prototype))
+        if (!_prototypeManager.Resolve(protoId, out var prototype)) // DS14 - current engine has no EntitySystem.ProtoMan shortcut.
             return true;
 
         _audio.PlayPredicted(provider.Comp.PluralTransferSound, provider, user);

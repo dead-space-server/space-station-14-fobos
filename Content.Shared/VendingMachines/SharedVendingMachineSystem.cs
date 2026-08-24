@@ -3,6 +3,8 @@ using Content.Shared.Destructible;
 using Content.Shared.DoAfter;
 using Content.Shared.Emag.Components;
 using Content.Shared.Emag.Systems;
+using Content.Shared.Emp;
+using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.UserInterface;

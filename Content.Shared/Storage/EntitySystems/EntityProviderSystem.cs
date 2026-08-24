@@ -22,6 +22,7 @@ public sealed partial class EntityProviderSystem : EntitySystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
     private EntityQuery<EntityProviderComponent> _providerQuery;
     private EntityQuery<StorageComponent> _storageQuery;
@@ -91,13 +92,13 @@ public sealed partial class EntityProviderSystem : EntitySystem
 
         if (!provider.Comp.CanTransfer)
         {
-            _popup.PopupEntity(Loc.GetString("comp-entity-provider-cannot-transfer", ("provider", provider)), provider, user);
+            _popup.PopupClient(Loc.GetString("comp-entity-provider-cannot-transfer", ("provider", provider)), provider, user); // DS14 - pre-self-predicting popup API.
             return false;
         }
 
         if (!refillTarget.Comp.CanReceive)
         {
-            _popup.PopupEntity(Loc.GetString("comp-entity-provider-cannot-receive", ("refillTarget", refillTarget)), refillTarget, user);
+            _popup.PopupClient(Loc.GetString("comp-entity-provider-cannot-receive", ("refillTarget", refillTarget)), refillTarget, user); // DS14 - pre-self-predicting popup API.
             return false;
         }
 
@@ -202,7 +203,7 @@ public sealed partial class EntityProviderSystem : EntitySystem
     // DS14-start: the current baseline lacks the #40807 EntProtoId whitelist overload used upstream.
     private bool IsPrototypeWhitelistFail(EntityWhitelist whitelist, EntProtoId protoId)
     {
-        if (!ProtoMan.Resolve(protoId, out var prototype))
+        if (!_prototypeManager.Resolve(protoId, out var prototype))
             return true;
 
         if (whitelist.Components != null)
@@ -220,17 +221,21 @@ public sealed partial class EntityProviderSystem : EntitySystem
             }
         }
 
-        if (whitelist.Sizes != null
+        var sizes = whitelist.Sizes;
+        if (sizes != null
             && prototype.TryGetComponent(out ItemComponent? item, Factory)
-            && whitelist.Sizes.Contains(item.Size))
+            && item != null
+            && sizes.Contains(item.Size))
             return false;
 
-        if (whitelist.Tags != null
-            && prototype.TryGetComponent(out TagComponent? tag, Factory))
+        var tags = whitelist.Tags;
+        if (tags != null
+            && prototype.TryGetComponent(out TagComponent? tag, Factory)
+            && tag != null)
         {
             var tagsMatch = whitelist.RequireAll
-                ? whitelist.Tags.All(tag.Tags.Contains)
-                : whitelist.Tags.Any(tag.Tags.Contains);
+                ? tags.All(tag.Tags.Contains)
+                : tags.Any(tag.Tags.Contains);
             return !tagsMatch;
         }
 

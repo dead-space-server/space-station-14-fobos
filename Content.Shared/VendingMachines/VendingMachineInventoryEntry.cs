@@ -4,19 +4,28 @@ using Robust.Shared.Serialization;
 namespace Content.Shared.VendingMachines;
 
 [Serializable, NetSerializable, DataDefinition]
-public sealed partial class VendingMachineInventoryEntry(InventoryType type, EntProtoId id, uint amount)
+// DS14-start: the current serialization generator owns the parameterless constructor.
+public sealed partial class VendingMachineInventoryEntry
 {
     [DataField]
-    public InventoryType Type = type;
+    public InventoryType Type;
 
     [DataField]
-    public EntProtoId ID = id;
+    public EntProtoId ID;
 
     [DataField]
-    public uint Amount = amount;
+    public uint Amount;
+
+    public VendingMachineInventoryEntry(InventoryType type, EntProtoId id, uint amount)
+    {
+        Type = type;
+        ID = id;
+        Amount = amount;
+    }
 
     public VendingMachineInventoryEntry(VendingMachineInventoryEntry entry) : this(entry.Type, entry.ID, entry.Amount) { }
 }
+// DS14-end
 
 [Serializable, NetSerializable]
 public enum InventoryType : byte

@@ -29,6 +29,6 @@ public partial struct MinMax
 
     public readonly int Next(System.Random random)
     {
-        return random.Next(Min, Max + 1);
+        return random.Next((int) Min, (int) Max + 1); // DS14 - System.Random only accepts integral bounds.
     }
 }

@@ -121,20 +121,23 @@ public sealed partial class BloodstreamSystem : EntitySystem
         entity.Comp.NextUpdate = _timing.CurTime + entity.Comp.AdjustedUpdateInterval;
         DirtyField(entity, entity.Comp, nameof(BloodstreamComponent.NextUpdate));
 
-        _solutionContainer.EnsureSolution(entity.Owner, entity.Comp.BloodSolutionName, out var bloodSolution);
-        _solutionContainer.EnsureSolution(entity.Owner, entity.Comp.BloodTemporarySolutionName, out var tempSolution);
-        _solutionContainer.EnsureSolution(entity.Owner, entity.Comp.MetabolitesSolutionName, out var metabolitesSolution);
+        // DS14-start: the current solution API returns Solution and has no separate metabolites container.
+        if (!_solutionContainer.EnsureSolution(entity.Owner, entity.Comp.BloodSolutionName, out var bloodSolution)
+            || !_solutionContainer.EnsureSolution(entity.Owner, entity.Comp.BloodTemporarySolutionName, out var tempSolution))
+            return;
 
-        bloodSolution.Comp.Solution.MaxVolume = entity.Comp.BloodReferenceSolution.Volume * entity.Comp.MaxVolumeModifier;
-        metabolitesSolution.Comp.Solution.MaxVolume = bloodSolution.Comp.Solution.MaxVolume;
-        tempSolution.Comp.Solution.MaxVolume = entity.Comp.BleedPuddleThreshold * 4; // give some leeway, for chemstream as well
+        bloodSolution.MaxVolume = entity.Comp.BloodReferenceSolution.Volume * entity.Comp.MaxVolumeModifier;
+        tempSolution.MaxVolume = entity.Comp.BleedPuddleThreshold * 4; // give some leeway, for chemstream as well
+        // DS14-end
         entity.Comp.BloodReferenceSolution.SetReagentData(GetEntityBloodData((entity, entity.Comp)));
 
         // Fill blood solution with BLOOD
         // The DNA string might not be initialized yet, but the reagent data gets updated in the GenerateDnaEvent subscription
         var solution = entity.Comp.BloodReferenceSolution.Clone();
-        solution.ScaleTo(entity.Comp.BloodReferenceSolution.Volume - bloodSolution.Comp.Solution.Volume);
-        bloodSolution.Comp.Solution.AddSolution(solution, _prototypeManager);
+        // DS14-start: the current solution API returns Solution directly.
+        solution.ScaleTo(entity.Comp.BloodReferenceSolution.Volume - bloodSolution.Volume);
+        bloodSolution.AddSolution(solution, _prototypeManager);
+        // DS14-end
     }
 
     // prevent the infamous UdderSystem debug assert, see https://github.com/space-wizards/space-station-14/pull/35314

@@ -34,7 +34,7 @@ public sealed class EntitySpawnVariationPassEntityEffectSystem : EntityEffectSys
         {
             if (TryFindRandomTile(entity, tiles, out var coords))
             {
-                var ents = _tables.GetSpawns(args.Effect.Table, _random);
+                var ents = _tables.GetSpawns(args.Effect.Table, _random.GetRandom()); // DS14 - current entity tables accept System.Random.
                 foreach (var spawn in ents)
                 {
                     SpawnAtPosition(spawn, coords);

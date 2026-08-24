@@ -73,7 +73,7 @@ public sealed partial class ClumsyStatusEffectSystem : EntitySystem
             ? null
             : Loc.GetString(status.Comp.OtherFailedMessage, ("item", args.Args.Item), ("catcher", identity));
 
-        _popup.PopupEntity(selfMessage, othersMessage, args.AppliedTo, args.AppliedTo);
+        _popup.PopupPredicted(selfMessage, othersMessage, args.AppliedTo, args.AppliedTo); // DS14 - pre-self-predicting popup API.
 
         // _audio.PlayPredicted doesn't play nice with collision events so we need PlayPvs
         // exit early for clients so the sound doesn't play twice
@@ -166,7 +166,7 @@ public sealed partial class ClumsyStatusEffectSystem : EntitySystem
                 ? null
                 : Loc.GetString(status.Comp.OtherFailedMessage, ("victim", putOnTable), ("bonkable", args.Args.BeingClimbedOn));
 
-            _popup.PopupEntity(selfMessage, othersMessage, args.AppliedTo, args.AppliedTo);
+            _popup.PopupPredicted(selfMessage, othersMessage, args.AppliedTo, args.AppliedTo); // DS14 - pre-self-predicting popup API.
         }
         else
         {
