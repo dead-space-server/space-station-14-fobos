@@ -588,6 +588,18 @@ entity-effect-guidebook-plant-seeds-remove =
        *[other] убирают
     } семена из растения
 
+entity-effect-guidebook-plant-mutate-exude-gasses =
+    { $chance ->
+        [1] Заставляет мутировать
+       *[other] заставляют мутировать
+    } растение так, чтобы оно выделяло от { $minValue } до { $maxValue } молей газов
+
+entity-effect-guidebook-plant-mutate-consume-gasses =
+    { $chance ->
+        [1] Заставляет мутировать
+       *[other] заставляют мутировать
+    } растение так, чтобы оно поглощало от { $minValue } до { $maxValue } молей газов
+
 entity-effect-guidebook-plant-mutate-chemicals =
     { $chance ->
         [1] Мутирует
