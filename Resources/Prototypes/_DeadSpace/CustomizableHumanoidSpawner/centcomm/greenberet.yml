@@ -1,7 +1,7 @@
 - type: entity
   parent: CustomizableSpawnerBase
   id: CustomizableSpawnerCentralCommandGreenBeretOfficer
-  name: Офицер "Зелёный Берет" 
+  name: Офицер "Зелёный Берет"
   suffix: ОЗБ, Призрачная роль, Кастомизируемый персонаж
   components:
   - type: Sprite
@@ -49,5 +49,4 @@
 - type: loadout
   id: CentralCommandGreenBeretOfficerLoadout
   equipment:
-    back: ClothingBackpackSatchelBig
     socks: ClothingUnderwearSocksBlueShieldOfficer

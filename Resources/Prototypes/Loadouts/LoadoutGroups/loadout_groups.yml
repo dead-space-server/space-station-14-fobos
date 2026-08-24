@@ -336,6 +336,7 @@
   loadouts:
   - HoPJumpsuit
   - HoPJumpskirt
+  - HoPJumpsuitWhite # DS14
 
 - type: loadoutGroup
   id: HoPNeck
