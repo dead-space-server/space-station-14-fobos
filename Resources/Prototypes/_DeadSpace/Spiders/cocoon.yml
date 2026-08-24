@@ -160,7 +160,9 @@
       types:
         Blunt: 1
   - type: Stamina
-  - type: Muted
+  - type: PermanentStatusEffects
+    statusEffects:
+    - StatusEffectSpiderCocoonMuted
   - type: Appearance
   - type: ZombieImmune
   - type: ImmunitetInfectionDead

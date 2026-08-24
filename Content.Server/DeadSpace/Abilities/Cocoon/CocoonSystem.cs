@@ -10,14 +10,19 @@ using Content.Shared.Speech.Muting;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.Body.Events;
 using Content.Shared.Gibbing;
+using Content.Shared.StatusEffectNew;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Abilities.Cocoon;
 
 public sealed class CocoonSystem : EntitySystem
 {
+    private static readonly EntProtoId MutedEffect = "StatusEffectCocoonMuted";
+
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly IGameTiming _gameTiming = default!;
     [Dependency] private readonly RespiratorSystem _respirator = default!;
+    [Dependency] private readonly StatusEffectsSystem _statusEffects = default!;
     private ISawmill _sawmill = default!;
 
     const float Factor = 1f;
@@ -126,8 +131,7 @@ public sealed class CocoonSystem : EntitySystem
         if (!component.IsHermetically)
             return;
 
-        if (HasComp<MutedComponent>(target) && !component.Mute)
-            RemComp<MutedComponent>(target.Value);
+        _statusEffects.TryRemoveStatusEffect(target.Value, MutedEffect);
 
         if (HasComp<TemporaryBlindnessComponent>(target) && !component.Blindable)
             RemComp<TemporaryBlindnessComponent>(target.Value);
@@ -174,10 +178,7 @@ public sealed class CocoonSystem : EntitySystem
 
         component.Prisoner = target;
 
-        if (!HasComp<MutedComponent>(target))
-            AddComp<MutedComponent>(target);
-        else
-            component.Mute = true;
+        _statusEffects.TrySetStatusEffectDuration(target, MutedEffect);
 
         if (!HasComp<PacifiedComponent>(target))
             AddComp<PacifiedComponent>(target);

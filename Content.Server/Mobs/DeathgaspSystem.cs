@@ -1,10 +1,10 @@
 ﻿using Content.Server.Chat.Systems;
 using Content.Server.Speech.EntitySystems;
-using Content.Server.Speech.Muting;
 using Content.Shared.Chat;
 using Content.Shared.Inventory;
 using Content.Shared.Mobs;
 using Content.Shared.Speech.Muting;
+using Content.Shared.StatusEffectNew;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Prototypes;
 
@@ -18,6 +18,7 @@ public sealed class DeathgaspSystem: EntitySystem
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     // DS14-end
+    [Dependency] private readonly StatusEffectsSystem _statusEffects = default!;
 
     public override void Initialize()
     {
@@ -60,7 +61,7 @@ public sealed class DeathgaspSystem: EntitySystem
         if (!Resolve(uid, ref component, false))
             return false;
 
-        if (HasComp<MutedComponent>(uid))
+        if (_statusEffects.HasEffectComp<MutedStatusEffectComponent>(uid))
             return false;
 
         _chat.TryEmoteWithChat(uid, component.Prototype, ignoreActionBlocker: true);

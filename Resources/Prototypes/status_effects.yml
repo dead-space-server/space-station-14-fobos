@@ -34,10 +34,6 @@
   id: PressureImmunity
 
 - type: statusEffect
-  id: Muted
-  alert: Muted
-
-- type: statusEffect
   id: Corporeal
   alert: Corporeal
 

@@ -1704,9 +1704,8 @@
   metabolisms:
     Drink:
       effects:
-      - !type:GenericStatusEffect
-        key: Muted
-        component: Muted
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectMuted
       - !type:SatiateThirst
         factor: 2
 
@@ -2280,9 +2279,8 @@
   metabolisms:
     Drink:
       effects:
-      - !type:GenericStatusEffect
-        key: Muted
-        component: Muted
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectMuted
       - !type:SatiateThirst
         factor: 2
       - !type:AdjustReagent
