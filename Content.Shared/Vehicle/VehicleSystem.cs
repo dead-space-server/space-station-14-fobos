@@ -14,6 +14,7 @@ using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Hands.Components;
 using Content.Shared.Interaction;
+using Content.Shared.Interaction.Events;
 using Content.Shared.Interaction.Components;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
@@ -85,6 +86,10 @@ public sealed partial class VehicleSystem : EntitySystem
         SubscribeLocalEvent<VehicleComponent, UnstrapAttemptEvent>(OnVehicleUnstrapAttempt); // DS14
 
         SubscribeLocalEvent<VehicleOperatorComponent, ComponentShutdown>(OnOperatorShutdown);
+        // DS14-start - Current engine uses explicit event subscriptions.
+        SubscribeLocalEvent<VehicleOperatorComponent, CanAttackFromContainerEvent>(OnOperatorCanAttackFromContainer);
+        SubscribeLocalEvent<VehicleOperatorComponent, AttackAttemptEvent>(OnOperatorAttackAttempt);
+        // DS14-end
         // DS14-start
         SubscribeLocalEvent<VehicleOperatorComponent, MobStateChangedEvent>(OnOperatorMobStateChanged);
         SubscribeLocalEvent<VehicleOperatorComponent, UpdateCanMoveEvent>(OnOperatorUpdateCanMove);
@@ -136,6 +141,27 @@ public sealed partial class VehicleSystem : EntitySystem
 
         if (!CanVehicleRun(ent))
             args.Cancel();
+    }
+
+    private void OnOperatorCanAttackFromContainer(Entity<VehicleOperatorComponent> ent, ref CanAttackFromContainerEvent args)
+    {
+        if (ent.Comp.Vehicle is not { } vehicleUid ||
+            !_vehicleQuery.TryComp(vehicleUid, out var vehicle) ||
+            !vehicle.CanAttack)
+            return;
+
+        args.CanAttack = true;
+    }
+
+    private void OnOperatorAttackAttempt(Entity<VehicleOperatorComponent> ent, ref AttackAttemptEvent args)
+    {
+        if (ent.Comp.Vehicle is not { } vehicleUid ||
+            !_vehicleQuery.TryComp(vehicleUid, out var vehicle) ||
+            !vehicle.CanAttack ||
+            args.Target != vehicleUid)
+            return;
+
+        args.Cancel();
     }
 
     private void OnVehicleShutdown(Entity<VehicleComponent> ent, ref ComponentShutdown args)
@@ -519,7 +545,7 @@ public sealed partial class VehicleSystem : EntitySystem
         if (TerminatingOrDeleted(entity))
             return;
 
-        if (!Resolve(entity, ref entity.Comp))
+        if (!Resolve(entity, ref entity.Comp, false))
             return;
 
         _actionBlocker.UpdateCanMove(entity);

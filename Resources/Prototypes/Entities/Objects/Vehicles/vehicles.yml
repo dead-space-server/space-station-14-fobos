@@ -39,6 +39,7 @@
   - type: Physics
     bodyType: KinematicController
   - type: Vehicle
+    canAttack: true
   - type: StrapVehicle
   - type: Strap
     position: Stand
