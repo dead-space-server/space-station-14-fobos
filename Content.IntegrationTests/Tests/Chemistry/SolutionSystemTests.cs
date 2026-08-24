@@ -59,7 +59,7 @@ public sealed class SolutionSystemTests
         await using var pair = await PoolManager.GetServerClient(settings);
         var client = pair.Client;
         bool? result = null;
-        Solution? solution = null;
+        Solution solution = null!;
         bool? hasManager = null;
 
         await client.WaitPost(() =>

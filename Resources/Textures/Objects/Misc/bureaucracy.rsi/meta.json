@@ -32,6 +32,14 @@
       "name": "envelope_torn_overlay"
     },
     {
+      "name": "envelope-inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "envelope-inhand-right",
+      "directions": 4
+    },
+    {
       "name": "label_cart"
     },
     {

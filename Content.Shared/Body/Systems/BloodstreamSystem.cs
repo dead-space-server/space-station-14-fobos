@@ -42,7 +42,6 @@ public sealed partial class BloodstreamSystem : EntitySystem
     [Dependency] private readonly AlertsSystem _alertsSystem = default!;
     [Dependency] private readonly MobStateSystem _mobStateSystem = default!;
     [Dependency] private readonly DamageableSystem _damageableSystem = default!;
-    [Dependency] private readonly SharedMetabolizerSystem _metabolizer = default!; // DS14: current build keeps the side-specific implementations.
 
     // DS14-start: current engine uses explicit event subscriptions.
     public override void Initialize()

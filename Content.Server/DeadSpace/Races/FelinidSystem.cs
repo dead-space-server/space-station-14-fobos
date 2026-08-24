@@ -9,6 +9,7 @@ using Content.Shared.Actions.Events;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Nutrition.EntitySystems;
+using Content.Shared.Nutrition.Prototypes;
 using Content.Server.Popups;
 using Robust.Shared.Random;
 using Robust.Shared.Prototypes;
@@ -39,6 +40,7 @@ public sealed class FelinidSystem : EntitySystem
 
     private static readonly ProtoId<TagPrototype> FelinidFoodTag = "FelinidFood";
     private static readonly EntProtoId EatMouseActionId = "EatMouseAction";
+    private static readonly SatiationValue Overfed = "Overfed";
 
     public override void Initialize()
     {
@@ -125,7 +127,7 @@ public sealed class FelinidSystem : EntitySystem
         if (!TryComp<SatiationComponent>(uid, out var satiation))
             return;
 
-        if (!_satiationSystem.IsValueInRange((uid, satiation), SatiationSystem.Hunger, below: "Overfed"))
+        if (!_satiationSystem.IsValueInRange((uid, satiation), SatiationSystem.Hunger, below: Overfed))
         {
             _popupSystem.PopupEntity(Loc.GetString("food-system-you-cannot-eat-any-more"), uid, uid, Shared.Popups.PopupType.SmallCaution);
             return;
