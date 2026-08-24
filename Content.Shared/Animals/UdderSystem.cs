@@ -91,7 +91,7 @@ public sealed class UdderSystem : EntitySystem
             return;
         // ds-14-start
         if (!_mobState.IsAlive(udder.Owner)) {
-            _popupSystem.PopupEntity(Loc.GetString("udder-dead-try-user"), userUid, PopupType.Small);
+            _popupSystem.PopupEntity(Loc.GetString("udder-dead-try-used"), userUid, PopupType.Small);
             return;
         }
         // ds-14-end
