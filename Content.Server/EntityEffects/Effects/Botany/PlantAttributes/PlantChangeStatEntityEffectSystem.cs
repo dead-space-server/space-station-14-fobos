@@ -12,10 +12,12 @@ namespace Content.Server.EntityEffects.Effects.Botany.PlantAttributes;
 /// <inheritdoc cref="EntityEffectSystem{T,TEffect}"/>
 public sealed partial class PlantChangeStatEntityEffectSystem : EntityEffectSystem<PlantComponent, PlantChangeStat>
 {
-    [Dependency] private IComponentFactory _componentFactory = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private PlantHolderSystem _plantHolder = default!;
-    [Dependency] private SharedEntityEffectsSystem _entityEffects = default!;
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly IComponentFactory _componentFactory = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
+    [Dependency] private readonly SharedEntityEffectsSystem _entityEffects = default!;
+    // DS14-end
 
     protected override void Effect(Entity<PlantComponent> entity, ref EntityEffectEvent<PlantChangeStat> args)
     {

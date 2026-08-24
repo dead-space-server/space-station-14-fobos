@@ -8,8 +8,20 @@ namespace Content.Client.Botany;
 
 public sealed partial class PlantTrayVisualizerSystem : VisualizerSystem<PlantTrayVisualsComponent>
 {
-    [Dependency] private PlantTraySystem _plantTray = default!;
-    [Dependency] private PlantHolderSystem _plantHolder = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        SubscribeLocalEvent<PlantTrayVisualsComponent, ComponentStartup>(OnComponentStartup);
+        SubscribeLocalEvent<PlantTrayComponent, AfterAutoHandleStateEvent>(OnPlantTrayState);
+    }
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly PlantTraySystem _plantTray = default!;
+    [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
+    // DS14-end
 
     /// <summary>
     /// Defers appearance writes until after network state application and deduplicates multiple state events per frame.
@@ -28,13 +40,11 @@ public sealed partial class PlantTrayVisualizerSystem : VisualizerSystem<PlantTr
         _pendingTrayUpdates.Clear();
     }
 
-    [SubscribeLocalEvent]
     private void OnComponentStartup(Entity<PlantTrayVisualsComponent> ent, ref ComponentStartup args)
     {
         QueueTrayWarnings(ent.Owner);
     }
 
-    [SubscribeLocalEvent]
     private void OnPlantTrayState(Entity<PlantTrayComponent> ent, ref AfterAutoHandleStateEvent args)
     {
         QueueTrayWarnings(ent.Owner);

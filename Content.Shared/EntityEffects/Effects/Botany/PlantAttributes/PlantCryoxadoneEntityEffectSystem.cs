@@ -12,10 +12,12 @@ namespace Content.Shared.EntityEffects.Effects.Botany.PlantAttributes;
 /// <inheritdoc cref="EntityEffectSystem{T,TEffect}"/>
 public sealed partial class PlantCryoxadoneEntityEffectSystem : EntityEffectSystem<PlantComponent, PlantCryoxadone>
 {
-    [Dependency] private PlantSystem _plant = default!;
-    [Dependency] private PlantHolderSystem _plantHolder = default!;
-    [Dependency] private PlantHarvestSystem _plantHarvest = default!;
-    [Dependency] private IGameTiming _timing = default!;
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly PlantSystem _plant = default!;
+    [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
+    [Dependency] private readonly PlantHarvestSystem _plantHarvest = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    // DS14-end
 
     protected override void Effect(Entity<PlantComponent> entity, ref EntityEffectEvent<PlantCryoxadone> args)
     {

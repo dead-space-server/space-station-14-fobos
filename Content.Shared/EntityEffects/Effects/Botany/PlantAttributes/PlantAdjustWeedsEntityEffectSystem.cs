@@ -9,7 +9,9 @@ namespace Content.Shared.EntityEffects.Effects.Botany.PlantAttributes;
 /// <inheritdoc cref="EntityEffectSystem{T,TEffect}"/>
 public sealed partial class PlantAdjustWeedsEntityEffectSystem : EntityEffectSystem<PlantTrayComponent, PlantAdjustWeeds>
 {
-    [Dependency] private PlantTraySystem _plantTray = default!;
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly PlantTraySystem _plantTray = default!;
+    // DS14-end
 
     protected override void Effect(Entity<PlantTrayComponent> entity, ref EntityEffectEvent<PlantAdjustWeeds> args)
     {

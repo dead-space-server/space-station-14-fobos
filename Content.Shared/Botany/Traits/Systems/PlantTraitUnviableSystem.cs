@@ -7,10 +7,20 @@ namespace Content.Shared.Botany.Traits.Systems;
 /// <inheritdoc cref="PlantTraitUnviableComponent"/>
 public sealed partial class PlantTraitUnviableSystem : EntitySystem
 {
-    [Dependency] private PlantHarvestSystem _plantHarvest = default!;
-    [Dependency] private PlantHolderSystem _plantHolder = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [SubscribeLocalEvent]
+        SubscribeLocalEvent<PlantTraitUnviableComponent, PlantGrowEvent>(OnPlantGrow);
+    }
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly PlantHarvestSystem _plantHarvest = default!;
+    [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
+    // DS14-end
+
     private void OnPlantGrow(Entity<PlantTraitUnviableComponent> ent, ref PlantGrowEvent args)
     {
         _plantHarvest.AffectGrowth(ent.Owner, -1);

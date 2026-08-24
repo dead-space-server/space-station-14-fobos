@@ -10,10 +10,20 @@ namespace Content.Shared.Botany.Systems;
 /// </summary>
 public abstract partial class SharedPlantAtmosphericSystem : EntitySystem
 {
-    [Dependency] private BotanySystem _botany = default!;
-    [Dependency] private PlantMutationSystem _mutation = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [SubscribeLocalEvent]
+        SubscribeLocalEvent<PlantAtmosphericComponent, PlantCrossPollinateEvent>(OnCrossPollinate);
+    }
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly BotanySystem _botany = default!;
+    [Dependency] private readonly PlantMutationSystem _mutation = default!;
+    // DS14-end
+
     private void OnCrossPollinate(Entity<PlantAtmosphericComponent> ent, ref PlantCrossPollinateEvent args)
     {
         if (!_botany.TryGetPlantComponent<PlantAtmosphericComponent>(args.PollenData, args.PollenProtoId, out var pollenData))

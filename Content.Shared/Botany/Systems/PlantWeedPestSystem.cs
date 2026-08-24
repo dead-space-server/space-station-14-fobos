@@ -11,13 +11,24 @@ namespace Content.Shared.Botany.Systems;
 /// </summary>
 public sealed partial class PlantWeedPestSystem : EntitySystem
 {
-    [Dependency] private BotanySystem _botany = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private PlantMutationSystem _mutation = default!;
-    [Dependency] private PlantHolderSystem _plantHolder = default!;
-    [Dependency] private PlantTraySystem _plantTray = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [SubscribeLocalEvent]
+        SubscribeLocalEvent<PlantWeedPestComponent, PlantCrossPollinateEvent>(OnCrossPollinate);
+        SubscribeLocalEvent<PlantWeedPestComponent, PlantGrowEvent>(OnPlantGrow);
+    }
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly BotanySystem _botany = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly PlantMutationSystem _mutation = default!;
+    [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
+    [Dependency] private readonly PlantTraySystem _plantTray = default!;
+    // DS14-end
+
     private void OnCrossPollinate(Entity<PlantWeedPestComponent> ent, ref PlantCrossPollinateEvent args)
     {
         if (!_botany.TryGetPlantComponent<PlantWeedPestComponent>(args.PollenData, args.PollenProtoId, out var pollenData))
@@ -28,7 +39,6 @@ public sealed partial class PlantWeedPestSystem : EntitySystem
         Dirty(ent);
     }
 
-    [SubscribeLocalEvent]
     private void OnPlantGrow(Entity<PlantWeedPestComponent> ent, ref PlantGrowEvent args)
     {
         var trayUid = GetEntity(args.Tray);

@@ -19,15 +19,27 @@ namespace Content.Shared.Botany.Systems;
 /// </summary>
 public sealed partial class PlantTraySystem : EntitySystem
 {
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private PlantHolderSystem _plantHolder = default!;
-    [Dependency] private PlantSystem _plant = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private SharedEntityEffectsSystem _entityEffects = default!;
-    [Dependency] private SharedSolutionContainerSystem _solutionContainer = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [SubscribeLocalEvent]
+        SubscribeLocalEvent<PlantTrayComponent, ExaminedEvent>(OnExamine);
+        SubscribeLocalEvent<PlantTrayComponent, SolutionTransferredEvent>(OnSolutionTransferred);
+        SubscribeLocalEvent<PlantTrayComponent, EntRemovedFromContainerMessage>(OnEntRemoved);
+    }
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
+    [Dependency] private readonly PlantSystem _plant = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedEntityEffectsSystem _entityEffects = default!;
+    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    // DS14-end
+
     private void OnExamine(Entity<PlantTrayComponent> ent, ref ExaminedEvent args)
     {
         if (!args.IsInDetailsRange)
@@ -56,14 +68,12 @@ public sealed partial class PlantTraySystem : EntitySystem
         }
     }
 
-    [SubscribeLocalEvent]
     private void OnSolutionTransferred(Entity<PlantTrayComponent> ent, ref SolutionTransferredEvent args)
     {
         _audio.PlayPredicted(ent.Comp.WateringSound, ent, args.User);
     }
 
     // Workaround for https://github.com/space-wizards/space-station-14/pull/35314
-    [SubscribeLocalEvent]
     private void OnEntRemoved(Entity<PlantTrayComponent> ent, ref EntRemovedFromContainerMessage args)
     {
         // Make sure the removed entity was our contained solution and clear our cached reference

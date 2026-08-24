@@ -13,17 +13,30 @@ namespace Content.Shared.Botany.Systems;
 /// </summary>
 public sealed partial class PlantGrowthSystem : EntitySystem
 {
-    [Dependency] private BotanySystem _botany = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private PlantMutationSystem _mutation = default!;
-    [Dependency] private PlantHarvestSystem _plantHarvest = default!;
-    [Dependency] private PlantHolderSystem _plantHolder = default!;
-    [Dependency] private PlantTraySystem _plantTray = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [Dependency] private EntityQuery<PlantHolderComponent> _holderQuery = default!;
-    [Dependency] private EntityQuery<PlantTrayComponent> _trayQuery = default!;
+        SubscribeLocalEvent<PlantGrowthComponent, PlantCrossPollinateEvent>(OnCrossPollinate);
+        SubscribeLocalEvent<PlantGrowthComponent, PlantGrowEvent>(OnPlantGrow);
+    }
+    // DS14-end
 
-    [SubscribeLocalEvent]
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly BotanySystem _botany = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly PlantMutationSystem _mutation = default!;
+    [Dependency] private readonly PlantHarvestSystem _plantHarvest = default!;
+    [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
+    [Dependency] private readonly PlantTraySystem _plantTray = default!;
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly EntityQuery<PlantHolderComponent> _holderQuery = default!;
+    [Dependency] private readonly EntityQuery<PlantTrayComponent> _trayQuery = default!;
+    // DS14-end
+
     private void OnCrossPollinate(Entity<PlantGrowthComponent> ent, ref PlantCrossPollinateEvent args)
     {
         if (!_botany.TryGetPlantComponent<PlantGrowthComponent>(args.PollenData, args.PollenProtoId, out var pollenData))
@@ -34,7 +47,6 @@ public sealed partial class PlantGrowthSystem : EntitySystem
         Dirty(ent);
     }
 
-    [SubscribeLocalEvent]
     private void OnPlantGrow(Entity<PlantGrowthComponent> ent, ref PlantGrowEvent args)
     {
         var (plantUid, plantComp) = ent;

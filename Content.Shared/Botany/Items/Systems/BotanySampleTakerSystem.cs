@@ -16,17 +16,30 @@ namespace Content.Shared.Botany.Items.Systems;
 /// </summary>
 public sealed partial class BotanySampleTakerSystem : EntitySystem
 {
-    [Dependency] private BotanySystem _botany = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private PlantHolderSystem _plantHolder = default!;
-    [Dependency] private PlantSystem _plant = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [Dependency] private EntityQuery<PlantHolderComponent> _holderQuery = default!;
-    [Dependency] private EntityQuery<PlantDataComponent> _dataQuery = default!;
-    [Dependency] private EntityQuery<PlantHarvestComponent> _harvestQuery = default!;
+        SubscribeLocalEvent<BotanySampleTakerComponent, AfterInteractEvent>(OnAfterInteract);
+        SubscribeLocalEvent<PlantComponent, PlantSampleAttemptEvent>(OnPlantSampleAttempt);
+    }
+    // DS14-end
 
-    [SubscribeLocalEvent]
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly BotanySystem _botany = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
+    [Dependency] private readonly PlantSystem _plant = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly EntityQuery<PlantHolderComponent> _holderQuery = default!;
+    [Dependency] private readonly EntityQuery<PlantDataComponent> _dataQuery = default!;
+    [Dependency] private readonly EntityQuery<PlantHarvestComponent> _harvestQuery = default!;
+    // DS14-end
+
     private void OnAfterInteract(Entity<BotanySampleTakerComponent> ent, ref AfterInteractEvent args)
     {
         if (args.Target == null || args.Handled || !args.CanReach || !HasComp<PlantComponent>(args.Target))
@@ -38,7 +51,6 @@ public sealed partial class BotanySampleTakerSystem : EntitySystem
         args.Handled = true;
     }
 
-    [SubscribeLocalEvent]
     private void OnPlantSampleAttempt(Entity<PlantComponent> ent, ref PlantSampleAttemptEvent args)
     {
         if (args.Cancelled)

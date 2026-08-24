@@ -10,8 +10,10 @@ namespace Content.Shared.Random;
 /// </summary>
 public sealed class RandomHelperSystem : EntitySystem
 {
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    // DS14-end
 
     public void RandomOffset(EntityUid entity, float minX, float maxX, float minY, float maxY, IRobustRandom? random = null)
     {

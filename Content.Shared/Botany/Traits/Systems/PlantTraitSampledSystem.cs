@@ -7,9 +7,19 @@ namespace Content.Shared.Botany.Traits.Systems;
 /// <inheritdoc cref="PlantTraitSampledComponent"/>
 public sealed partial class PlantTraitSampledSystem : EntitySystem
 {
-    [Dependency] private SharedPopupSystem _popup = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [SubscribeLocalEvent]
+        SubscribeLocalEvent<PlantTraitSampledComponent, PlantSampleAttemptEvent>(OnPlantSampleAttempt);
+    }
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    // DS14-end
+
     private void OnPlantSampleAttempt(Entity<PlantTraitSampledComponent> ent, ref PlantSampleAttemptEvent args)
     {
         _popup.PopupCursor(Loc.GetString("plant-sample-component-already-sampled-popup"), args.User);

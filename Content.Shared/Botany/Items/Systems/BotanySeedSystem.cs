@@ -16,15 +16,28 @@ namespace Content.Shared.Botany.Items.Systems;
 /// </summary>
 public sealed partial class BotanySeedSystem : EntitySystem
 {
-    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private BotanySystem _botany = default!;
-    [Dependency] private ItemSlotsSystem _itemSlots = default!;
-    [Dependency] private PlantTraySystem _plantTray = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [Dependency] private EntityQuery<PlantDataComponent> _dataQuery = default!;
+        SubscribeLocalEvent<SeedComponent, AfterInteractEvent>(OnAfterInteract);
+        SubscribeLocalEvent<PlantTrayComponent, PlantingSeedAttemptEvent>(OnPlantingSeedAttempt);
+    }
+    // DS14-end
 
-    [SubscribeLocalEvent]
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly BotanySystem _botany = default!;
+    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
+    [Dependency] private readonly PlantTraySystem _plantTray = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly EntityQuery<PlantDataComponent> _dataQuery = default!;
+    // DS14-end
+
     private void OnAfterInteract(Entity<SeedComponent> ent, ref AfterInteractEvent args)
     {
         if (args.Handled || !args.CanReach || !HasComp<PlantTrayComponent>(args.Target))
@@ -36,7 +49,6 @@ public sealed partial class BotanySeedSystem : EntitySystem
         args.Handled = true;
     }
 
-    [SubscribeLocalEvent]
     private void OnPlantingSeedAttempt(Entity<PlantTrayComponent> ent, ref PlantingSeedAttemptEvent args)
     {
         if (args.Cancelled)

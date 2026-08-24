@@ -22,13 +22,15 @@ public sealed partial class PlantMutationSystem : EntitySystem
     private static readonly ProtoId<RandomPlantMutationListPrototype> RandomPlantMutations = "RandomPlantMutations";
     private RandomPlantMutationListPrototype _randomMutations = default!;
 
-    [Dependency] private INetManager _net = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private BotanySystem _botany = default!;
-    [Dependency] private ISerializationManager _serialization = default!;
-    [Dependency] private PlantSystem _plant = default!;
-    [Dependency] private PlantTraySystem _plantTray = default!;
-    [Dependency] private SharedEntityEffectsSystem _entityEffects = default!;
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly BotanySystem _botany = default!;
+    [Dependency] private readonly ISerializationManager _serialization = default!;
+    [Dependency] private readonly PlantSystem _plant = default!;
+    [Dependency] private readonly PlantTraySystem _plantTray = default!;
+    [Dependency] private readonly SharedEntityEffectsSystem _entityEffects = default!;
+    // DS14-end
 
     public override void Initialize()
     {

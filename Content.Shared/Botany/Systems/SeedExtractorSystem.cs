@@ -11,12 +11,22 @@ namespace Content.Shared.Botany.Systems;
 
 public sealed partial class SeedExtractorSystem : EntitySystem
 {
-    [Dependency] private BotanySystem _botany = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private SharedPowerReceiverSystem _powerReceiver = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [SubscribeLocalEvent]
+        SubscribeLocalEvent<SeedExtractorComponent, InteractUsingEvent>(OnInteractUsing);
+    }
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly BotanySystem _botany = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedPowerReceiverSystem _powerReceiver = default!;
+    // DS14-end
+
     private void OnInteractUsing(Entity<SeedExtractorComponent> ent, ref InteractUsingEvent args)
     {
         if (!_powerReceiver.IsPowered(ent.Owner))

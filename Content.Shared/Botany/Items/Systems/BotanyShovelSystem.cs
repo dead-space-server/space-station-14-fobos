@@ -14,11 +14,22 @@ namespace Content.Shared.Botany.Items.Systems;
 /// </summary>
 public sealed partial class BotanyShovelSystem : EntitySystem
 {
-    [Dependency] private PlantSystem _plant = default!;
-    [Dependency] private PlantTraySystem _plantTray = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [SubscribeLocalEvent]
+        SubscribeLocalEvent<ShovelComponent, AfterInteractEvent>(OnAfterInteract);
+        SubscribeLocalEvent<PlantTrayComponent, TrayShovelAttemptEvent>(OnTrayShovelAttempt);
+    }
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly PlantSystem _plant = default!;
+    [Dependency] private readonly PlantTraySystem _plantTray = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    // DS14-end
+
     private void OnAfterInteract(Entity<ShovelComponent> ent, ref AfterInteractEvent args)
     {
         if (args.Target == null || args.Handled || !args.CanReach)
@@ -42,7 +53,6 @@ public sealed partial class BotanyShovelSystem : EntitySystem
         args.Handled = true;
     }
 
-    [SubscribeLocalEvent]
     private void OnTrayShovelAttempt(Entity<PlantTrayComponent> ent, ref TrayShovelAttemptEvent args)
     {
         if (args.Cancelled)

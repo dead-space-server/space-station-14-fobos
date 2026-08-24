@@ -14,14 +14,27 @@ namespace Content.Shared.Botany.Systems;
 /// </summary>
 public sealed partial class PlantHarvestSystem : EntitySystem
 {
-    [Dependency] private BotanySystem _botany = default!;
-    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private PlantSystem _plant = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private PlantHolderSystem _plantHolder = default!;
-    [Dependency] private PlantTraySystem _plantTray = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [SubscribeLocalEvent]
+        SubscribeLocalEvent<PlantTrayComponent, InteractHandEvent>(OnInteractHand);
+        SubscribeLocalEvent<PlantHarvestComponent, PlantGrowEvent>(OnPlantGrow);
+        SubscribeLocalEvent<PlantHarvestComponent, InteractHandEvent>(OnInteractHand);
+        SubscribeLocalEvent<PlantHarvestComponent, DoHarvestEvent>(OnHandledDoHarvest);
+    }
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly BotanySystem _botany = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly PlantSystem _plant = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
+    [Dependency] private readonly PlantTraySystem _plantTray = default!;
+    // DS14-end
+
     private void OnInteractHand(Entity<PlantTrayComponent> ent, ref InteractHandEvent args)
     {
         if (args.Handled)
@@ -37,7 +50,6 @@ public sealed partial class PlantHarvestSystem : EntitySystem
         args.Handled = true;
     }
 
-    [SubscribeLocalEvent]
     private void OnPlantGrow(Entity<PlantHarvestComponent> ent, ref PlantGrowEvent args)
     {
         if (!TryComp<PlantHolderComponent>(ent.Owner, out var holder)
@@ -61,7 +73,6 @@ public sealed partial class PlantHarvestSystem : EntitySystem
         Dirty(ent);
     }
 
-    [SubscribeLocalEvent]
     private void OnInteractHand(Entity<PlantHarvestComponent> ent, ref InteractHandEvent args)
     {
         if (args.Handled)
@@ -82,7 +93,6 @@ public sealed partial class PlantHarvestSystem : EntitySystem
         args.Handled = true;
     }
 
-    [SubscribeLocalEvent]
     private void OnHandledDoHarvest(Entity<PlantHarvestComponent> ent, ref DoHarvestEvent args)
     {
         if (args.Cancelled)

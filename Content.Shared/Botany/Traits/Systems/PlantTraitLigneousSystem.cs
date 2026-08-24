@@ -11,17 +11,23 @@ namespace Content.Shared.Botany.Traits.Systems;
 /// <inheritdoc cref="PlantTraitLigneousComponent"/>
 public sealed partial class PlantTraitLigneousSystem : EntitySystem
 {
-    [Dependency] private PlantHarvestSystem _plantHarvest = default!;
-    [Dependency] private PlantHolderSystem _plantHolder = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private SharedToolSystem _tool = default!;
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly PlantHarvestSystem _plantHarvest = default!;
+    [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedToolSystem _tool = default!;
+    // DS14-end
 
     public override void Initialize()
     {
+        // DS14-start: current engine uses explicit event subscriptions.
+        base.Initialize();
+        SubscribeLocalEvent<PlantTraitLigneousComponent, InteractUsingEvent>(OnInteractUsing);
+        // DS14-end
+
         SubscribeLocalEvent<PlantTraitLigneousComponent, DoHarvestEvent>(OnDoHarvest, before: [typeof(PlantHarvestSystem)]);
     }
 
-    [SubscribeLocalEvent]
     private void OnInteractUsing(Entity<PlantTraitLigneousComponent> ent, ref InteractUsingEvent args)
     {
         if (args.Handled)

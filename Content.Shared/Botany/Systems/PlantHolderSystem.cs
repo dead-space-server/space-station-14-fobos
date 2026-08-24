@@ -11,9 +11,20 @@ namespace Content.Shared.Botany.Systems;
 /// </summary>
 public sealed partial class PlantHolderSystem : EntitySystem
 {
-    [Dependency] private ISerializationManager _serialization = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [SubscribeLocalEvent]
+        SubscribeLocalEvent<PlantHolderComponent, CloningEvent>(OnCloning);
+        SubscribeLocalEvent<PlantHolderComponent, DamageChangedEvent>(OnDamageChanged);
+    }
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly ISerializationManager _serialization = default!;
+    // DS14-end
+
     private void OnCloning(Entity<PlantHolderComponent> ent, ref CloningEvent args)
     {
         if (!args.Settings.EventComponents.Contains(Factory.GetRegistration(ent.Comp.GetType()).Name))
@@ -24,11 +35,15 @@ public sealed partial class PlantHolderSystem : EntitySystem
         Dirty(args.CloneUid, cloneComp);
     }
 
-    [SubscribeLocalEvent]
-    private void OnDamageDealt(Entity<PlantHolderComponent> ent, ref DamageDealtEvent args)
+    // DS14-start: current engine reports applied damage through DamageChangedEvent.
+    private void OnDamageChanged(Entity<PlantHolderComponent> ent, ref DamageChangedEvent args)
     {
-        AdjustsHealth(ent.AsNullable(), -args.Damage.GetTotal().Float());
+        if (args.DamageDelta is not { } damage)
+            return;
+
+        AdjustsHealth(ent.AsNullable(), -damage.GetTotal().Float());
     }
+    // DS14-end
 
     /// <summary>
     /// Adjusts the health of the plant.

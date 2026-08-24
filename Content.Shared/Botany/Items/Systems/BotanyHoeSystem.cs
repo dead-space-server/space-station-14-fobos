@@ -14,13 +14,26 @@ namespace Content.Shared.Botany.Items.Systems;
 /// </summary>
 public sealed partial class BotanyHoeSystem : EntitySystem
 {
-    [Dependency] private PlantTraySystem _plantTray = default!;
-    [Dependency] private PlantSystem _plant = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [Dependency] private EntityQuery<PlantComponent> _plantQuery = default!;
+        SubscribeLocalEvent<BotanyHoeComponent, AfterInteractEvent>(OnAfterInteract);
+        SubscribeLocalEvent<PlantTrayComponent, TrayHoeAttemptEvent>(OnTrayHoeAttempt);
+    }
+    // DS14-end
 
-    [SubscribeLocalEvent]
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly PlantTraySystem _plantTray = default!;
+    [Dependency] private readonly PlantSystem _plant = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly EntityQuery<PlantComponent> _plantQuery = default!;
+    // DS14-end
+
     private void OnAfterInteract(Entity<BotanyHoeComponent> ent, ref AfterInteractEvent args)
     {
         if (args.Target == null || args.Handled || !args.CanReach)
@@ -44,7 +57,6 @@ public sealed partial class BotanyHoeSystem : EntitySystem
         args.Handled = true;
     }
 
-    [SubscribeLocalEvent]
     private void OnTrayHoeAttempt(Entity<PlantTrayComponent> ent, ref TrayHoeAttemptEvent args)
     {
         if (args.Cancelled)

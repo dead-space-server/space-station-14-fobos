@@ -8,11 +8,21 @@ namespace Content.Shared.Botany.Traits.Systems;
 /// <inheritdoc cref="PlantTraitKudzuComponent"/>
 public sealed partial class PlantTraitKudzuSystem : EntitySystem
 {
-    [Dependency] private PlantHolderSystem _plantHolder = default!;
-    [Dependency] private PlantTraySystem _plantTray = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
+    // DS14-start: current engine uses explicit event subscriptions.
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    [SubscribeLocalEvent]
+        SubscribeLocalEvent<PlantTraitKudzuComponent, PlantGrowEvent>(OnPlantGrow);
+    }
+    // DS14-end
+
+    // DS14-start: current engine uses readonly IoC fields.
+    [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
+    [Dependency] private readonly PlantTraySystem _plantTray = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    // DS14-end
+
     private void OnPlantGrow(Entity<PlantTraitKudzuComponent> ent, ref PlantGrowEvent args)
     {
         var trayUid = GetEntity(args.Tray);
