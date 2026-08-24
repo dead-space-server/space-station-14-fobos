@@ -81,3 +81,5 @@ ent-WeaponLaserGunXenoborg = лазерная пушка ксеноборга
     .suffix = Для боргов
 ent-WeaponLaserCannonXenoborg = тяжёлая лазерная пушка ксеноборга
     .desc = { ent-WeaponAdvancedLaser.desc }
+ent-WeaponBurstFireLaserXenoborg = импульсный лазер ксеноборга
+    .desc = Инопланетное оружие, пропускающее очередь лазерных импульсов через призму и поджигающее цели.
