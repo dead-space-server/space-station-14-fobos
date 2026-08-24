@@ -122,7 +122,7 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
         if (_playerManager.LocalSession?.AttachedEntity == null)
             return;
 
-        var rcdName = GetPrototypeName(proto);
+        var rcdName = GetPrototypeName(proto); // DS14
 
         var msg = Loc.GetString("rcd-component-change-mode", ("mode", rcdName));
 
@@ -136,7 +136,7 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
 
     private string GetTooltip(RCDPrototype proto)
     {
-        var tooltip = GetPrototypeName(proto);
+        var tooltip = GetPrototypeName(proto); // DS14
         tooltip = OopsConcat(char.ToUpper(tooltip[0]).ToString(), tooltip.Remove(0, 1));
 
         return tooltip;

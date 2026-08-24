@@ -86,7 +86,7 @@ public sealed partial class SatiationSystem : EntitySystem
             SetAuthoritativeValue(entity, satiation, proto, value);
         }
 
-        Dirty(entity);
+        Dirty(entity); // DS14
     }
 
     /// <summary>
@@ -229,7 +229,7 @@ public sealed partial class SatiationSystem : EntitySystem
         var updateEvent = new SatiationUpdateEvent(satiation.SatiationType);
         RaiseLocalEvent(entity, ref updateEvent);
 
-        Dirty(entity);
+        Dirty(entity); // DS14
     }
 
     private void UpdateAlerts(
@@ -262,7 +262,7 @@ public sealed partial class SatiationSystem : EntitySystem
             nextHigherThreshold,
             nextLowerThreshold
         );
-        Dirty(entity);
+        Dirty(entity); // DS14
     }
 }
 

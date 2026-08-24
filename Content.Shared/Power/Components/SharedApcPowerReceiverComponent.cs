@@ -14,17 +14,17 @@ public abstract partial class SharedApcPowerReceiverComponent : Component
     /// <summary>
     /// When false, causes this to appear powered even if not receiving power from an Apc.
     /// </summary>
-    [ViewVariables(VVAccess.ReadWrite)]
+    [ViewVariables(VVAccess.ReadWrite)] // DS14
     public virtual bool NeedsPower { get; set; } = true;
 
     /// <summary>
     /// When true, causes this to never appear powered.
     /// </summary>
-    [ViewVariables(VVAccess.ReadWrite)]
+    [ViewVariables(VVAccess.ReadWrite)] // DS14
     public virtual bool PowerDisabled { get; set; }
 
     /// <summary>
     /// Amount of power this needs from an APC to function, in watts.
     /// </summary>
-    public abstract float Load { get; set; }
+    public abstract float Load { get; set; } // DS14
 }

@@ -34,7 +34,7 @@ public sealed partial class BloodstreamSystem : EntitySystem
     public static readonly EntProtoId Bloodloss = "StatusEffectBloodloss";
 
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!; // DS14 - current engine baseline has no EntitySystem.ProtoMan shortcut.
-    [Dependency] private readonly INetManager _netManager = default!;
+    [Dependency] private readonly INetManager _netManager = default!; // DS14
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
@@ -127,28 +127,26 @@ public sealed partial class BloodstreamSystem : EntitySystem
         DirtyField(entity, entity.Comp, nameof(BloodstreamComponent.NextUpdate));
     }
 
+    // DS14-start
     // Solution containers are authoritative server entities. Creating them client-side during map init
     // breaks the initial full state on the pre-v288 engine used by DS14.
     private void OnComponentInit(Entity<BloodstreamComponent> entity, ref ComponentInit args)
     {
-        // DS14-start: the current solution API returns Solution and has no separate metabolites container.
         if (!_solutionContainer.EnsureSolution(entity.Owner, entity.Comp.BloodSolutionName, out var bloodSolution)
             || !_solutionContainer.EnsureSolution(entity.Owner, entity.Comp.BloodTemporarySolutionName, out var tempSolution))
             return;
 
         bloodSolution.MaxVolume = entity.Comp.BloodReferenceSolution.Volume * entity.Comp.MaxVolumeModifier;
         tempSolution.MaxVolume = entity.Comp.BleedPuddleThreshold * 4; // give some leeway, for chemstream as well
-        // DS14-end
         entity.Comp.BloodReferenceSolution.SetReagentData(GetEntityBloodData((entity, entity.Comp)));
 
         // Fill blood solution with BLOOD
         // The DNA string might not be initialized yet, but the reagent data gets updated in the GenerateDnaEvent subscription
         var solution = entity.Comp.BloodReferenceSolution.Clone();
-        // DS14-start: the current solution API returns Solution directly.
         solution.ScaleTo(entity.Comp.BloodReferenceSolution.Volume - bloodSolution.Volume);
         bloodSolution.AddSolution(solution, _prototypeManager);
-        // DS14-end
     }
+    // DS14-end
 
     // prevent the infamous UdderSystem debug assert, see https://github.com/space-wizards/space-station-14/pull/35314
     // TODO: find a better solution than copy pasting this into every shared system that caches solution entities

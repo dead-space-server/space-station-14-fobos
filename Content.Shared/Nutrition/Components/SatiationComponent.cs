@@ -16,8 +16,7 @@ namespace Content.Shared.Nutrition.Components;
 /// A component which is basically just a collection of <see cref="Satiation"/>s keyed by their
 /// <see cref="SatiationTypePrototype"/>s.
 /// </summary>
-// DS14: field deltas can be sent before the initial full state on the current engine baseline.
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState] // DS14 - field deltas can precede the initial full state on the current engine.
 // Nothing should modify the dictionary once it's deserialized. Perhaps satiations can be dynamically
 // added and removed in the future, but not today.
 [Access(typeof(SatiationSystem))]
