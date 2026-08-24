@@ -170,6 +170,11 @@
     - NamesDragon
     - NamesDragonTitle
     nameFormat: name-format-dragon
+  - type: Grammar
+    attributes:
+      proper: true
+  - type: NameIdentifier
+    group: null
   - type: Prying
     pryPowered: true
     force: true

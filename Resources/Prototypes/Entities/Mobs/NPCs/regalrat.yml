@@ -126,11 +126,14 @@
     - NamesRegalratKingdom
     - NamesRegalratTitle
     nameFormat: name-format-regal-rat
+  - type: NameIdentifier
+    group: null
   - type: GuideHelp
     guides:
     - MinorAntagonists
   - type: Grammar
     attributes:
+      proper: true
       gender: male
   - type: Sharp
   - type: TTS
