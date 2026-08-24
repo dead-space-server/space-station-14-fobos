@@ -4,6 +4,9 @@ using Robust.Client.UserInterface.XAML;
 
 namespace Content.Client.Communications.UI.Widgets;
 
+/// <summary>
+/// A set of controls to change the alert level for a station.
+/// </summary>
 [GenerateTypedNameReferences]
 public sealed partial class AlertLevelControls : BoxContainer
 {

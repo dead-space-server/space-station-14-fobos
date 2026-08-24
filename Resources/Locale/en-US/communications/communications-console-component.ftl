@@ -2,10 +2,11 @@
 comms-console-menu-title = Communications Console
 comms-console-menu-announcement-placeholder = Announcement text...
 comms-console-menu-broadcast-placeholder = Broadcast text...
+comms-console-menu-broadcast-bottom-placeholder = Screen bottom line (max 32 characters)
 comms-console-menu-announcement-button = Announce over radio
 comms-console-menu-announcement-button-tooltip = Send your message as a station-wide radio announcement.
 comms-console-menu-broadcast-button = Display on screens
-comms-console-menu-broadcast-button-tooltip = Broadcast your message to wall-mounted screens around the station. Note: They fit only ten characters!
+comms-console-menu-broadcast-button-tooltip = Broadcast your message to wall-mounted screens around the station. Each of the two lines fits 32 characters.
 comms-console-menu-alert-level-button-tooltip = Change the station alert level.
 comms-console-change-alert-level-button = Change status
 comms-console-confirm-alert-level-button = Confirm
@@ -18,6 +19,7 @@ comms-console-station-announcements-header = Station Announcements
 comms-console-station-broadcast-header = Station Broadcast
 comms-console-announce-tab-title = Radio
 comms-console-broadcast-tab-title = Screen
+comms-console-char-limit = {$count}/{$max}
 
 # Popup
 comms-console-permission-denied = Permission denied

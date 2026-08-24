@@ -201,8 +201,10 @@ public sealed class CCCCVars
     /// </summary>
     public static readonly CVarDef<bool> MultipleInventoryWindows =
         CVarDef.Create("storage.multiple_inventory_windows", false, CVar.CLIENTONLY | CVar.ARCHIVE);
+    // DS14-start - scrolling screens accept two 32-character lines plus their separator.
     public static readonly CVarDef<int> MaxBroadcastLength =
-        CVarDef.Create("chat.max_broadcast_length", 10, CVar.SERVER | CVar.REPLICATED);
+        CVarDef.Create("chat.max_broadcast_length", 65, CVar.SERVER | CVar.REPLICATED);
+    // DS14-end
 
     /*
     * Попауты

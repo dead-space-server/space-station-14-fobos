@@ -10,6 +10,12 @@ using Robust.Shared.Configuration;
 
 namespace Content.Client.Communications.UI
 {
+    /// <summary>
+    /// The BUI for the communications console.
+    /// Handles sending messages back to the server to call the shuttle,
+    /// send messages, set the alert level, and set the text on screens.
+    /// </summary>
+    /// <seealso cref="CommunicationsConsoleComponent"/>
     public sealed class CommunicationsConsoleBoundUserInterface : BoundUserInterface
     {
         [Dependency] private readonly IConfigurationManager _cfg = default!;
@@ -30,6 +36,7 @@ namespace Content.Client.Communications.UI
         {
         }
 
+        /// <inheritdoc/>
         protected override void Open()
         {
             base.Open();

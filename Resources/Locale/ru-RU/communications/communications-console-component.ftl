@@ -21,13 +21,15 @@ comms-console-menu-title = Консоль связи
 comms-console-menu-category-announcement = Объявление экипажу станции
 comms-console-menu-announcement-placeholder = Текст объявления...
 comms-console-menu-broadcast-placeholder = Текст трансляции...
+comms-console-menu-broadcast-bottom-placeholder = Нижняя строка экрана (не более 32 символов)
 comms-console-menu-announcement-button = Объявить по радио
 comms-console-menu-broadcast-button = Показать на экранах
-comms-console-menu-broadcast-button-tooltip = Транслируйте своё сообщение на настенные экраны по всей станции. Примечание: помещается всего десять символов!
+comms-console-menu-broadcast-button-tooltip = Транслируйте своё сообщение на настенные экраны по всей станции. В каждой из двух строк помещается 32 символа.
 comms-console-station-announcements-header = Объявления станции
 comms-console-station-broadcast-header = Трансляция станции
 comms-console-announce-tab-title = Радио
 comms-console-broadcast-tab-title = Экран
+comms-console-char-limit = {$count}/{$max}
 # Station code
 comms-console-menu-category-alert-level = Уровень угрозы станции
 comms-console-menu-alert-level-button = Установить код
