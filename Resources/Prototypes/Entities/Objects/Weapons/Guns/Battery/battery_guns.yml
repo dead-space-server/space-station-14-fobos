@@ -1011,14 +1011,28 @@
   parent: [WeaponAdvancedLaser, BaseXenoborgContraband]
   id: WeaponLaserGunXenoborg
   name: xenoborg laser gun
+  components:
+  - type: BatteryAmmoProvider
+    proto: XenoborgLaser
+  # DS14 - preserve the existing inherited gun sprite; upstream xenoborg_laser_gun.rsi is not present on this baseline.
 
 - type: entity
   parent: [WeaponLaserCannon, BaseXenoborgContraband]
   id: WeaponLaserCannonXenoborg
   name: xenoborg laser cannon
   components:
+  - type: BatteryAmmoProvider
+    proto: XenoborgHeavyLaser
+    fireCost: 100
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Battery/xenoborg_laser_cannon.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-unshaded-4
+      map: [ "enum.GunVisualLayers.MagUnshaded" ]
   - type: BatterySelfRecharger
-    autoRechargeRate: 30
+    autoRechargeRate: 50
   # "remove" wield bonus and penalty so borgs can use it
   - type: GunWieldBonus
     minAngle: 0
@@ -1027,11 +1041,6 @@
     fireRate: 2
     minAngle: 1
     maxAngle: 2
-  # DS14-start
-  - type: BatteryAmmoProvider
-    proto: RedHeavyLaserXenoborg
-    fireCost: 100
-  # DS14-end
 
 - type: entity
   parent: [WeaponAdvancedLaser, BaseXenoborgContraband]
