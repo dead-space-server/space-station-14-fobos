@@ -124,7 +124,7 @@
       methods: [Touch]
       effects:
       - !type:WashCreamPie
-  - type: StatusEffects
+  - type: StatusEffects # DS14 - PressureImmunity is provided by the new status effect system.
     allowed:
     - Stun
     - KnockedDown
@@ -135,7 +135,6 @@
     - Drunk
     - SlurredSpeech
     - RatvarianLanguage
-    - PressureImmunity
     - Muted
     - ForcedSleep
     - TemporaryBlindness

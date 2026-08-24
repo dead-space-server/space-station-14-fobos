@@ -7,7 +7,6 @@ entity-effect-status-effect-Muted = неспособность разговар�
 entity-effect-status-effect-Stutter = заикание
 entity-effect-status-effect-ForcedSleep = потеря сознания
 entity-effect-status-effect-Drunk = опьянение
-entity-effect-status-effect-PressureImmunity = невосприимчивость к давлению
 entity-effect-status-effect-Pacified = принудительный пацифизм
 entity-effect-status-effect-RatvarianLanguage = паттерны ратварского языка
 entity-effect-status-effect-StaminaModifier = модифицированная выносливость
