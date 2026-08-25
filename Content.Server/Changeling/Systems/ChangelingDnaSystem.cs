@@ -30,8 +30,8 @@ public sealed class ChangelingDnaSystem : EntitySystem
         if (!TryComp<ChangelingDevourComponent>(args.Changeling, out var devour))
             return;
 
-        if (devour.DevourSpill != null)
-            _puddle.TrySpillAt(args.Devoured, devour.DevourSpill.Clone(), out _, false);
+        if (devour.DevourSpill is { } devourSpill)
+            _puddle.TrySpillAt(args.Devoured, devourSpill.Clone(), out _, false);
         // DS14-end
 
         if (!args.GrantedDna ||
