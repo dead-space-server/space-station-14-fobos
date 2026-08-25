@@ -61,10 +61,7 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, EventHorizonAttemptConsumeEntityEvent>(PreventBreach);
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, GotEmaggedEvent>(OnEmagged); // DS14
-        // DS14-start
-        SubscribeLocalEvent<ContainmentFieldGeneratorComponent, GetVerbsEvent<AlternativeVerb>>(OnGetAlternativeVerbs);
-        SubscribeLocalEvent<ParticleProjectileComponent, StartCollideEvent>(OnParticleCollide);
-        // DS14-end
+        SubscribeLocalEvent<ContainmentFieldGeneratorComponent, GetVerbsEvent<AlternativeVerb>>(OnGetAlternativeVerbs); // DS14
     }
 
     public override void Update(float frameTime)
@@ -161,32 +158,6 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
         args.Handled = true;
     }
 
-    private void OnParticleCollide(Entity<ParticleProjectileComponent> particle, ref StartCollideEvent args)
-    {
-        if (MetaData(particle).EntityPrototype?.ID != AntiParticlesProjectile.Id ||
-            !TryComp<ContainmentFieldGeneratorComponent>(args.OtherEntity, out var generator) ||
-            generator.HackEndTime == null)
-        {
-            return;
-        }
-
-        QueueDel(particle);
-        if (++generator.StabilizationHits < StabilizationHitsRequired)
-        {
-            _popupSystem.PopupEntity(
-                Loc.GetString("comp-containment-stabilization-hit"),
-                args.OtherEntity,
-                PopupType.Medium);
-            return;
-        }
-
-        Stabilize((args.OtherEntity, generator));
-        _popupSystem.PopupEntity(
-            Loc.GetString("comp-containment-stabilized"),
-            args.OtherEntity,
-            PopupType.Large);
-    }
-
     private void OnGetAlternativeVerbs(
         Entity<ContainmentFieldGeneratorComponent> generator,
         ref GetVerbsEvent<AlternativeVerb> args)
@@ -259,6 +230,31 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
     /// </summary>
     private void HandleGeneratorCollide(Entity<ContainmentFieldGeneratorComponent> generator, ref StartCollideEvent args)
     {
+        // DS14-start
+        if (generator.Comp.HackEndTime != null &&
+            MetaData(args.OtherEntity).EntityPrototype?.ID == AntiParticlesProjectile.Id &&
+            HasComp<ParticleProjectileComponent>(args.OtherEntity))
+        {
+            QueueDel(args.OtherEntity);
+            if (++generator.Comp.StabilizationHits < StabilizationHitsRequired)
+            {
+                _popupSystem.PopupEntity(
+                    Loc.GetString("comp-containment-stabilization-hit"),
+                    generator,
+                    PopupType.Medium);
+            }
+            else
+            {
+                Stabilize(generator);
+                _popupSystem.PopupEntity(
+                    Loc.GetString("comp-containment-stabilized"),
+                    generator,
+                    PopupType.Large);
+            }
+            return;
+        }
+        // DS14-end
+
         if (args.OtherFixtureId == generator.Comp.SourceFixtureId &&
             _tags.HasTag(args.OtherEntity, generator.Comp.IDTag))
         {
