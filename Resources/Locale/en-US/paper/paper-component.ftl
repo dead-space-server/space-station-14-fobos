@@ -32,6 +32,17 @@ paper-ui-toolbar-shift = Dense text
 paper-ui-toolbar-confusion = Handwritten text
 paper-ui-toolbar-cyrillic-confusion = Broken handwriting
 paper-ui-toolbar-format = Format
+# DS14-start
+paper-ui-toolbar-font = Font
+paper-ui-toolbar-font-default = Default
+paper-ui-toolbar-font-notosansdisplay = Noto Sans Display
+paper-ui-toolbar-font-boxround = Boxfont Round
+paper-ui-toolbar-font-openlukyanov = Open Lukyanov
+paper-ui-toolbar-font-bedstead = Bedstead
+paper-ui-toolbar-font-comicsans = Comic Sans
+paper-ui-toolbar-font-wingdings = Wingdings
+paper-ui-toolbar-font-forced = Your font cannot be changed
+# DS14-end
 paper-ui-toolbar-text = Text
 paper-ui-toolbar-heading-1 = Heading 1
 paper-ui-toolbar-heading-2 = Heading 2
