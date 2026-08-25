@@ -30,7 +30,6 @@ public sealed partial class GasMaskDispatchComponent : Component
     public SoundSpecifier Sound = new SoundPathSpecifier(
         "/Audio/_DeadSpace/Announcements/dispatch_please_respond.ogg",
         AudioParams.Default.WithVolume(-8f));
-    public SoundSpecifier Sound = new SoundPathSpecifier("/Audio/_DeadSpace/Announcements/dispatch_please_respond.ogg");
 }
 
 /// <summary>
