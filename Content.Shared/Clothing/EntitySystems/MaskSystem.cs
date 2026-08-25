@@ -145,7 +145,7 @@ public sealed class MaskSystem : EntitySystem
             delay = TimeSpan.Zero;
 
             var message = Loc.GetString($"action-mask-pull-{dir}-popup-message", ("mask", mask));
-            _popupSystem.PopupEntity(message, wearer, wearer);
+            _popupSystem.PopupClient(message, wearer, wearer); // DS14: avoid duplicate predicted popups.
         }
         else
         {
