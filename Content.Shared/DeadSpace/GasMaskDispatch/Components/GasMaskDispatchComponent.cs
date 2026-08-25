@@ -58,8 +58,9 @@ public enum GasMaskDispatchCode : byte
 /// Сообщение от клиента о выборе кода в радиальном меню запроса подкрепления.
 /// </summary>
 [Serializable, NetSerializable]
-public sealed class GasMaskDispatchSelectMessage(NetEntity mask, GasMaskDispatchCode code) : EntityEventArgs
+public sealed class GasMaskDispatchSelectMessage(NetEntity mask, NetEntity action, GasMaskDispatchCode code) : EntityEventArgs
 {
     public readonly NetEntity Mask = mask;
+    public readonly NetEntity Action = action;
     public readonly GasMaskDispatchCode Code = code;
 }

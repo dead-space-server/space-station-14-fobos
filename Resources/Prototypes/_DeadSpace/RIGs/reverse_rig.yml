@@ -88,7 +88,7 @@
         ents: []
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase]
+  parent: [ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase]
   id: ClothingHeadHelmetRIGReverse
   name: шлем системы обратного рига
   description: Шлем системы обратного рига. Надевается автоматически вместе со скафандром.

@@ -177,7 +177,7 @@
 
 # helmet.rsi
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase]
+  parent: [ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase]
   categories: [ HideSpawnMenu ]
   id: ClothingHeadHelmetHardsuitsastr
   name: шлем диверсионно-разведывательного скафандра Klecsh //

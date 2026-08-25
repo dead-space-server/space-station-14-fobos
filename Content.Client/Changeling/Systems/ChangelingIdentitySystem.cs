@@ -39,7 +39,7 @@ public sealed partial class ChangelingIdentitySystem : SharedChangelingIdentityS
             ent.Comp.ConsumedIdentities.Add(data);
         }
 
-        ent.Comp.CurrentIdentity = EnsureEntity<ChangelingStoredIdentityComponent>(state.CurrentIdentity, ent);
+        ent.Comp.CurrentIdentity = EnsureEntity<ChangelingIdentityComponent>(state.CurrentIdentity, ent); // DS14 - pending state must re-run the owner component.
 
         ent.Comp.IdentityCloningSettings = state.IdentityCloningSettings;
         ent.Comp.MaxStoredDisguises = state.MaxStoredDisguises;

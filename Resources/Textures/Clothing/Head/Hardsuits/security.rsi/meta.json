@@ -1,7 +1,7 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Sprite made by Gtheglorious based on the sprite taken from tgstation at commit https://github.com/tgstation/tgstation/commit/4f6190e2895e09116663ef282d3ce1d8b35c032e. Vox states by Flareguy for Space Station 14. Dog states modified from base states by Sparlight (GitHub). Vulpkanin, Reptilian & Light states by TiniestShark (Github).; DS14 preserved base sprite attribution: Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/97ec5ed1a0fc8263df5df5a5afbb653d4684992e. Vox states by Flareguy for Space Station 14. Resprite by pyfya (discord) for Space Station 14 server Мёртвый Космос. Dog states modified from base states by Sparlight (GitHub).",
+    "copyright": "Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/97ec5ed1a0fc8263df5df5a5afbb653d4684992e. Vox states by Flareguy for Space Station 14. Resprite by pyfya (discord) for Space Station 14 server Мёртвый Космос. Dog states modified from base states by Sparlight (GitHub).",
     "size": {
         "x": 32,
         "y": 32
@@ -11,61 +11,46 @@
             "name": "icon"
         },
         {
-            "name": "icon-unshaded"
+            "name": "icon-flash"
         },
         {
-            "name": "light-overlay"
-        },
-        {
-            "name": "equipped-head",
+            "name": "off-equipped-HELMET",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded",
+            "name": "on-equipped-HELMET",
             "directions": 4
         },
         {
-            "name": "equipped-head-light",
+            "name": "off-equipped-HELMET-vox",
             "directions": 4
         },
         {
-            "name": "equipped-head-vox",
+            "name": "on-equipped-HELMET-vox",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded-vox",
+            "name": "off-equipped-HELMET-reptilian",
             "directions": 4
         },
         {
-            "name": "equipped-head-light-vox",
+            "name": "on-equipped-HELMET-reptilian",
             "directions": 4
         },
         {
-            "name": "equipped-head-reptilian",
+            "name": "on-equipped-HELMET-vulpkanin",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded-reptilian",
+            "name": "off-equipped-HELMET-vulpkanin",
             "directions": 4
         },
         {
-            "name": "equipped-head-light-reptilian",
+            "name": "on-equipped-HELMET-dog",
             "directions": 4
         },
         {
-            "name": "equipped-head-vulpkanin",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-unshaded-vulpkanin",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-light-vulpkanin",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-dog",
+            "name": "off-equipped-HELMET-dog",
             "directions": 4
         }
     ]

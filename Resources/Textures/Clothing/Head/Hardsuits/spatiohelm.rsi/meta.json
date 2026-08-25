@@ -1,21 +1,17 @@
 {
-    "version": 1,
-    "license": "CC-BY-SA-3.0",
-    "copyright": "Original by Emisse, modified by EmoGarbage404. Vox states by Flareguy for SS14. Vulpkanin and Reptilian states by TiniestShark (Github).; DS14 preserved base sprite attribution: Made by pyfya - yri_nouri (discord) for Space Station 14 server Мёртвый Космос",
-
-    "size": {
-        "x": 32,
-        "y": 32
-    },
-    "states": [
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Made by pyfya - yri_nouri (discord) for Space Station 14 server Мёртвый Космос",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
         {
             "name": "icon"
         },
         {
-            "name": "icon-unshaded"
-        },
-        {
-            "name": "light-overlay"
+            "name": "icon-flash"
         },
         {
             "name": "equipped-head",

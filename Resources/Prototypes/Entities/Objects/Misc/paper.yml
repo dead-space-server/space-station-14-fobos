@@ -59,6 +59,7 @@
         - ReagentId: Fiber
           Quantity: 1
   - type: Item
+    sprite: Objects/Misc/bureaucracy.rsi # DS14 - explicit RSI for imported in-hand layers.
     size: Tiny
     inhandVisuals:
       left:

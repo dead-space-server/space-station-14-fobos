@@ -173,11 +173,6 @@
     unequipSound: /Audio/Mecha/mechmove03.ogg
     quickEquip: false
     slots: [ HEAD ]
-    clothingVisuals:
-      head:
-      - state: equipped-head
-      - state: equipped-head-unshaded
-        shader: unshaded
   - type: PressureProtection
     highPressureMultiplier: 0.3
     lowPressureMultiplier: 1000
@@ -230,20 +225,15 @@
   - type: Sprite
     layers:
     - state: icon
-    - state: icon-unshaded
-      shader: unshaded
-    - state: light-overlay
+    # DS14-start: retain the pre-upstream combined helmet-light states.
+    - state: icon-flash
       visible: false
-      shader: unshaded
       map: [ "light" ]
+    # DS14-end
   - type: Clothing
     equippedPrefix: off
   - type: ToggleableVisuals
     spriteLayer: light
-    clothingVisuals:
-      head:
-      - state: equipped-head-light
-        shader: unshaded
   - type: ItemTogglePointLight
   - type: PointLight
     enabled: false
@@ -279,27 +269,6 @@
     startingCharge: 600
   - type: BatterySelfRecharger
     autoRechargeRate: 2 #recharge of 2 makes total drain 1w / s so max charge is 1:1 with time. Time to fully charge should be 5 minutes. Having recharge gives light an extended flicker period which gives you some warning to return to light area.
-
-# DS14-Start: Preserve legacy light states for downstream hardsuit helmet sprites.
-- type: entity
-  abstract: true
-  id: ClothingHeadSuitWithLightLegacyVisuals
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: Sprite
-    layers:
-    - state: icon
-    - state: icon-flash
-      visible: false
-      shader: unshaded
-      map: [ "light" ]
-  - type: Clothing
-    equippedPrefix: off
-    clothingVisuals: {}
-  - type: ToggleableVisuals
-    spriteLayer: light
-    clothingVisuals: {}
-# DS14-End
 
 - type: entity
   abstract: true

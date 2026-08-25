@@ -116,6 +116,7 @@
       path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
   #DS14-End
   - type: Item
+    sprite: Objects/Fun/pai.rsi # DS14 - explicit in-hand RSI for the current engine baseline.
     inhandVisuals:
       left:
       - state: base-inhand-left

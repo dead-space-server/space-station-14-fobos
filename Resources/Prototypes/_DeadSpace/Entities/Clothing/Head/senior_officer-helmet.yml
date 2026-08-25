@@ -1,5 +1,5 @@
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetHardsuitSecurity]
+  parent: [ClothingHeadHelmetHardsuitSecurity]
   id: ClothingHeadHelmetHardsuitSeniorOfficer
   categories: [ HideSpawnMenu ]
   name: шлем скафандра инструктора СБ

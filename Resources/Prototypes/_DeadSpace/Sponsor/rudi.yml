@@ -103,7 +103,7 @@
 
 # helmet.rsi
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase]
+  parent: [ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase]
   categories: [ HideSpawnMenu ]
   id: ClothingHeadHelmetHardsuitrudi
   name: шлем скафандра «Коммандос»

@@ -46,7 +46,7 @@
     tags: [] # ignore "WhitelistChameleon" tag
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetHardsuitSyndieMedic]
+  parent: [ClothingHeadHelmetHardsuitSyndieMedic]
   id: ClothingHeadHelmetHardsuitLiverB
   categories: [ HideSpawnMenu ]
   name: гермошлем "Aurelion"

@@ -74,6 +74,8 @@ public sealed partial class ChangelingTransformSystem : EntitySystem
         if (!HasComp<ChangelingIdentityComponent>(ent))
             return;
 
+        args.Handled = true; // DS14 - opening the transformation BUI is a successful action.
+
         if (!_ui.IsUiOpen((ent, userInterfaceComp), ChangelingTransformUiKey.Key, args.Performer))
         {
             _ui.OpenUi((ent, userInterfaceComp), ChangelingTransformUiKey.Key, args.Performer);

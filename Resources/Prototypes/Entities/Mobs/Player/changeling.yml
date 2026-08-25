@@ -30,6 +30,10 @@
       enum.StoreUiKey.Key:
         type: StoreBoundUserInterface
         requireInputValidation: false
+      # DS14-start: role-assigned changelings need this BUI before the transform component starts.
+      enum.ChangelingTransformUiKey.Key:
+        type: ChangelingTransformBoundUserInterface
+      # DS14-end
       enum.VoiceMaskUIKey.Key:
         type: VoiceMaskBoundUserInterface
 

@@ -46,7 +46,7 @@ public sealed partial class PopupOnActionSystem : EntitySystem
         // If there is a target the popup is located on the target, if there is no target it is located on the user.
         // ActionPerformedEvent is predicted and can be replayed several times while the client
         // reconciles with the server. PopupPredicted keeps the performer's message to one copy.
-        _popup.PopupPredicted(selfMessage, target ?? args.Performer, args.Performer, ent.Comp.PopupType);
+        _popup.PopupPredicted(selfMessage, null, target ?? args.Performer, args.Performer, ent.Comp.PopupType); // DS14 - keep self-only action feedback private.
 
         // Popup to show to the target.
         // Located on the target.

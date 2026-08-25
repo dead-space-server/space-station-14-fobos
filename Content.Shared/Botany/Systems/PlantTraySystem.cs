@@ -173,6 +173,7 @@ public sealed partial class PlantTraySystem : EntitySystem
         _plant.PlantingPlant(plantUid, healthOverride);
         _transform.SetCoordinates(plantUid, Transform(trayUid).Coordinates);
         _transform.SetParent(plantUid, trayUid);
+        _transform.SetLocalRotation(plantUid, Angle.Zero); // DS14 - align the plant to its tray instead of preserving world rotation.
         trayComp.PlantEntity = plantUid;
         DirtyField(trayEnt, nameof(trayComp.PlantEntity));
     }

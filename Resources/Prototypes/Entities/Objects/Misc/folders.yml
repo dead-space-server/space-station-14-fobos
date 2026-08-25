@@ -32,6 +32,7 @@
       path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
   #DS14-End
   - type: Item
+    sprite: Objects/Misc/folders.rsi # DS14 - explicit RSI for imported in-hand layers.
     inhandVisuals:
       left:
       - state: inhand-left

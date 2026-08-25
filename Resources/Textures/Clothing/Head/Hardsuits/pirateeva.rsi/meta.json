@@ -11,26 +11,15 @@
             "name": "icon"
         },
         {
-            "name": "icon-unshaded"
-        },
-        {
-            "name": "equipped-head",
+            "name": "equipped-HELMET",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded",
+            "name": "equipped-HELMET-vox",
             "directions": 4
         },
         {
-            "name": "equipped-head-vox",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-unshaded-vox",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-vulpkanin",
+            "name": "equipped-HELMET-vulpkanin",
             "directions": 4
         }
     ]

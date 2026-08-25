@@ -11,61 +11,46 @@
             "name": "icon"
         },
         {
-            "name": "icon-unshaded"
+            "name": "icon-flash"
         },
         {
-            "name": "light-overlay"
-        },
-        {
-            "name": "equipped-head",
+            "name": "off-equipped-HELMET",
             "directions": 4
         },
         {
-            "name": "equipped-head-light",
+            "name": "off-equipped-HELMET-vox",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded",
+            "name": "off-equipped-HELMET-reptilian",
             "directions": 4
         },
         {
-            "name": "equipped-head-vox",
+            "name": "off-equipped-HELMET-vulpkanin",
             "directions": 4
         },
         {
-            "name": "equipped-head-light-vox",
+            "name": "off-equipped-HELMET-plaf",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded-vox",
+            "name": "on-equipped-HELMET",
             "directions": 4
         },
         {
-            "name": "equipped-head-reptilian",
+            "name": "on-equipped-HELMET-vox",
             "directions": 4
         },
         {
-            "name": "equipped-head-light-reptilian",
+            "name": "on-equipped-HELMET-reptilian",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded-reptilian",
+            "name": "on-equipped-HELMET-vulpkanin",
             "directions": 4
         },
         {
-            "name": "equipped-head-vulpkanin",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-light-vulpkanin",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-unshaded-vulpkanin",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-plaf",
+            "name": "on-equipped-HELMET-plaf",
             "directions": 4
         }
     ]

@@ -400,6 +400,10 @@
           enum.StoreUiKey.Key:
             type: StoreBoundUserInterface
             requireInputValidation: false
+          # DS14-start: register the transform menu for changelings created through role assignment.
+          enum.ChangelingTransformUiKey.Key:
+            type: ChangelingTransformBoundUserInterface
+          # DS14-end
           enum.VoiceMaskUIKey.Key:
             type: VoiceMaskBoundUserInterface
       mindRoles:

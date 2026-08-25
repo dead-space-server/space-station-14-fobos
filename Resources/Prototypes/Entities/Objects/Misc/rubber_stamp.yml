@@ -18,6 +18,7 @@
     sprite: Objects/Misc/stamps.rsi
     state: stamp-mime
   - type: Item
+    sprite: Objects/Misc/stamps.rsi # DS14 - keep inherited in-hand layers on the common RSI when a child replaces its world sprite.
     size: Tiny
     inhandVisuals:
       left:

@@ -206,11 +206,7 @@
         Blunt: 10
   - type: Produce
     plantId: TowercapPlants
-  - type: ToolRefinable
-    qualityNeeded: Sawing
-    refineResult:
-    - id: MaterialWoodPlank1
-      amount: 2
+  - type: Log # DS14 - preserve refining with any Sharp item, including glass shards.
   #DS14-Start
   - type: EmitSoundOnPickup
     sound:

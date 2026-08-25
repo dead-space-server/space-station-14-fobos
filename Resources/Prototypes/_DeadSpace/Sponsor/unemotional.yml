@@ -330,7 +330,7 @@
     hideOnToggle: true
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase]
+  parent: [ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase]
   id: ClothingHeadHelmetHardsuitdeFOA
   categories: [ HideSpawnMenu ]
   name: шлем "deFo"

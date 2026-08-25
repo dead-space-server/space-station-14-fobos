@@ -1,7 +1,7 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/4f6190e2895e09116663ef282d3ce1d8b35c032e. Vox states made by Flareguy for SS14. Vulpkanin and Reptilian states by TiniestShark (Github).; DS14 preserved base sprite attribution: Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/4f6190e2895e09116663ef282d3ce1d8b35c032e. Vox states made by Flareguy for SS14. Dog states modified from base states by Sparlight (GitHub). Resprite by KingFroozy (github) for Space station 14 server Мёртвый Космос Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/4f6190e2895e09116663ef282d3ce1d8b35c032e. Vox states made by Flareguy for SS14. Vulpkanin and Reptilian states by TiniestShark (Github).",
+    "copyright": "Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/4f6190e2895e09116663ef282d3ce1d8b35c032e. Vox states made by Flareguy for SS14. Dog states modified from base states by Sparlight (GitHub). Resprite by KingFroozy (github) for Space Station 14 server Мёртвый Космос. Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/4f6190e2895e09116663ef282d3ce1d8b35c032e. Vox states made by Flareguy for SS14. Vulpkanin and Reptilian states by TiniestShark (Github).",
     "size": {
         "x": 32,
         "y": 32
@@ -11,57 +11,38 @@
             "name": "icon"
         },
         {
-            "name": "icon-unshaded"
+            "name": "icon-flash"
         },
         {
-            "name": "light-overlay"
-        },
-        {
-            "name": "equipped-head",
+            "name": "off-equipped-HELMET",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded",
+            "name": "on-equipped-HELMET",
             "directions": 4
         },
         {
-            "name": "equipped-head-light",
+            "name": "off-equipped-HELMET-vox",
             "directions": 4
         },
         {
-            "name": "equipped-head-vox",
+            "name": "on-equipped-HELMET-vox",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded-vox",
+            "name": "on-equipped-HELMET-vulpkanin",
             "directions": 4
         },
         {
-            "name": "equipped-head-light-vox",
+            "name": "off-equipped-HELMET-vulpkanin",
             "directions": 4
         },
         {
-            "name": "equipped-head-reptilian",
+            "name": "off-equipped-HELMET-reptilian",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded-reptilian",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-light-reptilian",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-vulpkanin",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-unshaded-vulpkanin",
-            "directions": 4
-        },
-        {
-            "name": "equipped-head-light-vulpkanin",
+            "name": "on-equipped-HELMET-reptilian",
             "directions": 4
         }
     ]

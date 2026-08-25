@@ -55,7 +55,7 @@
     clothingPrototype: ClothingHeadHelmetERTAmberLeader
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetHardsuitSecurityRed]
+  parent: [ClothingHeadHelmetHardsuitSecurityRed]
   id: ClothingHeadHelmetERTAmberLeader
   name: шлем скафандра лидера Эмбер
   description: Надеюсь оно спасёт от стержня мага.
@@ -85,7 +85,7 @@
   - type: HardsuitIdentification
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetHardsuitSecurityRed]
+  parent: [ClothingHeadHelmetHardsuitSecurityRed]
   id: ClothingHeadHelmetERTRedLeader
   name: шлем скафандра лидера ОБР «Красного Кода»
   description: Надеюсь оно спасёт от стержня мага.
@@ -114,7 +114,7 @@
     clothingPrototype: ClothingHeadHelmetERTAmberSecurity
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetRIGSecurityAdvanced]
+  parent: [ClothingHeadHelmetRIGSecurityAdvanced]
   id: ClothingHeadHelmetERTAmberSecurity
   name: шлем скафандра офицера Эмбер
   description: Надеюсь оно спасёт от стержня мага.
@@ -145,7 +145,7 @@
   - type: HardsuitIdentification
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetHardsuitSecurityRed]
+  parent: [ClothingHeadHelmetHardsuitSecurityRed]
   id: ClothingHeadHelmetERTRedSecurity
   name: шлем скафандра офицера ОБР «Красного Кода»
   description: Надеюсь оно спасёт от стержня мага.
@@ -173,7 +173,7 @@
     clothingPrototype: ClothingHeadHelmetERTAmberMedic
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetHardsuitMedChemEVA]
+  parent: [ClothingHeadHelmetHardsuitMedChemEVA]
   id: ClothingHeadHelmetERTAmberMedic
   name: шлем скафандра медика Эмбер
   description: Надеюсь оно спасёт от стержня мага.
@@ -204,7 +204,7 @@
   - type: HardsuitIdentification
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetHardsuitMedChemEVA]
+  parent: [ClothingHeadHelmetHardsuitMedChemEVA]
   id: ClothingHeadHelmetERTRedMedic
   name: шлем скафандра медика ОБР «Красного Кода»
   description: Надеюсь оно спасёт от стержня мага.
@@ -245,7 +245,7 @@
         Radiation: 0.2
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetRIGEngineer]
+  parent: [ClothingHeadHelmetRIGEngineer]
   id: ClothingHeadHelmetERTAmberEngineer
   name: шлем скафандра инженера Эмбер
   description: Надеюсь оно спасёт от кирпича.
@@ -298,7 +298,7 @@
   - type: HardsuitIdentification
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetRIGEngineer]
+  parent: [ClothingHeadHelmetRIGEngineer]
   id: ClothingHeadHelmetERTRedEngineer
   name: шлем скафандра инженера ОБР «Красного Кода»
   description: Надеюсь оно спасёт от стержня мага.
@@ -333,7 +333,7 @@
     clothingPrototype: ClothingHeadHelmetERTAmberJanitor
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetRIGSecurityAdvanced]
+  parent: [ClothingHeadHelmetRIGSecurityAdvanced]
   id: ClothingHeadHelmetERTAmberJanitor
   name: шлем скафандра офицера Эмбер
   description: Надеюсь оно спасёт от стержня мага.
@@ -364,7 +364,7 @@
   - type: HardsuitIdentification
 
 - type: entity
-  parent: [ClothingHeadSuitWithLightLegacyVisuals, ClothingHeadHelmetRIGSecurityAdvanced]
+  parent: [ClothingHeadHelmetRIGSecurityAdvanced]
   id: ClothingHeadHelmetERTRedJanitor
   name: шлем скафандра уборщика ОБР «Красного Кода»
   description: Надеюсь оно спасёт от стержня мага.

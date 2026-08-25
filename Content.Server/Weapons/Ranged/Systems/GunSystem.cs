@@ -150,7 +150,10 @@ public sealed partial class GunSystem : SharedGunSystem
             // pneumatic cannon doesn't shoot bullets it just throws them, ignore ammo handling
             if (throwItems && ent != null)
             {
-                ShootOrThrow(ent.Value, mapDirection, gunVelocity, gun, user);
+                // DS14-start: ThrowItems must also throw ammo entities which happen to have ProjectileComponent (for example arrows).
+                RemoveShootable(ent.Value);
+                ThrowingSystem.TryThrow(ent.Value, mapDirection, gun.Comp.ProjectileSpeedModified, user);
+                // DS14-end
                 continue;
             }
 

@@ -159,13 +159,16 @@ public sealed partial class VendingMachineMenu : FancyWindow
     {
         var itemName = prototype.Name;
 
+        // DS14-start: prototype labels contain locale IDs; entity MapInit normally localizes them.
         if (prototype.TryGetComponent<LabelComponent>(out var label, _componentFactory) &&
-            label.CurrentLabel is { } labelText) // DS14 - current engine stores the already-localized label text.
+            label.CurrentLabel is { } labelText)
         {
+            var localizedLabel = _loc.TryGetString(labelText, out var localized) ? localized : labelText;
             itemName = _loc.GetString("comp-label-format",
                 ("baseName", itemName),
-                ("label", labelText));
+                ("label", localizedLabel));
         }
+        // DS14-end
 
         return $"[{amount}] {itemName}";
     }
