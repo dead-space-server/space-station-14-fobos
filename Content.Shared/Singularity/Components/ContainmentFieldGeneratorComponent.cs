@@ -113,6 +113,11 @@ public sealed partial class ContainmentFieldGeneratorComponent : Component
 
     [AutoNetworkedField]
     public TimeSpan? HackEndTime;
+
+    [AutoNetworkedField]
+    public TimeSpan? StabilizationEndTime;
+
+    public int StabilizationHits;
     // DS14-end
 }
 

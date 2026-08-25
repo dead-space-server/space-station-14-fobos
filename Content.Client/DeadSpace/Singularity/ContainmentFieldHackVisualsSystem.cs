@@ -29,11 +29,17 @@ public sealed class ContainmentFieldHackVisualsSystem : EntitySystem
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+        var now = _timing.CurTime;
 
         var generators = EntityQueryEnumerator<ContainmentFieldGeneratorComponent, SpriteComponent>();
         while (generators.MoveNext(out var uid, out var generator, out var sprite))
         {
-            if (generator.HackEndTime is not { } endTime)
+            var progress = generator.HackEndTime is { } hackEndTime
+                ? 1f - (float) (hackEndTime - now).TotalSeconds / ContainmentFieldGeneratorComponent.HackDurationSeconds
+                : generator.StabilizationEndTime is { } stabilizationEndTime
+                    ? (float) (stabilizationEndTime - now).TotalSeconds / ContainmentFieldGeneratorComponent.HackDurationSeconds
+                    : -1f;
+            if (progress < 0f)
                 continue;
 
             if (!_shaders.TryGetValue(uid, out var shader))
@@ -44,16 +50,18 @@ public sealed class ContainmentFieldHackVisualsSystem : EntitySystem
                     sprite.LayerSetShader(i, shader, HackShader.Id);
             }
 
-            shader.SetParameter("progress", Math.Clamp(
-                1f - (float) (endTime - _timing.CurTime).TotalSeconds / ContainmentFieldGeneratorComponent.HackDurationSeconds,
-                0f,
-                1f));
+            shader.SetParameter("progress", Math.Clamp(progress, 0f, 1f));
         }
 
         var fields = EntityQueryEnumerator<ContainmentFieldComponent, SpriteComponent>();
         while (fields.MoveNext(out var uid, out var field, out var sprite))
         {
-            if (field.HackEndTime is not { } endTime)
+            var progress = field.HackEndTime is { } hackEndTime
+                ? 1f - (float) (hackEndTime - now).TotalSeconds / ContainmentFieldGeneratorComponent.HackDurationSeconds
+                : field.StabilizationEndTime is { } stabilizationEndTime
+                    ? (float) (stabilizationEndTime - now).TotalSeconds / ContainmentFieldGeneratorComponent.HackDurationSeconds
+                    : -1f;
+            if (progress < 0f)
                 continue;
 
             if (!_shaders.TryGetValue(uid, out var shader))
@@ -63,10 +71,7 @@ public sealed class ContainmentFieldHackVisualsSystem : EntitySystem
                 sprite.LayerSetShader(0, shader, HackShader.Id);
             }
 
-            shader.SetParameter("progress", field.HackIntensity * Math.Clamp(
-                1f - (float) (endTime - _timing.CurTime).TotalSeconds / ContainmentFieldGeneratorComponent.HackDurationSeconds,
-                0f,
-                1f));
+            shader.SetParameter("progress", field.HackIntensity * Math.Clamp(progress, 0f, 1f));
         }
     }
 

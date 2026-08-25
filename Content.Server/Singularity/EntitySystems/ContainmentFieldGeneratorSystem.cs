@@ -1,6 +1,7 @@
 using System.Linq;
 using Content.Server.Administration.Logs;
 using Content.Server.Explosion.EntitySystems;
+using Content.Server.ParticleAccelerator.Components;
 using Content.Server.Popups;
 using Content.Server.Singularity.Events;
 using Content.Shared.Construction.Components;
@@ -12,12 +13,15 @@ using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Singularity.Components;
 using Content.Shared.Tag;
+using Content.Shared.Verbs;
 using Content.Shared.Weapons.Hitscan.Components;
 using Content.Shared.Weapons.Hitscan.Events;
 using Robust.Server.GameObjects;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
@@ -25,6 +29,12 @@ namespace Content.Server.Singularity.EntitySystems;
 
 public sealed class ContainmentFieldGeneratorSystem : EntitySystem
 {
+    // DS14-start
+    private static readonly EntProtoId AntiParticlesProjectile = "AntiParticlesProjectile";
+    private const int StabilizationHitsRequired = 2;
+    private const float KickStabilizationChance = 0.2f;
+    // DS14-end
+
     [Dependency] private readonly IAdminLogManager _adminLogger = default!;
     [Dependency] private readonly AppearanceSystem _visualizer = default!;
     [Dependency] private readonly ExplosionSystem _explosion = default!; // DS14
@@ -34,6 +44,7 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
     [Dependency] private readonly TagSystem _tags = default!;
     [Dependency] private readonly IGameTiming _timing = default!; // DS14
+    [Dependency] private readonly IRobustRandom _random = default!; // DS14
 
     public override void Initialize()
     {
@@ -50,6 +61,10 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, EventHorizonAttemptConsumeEntityEvent>(PreventBreach);
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, GotEmaggedEvent>(OnEmagged); // DS14
+        // DS14-start
+        SubscribeLocalEvent<ContainmentFieldGeneratorComponent, GetVerbsEvent<AlternativeVerb>>(OnGetAlternativeVerbs);
+        SubscribeLocalEvent<ParticleProjectileComponent, StartCollideEvent>(OnParticleCollide);
+        // DS14-end
     }
 
     public override void Update(float frameTime)
@@ -117,6 +132,8 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
         var endTime = _timing.CurTime + TimeSpan.FromSeconds(ContainmentFieldGeneratorComponent.HackDurationSeconds);
         var generatorPosition = _transformSystem.GetWorldPosition(generator);
         generator.Comp.HackEndTime = endTime;
+        generator.Comp.StabilizationEndTime = null;
+        generator.Comp.StabilizationHits = 0;
         Dirty(generator);
 
         foreach (var (_, (otherGenerator, fields)) in generator.Comp.Connections)
@@ -132,6 +149,7 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
 
                 var fieldDistance = (_transformSystem.GetWorldPosition(field) - generatorPosition).Length();
                 fieldComp.HackEndTime = endTime;
+                fieldComp.StabilizationEndTime = null;
                 fieldComp.HackIntensity = Math.Clamp(
                     1f - (fieldDistance - 1f) / Math.Max(connectionDistance - 1f, 1f),
                     0f,
@@ -141,6 +159,98 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
         }
 
         args.Handled = true;
+    }
+
+    private void OnParticleCollide(Entity<ParticleProjectileComponent> particle, ref StartCollideEvent args)
+    {
+        if (MetaData(particle).EntityPrototype?.ID != AntiParticlesProjectile.Id ||
+            !TryComp<ContainmentFieldGeneratorComponent>(args.OtherEntity, out var generator) ||
+            generator.HackEndTime == null)
+        {
+            return;
+        }
+
+        QueueDel(particle);
+        if (++generator.StabilizationHits < StabilizationHitsRequired)
+        {
+            _popupSystem.PopupEntity(
+                Loc.GetString("comp-containment-stabilization-hit"),
+                args.OtherEntity,
+                PopupType.Medium);
+            return;
+        }
+
+        Stabilize((args.OtherEntity, generator));
+        _popupSystem.PopupEntity(
+            Loc.GetString("comp-containment-stabilized"),
+            args.OtherEntity,
+            PopupType.Large);
+    }
+
+    private void OnGetAlternativeVerbs(
+        Entity<ContainmentFieldGeneratorComponent> generator,
+        ref GetVerbsEvent<AlternativeVerb> args)
+    {
+        if (!args.CanAccess || !args.CanInteract || generator.Comp.HackEndTime == null)
+            return;
+
+        var user = args.User;
+        args.Verbs.Add(new AlternativeVerb
+        {
+            Text = Loc.GetString("comp-containment-kick-verb"),
+            Act = () =>
+            {
+                if (generator.Comp.HackEndTime == null)
+                    return;
+
+                if (!_random.Prob(KickStabilizationChance))
+                {
+                    _popupSystem.PopupEntity(
+                        Loc.GetString("comp-containment-kick-failure"),
+                        generator,
+                        user,
+                        PopupType.SmallCaution);
+                    return;
+                }
+
+                Stabilize(generator);
+                _popupSystem.PopupEntity(
+                    Loc.GetString("comp-containment-kick-success"),
+                    generator,
+                    user,
+                    PopupType.Medium);
+            },
+        });
+    }
+
+    private void Stabilize(Entity<ContainmentFieldGeneratorComponent> generator)
+    {
+        if (generator.Comp.HackEndTime is not { } hackEndTime)
+            return;
+
+        var now = _timing.CurTime;
+        var duration = Math.Clamp(
+            ContainmentFieldGeneratorComponent.HackDurationSeconds - (float) (hackEndTime - now).TotalSeconds,
+            0f,
+            ContainmentFieldGeneratorComponent.HackDurationSeconds);
+        var endTime = now + TimeSpan.FromSeconds(duration);
+        generator.Comp.HackEndTime = null;
+        generator.Comp.StabilizationEndTime = endTime;
+        generator.Comp.StabilizationHits = 0;
+        Dirty(generator);
+
+        foreach (var (_, (_, fields)) in generator.Comp.Connections)
+        {
+            foreach (var field in fields)
+            {
+                if (!TryComp<ContainmentFieldComponent>(field, out var fieldComp) || fieldComp.HackEndTime == null)
+                    continue;
+
+                fieldComp.HackEndTime = null;
+                fieldComp.StabilizationEndTime = endTime;
+                Dirty(field, fieldComp);
+            }
+        }
     }
     // DS14-end
 

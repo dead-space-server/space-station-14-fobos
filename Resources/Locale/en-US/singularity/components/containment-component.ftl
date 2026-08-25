@@ -10,5 +10,10 @@ comp-containment-disconnected = The containment field generator light fades away
 comp-containment-anchor-warning = You cannot unanchor the containment field generator while it's on or connected!
 comp-containment-toggle-warning = You cannot turn the generator off while it's connected.
 comp-containment-hack-inactive = The containment field generator is not operational!
+comp-containment-stabilization-hit = The generator's instability weakens. But it still isn't enough...
+comp-containment-stabilized = The field generator is stabilizing!
+comp-containment-kick-verb = Kick
+comp-containment-kick-success = You kick the generator, and it seems... That helped!
+comp-containment-kick-failure = You kick the generator, but nothing changes.
 
 comp-field-vaporized = The {$entity} hits the field and vaporizes into nothing!

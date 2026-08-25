@@ -30,6 +30,9 @@ public sealed partial class ContainmentFieldComponent : Component
     public TimeSpan? HackEndTime;
 
     [AutoNetworkedField]
+    public TimeSpan? StabilizationEndTime;
+
+    [AutoNetworkedField]
     public float HackIntensity;
     // DS14-end
 }
