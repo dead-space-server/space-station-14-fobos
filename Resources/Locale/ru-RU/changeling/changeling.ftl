@@ -18,6 +18,7 @@ changeling-devour-consume-complete-others = Жуткая пасть { POSS-ADJ($
 
 changeling-transform-attempt-self = Наши кости хрустят, мышцы рвутся, и одна плоть становится другой.
 changeling-transform-attempt-others = Кости { POSS-ADJ($user) } хрустят, мышцы рвутся, а тело меняет облик.
+changeling-transform-attempt-failed-ipc = Мы не можем принять синтетический облик.
 
 changeling-transform-bui-select-entity = {$entity}
 changeling-transform-bui-drop-identity-menu = Удалить поглощённую личность из памяти.

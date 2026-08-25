@@ -18,6 +18,7 @@ changeling-devour-consume-complete-others = { CAPITALIZE(POSS-ADJ($user)) } unca
 
 changeling-transform-attempt-self = Our bones snap, muscles tear, one flesh becomes another.
 changeling-transform-attempt-others = { CAPITALIZE(POSS-ADJ($user)) } bones snap, muscles tear, body shifts into another.
+changeling-transform-attempt-failed-ipc = We cannot assume a synthetic form.
 
 changeling-transform-bui-select-entity = {$entity}
 changeling-transform-bui-drop-identity-menu = Drop a devoured identity from your memory.

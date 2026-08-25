@@ -134,6 +134,14 @@ public sealed partial class ChangelingTransformSystem : EntitySystem
         if (!Resolve(ent, ref ent.Comp))
             return;
 
+        // DS14-start
+        if (TryComp<HumanoidAppearanceComponent>(targetIdentity, out var humanoid) && humanoid.Species == "IPC")
+        {
+            _popup.PopupEntity(Loc.GetString("changeling-transform-attempt-failed-ipc"), ent.Owner, ent.Owner, PopupType.MediumCaution);
+            return;
+        }
+        // DS14-end
+
         var selfMessage = Loc.GetString("changeling-transform-attempt-self", ("user", Identity.Entity(ent.Owner, EntityManager)));
         var othersMessage = Loc.GetString("changeling-transform-attempt-others", ("user", Identity.Entity(ent.Owner, EntityManager)));
         _popup.PopupPredicted(

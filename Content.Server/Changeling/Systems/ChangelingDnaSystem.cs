@@ -1,6 +1,8 @@
 using System.Linq;
 using Content.Server.Store.Systems;
 using Content.Shared.Changeling.Components;
+using Content.Shared.Fluids;
+using Content.Shared.Humanoid;
 using Content.Shared.Store.Components;
 
 namespace Content.Server.Changeling.Systems;
@@ -10,26 +12,40 @@ namespace Content.Server.Changeling.Systems;
 /// </summary>
 public sealed class ChangelingDnaSystem : EntitySystem
 {
+    private const float IpcDnaRewardMultiplier = 0.3f; // DS14
+
+    [Dependency] private readonly SharedPuddleSystem _puddle = default!; // DS14
     [Dependency] private readonly StoreSystem _store = default!;
 
     public override void Initialize()
     {
         base.Initialize();
 
-        // DS14: StoreSystem is server-only on this content baseline.
-        SubscribeLocalEvent<ChangelingDevouredEvent>(OnDevoured);
+        SubscribeLocalEvent<ChangelingDevouredEvent>(OnDevoured); // DS14: StoreSystem is server-only on this content baseline.
     }
 
     private void OnDevoured(ref ChangelingDevouredEvent args)
     {
+        // DS14-start
+        if (!TryComp<ChangelingDevourComponent>(args.Changeling, out var devour))
+            return;
+
+        if (devour.DevourSpill != null)
+            _puddle.TrySpillAt(args.Devoured, devour.DevourSpill.Clone(), out _, false);
+        // DS14-end
+
         if (!args.GrantedDna ||
-            !TryComp<ChangelingDevourComponent>(args.Changeling, out var devour) ||
             !TryComp<StoreComponent>(args.Changeling, out var store))
         {
             return;
         }
 
-        var reward = devour.DevourDnaReward.ToDictionary(pair => pair.Key.Id, pair => pair.Value);
+        // DS14-start
+        var multiplier = TryComp<HumanoidAppearanceComponent>(args.Devoured, out var humanoid) && humanoid.Species == "IPC"
+            ? IpcDnaRewardMultiplier
+            : 1f;
+        var reward = devour.DevourDnaReward.ToDictionary(pair => pair.Key.Id, pair => pair.Value * multiplier);
+        // DS14-end
         _store.TryAddCurrency(reward, args.Changeling, store);
     }
 }

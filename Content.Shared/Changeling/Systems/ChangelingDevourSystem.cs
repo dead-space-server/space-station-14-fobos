@@ -6,7 +6,6 @@ using Content.Shared.Changeling.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
 using Content.Shared.DoAfter;
-using Content.Shared.Fluids;
 using Content.Shared.Humanoid;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Inventory;
@@ -32,7 +31,6 @@ public sealed partial class ChangelingDevourSystem : EntitySystem
     [Dependency] private readonly SharedChangelingIdentitySystem _changelingIdentity = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
-    [Dependency] private readonly SharedPuddleSystem _puddle = default!;
     // DS14-end
 
     public override void Initialize()
@@ -185,11 +183,6 @@ public sealed partial class ChangelingDevourSystem : EntitySystem
         RaiseLocalEvent(target, ref devouredEv); // Don't broadcast this one, all neccessary data is in the previous event already. Just use that one if a broadcast is needed.
 
         EnsureComp<RecentlyDevouredComponent>(target);
-
-        if (ent.Comp.DevourSpill != null)
-            _puddle.TrySpillAt(target, ent.Comp.DevourSpill, out _, false);
-
-        // DS14: DNA currency is awarded by the server compatibility subscriber because StoreSystem is server-only.
     }
 
     /// <summary>

@@ -153,7 +153,6 @@
   - type: NightVision
     isNightVision: false
     actionToggleNightVision: ActionChangelingNightVision
-    color: "#AF0909AA" # DS14 - local night-vision overlay color.
 
 - type: entity # dummy prototype for the store listing
   id: ChangelingFakeMindshieldDummy

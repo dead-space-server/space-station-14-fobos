@@ -134,7 +134,15 @@
   - Sericulture # arachnids
   - MovementSpeedModifier # moths when weightless
   - JumpAbility # vulp leaping
-  copyEquipment: null
+  # DS14-start
+  blacklist:
+    components:
+    - AttachedClothing
+    - HumanoidAppearance
+    - Implanter
+    - VirtualItem
+  copyEquipment: All
+  # DS14-end
   copyInternalStorage: false
   copyImplants: false
 
