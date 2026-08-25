@@ -19,6 +19,14 @@
         - MachineMask
         layer:
         - WallLayer
+  - type: BluespaceArtillery
+    cooldownDuration: 60
+  - type: DeviceNetwork
+    deviceNetId: 1
+    receiveFrequencyId: Default
+    transmitFrequencyId: Default
+    prefix: bsa
+    examinableAddress: true
 
 - type: entity
   parent: BaseStructure
