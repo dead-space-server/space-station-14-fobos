@@ -1,6 +1,6 @@
 - type: entity
   name: Эллен Луиза
-  parent: SimpleMobBase
+  parent: BaseSimpleMob
   id: XenoMaidMob
   description: Ксеноморф горничная. Ой... Кажется у вас тут грязно, давайте уберусь?
   suffix: ИИ
@@ -72,9 +72,6 @@
       Alive: XenomorphHealth
       Critical: XenomorphCrit
       Dead: XenomorphDead
-  - type: Bloodstream
-  - type: Perishable
-    molsPerSecondPerUnitMass: 0.0005
   - type: CombatMode
   - type: MeleeWeapon
     altDisarm: false
@@ -129,6 +126,46 @@
       amount: 1
   - type: StealTarget
     stealGroup: AnimalXenoMaid
+  - type: Bloodstream
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: AcidicBlood
+        Quantity: 300
+    bloodlossDamage:
+      types:
+        Bloodloss: 0.5
+    bloodlossHealDamage:
+      types:
+        Bloodloss: -1
+  - type: Satiation
+    satiations:
+      Hunger:
+        prototype: SimpleMobBaseHunger
+      Thirst:
+        prototype: SimpleMobBaseThirst
+  - type: StatusEffects
+    allowed:
+    - SeeingRainbows
+    - Drunk
+    - Electrocution
+    - TemporaryBlindness
+    - Pacified
+    - Flashed
+    - RadiationProtection
+    - Adrenaline
+  - type: MobPrice
+    price: 150
+  - type: FloatingVisuals
+  - type: NpcFactionMember
+    factions:
+    - SimpleNeutral
+  - type: Climbing
+  - type: NameIdentifier
+    group: GenericNumber
+  - type: SlowOnDamage
+    speedModifierThresholds:
+      60: 0.7
+      80: 0.5
 
 - type: entity
   name: спавнер ксеноморф горничная
