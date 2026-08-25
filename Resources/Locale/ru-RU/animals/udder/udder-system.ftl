@@ -9,5 +9,5 @@ udder-system-examine-okay = { CAPITALIZE(SUBJECT($entity)) } выглядит с
 udder-system-examine-hungry = { CAPITALIZE(SUBJECT($entity)) } выглядит голодным.
 udder-system-examine-starved = { CAPITALIZE(SUBJECT($entity)) } выглядит истощённым!
 udder-system-examine-none = { CAPITALIZE(SUBJECT($entity)) } похоже, не чувствует голода.
-udder-dead-try-used = Оно мертво.
-udder-sln-cont-closed = Ёмкость закрыта.
+udder-system-dead = Оно мертво.
+udder-system-container-closed = Ёмкость закрыта.

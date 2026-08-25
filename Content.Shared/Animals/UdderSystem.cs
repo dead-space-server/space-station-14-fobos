@@ -91,7 +91,7 @@ public sealed class UdderSystem : EntitySystem
             return;
         // ds-14-start
         if (!_mobState.IsAlive(udder.Owner)) {
-            _popupSystem.PopupEntity(Loc.GetString("udder-dead-try-used"), userUid, PopupType.Small);
+            _popupSystem.PopupEntity(Loc.GetString("udder-system-dead"), userUid, PopupType.Small);
             return;
         }
         // ds-14-end
@@ -147,8 +147,12 @@ public sealed class UdderSystem : EntitySystem
             Act = () =>
             {
                 // ds-14-start
+                if (!_mobState.IsAlive(uid)) {
+                    _popupSystem.PopupEntity(Loc.GetString("udder-system-dead"), user, PopupType.Small);
+                    return;
+                }
                 if (TryComp<OpenableComponent>(used, out var openable) && !openable.Opened) {
-                    _popupSystem.PopupClient(Loc.GetString("udder-sln-cont-closed"), uid, user);
+                    _popupSystem.PopupClient(Loc.GetString("udder-system-container-closed"), uid, user);
                     return;
                 }
                 // ds-14-end
