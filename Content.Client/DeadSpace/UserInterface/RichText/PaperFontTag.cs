@@ -26,7 +26,6 @@ public sealed class PaperFontTag : IMarkupTagHandler
         "OpenLukyanov",
         "Bedstead",
         "ComicSans",
-        "Wingdings",
     ];
 
     [Dependency] private readonly IResourceCache _resourceCache = default!;

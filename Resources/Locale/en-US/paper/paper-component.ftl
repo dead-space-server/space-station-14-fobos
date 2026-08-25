@@ -40,7 +40,6 @@ paper-ui-toolbar-font-boxround = Boxfont Round
 paper-ui-toolbar-font-openlukyanov = Open Lukyanov
 paper-ui-toolbar-font-bedstead = Bedstead
 paper-ui-toolbar-font-comicsans = Comic Sans
-paper-ui-toolbar-font-wingdings = Wingdings
 paper-ui-toolbar-font-forced = Your font cannot be changed
 # DS14-end
 paper-ui-toolbar-text = Text
