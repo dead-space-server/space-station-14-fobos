@@ -73,6 +73,7 @@
   voteType: admin # DS14
   rules:
   - WageScheduler # backmen: currency
+  - Changeling
   - MeteorSwarmScheduler
   - SurvivalRampingStationEventScheduler
 #  - SpaceTrafficControlEventScheduler

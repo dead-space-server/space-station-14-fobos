@@ -9,6 +9,7 @@
   description: survival-description
   rules:
     - WageScheduler # backmen: currency
+    - Changeling # DS14
     - MeteorSwarmScheduler
     - SurvivalRampingStationEventScheduler # DS14
 #    - SpaceTrafficControlEventScheduler # DS14
