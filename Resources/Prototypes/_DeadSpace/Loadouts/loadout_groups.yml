@@ -138,8 +138,6 @@
   name: loadout-group-iaa-jumpsuit
   loadouts:
   - IAAJumpsuit
-  - LawyerJumpsuit
-  - LawyerJumpskirt
 
 - type: loadoutGroup
   id: IAAOuterClothing
