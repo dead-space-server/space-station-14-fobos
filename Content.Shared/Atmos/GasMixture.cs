@@ -38,6 +38,10 @@ namespace Content.Shared.Atmos
             0f,
         };
 
+        // Kofeecheks Iprit decay tracking: LicenseRef-Kofeecheks
+        [ViewVariables]
+        public TimeSpan IpritDecayDeadline { get; private set; }
+
         [ViewVariables]
         public float TotalMoles
         {
@@ -125,8 +129,13 @@ namespace Content.Shared.Atmos
             if (!float.IsFinite(quantity) || float.IsNegative(quantity))
                 throw new ArgumentException($"Invalid quantity \"{quantity}\" specified!", nameof(quantity));
 
-            if (!Immutable)
-                Moles[gasId] = quantity;
+            if (Immutable)
+                return; // DS14-Soyuz
+
+            Moles[gasId] = quantity;
+            // DS-14 Soyuz
+            if (gasId == (int) Gas.Iprit)
+                ResetIpritDecayDeadlineIfEmpty();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -148,12 +157,35 @@ namespace Content.Shared.Atmos
             // clamp here, the caller always has to call GetMoles(), clamp, then SetMoles().
             ref var moles = ref Moles[gasId];
             moles = MathF.Max(moles + quantity, 0);
+
+            // DS-14 Soyuz
+            if (gasId == (int) Gas.Iprit)
+                ResetIpritDecayDeadlineIfEmpty();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void AdjustMoles(Gas gas, float moles)
         {
             AdjustMoles((int)gas, moles);
+        }
+
+        // Kofeecheks Iprit decay tracking: LicenseRef-Kofeecheks
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void EnsureIpritDecayDeadline(TimeSpan deadline)
+        {
+            if (Immutable || GetMoles(Gas.Iprit) < Atmospherics.GasMinMoles || deadline <= TimeSpan.Zero)
+                return;
+
+            if (IpritDecayDeadline == TimeSpan.Zero || deadline < IpritDecayDeadline)
+                IpritDecayDeadline = deadline;
+        }
+
+        // Kofeecheks Iprit decay tracking: LicenseRef-Kofeecheks
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void ResetIpritDecayDeadlineIfEmpty()
+        {
+            if (!Immutable && GetMoles(Gas.Iprit) < Atmospherics.GasMinMoles)
+                IpritDecayDeadline = TimeSpan.Zero;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -193,6 +225,10 @@ namespace Content.Shared.Atmos
                     removed.Moles[i] = 0;
             }
 
+            // Kofeecheks Iprit decay tracking: LicenseRef-Kofeecheks
+            removed.EnsureIpritDecayDeadline(IpritDecayDeadline);
+            ResetIpritDecayDeadlineIfEmpty();
+
             return removed;
         }
 
@@ -210,6 +246,7 @@ namespace Content.Shared.Atmos
             Volume = sample.Volume;
             sample.Moles.CopyTo(Moles, 0);
             Temperature = sample.Temperature;
+            IpritDecayDeadline = sample.IpritDecayDeadline; // Kofeecheks Iprit decay tracking: LicenseRef-Kofeecheks
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -217,6 +254,7 @@ namespace Content.Shared.Atmos
         {
             if (Immutable) return;
             Array.Clear(Moles, 0, Atmospherics.TotalNumberOfGases);
+            IpritDecayDeadline = TimeSpan.Zero; // Kofeecheks Iprit decay tracking: LicenseRef-Kofeecheks
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -224,6 +262,7 @@ namespace Content.Shared.Atmos
         {
             if (Immutable) return;
             NumericsHelpers.Multiply(Moles, multiplier);
+            ResetIpritDecayDeadlineIfEmpty(); // Kofeecheks Iprit decay tracking: LicenseRef-Kofeecheks
         }
 
         void ISerializationHooks.AfterDeserialization()
@@ -233,6 +272,7 @@ namespace Content.Shared.Atmos
 
             // The arrays MUST have a specific length.
             Array.Resize(ref Moles, Atmospherics.AdjustedNumberOfGases);
+            IpritDecayDeadline = TimeSpan.Zero; // Kofeecheks Iprit decay tracking: LicenseRef-Kofeecheks
         }
 
         public GasMixtureStringRepresentation ToPrettyString()
@@ -314,6 +354,7 @@ namespace Content.Shared.Atmos
                 Moles = (float[])Moles.Clone(),
                 _temperature = _temperature,
                 Volume = Volume,
+                IpritDecayDeadline = IpritDecayDeadline, // Kofeecheks Iprit decay tracking: LicenseRef-Kofeecheks
             };
             return newMixture;
         }

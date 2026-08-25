@@ -173,10 +173,19 @@ namespace Content.Shared.Atmos
             [Gas.Ammonia] = Loc.GetString("gas-ammonia-abbreviation"),
             [Gas.CarbonDioxide] = Loc.GetString("gas-carbon-dioxide-abbreviation"),
             [Gas.Frezon] = Loc.GetString("gas-frezon-abbreviation"),
+            // Kofeecheks gases: LicenseRef-Kofeecheks
+            [Gas.Fixirium] = Loc.GetString("gas-fixirium-abbreviation"),
+            [Gas.Hilium] = Loc.GetString("gas-hilium-abbreviation"),
+            [Gas.Hydrogen] = Loc.GetString("gas-hydrogen-abbreviation"),
+            [Gas.Iprit] = Loc.GetString("gas-iprit-abbreviation"),
             [Gas.Nitrogen] = Loc.GetString("gas-nitrogen-abbreviation"),
+            [Gas.Nitriatium] = Loc.GetString("gas-nitriatium-abbreviation"),
+            [Gas.Nitryl] = Loc.GetString("gas-nitryl-abbreviation"),
+            [Gas.NitricOxide] = Loc.GetString("gas-nitric-oxide-abbreviation"), // DS14
             [Gas.NitrousOxide] = Loc.GetString("gas-nitrous-oxide-abbreviation"),
             [Gas.Oxygen] = Loc.GetString("gas-oxygen-abbreviation"),
             [Gas.Plasma] = Loc.GetString("gas-plasma-abbreviation"),
+            [Gas.Brizidium] = Loc.GetString("gas-brizidium-abbreviation"),
             [Gas.Tritium] = Loc.GetString("gas-tritium-abbreviation"),
             [Gas.WaterVapor] = Loc.GetString("gas-water-vapor-abbreviation"),
             [Gas.InfectionDeadSpace] = Loc.GetString("gas-unknown-abbreviation"),
@@ -209,7 +218,7 @@ namespace Content.Shared.Atmos
         /// <summary>
         ///     Total number of gases. Increase this if you want to add more!
         /// </summary>
-        public const int TotalNumberOfGases = 10;
+        public const int TotalNumberOfGases = 18; // Kofeecheks gases: LicenseRef-Kofeecheks //DS14: NitricOxide
 
         /// <summary>
         ///     This is the actual length of the gases arrays in mixtures.
@@ -374,6 +383,15 @@ namespace Content.Shared.Atmos
         Ammonia = 6,
         NitrousOxide = 7,
         Frezon = 8,
-        InfectionDeadSpace = 9
+        InfectionDeadSpace = 9,
+        // Kofeecheks gases: LicenseRef-Kofeecheks
+        Nitryl = 10,
+        Fixirium = 11,
+        Hydrogen = 12,
+        Nitriatium = 13,
+        Hilium = 14,
+        Brizidium = 15,
+        Iprit = 16,
+        NitricOxide = 17 // DS14
     }
 }
