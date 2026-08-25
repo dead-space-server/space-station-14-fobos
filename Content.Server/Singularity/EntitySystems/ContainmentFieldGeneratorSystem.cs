@@ -120,7 +120,7 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
     {
         if (args.Handled ||
             args.SourceUid is not { } source ||
-            !HasComp<ContainmentFieldHackComponent>(source) ||
+            !TryComp<ContainmentFieldHackComponent>(source, out var hack) ||
             generator.Comp.HackEndTime != null)
         {
             return;
@@ -139,8 +139,10 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
             return;
         }
 
-        var endTime = _timing.CurTime + TimeSpan.FromSeconds(ContainmentFieldGeneratorComponent.HackDurationSeconds);
+        var durationSeconds = Math.Max(hack.DestabilizationDuration, 0f);
+        var endTime = _timing.CurTime + TimeSpan.FromSeconds(durationSeconds);
         var generatorPosition = _transformSystem.GetWorldPosition(generator);
+        generator.Comp.HackDurationSeconds = durationSeconds;
         generator.Comp.HackEndTime = endTime;
         generator.Comp.StabilizationEndTime = null;
         generator.Comp.StabilizationHits = 0;
@@ -158,6 +160,7 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
                 }
 
                 var fieldDistance = (_transformSystem.GetWorldPosition(field) - generatorPosition).Length();
+                fieldComp.HackDurationSeconds = durationSeconds;
                 fieldComp.HackEndTime = endTime;
                 fieldComp.StabilizationEndTime = null;
                 fieldComp.HackIntensity = Math.Clamp(
@@ -168,11 +171,11 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
             }
         }
 
-        AnnounceDestabilization(generator);
+        AnnounceDestabilization(generator, durationSeconds);
         args.Handled = true;
     }
 
-    private void AnnounceDestabilization(EntityUid generator)
+    private void AnnounceDestabilization(EntityUid generator, float durationSeconds)
     {
         if (_timing.CurTime < _nextDestabilizationAnnouncementTime)
             return;
@@ -182,7 +185,10 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
             return;
 
         var location = FormattedMessage.RemoveMarkupOrThrow(_navMap.GetNearestBeaconString((generator, xform)));
-        var announcement = Loc.GetString(DestabilizationAnnouncement, ("location", location));
+        var announcement = Loc.GetString(
+            DestabilizationAnnouncement,
+            ("location", location),
+            ("duration", durationSeconds));
         _nextDestabilizationAnnouncementTime = _timing.CurTime + DestabilizationAnnouncementCooldown;
 
         _chat.DispatchAdminFilteredAnnouncement(
@@ -237,9 +243,9 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
 
         var now = _timing.CurTime;
         var duration = Math.Clamp(
-            ContainmentFieldGeneratorComponent.HackDurationSeconds - (float) (hackEndTime - now).TotalSeconds,
+            generator.Comp.HackDurationSeconds - (float) (hackEndTime - now).TotalSeconds,
             0f,
-            ContainmentFieldGeneratorComponent.HackDurationSeconds);
+            generator.Comp.HackDurationSeconds);
         var endTime = now + TimeSpan.FromSeconds(duration);
         generator.Comp.HackEndTime = null;
         generator.Comp.StabilizationEndTime = endTime;

@@ -35,9 +35,9 @@ public sealed class ContainmentFieldHackVisualsSystem : EntitySystem
         while (generators.MoveNext(out var uid, out var generator, out var sprite))
         {
             var progress = generator.HackEndTime is { } hackEndTime
-                ? 1f - (float) (hackEndTime - now).TotalSeconds / ContainmentFieldGeneratorComponent.HackDurationSeconds
+                ? 1f - (float) (hackEndTime - now).TotalSeconds / generator.HackDurationSeconds
                 : generator.StabilizationEndTime is { } stabilizationEndTime
-                    ? (float) (stabilizationEndTime - now).TotalSeconds / ContainmentFieldGeneratorComponent.HackDurationSeconds
+                    ? (float) (stabilizationEndTime - now).TotalSeconds / generator.HackDurationSeconds
                     : -1f;
             if (progress < 0f)
                 continue;
@@ -57,9 +57,9 @@ public sealed class ContainmentFieldHackVisualsSystem : EntitySystem
         while (fields.MoveNext(out var uid, out var field, out var sprite))
         {
             var progress = field.HackEndTime is { } hackEndTime
-                ? 1f - (float) (hackEndTime - now).TotalSeconds / ContainmentFieldGeneratorComponent.HackDurationSeconds
+                ? 1f - (float) (hackEndTime - now).TotalSeconds / field.HackDurationSeconds
                 : field.StabilizationEndTime is { } stabilizationEndTime
-                    ? (float) (stabilizationEndTime - now).TotalSeconds / ContainmentFieldGeneratorComponent.HackDurationSeconds
+                    ? (float) (stabilizationEndTime - now).TotalSeconds / field.HackDurationSeconds
                     : -1f;
             if (progress < 0f)
                 continue;

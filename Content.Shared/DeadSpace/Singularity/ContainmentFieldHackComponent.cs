@@ -3,4 +3,11 @@
 namespace Content.Shared.DeadSpace.Singularity;
 
 [RegisterComponent]
-public sealed partial class ContainmentFieldHackComponent : Component;
+public sealed partial class ContainmentFieldHackComponent : Component
+{
+    /// <summary>
+    /// Time in seconds before the hacked generator fatally destabilizes.
+    /// </summary>
+    [DataField]
+    public float DestabilizationDuration = 60f;
+}

@@ -15,6 +15,27 @@
     whitelist:
       tags:
       - NukeOpsUplink
+    blacklist:
+      tags:
+      - LoneOpsUplink
+
+- type: listing
+  id: UplinkEmagLoneOps
+  name: uplink-emag-name
+  description: uplink-emag-desc
+  productEntity: EmagLoneOps
+  discountCategory: veryRareDiscounts
+  discountDownTo:
+    Telecrystal: 3
+  cost:
+    Telecrystal: 5
+  categories:
+  - UplinkDisruption
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - LoneOpsUplink
 
 - type: listing
   id: UplinkEswordDoubleLone

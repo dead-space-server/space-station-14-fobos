@@ -27,6 +27,9 @@ public sealed partial class ContainmentFieldComponent : Component
 
     // DS14-start
     [AutoNetworkedField]
+    public float HackDurationSeconds = 60f;
+
+    [AutoNetworkedField]
     public TimeSpan? HackEndTime;
 
     [AutoNetworkedField]

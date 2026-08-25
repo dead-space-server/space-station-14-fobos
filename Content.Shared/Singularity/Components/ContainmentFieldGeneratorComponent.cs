@@ -109,7 +109,8 @@ public sealed partial class ContainmentFieldGeneratorComponent : Component
     public string CreatedField = "ContainmentField";
 
     // DS14-start
-    public const float HackDurationSeconds = 60f;
+    [AutoNetworkedField]
+    public float HackDurationSeconds = 60f;
 
     [AutoNetworkedField]
     public TimeSpan? HackEndTime;
