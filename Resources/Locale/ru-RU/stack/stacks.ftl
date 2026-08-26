@@ -194,6 +194,12 @@ stack-artifact-fragment =
         [few] фрагмента
        *[other] фрагментов
     } артефакта
+stack-xenoborg-crystal =
+    { $amount ->
+        [1] кристалл ксеноборгов
+        [few] кристалла ксеноборгов
+       *[other] кристаллов ксеноборгов
+    }
 # best materials
 stack-ground-tobacco =
     { $amount ->
