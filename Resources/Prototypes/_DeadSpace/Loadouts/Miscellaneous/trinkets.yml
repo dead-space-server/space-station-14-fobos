@@ -901,3 +901,45 @@
     back:
     -  PlushieDajidanNikita
   groupBy: "plushie"
+
+- type: loadout
+  id: PlushieGuitarwhispersNick
+  storage:
+    back:
+    - PlushieGuitarwhispersNick
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieMuenraiSiiri
+  storage:
+    back:
+    - PlushieMuenraiSiiri
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieKieruAngel
+  storage:
+    back:
+    - PlushieKieruAngel
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieImarabErmina
+  storage:
+    back:
+    - PlushieImarabErmina
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieZutiKuz
+  storage:
+    back:
+    - PlushieZutiKuz
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieZutiIgna
+  storage:
+    back:
+    - PlushieZutiIgna
+  groupBy: "plushie"

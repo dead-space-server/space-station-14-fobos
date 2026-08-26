@@ -275,6 +275,18 @@
         orGroup: GiftPool
       - id: PlushieDajidanNikita
         orGroup: GiftPool
+      - id: PlushieGuitarwhispersNick
+        orGroup: GiftPool
+      - id: PlushieMuenraiSiiri
+        orGroup: GiftPool
+      - id: PlushieKieruAngel
+        orGroup: GiftPool
+      - id: PlushieImarabErmina
+        orGroup: GiftPool
+      - id: PlushieZutiKuz
+        orGroup: GiftPool
+      - id: PlushieZutiIgna
+        orGroup: GiftPool
       - id: PlushieCobla
         orGroup: GiftPool
       # DS14-start
