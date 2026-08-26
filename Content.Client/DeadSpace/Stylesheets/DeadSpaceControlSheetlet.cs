@@ -3,6 +3,8 @@
 using Content.Client.Stylesheets;
 using Content.Client.Stylesheets.Stylesheets;
 using Content.Client.UserInterface.Controls;
+using Content.Client.UserInterface.Systems.Chat.Controls;
+using Content.Client.UserInterface.Systems.Chat.Widgets;
 using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
@@ -164,6 +166,12 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
                 .Prop(ItemList.StylePropertySelectedItemBackground, listItemPressed),
             E<OutputPanel>()
                 .Prop(OutputPanel.StylePropertyStyleBox, textArea),
+            // ChatWindowPanel owns the chat background and its configurable opacity.
+            E<ChatBox>()
+                .ParentOf(E<PanelContainer>().Class(ChatInputBox.StyleClassChatPanel))
+                .ParentOf(E<BoxContainer>())
+                .ParentOf(E<OutputPanel>())
+                .Prop(OutputPanel.StylePropertyStyleBox, new StyleBoxEmpty()),
             E<LineEdit>()
                 .Prop(LineEdit.StylePropertyStyleBox, input)
                 .Prop("font-color", DeadSpaceStylePalette.Text),
@@ -190,6 +198,12 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
             bareContainerPressed,
             bareContainerDisabled);
         AddCheckBoxRules(rules, bareContainer, bareContainerHover, bareContainerDisabled);
+        // The switch itself communicates its value; do not tint the full row when it is on.
+        rules.AddRange(
+        [
+            E<SwitchButton>().PseudoPressed().Box(bareContainer).Modulate(Color.White),
+            E<SwitchButton>().PseudoDisabled().Box(bareContainerDisabled).Modulate(Color.White),
+        ]);
         AddButtonRules(rules, null, baseControl, baseControlHover, baseControlPressed, baseControlDisabled);
         AddButtonRules(rules, DeadSpaceStyleClass.Action, action, actionHover, actionPressed, actionDisabled);
         AddButtonRules(rules, DeadSpaceStyleClass.TopAction, topAction, topActionHover, topActionPressed, topActionDisabled);

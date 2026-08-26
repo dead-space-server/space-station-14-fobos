@@ -106,7 +106,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
             "lathe" => CreateLatheFixture(),
             "reagent-dispenser" => new ReagentDispenserWindow(),
             "cargo" => new CargoShuttleMenu(),
-            "atmos-power" => new ApcMenu(),
+            "atmos-power" => CreateApcFixture(),
             "pda" => CreatePdaFixture(),
             "admin" => CreateAdminFixture(),
             "server-list" => CreateServerListFixture(),
@@ -211,6 +211,13 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         root.AddChild(recipes);
         root.AddChild(queue);
         window.Contents.AddChild(root);
+        return window;
+    }
+
+    private static BaseWindow CreateApcFixture()
+    {
+        var window = new ApcMenu();
+        window.FindControl<SwitchButton>("BreakerButton").Pressed = true;
         return window;
     }
 
