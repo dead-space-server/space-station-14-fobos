@@ -55,10 +55,11 @@ public sealed class ReturnToBodyNotificationSystem : EntitySystem
 
     private void Notify(EntityUid target)
     {
-        if (HasComp<RevenantMindCapturedComponent>(target) || !_mind.TryGetMind(target, out _, out var mind) ||
+        if (!_mind.TryGetMind(target, out _, out var mind) ||
             mind.CurrentEntity == target ||
             mind.UserId is not { } userId ||
-            !_player.TryGetSessionById(userId, out var session))
+            !_player.TryGetSessionById(userId, out var session) ||
+            HasComp<RevenantMindCapturedComponent>(target))
         {
             return;
         }
