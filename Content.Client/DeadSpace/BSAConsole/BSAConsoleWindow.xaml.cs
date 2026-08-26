@@ -26,6 +26,10 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
     private Popup _dropdownPopup = default!;
     private BoxContainer _dropdownContainer = default!;
 
+    private MapCoordinates? _crosshairCoords;
+    private EntityUid? _crosshairGridUid;
+    private Vector2 _crosshairLocalOffset;
+
     private static readonly Color BgDark = Color.FromHex("#191920FF");
     private static readonly Color BgPanel = Color.FromHex("#1A1A24");
     private static readonly Color Border = Color.FromHex("#2a2a35");
@@ -64,22 +68,23 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         UpdateRadar(state);
         UpdateMapView(state);
         UpdateDisk(state);
+        UpdateCrosshair();
     }
 
     private void UpdateConnection(BSAConsoleUiState state)
     {
         if (state.IsConnected)
         {
-            BSAConnectionLabel.Text = state.BSAName ?? "BSA";
+            BSAConnectionLabel.Text = state.BSAName ?? "БСА";
             BSAConnectionLabel.FontColorOverride = Green;
             ErrorLabel.Visible = false;
-            FireButton.Disabled = state.IsOnCooldown;
+            FireButton.Disabled = state.IsOnCooldown || state.HasPendingShot;
         }
         else
         {
-            BSAConnectionLabel.Text = "OFFLINE";
+            BSAConnectionLabel.Text = "НЕТ СВЯЗИ";
             BSAConnectionLabel.FontColorOverride = Red;
-            ErrorLabel.Text = "NET SVYAZI";
+            ErrorLabel.Text = "ПОДКЛЮЧИТЕ СЕТЬ";
             ErrorLabel.Visible = true;
             FireButton.Disabled = true;
         }
@@ -87,10 +92,28 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
 
     private void UpdateCooldown(BSAConsoleUiState state)
     {
+        if (state.HasPendingShot)
+        {
+            var remaining = (int)Math.Ceiling(state.PendingShotTimeLeft);
+            CooldownLabel.Text = $"ВЗРЫВ ЧЕРЕЗ: {remaining}с";
+            CooldownLabel.FontColorOverride = Color.FromHex("#FF4444");
+            CooldownBar.Value = state.PendingShotDelay - state.PendingShotTimeLeft;
+            CooldownBar.MaxValue = state.PendingShotDelay;
+
+            StatusPanel.PanelOverride = new StyleBoxFlat
+            {
+                BackgroundColor = Color.FromHex("#3A1A1A"),
+                BorderColor = Color.FromHex("#5A2A2A"),
+                BorderThickness = new Thickness(1),
+            };
+            FireButton.Disabled = true;
+            return;
+        }
+
         if (state.IsOnCooldown)
         {
             var remaining = (int)Math.Ceiling(state.CooldownRemaining);
-            CooldownLabel.Text = $"COOLING: {remaining}s";
+            CooldownLabel.Text = $"ОХЛАЖДЕНИЕ: {remaining}с";
             CooldownLabel.FontColorOverride = Orange;
             CooldownBar.Value = state.CooldownDuration - state.CooldownRemaining;
             CooldownBar.MaxValue = state.CooldownDuration;
@@ -105,7 +128,7 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         }
         else
         {
-            CooldownLabel.Text = "READY";
+            CooldownLabel.Text = "ГОТОВА";
             CooldownLabel.FontColorOverride = Green;
             CooldownBar.Value = 0;
 
@@ -122,15 +145,18 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
     {
         var modeText = state.CurrentViewMode switch
         {
-            "MassScannerLocal" => "SKANER",
-            "MassScannerDisk" => "SKANER *",
-            "Grid" => state.SelectedGridName != null ? state.SelectedGridName : "SKANER",
+            "MassScannerLocal" => "СКАНЕР МАСС",
+            "MassScannerDisk" => "СКАНЕР МАСС *",
+            "Grid" => state.SelectedGridName ?? "СКАНЕР МАСС",
             _ => state.CurrentViewMode,
         };
 
-        ViewModeButton.Text = $"REZHIM: {modeText}";
+        ViewModeButton.Text = $"РЕЖИМ: {modeText}";
 
         var isMapMode = state.CurrentViewMode == "Grid";
+
+        // Enable/disable radar panning based on mode
+        RadarScreen.AllowDrag = !isMapMode;
 
         if (isMapMode && state.SelectedGridUid != null)
         {
@@ -159,6 +185,19 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
 
     private void UpdateRadar(BSAConsoleUiState state)
     {
+        if (state.CurrentViewMode == "Grid" && state.SelectedGridUid != null)
+        {
+            // Grid mode: use grid-centered radar if grid has no NavMap
+            var targetUid = _entMan.GetEntity(state.SelectedGridUid.Value);
+            var hasNavMap = _entMan.TryGetComponent<NavMapComponent>(targetUid, out _);
+
+            if (!hasNavMap && state.GridRadarState != null && RadarScreen.Visible)
+            {
+                RadarScreen.UpdateState(state.GridRadarState);
+                return;
+            }
+        }
+
         if (state.CurrentViewMode == "MassScannerDisk" && state.DiskRadarState != null)
         {
             if (RadarScreen.Visible)
@@ -185,10 +224,44 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         }
         else
         {
-            DiskStatusLabel.Text = "DISK NE VSTAVLEN";
+            DiskStatusLabel.Text = "ДИСК НЕ ВСТАВЛЕН";
             DiskStatusLabel.FontColorOverride = Gold;
             EjectDiskButton.Visible = false;
         }
+    }
+
+    private void UpdateCrosshair()
+    {
+        if (_crosshairGridUid != null && _crosshairGridUid.Value.Valid
+            && _entMan.TryGetComponent<TransformComponent>(_crosshairGridUid.Value, out var gridXform))
+        {
+            var transformSystem = _entMan.System<SharedTransformSystem>();
+            var gridWorldPos = transformSystem.GetWorldPosition(_crosshairGridUid.Value);
+            var gridWorldRot = transformSystem.GetWorldRotation(_crosshairGridUid.Value);
+            var worldPos = gridWorldPos + gridWorldRot.RotateVec(_crosshairLocalOffset);
+            _crosshairCoords = new MapCoordinates(worldPos, gridXform.MapID);
+        }
+
+        if (_crosshairCoords == null)
+        {
+            Crosshair.SetWorldPosition(null, null);
+            return;
+        }
+
+        Func<MapCoordinates, Vector2?>? converter = null;
+
+        if (RadarScreen.Visible)
+        {
+            var coords = _crosshairCoords.Value;
+            converter = _ => RadarScreen.WorldToScreen(coords);
+        }
+        else if (MapScreen.Visible)
+        {
+            var coords = _crosshairCoords.Value;
+            converter = _ => MapScreen.WorldToScreen(coords);
+        }
+
+        Crosshair.SetWorldPosition(_crosshairCoords, converter);
     }
 
     #region Dropdown Popup
@@ -227,13 +300,9 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
     private void ToggleDropdown()
     {
         if (_dropdownPopup.Visible)
-        {
             _dropdownPopup.Close();
-        }
         else
-        {
             OpenDropdown();
-        }
     }
 
     private void OpenDropdown()
@@ -244,18 +313,16 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         _dropdownContainer.RemoveAllChildren();
 
         var localActive = _lastState.CurrentViewMode == "MassScannerLocal" || _lastState.CurrentViewMode == "MassScanner";
-        AddDropdownButton("SKANER MASS", "MassScannerLocal", localActive);
+        AddScannerButton("СКАНЕР МАСС", "MassScannerLocal", localActive);
 
         if (_lastState.HasDisk)
         {
             var diskActive = _lastState.CurrentViewMode == "MassScannerDisk";
-            AddDropdownButton($"SKANER MASS *", "MassScannerDisk", diskActive);
+            AddScannerButton("СКАНЕР МАСС *", "MassScannerDisk", diskActive);
         }
 
         if (_lastState.AllGrids.Count > 0)
-        {
             AddSeparator();
-        }
 
         foreach (var grid in _lastState.AllGrids)
         {
@@ -280,12 +347,11 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
 
         if (_lastState.AllGrids.Count == 0)
         {
-            var noGrids = new Label
+            _dropdownContainer.AddChild(new Label
             {
-                Text = "  NO GRIDS",
+                Text = "  Гриды не найдены",
                 FontColorOverride = Muted,
-            };
-            _dropdownContainer.AddChild(noGrids);
+            });
         }
 
         var globalPos = ViewModeButton.GlobalPosition;
@@ -298,7 +364,7 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         _dropdownPopup.Open(box);
     }
 
-    private void AddDropdownButton(string text, string? viewMode, bool disabled)
+    private void AddScannerButton(string text, string mode, bool disabled)
     {
         var btn = new Button
         {
@@ -308,11 +374,11 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
             Disabled = disabled,
         };
 
-        var capturedMode = viewMode;
+        var capturedMode = mode;
         btn.OnPressed += _ =>
         {
             _dropdownPopup.Close();
-            OnSwitchViewPressed?.Invoke(capturedMode ?? "MassScannerLocal");
+            OnSwitchViewPressed?.Invoke(capturedMode);
         };
 
         _dropdownContainer.AddChild(btn);
@@ -338,12 +404,56 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
     {
         CoordinateX.Text = coords.X.ToString("F1", Inv);
         CoordinateY.Text = coords.Y.ToString("F1", Inv);
+
+        var transformSystem = _entMan.System<SharedTransformSystem>();
+        _crosshairCoords = transformSystem.ToMapCoordinates(coords);
+
+        // Store grid-local offset so crosshair follows the grid
+        if (_lastState?.CurrentViewMode == "Grid" && _lastState.SelectedGridUid != null)
+        {
+            var gridUid = _entMan.GetEntity(_lastState.SelectedGridUid.Value);
+            if (_entMan.TryGetComponent<TransformComponent>(gridUid, out var gridXform))
+            {
+                var gridWorldPos = transformSystem.GetWorldPosition(gridUid);
+                var gridWorldRot = transformSystem.GetWorldRotation(gridUid);
+                _crosshairGridUid = gridUid;
+                _crosshairLocalOffset = (-gridWorldRot).RotateVec(_crosshairCoords.Value.Position - gridWorldPos);
+            }
+        }
+        else
+        {
+            _crosshairGridUid = null;
+        }
+
+        UpdateCrosshair();
     }
 
     private void OnMapClicked(MapCoordinates mapPos)
     {
         CoordinateX.Text = mapPos.X.ToString("F1", Inv);
         CoordinateY.Text = mapPos.Y.ToString("F1", Inv);
+
+        _crosshairCoords = mapPos;
+
+        // Store grid-local offset so crosshair follows the grid
+        if (_lastState?.CurrentViewMode == "Grid" && _lastState.SelectedGridUid != null)
+        {
+            var gridUid = _entMan.GetEntity(_lastState.SelectedGridUid.Value);
+            if (_entMan.TryGetComponent<TransformComponent>(gridUid, out var gridXform))
+            {
+                var transformSystem = _entMan.System<SharedTransformSystem>();
+                var gridWorldPos = transformSystem.GetWorldPosition(gridUid);
+                var gridWorldRot = transformSystem.GetWorldRotation(gridUid);
+                _crosshairGridUid = gridUid;
+                _crosshairLocalOffset = (-gridWorldRot).RotateVec(mapPos.Position - gridWorldPos);
+            }
+        }
+        else
+        {
+            _crosshairGridUid = null;
+        }
+
+        UpdateCrosshair();
     }
 
     private float GetX()

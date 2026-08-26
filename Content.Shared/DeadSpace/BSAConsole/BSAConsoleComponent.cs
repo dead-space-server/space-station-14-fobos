@@ -43,4 +43,27 @@ public sealed partial class BSAConsoleComponent : Component
 
     [DataField, AutoNetworkedField]
     public EntityUid? SelectedGridUid;
+
+    // Pending shot (10s delay before explosion)
+    [DataField, AutoNetworkedField]
+    public bool HasPendingShot;
+
+    [DataField, AutoNetworkedField]
+    public float PendingShotX;
+
+    [DataField, AutoNetworkedField]
+    public float PendingShotY;
+
+    [DataField, AutoNetworkedField]
+    public float PendingShotTimeLeft;
+
+    [DataField]
+    public float PendingShotDelay = 10f;
+
+    // Offset from selected grid center at fire time (for tracking moving grids)
+    [DataField]
+    public float PendingShotOffsetX;
+
+    [DataField]
+    public float PendingShotOffsetY;
 }

@@ -30,6 +30,14 @@ public sealed class BSAConsoleUiState : BoundUserInterfaceState
     public string? SelectedGridName;
     public NetEntity? SelectedGridUid;
 
+    // Pending shot
+    public bool HasPendingShot;
+    public float PendingShotTimeLeft;
+    public float PendingShotDelay;
+
+    // Grid radar state (for grids without NavMapComponent)
+    public NavInterfaceState? GridRadarState;
+
     public BSAConsoleUiState(
         bool isConnected,
         string? bsaName,
@@ -44,7 +52,11 @@ public sealed class BSAConsoleUiState : BoundUserInterfaceState
         NavInterfaceState? diskRadarState,
         List<BSAGridEntry> allGrids,
         string? selectedGridName,
-        NetEntity? selectedGridUid)
+        NetEntity? selectedGridUid,
+        bool hasPendingShot,
+        float pendingShotTimeLeft,
+        float pendingShotDelay,
+        NavInterfaceState? gridRadarState)
     {
         IsConnected = isConnected;
         BSAName = bsaName;
@@ -60,6 +72,10 @@ public sealed class BSAConsoleUiState : BoundUserInterfaceState
         AllGrids = allGrids;
         SelectedGridName = selectedGridName;
         SelectedGridUid = selectedGridUid;
+        HasPendingShot = hasPendingShot;
+        PendingShotTimeLeft = pendingShotTimeLeft;
+        PendingShotDelay = pendingShotDelay;
+        GridRadarState = gridRadarState;
     }
 }
 

@@ -22,7 +22,7 @@
                     </PanelContainer.PanelOverride>
                 </PanelContainer>
 
-                <Label Text="ORUDIE" FontColorOverride="#3C3C50" Margin="0 2 0 0" />
+                <Label Text="ОРУДИЕ" FontColorOverride="#3C3C50" Margin="0 2 0 0" />
                 <Label Name="BSAConnectionLabel" Text="ПОДКЛЮЧИ" FontColorOverride="#D95454" />
 
                 <PanelContainer Name="StatusPanel" MinHeight="28" Margin="0 4 0 0">
@@ -39,7 +39,7 @@
                     </PanelContainer.PanelOverride>
                 </PanelContainer>
 
-                <Label Text="SEKTOR" FontColorOverride="#3C3C50" Margin="0 2 0 0" />
+                <Label Text="ДИСК" FontColorOverride="#3C3C50" Margin="0 2 0 0" />
                 <Label Name="DiskStatusLabel" Text="ДИСК НЕ ВСТАВЛЕН" FontColorOverride="#D9A83C" />
                 <Button Name="EjectDiskButton" Text="ИЗВЛЕЧЬ" MinHeight="22" Visible="False" />
 
@@ -58,14 +58,19 @@
         <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" SeparationOverride="0">
             <Button Name="ViewModeButton" Text="РЕЖИМ: СКАНЕР МАСС" MinHeight="28" HorizontalExpand="True" Margin="0" />
 
-            <shuttles:ShuttleNavControl Name="RadarScreen"
-                                        VerticalExpand="True"
-                                        HorizontalExpand="True" />
-
-            <bsa:BSANavMapControl Name="MapScreen"
-                                  VerticalExpand="True"
-                                  HorizontalExpand="True"
-                                  Visible="False" />
+            <!-- Center viewport area with crosshair overlay -->
+            <PanelContainer VerticalExpand="True" HorizontalExpand="True">
+                <shuttles:ShuttleNavControl Name="RadarScreen"
+                                            VerticalExpand="True"
+                                            HorizontalExpand="True" />
+                <bsa:BSANavMapControl Name="MapScreen"
+                                      VerticalExpand="True"
+                                      HorizontalExpand="True"
+                                      Visible="False" />
+                <bsa:CrosshairOverlay Name="Crosshair"
+                                      VerticalExpand="True"
+                                      HorizontalExpand="True" />
+            </PanelContainer>
 
             <!-- Bottom bar: coordinates + fire -->
             <PanelContainer>

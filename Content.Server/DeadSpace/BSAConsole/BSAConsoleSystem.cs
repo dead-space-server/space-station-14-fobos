@@ -9,6 +9,7 @@ using Content.Shared.DeadSpace.BSAConsole;
 using Content.Shared.DeviceNetwork.Components;
 using Content.Shared.DeviceNetwork.Systems;
 using Content.Shared.Interaction;
+using Content.Shared.Pinpointer;
 using Content.Shared.Shuttles.BUIStates;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.UserInterface;
@@ -35,6 +36,8 @@ public sealed class BSAConsoleSystem : EntitySystem
 
     public override void Initialize()
     {
+        base.Initialize();
+
         SubscribeLocalEvent<BSAConsoleComponent, ComponentInit>(OnInit);
         SubscribeLocalEvent<BSAConsoleComponent, ComponentRemove>(OnRemove);
         SubscribeLocalEvent<BSAConsoleComponent, AfterActivatableUIOpenEvent>(OnUiOpen);
@@ -73,48 +76,51 @@ public sealed class BSAConsoleSystem : EntitySystem
         if (_timing.CurTime.TotalSeconds < bsa.CooldownEnd)
             return;
 
+        if (comp.HasPendingShot)
+            return;
+
         // Determine target map
         MapId targetMapId;
 
         if (comp.CurrentViewMode == "Grid" && comp.SelectedGridName != null)
         {
-            // Fire on the selected grid's map
             targetMapId = FindGridMapId(uid, comp, comp.SelectedGridName);
         }
         else if (comp.CurrentViewMode == "MassScannerDisk" && comp.HasDisk && comp.TargetMapUid != null)
         {
-            // Disk scanner mode — fire on disk map
             targetMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
         }
         else
         {
-            // Default: fire on console's own map
             targetMapId = Transform(uid).MapID;
         }
 
         if (targetMapId == MapId.Nullspace)
             return;
 
-        var mapPos = new MapCoordinates(msg.X, msg.Y, targetMapId);
+        // Store pending shot — explosion in PendingShotDelay seconds
+        comp.HasPendingShot = true;
+        comp.PendingShotX = msg.X;
+        comp.PendingShotY = msg.Y;
+        comp.PendingShotTimeLeft = comp.PendingShotDelay;
 
-        _explosion.QueueExplosion(
-            mapPos,
-            "Radioactive",
-            2000f,
-            5f,
-            100f,
-            comp.LinkedBSA.Value);
+        // Store offset from selected grid center for tracking
+        comp.PendingShotOffsetX = 0f;
+        comp.PendingShotOffsetY = 0f;
 
+        if (comp.CurrentViewMode == "Grid" && comp.SelectedGridUid != null)
+        {
+            var gridWorldPos = _transform.GetWorldPosition(comp.SelectedGridUid.Value);
+            comp.PendingShotOffsetX = msg.X - gridWorldPos.X;
+            comp.PendingShotOffsetY = msg.Y - gridWorldPos.Y;
+        }
+
+        // Lock the BSA so it can't fire again during the delay
         bsa.IsReady = false;
-        bsa.CooldownEnd = (float)(_timing.CurTime.TotalSeconds + bsa.CooldownDuration);
         Dirty(comp.LinkedBSA.Value, bsa);
 
-        comp.IsOnCooldown = true;
-        comp.CooldownRemaining = bsa.CooldownDuration;
-
         var timestamp = DateTime.Now.ToString("HH:mm:ss");
-        comp.LogEntries.Add($"[{timestamp}] [ЗАЛП]: Произведен выстрел по координатам X: {msg.X:F1}, Y: {msg.Y:F1}.");
-        comp.LogEntries.Add($"[{timestamp}] [ЛОГ]: Активирован протокол охлаждения ствола БСА. КД: {(int)bsa.CooldownDuration} сек.");
+        comp.LogEntries.Add($"[{timestamp}] [ЗАЛП]: Залп инициирован. Цель: X: {msg.X:F1}, Y: {msg.Y:F1}. Взрыв через {comp.PendingShotDelay}с.");
 
         Dirty(uid, comp);
         UpdateUiState(uid, comp);
@@ -241,45 +247,125 @@ public sealed class BSAConsoleSystem : EntitySystem
         var query = EntityQueryEnumerator<BSAConsoleComponent>();
         while (query.MoveNext(out var uid, out var comp))
         {
-            if (!comp.IsOnCooldown)
-                continue;
-
-            if (comp.LinkedBSA == null || !TryComp<BluespaceArtilleryComponent>(comp.LinkedBSA.Value, out var bsa))
+            // Pending shot countdown
+            if (comp.HasPendingShot)
             {
-                comp.IsOnCooldown = false;
-                comp.CooldownRemaining = 0;
+                comp.PendingShotTimeLeft -= frameTime;
+
+                if (comp.PendingShotTimeLeft <= 0f)
+                {
+                    FirePendingShot(uid, comp);
+                }
+
                 Dirty(uid, comp);
                 UpdateUiState(uid, comp);
                 continue;
             }
 
-            var remaining = (float)(bsa.CooldownEnd - _timing.CurTime.TotalSeconds);
-
-            if (remaining <= 0)
+            if (comp.IsOnCooldown)
             {
-                bsa.IsReady = true;
-                Dirty(comp.LinkedBSA.Value, bsa);
+                if (comp.LinkedBSA == null || !TryComp<BluespaceArtilleryComponent>(comp.LinkedBSA.Value, out var bsa))
+                {
+                    comp.IsOnCooldown = false;
+                    comp.CooldownRemaining = 0;
+                    Dirty(uid, comp);
+                    UpdateUiState(uid, comp);
+                    continue;
+                }
 
-                comp.IsOnCooldown = false;
-                comp.CooldownRemaining = 0;
+                var remaining = (float)(bsa.CooldownEnd - _timing.CurTime.TotalSeconds);
 
-                var timestamp = DateTime.Now.ToString("HH:mm:ss");
-                comp.LogEntries.Add($"[{timestamp}] [ЛОГ]: Охлаждение завершено. БЮ-конденсаторы заряжены. Орудие готово.");
+                if (remaining <= 0)
+                {
+                    bsa.IsReady = true;
+                    Dirty(comp.LinkedBSA.Value, bsa);
 
+                    comp.IsOnCooldown = false;
+                    comp.CooldownRemaining = 0;
+
+                    var timestamp = DateTime.Now.ToString("HH:mm:ss");
+                    comp.LogEntries.Add($"[{timestamp}] [ЛОГ]: Охлаждение завершено. БЮ-конденсаторы заряжены. Орудие готово.");
+
+                    Dirty(uid, comp);
+                    UpdateUiState(uid, comp);
+
+                    continue;
+                }
+
+                comp.CooldownRemaining = remaining;
                 Dirty(uid, comp);
-                UpdateUiState(uid, comp);
 
-                continue;
+                if ((int)remaining != (int)(remaining + frameTime) && remaining > 0)
+                {
+                    UpdateUiState(uid, comp);
+                }
             }
-
-            comp.CooldownRemaining = remaining;
-            Dirty(uid, comp);
-
-            if ((int)remaining != (int)(remaining + frameTime) && remaining > 0)
+            else
             {
+                // Always update UI state so radar tracks moving grids
                 UpdateUiState(uid, comp);
             }
         }
+    }
+
+    private void FirePendingShot(EntityUid uid, BSAConsoleComponent comp)
+    {
+        if (comp.LinkedBSA == null || !TryComp<BluespaceArtilleryComponent>(comp.LinkedBSA.Value, out var bsa))
+        {
+            comp.HasPendingShot = false;
+            return;
+        }
+
+        MapId targetMapId;
+
+        if (comp.CurrentViewMode == "Grid" && comp.SelectedGridName != null)
+            targetMapId = FindGridMapId(uid, comp, comp.SelectedGridName);
+        else if (comp.CurrentViewMode == "MassScannerDisk" && comp.HasDisk && comp.TargetMapUid != null)
+            targetMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
+        else
+            targetMapId = Transform(uid).MapID;
+
+        if (targetMapId == MapId.Nullspace)
+        {
+            comp.HasPendingShot = false;
+            return;
+        }
+
+        // Recalculate position from grid's current center + stored offset
+        var shotX = comp.PendingShotX;
+        var shotY = comp.PendingShotY;
+
+        if (comp.CurrentViewMode == "Grid" && comp.SelectedGridUid != null)
+        {
+            var gridWorldPos = _transform.GetWorldPosition(comp.SelectedGridUid.Value);
+            shotX = gridWorldPos.X + comp.PendingShotOffsetX;
+            shotY = gridWorldPos.Y + comp.PendingShotOffsetY;
+        }
+
+        var mapPos = new MapCoordinates(shotX, shotY, targetMapId);
+
+        _explosion.QueueExplosion(
+            mapPos,
+            "Radioactive",
+            2000f,
+            5f,
+            100f,
+            comp.LinkedBSA.Value);
+
+        comp.HasPendingShot = false;
+
+        bsa.CooldownEnd = (float)(_timing.CurTime.TotalSeconds + bsa.CooldownDuration);
+        Dirty(comp.LinkedBSA.Value, bsa);
+
+        comp.IsOnCooldown = true;
+        comp.CooldownRemaining = bsa.CooldownDuration;
+
+        var timestamp = DateTime.Now.ToString("HH:mm:ss");
+        comp.LogEntries.Add($"[{timestamp}] [ВЗРЫВ]: Достигнуты координаты X: {comp.PendingShotX:F1}, Y: {comp.PendingShotY:F1}.");
+        comp.LogEntries.Add($"[{timestamp}] [ЛОГ]: Протокол охлаждения ствола активирован. КД: {(int)bsa.CooldownDuration} сек.");
+
+        Dirty(uid, comp);
+        UpdateUiState(uid, comp);
     }
 
     private void UpdateUiState(EntityUid uid, BSAConsoleComponent comp)
@@ -300,6 +386,7 @@ public sealed class BSAConsoleSystem : EntitySystem
         var localRadarState = BuildLocalRadarState(uid);
         var diskRadarState = BuildDiskRadarState(comp);
         var allGrids = BuildUnifiedGridList(uid, comp);
+        var gridRadarState = BuildGridRadarState(uid, comp);
 
         var state = new BSAConsoleUiState(
             isConnected,
@@ -315,7 +402,11 @@ public sealed class BSAConsoleSystem : EntitySystem
             diskRadarState,
             allGrids,
             comp.SelectedGridName,
-            comp.SelectedGridUid != null ? GetNetEntity(comp.SelectedGridUid.Value) : null);
+            comp.SelectedGridUid != null ? GetNetEntity(comp.SelectedGridUid.Value) : null,
+            comp.HasPendingShot,
+            comp.PendingShotTimeLeft,
+            comp.PendingShotDelay,
+            gridRadarState);
 
         _ui.SetUiState(uid, BSAConsoleUiKey.Key, state);
     }
@@ -325,6 +416,19 @@ public sealed class BSAConsoleSystem : EntitySystem
         var docks = _shuttleConsole.GetAllDocks();
         var consoleXform = Transform(uid);
         return new NavInterfaceState(RadarMaxRange, GetNetCoordinates(consoleXform.Coordinates), consoleXform.LocalRotation, docks);
+    }
+
+    private NavInterfaceState? BuildGridRadarState(EntityUid uid, BSAConsoleComponent comp)
+    {
+        if (comp.CurrentViewMode != "Grid" || comp.SelectedGridUid == null)
+            return null;
+
+        if (TryComp<NavMapComponent>(comp.SelectedGridUid.Value, out _))
+            return null;
+
+        var gridXform = Transform(comp.SelectedGridUid.Value);
+        var docks = _shuttleConsole.GetAllDocks();
+        return new NavInterfaceState(RadarMaxRange, GetNetCoordinates(gridXform.Coordinates), Angle.Zero, docks);
     }
 
     private NavInterfaceState? BuildDiskRadarState(BSAConsoleComponent comp)
