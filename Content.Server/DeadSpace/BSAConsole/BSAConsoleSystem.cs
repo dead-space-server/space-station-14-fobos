@@ -1,16 +1,14 @@
-using System.Linq;
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using System.Numerics;
 using Content.Server.DeviceNetwork.Systems;
 using Content.Server.Explosion.EntitySystems;
-using Content.Server.Shuttles.Systems;
 using Content.Server.UserInterface;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.DeadSpace.BSAConsole;
 using Content.Shared.DeviceNetwork.Components;
 using Content.Shared.DeviceNetwork.Systems;
 using Content.Shared.Interaction;
-using Content.Shared.Pinpointer;
-using Content.Shared.Shuttles.BUIStates;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.UserInterface;
 using Robust.Server.GameObjects;
@@ -29,10 +27,11 @@ public sealed class BSAConsoleSystem : EntitySystem
     [Dependency] private readonly ExplosionSystem _explosion = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly DeviceListSystem _deviceList = default!;
-    [Dependency] private readonly ShuttleConsoleSystem _shuttleConsole = default!;
     [Dependency] private readonly IMapManager _mapManager = default!;
 
+    private static readonly TimeSpan UiUpdateInterval = TimeSpan.FromMilliseconds(250);
     private const float RadarMaxRange = 512f;
+    private const int MaxRadarGrids = 128;
 
     public override void Initialize()
     {
@@ -67,86 +66,72 @@ public sealed class BSAConsoleSystem : EntitySystem
 
     private void OnFire(EntityUid uid, BSAConsoleComponent comp, BSAConsoleFireMessage msg)
     {
-        if (comp.LinkedBSA == null || !TryComp<BluespaceArtilleryComponent>(comp.LinkedBSA.Value, out var bsa))
-            return;
-
-        if (!bsa.IsReady)
-            return;
-
-        if (_timing.CurTime.TotalSeconds < bsa.CooldownEnd)
-            return;
-
-        if (comp.HasPendingShot)
-            return;
-
-        // Target map comes from the client's MapCoordinates
-        var targetMapId = new MapId(msg.MapId);
-
-        if (targetMapId == MapId.Nullspace)
-            return;
-
-        // Store pending shot — explosion in PendingShotDelay seconds
-        comp.HasPendingShot = true;
-        comp.PendingShotTimeLeft = comp.PendingShotDelay;
-        comp.PendingShotMapId = msg.MapId;
-
-        // msg.X/Y are now world MapCoordinates from the client
-        comp.PendingShotX = msg.X;
-        comp.PendingShotY = msg.Y;
-
-        // Store offset from selected grid center for tracking
-        comp.PendingShotOffsetX = 0f;
-        comp.PendingShotOffsetY = 0f;
-
-        if (comp.CurrentViewMode == "Grid" && comp.SelectedGridUid != null)
+        if (comp.LinkedBSA is not { } bsaUid ||
+            !TryComp<BluespaceArtilleryComponent>(bsaUid, out var bsa) ||
+            !bsa.IsReady ||
+            bsa.HasPendingShot)
         {
-            var gridWorldPos = _transform.GetWorldPosition(comp.SelectedGridUid.Value);
-            comp.PendingShotOffsetX = msg.X - gridWorldPos.X;
-            comp.PendingShotOffsetY = msg.Y - gridWorldPos.Y;
+            return;
         }
 
-        // Lock the BSA so it can't fire again during the delay
+        var now = (float) _timing.CurTime.TotalSeconds;
+        if (now < bsa.CooldownEnd || !float.IsFinite(msg.X) || !float.IsFinite(msg.Y))
+            return;
+
+        var target = new Vector2(msg.X, msg.Y);
+        if (!TryResolveShotTarget(uid, comp, target, out var mapId, out var targetGrid, out var gridLocalPosition))
+            return;
+
         bsa.IsReady = false;
-        Dirty(comp.LinkedBSA.Value, bsa);
+        bsa.HasPendingShot = true;
+        bsa.PendingShotEnd = now + bsa.PendingShotDelay;
+        bsa.PendingShotMapId = (int) mapId;
+        bsa.PendingShotWorldPosition = target;
+        bsa.PendingShotGridUid = targetGrid;
+        bsa.PendingShotGridLocalPosition = gridLocalPosition;
+        Dirty(bsaUid, bsa);
 
-        var timestamp = DateTime.Now.ToString("HH:mm:ss");
-        comp.LogEntries.Add($"[{timestamp}] [ЗАЛП]: Залп инициирован. Цель: X: {msg.X:F1}, Y: {msg.Y:F1}. Взрыв через {comp.PendingShotDelay}с.");
-
-        Dirty(uid, comp);
         UpdateUiState(uid, comp);
     }
 
     private void OnSwitchView(EntityUid uid, BSAConsoleComponent comp, BSAConsoleSwitchViewMessage msg)
     {
+        if (msg.ViewMode == BSAConsoleViewMode.Grid)
+            return;
+
+        if (msg.ViewMode == BSAConsoleViewMode.MassScannerDisk && !TryGetDiskMapId(comp, out _))
+            return;
+
+        if (msg.ViewMode != BSAConsoleViewMode.MassScannerLocal &&
+            msg.ViewMode != BSAConsoleViewMode.MassScannerDisk)
+        {
+            return;
+        }
+
         comp.CurrentViewMode = msg.ViewMode;
-
-        var timestamp = DateTime.Now.ToString("HH:mm:ss");
-        comp.LogEntries.Add($"[{timestamp}] [НАВИГАЦИЯ]: Изменен режим визира -> {msg.ViewMode}.");
-
-        Dirty(uid, comp);
+        comp.SelectedGridName = null;
+        comp.SelectedGridUid = null;
         UpdateUiState(uid, comp);
     }
 
     private void OnSelectGrid(EntityUid uid, BSAConsoleComponent comp, BSAConsoleSelectGridMessage msg)
     {
-        comp.SelectedGridName = msg.GridName;
-        comp.SelectedGridUid = null;
-        comp.CurrentViewMode = "Grid";
+        if (!TryGetEntity(msg.GridUid, out var gridUid) ||
+            !HasComp<MapGridComponent>(gridUid.Value) ||
+            !IsAllowedGrid(uid, comp, gridUid.Value))
+        {
+            return;
+        }
 
-        // Find the grid entity
-        comp.SelectedGridUid = FindGridEntity(uid, comp, msg.GridName);
-
-        var timestamp = DateTime.Now.ToString("HH:mm:ss");
-        comp.LogEntries.Add($"[{timestamp}] [НАВИГАЦИЯ]: Выбран грид: \"{msg.GridName}\".");
-
-        Dirty(uid, comp);
+        comp.SelectedGridUid = gridUid.Value;
+        comp.SelectedGridName = MetaData(gridUid.Value).EntityName;
+        comp.CurrentViewMode = BSAConsoleViewMode.Grid;
         UpdateUiState(uid, comp);
     }
 
     private void OnEjectDisk(EntityUid uid, BSAConsoleComponent comp, BSAConsoleEjectDiskMessage msg)
     {
         _itemSlots.TryEject(uid, comp.DiskSlot, msg.Actor, out _);
-        ClearDiskData(uid, comp);
     }
 
     private void OnContainerInserted(EntityUid uid, BSAConsoleComponent comp, EntInsertedIntoContainerMessage args)
@@ -154,28 +139,22 @@ public sealed class BSAConsoleSystem : EntitySystem
         if (args.Container.ID != comp.DiskSlot.ID)
             return;
 
-        if (!TryComp<ShuttleDestinationCoordinatesComponent>(args.Entity, out var diskCoords))
-            return;
+        comp.HasDisk = true;
+        comp.TargetMapUid = null;
+        comp.TargetMapName = null;
+        comp.SelectedGridName = null;
+        comp.SelectedGridUid = null;
+        comp.CurrentViewMode = BSAConsoleViewMode.MassScannerLocal;
 
-        if (diskCoords.Destination == null || !HasComp<MetaDataComponent>(diskCoords.Destination.Value))
+        if (TryComp<ShuttleDestinationCoordinatesComponent>(args.Entity, out var diskCoords) &&
+            diskCoords.Destination is { } destination &&
+            ResolveTargetMapId(destination) is { } mapId &&
+            _mapManager.MapExists(mapId))
         {
-            var timestamp = DateTime.Now.ToString("HH:mm:ss");
-            comp.LogEntries.Add($"[{timestamp}] [ДИСК]: Диск не содержит валидных координат назначения.");
-            Dirty(uid, comp);
-            UpdateUiState(uid, comp);
-            return;
+            comp.TargetMapUid = destination;
+            comp.TargetMapName = MetaData(destination).EntityName;
         }
 
-        var mapUid = diskCoords.Destination.Value;
-        comp.TargetMapUid = mapUid;
-        comp.TargetMapName = MetaData(mapUid).EntityName;
-        comp.HasDisk = true;
-
-        var ts = DateTime.Now.ToString("HH:mm:ss");
-        var gridCount = GetGridNames(uid, comp).Count;
-        comp.LogEntries.Add($"[{ts}] [ДИСК]: Считаны данные сектора: \"{comp.TargetMapName}\". Гридов на карте: {gridCount}.");
-
-        Dirty(uid, comp);
         UpdateUiState(uid, comp);
     }
 
@@ -193,14 +172,8 @@ public sealed class BSAConsoleSystem : EntitySystem
         comp.TargetMapName = null;
         comp.HasDisk = false;
         comp.SelectedGridName = null;
-
-        if (comp.CurrentViewMode == "Grid" || comp.CurrentViewMode == "MassScannerDisk")
-            comp.CurrentViewMode = "MassScannerLocal";
-
-        var timestamp = DateTime.Now.ToString("HH:mm:ss");
-        comp.LogEntries.Add($"[{timestamp}] [ДИСК]: Диск сектора извлечён.");
-
-        Dirty(uid, comp);
+        comp.SelectedGridUid = null;
+        comp.CurrentViewMode = BSAConsoleViewMode.MassScannerLocal;
         UpdateUiState(uid, comp);
     }
 
@@ -211,349 +184,390 @@ public sealed class BSAConsoleSystem : EntitySystem
 
     private void TryFindBSA(EntityUid uid, BSAConsoleComponent comp)
     {
-        if (!TryComp<DeviceListComponent>(uid, out var deviceList))
-            return;
-
         comp.LinkedBSA = null;
 
-        foreach (var device in _deviceList.GetAllDevices(uid, deviceList))
+        if (TryComp<DeviceListComponent>(uid, out var deviceList))
         {
-            if (TryComp<BluespaceArtilleryComponent>(device, out _))
+            foreach (var device in _deviceList.GetAllDevices(uid, deviceList))
             {
-                comp.LinkedBSA = device;
+                if (!HasComp<BluespaceArtilleryComponent>(device))
+                    continue;
 
-                var timestamp = DateTime.Now.ToString("HH:mm:ss");
-                comp.LogEntries.Add($"[{timestamp}] [СЕТЬ]: Обнаружен сигнал БСА. Сопряжение успешно.");
+                comp.LinkedBSA = device;
                 break;
             }
         }
 
-        Dirty(uid, comp);
         UpdateUiState(uid, comp);
     }
 
     public override void Update(float frameTime)
     {
-        var query = EntityQueryEnumerator<BSAConsoleComponent>();
-        while (query.MoveNext(out var uid, out var comp))
+        var now = (float) _timing.CurTime.TotalSeconds;
+        var artilleryQuery = EntityQueryEnumerator<BluespaceArtilleryComponent>();
+        while (artilleryQuery.MoveNext(out var artilleryUid, out var artillery))
         {
-            // Pending shot countdown
-            if (comp.HasPendingShot)
+            if (artillery.HasPendingShot)
             {
-                comp.PendingShotTimeLeft -= frameTime;
+                if (now >= artillery.PendingShotEnd)
+                    FirePendingShot(artilleryUid, artillery, now);
 
-                if (comp.PendingShotTimeLeft <= 0f)
-                {
-                    FirePendingShot(uid, comp);
-                }
-
-                Dirty(uid, comp);
-                UpdateUiState(uid, comp);
                 continue;
             }
 
-            if (comp.IsOnCooldown)
+            if (!artillery.IsReady && now >= artillery.CooldownEnd)
             {
-                if (comp.LinkedBSA == null || !TryComp<BluespaceArtilleryComponent>(comp.LinkedBSA.Value, out var bsa))
-                {
-                    comp.IsOnCooldown = false;
-                    comp.CooldownRemaining = 0;
-                    Dirty(uid, comp);
-                    UpdateUiState(uid, comp);
-                    continue;
-                }
-
-                var remaining = (float)(bsa.CooldownEnd - _timing.CurTime.TotalSeconds);
-
-                if (remaining <= 0)
-                {
-                    bsa.IsReady = true;
-                    Dirty(comp.LinkedBSA.Value, bsa);
-
-                    comp.IsOnCooldown = false;
-                    comp.CooldownRemaining = 0;
-
-                    var timestamp = DateTime.Now.ToString("HH:mm:ss");
-                    comp.LogEntries.Add($"[{timestamp}] [ЛОГ]: Охлаждение завершено. БЮ-конденсаторы заряжены. Орудие готово.");
-
-                    Dirty(uid, comp);
-                    UpdateUiState(uid, comp);
-
-                    continue;
-                }
-
-                comp.CooldownRemaining = remaining;
-                Dirty(uid, comp);
-
-                if ((int)remaining != (int)(remaining + frameTime) && remaining > 0)
-                {
-                    UpdateUiState(uid, comp);
-                }
+                artillery.IsReady = true;
+                Dirty(artilleryUid, artillery);
             }
-            else
-            {
-                // Always update UI state so radar tracks moving grids
-                UpdateUiState(uid, comp);
-            }
+        }
+
+        var consoleQuery = EntityQueryEnumerator<BSAConsoleComponent>();
+        while (consoleQuery.MoveNext(out var consoleUid, out var console))
+        {
+            if (!_ui.IsUiOpen(consoleUid, BSAConsoleUiKey.Key) || _timing.CurTime < console.NextUiUpdate)
+                continue;
+
+            UpdateUiState(consoleUid, console);
         }
     }
 
-    private void FirePendingShot(EntityUid uid, BSAConsoleComponent comp)
+    private void FirePendingShot(EntityUid artilleryUid, BluespaceArtilleryComponent artillery, float now)
     {
-        if (comp.LinkedBSA == null || !TryComp<BluespaceArtilleryComponent>(comp.LinkedBSA.Value, out var bsa))
+        var mapId = new MapId(artillery.PendingShotMapId);
+        var position = artillery.PendingShotWorldPosition;
+        var validTarget = mapId != MapId.Nullspace && _mapManager.MapExists(mapId);
+
+        if (validTarget && artillery.PendingShotGridUid is { } gridUid)
         {
-            comp.HasPendingShot = false;
-            return;
+            if (!TryComp<TransformComponent>(gridUid, out var gridXform) || gridXform.MapID != mapId)
+            {
+                validTarget = false;
+            }
+            else
+            {
+                position = Vector2.Transform(
+                    artillery.PendingShotGridLocalPosition,
+                    _transform.GetWorldMatrix(gridUid));
+
+                var mapPosition = new MapCoordinates(position, mapId);
+                validTarget = _mapManager.TryFindGridAt(mapPosition, out var foundGrid, out _) && foundGrid == gridUid;
+            }
         }
 
-        var targetMapId = new MapId(comp.PendingShotMapId);
-
-        if (targetMapId == MapId.Nullspace)
+        if (validTarget)
         {
-            comp.HasPendingShot = false;
-            return;
+            _explosion.QueueExplosion(
+                new MapCoordinates(position, mapId),
+                "Radioactive",
+                2000f,
+                5f,
+                100f,
+                artilleryUid);
         }
 
-        // Recalculate position from grid's current center + stored offset
-        var shotX = comp.PendingShotX;
-        var shotY = comp.PendingShotY;
+        artillery.HasPendingShot = false;
+        artillery.PendingShotEnd = 0f;
+        artillery.PendingShotMapId = -1;
+        artillery.PendingShotGridUid = null;
+        artillery.PendingShotGridLocalPosition = Vector2.Zero;
+        artillery.PendingShotWorldPosition = Vector2.Zero;
+        artillery.CooldownEnd = now + artillery.CooldownDuration;
+        artillery.IsReady = false;
+        Dirty(artilleryUid, artillery);
+    }
 
-        if (comp.CurrentViewMode == "Grid" && comp.SelectedGridUid != null)
+    private bool TryResolveShotTarget(
+        EntityUid consoleUid,
+        BSAConsoleComponent console,
+        Vector2 position,
+        out MapId mapId,
+        out EntityUid? targetGrid,
+        out Vector2 gridLocalPosition)
+    {
+        targetGrid = null;
+        gridLocalPosition = Vector2.Zero;
+
+        if (!TryResolveRadarView(consoleUid, console, out mapId, out var center, out var selectedGrid))
+            return false;
+
+        if (console.CurrentViewMode != BSAConsoleViewMode.Grid)
+            return Vector2.DistanceSquared(position, center) <= RadarMaxRange * RadarMaxRange;
+
+        if (selectedGrid is not { } gridUid ||
+            !TryComp<MapGridComponent>(gridUid, out var grid))
         {
-            var gridWorldPos = _transform.GetWorldPosition(comp.SelectedGridUid.Value);
-            shotX = gridWorldPos.X + comp.PendingShotOffsetX;
-            shotY = gridWorldPos.Y + comp.PendingShotOffsetY;
+            return false;
         }
 
-        var mapPos = new MapCoordinates(shotX, shotY, targetMapId);
+        gridLocalPosition = Vector2.Transform(position, _transform.GetInvWorldMatrix(gridUid));
+        if (!float.IsFinite(gridLocalPosition.X) ||
+            !float.IsFinite(gridLocalPosition.Y) ||
+            !grid.LocalAABB.Contains(gridLocalPosition) ||
+            !_mapManager.TryFindGridAt(new MapCoordinates(position, mapId), out var foundGrid, out _) ||
+            foundGrid != gridUid)
+        {
+            return false;
+        }
 
-        _explosion.QueueExplosion(
-            mapPos,
-            "Radioactive",
-            2000f,
-            5f,
-            100f,
-            comp.LinkedBSA.Value);
-
-        comp.HasPendingShot = false;
-
-        bsa.CooldownEnd = (float)(_timing.CurTime.TotalSeconds + bsa.CooldownDuration);
-        Dirty(comp.LinkedBSA.Value, bsa);
-
-        comp.IsOnCooldown = true;
-        comp.CooldownRemaining = bsa.CooldownDuration;
-
-        var timestamp = DateTime.Now.ToString("HH:mm:ss");
-        comp.LogEntries.Add($"[{timestamp}] [ВЗРЫВ]: Достигнуты координаты X: {comp.PendingShotX:F1}, Y: {comp.PendingShotY:F1}.");
-        comp.LogEntries.Add($"[{timestamp}] [ЛОГ]: Протокол охлаждения ствола активирован. КД: {(int)bsa.CooldownDuration} сек.");
-
-        Dirty(uid, comp);
-        UpdateUiState(uid, comp);
+        targetGrid = gridUid;
+        return true;
     }
 
     private void UpdateUiState(EntityUid uid, BSAConsoleComponent comp)
     {
-        if (!_ui.HasUi(uid, BSAConsoleUiKey.Key))
+        if (!_ui.IsUiOpen(uid, BSAConsoleUiKey.Key))
             return;
 
-        var isConnected = comp.LinkedBSA != null;
-        string? bsaName = null;
-        var cooldownDuration = 60f;
+        comp.NextUiUpdate = _timing.CurTime + UiUpdateInterval;
 
-        if (isConnected && TryComp<BluespaceArtilleryComponent>(comp.LinkedBSA!.Value, out var bsa))
+        var hasValidDiskTarget = TryGetDiskMapId(comp, out _);
+        if (comp.HasDisk && !hasValidDiskTarget)
         {
-            bsaName = Comp<MetaDataComponent>(comp.LinkedBSA!.Value).EntityName;
-            cooldownDuration = bsa.CooldownDuration;
+            comp.TargetMapUid = null;
+            comp.TargetMapName = null;
         }
 
-        var localRadarState = BuildLocalRadarState(uid);
-        var diskRadarState = BuildDiskRadarState(comp);
-        var allGrids = BuildUnifiedGridList(uid, comp);
-        var gridRadarState = BuildGridRadarState(uid, comp);
+        if (comp.CurrentViewMode == BSAConsoleViewMode.MassScannerDisk && !hasValidDiskTarget)
+            comp.CurrentViewMode = BSAConsoleViewMode.MassScannerLocal;
+
+        if (comp.SelectedGridUid is { } selectedUid && !IsAllowedGrid(uid, comp, selectedUid))
+        {
+            comp.SelectedGridUid = null;
+            comp.SelectedGridName = null;
+        }
+
+        if (comp.CurrentViewMode == BSAConsoleViewMode.Grid && comp.SelectedGridUid == null)
+            comp.CurrentViewMode = BSAConsoleViewMode.MassScannerLocal;
+
+        var now = (float) _timing.CurTime.TotalSeconds;
+        var bsaUid = comp.LinkedBSA;
+        BluespaceArtilleryComponent? bsa = null;
+        var isConnected = bsaUid is { } linkedBsa &&
+            TryComp(linkedBsa, out bsa);
+
+        string? bsaName = null;
+        var isOnCooldown = false;
+        var cooldownRemaining = 0f;
+        var cooldownDuration = 0f;
+        var hasPendingShot = false;
+        var pendingShotTimeLeft = 0f;
+        var pendingShotDelay = 0f;
+
+        if (isConnected && bsaUid is { } connectedBsa && bsa != null)
+        {
+            bsaName = MetaData(connectedBsa).EntityName;
+            cooldownDuration = bsa.CooldownDuration;
+            hasPendingShot = bsa.HasPendingShot;
+            pendingShotDelay = bsa.PendingShotDelay;
+            pendingShotTimeLeft = hasPendingShot ? MathF.Max(0f, bsa.PendingShotEnd - now) : 0f;
+            isOnCooldown = !hasPendingShot && !bsa.IsReady && bsa.CooldownEnd > now;
+            cooldownRemaining = isOnCooldown ? bsa.CooldownEnd - now : 0f;
+        }
 
         var state = new BSAConsoleUiState(
             isConnected,
             bsaName,
-            comp.IsOnCooldown,
-            comp.CooldownRemaining,
+            isOnCooldown,
+            cooldownRemaining,
             cooldownDuration,
             comp.CurrentViewMode,
-            comp.LogEntries,
             comp.HasDisk,
             comp.TargetMapName,
-            localRadarState,
-            diskRadarState,
-            allGrids,
+            BuildUnifiedGridList(uid, comp),
             comp.SelectedGridName,
-            comp.SelectedGridUid != null ? GetNetEntity(comp.SelectedGridUid.Value) : null,
-            comp.HasPendingShot,
-            comp.PendingShotTimeLeft,
-            comp.PendingShotDelay,
-            gridRadarState);
+            comp.SelectedGridUid is { } selectedGrid ? GetNetEntity(selectedGrid) : null,
+            hasPendingShot,
+            pendingShotTimeLeft,
+            pendingShotDelay,
+            BuildRadarState(uid, comp));
 
         _ui.SetUiState(uid, BSAConsoleUiKey.Key, state);
     }
 
-    private NavInterfaceState BuildLocalRadarState(EntityUid uid)
+    private BSARadarState? BuildRadarState(EntityUid uid, BSAConsoleComponent comp)
     {
-        var docks = _shuttleConsole.GetAllDocks();
-        var consoleXform = Transform(uid);
-        return new NavInterfaceState(RadarMaxRange, GetNetCoordinates(consoleXform.Coordinates), consoleXform.LocalRotation, docks);
-    }
-
-    private NavInterfaceState? BuildGridRadarState(EntityUid uid, BSAConsoleComponent comp)
-    {
-        if (comp.CurrentViewMode != "Grid" || comp.SelectedGridUid == null)
+        if (!TryResolveRadarView(uid, comp, out var mapId, out var center, out var selectedGrid))
             return null;
 
-        if (TryComp<NavMapComponent>(comp.SelectedGridUid.Value, out _))
-            return null;
-
-        var gridXform = Transform(comp.SelectedGridUid.Value);
-        var docks = _shuttleConsole.GetAllDocks();
-        return new NavInterfaceState(RadarMaxRange, GetNetCoordinates(gridXform.Coordinates), Angle.Zero, docks);
-    }
-
-    private NavInterfaceState? BuildDiskRadarState(BSAConsoleComponent comp)
-    {
-        if (comp.TargetMapUid == null)
-            return null;
-
-        var docks = _shuttleConsole.GetAllDocks();
-        var targetMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
-
-        if (targetMapId == MapId.Nullspace)
-            return null;
-
-        foreach (var grid in _mapManager.GetAllGrids(targetMapId))
+        var grids = new List<BSARadarGridState>();
+        foreach (var grid in _mapManager.GetAllGrids(mapId))
         {
-            var gridXform = Transform(grid.Owner);
-            return new NavInterfaceState(RadarMaxRange, GetNetCoordinates(gridXform.Coordinates), Angle.Zero, docks);
+            if (TerminatingOrDeleted(grid.Owner))
+                continue;
+
+            var localBounds = grid.Comp.LocalAABB;
+            var worldCenter = Vector2.Transform(localBounds.Center, _transform.GetWorldMatrix(grid.Owner));
+            var radius = localBounds.Size.Length() * 0.5f;
+            var selected = selectedGrid == grid.Owner;
+
+            if (!selected && Vector2.Distance(worldCenter, center) > RadarMaxRange + radius)
+                continue;
+
+            grids.Add(new BSARadarGridState(
+                GetNetEntity(grid.Owner),
+                worldCenter,
+                localBounds.Size * 0.5f,
+                (float) _transform.GetWorldRotation(grid.Owner).Theta,
+                selected));
         }
 
-        var targetXform = Transform(comp.TargetMapUid.Value);
-        return new NavInterfaceState(RadarMaxRange, GetNetCoordinates(targetXform.Coordinates), Angle.Zero, docks);
+        grids.Sort((left, right) =>
+            Vector2.DistanceSquared(left.Center, center).CompareTo(Vector2.DistanceSquared(right.Center, center)));
+
+        if (grids.Count > MaxRadarGrids)
+            grids.RemoveRange(MaxRadarGrids, grids.Count - MaxRadarGrids);
+
+        return new BSARadarState((int) mapId, center, grids);
     }
 
     private List<BSAGridEntry> BuildUnifiedGridList(EntityUid uid, BSAConsoleComponent comp)
     {
         var result = new List<BSAGridEntry>();
-        CollectGridEntries(uid, comp, result);
+        var added = new HashSet<EntityUid>();
+        var localMapId = Transform(uid).MapID;
+
+        CollectGridEntries(localMapId, false, result, added);
+
+        if (TryGetDiskMapId(comp, out var diskMapId) && diskMapId != localMapId)
+            CollectGridEntries(diskMapId, true, result, added);
+
+        result.Sort((left, right) => string.Compare(left.Name, right.Name, StringComparison.OrdinalIgnoreCase));
         return result;
     }
 
-    private void CollectGridEntries(EntityUid uid, BSAConsoleComponent comp, List<BSAGridEntry> result)
+    private void CollectGridEntries(
+        MapId mapId,
+        bool isDisk,
+        List<BSAGridEntry> result,
+        HashSet<EntityUid> added)
     {
-        // Local grids
-        var localMapId = Transform(uid).MapID;
-        if (localMapId != MapId.Nullspace)
-        {
-            foreach (var grid in _mapManager.GetAllGrids(localMapId))
-            {
-                var name = MetaData(grid.Owner).EntityName;
-                if (!string.IsNullOrEmpty(name))
-                    result.Add(new BSAGridEntry(name, "local"));
-            }
-        }
+        if (mapId == MapId.Nullspace || !_mapManager.MapExists(mapId))
+            return;
 
-        // Disk grids
-        if (comp.TargetMapUid != null)
+        foreach (var grid in _mapManager.GetAllGrids(mapId))
         {
-            var diskMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
-            if (diskMapId != MapId.Nullspace && diskMapId != localMapId)
-            {
-                foreach (var grid in _mapManager.GetAllGrids(diskMapId))
+            if (TerminatingOrDeleted(grid.Owner) || !added.Add(grid.Owner))
+                continue;
+
+            var name = MetaData(grid.Owner).EntityName;
+            if (!string.IsNullOrWhiteSpace(name))
+                result.Add(new BSAGridEntry(GetNetEntity(grid.Owner), name, isDisk));
+        }
+    }
+
+    private bool TryResolveRadarView(
+        EntityUid uid,
+        BSAConsoleComponent comp,
+        out MapId mapId,
+        out Vector2 center,
+        out EntityUid? selectedGrid)
+    {
+        selectedGrid = null;
+        center = Vector2.Zero;
+
+        switch (comp.CurrentViewMode)
+        {
+            case BSAConsoleViewMode.MassScannerLocal:
+                mapId = Transform(uid).MapID;
+                center = _transform.GetWorldPosition(uid);
+                break;
+
+            case BSAConsoleViewMode.MassScannerDisk:
+                if (!TryGetDiskMapId(comp, out mapId))
+                    return false;
+
+                center = GetMapCenter(mapId, comp.TargetMapUid);
+                break;
+
+            case BSAConsoleViewMode.Grid:
+                if (comp.SelectedGridUid is not { } gridUid ||
+                    !TryComp<MapGridComponent>(gridUid, out var grid) ||
+                    !IsAllowedGrid(uid, comp, gridUid))
                 {
-                    var name = MetaData(grid.Owner).EntityName;
-                    if (!string.IsNullOrEmpty(name))
-                        result.Add(new BSAGridEntry(name, "disk"));
+                    mapId = MapId.Nullspace;
+                    return false;
                 }
-            }
+
+                mapId = Transform(gridUid).MapID;
+                center = Vector2.Transform(grid.LocalAABB.Center, _transform.GetWorldMatrix(gridUid));
+                selectedGrid = gridUid;
+                break;
+
+            default:
+                mapId = MapId.Nullspace;
+                return false;
         }
+
+        return mapId != MapId.Nullspace && _mapManager.MapExists(mapId);
     }
 
-    private List<string> GetGridNames(EntityUid uid, BSAConsoleComponent comp)
+    private Vector2 GetMapCenter(MapId mapId, EntityUid? fallback)
     {
-        var entries = new List<BSAGridEntry>();
-        CollectGridEntries(uid, comp, entries);
-        return entries.Select(e => e.Name).ToList();
-    }
+        Entity<MapGridComponent>? largest = null;
+        var largestArea = -1f;
 
-    private MapId FindGridMapId(EntityUid uid, BSAConsoleComponent comp, string gridName)
-    {
-        var localMapId = Transform(uid).MapID;
-        if (localMapId != MapId.Nullspace)
+        foreach (var grid in _mapManager.GetAllGrids(mapId))
         {
-            foreach (var grid in _mapManager.GetAllGrids(localMapId))
-            {
-                if (MetaData(grid.Owner).EntityName.Equals(gridName, StringComparison.OrdinalIgnoreCase))
-                    return localMapId;
-            }
+            if (TerminatingOrDeleted(grid.Owner))
+                continue;
+
+            var area = grid.Comp.LocalAABB.Width * grid.Comp.LocalAABB.Height;
+            if (area <= largestArea)
+                continue;
+
+            largest = grid;
+            largestArea = area;
         }
 
-        if (comp.TargetMapUid != null)
+        if (largest is { } largestGrid)
         {
-            var diskMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
-            if (diskMapId != MapId.Nullspace && diskMapId != localMapId)
-            {
-                foreach (var grid in _mapManager.GetAllGrids(diskMapId))
-                {
-                    if (MetaData(grid.Owner).EntityName.Equals(gridName, StringComparison.OrdinalIgnoreCase))
-                        return diskMapId;
-                }
-            }
+            return Vector2.Transform(
+                largestGrid.Comp.LocalAABB.Center,
+                _transform.GetWorldMatrix(largestGrid.Owner));
         }
 
-        return Transform(uid).MapID;
+        if (fallback is { } fallbackUid && TryComp<TransformComponent>(fallbackUid, out _))
+            return _transform.GetWorldPosition(fallbackUid);
+
+        return Vector2.Zero;
     }
 
-    /// <summary>
-    /// Resolve a map entity UID to its MapId, trying multiple approaches.
-    /// </summary>
-    private MapId ResolveTargetMapId(EntityUid mapUid)
+    private bool IsAllowedGrid(EntityUid consoleUid, BSAConsoleComponent comp, EntityUid gridUid)
     {
+        if (TerminatingOrDeleted(gridUid) || !HasComp<MapGridComponent>(gridUid))
+            return false;
+
+        var gridMapId = Transform(gridUid).MapID;
+        if (gridMapId == Transform(consoleUid).MapID)
+            return true;
+
+        return TryGetDiskMapId(comp, out var diskMapId) && gridMapId == diskMapId;
+    }
+
+    private bool TryGetDiskMapId(BSAConsoleComponent comp, out MapId mapId)
+    {
+        mapId = MapId.Nullspace;
+        if (!comp.HasDisk || comp.TargetMapUid is not { } targetMapUid)
+            return false;
+
+        if (ResolveTargetMapId(targetMapUid) is not { } resolved || !_mapManager.MapExists(resolved))
+            return false;
+
+        mapId = resolved;
+        return true;
+    }
+
+    private MapId? ResolveTargetMapId(EntityUid mapUid)
+    {
+        if (TerminatingOrDeleted(mapUid))
+            return null;
+
         if (TryComp<MapComponent>(mapUid, out var mapComp))
             return mapComp.MapId;
 
-        var xform = Transform(mapUid);
-        if (xform.MapID != MapId.Nullspace)
-            return xform.MapID;
-
-        var query = EntityQueryEnumerator<MapComponent>();
-        while (query.MoveNext(out var ent, out var mc))
-        {
-            if (ent == mapUid)
-                return mc.MapId;
-        }
-
-        return MapId.Nullspace;
-    }
-
-    private EntityUid? FindGridEntity(EntityUid uid, BSAConsoleComponent comp, string gridName)
-    {
-        var localMapId = Transform(uid).MapID;
-        if (localMapId != MapId.Nullspace)
-        {
-            foreach (var grid in _mapManager.GetAllGrids(localMapId))
-            {
-                if (MetaData(grid.Owner).EntityName.Equals(gridName, StringComparison.OrdinalIgnoreCase))
-                    return grid.Owner;
-            }
-        }
-
-        if (comp.TargetMapUid != null)
-        {
-            var diskMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
-            if (diskMapId != MapId.Nullspace && diskMapId != localMapId)
-            {
-                foreach (var grid in _mapManager.GetAllGrids(diskMapId))
-                {
-                    if (MetaData(grid.Owner).EntityName.Equals(gridName, StringComparison.OrdinalIgnoreCase))
-                        return grid.Owner;
-                }
-            }
-        }
-
-        return null;
+        return TryComp<TransformComponent>(mapUid, out var xform) && xform.MapID != MapId.Nullspace
+            ? xform.MapID
+            : null;
     }
 }

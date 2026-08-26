@@ -1,46 +1,41 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.DeadSpace.BSAConsole;
 
 [Serializable, NetSerializable]
-public enum BSAConsoleUiKey : byte { Key }
-
-[Serializable, NetSerializable]
-public sealed class BSAConsoleFireMessage : BoundUserInterfaceMessage
+public enum BSAConsoleUiKey : byte
 {
-    public float X { get; }
-    public float Y { get; }
-    public int MapId { get; }
-
-    public BSAConsoleFireMessage(float x, float y, int mapId)
-    {
-        X = x;
-        Y = y;
-        MapId = mapId;
-    }
+    Key,
 }
 
 [Serializable, NetSerializable]
-public sealed class BSAConsoleSwitchViewMessage : BoundUserInterfaceMessage
+public enum BSAConsoleViewMode : byte
 {
-    public string ViewMode { get; }
-
-    public BSAConsoleSwitchViewMessage(string viewMode)
-    {
-        ViewMode = viewMode;
-    }
+    MassScannerLocal,
+    MassScannerDisk,
+    Grid,
 }
 
 [Serializable, NetSerializable]
-public sealed class BSAConsoleSelectGridMessage : BoundUserInterfaceMessage
+public sealed class BSAConsoleFireMessage(float x, float y) : BoundUserInterfaceMessage
 {
-    public string GridName { get; }
-
-    public BSAConsoleSelectGridMessage(string gridName)
-    {
-        GridName = gridName;
-    }
+    public float X { get; } = x;
+    public float Y { get; } = y;
 }
 
 [Serializable, NetSerializable]
-public sealed class BSAConsoleEjectDiskMessage : BoundUserInterfaceMessage { }
+public sealed class BSAConsoleSwitchViewMessage(BSAConsoleViewMode viewMode) : BoundUserInterfaceMessage
+{
+    public BSAConsoleViewMode ViewMode { get; } = viewMode;
+}
+
+[Serializable, NetSerializable]
+public sealed class BSAConsoleSelectGridMessage(NetEntity gridUid) : BoundUserInterfaceMessage
+{
+    public NetEntity GridUid { get; } = gridUid;
+}
+
+[Serializable, NetSerializable]
+public sealed class BSAConsoleEjectDiskMessage : BoundUserInterfaceMessage;

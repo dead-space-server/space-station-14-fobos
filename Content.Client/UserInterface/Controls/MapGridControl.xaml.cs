@@ -28,11 +28,6 @@ public partial class MapGridControl : LayoutContainer
     protected virtual bool Draggable { get; } = false;
 
     /// <summary>
-    /// Public toggle for enabling drag from outside (e.g. BSA console).
-    /// </summary>
-    public bool AllowDrag = false;
-
-    /// <summary>
     /// Control offset from whatever is being tracked.
     /// </summary>
     public Vector2 Offset;
@@ -112,10 +107,10 @@ public partial class MapGridControl : LayoutContainer
     {
         base.KeyBindDown(args);
 
-        if (!Draggable && !AllowDrag)
+        if (!Draggable)
             return;
 
-        if (args.Function == EngineKeyFunctions.Use || (AllowDrag && args.Function == EngineKeyFunctions.UseSecondary))
+        if (args.Function == EngineKeyFunctions.Use)
         {
             StartDragPosition = args.PointerLocation.Position;
             _draggin = true;
@@ -124,10 +119,10 @@ public partial class MapGridControl : LayoutContainer
 
     protected override void KeyBindUp(GUIBoundKeyEventArgs args)
     {
-        if (!Draggable && !AllowDrag)
+        if (!Draggable)
             return;
 
-        if (args.Function == EngineKeyFunctions.Use || (AllowDrag && args.Function == EngineKeyFunctions.UseSecondary))
+        if (args.Function == EngineKeyFunctions.Use)
             _draggin = false;
     }
 

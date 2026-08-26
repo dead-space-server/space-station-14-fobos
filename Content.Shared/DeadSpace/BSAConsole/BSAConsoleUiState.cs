@@ -1,93 +1,76 @@
-using Content.Shared.Shuttles.BUIStates;
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
+using System.Numerics;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.DeadSpace.BSAConsole;
 
 [Serializable, NetSerializable]
-public sealed class BSAConsoleUiState : BoundUserInterfaceState
+public sealed class BSAConsoleUiState(
+    bool isConnected,
+    string? bsaName,
+    bool isOnCooldown,
+    float cooldownRemaining,
+    float cooldownDuration,
+    BSAConsoleViewMode currentViewMode,
+    bool hasDisk,
+    string? targetMapName,
+    List<BSAGridEntry> allGrids,
+    string? selectedGridName,
+    NetEntity? selectedGridUid,
+    bool hasPendingShot,
+    float pendingShotTimeLeft,
+    float pendingShotDelay,
+    BSARadarState? radarState) : BoundUserInterfaceState
 {
-    public bool IsConnected;
-    public string? BSAName;
-    public bool IsOnCooldown;
-    public float CooldownRemaining;
-    public float CooldownDuration;
-    public string CurrentViewMode;
-    public List<string> LogEntries;
+    public bool IsConnected = isConnected;
+    public string? BSAName = bsaName;
+    public bool IsOnCooldown = isOnCooldown;
+    public float CooldownRemaining = cooldownRemaining;
+    public float CooldownDuration = cooldownDuration;
+    public BSAConsoleViewMode CurrentViewMode = currentViewMode;
 
-    public bool HasDisk;
-    public string? TargetMapName;
+    public bool HasDisk = hasDisk;
+    public string? TargetMapName = targetMapName;
 
-    // Local radar
-    public NavInterfaceState? LocalRadarState;
+    public List<BSAGridEntry> AllGrids = allGrids;
+    public string? SelectedGridName = selectedGridName;
+    public NetEntity? SelectedGridUid = selectedGridUid;
 
-    // Disk radar
-    public NavInterfaceState? DiskRadarState;
+    public bool HasPendingShot = hasPendingShot;
+    public float PendingShotTimeLeft = pendingShotTimeLeft;
+    public float PendingShotDelay = pendingShotDelay;
 
-    // Unified grid list — grids from local map + disk map
-    public List<BSAGridEntry> AllGrids;
-
-    // Currently selected grid
-    public string? SelectedGridName;
-    public NetEntity? SelectedGridUid;
-
-    // Pending shot
-    public bool HasPendingShot;
-    public float PendingShotTimeLeft;
-    public float PendingShotDelay;
-
-    // Grid radar state (for grids without NavMapComponent)
-    public NavInterfaceState? GridRadarState;
-
-    public BSAConsoleUiState(
-        bool isConnected,
-        string? bsaName,
-        bool isOnCooldown,
-        float cooldownRemaining,
-        float cooldownDuration,
-        string currentViewMode,
-        List<string> logEntries,
-        bool hasDisk,
-        string? targetMapName,
-        NavInterfaceState? localRadarState,
-        NavInterfaceState? diskRadarState,
-        List<BSAGridEntry> allGrids,
-        string? selectedGridName,
-        NetEntity? selectedGridUid,
-        bool hasPendingShot,
-        float pendingShotTimeLeft,
-        float pendingShotDelay,
-        NavInterfaceState? gridRadarState)
-    {
-        IsConnected = isConnected;
-        BSAName = bsaName;
-        IsOnCooldown = isOnCooldown;
-        CooldownRemaining = cooldownRemaining;
-        CooldownDuration = cooldownDuration;
-        CurrentViewMode = currentViewMode;
-        LogEntries = logEntries;
-        HasDisk = hasDisk;
-        TargetMapName = targetMapName;
-        LocalRadarState = localRadarState;
-        DiskRadarState = diskRadarState;
-        AllGrids = allGrids;
-        SelectedGridName = selectedGridName;
-        SelectedGridUid = selectedGridUid;
-        HasPendingShot = hasPendingShot;
-        PendingShotTimeLeft = pendingShotTimeLeft;
-        PendingShotDelay = pendingShotDelay;
-        GridRadarState = gridRadarState;
-    }
+    public BSARadarState? RadarState = radarState;
 }
 
 [Serializable, NetSerializable]
-public sealed class BSAGridEntry
+public sealed class BSAGridEntry(NetEntity gridUid, string name, bool isDisk)
 {
-    public string Name { get; }
-    public string Source { get; }
+    public NetEntity GridUid { get; } = gridUid;
+    public string Name { get; } = name;
+    public bool IsDisk { get; } = isDisk;
+}
 
-    public BSAGridEntry(string name, string source)
-    {
-        Name = name;
-        Source = source;
-    }
+[Serializable, NetSerializable]
+public sealed class BSARadarState(int mapId, Vector2 center, List<BSARadarGridState> grids)
+{
+    public int MapId { get; } = mapId;
+    public Vector2 Center { get; } = center;
+    public List<BSARadarGridState> Grids { get; } = grids;
+}
+
+[Serializable, NetSerializable]
+public sealed class BSARadarGridState(
+    NetEntity gridUid,
+    Vector2 center,
+    Vector2 halfExtents,
+    float rotation,
+    bool selected)
+{
+    public NetEntity GridUid { get; } = gridUid;
+    public Vector2 Center { get; } = center;
+    public Vector2 HalfExtents { get; } = halfExtents;
+    public float Rotation { get; } = rotation;
+    public bool Selected { get; } = selected;
 }

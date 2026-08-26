@@ -1,61 +1,106 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using System.Numerics;
-using Content.Client.Pinpointer.UI;
+using Content.Client.UserInterface.Controls;
+using Content.Shared.DeadSpace.BSAConsole;
+using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
-using Robust.Shared.GameObjects;
 using Robust.Shared.Input;
 using Robust.Shared.Map;
-using Robust.Shared.Physics.Components;
 
 namespace Content.Client.DeadSpace.BSAConsole;
 
-public sealed partial class BSANavMapControl : NavMapControl
+public sealed partial class BSANavMapControl : MapGridControl
 {
     public Action<MapCoordinates>? OnMapClick;
 
-    public BSANavMapControl()
+    private BSARadarState? _state;
+
+    protected override bool Draggable => true;
+
+    public BSANavMapControl() : base(16f, 512f, 256f)
     {
     }
 
-    public Vector2? WorldToScreen(MapCoordinates coords)
+    public void UpdateState(BSARadarState? state)
     {
-        if (MapUid == null)
+        if (_state?.MapId != state?.MapId)
+        {
+            Offset = Vector2.Zero;
+            TargetOffset = Vector2.Zero;
+        }
+
+        _state = state;
+    }
+
+    public Vector2? WorldToScreen(MapCoordinates coordinates)
+    {
+        if (_state == null || (int) coordinates.MapId != _state.MapId)
             return null;
 
-        if (!EntManager.TryGetComponent<TransformComponent>(MapUid.Value, out var xform))
-            return null;
-
-        if (!EntManager.TryGetComponent<PhysicsComponent>(MapUid.Value, out var physics))
-            return null;
-
-        var transformSystem = EntManager.System<SharedTransformSystem>();
-        var offset = Offset + physics.LocalCenter;
-        var localPos = Vector2.Transform(coords.Position, transformSystem.GetInvWorldMatrix(xform)) - offset;
-        return ScalePosition(new Vector2(localPos.X, -localPos.Y));
+        return WorldToScreen(coordinates.Position);
     }
 
     protected override void KeyBindUp(GUIBoundKeyEventArgs args)
     {
-        if (args.Function == EngineKeyFunctions.UIClick && OnMapClick != null)
+        base.KeyBindUp(args);
+
+        if (_state == null || args.Function != EngineKeyFunctions.UIClick || OnMapClick == null)
+            return;
+
+        var localPosition = args.PointerLocation.Position - GlobalPixelPosition;
+        var relativePosition = InverseMapPosition(localPosition);
+        var mapPosition = new MapCoordinates(
+            _state.Center + relativePosition,
+            new MapId(_state.MapId));
+
+        OnMapClick.Invoke(mapPosition);
+        args.Handle();
+    }
+
+    protected override void Draw(DrawingHandleScreen handle)
+    {
+        base.Draw(handle);
+        DrawBacking(handle);
+
+        if (_state == null)
         {
-            var mapUid = MapUid;
-            if (mapUid != null
-                && EntManager.TryGetComponent<TransformComponent>(mapUid.Value, out var xform)
-                && EntManager.TryGetComponent<PhysicsComponent>(mapUid.Value, out var physics))
-            {
-                var transformSystem = EntManager.System<SharedTransformSystem>();
-                var offset = Offset + physics.LocalCenter;
-                var localPosition = args.PointerLocation.Position - GlobalPixelPosition;
-                var unscaledPosition = (localPosition - MidPointVector) / MinimapScale;
-                var worldPosition = Vector2.Transform(
-                    new Vector2(unscaledPosition.X, -unscaledPosition.Y) + offset,
-                    transformSystem.GetWorldMatrix(xform));
-                var mapPos = new MapCoordinates(worldPosition, xform.MapID);
-                OnMapClick.Invoke(mapPos);
-                args.Handle();
-                return;
-            }
+            DrawNoSignal(handle);
+            return;
         }
 
-        base.KeyBindUp(args);
+        handle.DrawCircle(MidPointVector, ScaledMinimapRadius, Color.FromHex("#2A4A2A"), false);
+
+        foreach (var grid in _state.Grids)
+        {
+            var rotation = new Angle(grid.Rotation);
+            var half = grid.HalfExtents;
+            var worldCorners = new[]
+            {
+                grid.Center + rotation.RotateVec(new Vector2(-half.X, -half.Y)),
+                grid.Center + rotation.RotateVec(new Vector2(half.X, -half.Y)),
+                grid.Center + rotation.RotateVec(new Vector2(half.X, half.Y)),
+                grid.Center + rotation.RotateVec(new Vector2(-half.X, half.Y)),
+            };
+
+            var screenCorners = new Vector2[worldCorners.Length];
+            for (var i = 0; i < worldCorners.Length; i++)
+                screenCorners[i] = WorldToScreen(worldCorners[i]);
+
+            var color = grid.Selected ? Color.FromHex("#54D98C") : Color.FromHex("#4FA3C7");
+            handle.DrawPrimitives(DrawPrimitiveTopology.TriangleFan, screenCorners, color.WithAlpha(0.18f));
+
+            for (var i = 0; i < screenCorners.Length; i++)
+                handle.DrawLine(screenCorners[i], screenCorners[(i + 1) % screenCorners.Length], color);
+
+            var center = WorldToScreen(grid.Center);
+            handle.DrawRect(new UIBox2(center.X - 2f, center.Y - 2f, center.X + 2f, center.Y + 2f), color);
+        }
+    }
+
+    private Vector2 WorldToScreen(Vector2 worldPosition)
+    {
+        var relative = worldPosition - _state!.Center - Offset;
+        return ScalePosition(new Vector2(relative.X, -relative.Y));
     }
 }

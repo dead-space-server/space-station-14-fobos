@@ -1,9 +1,10 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Content.Shared.Containers.ItemSlots;
-using Robust.Shared.GameStates;
 
 namespace Content.Shared.DeadSpace.BSAConsole;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent]
 public sealed partial class BSAConsoleComponent : Component
 {
     public const string DiskSlotId = "BSAConsole-DiskSlot";
@@ -11,63 +12,15 @@ public sealed partial class BSAConsoleComponent : Component
     [DataField]
     public ItemSlot DiskSlot = new();
 
-    [DataField, AutoNetworkedField]
     public EntityUid? LinkedBSA;
+    public BSAConsoleViewMode CurrentViewMode = BSAConsoleViewMode.MassScannerLocal;
 
-    [DataField, AutoNetworkedField]
-    public bool IsOnCooldown;
-
-    [DataField, AutoNetworkedField]
-    public float CooldownRemaining;
-
-    // View mode: "MassScanner", "Grid"
-    [DataField, AutoNetworkedField]
-    public string CurrentViewMode = "MassScannerLocal";
-
-    [DataField, AutoNetworkedField]
-    public List<string> LogEntries = new();
-
-    // Disk data
-    [DataField, AutoNetworkedField]
     public EntityUid? TargetMapUid;
-
-    [DataField, AutoNetworkedField]
     public string? TargetMapName;
-
-    [DataField, AutoNetworkedField]
     public bool HasDisk;
 
-    // Selected grid (for Grid mode)
-    [DataField, AutoNetworkedField]
     public string? SelectedGridName;
-
-    [DataField, AutoNetworkedField]
     public EntityUid? SelectedGridUid;
 
-    // Pending shot (10s delay before explosion)
-    [DataField, AutoNetworkedField]
-    public bool HasPendingShot;
-
-    [DataField, AutoNetworkedField]
-    public float PendingShotX;
-
-    [DataField, AutoNetworkedField]
-    public float PendingShotY;
-
-    [DataField, AutoNetworkedField]
-    public float PendingShotTimeLeft;
-
-    [DataField]
-    public float PendingShotDelay = 10f;
-
-    // Offset from selected grid center at fire time (for tracking moving grids)
-    [DataField]
-    public float PendingShotOffsetX;
-
-    [DataField]
-    public float PendingShotOffsetY;
-
-    // Map ID for the pending shot (preserved across 10s delay)
-    [DataField]
-    public int PendingShotMapId = -1;
+    public TimeSpan NextUiUpdate;
 }

@@ -1,7 +1,6 @@
 <DefaultWindow xmlns="https://spacestation14.io"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
-               xmlns:shuttles="clr-namespace:Content.Client.Shuttles.UI"
                xmlns:bsa="clr-namespace:Content.Client.DeadSpace.BSAConsole"
                x:Class="Content.Client.DeadSpace.BSAConsole.BSAConsoleWindow"
                Title="BSA Console"
@@ -60,13 +59,9 @@
 
             <!-- Center viewport area with crosshair overlay -->
             <PanelContainer VerticalExpand="True" HorizontalExpand="True">
-                <shuttles:ShuttleNavControl Name="RadarScreen"
-                                            VerticalExpand="True"
-                                            HorizontalExpand="True" />
-                <bsa:BSANavMapControl Name="MapScreen"
+                <bsa:BSANavMapControl Name="RadarScreen"
                                       VerticalExpand="True"
-                                      HorizontalExpand="True"
-                                      Visible="False" />
+                                      HorizontalExpand="True" />
                 <bsa:CrosshairOverlay Name="Crosshair"
                                       VerticalExpand="True"
                                       HorizontalExpand="True" />

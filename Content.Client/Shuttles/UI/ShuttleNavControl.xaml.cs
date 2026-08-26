@@ -48,31 +48,6 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
     /// </summary>
     public Action<EntityCoordinates>? OnRadarClick;
 
-    /// <summary>
-    /// Converts world MapCoordinates to screen pixel position relative to this control.
-    /// Returns null if conversion is not possible.
-    /// </summary>
-    public Vector2? WorldToScreen(MapCoordinates coords)
-    {
-        if (_coordinates == null || _rotation == null)
-            return null;
-
-        var xformQuery = EntManager.GetEntityQuery<TransformComponent>();
-        if (!xformQuery.TryGetComponent(_coordinates.Value.EntityId, out var xform)
-            || xform.MapID == MapId.Nullspace)
-            return null;
-
-        var posMatrix = Matrix3Helpers.CreateTransform(_coordinates.Value.Position, _rotation.Value);
-        var ourEntRot = RotateWithEntity ? _transform.GetWorldRotation(xform) : _rotation.Value;
-        var ourEntMatrix = Matrix3Helpers.CreateTransform(_transform.GetWorldPosition(xform), ourEntRot);
-        var shuttleToWorld = Matrix3x2.Multiply(posMatrix, ourEntMatrix);
-        Matrix3x2.Invert(shuttleToWorld, out var worldToShuttle);
-        var shuttleToView = Matrix3x2.CreateScale(new Vector2(MinimapScale, -MinimapScale))
-            * Matrix3x2.CreateTranslation(MidPointVector + new Vector2(-Offset.X, Offset.Y) * MinimapScale);
-
-        return Vector2.Transform(coords.Position, worldToShuttle * shuttleToView);
-    }
-
     private List<Entity<MapGridComponent>> _grids = new();
 
     private List<BlipState> _blips = new(); //DS14
@@ -106,7 +81,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         }
 
         var a = InverseScalePosition(args.RelativePosition);
-        var relativeWorldPos = new Vector2(a.X + Offset.X, -a.Y + Offset.Y);
+        var relativeWorldPos = new Vector2(a.X, -a.Y);
         relativeWorldPos = _rotation.Value.RotateVec(relativeWorldPos);
         var coords = _coordinates.Value.Offset(relativeWorldPos);
         OnRadarClick?.Invoke(coords);
@@ -126,7 +101,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         var pos = screen.Position / UIScale - GlobalPosition;
 
         var a = InverseScalePosition(pos);
-        var relativeWorldPos = new Vector2(a.X + Offset.X, -a.Y + Offset.Y);
+        var relativeWorldPos = new Vector2(a.X, -a.Y);
         relativeWorldPos = _rotation.Value.RotateVec(relativeWorldPos);
         var coords = _coordinates.Value.Offset(relativeWorldPos);
         return coords;
@@ -183,8 +158,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         var ourEntMatrix = Matrix3Helpers.CreateTransform(_transform.GetWorldPosition(xform), ourEntRot);
         var shuttleToWorld = Matrix3x2.Multiply(posMatrix, ourEntMatrix);
         Matrix3x2.Invert(shuttleToWorld, out var worldToShuttle);
-        var shuttleToView = Matrix3x2.CreateScale(new Vector2(MinimapScale, -MinimapScale))
-            * Matrix3x2.CreateTranslation(MidPointVector + new Vector2(-Offset.X, Offset.Y) * MinimapScale);
+        var shuttleToView = Matrix3x2.CreateScale(new Vector2(MinimapScale, -MinimapScale)) * Matrix3x2.CreateTranslation(MidPointVector);
 
         // Draw our grid in detail
         var ourGridId = xform.GridUid;
@@ -213,13 +187,11 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         handle.DrawPrimitives(DrawPrimitiveTopology.TriangleFan, radarPosVerts, Color.Lime);
 
         var rot = ourEntRot + _rotation.Value;
-        var worldPanOffset = _rotation.Value.RotateVec(new Vector2(-Offset.X, Offset.Y));
-        var searchCenter = mapPos.Position + worldPanOffset;
-        var viewBounds = new Box2Rotated(new Box2(-WorldRange, -WorldRange, WorldRange, WorldRange).Translated(searchCenter), rot, searchCenter);
+        var viewBounds = new Box2Rotated(new Box2(-WorldRange, -WorldRange, WorldRange, WorldRange).Translated(mapPos.Position), rot, mapPos.Position);
         var viewAABB = viewBounds.CalcBoundingBox();
 
         _grids.Clear();
-        _mapManager.FindGridsIntersecting(xform.MapID, new Box2(searchCenter - MaxRadarRangeVector, searchCenter + MaxRadarRangeVector), ref _grids, approx: true, includeMap: false);
+        _mapManager.FindGridsIntersecting(xform.MapID, new Box2(mapPos.Position - MaxRadarRangeVector, mapPos.Position + MaxRadarRangeVector), ref _grids, approx: true, includeMap: false);
 
         // Draw other grids... differently
         foreach (var grid in _grids)
@@ -303,18 +275,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
 
             // Skip drawing if it's out of range.
             if (!gridAABB.Intersects(viewAABB))
-            {
-                // Draw a simple blip for far grids so they're visible on mass scanner
-                var gridCentre = Vector2.Transform(gridBody.LocalCenter, curGridToView);
-                var gridCentre2 = gridCentre;
-                if (gridCentre2.X > 0 && gridCentre2.X < PixelSize.X &&
-                    gridCentre2.Y > 0 && gridCentre2.Y < PixelSize.Y)
-                {
-                    handle.DrawRect(new UIBox2(gridCentre2.X - 3, gridCentre2.Y - 3,
-                        gridCentre2.X + 3, gridCentre2.Y + 3), labelColor.WithAlpha(0.7f));
-                }
                 continue;
-            }
 
             DrawGrid(handle, curGridToView, grid, labelColor);
             DrawDocks(handle, gUid, curGridToView);

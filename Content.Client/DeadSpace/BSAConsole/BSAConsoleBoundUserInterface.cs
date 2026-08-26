@@ -1,3 +1,5 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Content.Shared.DeadSpace.BSAConsole;
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
@@ -10,7 +12,9 @@ public sealed class BSAConsoleBoundUserInterface : BoundUserInterface
 {
     private BSAConsoleWindow? _window;
 
-    public BSAConsoleBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey) { }
+    public BSAConsoleBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
+    {
+    }
 
     protected override void Open()
     {
@@ -26,10 +30,8 @@ public sealed class BSAConsoleBoundUserInterface : BoundUserInterface
 
     protected override void UpdateState(BoundUserInterfaceState state)
     {
-        if (state is not BSAConsoleUiState bsaState)
-            return;
-
-        _window?.UpdateState(bsaState);
+        if (state is BSAConsoleUiState bsaState)
+            _window?.UpdateState(bsaState);
     }
 
     protected override void Dispose(bool disposing)
@@ -39,19 +41,19 @@ public sealed class BSAConsoleBoundUserInterface : BoundUserInterface
             _window?.Dispose();
     }
 
-    private void OnFire(MapCoordinates mapCoords)
+    private void OnFire(MapCoordinates mapCoordinates)
     {
-        SendMessage(new BSAConsoleFireMessage((float)mapCoords.X, (float)mapCoords.Y, (int)mapCoords.MapId));
+        SendMessage(new BSAConsoleFireMessage((float) mapCoordinates.X, (float) mapCoordinates.Y));
     }
 
-    private void OnSwitchView(string viewMode)
+    private void OnSwitchView(BSAConsoleViewMode viewMode)
     {
         SendMessage(new BSAConsoleSwitchViewMessage(viewMode));
     }
 
-    private void OnSelectGrid(string gridName)
+    private void OnSelectGrid(NetEntity gridUid)
     {
-        SendMessage(new BSAConsoleSelectGridMessage(gridName));
+        SendMessage(new BSAConsoleSelectGridMessage(gridUid));
     }
 
     private void OnEjectDisk()
