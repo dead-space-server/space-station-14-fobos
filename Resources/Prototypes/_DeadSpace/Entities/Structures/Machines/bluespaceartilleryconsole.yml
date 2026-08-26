@@ -29,7 +29,7 @@
       enum.BSAConsoleUiKey.Key:
         type: BSAConsoleBoundUserInterface
   - type: ApcPowerReceiver
-    powerLoad: 75
+    powerLoad: 50
   - type: PointLight
     radius: 1.5
     energy: 3.0
@@ -41,8 +41,8 @@
       BSAConsole-DiskSlot: !type:ContainerSlot {}
   - type: DeviceNetwork
     deviceNetId: 1
-    receiveFrequencyId: Default
-    transmitFrequencyId: Default
+    receiveFrequencyId: BasicDevice
+    transmitFrequencyId: BasicDevice
     prefix: bsac
     examinableAddress: true
   - type: DeviceList

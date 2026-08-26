@@ -157,7 +157,7 @@ public sealed class BSAConsoleSystem : EntitySystem
         if (!TryComp<ShuttleDestinationCoordinatesComponent>(args.Entity, out var diskCoords))
             return;
 
-        if (diskCoords.Destination == null || !TryComp<MetaDataComponent>(diskCoords.Destination.Value, out var mapMeta))
+        if (diskCoords.Destination == null || !HasComp<MetaDataComponent>(diskCoords.Destination.Value))
         {
             var timestamp = DateTime.Now.ToString("HH:mm:ss");
             comp.LogEntries.Add($"[{timestamp}] [ДИСК]: Диск не содержит валидных координат назначения.");
@@ -168,7 +168,7 @@ public sealed class BSAConsoleSystem : EntitySystem
 
         var mapUid = diskCoords.Destination.Value;
         comp.TargetMapUid = mapUid;
-        comp.TargetMapName = mapMeta.EntityName;
+        comp.TargetMapName = MetaData(mapUid).EntityName;
         comp.HasDisk = true;
 
         var ts = DateTime.Now.ToString("HH:mm:ss");

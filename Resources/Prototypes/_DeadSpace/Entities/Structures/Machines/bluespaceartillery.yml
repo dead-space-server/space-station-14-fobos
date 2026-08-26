@@ -23,8 +23,8 @@
     cooldownDuration: 60
   - type: DeviceNetwork
     deviceNetId: 1
-    receiveFrequencyId: Default
-    transmitFrequencyId: Default
+    receiveFrequencyId: BasicDevice
+    transmitFrequencyId: BasicDevice
     prefix: bsa
     examinableAddress: true
 
