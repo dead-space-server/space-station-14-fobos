@@ -22,7 +22,7 @@ public sealed partial class MessagingControls : TabContainer
     [Dependency] private readonly IGameTiming _timing = default!;
     // DS14-end
 
-    private SharedAppearanceSystem _appearance;
+    private SharedAppearanceSystem _appearance = default!;
     private readonly string[] _lineEndings = new[] { "\r\n", "\n" };
     private const int MaxScreenCharacters = 32;
 

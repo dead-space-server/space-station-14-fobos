@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 // DS14-start: shared UI layout and style regression coverage
 using System.Numerics;
@@ -5,6 +6,7 @@ using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.DeadSpace.UserInterface.Controls;
 using Content.Client.Options.UI;
 using Content.Client.PDA;
+using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Controls;
 using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
@@ -144,8 +146,100 @@ public sealed class UiControlTest
                 foreach (var button in barePseudoButtons)
                     root.AddChild(button);
 
+                // Semantic colors and selected radio values must not alter the global button geometry.
+                // This guards both the options footer (negative disabled -> enabled) and the job-priority rows.
+                var semanticGeometryButtons = new[]
+                {
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassNormal),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassNormal, StyleClass.Positive),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassDisabled, StyleClass.Positive),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassNormal, StyleClass.Negative),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassDisabled, StyleClass.Negative),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassNormal, DeadSpaceStyleClass.ControlPositive),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassDisabled, DeadSpaceStyleClass.ControlPositive),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassNormal, DeadSpaceStyleClass.ControlWarning),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassDisabled, DeadSpaceStyleClass.ControlWarning),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassNormal, DeadSpaceStyleClass.ControlDanger),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassDisabled, DeadSpaceStyleClass.ControlDanger),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassPressed, DeadSpaceStyleClass.JobPriorityPreferred),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassPressed, DeadSpaceStyleClass.JobPriorityNever),
+                };
+                var semanticGeometryRow = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                };
+                foreach (var button in semanticGeometryButtons)
+                    semanticGeometryRow.AddChild(button);
+                root.AddChild(semanticGeometryRow);
+
+                var actionGeometryButtons = new[]
+                {
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassNormal, DeadSpaceStyleClass.Action),
+                    FixtureButton.ForPseudo(
+                        ContainerButton.StylePseudoClassPressed,
+                        DeadSpaceStyleClass.Action,
+                        DeadSpaceStyleClass.ActionPositive),
+                    FixtureButton.ForPseudo(
+                        ContainerButton.StylePseudoClassNormal,
+                        DeadSpaceStyleClass.Action,
+                        DeadSpaceStyleClass.Ready),
+                    FixtureButton.ForPseudo(
+                        ContainerButton.StylePseudoClassPressed,
+                        DeadSpaceStyleClass.Action,
+                        DeadSpaceStyleClass.Ready),
+                };
+                var actionGeometryRow = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                };
+                foreach (var button in actionGeometryButtons)
+                    actionGeometryRow.AddChild(button);
+                root.AddChild(actionGeometryRow);
+
+                var topActionGeometryButtons = new[]
+                {
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassNormal, DeadSpaceStyleClass.TopAction),
+                    FixtureButton.ForPseudo(
+                        ContainerButton.StylePseudoClassNormal,
+                        DeadSpaceStyleClass.TopAction,
+                        StyleClass.Negative),
+                    FixtureButton.ForPseudo(
+                        ContainerButton.StylePseudoClassPressed,
+                        DeadSpaceStyleClass.TopAction,
+                        StyleClass.Negative),
+                    FixtureButton.ForPseudo(
+                        ContainerButton.StylePseudoClassDisabled,
+                        DeadSpaceStyleClass.TopAction,
+                        StyleClass.Negative),
+                };
+                var topActionGeometryRow = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                };
+                foreach (var button in topActionGeometryButtons)
+                    topActionGeometryRow.AddChild(button);
+                root.AddChild(topActionGeometryRow);
+
+                var unreadGeometryButtons = new[]
+                {
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassNormal, DeadSpaceStyleClass.ListItem),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassNormal, DeadSpaceStyleClass.ListItemUnread),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassHover, DeadSpaceStyleClass.ListItemUnread),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassPressed, DeadSpaceStyleClass.ListItemUnread),
+                    FixtureButton.ForPseudo(ContainerButton.StylePseudoClassDisabled, DeadSpaceStyleClass.ListItemUnread),
+                };
+                var unreadGeometryRow = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                };
+                foreach (var button in unreadGeometryButtons)
+                    unreadGeometryRow.AddChild(button);
+                root.AddChild(unreadGeometryRow);
+
                 root.ForceRunStyleUpdate();
-                root.Measure(new Vector2(1280, 720));
+                // This is a synthetic control catalogue rather than a viewport fixture; keep its test rows
+                // unconstrained vertically so later controls are not measured against exhausted space.
+                root.Measure(new Vector2(1280, 2000));
                 root.Arrange(UIBox2.FromDimensions(Vector2.Zero, root.DesiredSize));
 
                 AssertDarkInteractiveSurface(option, "OptionButton closed state");
@@ -164,6 +258,10 @@ public sealed class UiControlTest
                     AssertDarkInteractiveSurface(button, $"Button pseudo-state {string.Join(',', button.StylePseudoClass)}");
                 foreach (var button in barePseudoButtons)
                     AssertDarkInteractiveSurface(button, $"bare ContainerButton pseudo-state {string.Join(',', button.StylePseudoClass)}");
+                AssertSameDesiredHeight(semanticGeometryButtons, "semantic/priority button states");
+                AssertSameDesiredHeight(actionGeometryButtons, "lobby action button states");
+                AssertSameDesiredHeight(topActionGeometryButtons, "top action button states");
+                AssertSameDesiredHeight(unreadGeometryButtons, "unread list button states");
             }
             finally
             {
@@ -254,11 +352,32 @@ public sealed class UiControlTest
             $"{description} must not tint the full row when its value is true");
     }
 
+    private static void AssertSameDesiredHeight(IReadOnlyList<Control> controls, string description)
+    {
+        var expected = controls[0].DesiredSize.Y;
+        foreach (var control in controls)
+        {
+            control.TryGetStyleProperty<StyleBox>(ContainerButton.StylePropertyStyleBox, out var resolvedBox);
+            var margins = resolvedBox == null
+                ? "none"
+                : $"{resolvedBox.GetContentMargin(StyleBox.Margin.Top)}/" +
+                  $"{resolvedBox.GetContentMargin(StyleBox.Margin.Bottom)}";
+            Assert.That(
+                control.DesiredSize.Y,
+                Is.EqualTo(expected).Within(0.001f),
+                $"{description} must not resize when its pseudo-state or semantic color changes " +
+                $"(classes: {string.Join(',', control.StyleClasses)}; " +
+                $"pseudo: {string.Join(',', control.StylePseudoClass)}; margins: {margins})");
+        }
+    }
+
     private sealed class FixtureButton : Button
     {
-        public static FixtureButton ForPseudo(string pseudo)
+        public static FixtureButton ForPseudo(string pseudo, params string[] styleClasses)
         {
-            var button = new FixtureButton { Text = pseudo };
+            var button = new FixtureButton { Text = "Geometry" };
+            foreach (var styleClass in styleClasses)
+                button.AddStyleClass(styleClass);
             button.SetOnlyStylePseudoClass(pseudo);
             return button;
         }

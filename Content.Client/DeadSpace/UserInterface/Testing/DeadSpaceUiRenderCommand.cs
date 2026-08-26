@@ -64,7 +64,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
 
     public string Command => "ds14_ui_render";
     public string Description => "Render a deterministic DS14 UI fixture to user data and quit.";
-    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|admin|server-list|role-priorities|ert-admin|fax|communications|chat> [output-name]";
+    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|admin|server-list|role-priorities|options-footer|ert-admin|fax|communications|chat> [output-name]";
 
     public void Execute(IConsoleShell shell, string argStr, string[] args)
     {
@@ -111,6 +111,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
             "admin" => CreateAdminFixture(),
             "server-list" => CreateServerListFixture(),
             "role-priorities" => CreateRolePriorityFixture(),
+            "options-footer" => CreateOptionsFooterFixture(),
             "ert-admin" => CreateErtAdminFixture(),
             "fax" => CreateFaxFixture(),
             "communications" => CreateCommunicationsFixture(),
@@ -373,6 +374,32 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
 
         window.Contents.AddChild(root);
         return window;
+    }
+
+    private static BaseWindow CreateOptionsFooterFixture()
+    {
+        var window = FixtureWindow("Настройки — состояния нижней панели", new Vector2(1040, 300));
+        var root = Vertical(14);
+        root.AddChild(SectionLabel("Без изменений — кнопки отключены"));
+
+        var disabled = new OptionsTabControlRow();
+        SetOptionsFooterDisabled(disabled, true);
+        root.AddChild(disabled);
+
+        root.AddChild(SectionLabel("После изменения — кнопки включены, высота не меняется"));
+        var enabled = new OptionsTabControlRow();
+        SetOptionsFooterDisabled(enabled, false);
+        root.AddChild(enabled);
+
+        window.Contents.AddChild(root);
+        return window;
+    }
+
+    private static void SetOptionsFooterDisabled(OptionsTabControlRow row, bool disabled)
+    {
+        row.FindControl<Button>("DefaultButton").Disabled = disabled;
+        row.FindControl<Button>("ResetButton").Disabled = disabled;
+        row.FindControl<Button>("ApplyButton").Disabled = disabled;
     }
 
     private static BaseWindow CreateErtAdminFixture()

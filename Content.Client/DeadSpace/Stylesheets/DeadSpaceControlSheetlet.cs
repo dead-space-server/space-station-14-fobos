@@ -63,8 +63,8 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
             DeadSpaceStylePalette.Control,
             DeadSpaceStylePalette.BorderControl,
             new Thickness(1),
-            9,
-            4);
+            14,
+            2);
         var dangerControlHover = new StyleBoxFlat(dangerControl)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlHover,
