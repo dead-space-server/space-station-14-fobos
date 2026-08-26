@@ -94,6 +94,9 @@
   - type: LimitedHolosignProjector
     signProto: HoloFan
     maxBarriers: 6
+  - type: ContainerContainer # тесты падали из за отсуствия слота у наследников
+    containers:
+      cell_slot: !type:ContainerSlot {}
   # DS14-end
   - type: Sprite
     sprite: Objects/Devices/Holoprojectors/atmos.rsi
@@ -145,7 +148,7 @@
         swap: false
 
 - type: entity
-  parent: HolofanProjectorBorg
+  parent: Holoprojector # DS14
   id: HoloprojectorXenoField
   name: Xenoborg deflector field projector
   description: An alien device, projecting fields that deflect projectiles.
