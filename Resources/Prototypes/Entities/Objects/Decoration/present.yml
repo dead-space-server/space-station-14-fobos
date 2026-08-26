@@ -449,6 +449,10 @@
         orGroup: GiftPool
       - id: PlushieArachind
         orGroup: GiftPool
+      - id: PlushieSheep
+        orGroup: GiftPool
+      - id: PlushieSpaceSheep
+        orGroup: GiftPool
       - id: PlushieHacksLua
         orGroup: GiftPool
       - id: PlushieLilaMarrnes
