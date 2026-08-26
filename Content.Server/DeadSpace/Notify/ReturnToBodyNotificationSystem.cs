@@ -3,10 +3,12 @@ using Content.Server.Ghost;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.Ghost;
+using Content.Server.Revenant;
 using Content.Shared.Mind;
 using Content.Shared.Mobs;
 using Content.Shared.Zombies;
 using Robust.Shared.Player;
+using Content.Server.Revenant.Components;
 
 namespace Content.Server.DeadSpace.Notify;
 
@@ -53,7 +55,7 @@ public sealed class ReturnToBodyNotificationSystem : EntitySystem
 
     private void Notify(EntityUid target)
     {
-        if (!_mind.TryGetMind(target, out _, out var mind) ||
+        if (HasComp<RevenantMindCapturedComponent>(target) || !_mind.TryGetMind(target, out _, out var mind) ||
             mind.CurrentEntity == target ||
             mind.UserId is not { } userId ||
             !_player.TryGetSessionById(userId, out var session))
