@@ -20,8 +20,8 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
     public event Action? OnEjectDiskPressed;
 
     private bool _viewDropdownOpen;
-    private bool _isMapMode;
     private IEntityManager _entMan = default!;
+    private BSAConsoleUiState? _lastState;
 
     public BSAConsoleWindow()
     {
@@ -30,26 +30,23 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         _entMan = IoCManager.Resolve<IEntityManager>();
 
         ViewModeButton.OnPressed += _ => ToggleViewDropdown();
-        ModeMassScanner.OnPressed += _ => SelectViewMode("MassScanner");
-        ModeStationGrid.OnPressed += _ => SelectViewMode("Grid: Станция");
         FireButton.OnPressed += _ => OnFirePressed?.Invoke(GetX(), GetY());
         EjectDiskButton.OnPressed += _ => OnEjectDiskPressed?.Invoke();
 
-        // Radar click → fill coordinates
         RadarScreen.OnRadarClick += OnRadarClicked;
-        // Map click → fill coordinates
         MapScreen.OnMapClick += OnMapClicked;
     }
 
     public void UpdateState(BSAConsoleUiState state)
     {
+        _lastState = state;
         UpdateConnection(state);
         UpdateCooldown(state);
-        UpdateViewMode(state);
+        UpdateViewLabel(state);
         UpdateRadar(state);
         UpdateMapView(state);
         UpdateDisk(state);
-        UpdateLogs(state);
+        RebuildDropdown(state);
     }
 
     private void UpdateConnection(BSAConsoleUiState state)
@@ -106,24 +103,24 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         }
     }
 
-    private void UpdateViewMode(BSAConsoleUiState state)
+    private void UpdateViewLabel(BSAConsoleUiState state)
     {
         var modeText = state.CurrentViewMode switch
         {
             "MassScanner" => "СКАНЕР МАСС",
-            "Grid" => $"ГРИД: {state.SelectedGridName ?? "???"}",
-            _ when state.CurrentViewMode.StartsWith("Grid: ") => $"ГРИД: {state.CurrentViewMode["Grid: ".Length..]}",
+            "Grid" => state.SelectedGridName != null ? $"ГРИД: {state.SelectedGridName}" : "СКАНЕР МАСС",
             _ => state.CurrentViewMode,
         };
 
         ViewModeButton.Text = $"РЕЖИМ: {modeText}";
 
-        _isMapMode = state.CurrentViewMode != "MassScanner";
+        var isMapMode = state.CurrentViewMode == "Grid";
+        var isRadarMode = state.CurrentViewMode == "MassScanner";
 
-        RadarScreen.Visible = !_isMapMode;
-        MapScreen.Visible = _isMapMode;
+        RadarScreen.Visible = isRadarMode;
+        MapScreen.Visible = isMapMode;
 
-        if (_isMapMode && state.SelectedGridName != null)
+        if (isMapMode && state.SelectedGridName != null)
         {
             SelectedGridLabel.Text = $"Целевой грид: {state.SelectedGridName}";
             SelectedGridLabel.Visible = true;
@@ -136,22 +133,26 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
 
     private void UpdateRadar(BSAConsoleUiState state)
     {
-        if (state.RadarState != null)
-        {
-            RadarScreen.UpdateState(state.RadarState);
-        }
+        if (state.CurrentViewMode != "MassScanner")
+            return;
+
+        NavInterfaceState? radarState = state.HasDisk ? state.DiskRadarState : state.LocalRadarState;
+        radarState ??= state.LocalRadarState;
+
+        if (radarState != null)
+            RadarScreen.UpdateState(radarState);
     }
 
     private void UpdateMapView(BSAConsoleUiState state)
     {
-        if (state.SelectedGridUid != null && _isMapMode)
+        if (state.CurrentViewMode != "Grid" || state.SelectedGridUid == null)
+            return;
+
+        var targetUid = _entMan.GetEntity(state.SelectedGridUid.Value);
+        if (MapScreen.MapUid != targetUid)
         {
-            var gridEntity = _entMan.GetEntity(state.SelectedGridUid.Value);
-            if (MapScreen.MapUid != gridEntity)
-            {
-                MapScreen.MapUid = gridEntity;
-                MapScreen.ForceNavMapUpdate();
-            }
+            MapScreen.MapUid = targetUid;
+            MapScreen.ForceNavMapUpdate();
         }
     }
 
@@ -162,72 +163,75 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
             DiskStatusLabel.Text = $"Сектор: {state.TargetMapName ?? "Неизвестный"}";
             DiskStatusLabel.FontColorOverride = Color.FromHex("#00FF00");
             EjectDiskButton.Visible = true;
-
-            ModeStationGrid.Disabled = false;
-
-            CustomGridsContainer.RemoveAllChildren();
-            foreach (var grid in state.AvailableGrids)
-            {
-                var btn = new Button
-                {
-                    Text = grid,
-                    TextAlign = Label.AlignMode.Left,
-                    MinHeight = 28,
-                };
-                var capturedGrid = grid;
-                btn.OnPressed += _ =>
-                {
-                    OnSelectGridPressed?.Invoke(capturedGrid);
-                    _viewDropdownOpen = false;
-                    ViewDropdownPanel.Visible = false;
-                };
-                CustomGridsContainer.AddChild(btn);
-            }
         }
         else
         {
             DiskStatusLabel.Text = "Вставьте координатный диск";
             DiskStatusLabel.FontColorOverride = Color.FromHex("#FFaa00");
             EjectDiskButton.Visible = false;
-
-            ModeStationGrid.Disabled = true;
-
-            CustomGridsContainer.RemoveAllChildren();
         }
     }
 
-    private void UpdateLogs(BSAConsoleUiState state)
+    private void RebuildDropdown(BSAConsoleUiState state)
     {
-        LogContainer.RemoveAllChildren();
+        DropdownContainer.RemoveAllChildren();
 
-        foreach (var entry in state.LogEntries)
+        // "Сканер масс" always first
+        var scannerBtn = new Button
         {
-            var label = new Label
-            {
-                Text = entry,
-                FontColorOverride = GetLogColor(entry),
-                HorizontalExpand = true,
-                Margin = new Thickness(0, 1),
-            };
-            LogContainer.AddChild(label);
-        }
-    }
+            Text = "Сканер масс",
+            TextAlign = Label.AlignMode.Left,
+            MinHeight = 28,
+        };
+        scannerBtn.OnPressed += _ =>
+        {
+            _viewDropdownOpen = false;
+            ViewDropdownPanel.Visible = false;
+            OnSwitchViewPressed?.Invoke("MassScanner");
+        };
+        DropdownContainer.AddChild(scannerBtn);
 
-    private Color GetLogColor(string entry)
-    {
-        if (entry.Contains("[СЕТЬ]") || entry.Contains("[ДИСК]"))
-            return Color.FromHex("#00d4ff");
-        if (entry.Contains("[НАВИГАЦИЯ]"))
-            return Color.FromHex("#FFaa00");
-        if (entry.Contains("[ЗАЛП]"))
-            return Color.FromHex("#FF4444");
-        if (entry.Contains("[ЛОГ]") && entry.Contains("Охлаждение завершено"))
-            return Color.FromHex("#00FF00");
-        if (entry.Contains("[ЛОГ]"))
-            return Color.FromHex("#FF8800");
-        if (entry.Contains("[ОШИБКА]"))
-            return Color.FromHex("#FF4444");
-        return Color.FromHex("#CCCCCC");
+        // Separator
+        if (state.AllGrids.Count > 0)
+        {
+            var sep = new PanelContainer { MinHeight = 1 };
+            sep.PanelOverride = new StyleBoxFlat { BackgroundColor = Color.FromHex("#333355") };
+            DropdownContainer.AddChild(sep);
+        }
+
+        // One button per grid
+        foreach (var grid in state.AllGrids)
+        {
+            var isSelected = grid.Name == state.SelectedGridName && state.CurrentViewMode == "Grid";
+            var label = grid.Source == "disk" ? $"{grid.Name} [Д]" : grid.Name;
+
+            var btn = new Button
+            {
+                Text = label,
+                TextAlign = Label.AlignMode.Left,
+                MinHeight = 28,
+                Disabled = isSelected,
+            };
+            var capturedGrid = grid.Name;
+            btn.OnPressed += _ =>
+            {
+                _viewDropdownOpen = false;
+                ViewDropdownPanel.Visible = false;
+                OnSelectGridPressed?.Invoke(capturedGrid);
+            };
+            DropdownContainer.AddChild(btn);
+        }
+
+        // If no grids at all
+        if (state.AllGrids.Count == 0)
+        {
+            var noGrids = new Label
+            {
+                Text = "  Гриды не найдены",
+                FontColorOverride = Color.FromHex("#FFaa00"),
+            };
+            DropdownContainer.AddChild(noGrids);
+        }
     }
 
     private void ToggleViewDropdown()
@@ -236,37 +240,30 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         ViewDropdownPanel.Visible = _viewDropdownOpen;
     }
 
-    private void SelectViewMode(string mode)
-    {
-        _viewDropdownOpen = false;
-        ViewDropdownPanel.Visible = false;
-        OnSwitchViewPressed?.Invoke(mode);
-    }
+    private static readonly System.Globalization.CultureInfo Inv = System.Globalization.CultureInfo.InvariantCulture;
 
     private void OnRadarClicked(EntityCoordinates coords)
     {
-        CoordinateX.Text = $"{coords.X:F1}";
-        CoordinateY.Text = $"{coords.Y:F1}";
+        CoordinateX.Text = coords.X.ToString("F1", Inv);
+        CoordinateY.Text = coords.Y.ToString("F1", Inv);
     }
 
     private void OnMapClicked(MapCoordinates mapPos)
     {
-        CoordinateX.Text = $"{mapPos.X:F1}";
-        CoordinateY.Text = $"{mapPos.Y:F1}";
+        CoordinateX.Text = mapPos.X.ToString("F1", Inv);
+        CoordinateY.Text = mapPos.Y.ToString("F1", Inv);
     }
 
     private float GetX()
     {
-        if (float.TryParse(CoordinateX.Text, System.Globalization.NumberStyles.Float,
-                System.Globalization.CultureInfo.InvariantCulture, out var x))
+        if (float.TryParse(CoordinateX.Text, System.Globalization.NumberStyles.Float, Inv, out var x))
             return x;
         return 0f;
     }
 
     private float GetY()
     {
-        if (float.TryParse(CoordinateY.Text, System.Globalization.NumberStyles.Float,
-                System.Globalization.CultureInfo.InvariantCulture, out var y))
+        if (float.TryParse(CoordinateY.Text, System.Globalization.NumberStyles.Float, Inv, out var y))
             return y;
         return 0f;
     }

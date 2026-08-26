@@ -6,8 +6,8 @@
                xmlns:bsa="clr-namespace:Content.Client.DeadSpace.BSAConsole"
                x:Class="Content.Client.DeadSpace.BSAConsole.BSAConsoleWindow"
                Title="Bluespace Artillery Console"
-               MinWidth="960"
-               MinHeight="600">
+               MinWidth="700"
+               MinHeight="500">
     <BoxContainer Orientation="Horizontal" Margin="4" SeparationOverride="4" VerticalExpand="True">
 
         <!-- LEFT PANEL: Status & Network -->
@@ -48,9 +48,8 @@
                         </PanelContainer.PanelOverride>
                     </PanelContainer>
 
-                    <!-- DISK SLOT -->
                     <Label Text="СЕКТОРНЫЙ ДИСК" StyleClasses="LabelBig" FontColorOverride="#00d4ff" HorizontalAlignment="Center" />
-                    <Label Name="DiskStatusLabel" Text="Вставьте диск сектора" FontColorOverride="#FFaa00" HorizontalAlignment="Center" />
+                    <Label Name="DiskStatusLabel" Text="Вставьте координатный диск" FontColorOverride="#FFaa00" HorizontalAlignment="Center" />
                     <Button Name="EjectDiskButton" Text="Извлечь диск" MinHeight="24" Visible="False" />
 
                     <PanelContainer MinHeight="1" Margin="0 4">
@@ -59,10 +58,7 @@
                         </PanelContainer.PanelOverride>
                     </PanelContainer>
 
-                    <!-- Selected grid info (for map mode) -->
                     <Label Name="SelectedGridLabel" Text="" FontColorOverride="#00FF88" HorizontalAlignment="Center" Visible="False" />
-
-                    <!-- Error label for no connection -->
                     <Label Name="ErrorLabel" Text="" FontColorOverride="#FF4444" HorizontalAlignment="Center" Visible="False" />
                 </BoxContainer>
             </PanelContainer>
@@ -71,25 +67,23 @@
         <!-- CENTER PANEL: Targeting -->
         <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" SeparationOverride="4">
             <!-- View Mode Selector -->
-            <Button Name="ViewModeButton" Text="РЕЖИМ: СКАНЕР МАСС" MinHeight="32" HorizontalExpand="True" />
+            <Button Name="ViewModeButton" Text="РЕЖИМ: СКАНЕР МАСС (ЛОКАЛЬНЫЙ)" MinHeight="32" HorizontalExpand="True" />
             <PanelContainer Name="ViewDropdownPanel" MinHeight="0" Visible="False">
                 <PanelContainer.PanelOverride>
                     <gfx:StyleBoxFlat BackgroundColor="#1a1a2eFF" BorderColor="#00d4ff" BorderThickness="1" />
                 </PanelContainer.PanelOverride>
-                <BoxContainer Orientation="Vertical" Margin="4" SeparationOverride="2">
-                    <Button Name="ModeMassScanner" Text="Сканер масс" TextAlign="Left" MinHeight="28" />
-                    <Button Name="ModeStationGrid" Text="Грид: Станция" TextAlign="Left" MinHeight="28" />
-                    <BoxContainer Name="CustomGridsContainer" Orientation="Vertical" />
-                </BoxContainer>
+                <ScrollContainer MinHeight="30" MaxHeight="200" HScrollEnabled="False">
+                    <BoxContainer Name="DropdownContainer" Orientation="Vertical" Margin="4" SeparationOverride="2" />
+                </ScrollContainer>
             </PanelContainer>
 
-            <!-- Viewport: Radar (Mass Scanner) -->
+            <!-- Viewport: Radar -->
             <shuttles:ShuttleNavControl Name="RadarScreen"
                                         VerticalExpand="True"
                                         HorizontalExpand="True"
                                         Margin="0 2" />
 
-            <!-- Viewport: Station Map (Grid view) -->
+            <!-- Viewport: Map -->
             <bsa:BSANavMapControl Name="MapScreen"
                                   VerticalExpand="True"
                                   HorizontalExpand="True"
@@ -108,26 +102,6 @@
                     <LineEdit Name="CoordinateY" MinWidth="80" MaxWidth="100" PlaceHolder="0" />
                     <Control HorizontalExpand="True" />
                     <Button Name="FireButton" Text="ОГОНЬ" MinWidth="120" MinHeight="36" HorizontalAlignment="Right" />
-                </BoxContainer>
-            </PanelContainer>
-        </BoxContainer>
-
-        <!-- RIGHT PANEL: Logs -->
-        <BoxContainer Orientation="Vertical" MinWidth="230" MaxWidth="260" SeparationOverride="4" Margin="4 0 0 0">
-            <PanelContainer VerticalExpand="True">
-                <PanelContainer.PanelOverride>
-                    <gfx:StyleBoxFlat BackgroundColor="#0d0d0dFF" BorderColor="#00d4ff" BorderThickness="1" />
-                </PanelContainer.PanelOverride>
-                <BoxContainer Orientation="Vertical" Margin="6" SeparationOverride="4">
-                    <Label Text="TELEMETRY &amp; LOGS" StyleClasses="LabelBig" FontColorOverride="#00d4ff" HorizontalAlignment="Center" />
-                    <PanelContainer MinHeight="1" Margin="0 2">
-                        <PanelContainer.PanelOverride>
-                            <gfx:StyleBoxFlat BackgroundColor="#00d4ff" />
-                        </PanelContainer.PanelOverride>
-                    </PanelContainer>
-                    <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
-                        <BoxContainer Name="LogContainer" Orientation="Vertical" SeparationOverride="2" Margin="2" />
-                    </ScrollContainer>
                 </BoxContainer>
             </PanelContainer>
         </BoxContainer>

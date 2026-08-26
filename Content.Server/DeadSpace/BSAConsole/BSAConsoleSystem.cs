@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Numerics;
 using Content.Server.DeviceNetwork.Systems;
 using Content.Server.Explosion.EntitySystems;
@@ -66,17 +67,35 @@ public sealed class BSAConsoleSystem : EntitySystem
         if (comp.LinkedBSA == null || !TryComp<BluespaceArtilleryComponent>(comp.LinkedBSA.Value, out var bsa))
             return;
 
-        if (bsa.IsReady == false)
+        if (!bsa.IsReady)
             return;
 
         if (_timing.CurTime.TotalSeconds < bsa.CooldownEnd)
             return;
 
-        if (comp.TargetMapUid == null)
+        // Determine target map
+        MapId targetMapId;
+
+        if (comp.CurrentViewMode == "Grid" && comp.SelectedGridName != null)
+        {
+            // Fire on the selected grid's map
+            targetMapId = FindGridMapId(uid, comp, comp.SelectedGridName);
+        }
+        else if (comp.HasDisk && comp.TargetMapUid != null)
+        {
+            // Radar on disk map — fire there
+            targetMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
+        }
+        else
+        {
+            // Default: fire on console's own map
+            targetMapId = Transform(uid).MapID;
+        }
+
+        if (targetMapId == MapId.Nullspace)
             return;
 
-        var targetXform = Transform(comp.TargetMapUid.Value);
-        var mapPos = new MapCoordinates(msg.X, msg.Y, targetXform.MapID);
+        var mapPos = new MapCoordinates(msg.X, msg.Y, targetMapId);
 
         _explosion.QueueExplosion(
             mapPos,
@@ -114,44 +133,15 @@ public sealed class BSAConsoleSystem : EntitySystem
 
     private void OnSelectGrid(EntityUid uid, BSAConsoleComponent comp, BSAConsoleSelectGridMessage msg)
     {
+        comp.SelectedGridName = msg.GridName;
         comp.SelectedGridUid = null;
-        comp.SelectedGridName = null;
-
-        if (comp.TargetMapUid == null)
-            return;
-
-        var targetMapXform = Transform(comp.TargetMapUid.Value);
-        var mapId = targetMapXform.MapID;
-
-        if (mapId == MapId.Nullspace)
-            return;
-
-        var grids = new List<Entity<MapGridComponent>>();
-        _mapManager.FindGridsIntersecting(mapId, new Box2(-1e10f, -1e10f, 1e10f, 1e10f), ref grids, includeMap: false);
-
-        foreach (var grid in grids)
-        {
-            if (!MetaData(grid.Owner).EntityName.Equals(msg.GridName, StringComparison.OrdinalIgnoreCase))
-                continue;
-
-            comp.SelectedGridUid = grid.Owner;
-            comp.SelectedGridName = MetaData(grid.Owner).EntityName;
-            break;
-        }
-
-        if (comp.SelectedGridUid == null)
-        {
-            comp.SelectedGridName = msg.GridName;
-            var timestamp = DateTime.Now.ToString("HH:mm:ss");
-            comp.LogEntries.Add($"[{timestamp}] [ОШИБКА]: Грид \"{msg.GridName}\" не найден на целевой карте.");
-        }
-        else
-        {
-            var ts = DateTime.Now.ToString("HH:mm:ss");
-            comp.LogEntries.Add($"[{ts}] [НАВИГАЦИЯ]: Выбран грид: \"{comp.SelectedGridName}\".");
-        }
-
         comp.CurrentViewMode = "Grid";
+
+        // Find the grid entity
+        comp.SelectedGridUid = FindGridEntity(uid, comp, msg.GridName);
+
+        var timestamp = DateTime.Now.ToString("HH:mm:ss");
+        comp.LogEntries.Add($"[{timestamp}] [НАВИГАЦИЯ]: Выбран грид: \"{msg.GridName}\".");
 
         Dirty(uid, comp);
         UpdateUiState(uid, comp);
@@ -185,29 +175,9 @@ public sealed class BSAConsoleSystem : EntitySystem
         comp.TargetMapName = mapMeta.EntityName;
         comp.HasDisk = true;
 
-        // Find all grids on the target map
-        comp.AvailableGrids.Clear();
-        comp.SelectedGridUid = null;
-        comp.SelectedGridName = null;
-
-        var targetMapXform = Transform(mapUid);
-        var mapId = targetMapXform.MapID;
-
-        if (mapId != MapId.Nullspace)
-        {
-            var grids = new List<Entity<MapGridComponent>>();
-            _mapManager.FindGridsIntersecting(mapId, new Box2(-1e10f, -1e10f, 1e10f, 1e10f), ref grids, includeMap: false);
-
-            foreach (var grid in grids)
-            {
-                var name = MetaData(grid.Owner).EntityName;
-                if (!string.IsNullOrEmpty(name))
-                    comp.AvailableGrids.Add(name);
-            }
-        }
-
         var ts = DateTime.Now.ToString("HH:mm:ss");
-        comp.LogEntries.Add($"[{ts}] [ДИСК]: Считаны данные сектора: \"{comp.TargetMapName}\". Гридов на карте: {comp.AvailableGrids.Count}.");
+        var gridCount = GetGridNames(uid, comp).Count;
+        comp.LogEntries.Add($"[{ts}] [ДИСК]: Считаны данные сектора: \"{comp.TargetMapName}\". Гридов на карте: {gridCount}.");
 
         Dirty(uid, comp);
         UpdateUiState(uid, comp);
@@ -226,9 +196,10 @@ public sealed class BSAConsoleSystem : EntitySystem
         comp.TargetMapUid = null;
         comp.TargetMapName = null;
         comp.HasDisk = false;
-        comp.AvailableGrids.Clear();
-        comp.SelectedGridUid = null;
         comp.SelectedGridName = null;
+
+        if (comp.CurrentViewMode == "Grid")
+            comp.CurrentViewMode = "MassScanner";
 
         var timestamp = DateTime.Now.ToString("HH:mm:ss");
         comp.LogEntries.Add($"[{timestamp}] [ДИСК]: Диск сектора извлечён.");
@@ -326,37 +297,9 @@ public sealed class BSAConsoleSystem : EntitySystem
             cooldownDuration = bsa.CooldownDuration;
         }
 
-        // Build radar state for the target map (or console's own map if no disk)
-        NavInterfaceState? radarState = null;
-        var docks = _shuttleConsole.GetAllDocks();
-
-        if (comp.TargetMapUid != null)
-        {
-            // Radar centered on the target map — use first grid as reference
-            var targetMapXform = Transform(comp.TargetMapUid.Value);
-            var mapId = targetMapXform.MapID;
-
-            if (mapId != MapId.Nullspace)
-            {
-                var grids = new List<Entity<MapGridComponent>>();
-                _mapManager.FindGridsIntersecting(mapId, new Box2(-1e10f, -1e10f, 1e10f, 1e10f), ref grids, includeMap: false);
-
-                if (grids.Count > 0)
-                {
-                    var refGrid = grids[0];
-                    var gridXform = Transform(refGrid.Owner);
-                    var gridCenter = gridXform.Coordinates;
-                    radarState = new NavInterfaceState(RadarMaxRange, GetNetCoordinates(gridCenter), Angle.Zero, docks);
-                }
-            }
-        }
-
-        if (radarState == null)
-        {
-            // Fallback: radar centered on console
-            var consoleXform = Transform(uid);
-            radarState = new NavInterfaceState(RadarMaxRange, GetNetCoordinates(consoleXform.Coordinates), consoleXform.LocalRotation, docks);
-        }
+        var localRadarState = BuildLocalRadarState(uid);
+        var diskRadarState = BuildDiskRadarState(comp);
+        var allGrids = BuildUnifiedGridList(uid, comp);
 
         var state = new BSAConsoleUiState(
             isConnected,
@@ -368,11 +311,162 @@ public sealed class BSAConsoleSystem : EntitySystem
             comp.LogEntries,
             comp.HasDisk,
             comp.TargetMapName,
-            comp.AvailableGrids,
-            radarState,
-            comp.SelectedGridUid != null ? GetNetEntity(comp.SelectedGridUid.Value) : null,
-            comp.SelectedGridName);
+            localRadarState,
+            diskRadarState,
+            allGrids,
+            comp.SelectedGridName,
+            comp.SelectedGridUid != null ? GetNetEntity(comp.SelectedGridUid.Value) : null);
 
         _ui.SetUiState(uid, BSAConsoleUiKey.Key, state);
+    }
+
+    private NavInterfaceState BuildLocalRadarState(EntityUid uid)
+    {
+        var docks = _shuttleConsole.GetAllDocks();
+        var consoleXform = Transform(uid);
+        return new NavInterfaceState(RadarMaxRange, GetNetCoordinates(consoleXform.Coordinates), consoleXform.LocalRotation, docks);
+    }
+
+    private NavInterfaceState? BuildDiskRadarState(BSAConsoleComponent comp)
+    {
+        if (comp.TargetMapUid == null)
+            return null;
+
+        var docks = _shuttleConsole.GetAllDocks();
+        var targetMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
+
+        if (targetMapId == MapId.Nullspace)
+            return null;
+
+        foreach (var grid in _mapManager.GetAllGrids(targetMapId))
+        {
+            var gridXform = Transform(grid.Owner);
+            return new NavInterfaceState(RadarMaxRange, GetNetCoordinates(gridXform.Coordinates), Angle.Zero, docks);
+        }
+
+        var targetXform = Transform(comp.TargetMapUid.Value);
+        return new NavInterfaceState(RadarMaxRange, GetNetCoordinates(targetXform.Coordinates), Angle.Zero, docks);
+    }
+
+    private List<BSAGridEntry> BuildUnifiedGridList(EntityUid uid, BSAConsoleComponent comp)
+    {
+        var result = new List<BSAGridEntry>();
+        CollectGridEntries(uid, comp, result);
+        return result;
+    }
+
+    private void CollectGridEntries(EntityUid uid, BSAConsoleComponent comp, List<BSAGridEntry> result)
+    {
+        // Local grids
+        var localMapId = Transform(uid).MapID;
+        if (localMapId != MapId.Nullspace)
+        {
+            foreach (var grid in _mapManager.GetAllGrids(localMapId))
+            {
+                var name = MetaData(grid.Owner).EntityName;
+                if (!string.IsNullOrEmpty(name))
+                    result.Add(new BSAGridEntry(name, "local"));
+            }
+        }
+
+        // Disk grids
+        if (comp.TargetMapUid != null)
+        {
+            var diskMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
+            if (diskMapId != MapId.Nullspace && diskMapId != localMapId)
+            {
+                foreach (var grid in _mapManager.GetAllGrids(diskMapId))
+                {
+                    var name = MetaData(grid.Owner).EntityName;
+                    if (!string.IsNullOrEmpty(name))
+                        result.Add(new BSAGridEntry(name, "disk"));
+                }
+            }
+        }
+    }
+
+    private List<string> GetGridNames(EntityUid uid, BSAConsoleComponent comp)
+    {
+        var entries = new List<BSAGridEntry>();
+        CollectGridEntries(uid, comp, entries);
+        return entries.Select(e => e.Name).ToList();
+    }
+
+    private MapId FindGridMapId(EntityUid uid, BSAConsoleComponent comp, string gridName)
+    {
+        var localMapId = Transform(uid).MapID;
+        if (localMapId != MapId.Nullspace)
+        {
+            foreach (var grid in _mapManager.GetAllGrids(localMapId))
+            {
+                if (MetaData(grid.Owner).EntityName.Equals(gridName, StringComparison.OrdinalIgnoreCase))
+                    return localMapId;
+            }
+        }
+
+        if (comp.TargetMapUid != null)
+        {
+            var diskMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
+            if (diskMapId != MapId.Nullspace && diskMapId != localMapId)
+            {
+                foreach (var grid in _mapManager.GetAllGrids(diskMapId))
+                {
+                    if (MetaData(grid.Owner).EntityName.Equals(gridName, StringComparison.OrdinalIgnoreCase))
+                        return diskMapId;
+                }
+            }
+        }
+
+        return Transform(uid).MapID;
+    }
+
+    /// <summary>
+    /// Resolve a map entity UID to its MapId, trying multiple approaches.
+    /// </summary>
+    private MapId ResolveTargetMapId(EntityUid mapUid)
+    {
+        if (TryComp<MapComponent>(mapUid, out var mapComp))
+            return mapComp.MapId;
+
+        var xform = Transform(mapUid);
+        if (xform.MapID != MapId.Nullspace)
+            return xform.MapID;
+
+        var query = EntityQueryEnumerator<MapComponent>();
+        while (query.MoveNext(out var ent, out var mc))
+        {
+            if (ent == mapUid)
+                return mc.MapId;
+        }
+
+        return MapId.Nullspace;
+    }
+
+    private EntityUid? FindGridEntity(EntityUid uid, BSAConsoleComponent comp, string gridName)
+    {
+        var localMapId = Transform(uid).MapID;
+        if (localMapId != MapId.Nullspace)
+        {
+            foreach (var grid in _mapManager.GetAllGrids(localMapId))
+            {
+                if (MetaData(grid.Owner).EntityName.Equals(gridName, StringComparison.OrdinalIgnoreCase))
+                    return grid.Owner;
+            }
+        }
+
+        if (comp.TargetMapUid != null)
+        {
+            var diskMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
+            if (diskMapId != MapId.Nullspace && diskMapId != localMapId)
+            {
+                foreach (var grid in _mapManager.GetAllGrids(diskMapId))
+                {
+                    if (MetaData(grid.Owner).EntityName.Equals(gridName, StringComparison.OrdinalIgnoreCase))
+                        return grid.Owner;
+                }
+            }
+        }
+
+        return null;
     }
 }

@@ -14,35 +14,21 @@ public sealed class BSAConsoleUiState : BoundUserInterfaceState
     public string CurrentViewMode;
     public List<string> LogEntries;
 
-    /// <summary>
-    /// True if a valid CoordinatesDisk is inserted.
-    /// </summary>
     public bool HasDisk;
-
-    /// <summary>
-    /// Name of the target map from the disk.
-    /// </summary>
     public string? TargetMapName;
 
-    /// <summary>
-    /// Names of grids found on the target map.
-    /// </summary>
-    public List<string> AvailableGrids;
+    // Local radar
+    public NavInterfaceState? LocalRadarState;
 
-    /// <summary>
-    /// Radar state for mass scanner mode. Null if not available.
-    /// </summary>
-    public NavInterfaceState? RadarState;
+    // Disk radar
+    public NavInterfaceState? DiskRadarState;
 
-    /// <summary>
-    /// NetEntity of the selected grid for map view.
-    /// </summary>
-    public NetEntity? SelectedGridUid;
+    // Unified grid list — grids from local map + disk map
+    public List<BSAGridEntry> AllGrids;
 
-    /// <summary>
-    /// Human-readable name of the selected grid.
-    /// </summary>
+    // Currently selected grid
     public string? SelectedGridName;
+    public NetEntity? SelectedGridUid;
 
     public BSAConsoleUiState(
         bool isConnected,
@@ -54,10 +40,11 @@ public sealed class BSAConsoleUiState : BoundUserInterfaceState
         List<string> logEntries,
         bool hasDisk,
         string? targetMapName,
-        List<string> availableGrids,
-        NavInterfaceState? radarState = null,
-        NetEntity? selectedGridUid = null,
-        string? selectedGridName = null)
+        NavInterfaceState? localRadarState,
+        NavInterfaceState? diskRadarState,
+        List<BSAGridEntry> allGrids,
+        string? selectedGridName,
+        NetEntity? selectedGridUid)
     {
         IsConnected = isConnected;
         BSAName = bsaName;
@@ -68,9 +55,23 @@ public sealed class BSAConsoleUiState : BoundUserInterfaceState
         LogEntries = logEntries;
         HasDisk = hasDisk;
         TargetMapName = targetMapName;
-        AvailableGrids = availableGrids;
-        RadarState = radarState;
-        SelectedGridUid = selectedGridUid;
+        LocalRadarState = localRadarState;
+        DiskRadarState = diskRadarState;
+        AllGrids = allGrids;
         SelectedGridName = selectedGridName;
+        SelectedGridUid = selectedGridUid;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class BSAGridEntry
+{
+    public string Name { get; }
+    public string Source { get; }
+
+    public BSAGridEntry(string name, string source)
+    {
+        Name = name;
+        Source = source;
     }
 }
