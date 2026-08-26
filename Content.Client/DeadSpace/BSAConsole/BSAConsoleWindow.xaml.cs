@@ -151,7 +151,7 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         var modeText = state.CurrentViewMode switch
         {
             BSAConsoleViewMode.MassScannerLocal => "СКАНЕР МАСС",
-            BSAConsoleViewMode.MassScannerDisk => "СКАНЕР МАСС *",
+            BSAConsoleViewMode.MassScannerDisk => "СКАНЕР МАСС ЛОКАЦИИ",
             BSAConsoleViewMode.Grid => state.SelectedGridName ?? "ГРИД",
             _ => "НЕИЗВЕСТНО",
         };
@@ -347,7 +347,7 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         if (_lastState.TargetMapName != null)
         {
             AddScannerButton(
-                "СКАНЕР МАСС *",
+                "СКАНЕР МАСС ЛОКАЦИИ",
                 BSAConsoleViewMode.MassScannerDisk,
                 _lastState.CurrentViewMode == BSAConsoleViewMode.MassScannerDisk);
         }
