@@ -1,6 +1,6 @@
+using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.Resources;
 using Content.Client.Stylesheets;
-using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using static Content.Client.Stylesheets.StylesheetHelpers;
@@ -35,7 +35,7 @@ public sealed class CommunicationsConsoleSheetlet : Sheetlet<PalettedStylesheet>
             E<Label>()
                 .Class(CharLimitExceeded)
                 .Font(sheet.BaseFont.GetFont(8))
-                .FontColor(Color.Red)
+                .FontColor(DeadSpaceStylePalette.NegativeBorderHover) // DS14
         ];
     }
 }

@@ -5,9 +5,11 @@
     MinSize="450 642" SetSize="450 642"
     Title="{Loc 'comms-console-menu-title'}">
     <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="12">
-        <PanelContainer StyleClasses="PanelDark" VerticalExpand="True">
+        <!-- DS14-start -->
+        <PanelContainer StyleClasses="DeadSpaceSurfaceDark" VerticalExpand="True">
             <widgets:MessagingControls Name="MessagingControls" VerticalExpand="True" />
         </PanelContainer>
+        <!-- DS14-end -->
 
         <!-- DS14-start -->
         <Button Name="EmagChannelButton"
@@ -19,14 +21,18 @@
 
         <controls:HSpacer Spacing="12" />
 
-        <PanelContainer StyleClasses="BackgroundPanelDark">
+        <!-- DS14-start -->
+        <PanelContainer StyleClasses="DeadSpaceInset">
             <widgets:AlertLevelControls Name="AlertLevelControls" Margin="0 12 0 12" />
         </PanelContainer>
+        <!-- DS14-end -->
 
         <controls:HSpacer Spacing="12" />
 
-        <PanelContainer StyleClasses="BackgroundPanelDark">
+        <!-- DS14-start -->
+        <PanelContainer StyleClasses="DeadSpaceInset">
             <widgets:ShuttleControls Name="ShuttleControls" Margin="0 12 0 12"/>
         </PanelContainer>
+        <!-- DS14-end -->
     </BoxContainer>
 </comms:CommunicationsConsoleMenu>

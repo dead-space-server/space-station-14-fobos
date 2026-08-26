@@ -4,7 +4,6 @@ using System.Numerics;
 using Content.Client.Administration.Managers;
 using Content.Client.Administration.Systems;
 using Content.Client.Administration.UI.Bwoink;
-using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.Gameplay;
 using Content.Client.Lobby;
 using Content.Client.Lobby.UI;
@@ -575,25 +574,15 @@ public sealed class UserAHelpUIHandler : IAHelpUIHandler
         _chatPanel.InputTextChanged += text => InputTextChanged?.Invoke(_ownerId, text);
         _chatPanel.RelayedToDiscordLabel.Visible = relayActive;
         _chatPanel.TypingIndicator.Visible = false; // DS14
+        _chatPanel.Margin = new Thickness(10); // DS14
         _window = new DefaultWindow()
         {
             Title=Loc.GetString("bwoink-user-title"),
-            // DS14-start
-            TitleClass = DeadSpaceMenuSheetlet.Title,
-            HeaderClass = DeadSpaceMenuSheetlet.Header,
-            MinSize = new Vector2(600, 400),
-            // DS14-end
+            MinSize = new Vector2(600, 400), // DS14
         };
         _window.OnClose += () => { OnClose?.Invoke(); };
         _window.OnOpen += () => { OnOpen?.Invoke(); };
-        // DS14-start
-        var shell = new PanelContainer
-        {
-            StyleClasses = { DeadSpaceMenuSheetlet.Shell }
-        };
-        shell.AddChild(_chatPanel);
-        _window.Contents.AddChild(shell);
-        // DS14-end
+        _window.Contents.AddChild(_chatPanel);
 
         var introText = Loc.GetString("bwoink-system-introductory-message");
         var introMessage = new SharedBwoinkSystem.BwoinkTextMessage( _ownerId, SharedBwoinkSystem.SystemUserId, introText);

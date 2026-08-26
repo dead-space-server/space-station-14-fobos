@@ -6,7 +6,7 @@
     <BoxContainer Orientation="Vertical"
                   HorizontalExpand="True"
                   VerticalExpand="True">
-        <PanelContainer VerticalExpand="True" Margin="10 10 10 10" StyleClasses="PanelDeep">
+        <PanelContainer VerticalExpand="True" Margin="10 10 10 10" StyleClasses="DeadSpaceSurfaceDark"> <!-- DS14 -->
             <ScrollContainer
                 HScrollEnabled="False"
                 HorizontalExpand="True"

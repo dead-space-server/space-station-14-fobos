@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Linq;
+using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.DeadSpace.ERT;
 using Content.Client.DeadSpace.Nuke;
 using Content.Shared.DeadSpace.ERT;
@@ -20,8 +21,9 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
         [Dependency] private readonly IEntityManager _entMan = default!;
         [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
-        private readonly ErtResponseSystem _ertSystem;
-        private readonly NukeCodeAdminSystem _nukeCodeSystem;
+        private readonly ErtResponseSystem _ertSystem = default!;
+        private readonly NukeCodeAdminSystem _nukeCodeSystem = default!;
+        private readonly bool _systemsSubscribed;
 
         private int? _selectedPendingRequestId;
         private int? _selectedApprovedRequestId;
@@ -75,17 +77,46 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
 
             _ertSystem.OnStateUpdated += PopulateFromSystem;
             _nukeCodeSystem.OnStateUpdated += PopulateNukeCodesFromSystem;
+            _systemsSubscribed = true;
 
             PopulateAutoSpawnTeamList();
-            ApplyButtonColors();
+            ApplyButtonStyles();
             UpdateButtonStates();
             _ertSystem.RequestAdminState();
             _nukeCodeSystem.RequestAdminState();
         }
 
+#if DEBUG
+        /// <summary>
+        /// Loads the real window tree for the deterministic renderer without contacting admin entity systems.
+        /// </summary>
+        internal ERTCallWindow(bool renderFixture)
+        {
+            RobustXamlLoader.Load(this);
+
+            MainTabContainer.SetTabTitle(0, Loc.GetString("ert-admin-main-tab"));
+            MainTabContainer.SetTabTitle(1, Loc.GetString("nuke-codes-admin-tab"));
+            RequestsTabContainer.SetTabTitle(0, Loc.GetString("ert-admin-pending-tab"));
+            RequestsTabContainer.SetTabTitle(1, Loc.GetString("ert-admin-approved-tab"));
+            RequestsTabContainer.SetTabTitle(2, Loc.GetString("ert-admin-manual-approved-tab"));
+
+            CooldownSeconds.Text = "0";
+            PointsEdit.Text = "8";
+            ApprovedRequesterLabel.Text = "Капитан Айзек Кларк";
+            ArrivalSeconds.Text = "60";
+            ReasonEdit.Text = "Усиление охраны станции";
+            ApprovedRequestsList.AddItem("#24 · Офис капитана");
+            AutoSpawnTeamList.AddItem("РХБЗ Сьерра (8)");
+            AutoSpawnTeamList.AddItem("Critical Force (0)");
+            AutoSpawnTeamList.AddItem("Шаттл снабжения революции (0)");
+
+            ApplyButtonStyles();
+        }
+#endif
+
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && _systemsSubscribed)
             {
                 _ertSystem.OnStateUpdated -= PopulateFromSystem;
                 _nukeCodeSystem.OnStateUpdated -= PopulateNukeCodesFromSystem;
@@ -504,28 +535,21 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
             Refresh();
         }
 
-        private void ApplyButtonColors()
+        private void ApplyButtonStyles()
         {
-            RefreshButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
-            SetCooldownButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
-            SetPointsButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
+            RejectPendingButton.AddStyleClass(DeadSpaceStyleClass.ControlDanger);
+            ApprovePendingManualButton.AddStyleClass(DeadSpaceStyleClass.ControlPositive);
+            ApprovePendingAutoButton.AddStyleClass(DeadSpaceStyleClass.ControlPositive);
 
-            RejectPendingButton.ModulateSelfOverride = Color.FromHex("#f85149");
-            ApprovePendingManualButton.ModulateSelfOverride = Color.FromHex("#2ea043");
-            ApprovePendingAutoButton.ModulateSelfOverride = Color.FromHex("#2ea043");
+            QueueAutoSpawnButton.AddStyleClass(DeadSpaceStyleClass.ControlPositive);
+            MoveApprovedToManualButton.AddStyleClass(DeadSpaceStyleClass.ControlWarning);
+            CancelApprovedAutoSpawnButton.AddStyleClass(DeadSpaceStyleClass.ControlDanger);
 
-            SetArrivalButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
-            SetReasonButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
-            ChangeApprovedTeamButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
-            QueueAutoSpawnButton.ModulateSelfOverride = Color.FromHex("#2ea043");
-            MoveApprovedToManualButton.ModulateSelfOverride = Color.FromHex("#f0883e");
-            CancelApprovedAutoSpawnButton.ModulateSelfOverride = Color.FromHex("#f85149");
+            PromoteManualApprovedButton.AddStyleClass(DeadSpaceStyleClass.ControlPositive);
 
-            PromoteManualApprovedButton.ModulateSelfOverride = Color.FromHex("#2ea043");
-
-            QueueNukeCodesButton.ModulateSelfOverride = Color.FromHex("#2ea043");
-            ApproveNukeCodesButton.ModulateSelfOverride = Color.FromHex("#2ea043");
-            CancelNukeCodesButton.ModulateSelfOverride = Color.FromHex("#f85149");
+            QueueNukeCodesButton.AddStyleClass(DeadSpaceStyleClass.ControlPositive);
+            ApproveNukeCodesButton.AddStyleClass(DeadSpaceStyleClass.ControlPositive);
+            CancelNukeCodesButton.AddStyleClass(DeadSpaceStyleClass.ControlDanger);
         }
 
         private static void ReselectByMetadata(ItemList list, object? metadata)

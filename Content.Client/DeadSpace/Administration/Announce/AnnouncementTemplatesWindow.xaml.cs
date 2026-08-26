@@ -27,8 +27,6 @@ namespace Content.Client.DeadSpace.Administration.Announce
                     TextAlign = Label.AlignMode.Left,
                     SetHeight = 30
                 };
-                button.StyleClasses.Add("DS14MenuProfileControl");
-
                 button.OnPressed += _ =>
                 {
                     OnTemplateSelected?.Invoke(text);

@@ -46,7 +46,7 @@
             </SpriteView>
         </BoxContainer>
         <BoxContainer VerticalExpand="True" Margin="10 0 10 10" Orientation="Vertical">
-            <PanelContainer VerticalExpand="True" MinSize="0 200" StyleClasses="PanelDeep">
+            <PanelContainer VerticalExpand="True" MinSize="0 200" StyleClasses="DeadSpaceSurfaceDark"> <!-- DS14 -->
                 <ScrollContainer
                     HScrollEnabled="False"
                     HorizontalExpand="True"

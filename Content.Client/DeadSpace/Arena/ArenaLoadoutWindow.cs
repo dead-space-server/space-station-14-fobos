@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.Humanoid;
 using Content.Client.Inventory;
 using Content.Client.Lobby;
@@ -176,21 +177,16 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
         {
             SetSize = new Vector2(210, 300),
             Margin = new Thickness(0, 0, 6, 0),
+            StyleClasses = { DeadSpaceStyleClass.CharacterIcon },
         };
-        var previewStyle = new StyleBoxFlat
-        {
-            BackgroundColor = new Color(0.08f, 0.09f, 0.12f),
-            BorderColor = new Color(0.2f, 0.2f, 0.25f),
-            BorderThickness = new Thickness(1, 1, 1, 1),
-        };
-        previewPanel.PanelOverride = previewStyle;
 
         var previewBox = new BoxContainer
         {
             Orientation = BoxContainer.LayoutOrientation.Vertical,
             HorizontalExpand = true,
             VerticalExpand = true,
-            Margin = new Thickness(4, 4, 4, 4),
+            // CharacterIcon supplies three pixels; keep the original four-pixel effective inset.
+            Margin = new Thickness(1),
         };
 
         _previewView = new SpriteView
@@ -463,18 +459,12 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
         public event Action<ArenaWeaponCard>? OnSelected;
         public int WeaponIndex { get; }
 
-        private bool _isSelected;
+        // Dynamic arena selection keeps its semantic positive state while using shared tokens.
         private static readonly StyleBoxFlat _selectedStyle = new()
         {
-            BackgroundColor = new Color(0.2f, 0.45f, 0.2f),
-            BorderColor = new Color(0.3f, 0.9f, 0.3f),
+            BackgroundColor = DeadSpaceStylePalette.PositiveHover,
+            BorderColor = DeadSpaceStylePalette.PositiveBorderHover,
             BorderThickness = new Thickness(2, 2, 2, 2),
-        };
-        private static readonly StyleBoxFlat _defaultStyle = new()
-        {
-            BackgroundColor = new Color(0.1f, 0.1f, 0.12f),
-            BorderColor = new Color(0.2f, 0.2f, 0.25f),
-            BorderThickness = new Thickness(1, 1, 1, 1),
         };
 
         public ArenaWeaponCard(int weaponIndex, string weaponName, string? spritePrototype, string? tooltip = null)
@@ -483,8 +473,7 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
             MouseFilter = MouseFilterMode.Stop;
             MinHeight = 56;
             HorizontalExpand = true;
-
-            PanelOverride = _defaultStyle;
+            AddStyleClass(DeadSpaceStyleClass.ListItem);
 
             if (!string.IsNullOrEmpty(tooltip))
             {
@@ -533,8 +522,7 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
 
         public void SetSelected(bool selected)
         {
-            _isSelected = selected;
-            PanelOverride = selected ? _selectedStyle : _defaultStyle;
+            PanelOverride = selected ? _selectedStyle : null;
         }
     }
 
@@ -546,15 +534,9 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
 
         private static readonly StyleBoxFlat _equippedStyle = new()
         {
-            BackgroundColor = new Color(0.2f, 0.4f, 0.2f),
-            BorderColor = new Color(0.3f, 0.9f, 0.3f),
+            BackgroundColor = DeadSpaceStylePalette.PositiveHover,
+            BorderColor = DeadSpaceStylePalette.PositiveBorderHover,
             BorderThickness = new Thickness(2, 2, 2, 2),
-        };
-        private static readonly StyleBoxFlat _defaultStyle = new()
-        {
-            BackgroundColor = new Color(0.1f, 0.1f, 0.12f),
-            BorderColor = new Color(0.2f, 0.2f, 0.25f),
-            BorderThickness = new Thickness(1, 1, 1, 1),
         };
 
         public ArenaCostumeCard(ArenaCostumeOption costume, bool owned, bool equipped, bool canAfford)
@@ -563,7 +545,8 @@ public sealed class ArenaLoadoutWindow : DefaultWindow
             MouseFilter = MouseFilterMode.Stop;
             MinHeight = 56;
             HorizontalExpand = true;
-            PanelOverride = equipped ? _equippedStyle : _defaultStyle;
+            AddStyleClass(DeadSpaceStyleClass.ListItem);
+            PanelOverride = equipped ? _equippedStyle : null;
 
             if (!string.IsNullOrEmpty(costume.Description))
                 ToolTip = Loc.GetString(costume.Description);

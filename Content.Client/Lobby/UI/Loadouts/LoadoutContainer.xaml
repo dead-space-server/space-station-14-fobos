@@ -8,8 +8,7 @@
     <Button Name="SelectButton"
             ToggleMode="True"
             Margin="0 0 5 0"
-            HorizontalExpand="True"
-            StyleClasses="DS14MenuProfileControl"/>
+            HorizontalExpand="True"/>
     <!-- DS14-end -->
     <PanelContainer SetSize="64 64" HorizontalAlignment="Right" StyleClasses="PanelDeep">
         <SpriteView Name="Sprite" Scale="4 4" MouseFilter="Stop"/>

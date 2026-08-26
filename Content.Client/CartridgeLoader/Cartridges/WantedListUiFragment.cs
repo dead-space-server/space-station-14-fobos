@@ -149,13 +149,13 @@ public sealed partial class WantedListUiFragment : BoxContainer
         HistoryTable.AddChild(new Label()
         {
             Text = Loc.GetString("wanted-list-history-table-time-col"),
-            StyleClasses = { "DS14MenuListHeader" },
+            StyleClasses = { DeadSpaceStyleClass.ListHeader },
             HorizontalAlignment = HAlignment.Center,
         });
         HistoryTable.AddChild(new Label()
         {
             Text = Loc.GetString("wanted-list-history-table-reason-col"),
-            StyleClasses = { "DS14MenuListHeader" },
+            StyleClasses = { DeadSpaceStyleClass.ListHeader },
             HorizontalAlignment = HAlignment.Center,
             HorizontalExpand = true,
         });
@@ -163,7 +163,7 @@ public sealed partial class WantedListUiFragment : BoxContainer
         HistoryTable.AddChild(new Label()
         {
             Text = Loc.GetString("wanted-list-history-table-initiator-col"),
-            StyleClasses = { "DS14MenuListHeader" },
+            StyleClasses = { DeadSpaceStyleClass.ListHeader },
             HorizontalAlignment = HAlignment.Center,
         });
 
@@ -176,7 +176,6 @@ public sealed partial class WantedListUiFragment : BoxContainer
                 HistoryTable.AddChild(new Label()
                 {
                     Text = $"{history.AddTime.Hours:00}:{history.AddTime.Minutes:00}:{history.AddTime.Seconds:00}",
-                    StyleClasses = { "DS14MenuProfileLabel" },
                     VerticalAlignment = VAlignment.Top,
                 });
 
@@ -236,23 +235,20 @@ public sealed partial class WantedListUiFragment : BoxContainer
             Text = record.TargetInfo.Name,
             ClipText = true,
             HorizontalExpand = true,
-            StyleClasses = { "DS14MenuProfileLabel" },
         });
         labels.AddChild(new Label
         {
             Text = $"{record.TargetInfo.JobTitle} - {GetStatusName(record.Status)}",
             ClipText = true,
             HorizontalExpand = true,
-            StyleClasses = { "DS14MenuSubtitle" },
+            StyleClasses = { DeadSpaceStyleClass.Subtitle },
         });
 
         box.AddChild(rect);
         box.AddChild(labels);
-        button.StyleBoxOverride = null;
         button.AddChild(box);
-        button.AddStyleClass(button.Index % 2 == 0
-            ? DeadSpaceMenuSheetlet.ListRow
-            : DeadSpaceMenuSheetlet.ListRowAlt);
+        if (button.Index % 2 != 0)
+            button.AddStyleClass(DeadSpaceStyleClass.ListItemAlternate);
         // DS14-end
 
         if (record.TargetInfo.Name.Equals(_selectedTargetName))

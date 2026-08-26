@@ -2,10 +2,8 @@
                Title="{Loc admin-announce-templates-button}"
                MinWidth="400"
                MinHeight="320"
-               SetSize="620 360"
-               HeaderClass="DS14MenuHeader"
-               TitleClass="DS14MenuTitle">
-    <PanelContainer StyleClasses="DS14MenuFlatBody">
+               SetSize="620 360">
+    <PanelContainer StyleClasses="DeadSpaceSurfaceFlat">
         <BoxContainer Orientation="Vertical"
                       HorizontalExpand="True"
                       VerticalExpand="True"

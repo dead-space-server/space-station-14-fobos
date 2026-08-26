@@ -256,15 +256,15 @@ namespace Content.Client.Lobby
             {
                 Lobby.ReadyButton.StyleClasses.Clear();
                 Lobby.ReadyButton.AddStyleClass(ContainerButton.StyleClassButton);
-                Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ActionButton);
-                Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ActionButtonPositive);
+                Lobby.ReadyButton.AddStyleClass(DeadSpaceStyleClass.Action);
+                Lobby.ReadyButton.AddStyleClass(DeadSpaceStyleClass.ActionPositive);
                 return;
             }
 
             Lobby.ReadyButton.StyleClasses.Clear();
             Lobby.ReadyButton.AddStyleClass(ContainerButton.StyleClassButton);
-            Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ActionButton);
-            Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ReadyButton);
+            Lobby.ReadyButton.AddStyleClass(DeadSpaceStyleClass.Action);
+            Lobby.ReadyButton.AddStyleClass(DeadSpaceStyleClass.Ready);
         }
         // DS14-end
 

@@ -58,28 +58,15 @@ namespace Content.Client.LateJoin
 
             Title = Loc.GetString("late-join-gui-title");
 
-            // DS14-start
-            TitleClass = DeadSpaceMenuSheetlet.Title;
-            HeaderClass = DeadSpaceMenuSheetlet.Header;
-            // DS14-end
-
             _base = new BoxContainer()
             {
                 Orientation = LayoutOrientation.Vertical,
                 VerticalExpand = true,
-                Margin = new Thickness(10),
+                Margin = new Thickness(20), // DS14: preserve the old shell plus content inset without nesting windows.
                 SeparationOverride = 8,
             };
 
-            // DS14-start
-            ContentsContainer.AddChild(new PanelContainer
-            {
-                StyleClasses = { DeadSpaceMenuSheetlet.Shell },
-                HorizontalExpand = true,
-                VerticalExpand = true,
-                Children = { _base },
-            });
-            // DS14-end
+            ContentsContainer.AddChild(_base); // DS14
 
             _jobRequirements.Updated += RebuildUI;
             RebuildUI();
@@ -140,7 +127,7 @@ namespace Content.Client.LateJoin
                 // DS14-start
                 _base.AddChild(new PanelContainer
                 {
-                    StyleClasses = { DeadSpaceMenuSheetlet.ListHeader },
+                    StyleClasses = { DeadSpaceStyleClass.ListHeader },
                     Children =
                     {
                         new BoxContainer
@@ -152,7 +139,7 @@ namespace Content.Client.LateJoin
                             {
                                 new Label()
                                 {
-                                    StyleClasses = { DeadSpaceMenuSheetlet.ListHeader },
+                                    StyleClasses = { DeadSpaceStyleClass.ListHeader },
                                     Text = name,
                                     HorizontalExpand = true,
                                     Align = Label.AlignMode.Center,
@@ -169,8 +156,7 @@ namespace Content.Client.LateJoin
                 {
                     var crewManifestButton = new Button()
                     {
-                        Text = Loc.GetString("crew-manifest-button-label"),
-                        StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl }
+                        Text = Loc.GetString("crew-manifest-button-label")
                     };
                     crewManifestButton.OnPressed += _ => _crewManifest.RequestCrewManifest(id);
 
@@ -186,7 +172,7 @@ namespace Content.Client.LateJoin
                 // DS14-start
                 var jobListPanel = new PanelContainer
                 {
-                    StyleClasses = { DeadSpaceMenuSheetlet.Inset },
+                    StyleClasses = { DeadSpaceStyleClass.Inset },
                     VerticalExpand = true,
                     Visible = false,
                     Children = { jobListScroll },
@@ -277,21 +263,23 @@ namespace Content.Client.LateJoin
                         });
                     }
 
+                    // DS14-start
                     category.AddChild(new PanelContainer
                     {
-                        StyleClasses = { DeadSpaceMenuSheetlet.ListHeader },
+                        StyleClasses = { DeadSpaceStyleClass.ListHeader },
                         Margin = new Thickness(0, 0, 0, 4),
                         Children =
                         {
                             new Label
                             {
-                                StyleClasses = { DeadSpaceMenuSheetlet.ListHeader },
+                                StyleClasses = { DeadSpaceStyleClass.ListHeader },
                                 Text = Loc.GetString("late-join-gui-department-jobs-label", ("departmentName", departmentName)),
                                 Align = Label.AlignMode.Center,
                                 HorizontalExpand = true,
                             }
                         }
                     });
+                    // DS14-end
 
                     _jobCategories[id][department.ID] = category;
                     jobList.AddChild(category);
@@ -305,13 +293,11 @@ namespace Content.Client.LateJoin
                         {
                             Margin = new Thickness(5f, 0, 0, 0),
                             VerticalAlignment = VAlignment.Center,
-                            StyleClasses = { DeadSpaceMenuSheetlet.ProfileLabel },
                         };
 
                         var jobButton = new JobButton(jobLabel, prototype.ID, prototype.LocalizedName, value);
-                        jobButton.AddStyleClass(rowIndex++ % 2 == 0
-                            ? DeadSpaceMenuSheetlet.ListRow
-                            : DeadSpaceMenuSheetlet.ListRowAlt);
+                        if (rowIndex++ % 2 != 0)
+                            jobButton.AddStyleClass(DeadSpaceStyleClass.ListItemAlternate); // DS14
 
                         var jobSelector = new BoxContainer
                         {

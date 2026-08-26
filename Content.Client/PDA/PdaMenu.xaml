@@ -22,30 +22,34 @@
         <pda:PdaNavigationButton Name="EjectPaiButton" Access="Public" SetWidth="32"/>
     </BoxContainer>
     <BoxContainer Name="ViewContainer" HorizontalExpand="True" VerticalExpand="True" Access="Public">
+        <!-- DS14-start -->
         <BoxContainer Orientation="Vertical"
                       VerticalExpand="True"
                       HorizontalExpand="True"
                       MinSize="50 50"
-                      Margin="8">
-            <ContainerButton Name="PdaOwnerButton" StyleClasses="DS14MenuListRow">
+                      Margin="8"
+                      SeparationOverride="2"
+                      StyleClasses="PdaHomeSummary">
+            <ContainerButton Name="PdaOwnerButton">
                 <RichTextLabel Name="PdaOwnerLabel" Access="Public"/>
             </ContainerButton>
-            <ContainerButton Name="IdInfoButton" StyleClasses="DS14MenuListRowAlt">
+            <ContainerButton Name="IdInfoButton">
                 <RichTextLabel Name="IdInfoLabel" Access="Public"/>
             </ContainerButton>
-            <ContainerButton Name="StationNameButton" StyleClasses="DS14MenuListRow">
+            <ContainerButton Name="StationNameButton">
                 <RichTextLabel Name="StationNameLabel" Access="Public"/>
             </ContainerButton>
-            <ContainerButton Name="StationAlertLevelButton" StyleClasses="DS14MenuListRowAlt">
+            <ContainerButton Name="StationAlertLevelButton">
                 <RichTextLabel Name="StationAlertLevelLabel" Access="Public"/>
             </ContainerButton>
-            <ContainerButton Name="StationTimeButton" StyleClasses="DS14MenuListRow">
+            <ContainerButton Name="StationTimeButton">
                 <RichTextLabel Name="StationTimeLabel" Access="Public"/>
             </ContainerButton>
-            <ContainerButton Name="StationAlertLevelInstructionsButton" StyleClasses="DS14MenuListRowAlt">
+            <ContainerButton Name="StationAlertLevelInstructionsButton">
                 <RichTextLabel Name="StationAlertLevelInstructions" Access="Public"/>
             </ContainerButton>
         </BoxContainer>
+        <!-- DS14-end -->
         <ScrollContainer HorizontalExpand="True" VerticalExpand="True" HScrollEnabled="True">
             <BoxContainer Orientation="Vertical"
                           VerticalExpand="True"

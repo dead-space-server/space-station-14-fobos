@@ -12,7 +12,9 @@
                       HorizontalExpand="True"
                       Orientation="Vertical"
                       SizeFlagsStretchRatio="3">
-            <Label Text="{Loc 'ore-silo-ui-label-clients'}" Margin="5 5 5 5" HorizontalAlignment="Center" StyleClasses="LabelKeyText"/>
+            <!-- DS14-start -->
+            <Label Text="{Loc 'ore-silo-ui-label-clients'}" Margin="5 5 5 5" HorizontalAlignment="Center" StyleClasses="DeadSpaceSectionTitle" />
+            <!-- DS14-end -->
             <PanelContainer VerticalExpand="True" StyleClasses="PanelDeep">
                 <ItemList Name="ClientList" SelectMode="Button" VerticalExpand="True"/>
             </PanelContainer>
@@ -21,7 +23,9 @@
                       HorizontalExpand="True"
                       Orientation="Vertical"
                       SizeFlagsStretchRatio="2">
-            <Label Text="{Loc 'ore-silo-ui-label-mats'}" Margin="5 5 5 5" HorizontalAlignment="Center" StyleClasses="LabelKeyText"/>
+            <!-- DS14-start -->
+            <Label Text="{Loc 'ore-silo-ui-label-mats'}" Margin="5 5 5 5" HorizontalAlignment="Center" StyleClasses="DeadSpaceSectionTitle" />
+            <!-- DS14-end -->
             <PanelContainer VerticalExpand="True" StyleClasses="PanelDeep">
                 <BoxContainer
                     Orientation="Vertical"

@@ -3,8 +3,10 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <!-- Controls for calling, recalling and displaying info for the emergency shuttle -->
     <BoxContainer Orientation="Vertical">
-        <Label StyleClasses="FancyWindowTitle" Align="Center"
+        <!-- DS14-start -->
+        <Label StyleClasses="DeadSpaceSectionTitle" Align="Center"
             Text="{Loc 'comms-console-shuttle-controls-header'}" />
+        <!-- DS14-end -->
 
         <!-- This contains some blank `Controls` to act as dummies. This is because the
             GridContainer will always left-align the children, while we want them centered.
@@ -18,8 +20,10 @@
             <Control HorizontalExpand="True" />
 
             <BoxContainer Orientation="Vertical">
-                <Label StyleClasses="LabelSubText" Align="Center"
+                <!-- DS14-start -->
+                <Label StyleClasses="DeadSpaceSubtitle" Align="Center"
                     Text="{Loc 'comms-console-shuttle-status-label'}" />
+                <!-- DS14-end -->
                 <Label Name="CountdownLabel" ReservesSpace="True" Align="Center"/>
             </BoxContainer>
             <Control HorizontalExpand="True" />

@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Numerics;
 using Content.Client.Lobby;
-using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Systems.MenuBar.Widgets;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Whitelist;
@@ -239,32 +238,24 @@ namespace Content.Client.Construction.UI
                     Children = { protoView },
                 };
 
-                var itemButtonPanelContainer = new PanelContainer
-                {
-                    PanelOverride = new StyleBoxFlat { BackgroundColor = StyleNano.ButtonColorDefault },
-                    Children = { itemButton },
-                };
-
                 itemButton.OnToggled += buttonToggledEventArgs =>
                 {
-                    SelectGridButton(itemButton, buttonToggledEventArgs.Pressed);
-
                     if (buttonToggledEventArgs.Pressed &&
                         _selected != null &&
                         _recipeButtons.TryGetValue(_selected.ID, out var oldButton))
                     {
                         oldButton.Pressed = false;
-                        SelectGridButton(oldButton, false);
                     }
 
                     OnGridViewRecipeSelected(this, buttonToggledEventArgs.Pressed ? recipe.Prototype : null);
                 };
 
-                recipesGrid.AddChild(itemButtonPanelContainer);
+                // DS14-start: the button's global normal/hover/pressed states replace the one-control color wrapper.
+                recipesGrid.AddChild(itemButton);
+                // DS14-end
                 _recipeButtons[recipe.Prototype.ID] = itemButton;
                 var isCurrentButtonSelected = _selected == recipe.Prototype;
                 itemButton.Pressed = isCurrentButtonSelected;
-                SelectGridButton(itemButton, isCurrentButtonSelected);
             }
         }
 
@@ -322,16 +313,6 @@ namespace Content.Client.Construction.UI
                 (a, b) => string.Compare(a.Prototype.Name, b.Prototype.Name, StringComparison.InvariantCulture));
 
             return recipes;
-        }
-
-        private void SelectGridButton(BaseButton button, bool select)
-        {
-            if (button.Parent is not PanelContainer buttonPanel)
-                return;
-
-            button.Children.Single().Modulate = select ? Color.Green : Color.White;
-            var buttonColor = select ? StyleNano.ButtonColorDefault : Color.Transparent;
-            buttonPanel.PanelOverride = new StyleBoxFlat { BackgroundColor = buttonColor };
         }
 
         private void PopulateCategories(string? selectCategory = null)

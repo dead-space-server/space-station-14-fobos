@@ -108,6 +108,10 @@ namespace Content.Client.Paper.UI
             IoCManager.InjectDependencies(this);
             RobustXamlLoader.Load(this);
 
+            // DS14-start: the button keeps global pseudo-states while this child renders the selected text color.
+            ColorSwatch.Texture = Texture.White;
+            // DS14-end
+
             // We can't configure the RichTextLabel contents from xaml, so do it here:
             BlankPaperIndicator.SetMessage(Loc.GetString("paper-ui-blank-page-message"), null, DefaultTextColor);
 
@@ -874,12 +878,7 @@ namespace Content.Client.Paper.UI
 
         private void UpdateColorButton(Color color)
         {
-            ColorButton.StyleBoxOverride = new StyleBoxFlat
-            {
-                BackgroundColor = color,
-                BorderColor = Color.FromHex("#3b4e60"),
-                BorderThickness = new Thickness(1),
-            };
+            ColorSwatch.ModulateSelfOverride = color; // DS14: data color only, not interactive chrome.
         }
 
         private void ToggleColorPicker()

@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Client.DeadSpace.Stylesheets;
 using Content.Shared.Chat;
 
 namespace Content.Client.UserInterface.Systems.Chat.Controls;
@@ -64,7 +65,7 @@ public sealed class ChannelSelectorButton : ChatPopupButton<ChannelSelectorPopup
             ChatSelectChannel.OOC => Color.LightSkyBlue,
             ChatSelectChannel.Dead => Color.MediumPurple,
             ChatSelectChannel.Admin => Color.HotPink,
-            _ => Color.DarkGray
+            _ => DeadSpaceStylePalette.TextInactive // DS14
         };
     }
 

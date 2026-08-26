@@ -5,10 +5,10 @@
          MinSize="800 128">
     <BoxContainer Orientation="Vertical" VerticalExpand="True">
         <BoxContainer Name="RoleNameBox" Orientation="Vertical" Margin="10">
-            <Label Name="LoadoutNameLabel"/>
-            <PanelContainer HorizontalExpand="True" SetHeight="24" StyleClasses="PanelDeep">
-                <LineEdit Name="RoleNameEdit" VerticalExpand="True" HorizontalExpand="True"/>
-            </PanelContainer>
+            <!-- DS14-start -->
+            <Label Name="LoadoutNameLabel" StyleClasses="DeadSpaceSectionTitle"/>
+            <LineEdit Name="RoleNameEdit" VerticalExpand="True" HorizontalExpand="True" Margin="6"/>
+            <!-- DS14-end -->
         </BoxContainer>
         <VerticalTabContainer Name="LoadoutGroupsContainer"
                               VerticalExpand="True"

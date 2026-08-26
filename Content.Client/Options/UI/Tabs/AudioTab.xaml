@@ -3,8 +3,10 @@
          xmlns:ui="clr-namespace:Content.Client.Options.UI">
     <BoxContainer Orientation="Vertical">
         <BoxContainer Orientation="Vertical" Margin="8 8 8 8" VerticalExpand="True">
+            <!-- DS14-start -->
             <Label Text="{Loc 'ui-options-volume-label'}"
-                   StyleClasses="LabelKeyText"/>
+                   StyleClasses="DeadSpaceSectionTitle"/>
+            <!-- DS14-end -->
             <BoxContainer Orientation="Vertical" Margin="0 3 0 0">
                 <ui:OptionSlider Name="SliderVolumeMaster" Title="{Loc 'ui-options-master-volume'}"
                                  Margin="0 0 0 8" />

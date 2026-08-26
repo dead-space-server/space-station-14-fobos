@@ -6,7 +6,9 @@
                       SetSize="800 500">
     <BoxContainer Orientation="Horizontal">
         <BoxContainer Orientation="Vertical" MinWidth="170">
-            <Label Text="{Loc 'reagent-dispenser-window-amount-to-dispense-label'}" HorizontalAlignment="Center" />
+            <!-- DS14-start -->
+            <Label Text="{Loc 'reagent-dispenser-window-amount-to-dispense-label'}" HorizontalAlignment="Center" StyleClasses="DeadSpaceSectionTitle" />
+            <!-- DS14-end -->
             <ui:ButtonGrid
                 Name="AmountGrid"
                 Access="Public"

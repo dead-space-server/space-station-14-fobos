@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.Stylesheets;
 using Content.Shared.DeadSpace;
 using Content.Shared.CCVar;
@@ -125,7 +126,7 @@ namespace Content.Client.Options.UI.Tabs
                 KeybindsContainer.AddChild(new Label
                 {
                     Text = Loc.GetString(headerContents),
-                    StyleClasses = { StyleClass.LabelKeyText }
+                    StyleClasses = { DeadSpaceStyleClass.SectionTitle } // DS14
                 });
             }
 
