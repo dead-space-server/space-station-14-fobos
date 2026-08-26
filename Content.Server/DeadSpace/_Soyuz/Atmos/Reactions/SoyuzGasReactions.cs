@@ -43,7 +43,7 @@ public sealed partial class FixiriumProductionReaction : IGasReactionEffect
         mixture.AdjustMoles(Gas.Oxygen, -reacted);
         mixture.AdjustMoles(Gas.Fixirium, reacted);
         mixture.AdjustMoles(Gas.Nitrogen, reacted);
-        mixture.AdjustMoles(Gas.Hydrogen, reacted);
+        mixture.AdjustMoles(Gas.Hydrogen, reacted * 0.1f);
 
         SoyuzGasReactionHelpers.ApplyEnergy(
             mixture,

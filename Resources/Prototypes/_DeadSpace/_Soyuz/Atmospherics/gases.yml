@@ -71,7 +71,7 @@
   molarMass: 58
   color: FFFFFF
   reagent: Brizidium
-  pricePerMole: 3
+  pricePerMole: 6
 
 - type: gas
   id: Iprit
