@@ -1,0 +1,93 @@
+<Control xmlns="https://spacestation14.io"
+          xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+          xmlns:ui="clr-namespace:Robust.Client.UserInterface.Controls;assembly=Robust.Client"
+          Margin="10">
+    <BoxContainer Orientation="Vertical"
+                  HorizontalExpand="True"
+                  VerticalExpand="True"
+                  SeparationOverride="12">
+        <PanelContainer HorizontalExpand="True">
+            <PanelContainer.PanelOverride>
+                <gfx:StyleBoxFlat BackgroundColor="#2d2d2d"/>
+            </PanelContainer.PanelOverride>
+            <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="8">
+                <ui:Label Text="{Loc 'headshot-url-label'}"
+                          StyleClasses="LabelHeading"/>
+                <ui:LineEdit Name="HeadshotUrlInput"
+                             PlaceHolder="{Loc 'headshot-url-placeholder'}"
+                             HorizontalExpand="True"/>
+                <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                    <Button Name="DownloadUrlButton"
+                            Text="{Loc 'headshot-download-button'}"
+                            StyleClasses="Button"
+                            MinWidth="150"/>
+                    <ui:Label Name="UrlStatusLabel"
+                              VerticalAlignment="Center"/>
+                </BoxContainer>
+            </BoxContainer>
+        </PanelContainer>
+
+        <PanelContainer HorizontalExpand="True">
+            <PanelContainer.PanelOverride>
+                <gfx:StyleBoxFlat BackgroundColor="#2d2d2d"/>
+            </PanelContainer.PanelOverride>
+            <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="8">
+                <ui:Label Text="{Loc 'headshot-base64-label'}"
+                          StyleClasses="LabelHeading"/>
+                <PanelContainer HorizontalExpand="True">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#1a1a1a"/>
+                    </PanelContainer.PanelOverride>
+                    <TextEdit Name="HeadshotBase64Input"
+                              MinSize="0 80"
+                              Margin="4"
+                              HorizontalExpand="True"/>
+                </PanelContainer>
+                <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                    <Button Name="ApplyBase64Button"
+                            Text="{Loc 'headshot-apply-base64-button'}"
+                            StyleClasses="Button"
+                            MinWidth="150"/>
+                    <ui:Label Name="Base64StatusLabel"
+                              VerticalAlignment="Center"/>
+                </BoxContainer>
+            </BoxContainer>
+        </PanelContainer>
+
+        <PanelContainer HorizontalExpand="True"
+                        VerticalExpand="True"
+                        MinSize="0 200">
+            <PanelContainer.PanelOverride>
+                <gfx:StyleBoxFlat BackgroundColor="#1a1a1a"/>
+            </PanelContainer.PanelOverride>
+            <BoxContainer Orientation="Vertical"
+                          HorizontalExpand="True"
+                          VerticalExpand="True"
+                          Margin="8"
+                          SeparationOverride="6">
+                <ui:Label Text="{Loc 'headshot-preview-label'}"
+                          StyleClasses="LabelHeading"/>
+                <TextureRect Name="HeadshotPreview"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Stretch="KeepAspect"
+                             MinSize="200 200"
+                             MaxSize="400 400"
+                             Visible="False"/>
+                <ui:Label Name="NoHeadshotLabel"
+                          Text="{Loc 'headshot-no-image'}"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"/>
+                <BoxContainer Orientation="Horizontal"
+                               HorizontalAlignment="Right"
+                              SeparationOverride="6"
+                              Margin="0 6 0 0">
+                    <Button Name="ClearHeadshotButton"
+                            Text="{Loc 'headshot-clear-button'}"
+                            MinWidth="150"
+                            StyleClasses="Button"/>
+                </BoxContainer>
+            </BoxContainer>
+        </PanelContainer>
+    </BoxContainer>
+</Control>
