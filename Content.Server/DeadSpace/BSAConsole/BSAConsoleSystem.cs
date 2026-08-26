@@ -81,9 +81,9 @@ public sealed class BSAConsoleSystem : EntitySystem
             // Fire on the selected grid's map
             targetMapId = FindGridMapId(uid, comp, comp.SelectedGridName);
         }
-        else if (comp.HasDisk && comp.TargetMapUid != null)
+        else if (comp.CurrentViewMode == "MassScannerDisk" && comp.HasDisk && comp.TargetMapUid != null)
         {
-            // Radar on disk map — fire there
+            // Disk scanner mode — fire on disk map
             targetMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
         }
         else
@@ -99,10 +99,10 @@ public sealed class BSAConsoleSystem : EntitySystem
 
         _explosion.QueueExplosion(
             mapPos,
-            "Default",
-            250f,
-            3f,
-            50f,
+            "Radioactive",
+            2000f,
+            5f,
+            100f,
             comp.LinkedBSA.Value);
 
         bsa.IsReady = false;
@@ -198,8 +198,8 @@ public sealed class BSAConsoleSystem : EntitySystem
         comp.HasDisk = false;
         comp.SelectedGridName = null;
 
-        if (comp.CurrentViewMode == "Grid")
-            comp.CurrentViewMode = "MassScanner";
+        if (comp.CurrentViewMode == "Grid" || comp.CurrentViewMode == "MassScannerDisk")
+            comp.CurrentViewMode = "MassScannerLocal";
 
         var timestamp = DateTime.Now.ToString("HH:mm:ss");
         comp.LogEntries.Add($"[{timestamp}] [ДИСК]: Диск сектора извлечён.");

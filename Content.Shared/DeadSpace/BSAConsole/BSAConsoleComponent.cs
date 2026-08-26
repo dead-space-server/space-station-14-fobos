@@ -22,7 +22,7 @@ public sealed partial class BSAConsoleComponent : Component
 
     // View mode: "MassScanner", "Grid"
     [DataField, AutoNetworkedField]
-    public string CurrentViewMode = "MassScanner";
+    public string CurrentViewMode = "MassScannerLocal";
 
     [DataField, AutoNetworkedField]
     public List<string> LogEntries = new();

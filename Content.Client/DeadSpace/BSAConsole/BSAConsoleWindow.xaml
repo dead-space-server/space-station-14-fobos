@@ -2,98 +2,83 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
                xmlns:shuttles="clr-namespace:Content.Client.Shuttles.UI"
-               xmlns:pinpointer="clr-namespace:Content.Client.Pinpointer.UI"
                xmlns:bsa="clr-namespace:Content.Client.DeadSpace.BSAConsole"
                x:Class="Content.Client.DeadSpace.BSAConsole.BSAConsoleWindow"
-               Title="Bluespace Artillery Console"
+               Title="BSA Console"
                MinWidth="700"
                MinHeight="500">
-    <BoxContainer Orientation="Horizontal" Margin="4" SeparationOverride="4" VerticalExpand="True">
+    <BoxContainer Orientation="Horizontal" Margin="0" SeparationOverride="0" VerticalExpand="True">
 
-        <!-- LEFT PANEL: Status & Network -->
-        <BoxContainer Orientation="Vertical" MinWidth="200" MaxWidth="220" SeparationOverride="4" Margin="0 0 4 0">
-            <PanelContainer VerticalExpand="True">
-                <PanelContainer.PanelOverride>
-                    <gfx:StyleBoxFlat BackgroundColor="#1a1a2eFF" BorderColor="#00d4ff" BorderThickness="1" />
-                </PanelContainer.PanelOverride>
-                <BoxContainer Orientation="Vertical" Margin="6" SeparationOverride="8">
-                    <Label Text="CONTROL &amp; NETWORK" StyleClasses="LabelBig" FontColorOverride="#00d4ff" HorizontalAlignment="Center" />
-                    <PanelContainer MinHeight="1" Margin="0 2">
-                        <PanelContainer.PanelOverride>
-                            <gfx:StyleBoxFlat BackgroundColor="#00d4ff" />
-                        </PanelContainer.PanelOverride>
-                    </PanelContainer>
+        <!-- LEFT SIDEBAR -->
+        <PanelContainer MinWidth="180" MaxWidth="180">
+            <PanelContainer.PanelOverride>
+                <gfx:StyleBoxFlat BackgroundColor="#191920FF" BorderColor="#2a2a35" BorderThickness="1" />
+            </PanelContainer.PanelOverride>
+            <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="6">
+                <Label Text="BSA CONSOLE" FontColorOverride="#54D98C" HorizontalAlignment="Center" Margin="0 4 0 2" />
+                <PanelContainer MinHeight="1" Margin="0 2">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#2a2a35" />
+                    </PanelContainer.PanelOverride>
+                </PanelContainer>
 
-                    <Label Text="Подключено к:" FontColorOverride="#888888" />
-                    <Label Name="BSAConnectionLabel" Text="Не подключено" FontColorOverride="#FF4444" />
+                <Label Text="ORUDIE" FontColorOverride="#3C3C50" Margin="0 2 0 0" />
+                <Label Name="BSAConnectionLabel" Text="ПОДКЛЮЧИ" FontColorOverride="#D95454" />
 
-                    <PanelContainer MinHeight="1" Margin="0 4">
-                        <PanelContainer.PanelOverride>
-                            <gfx:StyleBoxFlat BackgroundColor="#333355" />
-                        </PanelContainer.PanelOverride>
-                    </PanelContainer>
+                <PanelContainer Name="StatusPanel" MinHeight="28" Margin="0 4 0 0">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#1A2A1A" BorderColor="#2A4A2A" BorderThickness="1" />
+                    </PanelContainer.PanelOverride>
+                    <Label Name="CooldownLabel" Text="ГОТОВА" FontColorOverride="#54D98C" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </PanelContainer>
+                <ProgressBar Name="CooldownBar" MinValue="0" MaxValue="60" Value="0" MinHeight="8" Margin="0 0 0 2" />
 
-                    <Label Text="СОСТОЯНИЕ ОРУДИЯ" StyleClasses="LabelBig" FontColorOverride="#00d4ff" HorizontalAlignment="Center" />
-                    <PanelContainer Name="CooldownPanel" MinHeight="36">
-                        <PanelContainer.PanelOverride>
-                            <gfx:StyleBoxFlat BackgroundColor="#003300" BorderColor="#00FF00" BorderThickness="1" />
-                        </PanelContainer.PanelOverride>
-                        <Label Name="CooldownLabel" Text="ГОТОВА К ЗАЛПУ" HorizontalAlignment="Center" VerticalAlignment="Center" FontColorOverride="#00FF00" />
-                    </PanelContainer>
-                    <ProgressBar Name="CooldownBar" MinValue="0" MaxValue="60" Value="0" MinHeight="16" />
+                <PanelContainer MinHeight="1" Margin="0 4">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#2a2a35" />
+                    </PanelContainer.PanelOverride>
+                </PanelContainer>
 
-                    <PanelContainer MinHeight="1" Margin="0 4">
-                        <PanelContainer.PanelOverride>
-                            <gfx:StyleBoxFlat BackgroundColor="#333355" />
-                        </PanelContainer.PanelOverride>
-                    </PanelContainer>
+                <Label Text="SEKTOR" FontColorOverride="#3C3C50" Margin="0 2 0 0" />
+                <Label Name="DiskStatusLabel" Text="ДИСК НЕ ВСТАВЛЕН" FontColorOverride="#D9A83C" />
+                <Button Name="EjectDiskButton" Text="ИЗВЛЕЧЬ" MinHeight="22" Visible="False" />
 
-                    <Label Text="СЕКТОРНЫЙ ДИСК" StyleClasses="LabelBig" FontColorOverride="#00d4ff" HorizontalAlignment="Center" />
-                    <Label Name="DiskStatusLabel" Text="Вставьте координатный диск" FontColorOverride="#FFaa00" HorizontalAlignment="Center" />
-                    <Button Name="EjectDiskButton" Text="Извлечь диск" MinHeight="24" Visible="False" />
+                <PanelContainer MinHeight="1" Margin="0 4">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#2a2a35" />
+                    </PanelContainer.PanelOverride>
+                </PanelContainer>
 
-                    <PanelContainer MinHeight="1" Margin="0 4">
-                        <PanelContainer.PanelOverride>
-                            <gfx:StyleBoxFlat BackgroundColor="#333355" />
-                        </PanelContainer.PanelOverride>
-                    </PanelContainer>
+                <Label Name="SelectedGridLabel" Text="" FontColorOverride="#54D98C" Visible="False" />
+                <Label Name="ErrorLabel" Text="" FontColorOverride="#D95454" Visible="False" />
+            </BoxContainer>
+        </PanelContainer>
 
-                    <Label Name="SelectedGridLabel" Text="" FontColorOverride="#00FF88" HorizontalAlignment="Center" Visible="False" />
-                    <Label Name="ErrorLabel" Text="" FontColorOverride="#FF4444" HorizontalAlignment="Center" Visible="False" />
-                </BoxContainer>
-            </PanelContainer>
-        </BoxContainer>
+        <!-- CENTER -->
+        <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" SeparationOverride="0">
+            <Button Name="ViewModeButton" Text="РЕЖИМ: СКАНЕР МАСС" MinHeight="28" HorizontalExpand="True" Margin="0" />
 
-        <!-- CENTER PANEL: Targeting -->
-        <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" SeparationOverride="4">
-            <!-- View Mode Selector -->
-            <Button Name="ViewModeButton" Text="РЕЖИМ: СКАНЕР МАСС" MinHeight="32" HorizontalExpand="True" />
-
-            <!-- Viewport: Radar -->
             <shuttles:ShuttleNavControl Name="RadarScreen"
                                         VerticalExpand="True"
-                                        HorizontalExpand="True"
-                                        Margin="0 2" />
+                                        HorizontalExpand="True" />
 
-            <!-- Viewport: Map -->
             <bsa:BSANavMapControl Name="MapScreen"
                                   VerticalExpand="True"
                                   HorizontalExpand="True"
-                                  Margin="0 2"
                                   Visible="False" />
 
-            <!-- Coordinate Input -->
+            <!-- Bottom bar: coordinates + fire -->
             <PanelContainer>
                 <PanelContainer.PanelOverride>
-                    <gfx:StyleBoxFlat BackgroundColor="#1a1a2eFF" BorderColor="#00d4ff" BorderThickness="1" />
+                    <gfx:StyleBoxFlat BackgroundColor="#191920FF" BorderColor="#2a2a35" BorderThickness="1" />
                 </PanelContainer.PanelOverride>
-                <BoxContainer Orientation="Horizontal" Margin="6" SeparationOverride="8" VerticalAlignment="Center">
-                    <Label Text="X:" FontColorOverride="#00d4ff" VerticalAlignment="Center" />
+                <BoxContainer Orientation="Horizontal" Margin="6" SeparationOverride="6" VerticalAlignment="Center">
+                    <Label Text="X" FontColorOverride="#54D98C" VerticalAlignment="Center" />
                     <LineEdit Name="CoordinateX" MinWidth="80" MaxWidth="100" PlaceHolder="0" />
-                    <Label Text="Y:" FontColorOverride="#00d4ff" VerticalAlignment="Center" />
+                    <Label Text="Y" FontColorOverride="#54D98C" VerticalAlignment="Center" />
                     <LineEdit Name="CoordinateY" MinWidth="80" MaxWidth="100" PlaceHolder="0" />
                     <Control HorizontalExpand="True" />
-                    <Button Name="FireButton" Text="ОГОНЬ" MinWidth="120" MinHeight="36" HorizontalAlignment="Right" />
+                    <Button Name="FireButton" Text="ВЫСТРЕЛ" MinWidth="120" MinHeight="32" HorizontalAlignment="Right" />
                 </BoxContainer>
             </PanelContainer>
         </BoxContainer>
