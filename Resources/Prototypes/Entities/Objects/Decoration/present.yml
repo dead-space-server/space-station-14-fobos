@@ -277,6 +277,50 @@
         orGroup: GiftPool
       - id: PlushieCobla
         orGroup: GiftPool
+      # DS14-start
+      - id: Akiplushie1
+        orGroup: GiftPool
+      - id: Akiplushie2
+        orGroup: GiftPool
+      - id: Akiplushie3
+        orGroup: GiftPool
+      - id: Akiplushie4
+        orGroup: GiftPool
+      - id: Akiplushie5
+        orGroup: GiftPool
+      - id: Akiplushie6
+        orGroup: GiftPool
+      - id: Akiplushie7
+        orGroup: GiftPool
+      - id: Akiplushie8
+        orGroup: GiftPool
+      - id: Akiplushie9
+        orGroup: GiftPool
+      - id: Akiplushie10
+        orGroup: GiftPool
+      - id: Akiplushie11
+        orGroup: GiftPool
+      - id: Akiplushie12
+        orGroup: GiftPool
+      - id: Akiplushie13
+        orGroup: GiftPool
+      - id: Akiplushie14
+        orGroup: GiftPool
+      - id: Akiplushie15
+        orGroup: GiftPool
+      - id: Akiplushie16
+        orGroup: GiftPool
+      - id: Akiplushie17
+        orGroup: GiftPool
+      - id: Akiplushie18
+        orGroup: GiftPool
+      - id: Akiplushie19
+        orGroup: GiftPool
+      - id: Akiplushie20
+        orGroup: GiftPool
+      - id: Akiplushie21
+        orGroup: GiftPool
+      # DS14-end
 
 - type: entity
   id: PresentFigurine
