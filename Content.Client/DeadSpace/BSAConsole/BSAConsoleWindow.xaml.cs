@@ -8,6 +8,8 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
+using Content.Shared.Pinpointer;
 
 namespace Content.Client.DeadSpace.BSAConsole;
 
@@ -19,9 +21,10 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
     public event Action<string>? OnSelectGridPressed;
     public event Action? OnEjectDiskPressed;
 
-    private bool _viewDropdownOpen;
     private IEntityManager _entMan = default!;
     private BSAConsoleUiState? _lastState;
+    private Popup _dropdownPopup = default!;
+    private BoxContainer _dropdownContainer = default!;
 
     public BSAConsoleWindow()
     {
@@ -29,12 +32,44 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         IoCManager.InjectDependencies(this);
         _entMan = IoCManager.Resolve<IEntityManager>();
 
-        ViewModeButton.OnPressed += _ => ToggleViewDropdown();
+        ViewModeButton.OnPressed += _ => ToggleDropdown();
         FireButton.OnPressed += _ => OnFirePressed?.Invoke(GetX(), GetY());
         EjectDiskButton.OnPressed += _ => OnEjectDiskPressed?.Invoke();
 
         RadarScreen.OnRadarClick += OnRadarClicked;
         MapScreen.OnMapClick += OnMapClicked;
+
+        // Build popup dropdown
+        _dropdownContainer = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            Margin = new Thickness(4),
+            SeparationOverride = 2,
+        };
+
+        var scroll = new ScrollContainer
+        {
+            MaxHeight = 200,
+            HScrollEnabled = false,
+            Children = { _dropdownContainer },
+        };
+
+        var panel = new PanelContainer
+        {
+            PanelOverride = new StyleBoxFlat
+            {
+                BackgroundColor = Color.FromHex("#1a1a2eFF"),
+                BorderColor = Color.FromHex("#00d4ff"),
+                BorderThickness = new Thickness(1),
+            },
+            Children = { scroll },
+        };
+
+        _dropdownPopup = new Popup
+        {
+            Children = { panel },
+        };
+        _dropdownPopup.OnPopupHide += OnPopupClosed;
     }
 
     public void UpdateState(BSAConsoleUiState state)
@@ -46,7 +81,6 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         UpdateRadar(state);
         UpdateMapView(state);
         UpdateDisk(state);
-        RebuildDropdown(state);
     }
 
     private void UpdateConnection(BSAConsoleUiState state)
@@ -115,45 +149,48 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         ViewModeButton.Text = $"РЕЖИМ: {modeText}";
 
         var isMapMode = state.CurrentViewMode == "Grid";
-        var isRadarMode = state.CurrentViewMode == "MassScanner";
 
-        RadarScreen.Visible = isRadarMode;
-        MapScreen.Visible = isMapMode;
-
-        if (isMapMode && state.SelectedGridName != null)
+        if (isMapMode && state.SelectedGridUid != null)
         {
+            var targetUid = _entMan.GetEntity(state.SelectedGridUid.Value);
+            var hasNavMap = _entMan.TryGetComponent<NavMapComponent>(targetUid, out _);
+
+            // Small grids without NavMapComponent → stay on radar (they're visible there)
+            RadarScreen.Visible = !hasNavMap;
+            MapScreen.Visible = hasNavMap;
+
+            if (hasNavMap)
+            {
+                if (MapScreen.MapUid != targetUid)
+                {
+                    MapScreen.MapUid = targetUid;
+                    MapScreen.ForceNavMapUpdate();
+                }
+            }
+
             SelectedGridLabel.Text = $"Целевой грид: {state.SelectedGridName}";
             SelectedGridLabel.Visible = true;
         }
         else
         {
+            RadarScreen.Visible = true;
+            MapScreen.Visible = false;
             SelectedGridLabel.Visible = false;
         }
     }
 
     private void UpdateRadar(BSAConsoleUiState state)
     {
-        if (state.CurrentViewMode != "MassScanner")
-            return;
-
         NavInterfaceState? radarState = state.HasDisk ? state.DiskRadarState : state.LocalRadarState;
         radarState ??= state.LocalRadarState;
 
-        if (radarState != null)
+        if (radarState != null && RadarScreen.Visible)
             RadarScreen.UpdateState(radarState);
     }
 
     private void UpdateMapView(BSAConsoleUiState state)
     {
-        if (state.CurrentViewMode != "Grid" || state.SelectedGridUid == null)
-            return;
-
-        var targetUid = _entMan.GetEntity(state.SelectedGridUid.Value);
-        if (MapScreen.MapUid != targetUid)
-        {
-            MapScreen.MapUid = targetUid;
-            MapScreen.ForceNavMapUpdate();
-        }
+        // Handled in UpdateViewLabel now
     }
 
     private void UpdateDisk(BSAConsoleUiState state)
@@ -172,9 +209,26 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         }
     }
 
-    private void RebuildDropdown(BSAConsoleUiState state)
+    #region Dropdown Popup
+
+    private void ToggleDropdown()
     {
-        DropdownContainer.RemoveAllChildren();
+        if (_dropdownPopup.Visible)
+        {
+            _dropdownPopup.Close();
+        }
+        else
+        {
+            OpenDropdown();
+        }
+    }
+
+    private void OpenDropdown()
+    {
+        if (_lastState == null)
+            return;
+
+        _dropdownContainer.RemoveAllChildren();
 
         // "Сканер масс" always first
         var scannerBtn = new Button
@@ -185,24 +239,23 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         };
         scannerBtn.OnPressed += _ =>
         {
-            _viewDropdownOpen = false;
-            ViewDropdownPanel.Visible = false;
+            _dropdownPopup.Close();
             OnSwitchViewPressed?.Invoke("MassScanner");
         };
-        DropdownContainer.AddChild(scannerBtn);
+        _dropdownContainer.AddChild(scannerBtn);
 
-        // Separator
-        if (state.AllGrids.Count > 0)
+        // Separator before grids
+        if (_lastState.AllGrids.Count > 0)
         {
             var sep = new PanelContainer { MinHeight = 1 };
             sep.PanelOverride = new StyleBoxFlat { BackgroundColor = Color.FromHex("#333355") };
-            DropdownContainer.AddChild(sep);
+            _dropdownContainer.AddChild(sep);
         }
 
         // One button per grid
-        foreach (var grid in state.AllGrids)
+        foreach (var grid in _lastState.AllGrids)
         {
-            var isSelected = grid.Name == state.SelectedGridName && state.CurrentViewMode == "Grid";
+            var isSelected = grid.Name == _lastState.SelectedGridName && _lastState.CurrentViewMode == "Grid";
             var label = grid.Source == "disk" ? $"{grid.Name} [Д]" : grid.Name;
 
             var btn = new Button
@@ -215,30 +268,40 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
             var capturedGrid = grid.Name;
             btn.OnPressed += _ =>
             {
-                _viewDropdownOpen = false;
-                ViewDropdownPanel.Visible = false;
+                _dropdownPopup.Close();
                 OnSelectGridPressed?.Invoke(capturedGrid);
             };
-            DropdownContainer.AddChild(btn);
+            _dropdownContainer.AddChild(btn);
         }
 
-        // If no grids at all
-        if (state.AllGrids.Count == 0)
+        // No grids message
+        if (_lastState.AllGrids.Count == 0)
         {
             var noGrids = new Label
             {
                 Text = "  Гриды не найдены",
                 FontColorOverride = Color.FromHex("#FFaa00"),
             };
-            DropdownContainer.AddChild(noGrids);
+            _dropdownContainer.AddChild(noGrids);
         }
+
+        // Position and show popup below the button
+        var globalPos = ViewModeButton.GlobalPosition;
+        globalPos.Y += ViewModeButton.Size.Y + 1;
+        _dropdownContainer.Measure(Window?.Size ?? Vector2Helpers.Infinity);
+        var (minX, minY) = _dropdownContainer.DesiredSize;
+        var box = UIBox2.FromDimensions(globalPos, new Vector2(Math.Max(minX, ViewModeButton.Width), minY));
+
+        UserInterfaceManager.ModalRoot.AddChild(_dropdownPopup);
+        _dropdownPopup.Open(box);
     }
 
-    private void ToggleViewDropdown()
+    private void OnPopupClosed()
     {
-        _viewDropdownOpen = !_viewDropdownOpen;
-        ViewDropdownPanel.Visible = _viewDropdownOpen;
+        UserInterfaceManager.ModalRoot.RemoveChild(_dropdownPopup);
     }
+
+    #endregion
 
     private static readonly System.Globalization.CultureInfo Inv = System.Globalization.CultureInfo.InvariantCulture;
 

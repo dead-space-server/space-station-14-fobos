@@ -67,15 +67,7 @@
         <!-- CENTER PANEL: Targeting -->
         <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" SeparationOverride="4">
             <!-- View Mode Selector -->
-            <Button Name="ViewModeButton" Text="РЕЖИМ: СКАНЕР МАСС (ЛОКАЛЬНЫЙ)" MinHeight="32" HorizontalExpand="True" />
-            <PanelContainer Name="ViewDropdownPanel" MinHeight="0" Visible="False">
-                <PanelContainer.PanelOverride>
-                    <gfx:StyleBoxFlat BackgroundColor="#1a1a2eFF" BorderColor="#00d4ff" BorderThickness="1" />
-                </PanelContainer.PanelOverride>
-                <ScrollContainer MinHeight="30" MaxHeight="200" HScrollEnabled="False">
-                    <BoxContainer Name="DropdownContainer" Orientation="Vertical" Margin="4" SeparationOverride="2" />
-                </ScrollContainer>
-            </PanelContainer>
+            <Button Name="ViewModeButton" Text="РЕЖИМ: СКАНЕР МАСС" MinHeight="32" HorizontalExpand="True" />
 
             <!-- Viewport: Radar -->
             <shuttles:ShuttleNavControl Name="RadarScreen"
