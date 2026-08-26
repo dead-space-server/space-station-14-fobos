@@ -30,5 +30,5 @@ ent-MobSnailInstantDeath = { ent-MobSnail }
 ent-MobSnailSpeed = { ent-MobSnail }
     .suffix = Speed
     .desc = { ent-MobSnail.desc }
-ent-MobSnailMoth = Snoth
+ent-MobSnailMoth = snoth
     .desc = { ent-MobSnail.desc }
