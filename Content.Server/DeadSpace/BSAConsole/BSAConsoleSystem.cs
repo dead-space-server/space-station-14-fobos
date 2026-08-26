@@ -240,7 +240,7 @@ public sealed class BSAConsoleSystem : EntitySystem
 
         if (validTarget && artillery.PendingShotGridUid is { } gridUid)
         {
-            if (!TryComp<TransformComponent>(gridUid, out var gridXform) || gridXform.MapID != mapId)
+            if (!TryComp(gridUid, out TransformComponent? gridXform) || gridXform.MapID != mapId)
             {
                 validTarget = false;
             }
@@ -527,7 +527,7 @@ public sealed class BSAConsoleSystem : EntitySystem
                 _transform.GetWorldMatrix(largestGrid.Owner));
         }
 
-        if (fallback is { } fallbackUid && TryComp<TransformComponent>(fallbackUid, out _))
+        if (fallback is { } fallbackUid && TryComp(fallbackUid, out TransformComponent? _))
             return _transform.GetWorldPosition(fallbackUid);
 
         return Vector2.Zero;
@@ -566,7 +566,7 @@ public sealed class BSAConsoleSystem : EntitySystem
         if (TryComp<MapComponent>(mapUid, out var mapComp))
             return mapComp.MapId;
 
-        return TryComp<TransformComponent>(mapUid, out var xform) && xform.MapID != MapId.Nullspace
+        return TryComp(mapUid, out TransformComponent? xform) && xform.MapID != MapId.Nullspace
             ? xform.MapID
             : null;
     }
