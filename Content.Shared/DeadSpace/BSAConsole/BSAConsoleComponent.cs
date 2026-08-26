@@ -66,4 +66,8 @@ public sealed partial class BSAConsoleComponent : Component
 
     [DataField]
     public float PendingShotOffsetY;
+
+    // Map ID for the pending shot (preserved across 10s delay)
+    [DataField]
+    public int PendingShotMapId = -1;
 }

@@ -16,7 +16,7 @@ namespace Content.Client.DeadSpace.BSAConsole;
 [GenerateTypedNameReferences]
 public sealed partial class BSAConsoleWindow : DefaultWindow
 {
-    public event Action<float, float>? OnFirePressed;
+    public event Action<MapCoordinates>? OnFirePressed;
     public event Action<string>? OnSwitchViewPressed;
     public event Action<string>? OnSelectGridPressed;
     public event Action? OnEjectDiskPressed;
@@ -50,7 +50,11 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         _entMan = IoCManager.Resolve<IEntityManager>();
 
         ViewModeButton.OnPressed += _ => ToggleDropdown();
-        FireButton.OnPressed += _ => OnFirePressed?.Invoke(GetX(), GetY());
+        FireButton.OnPressed += _ =>
+        {
+            if (_crosshairCoords != null)
+                OnFirePressed?.Invoke(_crosshairCoords.Value);
+        };
         EjectDiskButton.OnPressed += _ => OnEjectDiskPressed?.Invoke();
 
         RadarScreen.OnRadarClick += OnRadarClicked;

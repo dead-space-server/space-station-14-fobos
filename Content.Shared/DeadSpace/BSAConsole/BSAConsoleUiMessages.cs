@@ -10,11 +10,13 @@ public sealed class BSAConsoleFireMessage : BoundUserInterfaceMessage
 {
     public float X { get; }
     public float Y { get; }
+    public int MapId { get; }
 
-    public BSAConsoleFireMessage(float x, float y)
+    public BSAConsoleFireMessage(float x, float y, int mapId)
     {
         X = x;
         Y = y;
+        MapId = mapId;
     }
 }
 

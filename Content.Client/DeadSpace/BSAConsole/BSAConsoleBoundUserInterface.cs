@@ -1,6 +1,7 @@
 using Content.Shared.DeadSpace.BSAConsole;
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
+using Robust.Shared.Map;
 
 namespace Content.Client.DeadSpace.BSAConsole;
 
@@ -38,9 +39,9 @@ public sealed class BSAConsoleBoundUserInterface : BoundUserInterface
             _window?.Dispose();
     }
 
-    private void OnFire(float x, float y)
+    private void OnFire(MapCoordinates mapCoords)
     {
-        SendMessage(new BSAConsoleFireMessage(x, y));
+        SendMessage(new BSAConsoleFireMessage((float)mapCoords.X, (float)mapCoords.Y, (int)mapCoords.MapId));
     }
 
     private void OnSwitchView(string viewMode)

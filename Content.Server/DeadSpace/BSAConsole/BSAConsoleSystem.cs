@@ -79,30 +79,20 @@ public sealed class BSAConsoleSystem : EntitySystem
         if (comp.HasPendingShot)
             return;
 
-        // Determine target map
-        MapId targetMapId;
-
-        if (comp.CurrentViewMode == "Grid" && comp.SelectedGridName != null)
-        {
-            targetMapId = FindGridMapId(uid, comp, comp.SelectedGridName);
-        }
-        else if (comp.CurrentViewMode == "MassScannerDisk" && comp.HasDisk && comp.TargetMapUid != null)
-        {
-            targetMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
-        }
-        else
-        {
-            targetMapId = Transform(uid).MapID;
-        }
+        // Target map comes from the client's MapCoordinates
+        var targetMapId = new MapId(msg.MapId);
 
         if (targetMapId == MapId.Nullspace)
             return;
 
         // Store pending shot — explosion in PendingShotDelay seconds
         comp.HasPendingShot = true;
+        comp.PendingShotTimeLeft = comp.PendingShotDelay;
+        comp.PendingShotMapId = msg.MapId;
+
+        // msg.X/Y are now world MapCoordinates from the client
         comp.PendingShotX = msg.X;
         comp.PendingShotY = msg.Y;
-        comp.PendingShotTimeLeft = comp.PendingShotDelay;
 
         // Store offset from selected grid center for tracking
         comp.PendingShotOffsetX = 0f;
@@ -316,14 +306,7 @@ public sealed class BSAConsoleSystem : EntitySystem
             return;
         }
 
-        MapId targetMapId;
-
-        if (comp.CurrentViewMode == "Grid" && comp.SelectedGridName != null)
-            targetMapId = FindGridMapId(uid, comp, comp.SelectedGridName);
-        else if (comp.CurrentViewMode == "MassScannerDisk" && comp.HasDisk && comp.TargetMapUid != null)
-            targetMapId = ResolveTargetMapId(comp.TargetMapUid.Value);
-        else
-            targetMapId = Transform(uid).MapID;
+        var targetMapId = new MapId(comp.PendingShotMapId);
 
         if (targetMapId == MapId.Nullspace)
         {
