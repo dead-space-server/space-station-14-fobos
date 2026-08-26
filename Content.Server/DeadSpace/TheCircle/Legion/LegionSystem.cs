@@ -176,9 +176,7 @@ public sealed class LegionSystem : EntitySystem
 
         if (victimsHit > 0)
         {
-            var heal = new DamageSpecifier();
-            heal.DamageDict["Slash"] = -25f * vampirism * victimsHit;
-            _damage.TryChangeDamage(args.User, heal, ignoreResistances: true, interruptsDoAfters: false, origin: args.User);
+            _damage.HealDistributed(args.User, FixedPoint2.New(-25f * vampirism * victimsHit), origin: args.User);
 
             if (TryComp<BloodstreamComponent>(args.User, out var bloodstream))
             {
