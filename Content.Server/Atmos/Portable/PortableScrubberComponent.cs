@@ -30,7 +30,15 @@ namespace Content.Server.Atmos.Portable
             Gas.Ammonia,
             Gas.NitrousOxide,
             Gas.Frezon,
-            Gas.InfectionDeadSpace
+            // DS14-start
+            Gas.InfectionDeadSpace,
+            Gas.Nitryl,
+            Gas.NitricOxide,
+            Gas.Nitriatium,
+            Gas.Hilium,
+            Gas.Brizidium,
+            Gas.Iprit,
+            // DS14-end
         };
 
         [ViewVariables(VVAccess.ReadWrite)]

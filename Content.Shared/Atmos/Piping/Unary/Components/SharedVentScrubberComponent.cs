@@ -24,7 +24,15 @@ namespace Content.Shared.Atmos.Piping.Unary.Components
             Gas.Ammonia,
             Gas.NitrousOxide,
             Gas.Frezon,
-            Gas.InfectionDeadSpace // DS14
+            // DS14-start
+            Gas.InfectionDeadSpace,
+            Gas.Nitryl,
+            Gas.NitricOxide,
+            Gas.Nitriatium,
+            Gas.Hilium,
+            Gas.Brizidium,
+            Gas.Iprit,
+            // DS14-end
         };
 
         // Presets for 'dumb' air alarm modes
