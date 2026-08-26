@@ -85,14 +85,16 @@
         swap: false
 
 - type: entity
-  parent: Holoprojector
+  parent: BaseItem
   id: HolofanProjector
   name: holofan projector
   description: Stop suicidal passengers from killing everyone during atmos emergencies.
   components:
-  - type: HolosignProjector
+  # DS14-start
+  - type: LimitedHolosignProjector
     signProto: HoloFan
-    chargeUse: 120
+    maxBarriers: 6
+  # DS14-end
   - type: Sprite
     sprite: Objects/Devices/Holoprojectors/atmos.rsi
     state: icon
@@ -106,6 +108,17 @@
     - AtmosTools
     - Fires
     - Spacing
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: HolofanProjector

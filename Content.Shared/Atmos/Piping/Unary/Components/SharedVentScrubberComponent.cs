@@ -32,6 +32,7 @@ namespace Content.Shared.Atmos.Piping.Unary.Components
             Gas.Hilium,
             Gas.Brizidium,
             Gas.Iprit,
+            Gas.Hydrogen,
             // DS14-end
         };
 

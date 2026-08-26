@@ -9,9 +9,6 @@ using JetBrains.Annotations;
 
 namespace Content.Server.DeadSpace.Atmos.Reactions;
 
-/// <summary>
-///     N2 + O2 -> 2 NO. Endothermic, gated to a 400-600 K window by its prototype.
-/// </summary>
 [UsedImplicitly]
 public sealed partial class NitricOxideProductionReaction : IGasReactionEffect
 {

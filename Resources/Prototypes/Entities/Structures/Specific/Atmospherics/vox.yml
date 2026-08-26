@@ -15,6 +15,17 @@
       Ammonia: stationAmmonia
       NitrousOxide: stationNO
       Frezon: danger
+      # DS14-start
+      InfectionDeadSpace: stationInfectionDeadSpace
+      Nitryl: stationNitryl
+      NitricOxide: stationNitricOxide
+      Iprit: stationIprit
+      Brizidium: stationBrizidium
+      Hydrogen: stationHydrogen
+      Fixirium: stationFixirium
+      Nitriatium: stationNitriatium
+      Hilium: stationHilium
+      # DS14-end
 
 - type: entity
   parent: [AirSensorVoxBase, AirSensor]
@@ -39,6 +50,16 @@
     - Ammonia
     - NitrousOxide
     - Frezon
+    # DS14-start
+    - InfectionDeadSpace
+    - Nitryl
+    - NitricOxide
+    - Nitriatium
+    - Hilium
+    - Brizidium
+    - Iprit
+    - Hydrogen
+    # DS14-end
 
 # use this to prevent overriding filters with hardcoded defaults
 - type: entity
