@@ -68,7 +68,7 @@ public sealed partial class AtmosphereSystem
     /// <remarks>Please be responsible with this method. Used only by tests and fixgridatmos.</remarks>
     public void RebuildGridAtmosphere(Entity<GridAtmosphereComponent, MapGridComponent> ent)
     {
-        var mixtures = new GasMixture[9];
+        var mixtures = new GasMixture[18]; // DS14
         for (var i = 0; i < mixtures.Length; i++)
         {
             mixtures[i] = new GasMixture(Atmospherics.CellVolume) { Temperature = Atmospherics.T20C };
@@ -105,6 +105,35 @@ public sealed partial class AtmosphereSystem
         // 8: Air (GM)
         mixtures[8].AdjustMoles(Gas.Oxygen, Atmospherics.OxygenMolesGasMiner);
         mixtures[8].AdjustMoles(Gas.Nitrogen, Atmospherics.NitrogenMolesGasMiner);
+
+        // DS14-start
+        // 9: Hydrogen (GM)
+        mixtures[9].AdjustMoles(Gas.Hydrogen, Atmospherics.MolesCellGasMiner);
+
+        // 10: Nitryl (GM)
+        mixtures[10].AdjustMoles(Gas.Nitryl, Atmospherics.MolesCellGasMiner);
+
+        // 11: Fixirium (GM)
+        mixtures[11].AdjustMoles(Gas.Fixirium, Atmospherics.MolesCellGasMiner);
+
+        // 12: Nitriatium (GM)
+        mixtures[12].AdjustMoles(Gas.Nitriatium, Atmospherics.MolesCellGasMiner);
+
+        // 13: Hilium (GM)
+        mixtures[13].AdjustMoles(Gas.Hilium, Atmospherics.MolesCellGasMiner);
+
+        // 14: Brizidium (GM)
+        mixtures[14].AdjustMoles(Gas.Brizidium, Atmospherics.MolesCellGasMiner);
+
+        // 15: Iprit (GM)
+        mixtures[15].AdjustMoles(Gas.Iprit, Atmospherics.MolesCellGasMiner);
+
+        // 16: NitricOxide (GM)
+        mixtures[16].AdjustMoles(Gas.NitricOxide, Atmospherics.MolesCellGasMiner);
+
+        // 17: InfectionDeadSpace (GM)
+        mixtures[17].AdjustMoles(Gas.InfectionDeadSpace, Atmospherics.MolesCellGasMiner);
+        // DS14-end
 
 
         // Force Invalidate & update air on all tiles

@@ -1,0 +1,61 @@
+- type: entity
+  parent: GasCanister
+  id: NitricOxideCanister
+  name: канистра монооксида азота
+  description: Канистра, в которой может содержаться газ любого вида. В этой, предположительно, содержится монооксид азота. Можно прикрепить к порту коннектора с помощью гаечного ключа.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Storage/canister.rsi
+      layers:
+        - state: oxide
+        - state: paper
+          visible: false
+          map: [ "enum.PaperLabelVisuals.Layer" ]
+    - type: GasCanister
+      gasMixture:
+        volume: 1500
+        moles:
+          NitricOxide: 2769.36
+        temperature: 293.15
+
+- type: entity
+  parent: GasCanister
+  id: OxyhydrogenCanister
+  name: канистра гремучего газа
+  description: Канистра со взрывоопасной смесью водорода и кислорода в соотношении два к одному. Достаточно искры. Можно прикрепить к порту коннектора с помощью гаечного ключа.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Storage/canister.rsi
+      layers:
+        - state: boom
+        - state: paper
+          visible: false
+          map: [ "enum.PaperLabelVisuals.Layer" ]
+    - type: GasCanister
+      gasMixture:
+        volume: 1500
+        moles:
+          Hydrogen: 1846.24
+          Oxygen: 923.12
+        temperature: 293.15
+
+- type: entity
+  parent: GasCanister
+  id: FuelCanister
+  name: канистра горючего топлива
+  description: Канистра с кислородом и примесью плазмы. Легко воспламеняется при нагреве. Можно прикрепить к порту коннектора с помощью гаечного ключа.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Storage/canister.rsi
+      layers:
+        - state: fuel
+        - state: paper
+          visible: false
+          map: [ "enum.PaperLabelVisuals.Layer" ]
+    - type: GasCanister
+      gasMixture:
+        volume: 1500
+        moles:
+          Oxygen: 2741.67
+          Plasma: 27.69
+        temperature: 293.15

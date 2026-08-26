@@ -1,0 +1,63 @@
+- type: entity
+  name: газодобытчик монооксида азота
+  parent: GasMinerBase
+  id: GasMinerNitricOxide
+  components:
+    - type: GasMiner
+      spawnGas: NitricOxide
+
+- type: entity
+  name: газодобытчик диоксида азота
+  parent: GasMinerBase
+  id: GasMinerNitryl
+  components:
+    - type: GasMiner
+      spawnGas: Nitryl
+
+- type: entity
+  name: газодобытчик водорода
+  parent: GasMinerBase
+  id: GasMinerHydrogen
+  components:
+    - type: GasMiner
+      spawnGas: Hydrogen
+
+- type: entity
+  name: газодобытчик фиксириума
+  parent: GasMinerBase
+  id: GasMinerFixirium
+  components:
+    - type: GasMiner
+      spawnGas: Fixirium
+
+- type: entity
+  name: газодобытчик нитриатиума
+  parent: GasMinerBase
+  id: GasMinerNitriatium
+  components:
+    - type: GasMiner
+      spawnGas: Nitriatium
+
+- type: entity
+  name: газодобытчик хилиума
+  parent: GasMinerBase
+  id: GasMinerHilium
+  components:
+    - type: GasMiner
+      spawnGas: Hilium
+
+- type: entity
+  name: газодобытчик бризидиума
+  parent: GasMinerBase
+  id: GasMinerBrizidium
+  components:
+    - type: GasMiner
+      spawnGas: Brizidium
+
+- type: entity
+  name: газодобытчик иприта
+  parent: GasMinerBase
+  id: GasMinerIprit
+  components:
+    - type: GasMiner
+      spawnGas: Iprit

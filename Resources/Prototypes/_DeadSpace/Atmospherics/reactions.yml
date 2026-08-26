@@ -8,3 +8,13 @@
     Oxygen: 0.01
   effects:
   - !type:NitricOxideProductionReaction {}
+
+- type: gasReaction
+  id: HydrogenFire
+  priority: -1
+  minimumTemperature: 373.149
+  minimumRequirements:
+    Oxygen: 0.01
+    Hydrogen: 0.01
+  effects:
+  - !type:HydrogenFireReaction {}

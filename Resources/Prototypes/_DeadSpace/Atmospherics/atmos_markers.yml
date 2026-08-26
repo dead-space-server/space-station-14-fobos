@@ -1,0 +1,125 @@
+- type: entity
+  name: маркер исправления атмосферы — водород
+  id: AtmosFixHydrogenMarker
+  description: "Hydrogen gas miner pressure, T20C"
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - sprite: Markers/atmos.rsi
+          state: base
+          shader: unshaded
+    - type: AtmosFixMarker
+      mode: 9
+
+- type: entity
+  name: маркер исправления атмосферы — диоксид азота
+  id: AtmosFixNitrylMarker
+  description: "Nitrogen dioxide gas miner pressure, T20C"
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - sprite: Markers/atmos.rsi
+          state: base
+          shader: unshaded
+    - type: AtmosFixMarker
+      mode: 10
+
+- type: entity
+  name: маркер исправления атмосферы — фиксириум
+  id: AtmosFixFixiriumMarker
+  description: "Fixirium gas miner pressure, T20C"
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - sprite: Markers/atmos.rsi
+          state: base
+          shader: unshaded
+    - type: AtmosFixMarker
+      mode: 11
+
+- type: entity
+  name: маркер исправления атмосферы — нитратиум
+  id: AtmosFixNitriatiumMarker
+  description: "Nitriatium gas miner pressure, T20C"
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - sprite: Markers/atmos.rsi
+          state: base
+          shader: unshaded
+    - type: AtmosFixMarker
+      mode: 12
+
+- type: entity
+  name: маркер исправления атмосферы — хилиум
+  id: AtmosFixHiliumMarker
+  description: "Hilium gas miner pressure, T20C"
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - sprite: Markers/atmos.rsi
+          state: base
+          shader: unshaded
+    - type: AtmosFixMarker
+      mode: 13
+
+- type: entity
+  name: маркер исправления атмосферы — бризидум
+  id: AtmosFixBrizidiumMarker
+  description: "Brizidium gas miner pressure, T20C"
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - sprite: Markers/atmos.rsi
+          state: base
+          shader: unshaded
+    - type: AtmosFixMarker
+      mode: 14
+
+- type: entity
+  name: маркер исправления атмосферы — иприт
+  id: AtmosFixIpritMarker
+  description: "Iprit gas miner pressure, T20C"
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - sprite: Markers/atmos.rsi
+          state: base
+          shader: unshaded
+    - type: AtmosFixMarker
+      mode: 15
+
+- type: entity
+  name: маркер исправления атмосферы — монооксид азота
+  id: AtmosFixNitricOxideMarker
+  description: "Nitric oxide gas miner pressure, T20C"
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - sprite: Markers/atmos.rsi
+          state: base
+          shader: unshaded
+    - type: AtmosFixMarker
+      mode: 16
+
+- type: entity
+  name: маркер исправления атмосферы — некрогаз
+  id: AtmosFixInfectionDeadSpaceMarker
+  description: "Necrogas gas miner pressure, T20C"
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - sprite: Markers/atmos.rsi
+          state: base
+          shader: unshaded
+    - type: AtmosFixMarker
+      mode: 17
