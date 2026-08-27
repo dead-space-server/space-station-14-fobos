@@ -644,8 +644,8 @@
   - type: Sprite
     sprite: _DeadSpace/Sponsor/rudi/tools_holofanprojector.rsi
     state: icon
-  - type: HolosignProjector
-    chargeUse: 120
+  - type: LimitedHolosignProjector
+    signProto: HoloFan
 
 # документ
 - type: entity

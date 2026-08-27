@@ -326,9 +326,8 @@
   - type: Sprite
     sprite: _DeadSpace/Sponsor/EllisTinker/tools_holofanprojector.rsi
     state: icon
-  - type: HolosignProjector
+  - type: LimitedHolosignProjector
     signProto: HoloFanEllisTinker
-    chargeUse: 120
 
 - type: entity
   id: HoloFanEllisTinker

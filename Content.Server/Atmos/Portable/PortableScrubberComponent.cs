@@ -38,6 +38,7 @@ namespace Content.Server.Atmos.Portable
             Gas.Hilium,
             Gas.Brizidium,
             Gas.Iprit,
+            Gas.Hydrogen,
             // DS14-end
         };
 

@@ -655,9 +655,8 @@
   - type: Sprite
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_holofanprojector.rsi
     state: icon
-  - type: HolosignProjector
+  - type: LimitedHolosignProjector
     signProto: HoloFanPvrsifvlAlt2
-    chargeUse: 120
 
 # tools_holo.rsi
 - type: entity

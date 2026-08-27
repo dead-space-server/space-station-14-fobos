@@ -642,14 +642,8 @@
   - type: Sprite
     sprite: _DeadSpace/Sponsor/DragonFox/MadParadox/tools_holofanprojector.rsi
     state: icon
-  - type: HolosignProjector
+  - type: LimitedHolosignProjector
     signProto: HoloFanDragonFoxMadParadox
-    chargeUse: 120
-  - type: ItemSlots
-    slots:
-      cell_slot:
-        name: power-cell-slot-component-slot-name-default
-        startingItem: PowerCellMedium 
 
 - type: entity
   id: HoloFanDragonFoxMadParadox

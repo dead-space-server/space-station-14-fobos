@@ -623,9 +623,8 @@
   - type: Sprite
     sprite: _DeadSpace/Sponsor/MysticalRayAlt/tools_holofanprojector.rsi
     state: icon
-  - type: HolosignProjector
+  - type: LimitedHolosignProjector
     signProto: HoloFan
-    chargeUse: 120
 
 # tools_rcd.rci
 - type: entity

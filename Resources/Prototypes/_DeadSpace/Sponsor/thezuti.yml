@@ -592,9 +592,8 @@
   - type: Sprite
     sprite: _DeadSpace/Sponsor/TheZuTi/tools_holofanprojector.rsi
     state: icon
-  - type: HolosignProjector
+  - type: LimitedHolosignProjector
     signProto: HoloFanTheZuTi
-    chargeUse: 120
 
 - type: entity
   id: HoloFanTheZuTi

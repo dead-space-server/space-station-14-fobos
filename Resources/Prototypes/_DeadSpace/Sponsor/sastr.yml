@@ -803,9 +803,8 @@
   - type: Sprite
     sprite: _DeadSpace/Sponsor/sastr/tools_holofanprojector.rsi
     state: icon
-  - type: HolosignProjector
+  - type: LimitedHolosignProjector
     signProto: HoloFansastr
-    chargeUse: 120
 
 # tools_holo.rsi
 - type: entity
