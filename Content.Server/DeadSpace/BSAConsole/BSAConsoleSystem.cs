@@ -9,6 +9,7 @@ using Content.Shared.DeadSpace.BSAConsole;
 using Content.Shared.DeviceNetwork.Components;
 using Content.Shared.DeviceNetwork.Systems;
 using Content.Shared.Interaction;
+using Content.Shared.Pinpointer;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.UserInterface;
 using Robust.Server.GameObjects;
@@ -377,6 +378,7 @@ public sealed class BSAConsoleSystem : EntitySystem
             BuildUnifiedGridList(uid, comp),
             comp.SelectedGridName,
             comp.SelectedGridUid is { } selectedGrid ? GetNetEntity(selectedGrid) : null,
+            comp.SelectedGridUid is { } navMapGrid && HasComp<NavMapComponent>(navMapGrid),
             hasPendingShot,
             pendingShotTimeLeft,
             pendingShotDelay,

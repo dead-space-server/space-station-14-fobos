@@ -12,7 +12,7 @@
   login: CyberBobeks
   spritePath: _DeadSpace/Ghosts/hydrated.rsi
   color: "#980002"
-  alpha: 0.7
+  alpha: 1.0
   name: CyberBobeks
   description: |-
     Пытаюсь сделать больно, чтобы чувствовать хоть что-то...

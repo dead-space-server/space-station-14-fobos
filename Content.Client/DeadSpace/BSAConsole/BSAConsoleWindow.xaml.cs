@@ -16,6 +16,8 @@ namespace Content.Client.DeadSpace.BSAConsole;
 [GenerateTypedNameReferences]
 public sealed partial class BSAConsoleWindow : DefaultWindow
 {
+    [Dependency] private readonly IEntityManager _entityManager = default!;
+
     public event Action<MapCoordinates>? OnFirePressed;
     public event Action<BSAConsoleViewMode>? OnSwitchViewPressed;
     public event Action<NetEntity>? OnSelectGridPressed;
@@ -32,6 +34,7 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
     private Vector2 _trackedGridOffset;
     private bool _updatingCoordinateFields;
     private bool _coordinateError;
+    private bool _showingGridMap;
 
     private static readonly Color BgPanel = Color.FromHex("#1A1A24");
     private static readonly Color Border = Color.FromHex("#2a2a35");
@@ -48,6 +51,7 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
     public BSAConsoleWindow()
     {
         RobustXamlLoader.Load(this);
+        IoCManager.InjectDependencies(this);
 
         ViewModeButton.OnPressed += _ => ToggleDropdown();
         FireButton.OnPressed += _ => FireAtEnteredCoordinates();
@@ -55,6 +59,7 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         CoordinateX.OnTextChanged += _ => OnCoordinateTextChanged();
         CoordinateY.OnTextChanged += _ => OnCoordinateTextChanged();
         RadarScreen.OnMapClick += OnMapClicked;
+        GridMapScreen.OnMapClick += OnMapClicked;
 
         BuildDropdownPopup();
     }
@@ -69,7 +74,11 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
         _lastState = state;
 
         if (resetTarget)
+        {
             ClearTarget();
+            RadarScreen.Offset = Vector2.Zero;
+            RadarScreen.TargetOffset = Vector2.Zero;
+        }
 
         UpdateConnection(state);
         UpdateCooldown(state);
@@ -165,6 +174,26 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
     private void UpdateRadar(BSAConsoleUiState state)
     {
         RadarScreen.UpdateState(state.RadarState);
+
+        EntityUid? gridUid = null;
+        var showGridMap = state.CurrentViewMode == BSAConsoleViewMode.Grid &&
+            state.SelectedGridHasNavMap &&
+            state.SelectedGridUid is { } gridNetUid &&
+            _entityManager.TryGetEntity(gridNetUid, out gridUid);
+
+        RadarScreen.Visible = !showGridMap;
+        GridMapScreen.Visible = showGridMap;
+
+        if (showGridMap && gridUid is { } selectedGrid &&
+            (!_showingGridMap || GridMapScreen.MapUid != selectedGrid))
+        {
+            GridMapScreen.MapUid = selectedGrid;
+            GridMapScreen.Offset = Vector2.Zero;
+            GridMapScreen.TargetOffset = Vector2.Zero;
+            GridMapScreen.ForceNavMapUpdate();
+        }
+
+        _showingGridMap = showGridMap;
     }
 
     private void UpdateDisk(BSAConsoleUiState state)
@@ -200,7 +229,9 @@ public sealed partial class BSAConsoleWindow : DefaultWindow
 
     private void UpdateCrosshair()
     {
-        Crosshair.SetWorldPosition(_crosshairCoordinates, RadarScreen.WorldToScreen);
+        Crosshair.SetWorldPosition(
+            _crosshairCoordinates,
+            _showingGridMap ? GridMapScreen.WorldToScreen : RadarScreen.WorldToScreen);
     }
 
     private void OnMapClicked(MapCoordinates mapPosition)

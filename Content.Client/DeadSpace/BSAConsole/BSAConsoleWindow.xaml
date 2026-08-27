@@ -62,6 +62,10 @@
                 <bsa:BSANavMapControl Name="RadarScreen"
                                       VerticalExpand="True"
                                       HorizontalExpand="True" />
+                <bsa:BSAGridNavMapControl Name="GridMapScreen"
+                                          VerticalExpand="True"
+                                          HorizontalExpand="True"
+                                          Visible="False" />
                 <bsa:CrosshairOverlay Name="Crosshair"
                                       VerticalExpand="True"
                                       HorizontalExpand="True" />

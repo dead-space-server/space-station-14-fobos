@@ -18,6 +18,7 @@ public sealed class BSAConsoleUiState(
     List<BSAGridEntry> allGrids,
     string? selectedGridName,
     NetEntity? selectedGridUid,
+    bool selectedGridHasNavMap,
     bool hasPendingShot,
     float pendingShotTimeLeft,
     float pendingShotDelay,
@@ -36,6 +37,7 @@ public sealed class BSAConsoleUiState(
     public List<BSAGridEntry> AllGrids = allGrids;
     public string? SelectedGridName = selectedGridName;
     public NetEntity? SelectedGridUid = selectedGridUid;
+    public bool SelectedGridHasNavMap = selectedGridHasNavMap;
 
     public bool HasPendingShot = hasPendingShot;
     public float PendingShotTimeLeft = pendingShotTimeLeft;
