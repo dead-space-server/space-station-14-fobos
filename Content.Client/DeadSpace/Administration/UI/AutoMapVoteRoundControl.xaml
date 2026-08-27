@@ -29,7 +29,10 @@
             <Label Name="HintLabel" StyleClasses="LabelSubText" />
 
             <BoxContainer Orientation="Horizontal" SeparationOverride="8">
-                <Button Name="StartVoteButton" HorizontalExpand="True" />
+                <Button
+                    Name="StartVoteButton"
+                    StyleClasses="DeadSpaceControlPositive"
+                    HorizontalExpand="True" />
                 <Button Name="ToggleButton" HorizontalExpand="True" />
             </BoxContainer>
 
