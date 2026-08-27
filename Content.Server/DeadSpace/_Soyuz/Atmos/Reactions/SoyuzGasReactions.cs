@@ -12,9 +12,8 @@ namespace Content.Server.DeadSpace._Soyuz.Atmos.Reactions;
 [UsedImplicitly]
 public sealed partial class FixiriumProductionReaction : IGasReactionEffect
 {
-    private const float RatioTolerance = 0.06f;
     private const float ConversionDivisor = 12f;
-    private const float EnergyPerMole = 60_000f;
+    private const float EnergyReleasedPerUnit = 80_000f;
 
     public ReactionResult React(GasMixture mixture, IGasMixtureHolder? holder, AtmosphereSystem atmosphereSystem, float heatScale)
     {
@@ -22,28 +21,19 @@ public sealed partial class FixiriumProductionReaction : IGasReactionEffect
         var carbonDioxide = mixture.GetMoles(Gas.CarbonDioxide);
         var oxygen = mixture.GetMoles(Gas.Oxygen);
 
-        if (!SoyuzGasReactionHelpers.HasApproximateRatios(
-                RatioTolerance,
-                (tritium, 1f),
-                (carbonDioxide, 1f),
-                (oxygen, 1f)))
-        {
-            return ReactionResult.NoReaction;
-        }
-
-        var reacted = MathF.Min(tritium, MathF.Min(carbonDioxide, oxygen)) / ConversionDivisor;
-        if (reacted <= 0f)
+        var units = MathF.Min(oxygen / 100f, MathF.Min(carbonDioxide / 50f, tritium)) / ConversionDivisor;
+        if (units <= 0f)
             return ReactionResult.NoReaction;
 
         var oldTemperature = mixture.Temperature;
         var oldHeatCapacity = atmosphereSystem.GetHeatCapacity(mixture, true);
 
-        mixture.AdjustMoles(Gas.Tritium, -reacted);
-        mixture.AdjustMoles(Gas.CarbonDioxide, -reacted);
-        mixture.AdjustMoles(Gas.Oxygen, -reacted);
-        mixture.AdjustMoles(Gas.Fixirium, reacted);
-        mixture.AdjustMoles(Gas.Nitrogen, reacted);
-        mixture.AdjustMoles(Gas.Hydrogen, reacted * 0.1f);
+        mixture.AdjustMoles(Gas.Oxygen, -(units * 100f));
+        mixture.AdjustMoles(Gas.CarbonDioxide, -(units * 50f));
+        mixture.AdjustMoles(Gas.Tritium, -units);
+        mixture.AdjustMoles(Gas.Fixirium, units * 100f);
+        mixture.AdjustMoles(Gas.Nitrogen, units * 50f);
+        mixture.AdjustMoles(Gas.Hydrogen, units * 0.1f);
 
         SoyuzGasReactionHelpers.ApplyEnergy(
             mixture,
@@ -51,7 +41,7 @@ public sealed partial class FixiriumProductionReaction : IGasReactionEffect
             heatScale,
             oldHeatCapacity,
             oldTemperature,
-            reacted * EnergyPerMole);
+            units * EnergyReleasedPerUnit);
 
         return ReactionResult.Reacting;
     }
@@ -60,38 +50,34 @@ public sealed partial class FixiriumProductionReaction : IGasReactionEffect
 [UsedImplicitly]
 public sealed partial class BrizidiumProductionReaction : IGasReactionEffect
 {
-    private const float RatioTolerance = 0.05f;
     private const float ConversionDivisor = 10f;
-    private const float EnergyPerMole = 35_000f;
+    private const float EnergyReleasedPerUnit = 70_000f;
+    private const float OptimalPressure = 10f;
     private const float MaxPressure = 40f;
+    private const float MaxPressureFactor = 5f;
 
     public ReactionResult React(GasMixture mixture, IGasMixtureHolder? holder, AtmosphereSystem atmosphereSystem, float heatScale)
     {
-        if (mixture.Pressure > MaxPressure)
+        var pressure = mixture.Pressure;
+        if (pressure > MaxPressure)
             return ReactionResult.NoReaction;
 
         var plasma = mixture.GetMoles(Gas.Plasma);
         var nitryl = mixture.GetMoles(Gas.Nitryl);
 
-        if (!SoyuzGasReactionHelpers.HasApproximateRatios(
-                RatioTolerance,
-                (plasma, 55f),
-                (nitryl, 45f)))
-        {
+        var units = MathF.Min(plasma / 2f, nitryl) / ConversionDivisor;
+        if (units <= 0f)
             return ReactionResult.NoReaction;
-        }
 
-        var totalReactants = MathF.Min(plasma / 0.55f, nitryl / 0.45f);
-        var reacted = totalReactants / ConversionDivisor;
-        if (reacted <= 0f)
-            return ReactionResult.NoReaction;
+        var pressureFactor = MathF.Min(OptimalPressure / MathF.Max(pressure, 1f), MaxPressureFactor);
+        units *= pressureFactor;
 
         var oldTemperature = mixture.Temperature;
         var oldHeatCapacity = atmosphereSystem.GetHeatCapacity(mixture, true);
 
-        mixture.AdjustMoles(Gas.Plasma, -(reacted * 0.55f));
-        mixture.AdjustMoles(Gas.Nitryl, -(reacted * 0.45f));
-        mixture.AdjustMoles(Gas.Brizidium, reacted);
+        mixture.AdjustMoles(Gas.Plasma, -(units * 2f));
+        mixture.AdjustMoles(Gas.Nitryl, -units);
+        mixture.AdjustMoles(Gas.Brizidium, units * 2f);
 
         SoyuzGasReactionHelpers.ApplyEnergy(
             mixture,
@@ -99,7 +85,7 @@ public sealed partial class BrizidiumProductionReaction : IGasReactionEffect
             heatScale,
             oldHeatCapacity,
             oldTemperature,
-            reacted * EnergyPerMole);
+            units * EnergyReleasedPerUnit);
 
         return ReactionResult.Reacting;
     }
@@ -108,9 +94,11 @@ public sealed partial class BrizidiumProductionReaction : IGasReactionEffect
 [UsedImplicitly]
 public sealed partial class NitriatiumProductionReaction : IGasReactionEffect
 {
-    private const float RatioTolerance = 0.06f;
     private const float ConversionDivisor = 6f;
-    private const float EnergyPerMole = -50_000f;
+    private const float EnergyReleasedPerUnit = -60_000f;
+    private const float EfficiencyReferenceTemperature = 1500f;
+    private const float MaxEfficiency = 3f;
+    private const float BaseYield = 20f;
 
     public ReactionResult React(GasMixture mixture, IGasMixtureHolder? holder, AtmosphereSystem atmosphereSystem, float heatScale)
     {
@@ -118,26 +106,19 @@ public sealed partial class NitriatiumProductionReaction : IGasReactionEffect
         var nitrogen = mixture.GetMoles(Gas.Nitrogen);
         var brizidium = mixture.GetMoles(Gas.Brizidium);
 
-        if (!SoyuzGasReactionHelpers.HasApproximateRatios(
-                RatioTolerance,
-                (tritium, 4f),
-                (nitrogen, 2f),
-                (brizidium, 1f)))
-        {
-            return ReactionResult.NoReaction;
-        }
-
-        var units = MathF.Min(tritium / 4f, MathF.Min(nitrogen / 2f, brizidium)) / ConversionDivisor;
+        var units = MathF.Min(tritium / 20f, MathF.Min(nitrogen / 20f, brizidium)) / ConversionDivisor;
         if (units <= 0f)
             return ReactionResult.NoReaction;
+
+        var efficiency = Math.Clamp(mixture.Temperature / EfficiencyReferenceTemperature, 1f, MaxEfficiency);
 
         var oldTemperature = mixture.Temperature;
         var oldHeatCapacity = atmosphereSystem.GetHeatCapacity(mixture, true);
 
-        mixture.AdjustMoles(Gas.Tritium, -(units * 4f));
-        mixture.AdjustMoles(Gas.Nitrogen, -(units * 2f));
+        mixture.AdjustMoles(Gas.Tritium, -(units * 20f));
+        mixture.AdjustMoles(Gas.Nitrogen, -(units * 20f));
         mixture.AdjustMoles(Gas.Brizidium, -units);
-        mixture.AdjustMoles(Gas.Nitriatium, units * 7f);
+        mixture.AdjustMoles(Gas.Nitriatium, units * BaseYield * efficiency);
 
         SoyuzGasReactionHelpers.ApplyEnergy(
             mixture,
@@ -145,7 +126,40 @@ public sealed partial class NitriatiumProductionReaction : IGasReactionEffect
             heatScale,
             oldHeatCapacity,
             oldTemperature,
-            units * 7f * EnergyPerMole);
+            units * EnergyReleasedPerUnit);
+
+        return ReactionResult.Reacting;
+    }
+}
+
+[UsedImplicitly]
+public sealed partial class NitriatiumDecompositionReaction : IGasReactionEffect
+{
+    private const float ConversionDivisor = 10f;
+    private const float EnergyReleasedPerUnit = 40_000f;
+
+    public ReactionResult React(GasMixture mixture, IGasMixtureHolder? holder, AtmosphereSystem atmosphereSystem, float heatScale)
+    {
+        var nitriatium = mixture.GetMoles(Gas.Nitriatium);
+
+        var units = nitriatium / ConversionDivisor;
+        if (units <= 0f)
+            return ReactionResult.NoReaction;
+
+        var oldTemperature = mixture.Temperature;
+        var oldHeatCapacity = atmosphereSystem.GetHeatCapacity(mixture, true);
+
+        mixture.AdjustMoles(Gas.Nitriatium, -units);
+        mixture.AdjustMoles(Gas.Nitrogen, units);
+        mixture.AdjustMoles(Gas.Hydrogen, units * 0.1f);
+
+        SoyuzGasReactionHelpers.ApplyEnergy(
+            mixture,
+            atmosphereSystem,
+            heatScale,
+            oldHeatCapacity,
+            oldTemperature,
+            units * EnergyReleasedPerUnit);
 
         return ReactionResult.Reacting;
     }
@@ -154,33 +168,24 @@ public sealed partial class NitriatiumProductionReaction : IGasReactionEffect
 [UsedImplicitly]
 public sealed partial class HiliumProductionReaction : IGasReactionEffect
 {
-    private const float RatioTolerance = 0.05f;
-    private const float ConversionDivisor = 10f;
-    private const float EnergyPerMole = 45_000f;
+    private const float ConversionDivisor = 5f;
+    private const float EnergyReleasedPerUnit = 60_000f;
 
     public ReactionResult React(GasMixture mixture, IGasMixtureHolder? holder, AtmosphereSystem atmosphereSystem, float heatScale)
     {
         var frezon = mixture.GetMoles(Gas.Frezon);
         var brizidium = mixture.GetMoles(Gas.Brizidium);
 
-        if (!SoyuzGasReactionHelpers.HasApproximateRatios(
-                RatioTolerance,
-                (frezon, 1f),
-                (brizidium, 1f)))
-        {
-            return ReactionResult.NoReaction;
-        }
-
-        var reacted = MathF.Min(frezon, brizidium) / ConversionDivisor;
-        if (reacted <= 0f)
+        var units = MathF.Min(frezon / 11f, brizidium) / ConversionDivisor;
+        if (units <= 0f)
             return ReactionResult.NoReaction;
 
         var oldTemperature = mixture.Temperature;
         var oldHeatCapacity = atmosphereSystem.GetHeatCapacity(mixture, true);
 
-        mixture.AdjustMoles(Gas.Frezon, -reacted);
-        mixture.AdjustMoles(Gas.Brizidium, -reacted);
-        mixture.AdjustMoles(Gas.Hilium, reacted * 2f);
+        mixture.AdjustMoles(Gas.Frezon, -(units * 11f));
+        mixture.AdjustMoles(Gas.Brizidium, -units);
+        mixture.AdjustMoles(Gas.Hilium, units * 11f);
 
         SoyuzGasReactionHelpers.ApplyEnergy(
             mixture,
@@ -188,7 +193,7 @@ public sealed partial class HiliumProductionReaction : IGasReactionEffect
             heatScale,
             oldHeatCapacity,
             oldTemperature,
-            reacted * 2f * EnergyPerMole);
+            units * EnergyReleasedPerUnit);
 
         return ReactionResult.Reacting;
     }
@@ -261,7 +266,6 @@ public sealed partial class IpritProductionReaction : IGasReactionEffect
 [UsedImplicitly]
 public sealed partial class NitrogenDioxideProductionReaction : IGasReactionEffect
 {
-    private const float RatioTolerance = 0.08f;
     private const float ConversionDivisor = 8f;
     private const float EnergyPerMole = 40_000f;
 
@@ -273,21 +277,18 @@ public sealed partial class NitrogenDioxideProductionReaction : IGasReactionEffe
     {
         var nitricOxide = mixture.GetMoles(Gas.NitricOxide);
         var oxygen = mixture.GetMoles(Gas.Oxygen);
-
-        if (!SoyuzGasReactionHelpers.HasApproximateRatios(
-                RatioTolerance,
-                (nitricOxide, 2f),
-                (oxygen, 1f)))
-        {
+        var total = mixture.TotalMoles;
+        if (total <= 0f)
             return ReactionResult.NoReaction;
-        }
 
-        var baseUnits = MathF.Min(nitricOxide / 2f, oxygen) / ConversionDivisor;
-        if (baseUnits <= 0f)
-            return ReactionResult.NoReaction;
+        var fNitricOxide = nitricOxide / total;
+        var fOxygen = oxygen / total;
+        var rate = fNitricOxide * fNitricOxide * fOxygen;
 
         var tempFactor = Math.Clamp(ReferenceTemperature / mixture.Temperature, MinTempFactor, MaxTempFactor);
-        var units = baseUnits * tempFactor;
+        var units = MathF.Min(nitricOxide / 2f, oxygen) / ConversionDivisor * rate * tempFactor;
+        if (units <= 0f)
+            return ReactionResult.NoReaction;
 
         var oldTemperature = mixture.Temperature;
         var oldHeatCapacity = atmosphereSystem.GetHeatCapacity(mixture, true);
