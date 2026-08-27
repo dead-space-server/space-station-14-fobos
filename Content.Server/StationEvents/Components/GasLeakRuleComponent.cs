@@ -18,6 +18,10 @@ public sealed partial class GasLeakRuleComponent : Component
         Gas.Tritium,
         Gas.Frezon,
         Gas.WaterVapor,
+        // DS14-start
+        Gas.CarbonDioxide,
+        Gas.Hydrogen
+        // DS14-end
     };
 
     /// <summary>

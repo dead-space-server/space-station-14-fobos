@@ -1,8 +1,8 @@
 - type: gasReaction
   id: NitricOxideProduction
   priority: 3
-  minimumTemperature: 673.149
-  maximumTemperature: 1073.149
+  minimumTemperature: 473.149
+  maximumTemperature: 673.149
   minimumRequirements:
     Nitrogen: 0.01
     Oxygen: 0.01
