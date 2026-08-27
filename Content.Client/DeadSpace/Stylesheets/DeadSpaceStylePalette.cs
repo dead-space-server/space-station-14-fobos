@@ -13,15 +13,15 @@ public static class DeadSpaceStylePalette
 {
     public const float NeutralLightnessOffset = -0.01f;
 
-    public static readonly Color Surface = Neutral("#1A1E25EF");
-    public static readonly Color SurfaceDark = Neutral("#12161DF1");
-    public static readonly Color SurfaceFlat = Neutral("#171A20F7");
-    public static readonly Color SurfaceHeader = Neutral("#202631F5");
-    public static readonly Color SurfaceInset = Neutral("#10141BE8");
-    public static readonly Color SurfaceStatus = Neutral("#121821F3");
-    public static readonly Color SurfacePopup = Neutral("#10161FF8");
-    public static readonly Color SurfaceIcon = Neutral("#070B10F5");
-    public static readonly Color SurfaceTabs = Neutral("#12161DEA");
+    public static readonly Color Surface = Neutral("#1A1E25");
+    public static readonly Color SurfaceDark = Neutral("#12161D");
+    public static readonly Color SurfaceFlat = Neutral("#171A20");
+    public static readonly Color SurfaceHeader = Neutral("#202631");
+    public static readonly Color SurfaceInset = Neutral("#10141B");
+    public static readonly Color SurfaceStatus = Neutral("#121821");
+    public static readonly Color SurfacePopup = Neutral("#10161F");
+    public static readonly Color SurfaceIcon = Neutral("#070B10");
+    public static readonly Color SurfaceTabs = Neutral("#12161D");
     public static readonly Color SurfaceTabActive = Neutral("#48536D");
     public static readonly Color SurfaceTabInactive = Neutral("#1D2330");
     public static readonly Color ModalScrim = Color.FromHex("#000000AA");

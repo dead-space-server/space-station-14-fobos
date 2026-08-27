@@ -198,11 +198,15 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
             bareContainerPressed,
             bareContainerDisabled);
         AddCheckBoxRules(rules, bareContainer, bareContainerHover, bareContainerDisabled);
-        // The switch itself communicates its value; do not tint the full row when it is on.
+        // SwitchButton already communicates every state through its track and thumb.
+        // Keep its ContainerButton root free of the global full-row backing surface.
+        var switchBackground = new StyleBoxEmpty();
         rules.AddRange(
         [
-            E<SwitchButton>().PseudoPressed().Box(bareContainer).Modulate(Color.White),
-            E<SwitchButton>().PseudoDisabled().Box(bareContainerDisabled).Modulate(Color.White),
+            E<SwitchButton>().PseudoNormal().Box(switchBackground).Modulate(Color.White),
+            E<SwitchButton>().PseudoHovered().Box(switchBackground).Modulate(Color.White),
+            E<SwitchButton>().PseudoPressed().Box(switchBackground).Modulate(Color.White),
+            E<SwitchButton>().PseudoDisabled().Box(switchBackground).Modulate(Color.White),
         ]);
         AddButtonRules(rules, null, baseControl, baseControlHover, baseControlPressed, baseControlDisabled);
         AddButtonRules(rules, DeadSpaceStyleClass.Action, action, actionHover, actionPressed, actionDisabled);

@@ -10,7 +10,7 @@
             <BoxContainer Margin="0" Orientation="Horizontal">
                 <!-- Sprite View -->
                 <!-- DS14-start -->
-                <PanelContainer Margin="0" StyleClasses="DeadSpaceInset" VerticalAlignment="Center">
+                <PanelContainer Margin="10 0 0 0" StyleClasses="DeadSpaceInset" VerticalAlignment="Center">
                     <SpriteView Name="EntityView" Scale="2 2" SetSize="64 64" OverrideDirection="South" />
                 </PanelContainer>
                 <!-- DS14-end -->

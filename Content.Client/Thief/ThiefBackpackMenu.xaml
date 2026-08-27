@@ -18,7 +18,10 @@
 					MinSize="0 600"
 					SizeFlagsStretchRatio="2"
 					VerticalExpand="True">
-				<BoxContainer Name="SetsGrid" Orientation="Vertical" MinSize="460 200">
+				<!-- DS14-start -->
+				<BoxContainer Name="SetsGrid" Orientation="Vertical" MinSize="460 200"
+						Margin="8" SeparationOverride="10">
+				<!-- DS14-end -->
 					<!-- Sets is filled by code -->
 
 				</BoxContainer>
