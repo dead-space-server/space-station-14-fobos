@@ -14,6 +14,8 @@
                 <!-- DS14-start -->
                 <Label Text="{Loc 'ui-options-admin-overlay-title'}"
                        StyleClasses="DeadSpaceSectionTitle"/>
+                <CheckBox Name="EnableOverlayOnObserverCheckBox"
+                          Text="{Loc 'ui-options-admin-overlay-auto-enable-on-observer'}" />
                 <!-- DS14-end -->
                 <ui:OptionDropDown Name="DropDownOverlayAntagFormat" Title="{Loc 'ui-options-admin-overlay-antag-format'}" />
                 <ui:OptionDropDown Name="DropDownOverlayAntagSymbol" Title="{Loc 'ui-options-admin-overlay-antag-symbol'}" />

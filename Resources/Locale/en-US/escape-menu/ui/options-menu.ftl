@@ -407,6 +407,7 @@ ui-options-admin-player-tab-color-setting-roletype = Colorize all role types
 ui-options-admin-player-tab-color-setting-both = Colorize both
 
 ui-options-admin-overlay-title = Admin Overlay
+ui-options-admin-overlay-auto-enable-on-observer = Enable overlay when entering observer mode
 
 ui-options-admin-overlay-antag-format = Antag label style
 ui-options-admin-overlay-antag-format-binary = Show antag status

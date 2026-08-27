@@ -399,6 +399,7 @@ ui-options-admin-strip-overlay-setting = Показывать отметки п�
 ui-options-admin-playerlist-character-color = Цветные имена антагонистов
 ui-options-admin-playerlist-roletype-color = Цветные типы ролей
 ui-options-admin-overlay-title = Админ оверлей
+ui-options-admin-overlay-auto-enable-on-observer = При заходе в наблюдатели включать overlay
 ui-options-enable-overlay-symbols = Добавить символ антага к тексту
 ui-options-enable-overlay-playtime = Отображать наигранное время
 ui-options-enable-overlay-starting-job = Показывать начальную должность
