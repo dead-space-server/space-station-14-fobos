@@ -397,6 +397,10 @@
           ChangelingDNA: 60
       - type: UserInterface
         interfaces:
+          # DS14-start: dynamic antag components replace the inherited UI component.
+          enum.StrippingUiKey.Key:
+            type: StrippableBoundUserInterface
+          # DS14-end
           enum.StoreUiKey.Key:
             type: StoreBoundUserInterface
             requireInputValidation: false

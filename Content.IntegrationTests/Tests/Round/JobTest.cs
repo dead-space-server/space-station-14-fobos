@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Content.IntegrationTests.Pair;
+using Content.Server.Administration.Managers;
 using Content.Server.GameTicking;
 using Content.Server.Mind;
 using Content.Server.Roles;
@@ -13,6 +14,8 @@ using Content.Shared.Preferences;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Jobs;
 using Content.Shared.Station.Components;
+using Robust.Server.Console;
+using Robust.Shared.GameObjects;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 
@@ -312,4 +315,46 @@ public sealed class JobTest
         await pair.Server.WaitPost(() => ticker.RestartRound());
         await pair.CleanReturnAsync();
     }
+
+    // DS14-start
+    [Test]
+    public async Task AdminObserveSpawnsAdminObserver()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Dirty = true,
+            DummyTicker = false,
+            Connected = true,
+            InLobby = true,
+        });
+
+        var server = pair.Server;
+        server.CfgMan.SetCVar(CCVars.GameMap, _map);
+        var ticker = server.System<GameTicker>();
+        var player = server.PlayerMan.Sessions.Single();
+
+        await server.WaitPost(() => ticker.StartRound(true));
+        await pair.RunTicksSync(10);
+
+        Assert.That(ticker.RunLevel, Is.EqualTo(GameRunLevel.InRound));
+        Assert.That(ticker.PlayerGameStatuses[player.UserId], Is.Not.EqualTo(PlayerGameStatus.JoinedGame));
+        Assert.That(player.AttachedEntity, Is.Null);
+
+        var adminManager = server.ResolveDependency<IAdminManager>();
+        await server.WaitAssertion(() => adminManager.PromoteHost(player));
+        await PoolManager.WaitUntil(server, () => adminManager.ActiveAdmins.Contains(player), maxTicks: 60);
+
+        var console = server.ResolveDependency<IServerConsoleHost>();
+        await server.WaitPost(() => console.ExecuteCommand(player, "observe admin"));
+        await pair.RunTicksSync(5);
+
+        Assert.That(player.AttachedEntity, Is.Not.Null);
+        Assert.That(
+            server.EntMan.GetComponent<MetaDataComponent>(player.AttachedEntity.Value).EntityPrototype?.ID,
+            Is.EqualTo(GameTicker.AdminObserverPrototypeName));
+
+        await server.WaitPost(() => ticker.RestartRound());
+        await pair.CleanReturnAsync();
+    }
+    // DS14-end
 }

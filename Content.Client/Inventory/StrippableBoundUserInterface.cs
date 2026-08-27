@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Numerics;
-using Content.Client.Administration.Managers;
 using Content.Client.Examine;
 using Content.Client.Hands.Systems;
 using Content.Client.Strip;
@@ -13,6 +12,7 @@ using Content.Shared.Clothing.Components;
 using Content.Shared.Contraband;
 using Content.Shared.Cuffs;
 using Content.Shared.Cuffs.Components;
+using Content.Shared.DeadSpace.Administration;
 using Content.Shared.Ensnaring.Components;
 using Content.Shared.Hands.Components;
 using Content.Shared.IdentityManagement;
@@ -41,7 +41,6 @@ namespace Content.Client.Inventory
         [Dependency] private readonly IPlayerManager _player = default!;
         [Dependency] private readonly IUserInterfaceManager _ui = default!;
         // DS14-start - the current engine still uses the pre-source-generator IoC pattern.
-        [Dependency] private readonly IClientAdminManager _admin = default!;
         [Dependency] private readonly IPrototypeManager _proto = default!;
         [Dependency] private readonly IConfigurationManager _cvar = default!;
         // DS14-end
@@ -56,6 +55,11 @@ namespace Content.Client.Inventory
         // Is the BUI in admin view? If in admin view, has custom UI elements to help admins see things
         // (E.g contraband status icon, is the item chameleon etc...)
         private bool _isAdminView;
+
+        // DS14-start
+        private bool IsAdminGhost =>
+            _player.LocalEntity is { } player && EntMan.HasComponent<AdminGhostVisibilityComponent>(player);
+        // DS14-end
 
         #region Admin overlay vars
 
@@ -201,7 +205,7 @@ namespace Content.Client.Inventory
                 _strippingMenu.SnareContainer.AddChild(button);
             }
 
-            if (_admin.IsAdmin())
+            if (IsAdminGhost) // DS14
             {
                 var adminButton = new Button()
                 {
@@ -342,7 +346,7 @@ namespace Content.Client.Inventory
 
             button.SetEntity(viewEnt);
 
-            if (_admin.IsAdmin() && _isAdminView)
+            if (IsAdminGhost && _isAdminView) // DS14
             {
                 // overlay for chameleon clothing
                 if (EntMan.HasComponent<ChameleonClothingComponent>(entity))
