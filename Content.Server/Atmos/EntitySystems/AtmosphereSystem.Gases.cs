@@ -163,7 +163,9 @@ namespace Content.Server.Atmos.EntitySystems
             }
 
             NumericsHelpers.Add(receiver.Moles, giver.Moles);
-            receiver.EnsureIpritDecayDeadline(giver.IpritDecayDeadline); // Kofeecheks Iprit decay: LicenseRef-Kofeecheks
+            // Kofeecheks Iprit decay: LicenseRef-Kofeecheks
+            var giverIprit = giver.GetMoles(Gas.Iprit);
+            receiver.BlendIpritDecayDeadline(receiver.GetMoles(Gas.Iprit) - giverIprit, giver.IpritDecayDeadline, giverIprit);
         }
 
         /// <summary>
@@ -209,7 +211,9 @@ namespace Content.Server.Atmos.EntitySystems
                 // transfer moles
                 NumericsHelpers.Multiply(source.Moles, fraction, buffer);
                 NumericsHelpers.Add(receiver.Moles, buffer);
-                receiver.EnsureIpritDecayDeadline(source.IpritDecayDeadline); // Kofeecheks Iprit decay: LicenseRef-Kofeecheks
+                // Kofeecheks Iprit decay: LicenseRef-Kofeecheks
+                var addedIprit = buffer[(int) Gas.Iprit];
+                receiver.BlendIpritDecayDeadline(receiver.GetMoles(Gas.Iprit) - addedIprit, source.IpritDecayDeadline, addedIprit);
             }
         }
 

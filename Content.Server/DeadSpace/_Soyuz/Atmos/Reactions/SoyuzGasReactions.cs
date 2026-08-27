@@ -241,8 +241,10 @@ public sealed partial class IpritProductionReaction : IGasReactionEffect
 
         mixture.AdjustMoles(Gas.Tritium, -reacted);
         mixture.AdjustMoles(Gas.Fixirium, -reacted);
-        mixture.AdjustMoles(Gas.Iprit, reacted * 2f);
-        mixture.EnsureIpritDecayDeadline(atmosphereSystem.CurrentSimulationTime + IpritDecayReaction.Lifetime);
+        // Kofeecheks Iprit decay: LicenseRef-Kofeecheks
+        var produced = reacted * 2f;
+        mixture.AdjustMoles(Gas.Iprit, produced);
+        mixture.BlendIpritDecayDeadline(mixture.GetMoles(Gas.Iprit) - produced, atmosphereSystem.CurrentSimulationTime + IpritDecayReaction.Lifetime, produced);
 
         SoyuzGasReactionHelpers.ApplyEnergy(
             mixture,

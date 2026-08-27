@@ -187,6 +187,26 @@ namespace Content.Shared.Atmos
             if (!Immutable && GetMoles(Gas.Iprit) < Atmospherics.GasMinMoles)
                 IpritDecayDeadline = TimeSpan.Zero;
         }
+        // Kofeecheks Iprit decay: LicenseRef-Kofeecheks
+        public void BlendIpritDecayDeadline(float existingIpritMoles, TimeSpan incomingDeadline, float incomingIpritMoles)
+        {
+            if (Immutable)
+                return;
+
+            if (incomingIpritMoles < Atmospherics.GasMinMoles || incomingDeadline <= TimeSpan.Zero)
+                return;
+
+            if (existingIpritMoles < Atmospherics.GasMinMoles || IpritDecayDeadline == TimeSpan.Zero)
+            {
+                IpritDecayDeadline = incomingDeadline;
+                return;
+            }
+
+            var total = (double) existingIpritMoles + incomingIpritMoles;
+            var ticks = (existingIpritMoles * (double) IpritDecayDeadline.Ticks
+                         + incomingIpritMoles * (double) incomingDeadline.Ticks) / total;
+            IpritDecayDeadline = new TimeSpan((long) ticks);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public GasMixture Remove(float amount)
