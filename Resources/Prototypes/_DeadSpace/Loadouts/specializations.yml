@@ -869,7 +869,7 @@
     requirement:
       !type:RoleTimeRequirement
       role: JobAtmosphericTechnician
-      time: 148000 # 50 часов
+      time: 180000 # 50 часов
 
 - type: loadoutGroup
   id: AtmosphericSpecialization
