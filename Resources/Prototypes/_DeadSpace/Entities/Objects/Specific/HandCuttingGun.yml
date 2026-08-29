@@ -50,10 +50,10 @@
     - type: Sprite
       sprite: _DeadSpace/Objects/Specific/Engineering/TaipanHandCuttingMachine.rsi
       state: icon
-    - type: Item
-      sprite: _DeadSpace/Objects/Specific/Engineering/TaipanHandCuttingMachine.rsi
     - type: ActivatableUI
       key: enum.LatheUiKey.Key
+    - type: Item
+      sprite: _DeadSpace/Objects/Specific/Engineering/TaipanHandCuttingMachine.rsi
     - type: UserInterface
       interfaces:
         enum.LatheUiKey.Key:
