@@ -87,6 +87,13 @@
   color: "#ff66cc"
   boilingPoint: -240.0
   meltingPoint: -245.0
+  metabolisms:
+    Poison:
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Cellular: 10
 
 - type: reagent
   id: Zauker

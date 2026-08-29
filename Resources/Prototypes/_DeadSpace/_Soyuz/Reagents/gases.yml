@@ -154,13 +154,13 @@
       - !type:EvenHealthChange
         minScale: 0.2
         damage:
-          Brute: -0.25
-          Burn: -0.2
+          Brute: -0.5
+          Burn: -0.4
       - !type:HealthChange
         minScale: 0.2
         damage:
           types:
-            Poison: -0.12
+            Poison: -0.24
       - !type:ModifyStatusEffect
         minScale: 0.6
         effectProto: StatusEffectDrowsiness
@@ -176,13 +176,13 @@
       - !type:EvenHealthChange
         minScale: 0.2
         damage:
-          Brute: -0.25
-          Burn: -0.2
+          Brute: -0.5
+          Burn: -0.4
       - !type:HealthChange
         minScale: 0.2
         damage:
           types:
-            Poison: -0.12
+            Poison: -0.24
       - !type:ModifyStatusEffect
         minScale: 0.6
         effectProto: StatusEffectDrowsiness
