@@ -241,8 +241,8 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         {
             SetSize = new Vector2(576, 450),
             MinSize = new Vector2(576, 450),
-            BorderColor = "#25394a",
-            AccentHColor = "#1d8bad",
+            BorderColor = DeadSpaceStylePalette.SurfaceStatus.ToHex(),
+            AccentHColor = DeadSpaceStylePalette.AccentDim.ToHex(),
         };
         var root = Vertical(6);
         var navigation = Horizontal(0);

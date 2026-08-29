@@ -71,11 +71,11 @@ public sealed partial class PdaNavigationButton : ContainerButton
 
     private static Color DefaultInactiveBgColor => DeadSpaceStylePalette.ClassicChrome
         ? Color.FromHex("#202023")
-        : DeadSpaceStylePalette.Control;
+        : DeadSpaceStylePalette.SurfaceTabInactive;
 
     private static Color DefaultActiveBgColor => DeadSpaceStylePalette.ClassicChrome
         ? Color.FromHex("#25252A")
-        : DeadSpaceStylePalette.ListItemPressed;
+        : DeadSpaceStylePalette.SurfaceTabActive;
 
     private static Color DefaultInactiveFgColor => DeadSpaceStylePalette.ClassicChrome
         ? Color.FromHex("#5A5A5A")
@@ -175,7 +175,7 @@ public sealed partial class PdaNavigationButton : ContainerButton
         _styleBox.BackgroundColor = _isCurrent ? ActiveBgColor : InactiveBgColor;
         _styleBox.BorderColor = DeadSpaceStylePalette.ClassicChrome
             ? Color.FromHex("#5A5A5A")
-            : DeadSpaceStylePalette.CyanDim;
+            : DeadSpaceStylePalette.BorderTabActive;
         _styleBox.BorderThickness = _isCurrent ? CurrentTabBorderThickness : BorderThickness;
 
         if (Icon == null || Label == null)
