@@ -149,27 +149,37 @@ public sealed class StationJobsTest
                 barStationProto.Stations["Second"], null, "Second", barStationProto);
         });
 
-        var dummies = await server.AddDummySessions(5);
+        // DS14-start: AssignJobs only needs stable NetUserId keys. Creating live dummy sessions here caused their
+        // disconnect callbacks to race pooled-pair cleanup and intermittently leave the pair in CleanDisposed.
+        var players = new[]
+        {
+            new NetUserId(Guid.Parse("10000000-0000-0000-0000-000000000001")),
+            new NetUserId(Guid.Parse("10000000-0000-0000-0000-000000000002")),
+            new NetUserId(Guid.Parse("10000000-0000-0000-0000-000000000003")),
+            new NetUserId(Guid.Parse("10000000-0000-0000-0000-000000000004")),
+            new NetUserId(Guid.Parse("10000000-0000-0000-0000-000000000005")),
+        };
+        // DS14-end
         await server.WaitAssertion(() =>
         {
             var fakePlayers = new Dictionary<NetUserId, HumanoidCharacterProfile>
             {
                 // The first station's captain minimum wins despite a lower player preference and the second station's
                 // mime having the highest weight. This verifies both role weighting and station-by-station allocation.
-                [dummies[0].UserId] = HumanoidCharacterProfile.Random()
+                [players[0]] = HumanoidCharacterProfile.Random()
                     .WithJobPriority("TCaptain", JobPriority.Low)
                     .WithJobPriority("TChaplain", JobPriority.High)
                     .WithJobPriority("TMime", JobPriority.Medium),
-                [dummies[1].UserId] = HumanoidCharacterProfile.Random()
+                [players[1]] = HumanoidCharacterProfile.Random()
                     .WithJobPriority("TChaplain", JobPriority.High),
                 // The second station's minimum must be assigned before the first station's optional assistant slot.
-                [dummies[2].UserId] = HumanoidCharacterProfile.Random()
+                [players[2]] = HumanoidCharacterProfile.Random()
                     .WithJobPriority("TAssistant", JobPriority.High)
                     .WithJobPriority("TClown", JobPriority.Low),
-                [dummies[3].UserId] = HumanoidCharacterProfile.Random()
+                [players[3]] = HumanoidCharacterProfile.Random()
                     .WithJobPriority("TAssistant", JobPriority.High)
                     .WithJobPriority("TMime", JobPriority.Low),
-                [dummies[4].UserId] = HumanoidCharacterProfile.Random()
+                [players[4]] = HumanoidCharacterProfile.Random()
                     .WithJobPriorities(Array.Empty<KeyValuePair<ProtoId<JobPrototype>, JobPriority>>()),
             };
 
@@ -179,11 +189,11 @@ public sealed class StationJobsTest
 
             Assert.Multiple(() =>
             {
-                Assert.That(assigned[dummies[0].UserId], Is.EqualTo(((ProtoId<JobPrototype>?) "TCaptain", firstStation)));
-                Assert.That(assigned[dummies[1].UserId], Is.EqualTo(((ProtoId<JobPrototype>?) "TChaplain", firstStation)));
-                Assert.That(assigned[dummies[2].UserId], Is.EqualTo(((ProtoId<JobPrototype>?) "TAssistant", firstStation)));
-                Assert.That(assigned[dummies[3].UserId], Is.EqualTo(((ProtoId<JobPrototype>?) "TMime", secondStation)));
-                Assert.That(assigned[dummies[4].UserId], Is.EqualTo(((ProtoId<JobPrototype>?) "TClown", firstStation)));
+                Assert.That(assigned[players[0]], Is.EqualTo(((ProtoId<JobPrototype>?) "TCaptain", firstStation)));
+                Assert.That(assigned[players[1]], Is.EqualTo(((ProtoId<JobPrototype>?) "TChaplain", firstStation)));
+                Assert.That(assigned[players[2]], Is.EqualTo(((ProtoId<JobPrototype>?) "TAssistant", firstStation)));
+                Assert.That(assigned[players[3]], Is.EqualTo(((ProtoId<JobPrototype>?) "TMime", secondStation)));
+                Assert.That(assigned[players[4]], Is.EqualTo(((ProtoId<JobPrototype>?) "TClown", firstStation)));
             });
         });
         await pair.CleanReturnAsync();
@@ -208,25 +218,25 @@ public sealed class StationJobsTest
                 barStationProto.Stations["First"], null, "First", barStationProto);
         });
 
-        var dummies = await server.AddDummySessions(2);
-        var sameDepartmentDummy = dummies[0];
-        var noPreferenceDummy = dummies[1];
+        // DS14: these assignments are likewise independent from live player sessions.
+        var sameDepartmentUser = new NetUserId(Guid.Parse("10000000-0000-0000-0000-000000000006"));
+        var noPreferenceUser = new NetUserId(Guid.Parse("10000000-0000-0000-0000-000000000007"));
         var sameDepartmentProfiles = new Dictionary<NetUserId, HumanoidCharacterProfile>
         {
-            [sameDepartmentDummy.UserId] = new HumanoidCharacterProfile()
+            [sameDepartmentUser] = new HumanoidCharacterProfile()
                 .WithJobPriority("TChaplain", JobPriority.Low),
         };
 
         var noPreferenceProfiles = new Dictionary<NetUserId, HumanoidCharacterProfile>
         {
-            [noPreferenceDummy.UserId] = new HumanoidCharacterProfile()
+            [noPreferenceUser] = new HumanoidCharacterProfile()
                 .WithJobPriorities(Array.Empty<KeyValuePair<ProtoId<JobPrototype>, JobPriority>>()),
         };
 
         var anyEligibleProfiles = new Dictionary<NetUserId, HumanoidCharacterProfile>
         {
-            [sameDepartmentDummy.UserId] = sameDepartmentProfiles[sameDepartmentDummy.UserId],
-            [noPreferenceDummy.UserId] = noPreferenceProfiles[noPreferenceDummy.UserId],
+            [sameDepartmentUser] = sameDepartmentProfiles[sameDepartmentUser],
+            [noPreferenceUser] = noPreferenceProfiles[noPreferenceUser],
         };
 
         var originalValue = configuration.GetCVar(CCVars.GameMinimumJobFallback);
@@ -236,12 +246,12 @@ public sealed class StationJobsTest
             {
                 configuration.SetCVar(CCVars.GameMinimumJobFallback, MinimumJobFallback.SameDepartment);
                 var sameDepartmentAssignments = stationJobs.AssignJobs(sameDepartmentProfiles, [station]);
-                Assert.That(sameDepartmentAssignments[sameDepartmentDummy.UserId].Item1, Is.EqualTo((ProtoId<JobPrototype>?) "TCaptain"));
+                Assert.That(sameDepartmentAssignments[sameDepartmentUser].Item1, Is.EqualTo((ProtoId<JobPrototype>?) "TCaptain"));
 
                 configuration.SetCVar(CCVars.GameMinimumJobFallback, MinimumJobFallback.AnyEligiblePlayer);
                 var anyEligibleAssignments = stationJobs.AssignJobs(anyEligibleProfiles, [station]);
-                Assert.That(anyEligibleAssignments[sameDepartmentDummy.UserId].Item1, Is.EqualTo((ProtoId<JobPrototype>?) "TCaptain"));
-                Assert.That(anyEligibleAssignments[noPreferenceDummy.UserId].Item1, Is.EqualTo((ProtoId<JobPrototype>?) "TChaplain"));
+                Assert.That(anyEligibleAssignments[sameDepartmentUser].Item1, Is.EqualTo((ProtoId<JobPrototype>?) "TCaptain"));
+                Assert.That(anyEligibleAssignments[noPreferenceUser].Item1, Is.EqualTo((ProtoId<JobPrototype>?) "TChaplain"));
 
                 configuration.SetCVar(CCVars.GameMinimumJobFallback, MinimumJobFallback.None);
                 var noFallbackAssignments = stationJobs.AssignJobs(noPreferenceProfiles, [station]);
