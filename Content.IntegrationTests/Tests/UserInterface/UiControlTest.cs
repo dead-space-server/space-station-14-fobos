@@ -251,7 +251,8 @@ public sealed class UiControlTest
                 AssertDarkInteractiveSurface(pdaProgram, "PDA program row");
                 Assert.That(pdaSettings.StyleBoxOverride, Is.Null, "PDA settings row must rely on its type sheetlet");
                 Assert.That(pdaProgram.StyleBoxOverride, Is.Null, "PDA program row must rely on its type sheetlet");
-                AssertSameInteractiveSurface(uncheckedBox, checkedBox, "checked CheckBox row");
+                AssertTransparentInteractiveSurface(uncheckedBox, "unchecked CheckBox row");
+                AssertTransparentInteractiveSurface(checkedBox, "checked CheckBox row");
                 Assert.That(optionRow.DesiredSize.Y - optionRow.Button.DesiredSize.Y, Is.GreaterThanOrEqualTo(4));
                 Assert.That(sliderRow.DesiredSize.Y - sliderRow.Slider.DesiredSize.Y, Is.GreaterThanOrEqualTo(4));
                 foreach (var button in pseudoButtons)
@@ -329,27 +330,17 @@ public sealed class UiControlTest
         Assert.That(pureWhite, Is.False, $"{description} resolved to a pure-white surface");
     }
 
-    private static void AssertSameInteractiveSurface(
-        ContainerButton expected,
-        ContainerButton actual,
-        string description)
+    private static void AssertTransparentInteractiveSurface(ContainerButton button, string description)
     {
-        expected.ForceRunStyleUpdate();
-        actual.ForceRunStyleUpdate();
+        button.ForceRunStyleUpdate();
         Assert.That(
-            expected.TryGetStyleProperty<StyleBox>(ContainerButton.StylePropertyStyleBox, out var expectedBox),
+            button.TryGetStyleProperty<StyleBox>(ContainerButton.StylePropertyStyleBox, out var styleBox),
             Is.True,
-            $"{description}: unchecked control has no stylesheet surface");
+            $"{description} has no stylesheet surface");
         Assert.That(
-            actual.TryGetStyleProperty<StyleBox>(ContainerButton.StylePropertyStyleBox, out var actualBox),
-            Is.True,
-            $"{description}: checked control has no stylesheet surface");
-        Assert.That(expectedBox, Is.TypeOf<StyleBoxFlat>());
-        Assert.That(actualBox, Is.TypeOf<StyleBoxFlat>());
-        Assert.That(
-            ((StyleBoxFlat) actualBox).BackgroundColor,
-            Is.EqualTo(((StyleBoxFlat) expectedBox).BackgroundColor),
-            $"{description} must not tint the full row when its value is true");
+            styleBox,
+            Is.TypeOf<StyleBoxEmpty>(),
+            $"{description} must not draw a full-row selection background");
     }
 
     private static void AssertSameDesiredHeight(IReadOnlyList<Control> controls, string description)
