@@ -187,10 +187,10 @@
       storagebase: !type:AllSelector
         children:
         - id: ClothingHeadHatWelding
-        - id: CableApcStack5
+        - id: CableApcStack15
         - id: CrowbarRed
         - id: Flare
-        - id: DrinkWaterBottleFull
+        - id: Welder # DS14
 
 - type: entity
   parent: BoxCardboard
