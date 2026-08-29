@@ -189,6 +189,14 @@ namespace Content.Shared.Atmos
             [Gas.Tritium] = Loc.GetString("gas-tritium-abbreviation"),
             [Gas.WaterVapor] = Loc.GetString("gas-water-vapor-abbreviation"),
             [Gas.InfectionDeadSpace] = Loc.GetString("gas-unknown-abbreviation"),
+            // DS14-start
+            [Gas.HyperNoblium] = Loc.GetString("gas-hyper-noblium-abbreviation"),
+            [Gas.ProtoNitrate] = Loc.GetString("gas-proto-nitrate-abbreviation"),
+            [Gas.Helium] = Loc.GetString("gas-helium-abbreviation"),
+            [Gas.Halon] = Loc.GetString("gas-halon-abbreviation"),
+            [Gas.Zauker] = Loc.GetString("gas-zauker-abbreviation"),
+            [Gas.Antinoblium] = Loc.GetString("gas-antinoblium-abbreviation"),
+            // DS14-end
         };
 
         #region Excited Groups
@@ -218,7 +226,7 @@ namespace Content.Shared.Atmos
         /// <summary>
         ///     Total number of gases. Increase this if you want to add more!
         /// </summary>
-        public const int TotalNumberOfGases = 18; // Kofeecheks gases: LicenseRef-Kofeecheks //DS14: NitricOxide
+        public const int TotalNumberOfGases = 24; // Kofeecheks gases: LicenseRef-Kofeecheks //DS14: NitricOxide, HyperNoblium, ProtoNitrate, Helium, Halon, Zauker, Antinoblium
 
         /// <summary>
         ///     This is the actual length of the gases arrays in mixtures.
@@ -392,6 +400,14 @@ namespace Content.Shared.Atmos
         Hilium = 14,
         Brizidium = 15,
         Iprit = 16,
-        NitricOxide = 17 // DS14
+        // DS14-start
+        NitricOxide = 17,
+        HyperNoblium = 18,
+        ProtoNitrate = 19,
+        Helium = 20,
+        Halon = 21,
+        Zauker = 22,
+        Antinoblium = 23
+        // DS14-end
     }
 }

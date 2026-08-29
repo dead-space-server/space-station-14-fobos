@@ -14,6 +14,8 @@ namespace Content.Server.Chemistry.TileReactions
     {
         [DataField("coolingTemperature")] private float _coolingTemperature = 2f;
 
+        [DataField] public float MinCoolingTemperature = Atmospherics.T20C; // DS14
+
         public FixedPoint2 TileReact(TileRef tile,
             ReagentPrototype reagent,
             FixedPoint2 reactVolume,
@@ -30,9 +32,15 @@ namespace Content.Server.Chemistry.TileReactions
             if (environment == null || !atmosphereSystem.IsHotspotActive(tile.GridUid, tile.GridIndices))
                 return FixedPoint2.Zero;
 
-            environment.Temperature =
-                MathF.Max(MathF.Min(environment.Temperature - (_coolingTemperature * 1000f),
-                        environment.Temperature / _coolingTemperature), Atmospherics.TCMB);
+            // DS14-start
+            var coolingFloor = MathF.Max(MinCoolingTemperature, Atmospherics.TCMB);
+            if (environment.Temperature > coolingFloor)
+            {
+                var cooled = MathF.Min(environment.Temperature - (_coolingTemperature * 1000f),
+                    environment.Temperature / _coolingTemperature);
+                environment.Temperature = MathF.Max(cooled, coolingFloor);
+            }
+            // DS14-end
 
             atmosphereSystem.ReactTile(tile.GridUid, tile.GridIndices);
             atmosphereSystem.HotspotExtinguish(tile.GridUid, tile.GridIndices);

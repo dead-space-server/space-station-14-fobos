@@ -189,4 +189,46 @@
     threshold: 1.5
   upperWarnAround: !type:AlarmThresholdSetting
     threshold: 0.5
+
+- type: alarmThreshold
+  id: stationHyperNoblium
+  upperBound: !type:AlarmThresholdSetting
+    threshold: 0.5
+  upperWarnAround: !type:AlarmThresholdSetting
+    threshold: 0.1
+
+- type: alarmThreshold
+  id: stationProtoNitrate
+  upperBound: !type:AlarmThresholdSetting
+    threshold: 1.5
+  upperWarnAround: !type:AlarmThresholdSetting
+    threshold: 0.5
+
+- type: alarmThreshold
+  id: stationHelium
+  upperBound: !type:AlarmThresholdSetting
+    threshold: 1.5
+  upperWarnAround: !type:AlarmThresholdSetting
+    threshold: 0.5
+
+- type: alarmThreshold
+  id: stationHalon
+  upperBound: !type:AlarmThresholdSetting
+    threshold: 1.5
+  upperWarnAround: !type:AlarmThresholdSetting
+    threshold: 0.5
+
+- type: alarmThreshold
+  id: stationZauker
+  upperBound: !type:AlarmThresholdSetting
+    threshold: 0.001
+  upperWarnAround: !type:AlarmThresholdSetting
+    threshold: 0.5
+
+- type: alarmThreshold
+  id: stationAntinoblium
+  upperBound: !type:AlarmThresholdSetting
+    threshold: 1.5
+  upperWarnAround: !type:AlarmThresholdSetting
+    threshold: 0.5
 # DS14-end

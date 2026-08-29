@@ -242,6 +242,7 @@
     - type: PipeColorVisuals
     - type: Rotatable
     - type: GasThermoMachine
+      powerUsageMultiplier: 0.5 # DS14
     - type: AtmosPipeColor
     - type: AtmosPipeLayers
       spriteLayersRsiPaths:

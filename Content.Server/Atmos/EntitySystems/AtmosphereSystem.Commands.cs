@@ -68,7 +68,7 @@ public sealed partial class AtmosphereSystem
     /// <remarks>Please be responsible with this method. Used only by tests and fixgridatmos.</remarks>
     public void RebuildGridAtmosphere(Entity<GridAtmosphereComponent, MapGridComponent> ent)
     {
-        var mixtures = new GasMixture[18]; // DS14
+        var mixtures = new GasMixture[24]; // DS14
         for (var i = 0; i < mixtures.Length; i++)
         {
             mixtures[i] = new GasMixture(Atmospherics.CellVolume) { Temperature = Atmospherics.T20C };
@@ -133,6 +133,24 @@ public sealed partial class AtmosphereSystem
 
         // 17: InfectionDeadSpace (GM)
         mixtures[17].AdjustMoles(Gas.InfectionDeadSpace, Atmospherics.MolesCellGasMiner);
+
+        // 18: Hyper-Noblium (GM)
+        mixtures[18].AdjustMoles(Gas.HyperNoblium, Atmospherics.MolesCellGasMiner);
+
+        // 19: Proto-Nitrate (GM)
+        mixtures[19].AdjustMoles(Gas.ProtoNitrate, Atmospherics.MolesCellGasMiner);
+
+        // 20: Helium (GM)
+        mixtures[20].AdjustMoles(Gas.Helium, Atmospherics.MolesCellGasMiner);
+
+        // 21: Halon (GM)
+        mixtures[21].AdjustMoles(Gas.Halon, Atmospherics.MolesCellGasMiner);
+
+        // 22: Zauker (GM)
+        mixtures[22].AdjustMoles(Gas.Zauker, Atmospherics.MolesCellGasMiner);
+
+        // 23: Antinoblium (GM)
+        mixtures[23].AdjustMoles(Gas.Antinoblium, Atmospherics.MolesCellGasMiner);
         // DS14-end
 
 

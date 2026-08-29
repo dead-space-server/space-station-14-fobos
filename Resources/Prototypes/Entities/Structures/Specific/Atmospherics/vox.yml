@@ -25,6 +25,12 @@
       Fixirium: stationFixirium
       Nitriatium: stationNitriatium
       Hilium: stationHilium
+      HyperNoblium: stationHyperNoblium
+      ProtoNitrate: stationProtoNitrate
+      Helium: stationHelium
+      Halon: stationHalon
+      Zauker: stationZauker
+      Antinoblium: stationAntinoblium
       # DS14-end
 
 - type: entity
