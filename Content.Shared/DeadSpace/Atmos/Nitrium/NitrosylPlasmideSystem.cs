@@ -19,9 +19,6 @@ public sealed class NitrosylPlasmideSystem : EntitySystem
     {
         SubscribeLocalEvent<NitrosylPlasmideComponent, BeforeStatusEffectAddedEvent>(OnBeforeStatusEffect);
         SubscribeLocalEvent<NitrosylPlasmideComponent, KnockDownAttemptEvent>(OnKnockDownAttempt);
-
-        // The status effect entity carries the marker; while it is applied the carrier mob gets the behaviour
-        // component. This replaces the old GenericStatusEffect route, so no per-mob whitelist entry is needed.
         SubscribeLocalEvent<NitrosylPlasmideStatusEffectComponent, StatusEffectAppliedEvent>(OnStatusApplied);
         SubscribeLocalEvent<NitrosylPlasmideStatusEffectComponent, StatusEffectRemovedEvent>(OnStatusRemoved);
     }
@@ -51,9 +48,6 @@ public sealed class NitrosylPlasmideSystem : EntitySystem
     {
         base.Update(frameTime);
 
-        // Blocking BeforeStatusEffectAddedEvent only stops NEW effects. If a carrier was already stunned/
-        // knocked down/forced asleep before the plasmide formed (e.g. Hilium + Nitriatium), or the effect is
-        // refreshed via type:Update on an existing one, we have to actively strip it and wake the carrier.
         var query = EntityQueryEnumerator<NitrosylPlasmideComponent>();
         while (query.MoveNext(out var uid, out _))
         {
@@ -65,10 +59,6 @@ public sealed class NitrosylPlasmideSystem : EntitySystem
         }
     }
 
-    /// <summary>
-    ///     Removes every status effect carrying <typeparamref name="T"/> from <paramref name="uid"/>.
-    ///     Returns true if at least one was removed.
-    /// </summary>
     private bool RemoveEffects<T>(EntityUid uid) where T : IComponent
     {
         if (!_statusEffects.TryEffectsWithComp<T>(uid, out var effects))
