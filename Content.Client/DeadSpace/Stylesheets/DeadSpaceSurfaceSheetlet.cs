@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Numerics;
+using Content.Client.Resources;
 using Content.Client.Stylesheets;
 using Content.Client.Stylesheets.Fonts;
 using Content.Client.Stylesheets.Stylesheets;
@@ -18,21 +19,59 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
 {
     public override StyleRule[] GetRules(NanotrasenStylesheet sheet, object config)
     {
-        var shell = DeadSpaceStyleBoxes.Flat(
-            DeadSpaceStylePalette.SurfaceDark,
-            horizontalMargin: 10,
-            verticalMargin: 10);
-        var topShell = DeadSpaceStyleBoxes.Flat(
-            DeadSpaceStylePalette.SurfaceDark,
-            horizontalMargin: 10,
-            verticalMargin: 7);
+        StyleBox shell;
+        StyleBox topShell;
+        if (DeadSpaceStylePalette.ClassicChrome)
+        {
+            var shellTexture = ResCache.GetTexture("/Textures/Interface/Nano/lobby_b.png");
+            var classicShell = new StyleBoxTexture
+            {
+                Texture = shellTexture,
+                Mode = StyleBoxTexture.StretchMode.Tile,
+            };
+            classicShell.SetPatchMargin(StyleBox.Margin.All, 24);
+            classicShell.SetExpandMargin(StyleBox.Margin.All, -4);
+            classicShell.SetContentMarginOverride(StyleBox.Margin.All, 10);
+            shell = classicShell;
+
+            var classicTopShell = new StyleBoxTexture(classicShell);
+            classicTopShell.SetContentMarginOverride(StyleBox.Margin.Horizontal, 10);
+            classicTopShell.SetContentMarginOverride(StyleBox.Margin.Vertical, 7);
+            topShell = classicTopShell;
+        }
+        else
+        {
+            shell = DeadSpaceStyleBoxes.Flat(
+                DeadSpaceStylePalette.SurfaceDark,
+                horizontalMargin: 10,
+                verticalMargin: 10);
+            topShell = DeadSpaceStyleBoxes.Flat(
+                DeadSpaceStylePalette.SurfaceDark,
+                horizontalMargin: 10,
+                verticalMargin: 7);
+        }
+
+        // Pre-redesign Wizards panels used tonal separation for ordinary surfaces; only genuine insets
+        // carried a persistent edge.
+        var classicBorder = Color.Transparent;
+        var classicInsetBorder = DeadSpaceStylePalette.ClassicChrome
+            ? DeadSpaceStylePalette.BorderInset
+            : Color.Transparent;
+        var classicThickness = new Thickness(0);
+        var classicInsetThickness = DeadSpaceStylePalette.ClassicChrome
+            ? new Thickness(2)
+            : new Thickness(0);
 
         var panel = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Surface,
+            classicBorder,
+            classicThickness,
             horizontalMargin: 10,
             verticalMargin: 10);
         var panelDark = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceDark,
+            DeadSpaceStylePalette.ClassicChrome ? DeadSpaceStylePalette.BorderDark : Color.Transparent,
+            classicThickness,
             horizontalMargin: 8,
             verticalMargin: 8);
         var panelWarning = DeadSpaceStyleBoxes.Flat(
@@ -50,10 +89,14 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
             8);
         var inset = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceInset,
+            classicInsetBorder,
+            classicInsetThickness,
             horizontalMargin: 6,
             verticalMargin: 6);
         var roundStatus = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceStatus,
+            Color.Transparent,
+            classicThickness,
             horizontalMargin: 18,
             verticalMargin: 7);
 
@@ -67,21 +110,27 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
 
         var characterIcon = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceIcon,
-            Color.Transparent,
+            DeadSpaceStylePalette.ClassicChrome ? DeadSpaceStylePalette.BorderIcon : Color.Transparent,
             new Thickness(1),
             3,
             3);
-        var defaultTabsPanel = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.SurfaceTabs);
+        var defaultTabsPanel = DeadSpaceStyleBoxes.Flat(
+            DeadSpaceStylePalette.SurfaceTabs,
+            classicBorder,
+            classicThickness);
+        var tabThickness = DeadSpaceStylePalette.ClassicChrome
+            ? new Thickness(1)
+            : new Thickness(0, 0, 0, 2);
         var defaultTabActive = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceTabActive,
             DeadSpaceStylePalette.BorderTabActive,
-            new Thickness(0, 0, 0, 2),
+            tabThickness,
             7,
             4);
         var defaultTabInactive = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceTabInactive,
             DeadSpaceStylePalette.BorderTabInactive,
-            new Thickness(0, 0, 0, 2),
+            tabThickness,
             7,
             4);
 
@@ -94,7 +143,7 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
         var listItem = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.ListItem,
             Color.Transparent,
-            new Thickness(1),
+            DeadSpaceStylePalette.ClassicChrome ? new Thickness(0) : new Thickness(1),
             6,
             4);
         var listItemAlternate = new StyleBoxFlat(listItem)
@@ -104,7 +153,7 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
         var input = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Input,
             DeadSpaceStylePalette.BorderControl,
-            new Thickness(0, 0, 0, 1),
+            DeadSpaceStylePalette.ClassicChrome ? new Thickness(0) : new Thickness(0, 0, 0, 1),
             7,
             4);
         var popup = new StyleBoxFlat(panel)
@@ -120,12 +169,10 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
         var legacyPanelDeep = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.SurfaceDark);
         var legacyPanelInsetDeep = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceInset,
-            Color.Transparent,
+            classicInsetBorder,
             new Thickness(2));
-        var defaultWindowPanel = DeadSpaceStyleBoxes.Flat(
-            DeadSpaceStylePalette.Surface,
-            DeadSpaceStylePalette.Border,
-            new Thickness(1));
+        // Modern windows use tonal separation instead of a permanent dark frame.
+        var defaultWindowPanel = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.Surface);
         var defaultWindowHeader = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceHeader,
             DeadSpaceStylePalette.AccentDim,
@@ -133,8 +180,8 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
         // FancyWindow content needs one raised neutral step: deep black is reserved for genuine insets/HUD.
         var backgroundPanel = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.SurfaceFlat);
 
-        return
-        [
+        var rules = new List<StyleRule>
+        {
             E<PanelContainer>().Class(DeadSpaceStyleClass.Window).Panel(shell),
             E<PanelContainer>().Class(DeadSpaceStyleClass.WindowTop).Panel(topShell),
             E<PanelContainer>().Class(DeadSpaceStyleClass.Surface).Panel(panel),
@@ -147,18 +194,26 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
             E<PanelContainer>().Class(DeadSpaceStyleClass.RoundStatus).Panel(roundStatus),
             E<PanelContainer>().Class(DeadSpaceStyleClass.Accent).Panel(accent),
             E<PanelContainer>().Class(DeadSpaceStyleClass.AccentDim).Panel(accentDim),
-            // The legacy low divider appears across content UI; keep it quiet and one logical pixel thick.
-            E<PanelContainer>()
-                .Class(StyleClass.LowDivider)
-                .Panel(lowDivider)
-                .MinSize(new Vector2(1, 1)),
             E<PanelContainer>().Class(DeadSpaceStyleClass.CharacterIcon).Panel(characterIcon),
             E<PanelContainer>().Class(DeadSpaceStyleClass.ListHeader).Panel(listHeader),
             E<PanelContainer>().Class(DeadSpaceStyleClass.ListItem).Panel(listItem),
             E<PanelContainer>().Class(DeadSpaceStyleClass.ListItemAlternate).Panel(listItemAlternate),
             E<PanelContainer>().Class(DeadSpaceStyleClass.TextField).Panel(input),
             E<PanelContainer>().Class(DeadSpaceStyleClass.Popup).Panel(popup),
-            E<PanelContainer>().Class(OptionButton.StyleClassOptionsBackground).Panel(optionBackground),
+        };
+
+        // The classic option deliberately keeps the original Nanotrasen/Wizards rules for controls
+        // without an explicit DS14 style class. Only bridge the classes used by the fixed layouts above.
+        if (DeadSpaceStylePalette.ClassicChrome)
+            return rules.ToArray();
+
+        rules.AddRange(
+        [
+            // The legacy low divider appears across content UI; keep it quiet and one logical pixel thick.
+            E<PanelContainer>()
+                .Class(StyleClass.LowDivider)
+                .Panel(lowDivider)
+                .MinSize(new Vector2(1, 1)),
             E<PanelContainer>().Class(StyleClass.PanelDeep).Panel(legacyPanelDeep),
             E<PanelContainer>().Class(StyleClass.PanelInsetDeep).Panel(legacyPanelInsetDeep),
             E<PanelContainer>().Class("BackgroundDark").Panel(legacyPanelDeep),
@@ -172,6 +227,7 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
                 .Panel(backgroundPanel)
                 .Modulate(Color.White),
             E<PanelContainer>().Class("WindowHeadingBackground").Panel(defaultWindowHeader),
+            E<PanelContainer>().Class(OptionButton.StyleClassOptionsBackground).Panel(optionBackground),
             E<TabContainer>()
                 .Prop(TabContainer.StylePropertyPanelStyleBox, defaultTabsPanel)
                 .Prop(TabContainer.StylePropertyTabStyleBox, defaultTabActive)
@@ -179,6 +235,8 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
                 .Prop(TabContainer.stylePropertyTabFontColor, DeadSpaceStylePalette.Text)
                 .Prop(TabContainer.StylePropertyTabFontColorInactive, DeadSpaceStylePalette.TextInactive)
                 .Prop("font", sheet.BaseFont.GetFont(12)),
-        ];
+        ]);
+
+        return rules.ToArray();
     }
 }

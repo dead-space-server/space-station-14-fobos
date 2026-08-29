@@ -1,6 +1,10 @@
 using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.PDA;
 using Content.Client.Stylesheets;
+// DS14-start
+using Content.Client.Stylesheets.Sheetlets;
+using Content.Client.Stylesheets.SheetletConfigs;
+// DS14-end
 using Content.Client.Stylesheets.Stylesheets;
 using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
@@ -15,45 +19,113 @@ public sealed class PdaSheetlet : Sheetlet<NanotrasenStylesheet>
     public override StyleRule[] GetRules(NanotrasenStylesheet sheet, object config)
     {
         // DS14-start
-        var contentBackground = new StyleBoxFlat
+        IPanelConfig panelConfig = sheet;
+        StyleBox contentBackground;
+        StyleBox accentBackground;
+        StyleBox shellBackground;
+        StyleBox borderRect;
+        Color contentModulate;
+        Color accentModulate;
+        Color shellModulate;
+        Color normalBorder;
+        Color disabledBorder;
+        Color settingsNormalColor;
+        Color settingsHoverColor;
+        Color settingsPressedColor;
+        Color settingsDisabledColor;
+        Color programNormalColor;
+        Color programHoverColor;
+        Color programPressedColor;
+        Color programDisabledColor;
+        Color positiveLabelColor;
+        Color contentFooterColor;
+        Color windowFooterColor;
+        Thickness controlBorderThickness;
+        if (DeadSpaceStylePalette.ClassicChrome)
         {
-            BackgroundColor = DeadSpaceStylePalette.SurfaceInset,
-        };
-
-        // These panels are tinted at runtime from PdaBorderColorComponent. Keep their source color white so the
-        // prototype color is preserved instead of being multiplied by an already-dark DS14 surface.
-        var accentBackground = DeadSpaceStyleBoxes.Flat(Color.White);
-        var shellBackground = DeadSpaceStyleBoxes.Flat(Color.White);
-        var borderRect = DeadSpaceStyleBoxes.Flat(
-            Color.Transparent,
-            DeadSpaceStylePalette.BorderDark,
-            new Thickness(1));
+            // Restore the PDA from before the DS14 UI intervention (7074b42): stock Nanotrasen textures,
+            // neutral grey rows and the original green hover/pressed state.
+            contentBackground = StyleBoxHelpers.SquareStyleBox(sheet);
+            accentBackground = StyleBoxHelpers.SquareStyleBox(sheet);
+            shellBackground = StyleBoxHelpers.BaseStyleBox(sheet);
+            borderRect = sheet.GetTexture(panelConfig.GeometricPanelBorderPath)
+                .IntoPatch(StyleBox.Margin.All, 10);
+            contentModulate = Color.FromHex("#25252A");
+            accentModulate = Color.Black;
+            shellModulate = Color.FromHex("#717059");
+            normalBorder = Color.Transparent;
+            disabledBorder = Color.Transparent;
+            settingsNormalColor = Color.FromHex("#313138");
+            settingsHoverColor = Color.FromHex("#3E6C45");
+            settingsPressedColor = Color.FromHex("#3E6C45");
+            settingsDisabledColor = Color.FromHex("#313138");
+            programNormalColor = Color.FromHex("#313138");
+            programHoverColor = Color.FromHex("#3E6C45");
+            programPressedColor = Color.FromHex("#3E6C45");
+            programDisabledColor = Color.FromHex("#313138");
+            positiveLabelColor = Color.White;
+            contentFooterColor = Color.FromHex("#757575");
+            windowFooterColor = Color.FromHex("#333D3B");
+            controlBorderThickness = new Thickness(0);
+        }
+        else
+        {
+            contentBackground = new StyleBoxFlat
+            {
+                BackgroundColor = DeadSpaceStylePalette.SurfaceInset,
+            };
+            // These panels are tinted at runtime from PdaBorderColorComponent. Keep their source color white so
+            // the prototype color is preserved instead of being multiplied by an already-dark DS14 surface.
+            accentBackground = DeadSpaceStyleBoxes.Flat(Color.White);
+            shellBackground = DeadSpaceStyleBoxes.Flat(Color.White);
+            borderRect = DeadSpaceStyleBoxes.Flat(
+                Color.Transparent,
+                DeadSpaceStylePalette.BorderDark,
+                new Thickness(1));
+            contentModulate = Color.White;
+            accentModulate = DeadSpaceStylePalette.SurfaceIcon;
+            shellModulate = DeadSpaceStylePalette.SurfaceStatus;
+            normalBorder = Color.Transparent;
+            disabledBorder = Color.Transparent;
+            settingsNormalColor = DeadSpaceStylePalette.Control;
+            settingsHoverColor = DeadSpaceStylePalette.ControlHover;
+            settingsPressedColor = DeadSpaceStylePalette.ControlPressed;
+            settingsDisabledColor = DeadSpaceStylePalette.ControlDisabled;
+            programNormalColor = DeadSpaceStylePalette.ListItem;
+            programHoverColor = DeadSpaceStylePalette.ListItemHover;
+            programPressedColor = DeadSpaceStylePalette.ListItemPressed;
+            programDisabledColor = DeadSpaceStylePalette.ControlDisabled;
+            positiveLabelColor = DeadSpaceStylePalette.PositiveBorderPressed;
+            contentFooterColor = DeadSpaceStylePalette.TextMuted;
+            windowFooterColor = DeadSpaceStylePalette.TextMuted;
+            controlBorderThickness = new Thickness(1);
+        }
 
         var settingsNormal = DeadSpaceStyleBoxes.Flat(
-            DeadSpaceStylePalette.Control,
-            Color.Transparent,
-            new Thickness(1),
+            settingsNormalColor,
+            normalBorder,
+            controlBorderThickness,
             9,
             4);
         var settingsHover = new StyleBoxFlat(settingsNormal)
         {
-            BackgroundColor = DeadSpaceStylePalette.ControlHover,
-            BorderColor = DeadSpaceStylePalette.HoverOutline,
+            BackgroundColor = settingsHoverColor,
+            BorderColor = DeadSpaceStylePalette.ClassicChrome ? Color.Transparent : DeadSpaceStylePalette.HoverOutline,
         };
         var settingsPressed = new StyleBoxFlat(settingsNormal)
         {
-            BackgroundColor = DeadSpaceStylePalette.ControlPressed,
-            BorderColor = DeadSpaceStylePalette.PressedOutline,
+            BackgroundColor = settingsPressedColor,
+            BorderColor = DeadSpaceStylePalette.ClassicChrome ? Color.Transparent : DeadSpaceStylePalette.PressedOutline,
         };
         var settingsDisabled = new StyleBoxFlat(settingsNormal)
         {
-            BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = Color.Transparent,
+            BackgroundColor = settingsDisabledColor,
+            BorderColor = disabledBorder,
         };
         var settingsPositive = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Positive,
             Color.Transparent,
-            new Thickness(1),
+            controlBorderThickness,
             9,
             4);
         var settingsPositiveHover = new StyleBoxFlat(settingsPositive)
@@ -68,25 +140,25 @@ public sealed class PdaSheetlet : Sheetlet<NanotrasenStylesheet>
         };
 
         var programNormal = DeadSpaceStyleBoxes.Flat(
-            DeadSpaceStylePalette.ListItem,
-            Color.Transparent,
-            new Thickness(1),
+            programNormalColor,
+            normalBorder,
+            controlBorderThickness,
             6,
             4);
         var programHover = new StyleBoxFlat(programNormal)
         {
-            BackgroundColor = DeadSpaceStylePalette.ListItemHover,
-            BorderColor = DeadSpaceStylePalette.HoverOutline,
+            BackgroundColor = programHoverColor,
+            BorderColor = DeadSpaceStylePalette.ClassicChrome ? Color.Transparent : DeadSpaceStylePalette.HoverOutline,
         };
         var programPressed = new StyleBoxFlat(programNormal)
         {
-            BackgroundColor = DeadSpaceStylePalette.ListItemPressed,
-            BorderColor = DeadSpaceStylePalette.PressedOutline,
+            BackgroundColor = programPressedColor,
+            BorderColor = DeadSpaceStylePalette.ClassicChrome ? Color.Transparent : DeadSpaceStylePalette.PressedOutline,
         };
         var programDisabled = new StyleBoxFlat(programNormal)
         {
-            BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = Color.Transparent,
+            BackgroundColor = programDisabledColor,
+            BorderColor = disabledBorder,
         };
         var homeRow = DeadSpaceStyleBoxes.Flat(
             Color.Transparent,
@@ -101,21 +173,21 @@ public sealed class PdaSheetlet : Sheetlet<NanotrasenStylesheet>
                 .Class("PdaContentBackground")
                 // DS14-start
                 .Prop(PanelContainer.StylePropertyPanel, contentBackground)
-                .Prop(Control.StylePropertyModulateSelf, Color.White),
+                .Prop(Control.StylePropertyModulateSelf, contentModulate),
                 // DS14-end
 
             E<PanelContainer>()
                 .Class("PdaBackground")
                 // DS14-start
                 .Prop(PanelContainer.StylePropertyPanel, accentBackground)
-                .Prop(Control.StylePropertyModulateSelf, DeadSpaceStylePalette.SurfaceIcon),
+                .Prop(Control.StylePropertyModulateSelf, accentModulate),
                 // DS14-end
 
             E<PanelContainer>()
                 .Class("PdaBackgroundRect")
                 // DS14-start
                 .Prop(PanelContainer.StylePropertyPanel, shellBackground)
-                .Prop(Control.StylePropertyModulateSelf, DeadSpaceStylePalette.SurfaceStatus),
+                .Prop(Control.StylePropertyModulateSelf, shellModulate),
                 // DS14-end
 
             E<PanelContainer>()
@@ -184,21 +256,21 @@ public sealed class PdaSheetlet : Sheetlet<NanotrasenStylesheet>
                 .Pseudo(ContainerButton.StylePseudoClassNormal)
                 .ParentOf(E())
                 .ParentOf(E<Label>())
-                .Prop(Label.StylePropertyFontColor, DeadSpaceStylePalette.PositiveBorderPressed),
+                .Prop(Label.StylePropertyFontColor, positiveLabelColor),
 
             E<PdaSettingsButton>()
                 .Class(DeadSpaceStyleClass.ControlPositive)
                 .Pseudo(ContainerButton.StylePseudoClassHover)
                 .ParentOf(E())
                 .ParentOf(E<Label>())
-                .Prop(Label.StylePropertyFontColor, DeadSpaceStylePalette.PositiveBorderPressed),
+                .Prop(Label.StylePropertyFontColor, positiveLabelColor),
 
             E<PdaSettingsButton>()
                 .Class(DeadSpaceStyleClass.ControlPositive)
                 .Pseudo(ContainerButton.StylePseudoClassPressed)
                 .ParentOf(E())
                 .ParentOf(E<Label>())
-                .Prop(Label.StylePropertyFontColor, DeadSpaceStylePalette.PositiveBorderPressed),
+                .Prop(Label.StylePropertyFontColor, positiveLabelColor),
 
             E<PdaProgramItem>()
                 .Pseudo(ContainerButton.StylePseudoClassNormal)
@@ -241,12 +313,12 @@ public sealed class PdaSheetlet : Sheetlet<NanotrasenStylesheet>
             E<Label>()
                 .Class("PdaContentFooterText")
                 .Prop(Label.StylePropertyFont, sheet.BaseFont.GetFont(10))
-                .Prop(Label.StylePropertyFontColor, DeadSpaceStylePalette.TextMuted), // DS14
+                .Prop(Label.StylePropertyFontColor, contentFooterColor), // DS14
 
             E<Label>()
                 .Class("PdaWindowFooterText")
                 .Prop(Label.StylePropertyFont, sheet.BaseFont.GetFont(10))
-                .Prop(Label.StylePropertyFontColor, DeadSpaceStylePalette.TextMuted), // DS14
+                .Prop(Label.StylePropertyFontColor, windowFooterColor), // DS14
         ];
     }
 }

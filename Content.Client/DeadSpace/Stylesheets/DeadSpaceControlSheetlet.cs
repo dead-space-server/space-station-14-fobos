@@ -18,9 +18,16 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
 {
     public override StyleRule[] GetRules(NanotrasenStylesheet sheet, object config)
     {
+        var normalBorder = DeadSpaceStylePalette.ClassicChrome
+            ? DeadSpaceStylePalette.BorderControl
+            : Color.Transparent;
+        var disabledBorder = DeadSpaceStylePalette.ClassicChrome
+            ? DeadSpaceStylePalette.BorderDisabled
+            : Color.Transparent;
+
         var action = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Action,
-            Color.Transparent,
+            normalBorder,
             new Thickness(1),
             14,
             8);
@@ -37,12 +44,12 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
         var actionDisabled = new StyleBoxFlat(action)
         {
             BackgroundColor = DeadSpaceStylePalette.ActionDisabled,
-            BorderColor = Color.Transparent,
+            BorderColor = disabledBorder,
         };
 
         var topAction = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Control,
-            Color.Transparent,
+            normalBorder,
             new Thickness(1),
             14,
             6);
@@ -59,12 +66,12 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
         var topActionDisabled = new StyleBoxFlat(topAction)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = Color.Transparent,
+            BorderColor = disabledBorder,
         };
 
         var dangerControl = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Control,
-            Color.Transparent,
+            normalBorder,
             new Thickness(1),
             14,
             2);
@@ -81,12 +88,12 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
         var dangerControlDisabled = new StyleBoxFlat(dangerControl)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = Color.Transparent,
+            BorderColor = disabledBorder,
         };
         // Match the existing base button content margins so a global chrome change cannot resize layouts.
         var baseControl = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Control,
-            Color.Transparent,
+            normalBorder,
             new Thickness(1),
             14,
             2);
@@ -103,7 +110,7 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
         var baseControlDisabled = new StyleBoxFlat(baseControl)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = Color.Transparent,
+            BorderColor = disabledBorder,
         };
         // Bare ContainerButton is widely used as a zero-margin interactive row. Give it safe global chrome
         // without changing its measured geometry; the more specific ordinary Button rule below keeps its margins.
@@ -114,7 +121,7 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
 
         var listItem = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.ListItem,
-            Color.Transparent,
+            normalBorder,
             new Thickness(1),
             6,
             4);
@@ -141,10 +148,13 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
         var listItemDisabled = new StyleBoxFlat(listItem)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = Color.Transparent,
+            BorderColor = disabledBorder,
         };
         // ListContainerButton historically had a zero-margin StyleBoxOverride. Preserve that geometry.
-        var listContainer = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.ListItem);
+        var listContainer = DeadSpaceStyleBoxes.Flat(
+            DeadSpaceStylePalette.ListItem,
+            normalBorder,
+            DeadSpaceStylePalette.ClassicChrome ? new Thickness(1) : new Thickness(0));
         var listContainerHover = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.ListItemHover);
         var listContainerPressed = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.ListItemPressed);
         var listContainerDisabled = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.ControlDisabled);
@@ -152,7 +162,7 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
         var input = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Input,
             DeadSpaceStylePalette.BorderControl,
-            new Thickness(0, 0, 0, 1),
+            DeadSpaceStylePalette.ClassicChrome ? new Thickness(1) : new Thickness(0, 0, 0, 1),
             7,
             4);
         var inputDisabled = new StyleBoxFlat(input)
@@ -166,77 +176,88 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
 
         var rules = new List<StyleRule>
         {
-            E<ItemList>()
-                .Prop(ItemList.StylePropertyBackground, input)
-                .Prop(ItemList.StylePropertyItemBackground, listItem)
-                .Prop(ItemList.StylePropertyDisabledItemBackground, inputDisabled)
-                .Prop(ItemList.StylePropertySelectedItemBackground, selectedListItem),
-            E<OutputPanel>()
-                .Prop(OutputPanel.StylePropertyStyleBox, textArea),
             // ChatWindowPanel owns the complete transcript background and its configurable opacity.
             // Target the transcript directly so ResizableChatBox and pop-out variants behave identically.
             E<OutputPanel>()
                 .Class(ChatBox.StyleClassChatTranscript)
                 .Prop(OutputPanel.StylePropertyStyleBox, new StyleBoxEmpty()),
-            E<LineEdit>()
-                .Prop(LineEdit.StylePropertyStyleBox, input)
-                .Prop("font-color", DeadSpaceStylePalette.Text),
             // Keep the HUD chat composer comfortably tappable/readable without increasing every LineEdit.
             // The surrounding ChatPanel remains responsible for its background, avoiding another nested box.
             E<LineEdit>()
                 .Class(ChatInputBox.StyleClassChatLineEdit)
                 .MinSize(new Vector2(0, 34)),
-            E<LineEdit>()
-                .Class(LineEdit.StyleClassLineEditNotEditable)
-                .Prop(LineEdit.StylePropertyStyleBox, inputDisabled)
-                .Prop("font-color", DeadSpaceStylePalette.TextMuted),
-            E<LineEdit>()
-                .Pseudo(LineEdit.StylePseudoClassPlaceholder)
-                .Prop("font-color", DeadSpaceStylePalette.TextPlaceholder),
-            E<TextEdit>()
-                .Prop("font-color", DeadSpaceStylePalette.Text)
-                .Prop(TextEdit.StylePropertyCursorColor, DeadSpaceStylePalette.Amber)
-                .Prop(TextEdit.StylePropertySelectionColor, DeadSpaceStylePalette.CyanSelection),
-            E<TextEdit>()
-                .Pseudo(TextEdit.StylePseudoClassPlaceholder)
-                .Prop("font-color", DeadSpaceStylePalette.TextPlaceholder),
         };
 
-        AddBareContainerButtonRules(
-            rules,
-            bareContainer,
-            bareContainerHover,
-            bareContainerPressed,
-            bareContainerDisabled);
-        AddCheckBoxRules(rules);
-        // SwitchButton already communicates every state through its track and thumb.
-        // Keep its ContainerButton root free of the global full-row backing surface.
-        var switchBackground = new StyleBoxEmpty();
-        rules.AddRange(
-        [
-            E<SwitchButton>().PseudoNormal().Box(switchBackground).Modulate(Color.White),
-            E<SwitchButton>().PseudoHovered().Box(switchBackground).Modulate(Color.White),
-            E<SwitchButton>().PseudoPressed().Box(switchBackground).Modulate(Color.White),
-            E<SwitchButton>().PseudoDisabled().Box(switchBackground).Modulate(Color.White),
-        ]);
-        AddButtonRules(rules, null, baseControl, baseControlHover, baseControlPressed, baseControlDisabled);
-        AddButtonRules(rules, DeadSpaceStyleClass.Action, action, actionHover, actionPressed, actionDisabled);
-        AddButtonRules(rules, DeadSpaceStyleClass.TopAction, topAction, topActionHover, topActionPressed, topActionDisabled);
-        AddButtonRules(
-            rules,
-            DeadSpaceStyleClass.ControlDanger,
-            dangerControl,
-            dangerControlHover,
-            dangerControlPressed,
-            dangerControlDisabled);
-        AddButtonRules(rules, DeadSpaceStyleClass.ListItem, listItem, listItemHover, listItemPressed, listItemDisabled);
-        AddButtonRules(rules, DeadSpaceStyleClass.ListItemAlternate, listItemAlternate, listItemHover, listItemPressed, listItemDisabled);
-        AddButtonRules(rules,
-            ListContainer.StyleClassListContainerButton,
-            listContainer,
-            listContainerHover,
-            listContainerPressed,
-            listContainerDisabled);
+        if (!DeadSpaceStylePalette.ClassicChrome)
+        {
+            rules.AddRange(
+            [
+                E<ItemList>()
+                    .Prop(ItemList.StylePropertyBackground, input)
+                    .Prop(ItemList.StylePropertyItemBackground, listItem)
+                    .Prop(ItemList.StylePropertyDisabledItemBackground, inputDisabled)
+                    .Prop(ItemList.StylePropertySelectedItemBackground, selectedListItem),
+                E<OutputPanel>()
+                    .Prop(OutputPanel.StylePropertyStyleBox, textArea),
+                E<LineEdit>()
+                    .Prop(LineEdit.StylePropertyStyleBox, input)
+                    .Prop("font-color", DeadSpaceStylePalette.Text),
+                E<LineEdit>()
+                    .Class(LineEdit.StyleClassLineEditNotEditable)
+                    .Prop(LineEdit.StylePropertyStyleBox, inputDisabled)
+                    .Prop("font-color", DeadSpaceStylePalette.TextMuted),
+                E<LineEdit>()
+                    .Pseudo(LineEdit.StylePseudoClassPlaceholder)
+                    .Prop("font-color", DeadSpaceStylePalette.TextPlaceholder),
+                E<TextEdit>()
+                    .Prop("font-color", DeadSpaceStylePalette.Text)
+                    .Prop(TextEdit.StylePropertyCursorColor, DeadSpaceStylePalette.Amber)
+                    .Prop(TextEdit.StylePropertySelectionColor, DeadSpaceStylePalette.CyanSelection),
+                E<TextEdit>()
+                    .Pseudo(TextEdit.StylePseudoClassPlaceholder)
+                    .Prop("font-color", DeadSpaceStylePalette.TextPlaceholder),
+            ]);
+
+            AddBareContainerButtonRules(
+                rules,
+                bareContainer,
+                bareContainerHover,
+                bareContainerPressed,
+                bareContainerDisabled);
+            AddCheckBoxRules(rules);
+            // SwitchButton already communicates every state through its track and thumb.
+            // Keep its ContainerButton root free of the global full-row backing surface.
+            var switchBackground = new StyleBoxEmpty();
+            rules.AddRange(
+            [
+                E<SwitchButton>().PseudoNormal().Box(switchBackground).Modulate(Color.White),
+                E<SwitchButton>().PseudoHovered().Box(switchBackground).Modulate(Color.White),
+                E<SwitchButton>().PseudoPressed().Box(switchBackground).Modulate(Color.White),
+                E<SwitchButton>().PseudoDisabled().Box(switchBackground).Modulate(Color.White),
+            ]);
+            AddButtonRules(rules, null, baseControl, baseControlHover, baseControlPressed, baseControlDisabled);
+        }
+
+        if (!DeadSpaceStylePalette.ClassicChrome)
+        {
+            AddButtonRules(rules, DeadSpaceStyleClass.Action, action, actionHover, actionPressed, actionDisabled);
+            AddButtonRules(rules, DeadSpaceStyleClass.TopAction, topAction, topActionHover, topActionPressed, topActionDisabled);
+            AddButtonRules(
+                rules,
+                DeadSpaceStyleClass.ControlDanger,
+                dangerControl,
+                dangerControlHover,
+                dangerControlPressed,
+                dangerControlDisabled);
+            AddButtonRules(rules, DeadSpaceStyleClass.ListItem, listItem, listItemHover, listItemPressed, listItemDisabled);
+            AddButtonRules(rules, DeadSpaceStyleClass.ListItemAlternate, listItemAlternate, listItemHover, listItemPressed, listItemDisabled);
+            AddButtonRules(rules,
+                ListContainer.StyleClassListContainerButton,
+                listContainer,
+                listContainerHover,
+                listContainerPressed,
+                listContainerDisabled);
+        }
 
         return rules.ToArray();
     }

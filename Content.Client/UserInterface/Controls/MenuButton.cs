@@ -17,9 +17,15 @@ public sealed class MenuButton : ContainerButton
     // public const string StyleClassRedTopButton = "topButtonLabel";
 
     // DS14-start
-    private static readonly Color ColorNormal = DeadSpaceStylePalette.TextInactive;
-    private static readonly Color ColorHovered = DeadSpaceStylePalette.Text;
-    private static readonly Color ColorPressed = DeadSpaceStylePalette.Cyan;
+    private static Color ColorNormal => DeadSpaceStylePalette.ClassicChrome
+        ? Color.FromHex("#99A7B3")
+        : DeadSpaceStylePalette.TextInactive;
+    private static Color ColorHovered => DeadSpaceStylePalette.ClassicChrome
+        ? Color.FromHex("#ACBAC6")
+        : DeadSpaceStylePalette.Text;
+    private static Color ColorPressed => DeadSpaceStylePalette.ClassicChrome
+        ? Color.FromHex("#75838E")
+        : DeadSpaceStylePalette.Cyan;
     // DS14-end
 
     private const float VertPad = 4f;

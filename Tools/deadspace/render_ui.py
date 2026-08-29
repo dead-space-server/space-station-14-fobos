@@ -34,6 +34,7 @@ DEFAULT_FIXTURES = (
     "admin",
     "server-list",
     "role-priorities",
+    "options-general",
     "ert-admin",
     "ert-admin-pending",
     "ert-admin-manual",
@@ -52,6 +53,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--width", type=int, default=1280)
     parser.add_argument("--height", type=int, default=720)
     parser.add_argument("--scale", type=float, default=1.0)
+    parser.add_argument("--theme", choices=("Dark", "Light", "Classic"))
     parser.add_argument("--timeout", type=int, default=120)
     parser.add_argument("--no-build", action="store_true")
     return parser.parse_args()
@@ -121,6 +123,8 @@ def main() -> int:
             return build.returncode
 
     profile = f"{args.width}x{args.height}-scale-{args.scale:g}".replace(".", "_")
+    if args.theme is not None:
+        profile = f"{args.theme.lower()}-{profile}"
     output_dir = args.output.resolve() / profile
     output_dir.mkdir(parents=True, exist_ok=True)
     failures: list[str] = []
@@ -149,8 +153,10 @@ def main() -> int:
             "interface.resolutionAutoScaleEnabled=false",
             "--cvar",
             "display.windowmode=0",
-            "+ds14_ui_render " + fixture + " " + output_name,
         ]
+        if args.theme is not None:
+            command.extend(("--cvar", f"ui.style_theme={args.theme}"))
+        command.append("+ds14_ui_render " + fixture + " " + output_name)
 
         try:
             result = run(command, env, timeout=args.timeout)

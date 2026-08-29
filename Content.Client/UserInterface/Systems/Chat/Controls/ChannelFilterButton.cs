@@ -9,9 +9,15 @@ namespace Content.Client.UserInterface.Systems.Chat.Controls;
 public sealed class ChannelFilterButton : ChatPopupButton<ChannelFilterPopup>
 {
     // DS14-start
-    private static readonly Color ColorNormal = DeadSpaceStylePalette.TextInactive;
-    private static readonly Color ColorHovered = DeadSpaceStylePalette.Text;
-    private static readonly Color ColorPressed = DeadSpaceStylePalette.Cyan;
+    private static Color ColorNormal => DeadSpaceStylePalette.ClassicChrome
+        ? Color.FromHex("#7B7E9E")
+        : DeadSpaceStylePalette.TextInactive;
+    private static Color ColorHovered => DeadSpaceStylePalette.ClassicChrome
+        ? Color.FromHex("#9699BB")
+        : DeadSpaceStylePalette.Text;
+    private static Color ColorPressed => DeadSpaceStylePalette.ClassicChrome
+        ? Color.FromHex("#789B8C")
+        : DeadSpaceStylePalette.Cyan;
     // DS14-end
     private readonly TextureRect? _textureRect;
     private readonly ChatUIController _chatUIController;

@@ -21,15 +21,69 @@ public sealed partial class PdaNavigationButton : ContainerButton
     // DS14-start
     private readonly StyleBoxFlat _styleBox = new()
     {
-        BackgroundColor = DeadSpaceStylePalette.Control,
-        BorderColor = DeadSpaceStylePalette.CyanDim,
         BorderThickness = new Thickness(0, 0, 0, 2)
     };
 
-    public Color InactiveBgColor { get; set; } = DeadSpaceStylePalette.Control;
-    public Color ActiveBgColor { get; set; } = DeadSpaceStylePalette.ListItemPressed;
-    public Color InactiveFgColor { get; set; } = DeadSpaceStylePalette.TextInactive;
-    public Color ActiveFgColor { get; set; } = DeadSpaceStylePalette.Text;
+    private Color? _inactiveBgColor;
+    private Color? _activeBgColor;
+    private Color? _inactiveFgColor;
+    private Color? _activeFgColor;
+
+    public Color InactiveBgColor
+    {
+        get => _inactiveBgColor ?? DefaultInactiveBgColor;
+        set
+        {
+            _inactiveBgColor = value;
+            UpdateVisuals();
+        }
+    }
+
+    public Color ActiveBgColor
+    {
+        get => _activeBgColor ?? DefaultActiveBgColor;
+        set
+        {
+            _activeBgColor = value;
+            UpdateVisuals();
+        }
+    }
+
+    public Color InactiveFgColor
+    {
+        get => _inactiveFgColor ?? DefaultInactiveFgColor;
+        set
+        {
+            _inactiveFgColor = value;
+            UpdateVisuals();
+        }
+    }
+
+    public Color ActiveFgColor
+    {
+        get => _activeFgColor ?? DefaultActiveFgColor;
+        set
+        {
+            _activeFgColor = value;
+            UpdateVisuals();
+        }
+    }
+
+    private static Color DefaultInactiveBgColor => DeadSpaceStylePalette.ClassicChrome
+        ? Color.FromHex("#202023")
+        : DeadSpaceStylePalette.Control;
+
+    private static Color DefaultActiveBgColor => DeadSpaceStylePalette.ClassicChrome
+        ? Color.FromHex("#25252A")
+        : DeadSpaceStylePalette.ListItemPressed;
+
+    private static Color DefaultInactiveFgColor => DeadSpaceStylePalette.ClassicChrome
+        ? Color.FromHex("#5A5A5A")
+        : DeadSpaceStylePalette.TextInactive;
+
+    private static Color DefaultActiveFgColor => DeadSpaceStylePalette.ClassicChrome
+        ? Color.White
+        : DeadSpaceStylePalette.Text;
     // DS14-end
 
     public SpriteSpecifier? IconTexture
@@ -88,8 +142,7 @@ public sealed partial class PdaNavigationButton : ContainerButton
         set
         {
             _isCurrent = value;
-            _styleBox.BackgroundColor = value ? ActiveBgColor : InactiveBgColor; // DS14
-            _styleBox.BorderThickness = value ? CurrentTabBorderThickness : BorderThickness;
+            UpdateVisuals(); // DS14
         }
     }
 
@@ -99,10 +152,7 @@ public sealed partial class PdaNavigationButton : ContainerButton
         set
         {
             _isActive = value;
-            // DS14-start
-            Icon.Modulate = value ? ActiveFgColor : InactiveFgColor;
-            Label.FontColorOverride = value ? ActiveFgColor : InactiveFgColor;
-            // DS14-end
+            UpdateVisuals(); // DS14
         }
     }
 
@@ -110,5 +160,30 @@ public sealed partial class PdaNavigationButton : ContainerButton
     {
         RobustXamlLoader.Load(this);
         Background.PanelOverride = _styleBox;
+        UpdateVisuals(); // DS14
     }
+
+    // DS14-start
+    protected override void StylePropertiesChanged()
+    {
+        base.StylePropertiesChanged();
+        UpdateVisuals();
+    }
+
+    private void UpdateVisuals()
+    {
+        _styleBox.BackgroundColor = _isCurrent ? ActiveBgColor : InactiveBgColor;
+        _styleBox.BorderColor = DeadSpaceStylePalette.ClassicChrome
+            ? Color.FromHex("#5A5A5A")
+            : DeadSpaceStylePalette.CyanDim;
+        _styleBox.BorderThickness = _isCurrent ? CurrentTabBorderThickness : BorderThickness;
+
+        if (Icon == null || Label == null)
+            return;
+
+        var foreground = _isActive ? ActiveFgColor : InactiveFgColor;
+        Icon.Modulate = foreground;
+        Label.FontColorOverride = foreground;
+    }
+    // DS14-end
 }

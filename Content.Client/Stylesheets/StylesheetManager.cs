@@ -1,9 +1,12 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Content.Client.DeadSpace.Stylesheets; // DS14
 using Content.Client.Stylesheets.Stylesheets;
+using Content.Shared.DeadSpace.CCCCVars; // DS14
 using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface;
+using Robust.Shared.Configuration; // DS14
 using Robust.Shared.Reflection;
 
 namespace Content.Client.Stylesheets
@@ -13,6 +16,7 @@ namespace Content.Client.Stylesheets
         [Dependency] private readonly ILogManager _logManager = default!;
         [Dependency] private readonly IUserInterfaceManager _userInterfaceManager = default!;
         [Dependency] private readonly IReflectionManager _reflection = default!;
+        [Dependency] private readonly IConfigurationManager _configuration = default!; // DS14
 
         [Dependency]
         private readonly IResourceCache
@@ -47,12 +51,16 @@ namespace Content.Client.Stylesheets
             UnusedSheetlets = [..tys];
 
             Stylesheets = new Dictionary<string, Stylesheet>();
+            // DS14-start
+            SelectInterfaceStyle(_configuration.GetCVar(CCCCVars.InterfaceStyle));
+            // DS14-end
             SheetNanotrasen = Init(new NanotrasenStylesheet(new BaseStylesheet.NoConfig(), this));
             SheetSystem = Init(new SystemStylesheet(new BaseStylesheet.NoConfig(), this));
             SheetNano = new StyleNano(_resCache).Stylesheet; // TODO: REMOVE (obsolete)
             SheetSpace = new StyleSpace(_resCache).Stylesheet; // TODO: REMOVE (obsolete)
 
             _userInterfaceManager.Stylesheet = SheetNanotrasen;
+            _configuration.OnValueChanged(CCCCVars.InterfaceStyle, OnInterfaceStyleChanged); // DS14
 
             // warn about unused sheetlets
             if (UnusedSheetlets.Count > 0)
@@ -68,6 +76,27 @@ namespace Content.Client.Stylesheets
         }
 
         private int _styleRuleCount;
+
+        // DS14-start
+        private void OnInterfaceStyleChanged(string theme)
+        {
+            SelectInterfaceStyle(theme);
+
+            var baseSheet = new NanotrasenStylesheet(new BaseStylesheet.NoConfig(), this);
+            SheetNanotrasen = baseSheet.Stylesheet;
+            Stylesheets[baseSheet.StylesheetName] = SheetNanotrasen;
+            _userInterfaceManager.Stylesheet = SheetNanotrasen;
+        }
+
+        private void SelectInterfaceStyle(string theme)
+        {
+            if (DeadSpaceStylePalette.TrySetTheme(theme))
+                return;
+
+            _logManager.GetSawmill("style")
+                .Warning($"Unknown DS14 interface style '{theme}', using '{DeadSpaceStylePalette.CurrentTheme}'.");
+        }
+        // DS14-end
 
         private Stylesheet Init(BaseStylesheet baseSheet)
         {

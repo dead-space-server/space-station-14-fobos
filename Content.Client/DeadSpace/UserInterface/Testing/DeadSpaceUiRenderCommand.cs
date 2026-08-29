@@ -17,6 +17,7 @@ using Content.Client.Fax.UI;
 using Content.Client.Lobby.UI;
 using Content.Client.Lobby.UI.Roles;
 using Content.Client.Options.UI;
+using Content.Client.Options.UI.Tabs;
 using Content.Client.PDA;
 using Content.Client.Power.APC.UI;
 using Content.Client.SmartFridge;
@@ -67,7 +68,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
 
     public string Command => "ds14_ui_render";
     public string Description => "Render a deterministic DS14 UI fixture to user data and quit.";
-    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|photocopier|admin|server-list|role-priorities|options-footer|ert-admin|ert-admin-pending|ert-admin-manual|ert-admin-codes|fax|communications|chat> [output-name]";
+    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|photocopier|admin|server-list|role-priorities|options-general|options-footer|ert-admin|ert-admin-pending|ert-admin-manual|ert-admin-codes|fax|communications|chat> [output-name]";
 
     public void Execute(IConsoleShell shell, string argStr, string[] args)
     {
@@ -115,6 +116,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
             "admin" => CreateAdminFixture(),
             "server-list" => CreateServerListFixture(),
             "role-priorities" => CreateRolePriorityFixture(),
+            "options-general" => CreateOptionsGeneralFixture(),
             "options-footer" => CreateOptionsFooterFixture(),
             "ert-admin" => CreateErtAdminFixture(mainTab: 0, requestTab: 1),
             "ert-admin-pending" => CreateErtAdminFixture(mainTab: 0, requestTab: 0),
@@ -443,6 +445,17 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         var window = new ERTCallWindow(renderFixture: true);
         window.FindControl<TabContainer>("MainTabContainer").CurrentTab = mainTab;
         window.FindControl<TabContainer>("RequestsTabContainer").CurrentTab = requestTab;
+        return window;
+    }
+
+    private static BaseWindow CreateOptionsGeneralFixture()
+    {
+        var window = FixtureWindow("Настройки — общие", new Vector2(720, 620));
+        window.Contents.AddChild(new MiscTab
+        {
+            HorizontalExpand = true,
+            VerticalExpand = true,
+        });
         return window;
     }
 
