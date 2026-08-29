@@ -289,8 +289,6 @@
         orGroup: GiftPool
       - id: PlushieCobla
         orGroup: GiftPool
-      - id: PlushieSastrBon
-        orGroup: GiftPool
       # DS14-start
       - id: Akiplushie1
         orGroup: GiftPool

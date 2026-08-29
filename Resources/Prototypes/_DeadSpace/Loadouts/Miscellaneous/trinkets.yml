@@ -943,10 +943,3 @@
     back:
     - PlushieZutiIgna
   groupBy: "plushie"
-
-- type: loadout
-  id: PlushieSastrBon
-  storage:
-    back:
-    - PlushieSastrBon
-  groupBy: "plushie"

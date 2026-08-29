@@ -1743,18 +1743,3 @@
     voice: Astrid
   - type: SpeakOnTrigger
     pack: PlushieZutiIgnaSpeech
-
-- type: entity
-  parent: BasePlushieDeadSpaceMisc
-  id: PlushieSastrBon
-  name: плюшевый Бон
-  description: Просто поц Х.З ннчик первый раз вижу реальна и так далее КЛАЦ-КЛАЦ!
-  components:
-  - type: Sprite
-    state: plushie_sastr_bon
-  - type: TTS
-    voice: Torbjorn
-  - type: SpeakOnTrigger
-    pack: PlushieSastrBonSpeech
-  - type: UseDelay
-    delay: 180
