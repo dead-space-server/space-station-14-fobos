@@ -74,9 +74,9 @@ PURE_WHITE = re.compile(
 INTERACTIVE = re.compile(r"(?:Button|OptionButton|ListContainer|ItemList|Tree)")
 CLEAR_OVERRIDE = re.compile(r"(?:StyleBoxOverride|PanelOverride)\s*=\s*null\s*;")
 
-# Exact, reviewed exceptions for data visualizations and intentionally themed controls. Each entry is capped at
-# the current number of decorative findings and guarded by stable symbols. Adding another inline style to one of
-# these files therefore makes the audit fail until the exception is reviewed explicitly.
+# Exact, reviewed exceptions for data visualizations, intentionally themed controls and color-only transition
+# infrastructure. Each entry is capped at the current number of decorative findings and guarded by stable symbols.
+# Adding another inline style to one of these files therefore makes the audit fail until it is reviewed explicitly.
 DOCUMENTED_EXCEPTIONS: dict[str, tuple[int, tuple[str, ...], str]] = {
     "Content.Client/Administration/UI/AdminAnnounceWindow.xaml.cs": (
         5,
@@ -137,6 +137,11 @@ DOCUMENTED_EXCEPTIONS: dict[str, tuple[int, tuple[str, ...], str]] = {
         3,
         ("ColorPreview", "BackgroundColor = color"),
         "communications message color preview",
+    ),
+    "Content.Client/DeadSpace/UserInterface/DeadSpaceHoverTransitionUIController.cs": (
+        8,
+        ("BeginTransition", "Color.InterpolateBetween", "StyleBoxOverride"),
+        "color-only interpolation between stylesheet-resolved button states",
     ),
     "Content.Client/DeadSpace/Lavaland/Bosses/LavalandBossHudControl.cs": (
         2,

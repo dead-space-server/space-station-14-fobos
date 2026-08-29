@@ -22,6 +22,7 @@ public static class DeadSpaceStyleClass
     public const string Action = "DeadSpaceAction";
     public const string ActionPositive = "DeadSpaceActionPositive";
     public const string TopAction = "DeadSpaceTopAction";
+    public const string ControlAccent = "DeadSpaceControlAccent";
     public const string ControlPositive = "DeadSpaceControlPositive";
     public const string ControlWarning = "DeadSpaceControlWarning";
     public const string ControlDanger = "DeadSpaceControlDanger";

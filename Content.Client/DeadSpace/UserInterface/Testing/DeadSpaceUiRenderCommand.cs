@@ -10,6 +10,7 @@ using Content.Client.Cargo.UI;
 using Content.Client.Chemistry.UI;
 using Content.Client.Communications.UI;
 using Content.Client.Communications.UI.Widgets;
+using Content.Client.DeadSpace.Photocopier.UI;
 using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.DeadSpace.UserInterface.Controls;
 using Content.Client.Fax.UI;
@@ -25,6 +26,7 @@ using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.Chat.Widgets;
 using Content.Client.VendingMachines.UI;
 using Content.Shared.Administration;
+using Content.Shared.DeadSpace.Photocopier;
 using Content.Shared.Fax;
 using Content.Shared.Preferences;
 using Content.Shared.SmartFridge;
@@ -36,6 +38,7 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Shared.Console;
 using Robust.Shared.ContentPack;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
@@ -64,7 +67,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
 
     public string Command => "ds14_ui_render";
     public string Description => "Render a deterministic DS14 UI fixture to user data and quit.";
-    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|admin|server-list|role-priorities|options-footer|ert-admin|fax|communications|chat> [output-name]";
+    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|photocopier|admin|server-list|role-priorities|options-footer|ert-admin|ert-admin-pending|ert-admin-manual|ert-admin-codes|fax|communications|chat> [output-name]";
 
     public void Execute(IConsoleShell shell, string argStr, string[] args)
     {
@@ -108,11 +111,15 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
             "cargo" => new CargoShuttleMenu(),
             "atmos-power" => CreateApcFixture(),
             "pda" => CreatePdaFixture(),
+            "photocopier" => CreatePhotocopierFixture(),
             "admin" => CreateAdminFixture(),
             "server-list" => CreateServerListFixture(),
             "role-priorities" => CreateRolePriorityFixture(),
             "options-footer" => CreateOptionsFooterFixture(),
-            "ert-admin" => CreateErtAdminFixture(),
+            "ert-admin" => CreateErtAdminFixture(mainTab: 0, requestTab: 1),
+            "ert-admin-pending" => CreateErtAdminFixture(mainTab: 0, requestTab: 0),
+            "ert-admin-manual" => CreateErtAdminFixture(mainTab: 0, requestTab: 2),
+            "ert-admin-codes" => CreateErtAdminFixture(mainTab: 1, requestTab: 0),
             "fax" => CreateFaxFixture(),
             "communications" => CreateCommunicationsFixture(),
             "chat" => CreateChatFixture(),
@@ -255,7 +262,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         body.VerticalExpand = true;
         var home = Vertical(2);
         home.AddStyleClass("PdaHomeSummary");
-        home.AddChild(BareRow("Владелец: Айзек Кларк"));
+        home.AddChild(BareRow("Владелец: Айзек Кларк", ContainerButton.StylePseudoClassHover));
         home.AddChild(BareRow("ID: инженер"));
         home.AddChild(BareRow("Станция: Ишимура"));
         home.AddChild(BareRow("Тревога: зелёный уровень"));
@@ -286,6 +293,28 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         body.AddChild(programs);
         root.AddChild(body);
         window.ContentsContainer.AddChild(root);
+        return window;
+    }
+
+    private static BaseWindow CreatePhotocopierFixture()
+    {
+        var prototypeManager = IoCManager.Resolve<IPrototypeManager>();
+        var window = new PhotocopierWindow(prototypeManager);
+        var forms = window.PaperworkFormPrototypes.ToList();
+        if (forms.Count == 0)
+            return window;
+
+        var selected = forms[0];
+        var categories = new HashSet<PhotocopierFormCategory>(forms.Select(form => form.Category));
+        window.UpdateState(new PhotocopierUiState(
+            canPrint: true,
+            isPaperInserted: false,
+            chosenForm: selected.ID,
+            mode: PhotocopierMode.Print,
+            allowedFormCategories: categories,
+            wasEmagged: false,
+            tonerLeft: 80,
+            maxTonerAmount: 100));
         return window;
     }
 
@@ -409,10 +438,11 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         row.FindControl<Button>("ApplyButton").Disabled = disabled;
     }
 
-    private static BaseWindow CreateErtAdminFixture()
+    private static BaseWindow CreateErtAdminFixture(int mainTab, int requestTab)
     {
         var window = new ERTCallWindow(renderFixture: true);
-        window.FindControl<TabContainer>("RequestsTabContainer").CurrentTab = 1;
+        window.FindControl<TabContainer>("MainTabContainer").CurrentTab = mainTab;
+        window.FindControl<TabContainer>("RequestsTabContainer").CurrentTab = requestTab;
         return window;
     }
 
@@ -442,7 +472,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
 
     private BaseWindow CreateCommunicationsFixture()
     {
-        var window = FixtureWindow("Консоль связи — экран", new Vector2(500, 650));
+        var window = FixtureWindow("Консоль связи — экран", new Vector2(500, 460));
         var messaging = new MessagingControls(renderFixture: true)
         {
             CurrentTab = 1,
@@ -474,31 +504,55 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         spriteParent.AddChild(preview);
         preview.SetPositionInParent(spritePosition);
 
-        var surface = new PanelContainer
-        {
-            StyleClasses = { DeadSpaceStyleClass.SurfaceDark },
-            Margin = new Thickness(12),
-            HorizontalExpand = true,
-            VerticalExpand = true,
-        };
-        surface.AddChild(messaging);
-        window.Contents.AddChild(surface);
+        messaging.Margin = new Thickness(8);
+        window.Contents.AddChild(messaging);
         return window;
     }
 
     private static BaseWindow CreateChatFixture()
     {
-        var window = FixtureWindow("Чат — нейтральная поверхность", new Vector2(650, 520));
-        var chat = new ChatBox
+        var window = FixtureWindow("Чат — прозрачность transcript 22%", new Vector2(650, 520));
+        var stage = new LayoutContainer
         {
             HorizontalExpand = true,
             VerticalExpand = true,
+        };
+        var backdrop = new PanelContainer
+        {
+            PanelOverride = new StyleBoxFlat
+            {
+                BackgroundColor = Robust.Shared.Maths.Color.FromHex("#394A5C"),
+            },
+            Children =
+            {
+                new Label
+                {
+                    Text = "ФОН ПОД ТЕКСТОМ ДОЛЖЕН БЫТЬ ВИДЕН",
+                    HorizontalAlignment = Control.HAlignment.Center,
+                    VerticalAlignment = Control.VAlignment.Center,
+                },
+            },
+        };
+        LayoutContainer.SetAnchorPreset(backdrop, LayoutContainer.LayoutPreset.Wide);
+        stage.AddChild(backdrop);
+
+        var chat = new ResizableChatBox
+        {
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            Margin = new Thickness(10),
+        };
+        chat.ChatWindowPanel.PanelOverride = new StyleBoxFlat
+        {
+            BackgroundColor = DeadSpaceStylePalette.SurfaceDark.WithAlpha(0.22f),
         };
         chat.AddLine("АДМИН: Проверка важного системного сообщения", Robust.Shared.Maths.Color.FromHex("#FF4A4A"));
         chat.AddLine("Добро пожаловать на Космическую Станцию 14!", Robust.Shared.Maths.Color.FromHex("#FFB347"));
         chat.AddLine("[bold]Капитан Айзек Кларк:[/bold] Работа продолжается в штатном режиме.", Robust.Shared.Maths.Color.FromHex("#D7DEE8"));
         chat.AddLine("Рядом: обычная локальная реплика для оценки фона и контраста.", Robust.Shared.Maths.Color.FromHex("#AFC8D8"));
-        window.Contents.AddChild(chat);
+        LayoutContainer.SetAnchorPreset(chat, LayoutContainer.LayoutPreset.Wide);
+        stage.AddChild(chat);
+        window.Contents.AddChild(stage);
         return window;
     }
 
@@ -558,9 +612,9 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         };
     }
 
-    private static ContainerButton BareRow(string text)
+    private static ContainerButton BareRow(string text, string? pseudo = null)
     {
-        return new ContainerButton
+        var button = new FixtureContainerButton
         {
             HorizontalExpand = true,
             Children =
@@ -573,6 +627,9 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
                 },
             },
         };
+        if (pseudo != null)
+            button.ForcePseudo(pseudo);
+        return button;
     }
 
     private void OnPostDrawUiRoot(PostDrawUIRootEventArgs args)
@@ -641,6 +698,14 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
             char.IsAsciiLetterOrDigit(character) || character is '-' or '_' or '.' ? character : '-').ToArray());
         return string.IsNullOrWhiteSpace(safe) ? "fixture" : safe;
     }
+
+    private sealed class FixtureContainerButton : ContainerButton
+    {
+        public void ForcePseudo(string pseudo)
+        {
+            SetOnlyStylePseudoClass(pseudo);
+        }
+    }
 }
 
 internal sealed class DeadSpaceUiFixtureWindow : DefaultWindow
@@ -683,6 +748,7 @@ internal sealed class DeadSpaceUiFixtureWindow : DefaultWindow
 
         root.AddChild(Section("Semantic states"));
         var semantic = HorizontalRow();
+        semantic.AddChild(Button("Accent", DeadSpaceStyleClass.ControlAccent));
         semantic.AddChild(Button("Positive", DeadSpaceStyleClass.ControlPositive));
         semantic.AddChild(Button("Warning", DeadSpaceStyleClass.ControlWarning));
         semantic.AddChild(Button("Negative", DeadSpaceStyleClass.ControlDanger));

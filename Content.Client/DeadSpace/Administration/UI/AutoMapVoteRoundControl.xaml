@@ -31,7 +31,7 @@
             <BoxContainer Orientation="Horizontal" SeparationOverride="8">
                 <Button
                     Name="StartVoteButton"
-                    StyleClasses="DeadSpaceControlPositive"
+                    StyleClasses="DeadSpaceControlAccent"
                     HorizontalExpand="True" />
                 <Button Name="ToggleButton" HorizontalExpand="True" />
             </BoxContainer>

@@ -1,5 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using System.Numerics;
 using Content.Client.Stylesheets;
 using Content.Client.Stylesheets.Stylesheets;
 using Content.Client.UserInterface.Controls;
@@ -19,90 +20,90 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
     {
         var action = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Action,
-            DeadSpaceStylePalette.CyanDim,
+            Color.Transparent,
             new Thickness(1),
             14,
             8);
         var actionHover = new StyleBoxFlat(action)
         {
             BackgroundColor = DeadSpaceStylePalette.ActionHover,
-            BorderColor = DeadSpaceStylePalette.Cyan,
+            BorderColor = DeadSpaceStylePalette.HoverOutline,
         };
         var actionPressed = new StyleBoxFlat(action)
         {
             BackgroundColor = DeadSpaceStylePalette.ActionPressed,
-            BorderColor = DeadSpaceStylePalette.CyanBright,
+            BorderColor = DeadSpaceStylePalette.PressedOutline,
         };
         var actionDisabled = new StyleBoxFlat(action)
         {
             BackgroundColor = DeadSpaceStylePalette.ActionDisabled,
-            BorderColor = DeadSpaceStylePalette.BorderDisabled,
+            BorderColor = Color.Transparent,
         };
 
         var topAction = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Control,
-            DeadSpaceStylePalette.CyanDim,
+            Color.Transparent,
             new Thickness(1),
             14,
             6);
         var topActionHover = new StyleBoxFlat(topAction)
         {
             BackgroundColor = DeadSpaceStylePalette.ActionHover,
-            BorderColor = DeadSpaceStylePalette.Cyan,
+            BorderColor = DeadSpaceStylePalette.HoverOutline,
         };
         var topActionPressed = new StyleBoxFlat(topAction)
         {
             BackgroundColor = DeadSpaceStylePalette.ActionPressed,
-            BorderColor = DeadSpaceStylePalette.CyanBright,
+            BorderColor = DeadSpaceStylePalette.PressedOutline,
         };
         var topActionDisabled = new StyleBoxFlat(topAction)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = DeadSpaceStylePalette.BorderDisabled,
+            BorderColor = Color.Transparent,
         };
 
         var dangerControl = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Control,
-            DeadSpaceStylePalette.BorderControl,
+            Color.Transparent,
             new Thickness(1),
             14,
             2);
         var dangerControlHover = new StyleBoxFlat(dangerControl)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlHover,
-            BorderColor = DeadSpaceStylePalette.Cyan,
+            BorderColor = DeadSpaceStylePalette.HoverOutline,
         };
         var dangerControlPressed = new StyleBoxFlat(dangerControl)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlPressed,
-            BorderColor = DeadSpaceStylePalette.CyanBright,
+            BorderColor = DeadSpaceStylePalette.PressedOutline,
         };
         var dangerControlDisabled = new StyleBoxFlat(dangerControl)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = DeadSpaceStylePalette.BorderDisabled,
+            BorderColor = Color.Transparent,
         };
         // Match the existing base button content margins so a global chrome change cannot resize layouts.
         var baseControl = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Control,
-            DeadSpaceStylePalette.BorderControl,
+            Color.Transparent,
             new Thickness(1),
             14,
             2);
         var baseControlHover = new StyleBoxFlat(baseControl)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlHover,
-            BorderColor = DeadSpaceStylePalette.Cyan,
+            BorderColor = DeadSpaceStylePalette.HoverOutline,
         };
         var baseControlPressed = new StyleBoxFlat(baseControl)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlPressed,
-            BorderColor = DeadSpaceStylePalette.CyanBright,
+            BorderColor = DeadSpaceStylePalette.PressedOutline,
         };
         var baseControlDisabled = new StyleBoxFlat(baseControl)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = DeadSpaceStylePalette.BorderDisabled,
+            BorderColor = Color.Transparent,
         };
         // Bare ContainerButton is widely used as a zero-margin interactive row. Give it safe global chrome
         // without changing its measured geometry; the more specific ordinary Button rule below keeps its margins.
@@ -113,7 +114,7 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
 
         var listItem = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.ListItem,
-            DeadSpaceStylePalette.BorderControl,
+            Color.Transparent,
             new Thickness(1),
             6,
             4);
@@ -124,17 +125,23 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
         var listItemHover = new StyleBoxFlat(listItem)
         {
             BackgroundColor = DeadSpaceStylePalette.ListItemHover,
-            BorderColor = DeadSpaceStylePalette.Cyan,
+            BorderColor = DeadSpaceStylePalette.HoverOutline,
         };
         var listItemPressed = new StyleBoxFlat(listItem)
         {
             BackgroundColor = DeadSpaceStylePalette.ListItemPressed,
-            BorderColor = DeadSpaceStylePalette.CyanBright,
+            BorderColor = DeadSpaceStylePalette.PressedOutline,
+        };
+        // ItemList rasterizes the lower edge exactly on the next row boundary. Give only its selected
+        // background one extra bottom pixel so the outline remains closed at fractional UI scales.
+        var selectedListItem = new StyleBoxFlat(listItemPressed)
+        {
+            BorderThickness = new Thickness(1, 1, 1, 2),
         };
         var listItemDisabled = new StyleBoxFlat(listItem)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = DeadSpaceStylePalette.BorderDisabled,
+            BorderColor = Color.Transparent,
         };
         // ListContainerButton historically had a zero-margin StyleBoxOverride. Preserve that geometry.
         var listContainer = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.ListItem);
@@ -145,7 +152,7 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
         var input = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Input,
             DeadSpaceStylePalette.BorderControl,
-            new Thickness(1),
+            new Thickness(0, 0, 0, 1),
             7,
             4);
         var inputDisabled = new StyleBoxFlat(input)
@@ -163,18 +170,22 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
                 .Prop(ItemList.StylePropertyBackground, input)
                 .Prop(ItemList.StylePropertyItemBackground, listItem)
                 .Prop(ItemList.StylePropertyDisabledItemBackground, inputDisabled)
-                .Prop(ItemList.StylePropertySelectedItemBackground, listItemPressed),
+                .Prop(ItemList.StylePropertySelectedItemBackground, selectedListItem),
             E<OutputPanel>()
                 .Prop(OutputPanel.StylePropertyStyleBox, textArea),
-            // ChatWindowPanel owns the chat background and its configurable opacity.
-            E<ChatBox>()
-                .ParentOf(E<PanelContainer>().Class(ChatInputBox.StyleClassChatPanel))
-                .ParentOf(E<BoxContainer>())
-                .ParentOf(E<OutputPanel>())
+            // ChatWindowPanel owns the complete transcript background and its configurable opacity.
+            // Target the transcript directly so ResizableChatBox and pop-out variants behave identically.
+            E<OutputPanel>()
+                .Class(ChatBox.StyleClassChatTranscript)
                 .Prop(OutputPanel.StylePropertyStyleBox, new StyleBoxEmpty()),
             E<LineEdit>()
                 .Prop(LineEdit.StylePropertyStyleBox, input)
                 .Prop("font-color", DeadSpaceStylePalette.Text),
+            // Keep the HUD chat composer comfortably tappable/readable without increasing every LineEdit.
+            // The surrounding ChatPanel remains responsible for its background, avoiding another nested box.
+            E<LineEdit>()
+                .Class(ChatInputBox.StyleClassChatLineEdit)
+                .MinSize(new Vector2(0, 34)),
             E<LineEdit>()
                 .Class(LineEdit.StyleClassLineEditNotEditable)
                 .Prop(LineEdit.StylePropertyStyleBox, inputDisabled)
@@ -197,7 +208,7 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
             bareContainerHover,
             bareContainerPressed,
             bareContainerDisabled);
-        AddCheckBoxRules(rules, bareContainer, bareContainerHover, bareContainerDisabled);
+        AddCheckBoxRules(rules);
         // SwitchButton already communicates every state through its track and thumb.
         // Keep its ContainerButton root free of the global full-row backing surface.
         var switchBackground = new StyleBoxEmpty();
@@ -271,20 +282,17 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
         ]);
     }
 
-    private static void AddCheckBoxRules(
-        List<StyleRule> rules,
-        StyleBox normal,
-        StyleBox hovered,
-        StyleBox disabled)
+    private static void AddCheckBoxRules(List<StyleRule> rules)
     {
-        // A checked CheckBox uses the pressed pseudo-class permanently. Keep the row chrome neutral and let the
-        // checkbox texture communicate true/false, otherwise every enabled option becomes a solid cyan stripe.
+        // The checkbox texture already communicates true/false and hover. A full-row style box reads as text
+        // selection in dense settings lists, so keep the row completely transparent in every state.
+        var background = new StyleBoxEmpty();
         rules.AddRange(
         [
-            E<CheckBox>().PseudoNormal().Box(normal).Modulate(Color.White),
-            E<CheckBox>().PseudoHovered().Box(hovered).Modulate(Color.White),
-            E<CheckBox>().PseudoPressed().Box(normal).Modulate(Color.White),
-            E<CheckBox>().PseudoDisabled().Box(disabled).Modulate(Color.White),
+            E<CheckBox>().PseudoNormal().Box(background).Modulate(Color.White),
+            E<CheckBox>().PseudoHovered().Box(background).Modulate(Color.White),
+            E<CheckBox>().PseudoPressed().Box(background).Modulate(Color.White),
+            E<CheckBox>().PseudoDisabled().Box(background).Modulate(Color.White),
         ]);
     }
 }

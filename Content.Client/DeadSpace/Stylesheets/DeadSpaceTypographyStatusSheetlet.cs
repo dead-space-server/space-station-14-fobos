@@ -17,9 +17,30 @@ public sealed class DeadSpaceTypographyStatusSheetlet : Sheetlet<NanotrasenStyle
     {
         // Semantic color must never change a button's measured size. Keep the ordinary
         // semantic controls on the same 14x2 content margins as the global Button baseline.
+        var accentControl = DeadSpaceStyleBoxes.Flat(
+            DeadSpaceStylePalette.Control,
+            DeadSpaceStylePalette.HoverOutline,
+            new Thickness(1),
+            14,
+            2);
+        var accentControlHover = new StyleBoxFlat(accentControl)
+        {
+            BackgroundColor = DeadSpaceStylePalette.ControlHover,
+            BorderColor = DeadSpaceStylePalette.PressedOutline,
+        };
+        var accentControlPressed = new StyleBoxFlat(accentControl)
+        {
+            BackgroundColor = DeadSpaceStylePalette.ControlPressed,
+            BorderColor = DeadSpaceStylePalette.PressedOutline,
+        };
+        var accentControlDisabled = new StyleBoxFlat(accentControl)
+        {
+            BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
+            BorderColor = DeadSpaceStylePalette.BorderDisabled,
+        };
         var positive = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Positive,
-            DeadSpaceStylePalette.PositiveBorder,
+            Color.Transparent,
             new Thickness(1),
             14,
             2);
@@ -36,11 +57,11 @@ public sealed class DeadSpaceTypographyStatusSheetlet : Sheetlet<NanotrasenStyle
         var positiveDisabled = new StyleBoxFlat(positive)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = DeadSpaceStylePalette.BorderDisabled,
+            BorderColor = Color.Transparent,
         };
         var negative = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Negative,
-            DeadSpaceStylePalette.NegativeBorder,
+            Color.Transparent,
             new Thickness(1),
             14,
             2);
@@ -52,11 +73,11 @@ public sealed class DeadSpaceTypographyStatusSheetlet : Sheetlet<NanotrasenStyle
         var negativeDisabled = new StyleBoxFlat(negative)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = DeadSpaceStylePalette.BorderDisabled,
+            BorderColor = Color.Transparent,
         };
         var warning = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.WarningControl,
-            DeadSpaceStylePalette.WarningBorder,
+            Color.Transparent,
             new Thickness(1),
             14,
             2);
@@ -73,13 +94,13 @@ public sealed class DeadSpaceTypographyStatusSheetlet : Sheetlet<NanotrasenStyle
         var warningDisabled = new StyleBoxFlat(warning)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = DeadSpaceStylePalette.BorderDisabled,
+            BorderColor = Color.Transparent,
         };
 
         // Large lobby actions retain their deliberate 14x8 geometry in every semantic state.
         var actionPositive = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Positive,
-            DeadSpaceStylePalette.PositiveBorder,
+            Color.Transparent,
             new Thickness(1),
             14,
             8);
@@ -95,7 +116,7 @@ public sealed class DeadSpaceTypographyStatusSheetlet : Sheetlet<NanotrasenStyle
         };
         var topActionNegative = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Negative,
-            DeadSpaceStylePalette.NegativeBorder,
+            Color.Transparent,
             new Thickness(1),
             14,
             6);
@@ -107,11 +128,11 @@ public sealed class DeadSpaceTypographyStatusSheetlet : Sheetlet<NanotrasenStyle
         var topActionNegativeDisabled = new StyleBoxFlat(topActionNegative)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = DeadSpaceStylePalette.BorderDisabled,
+            BorderColor = Color.Transparent,
         };
         var readyOff = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.NegativeStrong,
-            DeadSpaceStylePalette.NegativeBorderStrong,
+            Color.Transparent,
             new Thickness(1),
             14,
             8);
@@ -122,13 +143,13 @@ public sealed class DeadSpaceTypographyStatusSheetlet : Sheetlet<NanotrasenStyle
         };
         var priorityNever = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.NegativeStrong,
-            DeadSpaceStylePalette.NegativeBorderStrong,
+            Color.Transparent,
             new Thickness(1),
             14,
             2);
         var listUnread = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Positive,
-            DeadSpaceStylePalette.PositiveBorder,
+            Color.Transparent,
             new Thickness(1),
             6,
             4);
@@ -140,7 +161,7 @@ public sealed class DeadSpaceTypographyStatusSheetlet : Sheetlet<NanotrasenStyle
         var listUnreadDisabled = new StyleBoxFlat(listUnread)
         {
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
-            BorderColor = DeadSpaceStylePalette.BorderDisabled,
+            BorderColor = Color.Transparent,
         };
         var listPressed = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.ListItemPressed,
@@ -204,6 +225,7 @@ public sealed class DeadSpaceTypographyStatusSheetlet : Sheetlet<NanotrasenStyle
             Button(DeadSpaceStyleClass.TopAction).ParentOf(E<Label>()).Font(sheet.BaseFont.GetFont(12, FontKind.Bold)),
             Button(DeadSpaceStyleClass.TopAction).ParentOf(E()).ParentOf(E<Label>()).Font(sheet.BaseFont.GetFont(12, FontKind.Bold)),
             Button(DeadSpaceStyleClass.TopAction).ParentOf(E<Label>().Class(OptionButton.StyleClassOptionButton)).Font(sheet.BaseFont.GetFont(12, FontKind.Bold)),
+            Button(DeadSpaceStyleClass.ControlAccent).ParentOf(E<Label>()).Font(sheet.BaseFont.GetFont(12)),
             Button(DeadSpaceStyleClass.ControlDanger).ParentOf(E<Label>()).Font(sheet.BaseFont.GetFont(12)),
             Button(DeadSpaceStyleClass.ListItem).ParentOf(E<Label>()).Font(sheet.BaseFont.GetFont(12)),
             Button(DeadSpaceStyleClass.ListItemAlternate).ParentOf(E<Label>()).Font(sheet.BaseFont.GetFont(12)),
@@ -225,6 +247,10 @@ public sealed class DeadSpaceTypographyStatusSheetlet : Sheetlet<NanotrasenStyle
             Button(StyleClass.Negative).PseudoHovered().Box(negativeHover).Modulate(Color.White),
             Button(StyleClass.Negative).PseudoPressed().Box(negativeHover).Modulate(Color.White),
             Button(StyleClass.Negative).PseudoDisabled().Box(negativeDisabled).Modulate(Color.White),
+            Button(DeadSpaceStyleClass.ControlAccent).PseudoNormal().Box(accentControl).Modulate(Color.White),
+            Button(DeadSpaceStyleClass.ControlAccent).PseudoHovered().Box(accentControlHover).Modulate(Color.White),
+            Button(DeadSpaceStyleClass.ControlAccent).PseudoPressed().Box(accentControlPressed).Modulate(Color.White),
+            Button(DeadSpaceStyleClass.ControlAccent).PseudoDisabled().Box(accentControlDisabled).Modulate(Color.White),
             Button(DeadSpaceStyleClass.ControlPositive).PseudoNormal().Box(positive).Modulate(Color.White),
             Button(DeadSpaceStyleClass.ControlPositive).PseudoHovered().Box(positiveHover).Modulate(Color.White),
             Button(DeadSpaceStyleClass.ControlPositive).PseudoPressed().Box(positivePressed).Modulate(Color.White),

@@ -62,6 +62,7 @@ public sealed class ManualApprovedErtRequestData
     public EntityUid? ConsoleUid { get; set; }
     public int ReservedPrice { get; set; }
     public EntityUid? PinpointerTarget { get; set; }
+    public bool SuppressAnnouncements { get; set; }
 }
 
 public sealed class ApprovedErtRequestData
@@ -75,6 +76,7 @@ public sealed class ApprovedErtRequestData
     public EntityUid? ConsoleUid { get; set; }
     public int ReservedPrice { get; set; }
     public EntityUid? PinpointerTarget { get; set; }
+    public bool SuppressAnnouncements { get; set; }
 }
 
 // Работает для одной станции, потому что пока нет смысла делать для множества
@@ -332,14 +334,20 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             teamId,
             _stationSystem.GetOwningStation(args.SenderSession.AttachedEntity),
             out var result,
-            true,
-            true,
-            true,
-            msg.Reason,
-            requestedByName: args.SenderSession.Name);
+            toPay: true,
+            needCooldown: true,
+            needWarn: msg.SendNotification,
+            callReason: msg.Reason,
+            requestedByName: args.SenderSession.Name,
+            suppressAnnouncements: !msg.SendNotification);
 
-        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} queued ERT '{msg.ProtoId}' for auto spawn with reason '{msg.Reason}'");
-        _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} добавил новый вызов ОБР '{msg.ProtoId}' в очередь автоспавна.");
+        _adminLogger.Add(
+            LogType.Action,
+            LogImpact.Medium,
+            $"Admin {args.SenderSession.Name} queued ERT '{msg.ProtoId}' for auto spawn with reason '{msg.Reason}', announcements: {msg.SendNotification}");
+        _chatManager.SendAdminAlert(
+            $"Админ {args.SenderSession.Name} добавил новый вызов ОБР '{msg.ProtoId}' в очередь автоспавна" +
+            (msg.SendNotification ? "." : " без оповещений."));
         RaiseNetworkEvent(new ErtAdminActionResult(success, result ?? "ERT queued successfully."), args.SenderSession.Channel);
     }
 
@@ -407,6 +415,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             StationUid = request.StationUid,
             ConsoleUid = request.ConsoleUid,
             ReservedPrice = request.ReservedPrice,
+            SuppressAnnouncements = !msg.SendNotification,
         };
 
         if (msg.SendNotification)
@@ -440,7 +449,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         }
 
         _pendingRequests.Remove(msg.RequestId);
-        QueueApprovedRequest(request, prototype);
+        QueueApprovedRequest(request, prototype, suppressAnnouncements: !msg.SendNotification);
         if (msg.SendNotification)
             AnnounceApprovedRequest(prototype);
 
@@ -481,7 +490,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         var teamChanged = request.TeamId != newTeam;
         request.TeamId = newTeam;
 
-        if (teamChanged)
+        if (teamChanged && !request.SuppressAnnouncements)
             AnnounceChangedApprovedTeam(prototype);
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} changed approved ERT request #{msg.RequestId} team to '{msg.ProtoId}'");
@@ -505,7 +514,11 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             return;
         }
 
-        EnsureErtTeam(request.TeamId, request.CallReason, request.PinpointerTarget);
+        EnsureErtTeam(
+            request.TeamId,
+            request.CallReason,
+            request.PinpointerTarget,
+            announce: !request.SuppressAnnouncements);
         _approvedRequests.Remove(msg.RequestId);
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} sent approved ERT request #{msg.RequestId} immediately");
@@ -535,6 +548,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         }
 
         _manualApprovedRequests.Remove(msg.RequestId);
+        request.SuppressAnnouncements = true;
         QueueApprovedRequest(request, prototype);
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} promoted manual-approved ERT request #{msg.RequestId} to auto spawn");
@@ -568,6 +582,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             ConsoleUid = request.ConsoleUid,
             ReservedPrice = request.ReservedPrice,
             PinpointerTarget = request.PinpointerTarget,
+            SuppressAnnouncements = request.SuppressAnnouncements,
         };
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} moved approved ERT request #{msg.RequestId} to manual approval");
@@ -643,7 +658,12 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
                 }
 
                 var window = _defaultWindowWaitingSpecies.Clone();
-                var settings = new WaitingSpeciesSettings(args.Map, window, ent.Comp.Team, uid);
+                var settings = new WaitingSpeciesSettings(
+                    args.Map,
+                    window,
+                    ent.Comp.Team,
+                    uid,
+                    ent.Comp.SuppressAnnouncements);
 
                 EnsureComp<ErtSpeciesRoleComponent>(spec).Settings = settings;
                 _timedWindowSystem.Reset(window);
@@ -700,7 +720,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             if (!_prototypeManager.TryIndex(settings.TeamId, out var prototype))
                 continue;
 
-            if (prototype.CancelMessage != null)
+            if (prototype.CancelMessage != null && !settings.SuppressAnnouncements)
             {
                 _chatSystem.DispatchGlobalAnnouncement(
                     message: prototype.CancelMessage,
@@ -738,7 +758,11 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             if (!_timedWindowSystem.IsExpired(data.Window))
                 continue;
 
-            EnsureErtTeam(data.TeamId, data.CallReason, data.PinpointerTarget);
+            EnsureErtTeam(
+                data.TeamId,
+                data.CallReason,
+                data.PinpointerTarget,
+                announce: !data.SuppressAnnouncements);
             _approvedRequests.Remove(requestId);
         }
     }
@@ -752,7 +776,8 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         bool needWarn = true,
         string? callReason = null,
         EntityUid? pinpointerTarget = null,
-        string? requestedByName = null)
+        string? requestedByName = null,
+        bool suppressAnnouncements = false)
     {
         reason = "Вызван успешно.";
 
@@ -776,7 +801,8 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             station,
             null,
             toPay ? prototype.Price : 0,
-            pinpointerTarget);
+            pinpointerTarget,
+            suppressAnnouncements);
 
         return true;
     }
@@ -817,7 +843,11 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         return true;
     }
 
-    public EntityUid? EnsureErtTeam(ProtoId<ErtTeamPrototype> team, string? callReason = null, EntityUid? pinpointerTarget = null)
+    public EntityUid? EnsureErtTeam(
+        ProtoId<ErtTeamPrototype> team,
+        string? callReason = null,
+        EntityUid? pinpointerTarget = null,
+        bool announce = true)
     {
         if (!_prototypeManager.TryIndex(team, out var prototype))
             return null;
@@ -841,6 +871,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         ruleComp.Team = team;
         ruleComp.CallReason = callReason;
         ruleComp.PinpointerTarget = pinpointerTarget;
+        ruleComp.SuppressAnnouncements = !announce;
 
         var addedEvent = new GameRuleAddedEvent(ruleEntity, prototype.ErtRule);
         RaiseLocalEvent(ruleEntity, ref addedEvent, true);
@@ -850,7 +881,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         var loadedEvent = new RuleLoadedGridsEvent(mapId, grids);
         RaiseLocalEvent(ruleEntity, ref loadedEvent);
 
-        if (!string.IsNullOrEmpty(prototype.StartAnnouncement))
+        if (announce && !string.IsNullOrEmpty(prototype.StartAnnouncement))
         {
             _chatSystem.DispatchGlobalAnnouncement(
                 message: Loc.GetString(prototype.StartAnnouncement),
@@ -967,7 +998,10 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         return false;
     }
 
-    private void QueueApprovedRequest(PendingErtRequestData request, ErtTeamPrototype prototype)
+    private void QueueApprovedRequest(
+        PendingErtRequestData request,
+        ErtTeamPrototype prototype,
+        bool suppressAnnouncements = false)
     {
         _approvedRequests[request.RequestId] = CreateApprovedRequest(
             request.RequestId,
@@ -978,7 +1012,8 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             request.StationUid,
             request.ConsoleUid,
             request.ReservedPrice,
-            null);
+            null,
+            suppressAnnouncements);
     }
 
     private void QueueApprovedRequest(ManualApprovedErtRequestData request, ErtTeamPrototype prototype)
@@ -992,7 +1027,8 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             request.StationUid,
             request.ConsoleUid,
             request.ReservedPrice,
-            request.PinpointerTarget);
+            request.PinpointerTarget,
+            request.SuppressAnnouncements);
     }
 
     private ApprovedErtRequestData CreateApprovedRequest(
@@ -1004,7 +1040,8 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         EntityUid? stationUid,
         EntityUid? consoleUid,
         int reservedPrice,
-        EntityUid? pinpointerTarget)
+        EntityUid? pinpointerTarget,
+        bool suppressAnnouncements)
     {
         var window = prototype.TimeWindowToSpawn.Clone();
         _timedWindowSystem.Reset(window);
@@ -1020,6 +1057,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             ConsoleUid = consoleUid,
             ReservedPrice = reservedPrice,
             PinpointerTarget = pinpointerTarget,
+            SuppressAnnouncements = suppressAnnouncements,
         };
     }
 
@@ -1088,12 +1126,19 @@ public sealed class WaitingSpeciesSettings
     public TimedWindow Window;
     public ProtoId<ErtTeamPrototype> TeamId;
     public EntityUid SpawnPoint;
+    public bool SuppressAnnouncements;
 
-    public WaitingSpeciesSettings(MapId mapId, TimedWindow window, ProtoId<ErtTeamPrototype> teamId, EntityUid spawnPoint)
+    public WaitingSpeciesSettings(
+        MapId mapId,
+        TimedWindow window,
+        ProtoId<ErtTeamPrototype> teamId,
+        EntityUid spawnPoint,
+        bool suppressAnnouncements)
     {
         MapId = mapId;
         Window = window;
         TeamId = teamId;
         SpawnPoint = spawnPoint;
+        SuppressAnnouncements = suppressAnnouncements;
     }
 }

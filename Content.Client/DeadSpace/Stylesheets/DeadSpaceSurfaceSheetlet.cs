@@ -1,7 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Numerics;
-using Content.Client.Resources;
 using Content.Client.Stylesheets;
 using Content.Client.Stylesheets.Fonts;
 using Content.Client.Stylesheets.Stylesheets;
@@ -19,40 +18,25 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
 {
     public override StyleRule[] GetRules(NanotrasenStylesheet sheet, object config)
     {
-        var shellTexture = ResCache.GetTexture("/Textures/Interface/Nano/lobby_b.png");
-        var shell = new StyleBoxTexture
-        {
-            Texture = shellTexture,
-            Mode = StyleBoxTexture.StretchMode.Tile,
-        };
-        shell.SetPatchMargin(StyleBox.Margin.All, 24);
-        shell.SetExpandMargin(StyleBox.Margin.All, -4);
-        shell.SetContentMarginOverride(StyleBox.Margin.All, 10);
-
-        var topShell = new StyleBoxTexture(shell)
-        {
-            Texture = shellTexture,
-            Mode = StyleBoxTexture.StretchMode.Tile,
-        };
-        topShell.SetContentMarginOverride(StyleBox.Margin.Vertical, 7);
-        topShell.SetContentMarginOverride(StyleBox.Margin.Horizontal, 10);
+        var shell = DeadSpaceStyleBoxes.Flat(
+            DeadSpaceStylePalette.SurfaceDark,
+            horizontalMargin: 10,
+            verticalMargin: 10);
+        var topShell = DeadSpaceStyleBoxes.Flat(
+            DeadSpaceStylePalette.SurfaceDark,
+            horizontalMargin: 10,
+            verticalMargin: 7);
 
         var panel = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Surface,
-            DeadSpaceStylePalette.Border,
-            new Thickness(1),
-            10,
-            10);
+            horizontalMargin: 10,
+            verticalMargin: 10);
         var panelDark = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceDark,
-            DeadSpaceStylePalette.BorderDark,
-            new Thickness(1),
-            8,
-            8);
+            horizontalMargin: 8,
+            verticalMargin: 8);
         var panelWarning = DeadSpaceStyleBoxes.Flat(
-            DeadSpaceStylePalette.Warning,
-            DeadSpaceStylePalette.Amber,
-            new Thickness(1));
+            DeadSpaceStylePalette.Warning);
         var modalScrim = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.ModalScrim);
         var flatBody = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.SurfaceFlat, horizontalMargin: 8);
         flatBody.ContentMarginTopOverride = 8;
@@ -60,22 +44,18 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
 
         var header = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceHeader,
-            DeadSpaceStylePalette.BorderHeader,
+            DeadSpaceStylePalette.AccentDim,
             new Thickness(0, 0, 0, 1),
             10,
             8);
         var inset = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceInset,
-            DeadSpaceStylePalette.BorderInset,
-            new Thickness(1),
-            6,
-            6);
+            horizontalMargin: 6,
+            verticalMargin: 6);
         var roundStatus = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceStatus,
-            DeadSpaceStylePalette.BorderHeader,
-            new Thickness(1),
-            18,
-            7);
+            horizontalMargin: 18,
+            verticalMargin: 7);
 
         var accent = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.Amber);
         accent.ContentMarginLeftOverride = 2;
@@ -87,24 +67,23 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
 
         var characterIcon = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceIcon,
-            DeadSpaceStylePalette.BorderIcon,
+            Color.Transparent,
             new Thickness(1),
             3,
             3);
-        var defaultTabsPanel = DeadSpaceStyleBoxes.Flat(
-            DeadSpaceStylePalette.SurfaceTabs,
-            DeadSpaceStylePalette.Border,
-            new Thickness(1));
+        var defaultTabsPanel = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.SurfaceTabs);
         var defaultTabActive = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceTabActive,
             DeadSpaceStylePalette.BorderTabActive,
-            new Thickness(1),
-            5);
+            new Thickness(0, 0, 0, 2),
+            7,
+            4);
         var defaultTabInactive = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceTabInactive,
             DeadSpaceStylePalette.BorderTabInactive,
-            new Thickness(1),
-            5);
+            new Thickness(0, 0, 0, 2),
+            7,
+            4);
 
         var listHeader = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceHeader,
@@ -114,7 +93,7 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
             5);
         var listItem = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.ListItem,
-            DeadSpaceStylePalette.BorderControl,
+            Color.Transparent,
             new Thickness(1),
             6,
             4);
@@ -125,23 +104,23 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
         var input = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Input,
             DeadSpaceStylePalette.BorderControl,
-            new Thickness(1),
+            new Thickness(0, 0, 0, 1),
             7,
             4);
         var popup = new StyleBoxFlat(panel)
         {
             BackgroundColor = DeadSpaceStylePalette.SurfacePopup,
-            BorderColor = DeadSpaceStylePalette.BorderHeader,
+            BorderColor = DeadSpaceStylePalette.HoverOutline,
         };
         var optionBackground = DeadSpaceStyleBoxes.Flat(
-            DeadSpaceStylePalette.Input,
-            DeadSpaceStylePalette.BorderControl,
+            DeadSpaceStylePalette.SurfacePopup,
+            DeadSpaceStylePalette.BorderDark,
             new Thickness(1));
         // Preserve the zero-margin geometry of widespread legacy panel classes while changing only their chrome.
         var legacyPanelDeep = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.SurfaceDark);
         var legacyPanelInsetDeep = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceInset,
-            DeadSpaceStylePalette.BorderInset,
+            Color.Transparent,
             new Thickness(2));
         var defaultWindowPanel = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Surface,
@@ -149,8 +128,10 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
             new Thickness(1));
         var defaultWindowHeader = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.SurfaceHeader,
-            DeadSpaceStylePalette.BorderHeader,
+            DeadSpaceStylePalette.AccentDim,
             new Thickness(0, 0, 0, 1));
+        // FancyWindow content needs one raised neutral step: deep black is reserved for genuine insets/HUD.
+        var backgroundPanel = DeadSpaceStyleBoxes.Flat(DeadSpaceStylePalette.SurfaceFlat);
 
         return
         [
@@ -184,7 +165,12 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
             // Standard content windows use DS chrome without per-window style annotations.
             E<PanelContainer>().Class(DefaultWindow.StyleClassWindowPanel).Panel(defaultWindowPanel),
             E<PanelContainer>().Class(DefaultWindow.StyleClassWindowHeader).Panel(defaultWindowHeader),
-            E<PanelContainer>().Class("BackgroundPanel").Panel(defaultWindowPanel),
+            // The legacy PanelSheetlet also applies a dark color through Modulate. Reset it here or the
+            // DS14 flat color is multiplied twice and FancyWindow bodies become almost pure black.
+            E<PanelContainer>()
+                .Class(StyleClass.BackgroundPanel)
+                .Panel(backgroundPanel)
+                .Modulate(Color.White),
             E<PanelContainer>().Class("WindowHeadingBackground").Panel(defaultWindowHeader),
             E<TabContainer>()
                 .Prop(TabContainer.StylePropertyPanelStyleBox, defaultTabsPanel)
