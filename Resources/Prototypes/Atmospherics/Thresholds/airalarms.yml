@@ -134,22 +134,6 @@
   upperWarnAround: !type:AlarmThresholdSetting
     threshold: 0.5
 
-# Toxic nitrogen dioxide.
-- type: alarmThreshold
-  id: stationNitryl
-  upperBound: !type:AlarmThresholdSetting
-    threshold: 0.01
-  upperWarnAround: !type:AlarmThresholdSetting
-    threshold: 0.5
-
-# Toxic nitric oxide.
-- type: alarmThreshold
-  id: stationNitricOxide
-  upperBound: !type:AlarmThresholdSetting
-    threshold: 0.01
-  upperWarnAround: !type:AlarmThresholdSetting
-    threshold: 0.5
-
 # War gas dangerous!
 - type: alarmThreshold
   id: stationIprit

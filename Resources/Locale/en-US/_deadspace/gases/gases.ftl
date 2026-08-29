@@ -1,4 +1,3 @@
-gases-nitric-oxide = Nitric Oxide
 gases-hyper-noblium = Hyper-Noblium
 gases-proto-nitrate = Proto-Nitrate
 gases-helium = Helium

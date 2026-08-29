@@ -1,8 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Kofeecheks
 # SPDX-License-Identifier: LicenseRef-Kofeecheks
 
-reagent-name-nitryl = nitrogen dioxide
-reagent-desc-nitryl = A harsh brown gas that is dangerous even in small doses.
 
 reagent-name-fixirium = fixirium
 reagent-desc-fixirium = A gas with unusually efficient respiratory properties.

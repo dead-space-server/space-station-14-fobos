@@ -1,4 +1,3 @@
-gases-nitric-oxide = Монооксид азота
 gases-hyper-noblium = Гипер-Ноблиум
 gases-proto-nitrate = Прото-нитрат
 gases-helium = Гелий

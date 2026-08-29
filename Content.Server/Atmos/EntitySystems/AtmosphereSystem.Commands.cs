@@ -110,46 +110,42 @@ public sealed partial class AtmosphereSystem
         // 9: Hydrogen (GM)
         mixtures[9].AdjustMoles(Gas.Hydrogen, Atmospherics.MolesCellGasMiner);
 
-        // 10: Nitryl (GM)
-        mixtures[10].AdjustMoles(Gas.Nitryl, Atmospherics.MolesCellGasMiner);
 
-        // 11: Fixirium (GM)
+        // 10: Fixirium (GM)
         mixtures[11].AdjustMoles(Gas.Fixirium, Atmospherics.MolesCellGasMiner);
 
-        // 12: Nitriatium (GM)
+        // 11: Nitriatium (GM)
         mixtures[12].AdjustMoles(Gas.Nitriatium, Atmospherics.MolesCellGasMiner);
 
-        // 13: Hilium (GM)
+        // 12: Hilium (GM)
         mixtures[13].AdjustMoles(Gas.Hilium, Atmospherics.MolesCellGasMiner);
 
-        // 14: Brizidium (GM)
+        // 13: Brizidium (GM)
         mixtures[14].AdjustMoles(Gas.Brizidium, Atmospherics.MolesCellGasMiner);
 
-        // 15: Iprit (GM)
+        // 14: Iprit (GM)
         mixtures[15].AdjustMoles(Gas.Iprit, Atmospherics.MolesCellGasMiner);
 
-        // 16: NitricOxide (GM)
-        mixtures[16].AdjustMoles(Gas.NitricOxide, Atmospherics.MolesCellGasMiner);
 
-        // 17: InfectionDeadSpace (GM)
+        // 15: InfectionDeadSpace (GM)
         mixtures[17].AdjustMoles(Gas.InfectionDeadSpace, Atmospherics.MolesCellGasMiner);
 
-        // 18: Hyper-Noblium (GM)
+        // 16: Hyper-Noblium (GM)
         mixtures[18].AdjustMoles(Gas.HyperNoblium, Atmospherics.MolesCellGasMiner);
 
-        // 19: Proto-Nitrate (GM)
+        // 17: Proto-Nitrate (GM)
         mixtures[19].AdjustMoles(Gas.ProtoNitrate, Atmospherics.MolesCellGasMiner);
 
-        // 20: Helium (GM)
+        // 18: Helium (GM)
         mixtures[20].AdjustMoles(Gas.Helium, Atmospherics.MolesCellGasMiner);
 
-        // 21: Halon (GM)
+        // 19: Halon (GM)
         mixtures[21].AdjustMoles(Gas.Halon, Atmospherics.MolesCellGasMiner);
 
-        // 22: Zauker (GM)
+        // 20: Zauker (GM)
         mixtures[22].AdjustMoles(Gas.Zauker, Atmospherics.MolesCellGasMiner);
 
-        // 23: Antinoblium (GM)
+        // 21: Antinoblium (GM)
         mixtures[23].AdjustMoles(Gas.Antinoblium, Atmospherics.MolesCellGasMiner);
         // DS14-end
 

@@ -41,45 +41,6 @@
 
 - type: entity
   parent: GasCanisterSoyuz
-  id: NitrylCanister
-  name: канистра диоксида азота
-  description: Канистра, в которой может содержаться газ любого вида. В этой, предположительно, содержится диоксид азота. Можно прикрепить к порту коннектора с помощью гаечного ключа.
-  components:
-    - type: Sprite
-      layers:
-        - state: nitryl
-    - type: GasCanister
-      gasMixture:
-        volume: 1500
-        moles:
-          Nitryl: 2769.36
-        temperature: 293.15
-    - type: Destructible
-      thresholds:
-      - trigger:
-          !type:DamageTrigger
-          damage: 600
-        behaviors:
-          - !type:DoActsBehavior
-            acts: [ "Destruction" ]
-      - trigger:
-          !type:DamageTrigger
-          damage: 300
-        behaviors:
-        - !type:PlaySoundBehavior
-          sound:
-            collection: MetalBreak
-        - !type:SpawnEntitiesBehavior
-          spawn:
-            NitrylCanisterBroken:
-              min: 1
-              max: 1
-        - !type:DoActsBehavior
-          acts: [ "Destruction" ]
-        - !type:DumpCanisterBehavior
-
-- type: entity
-  parent: GasCanisterSoyuz
   id: FixiriumCanister
   name: канистра фиксириума
   description: Канистра, в которой может содержаться газ любого вида. В этой, предположительно, содержится фиксириум. Можно прикрепить к порту коннектора с помощью гаечного ключа.
@@ -311,15 +272,6 @@
         - !type:DoActsBehavior
           acts: [ "Destruction" ]
         - !type:DumpCanisterBehavior
-
-- type: entity
-  parent: GasCanisterBrokenBase
-  id: NitrylCanisterBroken
-  categories: [ HideSpawnMenu ]
-  components:
-    - type: Sprite
-      sprite: _DeadSpace/_Soyuz/Structures/Storage/canisters.rsi
-      state: nitryl-1
 
 - type: entity
   parent: GasCanisterBrokenBase

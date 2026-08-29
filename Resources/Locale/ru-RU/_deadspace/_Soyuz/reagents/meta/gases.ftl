@@ -1,9 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Kofeecheks
 # SPDX-License-Identifier: LicenseRef-Kofeecheks
 
-reagent-name-nitryl = диоксид азота
-reagent-desc-nitryl = Едкий бурый газ, неприятный даже в малых дозах.
-
 reagent-name-fixirium = фиксириум
 reagent-desc-fixirium = Газ с необычно высокой дыхательной эффективностью.
 

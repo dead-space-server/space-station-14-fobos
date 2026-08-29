@@ -18,7 +18,7 @@
   priority: 4
   minimumRequirements:
     Plasma: 10
-    Nitryl: 10
+    NitrousOxide: 10
   effects:
   - !type:BrizidiumProductionReaction {}
 
@@ -72,12 +72,3 @@
     Fixirium: 0.01
   effects:
   - !type:IpritProductionReaction {}
-
-- type: gasReaction
-  id: NitrogenDioxideProduction
-  priority: 3
-  minimumRequirements:
-    NitricOxide: 0.01
-    Oxygen: 0.01
-  effects:
-  - !type:NitrogenDioxideProductionReaction {}

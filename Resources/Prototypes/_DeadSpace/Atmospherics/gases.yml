@@ -1,14 +1,4 @@
 - type: gas
-  id: NitricOxide
-  name: gases-nitric-oxide
-  specificHeat: 22
-  heatCapacityRatio: 1.4
-  molarMass: 30
-  color: 9aa6b2
-  reagent: NitricOxide
-  pricePerMole: 0.5
-
-- type: gas
   id: HyperNoblium
   name: gases-hyper-noblium
   specificHeat: 2000

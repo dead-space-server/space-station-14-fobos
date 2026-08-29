@@ -63,9 +63,9 @@ public sealed partial class BrizidiumProductionReaction : IGasReactionEffect
             return ReactionResult.NoReaction;
 
         var plasma = mixture.GetMoles(Gas.Plasma);
-        var nitryl = mixture.GetMoles(Gas.Nitryl);
+        var nitrousOxide = mixture.GetMoles(Gas.NitrousOxide);
 
-        var units = MathF.Min(plasma / 2f, nitryl) / ConversionDivisor;
+        var units = MathF.Min(plasma / 2f, nitrousOxide) / ConversionDivisor;
         if (units <= 0f)
             return ReactionResult.NoReaction;
 
@@ -76,7 +76,7 @@ public sealed partial class BrizidiumProductionReaction : IGasReactionEffect
         var oldHeatCapacity = atmosphereSystem.GetHeatCapacity(mixture, true);
 
         mixture.AdjustMoles(Gas.Plasma, -(units * 2f));
-        mixture.AdjustMoles(Gas.Nitryl, -units);
+        mixture.AdjustMoles(Gas.NitrousOxide, -units);
         mixture.AdjustMoles(Gas.Brizidium, units * 2f);
 
         SoyuzGasReactionHelpers.ApplyEnergy(
@@ -258,52 +258,6 @@ public sealed partial class IpritProductionReaction : IGasReactionEffect
             oldHeatCapacity,
             oldTemperature,
             reacted * 2f * EnergyPerMole);
-
-        return ReactionResult.Reacting;
-    }
-}
-
-[UsedImplicitly]
-public sealed partial class NitrogenDioxideProductionReaction : IGasReactionEffect
-{
-    private const float ConversionDivisor = 8f;
-    private const float EnergyPerMole = 40_000f;
-
-    private const float ReferenceTemperature = 273.15f;
-    private const float MinTempFactor = 0.15f;
-    private const float MaxTempFactor = 4f;
-
-    public ReactionResult React(GasMixture mixture, IGasMixtureHolder? holder, AtmosphereSystem atmosphereSystem, float heatScale)
-    {
-        var nitricOxide = mixture.GetMoles(Gas.NitricOxide);
-        var oxygen = mixture.GetMoles(Gas.Oxygen);
-        var total = mixture.TotalMoles;
-        if (total <= 0f)
-            return ReactionResult.NoReaction;
-
-        var fNitricOxide = nitricOxide / total;
-        var fOxygen = oxygen / total;
-        var rate = fNitricOxide * fNitricOxide * fOxygen;
-
-        var tempFactor = Math.Clamp(ReferenceTemperature / mixture.Temperature, MinTempFactor, MaxTempFactor);
-        var units = MathF.Min(nitricOxide / 2f, oxygen) / ConversionDivisor * rate * tempFactor;
-        if (units <= 0f)
-            return ReactionResult.NoReaction;
-
-        var oldTemperature = mixture.Temperature;
-        var oldHeatCapacity = atmosphereSystem.GetHeatCapacity(mixture, true);
-
-        mixture.AdjustMoles(Gas.NitricOxide, -(units * 2f));
-        mixture.AdjustMoles(Gas.Oxygen, -units);
-        mixture.AdjustMoles(Gas.Nitryl, units * 2f);
-
-        SoyuzGasReactionHelpers.ApplyEnergy(
-            mixture,
-            atmosphereSystem,
-            heatScale,
-            oldHeatCapacity,
-            oldTemperature,
-            units * 2f * EnergyPerMole);
 
         return ReactionResult.Reacting;
     }

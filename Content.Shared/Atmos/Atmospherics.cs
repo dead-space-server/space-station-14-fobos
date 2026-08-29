@@ -180,8 +180,6 @@ namespace Content.Shared.Atmos
             [Gas.Iprit] = Loc.GetString("gas-iprit-abbreviation"),
             [Gas.Nitrogen] = Loc.GetString("gas-nitrogen-abbreviation"),
             [Gas.Nitriatium] = Loc.GetString("gas-nitriatium-abbreviation"),
-            [Gas.Nitryl] = Loc.GetString("gas-nitryl-abbreviation"),
-            [Gas.NitricOxide] = Loc.GetString("gas-nitric-oxide-abbreviation"), // DS14
             [Gas.NitrousOxide] = Loc.GetString("gas-nitrous-oxide-abbreviation"),
             [Gas.Oxygen] = Loc.GetString("gas-oxygen-abbreviation"),
             [Gas.Plasma] = Loc.GetString("gas-plasma-abbreviation"),
@@ -226,7 +224,7 @@ namespace Content.Shared.Atmos
         /// <summary>
         ///     Total number of gases. Increase this if you want to add more!
         /// </summary>
-        public const int TotalNumberOfGases = 24; // Kofeecheks gases: LicenseRef-Kofeecheks //DS14: NitricOxide, HyperNoblium, ProtoNitrate, Helium, Halon, Zauker, Antinoblium
+        public const int TotalNumberOfGases = 22; // Kofeecheks gases: LicenseRef-Kofeecheks //DS14: HyperNoblium, ProtoNitrate, Helium, Halon, Zauker, Antinoblium
 
         /// <summary>
         ///     This is the actual length of the gases arrays in mixtures.
@@ -393,21 +391,19 @@ namespace Content.Shared.Atmos
         Frezon = 8,
         InfectionDeadSpace = 9,
         // Kofeecheks gases: LicenseRef-Kofeecheks
-        Nitryl = 10,
-        Fixirium = 11,
-        Hydrogen = 12,
-        Nitriatium = 13,
-        Hilium = 14,
-        Brizidium = 15,
-        Iprit = 16,
+        Fixirium = 10,
+        Hydrogen = 11,
+        Nitriatium = 12,
+        Hilium = 13,
+        Brizidium = 14,
+        Iprit = 15,
         // DS14-start
-        NitricOxide = 17,
-        HyperNoblium = 18,
-        ProtoNitrate = 19,
-        Helium = 20,
-        Halon = 21,
-        Zauker = 22,
-        Antinoblium = 23
+        HyperNoblium = 16,
+        ProtoNitrate = 17,
+        Helium = 18,
+        Halon = 19,
+        Zauker = 20,
+        Antinoblium = 21
         // DS14-end
     }
 }

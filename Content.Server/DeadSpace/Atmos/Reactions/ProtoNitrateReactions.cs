@@ -44,6 +44,7 @@ public sealed partial class ProtoNitrateProductionReaction : IGasReactionEffect
 public sealed partial class ProtoNitrateBrizidiumResponseReaction : IGasReactionEffect
 {
     private const float ConversionDivisor = 5f;
+    private const float PlasmaPerUnit = 4f;
     private const float EnergyPerUnit = 30_000f;
     private const float RadiationPerUnit = 0.5f;
     private const float MaxRadiation = 1.5f;
@@ -66,7 +67,7 @@ public sealed partial class ProtoNitrateBrizidiumResponseReaction : IGasReaction
         mixture.AdjustMoles(Gas.Brizidium, -units);
         mixture.AdjustMoles(Gas.Nitrogen, units);
         mixture.AdjustMoles(Gas.Helium, units);
-        mixture.AdjustMoles(Gas.Plasma, units);
+        mixture.AdjustMoles(Gas.Plasma, units * PlasmaPerUnit);
 
         SoyuzGasReactionHelpers.ApplyEnergy(
             mixture, atmosphereSystem, heatScale, oldHeatCapacity, oldTemperature, units * EnergyPerUnit);

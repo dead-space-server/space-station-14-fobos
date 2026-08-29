@@ -17,8 +17,6 @@
       Frezon: danger
       # DS14-start
       InfectionDeadSpace: stationInfectionDeadSpace
-      Nitryl: stationNitryl
-      NitricOxide: stationNitricOxide
       Iprit: stationIprit
       Brizidium: stationBrizidium
       Hydrogen: stationHydrogen
@@ -69,8 +67,6 @@
     - Frezon
     # DS14-start
     - InfectionDeadSpace
-    - Nitryl
-    - NitricOxide
     - Nitriatium
     - Hilium
     - Brizidium

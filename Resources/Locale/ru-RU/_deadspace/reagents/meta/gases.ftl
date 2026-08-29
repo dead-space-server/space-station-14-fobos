@@ -1,6 +1,3 @@
-reagent-name-nitric-oxide = монооксид азота
-reagent-desc-nitric-oxide = Бесцветный ядовитый газ. На воздухе медленно окисляется до бурого диоксида азота.
-
 reagent-name-hyper-noblium = гипер-ноблиум
 reagent-desc-hyper-noblium = Чрезвычайно инертный благородный газ, останавливающий все реакции вокруг себя.
 

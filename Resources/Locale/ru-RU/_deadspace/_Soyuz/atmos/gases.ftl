@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Kofeecheks
 # SPDX-License-Identifier: LicenseRef-Kofeecheks
 
-gas-nitryl-abbreviation = NO₂
 gas-fixirium-abbreviation = FX
 gas-hydrogen-abbreviation = H₂
 gas-nitriatium-abbreviation = NT

@@ -12,19 +12,6 @@
     - type: AtmosFixMarker
       mode: 9
 
-- type: entity
-  name: маркер исправления атмосферы — диоксид азота
-  id: AtmosFixNitrylMarker
-  description: "Nitrogen dioxide gas miner pressure, T20C"
-  parent: MarkerBase
-  components:
-    - type: Sprite
-      layers:
-        - sprite: Markers/atmos.rsi
-          state: base
-          shader: unshaded
-    - type: AtmosFixMarker
-      mode: 10
 
 - type: entity
   name: маркер исправления атмосферы — фиксириум
@@ -96,19 +83,6 @@
     - type: AtmosFixMarker
       mode: 15
 
-- type: entity
-  name: маркер исправления атмосферы — монооксид азота
-  id: AtmosFixNitricOxideMarker
-  description: "Nitric oxide gas miner pressure, T20C"
-  parent: MarkerBase
-  components:
-    - type: Sprite
-      layers:
-        - sprite: Markers/atmos.rsi
-          state: base
-          shader: unshaded
-    - type: AtmosFixMarker
-      mode: 16
 
 - type: entity
   name: маркер исправления атмосферы — некрогаз

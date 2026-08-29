@@ -1,6 +1,3 @@
-reagent-name-nitric-oxide = nitric oxide
-reagent-desc-nitric-oxide = A colorless toxic gas. In air it slowly oxidizes into brown nitrogen dioxide.
-
 reagent-name-hyper-noblium = hyper-noblium
 reagent-desc-hyper-noblium = An extremely inert noble gas that stops all reactions around it.
 

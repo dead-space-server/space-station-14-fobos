@@ -32,8 +32,6 @@ namespace Content.Server.Atmos.Portable
             Gas.Frezon,
             // DS14-start
             Gas.InfectionDeadSpace,
-            Gas.Nitryl,
-            Gas.NitricOxide,
             Gas.Nitriatium,
             Gas.Hilium,
             Gas.Brizidium,
