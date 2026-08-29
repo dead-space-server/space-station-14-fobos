@@ -26,7 +26,7 @@
   molarMass: 44
   color: 4e4e4e
   reagent: CarbonDioxide
-  pricePerMole: 0.1 # DS14
+  pricePerMole: 0
 
 - type: gas
   id: Plasma
@@ -38,7 +38,7 @@
   gasOverlayState: plasma
   color: FF3300
   reagent: Plasma
-  pricePerMole: 0.3 # DS14
+  pricePerMole: 0
 
 - type: gas
   id: Tritium
@@ -62,7 +62,7 @@
   gasOverlayState: water_vapor
   color: bffffd
   reagent: Water
-  pricePerMole: 0.1 # DS14
+  pricePerMole: 0
 
 - type: gas
   id: Ammonia
@@ -99,4 +99,4 @@
   gasMolesVisible: 0.6
   color: 3a758c
   reagent: Frezon
-  pricePerMole: 6
+  pricePerMole: 6 # DS14
