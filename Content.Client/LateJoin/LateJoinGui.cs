@@ -296,8 +296,7 @@ namespace Content.Client.LateJoin
                         };
 
                         var jobButton = new JobButton(jobLabel, prototype.ID, prototype.LocalizedName, value);
-                        if (rowIndex++ % 2 != 0)
-                            jobButton.AddStyleClass(DeadSpaceStyleClass.ListItemAlternate); // DS14
+                        jobButton.AddStyleClass(GetJobRowStyleClass(rowIndex++)); // DS14
 
                         var jobSelector = new BoxContainer
                         {
@@ -306,15 +305,8 @@ namespace Content.Client.LateJoin
                             SeparationOverride = 6,
                         };
 
-                        var icon = new TextureRect
-                        {
-                            TextureScale = new Vector2(2, 2),
-                            VerticalAlignment = VAlignment.Center,
-                            Margin = new Thickness(4, 0, 0, 0),
-                        };
-
                         var jobIcon = _prototypeManager.Index(prototype.Icon);
-                        icon.Texture = _sprites.Frame0(jobIcon.Icon);
+                        var icon = CreateJobIcon(_sprites.Frame0(jobIcon.Icon)); // DS14
                         jobSelector.AddChild(icon);
 
                         jobSelector.AddChild(jobLabel);
@@ -358,6 +350,34 @@ namespace Content.Client.LateJoin
                 }
             }
         }
+
+        // DS14-start
+        internal static string GetJobRowStyleClass(int rowIndex)
+        {
+            // Every row must use identical list geometry. Previously only odd rows received a list class, so even
+            // rows inherited the wider/shorter generic button margins and moved both the icon and the label.
+            return rowIndex % 2 == 0
+                ? DeadSpaceStyleClass.ListItem
+                : DeadSpaceStyleClass.ListItemAlternate;
+        }
+
+        internal static TextureRect CreateJobIcon(Texture texture)
+        {
+            // Job icon prototypes are not required to share a source resolution. A fixed cell prevents custom icons
+            // from changing the label offset or row height while KeepAspectCentered preserves their proportions.
+            return new TextureRect
+            {
+                Texture = texture,
+                TextureScale = new Vector2(2, 2),
+                MinSize = new Vector2(16, 16),
+                MaxSize = new Vector2(16, 16),
+                CanShrink = true,
+                Stretch = TextureRect.StretchMode.KeepAspectCentered,
+                VerticalAlignment = VAlignment.Center,
+                Margin = new Thickness(4, 0, 0, 0),
+            };
+        }
+        // DS14-end
 
         private void JobsAvailableUpdated(IReadOnlyDictionary<NetEntity, Dictionary<ProtoId<JobPrototype>, int?>> updatedJobs)
         {

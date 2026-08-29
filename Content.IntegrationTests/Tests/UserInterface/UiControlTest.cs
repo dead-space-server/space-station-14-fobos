@@ -236,6 +236,23 @@ public sealed class UiControlTest
                     unreadGeometryRow.AddChild(button);
                 root.AddChild(unreadGeometryRow);
 
+                var lateJoinGeometryButtons = new[]
+                {
+                    FixtureButton.ForPseudo(
+                        ContainerButton.StylePseudoClassNormal,
+                        LateJoinGui.GetJobRowStyleClass(0)),
+                    FixtureButton.ForPseudo(
+                        ContainerButton.StylePseudoClassNormal,
+                        LateJoinGui.GetJobRowStyleClass(1)),
+                };
+                var lateJoinGeometryRow = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                };
+                foreach (var button in lateJoinGeometryButtons)
+                    lateJoinGeometryRow.AddChild(button);
+                root.AddChild(lateJoinGeometryRow);
+
                 root.ForceRunStyleUpdate();
                 // This is a synthetic control catalogue rather than a viewport fixture; keep its test rows
                 // unconstrained vertically so later controls are not measured against exhausted space.
@@ -263,6 +280,8 @@ public sealed class UiControlTest
                 AssertSameDesiredHeight(actionGeometryButtons, "lobby action button states");
                 AssertSameDesiredHeight(topActionGeometryButtons, "top action button states");
                 AssertSameDesiredHeight(unreadGeometryButtons, "unread list button states");
+                AssertSameDesiredHeight(lateJoinGeometryButtons, "late-join alternating rows");
+                AssertSameContentMargins(lateJoinGeometryButtons, "late-join alternating rows");
             }
             finally
             {
@@ -359,6 +378,31 @@ public sealed class UiControlTest
                 $"{description} must not resize when its pseudo-state or semantic color changes " +
                 $"(classes: {string.Join(',', control.StyleClasses)}; " +
                 $"pseudo: {string.Join(',', control.StylePseudoClass)}; margins: {margins})");
+        }
+    }
+
+    private static void AssertSameContentMargins(IReadOnlyList<Control> controls, string description)
+    {
+        controls[0].TryGetStyleProperty<StyleBox>(ContainerButton.StylePropertyStyleBox, out var expectedBox);
+        Assert.That(expectedBox, Is.Not.Null, $"{description}: reference row has no stylesheet surface");
+
+        foreach (var control in controls)
+        {
+            control.TryGetStyleProperty<StyleBox>(ContainerButton.StylePropertyStyleBox, out var actualBox);
+            Assert.That(actualBox, Is.Not.Null, $"{description}: row has no stylesheet surface");
+            foreach (var margin in new[]
+                     {
+                         StyleBox.Margin.Top,
+                         StyleBox.Margin.Bottom,
+                         StyleBox.Margin.Left,
+                         StyleBox.Margin.Right,
+                     })
+            {
+                Assert.That(
+                    actualBox!.GetContentMargin(margin),
+                    Is.EqualTo(expectedBox!.GetContentMargin(margin)).Within(0.001f),
+                    $"{description}: {margin} content margin differs");
+            }
         }
     }
 

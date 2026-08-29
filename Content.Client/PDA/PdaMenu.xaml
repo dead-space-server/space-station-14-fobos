@@ -23,32 +23,36 @@
     </BoxContainer>
     <BoxContainer Name="ViewContainer" HorizontalExpand="True" VerticalExpand="True" Access="Public">
         <!-- DS14-start -->
-        <BoxContainer Orientation="Vertical"
-                      VerticalExpand="True"
-                      HorizontalExpand="True"
-                      MinSize="50 50"
-                      Margin="8"
-                      SeparationOverride="2"
-                      StyleClasses="PdaHomeSummary">
-            <ContainerButton Name="PdaOwnerButton">
-                <RichTextLabel Name="PdaOwnerLabel" Access="Public"/>
-            </ContainerButton>
-            <ContainerButton Name="IdInfoButton">
-                <RichTextLabel Name="IdInfoLabel" Access="Public"/>
-            </ContainerButton>
-            <ContainerButton Name="StationNameButton">
-                <RichTextLabel Name="StationNameLabel" Access="Public"/>
-            </ContainerButton>
-            <ContainerButton Name="StationAlertLevelButton">
-                <RichTextLabel Name="StationAlertLevelLabel" Access="Public"/>
-            </ContainerButton>
-            <ContainerButton Name="StationTimeButton">
-                <RichTextLabel Name="StationTimeLabel" Access="Public"/>
-            </ContainerButton>
-            <ContainerButton Name="StationAlertLevelInstructionsButton">
-                <RichTextLabel Name="StationAlertLevelInstructions" Access="Public"/>
-            </ContainerButton>
-        </BoxContainer>
+        <ScrollContainer HorizontalExpand="True"
+                         VerticalExpand="True"
+                         HScrollEnabled="False"
+                         VScrollEnabled="True">
+            <BoxContainer Orientation="Vertical"
+                          HorizontalExpand="True"
+                          MinSize="50 50"
+                          Margin="8"
+                          SeparationOverride="2"
+                          StyleClasses="PdaHomeSummary">
+                <ContainerButton Name="PdaOwnerButton">
+                    <RichTextLabel Name="PdaOwnerLabel" Access="Public"/>
+                </ContainerButton>
+                <ContainerButton Name="IdInfoButton">
+                    <RichTextLabel Name="IdInfoLabel" Access="Public"/>
+                </ContainerButton>
+                <ContainerButton Name="StationNameButton">
+                    <RichTextLabel Name="StationNameLabel" Access="Public"/>
+                </ContainerButton>
+                <ContainerButton Name="StationAlertLevelButton">
+                    <RichTextLabel Name="StationAlertLevelLabel" Access="Public"/>
+                </ContainerButton>
+                <ContainerButton Name="StationTimeButton">
+                    <RichTextLabel Name="StationTimeLabel" Access="Public"/>
+                </ContainerButton>
+                <ContainerButton Name="StationAlertLevelInstructionsButton">
+                    <RichTextLabel Name="StationAlertLevelInstructions" Access="Public"/>
+                </ContainerButton>
+            </BoxContainer>
+        </ScrollContainer>
         <!-- DS14-end -->
         <ScrollContainer HorizontalExpand="True" VerticalExpand="True" HScrollEnabled="True">
             <BoxContainer Orientation="Vertical"

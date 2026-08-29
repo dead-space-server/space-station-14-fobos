@@ -14,6 +14,7 @@ using Content.Client.DeadSpace.Photocopier.UI;
 using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.DeadSpace.UserInterface.Controls;
 using Content.Client.Fax.UI;
+using Content.Client.LateJoin;
 using Content.Client.Lobby.UI;
 using Content.Client.Lobby.UI.Roles;
 using Content.Client.Options.UI;
@@ -31,12 +32,14 @@ using Content.Shared.DeadSpace.Photocopier;
 using Content.Shared.Fax;
 using Content.Shared.Preferences;
 using Content.Shared.SmartFridge;
+using Content.Shared.StatusIcon;
 using Robust.Client;
 using Robust.Client.Graphics;
 using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
+using Robust.Client.Utility;
 using Robust.Shared.Console;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Prototypes;
@@ -68,7 +71,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
 
     public string Command => "ds14_ui_render";
     public string Description => "Render a deterministic DS14 UI fixture to user data and quit.";
-    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|photocopier|admin|server-list|role-priorities|options-general|options-footer|ert-admin|ert-admin-pending|ert-admin-manual|ert-admin-codes|fax|communications|chat> [output-name]";
+    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|pda-overflow|photocopier|admin|server-list|late-join|role-priorities|options-general|options-footer|ert-admin|ert-admin-pending|ert-admin-manual|ert-admin-codes|fax|communications|chat> [output-name]";
 
     public void Execute(IConsoleShell shell, string argStr, string[] args)
     {
@@ -112,9 +115,11 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
             "cargo" => new CargoShuttleMenu(),
             "atmos-power" => CreateApcFixture(),
             "pda" => CreatePdaFixture(),
+            "pda-overflow" => CreatePdaOverflowFixture(),
             "photocopier" => CreatePhotocopierFixture(),
             "admin" => CreateAdminFixture(),
             "server-list" => CreateServerListFixture(),
+            "late-join" => CreateLateJoinFixture(),
             "role-priorities" => CreateRolePriorityFixture(),
             "options-general" => CreateOptionsGeneralFixture(),
             "options-footer" => CreateOptionsFooterFixture(),
@@ -298,6 +303,97 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         return window;
     }
 
+    private static BaseWindow CreatePdaOverflowFixture()
+    {
+        var window = new PdaWindow
+        {
+            SetSize = new Vector2(576, 450),
+            MinSize = new Vector2(576, 450),
+            BorderColor = "#6F6958",
+        };
+        var root = Vertical(0);
+
+        var navigation = Horizontal(0);
+        navigation.MinHeight = 32;
+        navigation.AddChild(new PdaNavigationButton { LabelText = "Домой", IsCurrent = true, MinWidth = 36 });
+        navigation.AddChild(new PdaNavigationButton { LabelText = "Программы", MinWidth = 112 });
+        navigation.AddChild(new PdaNavigationButton { LabelText = "Настройки", MinWidth = 112 });
+        navigation.AddChild(new Control { HorizontalExpand = true });
+        root.AddChild(navigation);
+
+        var home = Vertical(2);
+        home.VerticalExpand = false;
+        home.Margin = new Thickness(8);
+        home.AddStyleClass("PdaHomeSummary");
+        home.AddChild(PdaSummaryRow("Владелец: Грин Хейтблад"));
+        home.AddChild(PdaSummaryRow("ID: Грин Хейтблад, Инженер-стажёр"));
+        home.AddChild(PdaSummaryRow("Станция: NTB Fland NX-132"));
+        home.AddChild(PdaSummaryRow("Уровень угрозы: Красный"));
+        home.AddChild(PdaSummaryRow("Смена: 01:02:57 · 28.08.2710"));
+        home.AddChild(PdaSummaryRow(
+            "Инструкции: Весь экипаж, за исключением должностных лиц и тех персонала, не может посещать технические тоннели и обязан находиться в пределах коридоров станции на протяжении Красного кода. Экипаж обязан подчиняться правомерным приказам сотрудников службы безопасности. Посетители и гости станции обязаны находиться в баре, библиотеке или жилых отсеках. Весь персонал обязан носить свои ID-карты в своих КПК и хранить при себе в специально отведённом месте на поясе."));
+
+        root.AddChild(new ScrollContainer
+        {
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            HScrollEnabled = false,
+            VScrollEnabled = true,
+            Children = { home },
+        });
+
+        var footer = new BoxContainer
+        {
+            SetHeight = 28,
+            HorizontalExpand = true,
+            Children =
+            {
+                new StripeBack
+                {
+                    HasBottomEdge = false,
+                    HasMargins = false,
+                    HorizontalExpand = true,
+                    Children =
+                    {
+                        new Label
+                        {
+                            Text = "Robust#OS ™",
+                            Margin = new Thickness(6, 0),
+                            VerticalAlignment = Control.VAlignment.Center,
+                            StyleClasses = { "PdaContentFooterText" },
+                        },
+                        new Label
+                        {
+                            Text = "КОНС-3B9A-89D4",
+                            Margin = new Thickness(6, 0),
+                            VerticalAlignment = Control.VAlignment.Center,
+                            HorizontalAlignment = Control.HAlignment.Right,
+                            StyleClasses = { "PdaContentFooterText" },
+                        },
+                    },
+                },
+            },
+        };
+        root.AddChild(footer);
+        window.ContentsContainer.AddChild(root);
+        return window;
+    }
+
+    private static ContainerButton PdaSummaryRow(string text)
+    {
+        var label = new RichTextLabel
+        {
+            HorizontalExpand = true,
+            Margin = new Thickness(6, 3),
+        };
+        label.SetMessage(text);
+        return new ContainerButton
+        {
+            HorizontalExpand = true,
+            Children = { label },
+        };
+    }
+
     private static BaseWindow CreatePhotocopierFixture()
     {
         var prototypeManager = IoCManager.Resolve<IPrototypeManager>();
@@ -446,6 +542,107 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         window.FindControl<TabContainer>("MainTabContainer").CurrentTab = mainTab;
         window.FindControl<TabContainer>("RequestsTabContainer").CurrentTab = requestTab;
         return window;
+    }
+
+    private static BaseWindow CreateLateJoinFixture()
+    {
+        var prototypes = IoCManager.Resolve<IPrototypeManager>();
+        var window = FixtureWindow("Позднее присоединение", new Vector2(500, 620));
+        var root = Vertical(8);
+
+        var station = new OptionButton { HorizontalExpand = true };
+        station.AddItem("NTVG Packed PR-499");
+        root.AddChild(station);
+        root.AddChild(new Button { Text = "Манифест экипажа", HorizontalExpand = true });
+
+        var list = Vertical(0);
+        AddLateJoinDepartment(list, prototypes, "Центральное Командование",
+            new[]
+            {
+                ("Офицер «Синий Щит»", "JobIconBlueShieldOfficer"),
+            });
+        AddLateJoinDepartment(list, prototypes, "Командование",
+            new[]
+            {
+                ("Капитан", "JobIconCaptain"),
+                ("Глава персонала", "JobIconHeadOfPersonnel"),
+                ("Старший инженер", "JobIconSeniorEngineer"),
+                ("Главный врач", "JobIconChiefMedicalOfficer"),
+                ("Глава службы безопасности", "JobIconHeadOfSecurity"),
+                ("Квартирмейстер", "JobIconQuarterMaster"),
+                ("Научный руководитель", "JobIconResearchDirector"),
+                ("Агент внутренних дел", "JobIconIAA"),
+            });
+
+        root.AddChild(new PanelContainer
+        {
+            StyleClasses = { DeadSpaceStyleClass.Inset },
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            Children =
+            {
+                new ScrollContainer
+                {
+                    HorizontalExpand = true,
+                    VerticalExpand = true,
+                    HScrollEnabled = false,
+                    Children = { list },
+                },
+            },
+        });
+        window.Contents.AddChild(root);
+        return window;
+    }
+
+    private static void AddLateJoinDepartment(
+        BoxContainer list,
+        IPrototypeManager prototypes,
+        string title,
+        IReadOnlyList<(string Name, string Icon)> entries)
+    {
+        var department = Vertical(0);
+        department.VerticalExpand = false;
+        department.Margin = new Thickness(0, 0, 0, 12);
+        department.AddChild(new PanelContainer
+        {
+            StyleClasses = { DeadSpaceStyleClass.ListHeader },
+            Margin = new Thickness(0, 0, 0, 4),
+            Children =
+            {
+                new Label
+                {
+                    Text = title,
+                    Align = Label.AlignMode.Center,
+                    HorizontalExpand = true,
+                    StyleClasses = { DeadSpaceStyleClass.ListHeader },
+                },
+            },
+        });
+
+        for (var index = 0; index < entries.Count; index++)
+        {
+            var entry = entries[index];
+            var label = new Label
+            {
+                Text = $"{entry.Name} (1 доступна)",
+                Margin = new Thickness(5, 0, 0, 0),
+                VerticalAlignment = Control.VAlignment.Center,
+            };
+            var button = new JobButton(label, $"FixtureJob{index}", entry.Name, 1)
+            {
+                HorizontalExpand = true,
+            };
+            button.AddStyleClass(LateJoinGui.GetJobRowStyleClass(index));
+
+            var row = Horizontal(6);
+            var iconPrototype = prototypes.Index<JobIconPrototype>(entry.Icon);
+            row.AddChild(LateJoinGui.CreateJobIcon(iconPrototype.Icon.Frame0()));
+            row.AddChild(label);
+            button.AddChild(row);
+            department.AddChild(button);
+        }
+
+        list.AddChild(department);
     }
 
     private static BaseWindow CreateOptionsGeneralFixture()
