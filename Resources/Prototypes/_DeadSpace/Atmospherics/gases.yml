@@ -17,6 +17,9 @@
   specificHeat: 30
   heatCapacityRatio: 1.3
   molarMass: 60
+  gasOverlaySprite: /Textures/_DeadSpace/Effects/atmospherics.rsi
+  gasOverlayState: protonitrat
+  gasMolesVisible: 0.5
   color: 3FBFBF
   reagent: ProtoNitrate
   pricePerMole: 7

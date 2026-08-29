@@ -12,8 +12,6 @@ namespace Content.Server.Chemistry.TileReactions
     [DataDefinition]
     public sealed partial class ExtinguishTileReaction : ITileReaction
     {
-        [DataField("coolingTemperature")] private float _coolingTemperature = 2f;
-
         [DataField] public float MinCoolingTemperature = Atmospherics.T20C; // DS14
 
         public FixedPoint2 TileReact(TileRef tile,
@@ -35,11 +33,7 @@ namespace Content.Server.Chemistry.TileReactions
             // DS14-start
             var coolingFloor = MathF.Max(MinCoolingTemperature, Atmospherics.TCMB);
             if (environment.Temperature > coolingFloor)
-            {
-                var cooled = MathF.Min(environment.Temperature - (_coolingTemperature * 1000f),
-                    environment.Temperature / _coolingTemperature);
-                environment.Temperature = MathF.Max(cooled, coolingFloor);
-            }
+                environment.Temperature = coolingFloor;
             // DS14-end
 
             atmosphereSystem.ReactTile(tile.GridUid, tile.GridIndices);
