@@ -14,7 +14,7 @@ public sealed partial class ZaukerProductionReaction : IGasReactionEffect
 {
     private const float NitriumPerNoblium = 50f;
     private const float ConversionDivisor = 5f;
-    private const float ZaukerPerUnit = 5f;
+    private const float ZaukerPerUnit = 10f;
     private const float EnergyPerUnit = 40_000f;
 
     public ReactionResult React(GasMixture mixture, IGasMixtureHolder? holder, AtmosphereSystem atmosphereSystem, float heatScale)
