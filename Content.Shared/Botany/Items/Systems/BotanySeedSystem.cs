@@ -16,31 +16,34 @@ namespace Content.Shared.Botany.Items.Systems;
 /// </summary>
 public sealed partial class BotanySeedSystem : EntitySystem
 {
-    // DS14-start: current engine uses explicit event subscriptions.
+    // DS14-start: current engine uses explicit event subscriptions and query initialization.
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<SeedComponent, AfterInteractEvent>(OnAfterInteract);
         SubscribeLocalEvent<PlantTrayComponent, PlantingSeedAttemptEvent>(OnPlantingSeedAttempt);
+        _dataQuery = GetEntityQuery<PlantDataComponent>();
+        _trayQuery = GetEntityQuery<PlantTrayComponent>();
+        _labelQuery = GetEntityQuery<PaperLabelComponent>();
     }
     // DS14-end
 
-    // DS14-start: current engine uses readonly IoC fields.
+    // DS14-start
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private readonly BotanySystem _botany = default!;
     [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
     [Dependency] private readonly PlantTraySystem _plantTray = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
-    // DS14-end
 
-    // DS14-start: current engine uses readonly IoC fields.
-    [Dependency] private readonly EntityQuery<PlantDataComponent> _dataQuery = default!;
+    private EntityQuery<PlantDataComponent> _dataQuery;
+    private EntityQuery<PlantTrayComponent> _trayQuery;
+    private EntityQuery<PaperLabelComponent> _labelQuery;
     // DS14-end
 
     private void OnAfterInteract(Entity<SeedComponent> ent, ref AfterInteractEvent args)
     {
-        if (args.Handled || !args.CanReach || !HasComp<PlantTrayComponent>(args.Target))
+        if (args.Handled || !args.CanReach || !_trayQuery.HasComp(args.Target)) // DS14
             return;
 
         var ev = new PlantingSeedAttemptEvent(ent, args.User);
@@ -77,7 +80,7 @@ public sealed partial class BotanySeedSystem : EntitySystem
             args.User,
             PopupType.Medium);
 
-        if (TryComp<PaperLabelComponent>(args.Seed, out var paperLabel))
+        if (_labelQuery.TryComp(args.Seed, out var paperLabel)) // DS14
             _itemSlots.TryEjectToHands(args.Seed, paperLabel.LabelSlot, args.User);
 
         _plantTray.PlantingPlantInTray(ent.Owner, plantUid, args.Seed.Comp.HealthOverride);

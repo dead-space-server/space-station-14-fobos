@@ -29,10 +29,14 @@ public sealed partial class PlantChangeTraitsEntityEffectSystem : EntityEffectSy
             return;
         }
 
+        // DS14-start - random mutations can toggle traits without changing the default idempotent add behavior.
         if (args.Effect.Remove)
+            RemCompDeferred(entity.Owner, traitType.GetType());
+        else if (args.Effect.Toggle && HasComp(entity.Owner, traitType.GetType()))
             RemCompDeferred(entity.Owner, traitType.GetType());
         else if (!HasComp(entity.Owner, traitType.GetType()))
             AddComp(entity.Owner, traitType);
+        // DS14-end
     }
 }
 
@@ -50,4 +54,12 @@ public sealed partial class PlantChangeTraits : EntityEffectBase<PlantChangeTrai
     /// </summary>
     [DataField]
     public bool Remove;
+
+    // DS14-start
+    /// <summary>
+    /// If true, an existing trait is removed and a missing trait is added.
+    /// </summary>
+    [DataField]
+    public bool Toggle;
+    // DS14-end
 }
