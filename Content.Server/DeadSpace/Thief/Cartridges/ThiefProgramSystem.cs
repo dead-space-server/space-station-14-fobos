@@ -156,7 +156,7 @@ public sealed class ThiefProgramSystem : EntitySystem
                     return; // already unlocked
             }
 
-            if (_cartridgeLoader.InstallProgram(ent, "ThiefPdaProgram", deinstallable: false, loader: loader))
+            if (_cartridgeLoader.InstallProgram(ent, "ThiefPdaProgram", deinstallable: true, loader: loader))
             {
                 _popup.PopupEntity(Loc.GetString("thief-program-unlocked"), ent, Filter.Entities(user), true, PopupType.Medium);
                 _adminLogger.Add(LogType.PdaInteract, LogImpact.Medium,
@@ -441,7 +441,21 @@ public sealed class ThiefProgramSystem : EntitySystem
 
     private ThiefProgramRequest GenerateRequest(ThiefPdaProgramComponent component)
     {
-        var groups = _prototype.EnumeratePrototypes<ThiefRequestGroupPrototype>().ToList();
+        // Never offer the same request type twice at the same time: exclude groups
+        // that are already being offered or already accepted.
+        var usedGroups = component.Offers
+            .Select(o => o.Group)
+            .Concat(component.ActiveRequests.Select(r => r.Group))
+            .ToHashSet();
+
+        var groups = _prototype.EnumeratePrototypes<ThiefRequestGroupPrototype>()
+            .Where(g => !usedGroups.Contains(g.ID))
+            .ToList();
+
+        // If every group is currently in use, fall back to any group rather than failing.
+        if (groups.Count == 0)
+            groups = _prototype.EnumeratePrototypes<ThiefRequestGroupPrototype>().ToList();
+
         var totalWeight = groups.Sum(g => g.Weight);
         ThiefRequestGroupPrototype picked = groups[0];
 

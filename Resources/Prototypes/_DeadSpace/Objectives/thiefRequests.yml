@@ -13,8 +13,8 @@
   weight: 1
   minCount: 2
   maxCount: 4
-  pricePerItem: 3500
-  timeLimitMinutes: 20
+  pricePerItem: 8000
+  timeLimitMinutes: 15
 
 - type: thiefRequestGroup
   id: ThiefRequestHeadBedsheet
@@ -22,8 +22,8 @@
   weight: 1.5
   minCount: 3
   maxCount: 6
-  pricePerItem: 2000
-  timeLimitMinutes: 15
+  pricePerItem: 4000
+  timeLimitMinutes: 12
 
 - type: thiefRequestGroup
   id: ThiefRequestStamp
@@ -31,8 +31,8 @@
   weight: 1.5
   minCount: 3
   maxCount: 6
-  pricePerItem: 1800
-  timeLimitMinutes: 15
+  pricePerItem: 3500
+  timeLimitMinutes: 12
 
 - type: thiefRequestGroup
   id: ThiefRequestDoorRemote
@@ -40,17 +40,17 @@
   weight: 1
   minCount: 2
   maxCount: 4
-  pricePerItem: 4000
-  timeLimitMinutes: 20
+  pricePerItem: 7000
+  timeLimitMinutes: 15
 
 - type: thiefRequestGroup
   id: ThiefRequestOfficerHandgun
   group: OfficerHandgun
-  weight: 1
+  weight: 0.8
   minCount: 2
   maxCount: 3
-  pricePerItem: 5000
-  timeLimitMinutes: 25
+  pricePerItem: 12000
+  timeLimitMinutes: 18
 
 - type: thiefRequestGroup
   id: ThiefRequestTechnologyDisk
@@ -58,8 +58,8 @@
   weight: 1.5
   minCount: 4
   maxCount: 8
-  pricePerItem: 1200
-  timeLimitMinutes: 15
+  pricePerItem: 2500
+  timeLimitMinutes: 12
 
 - type: thiefRequestGroup
   id: ThiefRequestIDCard
@@ -67,17 +67,17 @@
   weight: 1.5
   minCount: 3
   maxCount: 6
-  pricePerItem: 1000
-  timeLimitMinutes: 12
+  pricePerItem: 2000
+  timeLimitMinutes: 10
 
 - type: thiefRequestGroup
   id: ThiefRequestLAMP
   group: LAMP
-  weight: 0.2
+  weight: 0.3
   minCount: 2
   maxCount: 5
-  pricePerItem: 300
-  timeLimitMinutes: 10
+  pricePerItem: 500
+  timeLimitMinutes: 8
 
 - type: thiefRequestGroup
   id: ThiefRequestClothingEyesHuds
@@ -85,119 +85,119 @@
   weight: 1
   minCount: 3
   maxCount: 6
-  pricePerItem: 800
-  timeLimitMinutes: 12
+  pricePerItem: 1500
+  timeLimitMinutes: 10
 
 # Single valuable items
 - type: thiefRequestGroup
   id: ThiefRequestForensicScanner
   group: ForensicScanner
   weight: 1
-  pricePerItem: 4000
-  timeLimitMinutes: 15
+  pricePerItem: 8000
+  timeLimitMinutes: 12
 
 - type: thiefRequestGroup
   id: ThiefRequestFlippoEngravedLighter
   group: FlippoEngravedLighter
   weight: 0.8
-  pricePerItem: 2500
-  timeLimitMinutes: 12
+  pricePerItem: 5000
+  timeLimitMinutes: 10
 
 - type: thiefRequestGroup
   id: ThiefRequestClothingHeadHatWarden
   group: ClothingHeadHatWarden
-  weight: 1
-  pricePerItem: 4500
-  timeLimitMinutes: 15
+  weight: 0.7
+  pricePerItem: 10000
+  timeLimitMinutes: 12
 
 - type: thiefRequestGroup
   id: ThiefRequestWantedListCartridge
   group: WantedListCartridge
   weight: 1
-  pricePerItem: 3500
-  timeLimitMinutes: 15
+  pricePerItem: 6000
+  timeLimitMinutes: 12
 
 - type: thiefRequestGroup
   id: ThiefRequestVoidParamedHardsuit
   group: ClothingOuterHardsuitVoidParamed
-  weight: 1
-  pricePerItem: 6000
-  timeLimitMinutes: 20
+  weight: 0.8
+  pricePerItem: 15000
+  timeLimitMinutes: 18
 
 - type: thiefRequestGroup
   id: ThiefRequestMedicalTechFabBoard
   group: MedicalTechFabCircuitboard
   weight: 1
-  pricePerItem: 5000
-  timeLimitMinutes: 18
+  pricePerItem: 9000
+  timeLimitMinutes: 15
 
 - type: thiefRequestGroup
   id: ThiefRequestMedicalAltHeadset
   group: ClothingHeadsetAltMedical
   weight: 1
-  pricePerItem: 5500
-  timeLimitMinutes: 18
+  pricePerItem: 10000
+  timeLimitMinutes: 15
 
 - type: thiefRequestGroup
   id: ThiefRequestFireAxe
   group: FireAxe
   weight: 1
-  pricePerItem: 2500
-  timeLimitMinutes: 12
+  pricePerItem: 5000
+  timeLimitMinutes: 10
 
 - type: thiefRequestGroup
   id: ThiefRequestAmePartFlatpack
   group: AmePartFlatpack
-  weight: 1
-  pricePerItem: 6500
-  timeLimitMinutes: 20
+  weight: 0.8
+  pricePerItem: 15000
+  timeLimitMinutes: 18
 
 - type: thiefRequestGroup
   id: ThiefRequestChiefEngineerToolbelt
   group: ChiefEngineerToolBelt
   weight: 0.7
-  pricePerItem: 7000
-  timeLimitMinutes: 22
+  pricePerItem: 15000
+  timeLimitMinutes: 18
 
 - type: thiefRequestGroup
   id: ThiefRequestExpeditionsBoard
   group: SalvageExpeditionsComputerCircuitboard
   weight: 1
-  pricePerItem: 4500
-  timeLimitMinutes: 18
+  pricePerItem: 8000
+  timeLimitMinutes: 15
 
 - type: thiefRequestGroup
   id: ThiefRequestCargoShuttleBoard
   group: CargoShuttleConsoleCircuitboard
   weight: 1
-  pricePerItem: 4500
-  timeLimitMinutes: 18
+  pricePerItem: 8000
+  timeLimitMinutes: 15
 
 - type: thiefRequestGroup
   id: ThiefRequestBible
   group: Bible
   weight: 0.8
-  pricePerItem: 1500
-  timeLimitMinutes: 10
+  pricePerItem: 3000
+  timeLimitMinutes: 8
 
 - type: thiefRequestGroup
   id: ThiefRequestGoldMedal
   group: ClothingNeckGoldmedal
-  weight: 1
-  pricePerItem: 8000
-  timeLimitMinutes: 25
+  weight: 0.5
+  pricePerItem: 25000
+  timeLimitMinutes: 20
 
 - type: thiefRequestGroup
   id: ThiefRequestClownMedal
   group: ClothingNeckClownmedal
   weight: 0.5
-  pricePerItem: 7500
-  timeLimitMinutes: 25
+  pricePerItem: 20000
+  timeLimitMinutes: 20
 
 - type: thiefRequestGroup
   id: ThiefRequestRevolverDeckard
   group: WeaponRevolverDeckard
-  weight: 1
-  pricePerItem: 9000
-  timeLimitMinutes: 25
+  weight: 0.8
+  pricePerItem: 20000
+  timeLimitMinutes: 20
 # DS14-end

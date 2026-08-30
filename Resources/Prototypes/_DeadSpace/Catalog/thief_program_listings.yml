@@ -4,138 +4,121 @@
 
 - type: thiefListing
   id: ThiefListingThiefBeacon
-  name: thief-program-listing-beacon-name
-  description: thief-program-listing-beacon-desc
+  name: ent-ThiefBeacon
   entities: [ ThiefBeacon ]
   cost: 5000
   category: thief-program-category-tools
 
 - type: thiefListing
   id: ThiefListingC4
-  name: thief-program-listing-c4-name
-  description: thief-program-listing-c4-desc
+  name: ent-C4
   entities: [ C4 ]
-  cost: 6000
+  cost: 8000
   category: thief-program-category-tools
 
 - type: thiefListing
   id: ThiefListingEmag
-  name: thief-program-listing-emag-name
-  description: thief-program-listing-emag-desc
+  name: ent-Emag
   entities: [ Emag ]
-  cost: 12000
+  cost: 20000
   category: thief-program-category-tools
 
 - type: thiefListing
   id: ThiefListingAccessBreaker
-  name: thief-program-listing-access-breaker-name
-  description: thief-program-listing-access-breaker-desc
+  name: ent-AccessBreaker
   entities: [ AccessBreaker ]
-  cost: 9000
+  cost: 12000
   category: thief-program-category-tools
 
 - type: thiefListing
   id: ThiefListingRadioJammer
-  name: thief-program-listing-radio-jammer-name
-  description: thief-program-listing-radio-jammer-desc
+  name: ent-RadioJammer
   entities: [ RadioJammer ]
-  cost: 7000
+  cost: 6000
   category: thief-program-category-tools
 
 - type: thiefListing
   id: ThiefListingChameleonProjector
-  name: thief-program-listing-chameleon-projector-name
-  description: thief-program-listing-chameleon-projector-desc
+  name: ent-ChameleonProjector
   entities: [ ChameleonProjector ]
-  cost: 8000
+  cost: 10000
   category: thief-program-category-gear
 
 - type: thiefListing
   id: ThiefListingFakeMindShield
-  name: thief-program-listing-fake-mindshield-name
-  description: thief-program-listing-fake-mindshield-desc
+  name: ent-FakeMindShieldImplanter
   entities: [ FakeMindShieldImplanter ]
   cost: 4000
   category: thief-program-category-implants
 
 - type: thiefListing
   id: ThiefListingVoiceMask
-  name: thief-program-listing-voice-mask-name
-  description: thief-program-listing-voice-mask-desc
+  name: ent-VoiceMaskImplanter
   entities: [ VoiceMaskImplanter ]
   cost: 5000
   category: thief-program-category-implants
 
 - type: thiefListing
   id: ThiefListingStorageImplant
-  name: thief-program-listing-storage-implant-name
-  description: thief-program-listing-storage-implant-desc
+  name: ent-StorageImplanter
   entities: [ StorageImplanter ]
-  cost: 10000
+  cost: 15000
   category: thief-program-category-implants
 
 - type: thiefListing
   id: ThiefListingDnaScrambler
-  name: thief-program-listing-dna-scrambler-name
-  description: thief-program-listing-dna-scrambler-desc
+  name: ent-DnaScramblerImplanter
   entities: [ DnaScramblerImplanter ]
   cost: 8000
   category: thief-program-category-implants
 
 - type: thiefListing
   id: ThiefListingNocturine
-  name: thief-program-listing-nocturine-name
-  description: thief-program-listing-nocturine-desc
+  name: ent-ChemistryBottleNocturine
   entities: [ ChemistryBottleNocturine, ChemistryBottleNocturine ]
   cost: 3000
   category: thief-program-category-misc
 
 - type: thiefListing
   id: ThiefListingHypopenBox
-  name: thief-program-listing-hypopen-box-name
-  description: thief-program-listing-hypopen-box-desc
+  name: ent-HypopenBox
   entities: [ HypopenBox ]
-  cost: 9000
+  cost: 8000
   category: thief-program-category-misc
 
 - type: thiefListing
   id: ThiefListingCyberPen
-  name: thief-program-listing-cyber-pen-name
-  description: thief-program-listing-cyber-pen-desc
+  name: ent-CyberPen
   entities: [ CyberPen ]
   cost: 2000
   category: thief-program-category-misc
 
 - type: thiefListing
   id: ThiefListingStationMasterKey
-  name: thief-program-listing-station-master-name
-  description: thief-program-listing-station-master-desc
+  name: ent-EncryptionKeyStationMaster
   entities: [ EncryptionKeyStationMaster ]
   cost: 4000
   category: thief-program-category-misc
 
 - type: thiefListing
   id: ThiefListingSmokeGrenades
-  name: thief-program-listing-smoke-name
-  description: thief-program-listing-smoke-desc
+  name: ent-SmokeGrenade
   entities: [ SmokeGrenade, SmokeGrenade, SmokeGrenade ]
   cost: 1500
   category: thief-program-category-misc
 
 - type: thiefListing
   id: ThiefListingFultonPack
-  name: thief-program-listing-fulton-name
-  description: thief-program-listing-fulton-desc
+  name: ent-Fulton
   entities: [ FultonBeacon, Fulton, Fulton ]
-  cost: 3500
+  cost: 4000
   category: thief-program-category-misc
 
 - type: thiefListing
   id: ThiefListingInvisibleCrate
-  name: thief-program-listing-invisible-crate-name
-  description: thief-program-listing-invisible-crate-desc
+  name: ent-InvisibleCrate
   entities: [ InvisibleCrate ]
-  cost: 7000
+  cost: 8000
   category: thief-program-category-misc
 
 # Full starter sets from the thief satchel
@@ -191,7 +174,7 @@
   - AccessBreaker
   - Lighter
   - CigPackSyndicate
-  cost: 35000
+  cost: 40000
   category: thief-program-category-sets
 
 - type: thiefListing
@@ -203,7 +186,7 @@
   - ChemistryBottleNocturine
   - HypopenBox
   - NitrousOxideTankFilled
-  cost: 22000
+  cost: 20000
   category: thief-program-category-sets
 
 - type: thiefListing
@@ -229,6 +212,6 @@
   - SmokeGrenade
   - SmokeGrenade
   - SmokeGrenade
-  cost: 16000
+  cost: 18000
   category: thief-program-category-sets
 # DS14-end

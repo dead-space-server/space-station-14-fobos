@@ -29,6 +29,7 @@ public sealed partial class ThiefProgramUiFragment : BoxContainer
         RequestsTabButton.OnPressed += _ => SwitchTab(true);
         UplinkTabButton.OnPressed += _ => SwitchTab(false);
         ExchangeButton.OnPressed += OnExchangePressed;
+        UplinkSearchInput.OnTextChanged += _ => RebuildUplink();
     }
 
     public void UpdateState(ThiefProgramUiState state)
@@ -176,9 +177,17 @@ public sealed partial class ThiefProgramUiFragment : BoxContainer
     {
         UplinkContainer.RemoveAllChildren();
 
+        var query = UplinkSearchInput.Text.Trim();
         var categories = new Dictionary<string, List<ThiefListingPrototype>>();
         foreach (var listing in _prototypeManager.EnumeratePrototypes<ThiefListingPrototype>())
         {
+            var name = Loc.GetString(listing.Name);
+            if (!string.IsNullOrEmpty(query) &&
+                !name.Contains(query, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
             var category = Loc.GetString(listing.Category);
             if (!categories.TryGetValue(category, out var list))
             {

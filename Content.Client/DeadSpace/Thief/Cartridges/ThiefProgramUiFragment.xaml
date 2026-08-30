@@ -38,6 +38,11 @@
 
             <!-- Uplink tab -->
             <BoxContainer Name="UplinkView" Orientation="Vertical" Visible="False" HorizontalExpand="True" VerticalExpand="True">
+                <LineEdit Name="UplinkSearchInput"
+                          PlaceHolder="{Loc 'thief-program-search-placeholder'}"
+                          HorizontalExpand="True"
+                          SetHeight="30"
+                          StyleClasses="DS14MenuInput"/>
                 <ScrollContainer HorizontalExpand="True" VerticalExpand="True" HScrollEnabled="False">
                     <BoxContainer Orientation="Vertical" Name="UplinkContainer" HorizontalExpand="True" VerticalExpand="True"/>
                 </ScrollContainer>
