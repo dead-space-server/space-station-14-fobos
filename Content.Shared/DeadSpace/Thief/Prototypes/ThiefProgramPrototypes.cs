@@ -68,10 +68,10 @@ public sealed partial class ThiefListingPrototype : IPrototype
     public LocId Name;
 
     /// <summary>
-    /// Localized description of the listing.
+    /// Localized description of the listing. Null means no description (optional).
     /// </summary>
     [DataField]
-    public LocId Description = string.Empty;
+    public LocId? Description = null;
 
     /// <summary>
     /// Entities spawned on purchase, in order.

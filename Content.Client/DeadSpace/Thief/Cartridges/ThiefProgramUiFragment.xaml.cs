@@ -234,8 +234,8 @@ public sealed partial class ThiefProgramUiFragment : BoxContainer
         topRow.AddChild(cost);
 
         var description = new RichTextLabel { MinSize = new Vector2(0, 24) };
-        if (!string.IsNullOrEmpty(listing.Description))
-            description.SetMarkup(Loc.GetString(listing.Description));
+        if (listing.Description is { } desc)
+            description.SetMarkup(Loc.GetString(desc));
 
         var buyButton = new Button
         {
