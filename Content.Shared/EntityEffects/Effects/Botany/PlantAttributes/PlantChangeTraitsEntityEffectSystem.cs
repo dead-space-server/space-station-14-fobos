@@ -50,7 +50,8 @@ public sealed partial class PlantChangeTraits : EntityEffectBase<PlantChangeTrai
     public string Trait;
 
     /// <summary>
-    /// If true, the trait is removed. If false, the trait is added.
+    /// If true, the trait is always removed and takes priority over <see cref="Toggle"/>.
+    /// Otherwise the trait is added, or toggled when <see cref="Toggle"/> is true.
     /// </summary>
     [DataField]
     public bool Remove;

@@ -50,7 +50,7 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
-using Content.DeadSpace.Interfaces.Server; // DS14-sponsors
+using Content.DeadSpace.Interfaces.Server;
 
 namespace Content.Server.Antag;
 

@@ -1,5 +1,5 @@
 using System.Linq;
-using Content.DeadSpace.Interfaces.Server; // DS14-sponsors
+using Content.DeadSpace.Interfaces.Server;
 using Content.DeadSpace.Interfaces.Shared;
 using Content.Server.Administration;
 using Content.Server.Administration.Managers;

@@ -23,7 +23,7 @@ public sealed class TapeRecorderSystem : SharedTapeRecorderSystem
     [Dependency] private readonly HandsSystem _hands = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly PaperSystem _paper = default!;
-    [Dependency] private readonly LanguageSystem _language = default!; // DS14
+    [Dependency] private readonly LanguageSystem _language = default!; // DS14 - render recordings through their original language.
 
     public override void Initialize()
     {

@@ -7,7 +7,7 @@ namespace Content.Shared.Botany.Components;
 /// <summary>
 /// Component for plant harvesting process.
 /// </summary>
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true)] // DS14 - readiness is runtime holder state.
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true)] // DS14 - harvest readiness now lives on PlantHolder.
 [Access(typeof(PlantHarvestSystem))]
 public sealed partial class PlantHarvestComponent : Component
 {
