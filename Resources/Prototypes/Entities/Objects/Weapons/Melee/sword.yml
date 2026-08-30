@@ -123,7 +123,7 @@
   - type: DisarmMalus
   - type: SentienceTarget
     flavorKind: station-event-random-sentience-flavor-inanimate
-    weight: 1 # 5,000 times less likely than 1 regular animal #DS14 P.S Я не уверен насколько это будет часто...
+    weight: 0,02 # 5,000 times less likely than 1 regular animal #DS14 P.S Я не уверен насколько это будет часто...
   - type: PirateAccent
     # not putting a BlockMovement component here cause that's funny.
   - type: StealTarget
