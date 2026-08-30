@@ -44,7 +44,7 @@ public abstract partial class SharedProjectileSystem : EntitySystem
 
         SubscribeLocalEvent<EmbeddedContainerComponent, EntityTerminatingEvent>(OnEmbeddableTermination);
         SubscribeLocalEvent<ComplexProjectileDamageComponent, BeforeProjectileHitEvent>(OnBeforeComplexProjectileHit);
-        SubscribeLocalEvent<ProjectileComponent, MapInitEvent>(OnBeingShot); // DS14 - pre-v288 explicit event subscription
+        SubscribeLocalEvent<ProjectileComponent, ProjectileShotEvent>(OnBeingShot); // DS14 - pre-v288 explicit event subscription
     }
 
     private void OnEmbedActivate(Entity<EmbeddableProjectileComponent> embeddable, ref ActivateInWorldEvent args)
@@ -205,7 +205,7 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         }
     }
 
-    private void OnBeingShot(Entity<ProjectileComponent> entity, ref MapInitEvent args)
+    private void OnBeingShot(Entity<ProjectileComponent> entity, ref ProjectileShotEvent args) // DS14
     {
         entity.Comp.WhenToStopIgnoringShooter = _timing.CurTime + entity.Comp.DelayToAcknowledgeShooter;
         Dirty(entity);
@@ -268,6 +268,14 @@ public record struct ProjectileReflectAttemptEvent(EntityUid ProjUid, Projectile
 {
     SlotFlags IInventoryRelayEvent.TargetSlots => SlotFlags.WITHOUT_POCKET;
 }
+
+// DS14-start
+/// <summary>
+/// Raised whenever an existing projectile entity is fired from a gun.
+/// </summary>
+[ByRefEvent]
+public record struct ProjectileShotEvent;
+// DS14-end
 
 /// <summary>
 /// Raised when a projectile hits an entity

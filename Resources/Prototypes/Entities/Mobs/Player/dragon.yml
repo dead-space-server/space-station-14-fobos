@@ -249,6 +249,10 @@
   parent: BaseMobDragon
   id: MobDragon
   components:
+  # DS14-start
+  - type: Stamina
+    baseCritThreshold: 200
+  # DS14-end
   - type: Dragon
     spawnRiftAction: ActionSpawnRift
   - type: GhostRole
