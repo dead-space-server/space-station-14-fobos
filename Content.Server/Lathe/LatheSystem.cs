@@ -21,7 +21,6 @@ using Content.Shared.Database;
 using Content.Shared.Emag.Components;
 using Content.Shared.Emag.Systems;
 using Content.Shared.Examine;
-using Content.Shared.Interaction;
 using Content.Shared.Lathe;
 using Content.Shared.Lathe.Prototypes;
 using Content.Shared.Localizations;
@@ -73,8 +72,6 @@ namespace Content.Server.Lathe
             SubscribeLocalEvent<LatheComponent, MapInitEvent>(OnMapInit);
             SubscribeLocalEvent<LatheComponent, PowerChangedEvent>(OnPowerChanged);
             SubscribeLocalEvent<LatheComponent, ActivatableUIOpenAttemptEvent>(OnActivatableUIOpenAttempt);
-            SubscribeLocalEvent<LatheComponent, InteractUsingEvent>(OnInteractUsing,
-                before: new[] { typeof(SharedMaterialStorageSystem) });
             SubscribeLocalEvent<LatheComponent, TechnologyDatabaseModifiedEvent>(OnDatabaseModified);
             SubscribeLocalEvent<LatheAnnouncingComponent, TechnologyDatabaseModifiedEvent>(OnTechnologyDatabaseModified);
             SubscribeLocalEvent<LatheComponent, ResearchRegistrationChangedEvent>(OnResearchRegistrationChanged);
@@ -407,13 +404,12 @@ namespace Content.Server.Lathe
         }
 
         /// <summary>
-        /// Denies access to the lathe, notifying the user with a popup and a sound.
+        /// Plays the lathe's access-denied sound.
         /// </summary>
-        private void DenyAccess(EntityUid uid, EntityUid user)
+        private void PlayDeniedSound(EntityUid uid)
         {
-            _popup.PopupPredicted(Loc.GetString("lathe-access-denied"), uid, user);
             if (TryComp(uid, out LatheComponent? component))
-                _audio.PlayPredicted(component.DenySound, uid, user);
+                _audio.PlayPredicted(component.DenySound, uid, null);
         }
 
         private void OnActivatableUIOpenAttempt(EntityUid uid, LatheComponent component, ActivatableUIOpenAttemptEvent args)
@@ -423,20 +419,7 @@ namespace Content.Server.Lathe
 
             args.Cancel();
             if (!args.Silent)
-                DenyAccess(uid, args.User);
-        }
-
-        private void OnInteractUsing(EntityUid uid, LatheComponent component, InteractUsingEvent args)
-        {
-            if (args.Handled || HasAccess(uid, args.User))
-                return;
-
-            // Only block material insertion - tools such as the screwdriver must remain usable.
-            if (!HasComp<MaterialComponent>(args.Used))
-                return;
-
-            args.Handled = true;
-            DenyAccess(uid, args.User);
+                PlayDeniedSound(uid);
         }
 
         private void OnDatabaseModified(EntityUid uid, LatheComponent component, ref TechnologyDatabaseModifiedEvent args)
