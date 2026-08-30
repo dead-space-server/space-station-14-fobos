@@ -19,8 +19,7 @@ thief-program-hint-no-beacon = [color=#c9a227]Установите и разве
 thief-program-request-offer =
     {$name} ×{$count} — [color=#8fa063]{$price} dCR[/color] • срок: {$minutes} мин.
 thief-program-request-active =
-    {$name} ×{$count} — [color=#8fa063]{$price} dCR[/color] • осталось: {$minutes}:{$seconds}
-    [color=#ff4d4d]Просрочено![/color] Цена снижена на 15%.
+    {$name} ×{$count} — [color=#8fa063]{$price} dCR[/color] • осталось: {$minutes}:{$seconds} [color=#ff4d4d]Просрочено![/color] Цена снижена на 15%.
     Отнесите товар к воровскому маяку и нажмите «Продать».
 thief-program-request-expired =
     {$name} ×{$count} — [color=#a86f32]~{$price} dCR[/color] • [color=#ff4d4d]просрочен[/color]
