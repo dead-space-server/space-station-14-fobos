@@ -977,6 +977,14 @@
 
 #MARK: 0_0
 
+- type: customGhost
+  id: sastr-ghost
+  login: Kazualka
+  spritePath: _DeadSpace/Sponsor/sastr/s.rsi
+  alpha: 0.5
+  name: / / / 
+  description:   / / /   
+
 - type: entity
   parent: BaseVehicleStrap
   id: Vehiclesastr
