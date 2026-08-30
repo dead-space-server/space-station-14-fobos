@@ -92,7 +92,7 @@ public sealed partial class RegenerativeStasisSystem : EntitySystem
         if (!_mobs.IsDead(target))
             _mobs.ChangeMobState(target, MobState.Dead);
 
-        _popup.PopupPredicted(Loc.GetString("changeling-stasis-enter"), target, target, PopupType.MediumCaution);
+        _popup.PopupPredicted(Loc.GetString("changeling-stasis-enter"), null, target, target, PopupType.MediumCaution); // DS14
 
         ent.Comp.IsInStasis = true;
         Dirty(ent);

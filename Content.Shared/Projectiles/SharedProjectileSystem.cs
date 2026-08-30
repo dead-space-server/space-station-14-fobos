@@ -4,9 +4,11 @@ using Content.Shared.DoAfter;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Inventory;
+using Content.Shared.Storage;
 using Content.Shared.Throwing;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Containers;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Physics;
@@ -43,6 +45,7 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         SubscribeLocalEvent<EmbeddableProjectileComponent, ComponentShutdown>(OnEmbeddableCompShutdown);
 
         SubscribeLocalEvent<EmbeddedContainerComponent, EntityTerminatingEvent>(OnEmbeddableTermination);
+        SubscribeLocalEvent<EmbeddedContainerComponent, ContainerGettingInsertedAttemptEvent>(OnEmbeddedContainerInsertAttempt); // DS14
         SubscribeLocalEvent<ComplexProjectileDamageComponent, BeforeProjectileHitEvent>(OnBeforeComplexProjectileHit);
         SubscribeLocalEvent<ProjectileComponent, ProjectileShotEvent>(OnBeingShot); // DS14 - pre-v288 explicit event subscription
     }
@@ -193,6 +196,16 @@ public abstract partial class SharedProjectileSystem : EntitySystem
     {
         DetachAllEmbedded(container);
     }
+
+    // DS14-start
+    private void OnEmbeddedContainerInsertAttempt(EntityUid uid,
+        EmbeddedContainerComponent component,
+        ContainerGettingInsertedAttemptEvent args)
+    {
+        if (component.EmbeddedObjects.Count != 0 && HasComp<StorageComponent>(args.Container.Owner))
+            args.Cancel();
+    }
+    // DS14-end
 
     private void OnBeforeComplexProjectileHit(Entity<ComplexProjectileDamageComponent> ent, ref BeforeProjectileHitEvent args)
     {
