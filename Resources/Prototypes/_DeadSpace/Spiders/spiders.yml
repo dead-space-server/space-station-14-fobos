@@ -746,7 +746,7 @@
   description: Выглядит очень опасно.
   components:
   - type: Sprite
-    scale: 1.4, 1.4
+    scale: 1, 1
     drawdepth: Mobs
     layers:
     - map: ["enum.DamageStateVisualLayers.Base", "movement"]
@@ -831,7 +831,7 @@
   name: король пауков
   parent: BaseMobSpiderTerror
   id: MobSpiderTerrorKing
-  description: Это не может быть паук! Это монстр!
+  description: Выглядит величественно.
   components:
   - type: SpawnAgainst
     duration: 10
@@ -854,7 +854,7 @@
       WallWebSpiderTerror: 5
       AirlockWebTerror: 5
   - type: Sprite
-    scale: 2, 2
+    scale: 1.5, 1.5
     drawdepth: Mobs
     layers:
     - map: ["enum.DamageStateVisualLayers.Base", "movement"]
@@ -919,7 +919,7 @@
   description: Выглядит величественно.
   components:
   - type: Sprite
-    scale: 1.4, 1.4
+    scale: 1.1, 1.1
     drawdepth: Mobs
     layers:
     - map: ["enum.DamageStateVisualLayers.Base", "movement"]
