@@ -42,6 +42,12 @@ namespace Content.Shared.Lathe
         [DataField]
         public SoundSpecifier? ProducingSound;
 
+        /// <summary>
+        /// The sound that plays when access to the lathe is denied.
+        /// </summary>
+        [DataField]
+        public SoundSpecifier DenySound = new SoundPathSpecifier("/Audio/Machines/custom_deny.ogg");
+
         [DataField]
         public string? ReagentOutputSlotId;
 
