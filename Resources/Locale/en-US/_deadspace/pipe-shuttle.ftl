@@ -11,6 +11,7 @@ pipe-shuttle-list-target-suffix = { " " }(arriving)
 pipe-shuttle-status-idle = Status: Idle
 pipe-shuttle-status-travelling = Status: Travelling to { $destination }
 pipe-shuttle-status-docked = Status: Docked at { $destination }
+pipe-shuttle-status-manual = Status: Manual control - automatic calling disabled
 
 pipe-shuttle-destination-left = Stop 1
 pipe-shuttle-destination-center = Stop 2
@@ -24,3 +25,7 @@ pipe-shuttle-popup-invalid-destination = Invalid destination!
 pipe-shuttle-popup-doors-unavailable = The shuttle doors are unavailable. Departure cancelled.
 pipe-shuttle-popup-departing = The shuttle is departing for { $destination }!
 pipe-shuttle-popup-arrived = The shuttle has arrived at { $destination }!
+pipe-shuttle-popup-manual-mode = Automatic calling is disabled - the tram is in manual control mode.
+pipe-shuttle-mode-popup-not-found = No tram found on this grid.
+pipe-shuttle-mode-popup-manual = Tram switched to MANUAL flight mode.
+pipe-shuttle-mode-popup-automatic = Tram switched to AUTOMATIC flight mode.
