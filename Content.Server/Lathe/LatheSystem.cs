@@ -10,8 +10,6 @@ using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Radio.EntitySystems;
 using Content.Server.Stack;
-using Content.Shared.Access.Components;
-using Content.Shared.Access.Systems;
 using Content.Shared.Atmos;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.EntitySystems;
@@ -44,7 +42,6 @@ namespace Content.Server.Lathe
         [Dependency] private readonly IGameTiming _timing = default!;
         [Dependency] private readonly IPrototypeManager _proto = default!;
         [Dependency] private readonly IAdminLogManager _adminLogger = default!;
-        [Dependency] private readonly AccessReaderSystem _accessReader = default!;
         [Dependency] private readonly AtmosphereSystem _atmosphere = default!;
         [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
         [Dependency] private readonly SharedAudioSystem _audio = default!;
@@ -71,7 +68,6 @@ namespace Content.Server.Lathe
             SubscribeLocalEvent<LatheComponent, GetMaterialWhitelistEvent>(OnGetWhitelist);
             SubscribeLocalEvent<LatheComponent, MapInitEvent>(OnMapInit);
             SubscribeLocalEvent<LatheComponent, PowerChangedEvent>(OnPowerChanged);
-            SubscribeLocalEvent<LatheComponent, ActivatableUIOpenAttemptEvent>(OnActivatableUIOpenAttempt);
             SubscribeLocalEvent<LatheComponent, TechnologyDatabaseModifiedEvent>(OnDatabaseModified);
             SubscribeLocalEvent<LatheAnnouncingComponent, TechnologyDatabaseModifiedEvent>(OnTechnologyDatabaseModified);
             SubscribeLocalEvent<LatheComponent, ResearchRegistrationChangedEvent>(OnResearchRegistrationChanged);
@@ -391,37 +387,6 @@ namespace Content.Server.Lathe
             }
         }
 
-        /// <summary>
-        /// Checks whether the user is allowed to use the lathe.
-        /// Lathes without an <see cref="AccessReaderComponent"/> are always accessible.
-        /// </summary>
-        private bool HasAccess(EntityUid uid, EntityUid user)
-        {
-            if (!TryComp<AccessReaderComponent>(uid, out var reader))
-                return true;
-
-            return _accessReader.IsAllowed(user, uid, reader);
-        }
-
-        /// <summary>
-        /// Plays the lathe's access-denied sound.
-        /// </summary>
-        private void PlayDeniedSound(EntityUid uid)
-        {
-            if (TryComp(uid, out LatheComponent? component))
-                _audio.PlayPredicted(component.DenySound, uid, null);
-        }
-
-        private void OnActivatableUIOpenAttempt(EntityUid uid, LatheComponent component, ActivatableUIOpenAttemptEvent args)
-        {
-            if (args.Cancelled || HasAccess(uid, args.User))
-                return;
-
-            args.Cancel();
-            if (!args.Silent)
-                PlayDeniedSound(uid);
-        }
-
         private void OnDatabaseModified(EntityUid uid, LatheComponent component, ref TechnologyDatabaseModifiedEvent args)
         {
             UpdateUserInterfaceState(uid, component);
@@ -571,9 +536,6 @@ namespace Content.Server.Lathe
 
         private void OnLatheQueueRecipeMessage(EntityUid uid, LatheComponent component, LatheQueueRecipeMessage args)
         {
-            if (!HasAccess(uid, args.Actor))
-                return;
-
             if (_proto.TryIndex(args.ID, out LatheRecipePrototype? recipe))
             {
                 if (TryAddToQueue(uid, recipe, args.Quantity, component))
@@ -601,9 +563,6 @@ namespace Content.Server.Lathe
         /// <param name="args"></param>
         public void OnLatheDeleteRequestMessage(EntityUid uid, LatheComponent component, ref LatheDeleteRequestMessage args)
         {
-            if (!HasAccess(uid, args.Actor))
-                return;
-
             if (args.Index < 0 || args.Index >= component.Queue.Count)
                 return;
 
@@ -626,9 +585,6 @@ namespace Content.Server.Lathe
 
         public void OnLatheMoveRequestMessage(EntityUid uid, LatheComponent component, ref LatheMoveRequestMessage args)
         {
-            if (!HasAccess(uid, args.Actor))
-                return;
-
             if (args.Change == 0 || args.Index < 0 || args.Index >= component.Queue.Count)
                 return;
 
@@ -674,9 +630,6 @@ namespace Content.Server.Lathe
 
         public void OnLatheAbortFabricationMessage(EntityUid uid, LatheComponent component, ref LatheAbortFabricationMessage args)
         {
-            if (!HasAccess(uid, args.Actor))
-                return;
-
             if (component.CurrentRecipe == null)
                 return;
 

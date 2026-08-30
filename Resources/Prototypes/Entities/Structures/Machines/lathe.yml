@@ -119,7 +119,6 @@
         - RawMaterial
         - Ingot
   - type: OreSiloClient
-  - type: AccessReader
   - type: Lathe
     idleState: icon
     runningState: building
@@ -193,8 +192,6 @@
   - type: MaterialStorage
     whitelist: *StandardMaterialWhitelist
   - type: OreSiloClient
-  - type: AccessReader
-    access: [["Research"]]
   - type: Lathe
     idleState: icon
     runningState: building
