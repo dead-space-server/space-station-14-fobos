@@ -30,6 +30,9 @@ public sealed class RadialMenuOptionComparer : IComparer<RadialMenuOptionBase>
             return x.Order < y.Order ? -1 : 1;
         }
 
+        if (x.ToolTip is null && y.ToolTip is null)
+            return 0;
+
         if (y.ToolTip is null)
             return -1;
 
