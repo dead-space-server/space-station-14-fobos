@@ -334,7 +334,7 @@ public sealed partial class StationJobsSystem
     {
         var outputDict = new Dictionary<ProtoId<JobPrototype>, Dictionary<JobPriority, HashSet<NetUserId>>>();
 
-        var antagBlocked = _antag.GetPreSelectedAntagSessions(); // DS14
+        var antagBlocked = _antag.GetPreSelectedSessionsAffectingJobSelection(); // DS14
 
         foreach (var (player, profile) in profiles)
         {
@@ -445,7 +445,7 @@ public sealed partial class StationJobsSystem
         }
 
         var candidates = new HashSet<NetUserId>();
-        var antagBlocked = _antag.GetPreSelectedAntagSessions(); // DS14
+        var antagBlocked = _antag.GetPreSelectedSessionsAffectingJobSelection(); // DS14
 
         foreach (var (userId, _) in profiles)
         {

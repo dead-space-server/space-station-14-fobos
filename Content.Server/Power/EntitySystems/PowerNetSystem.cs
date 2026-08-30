@@ -39,6 +39,7 @@ namespace Content.Server.Power.EntitySystems
         private readonly HashSet<EntityUid> _processedApcReceivers = new();
         private readonly List<EntityUid> _changedBatteryStorage = new();
         private readonly HashSet<EntityUid> _changedBatteryStorageSet = new();
+        private readonly HashSet<PowerState.Load> _possiblyDisconnectedLoads = new();
         // DS14-end
 
         private EntityQuery<ApcPowerReceiverBatteryComponent> _apcBatteryQuery;
@@ -348,6 +349,7 @@ namespace Content.Server.Power.EntitySystems
             _solver.Tick(frameTime, _powerState, _parMan);
 
             // DS14-start
+            FinalizeDisconnectedLoads();
             CollectChangedBatteryStorage();
             RaiseLocalEvent(new NetworkBatteryPostSync(_changedBatteryStorage));
             // DS14-end
@@ -575,6 +577,28 @@ namespace Content.Server.Power.EntitySystems
         {
             _forceApcReceiverUpdate.Add(uid); // DS14
         }
+
+        // DS14-start
+        /// <summary>
+        /// Defers clearing a load until all node-group reconnects and the power solve for this tick are complete.
+        /// A topology rebuild may detach and reattach a still-powered load in the same tick.
+        /// </summary>
+        public void QueuePossiblyDisconnectedLoad(PowerState.Load load)
+        {
+            _possiblyDisconnectedLoads.Add(load);
+        }
+
+        private void FinalizeDisconnectedLoads()
+        {
+            foreach (var load in _possiblyDisconnectedLoads)
+            {
+                if (load.LinkedNetwork == default)
+                    load.SetReceivingPower(0f);
+            }
+
+            _possiblyDisconnectedLoads.Clear();
+        }
+        // DS14-end
 
         private void AllocLoad(PowerState.Load load)
         {

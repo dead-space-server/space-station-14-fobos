@@ -483,6 +483,11 @@
     supplyRate: 10000
     supplyRampRate: 500
     supplyRampTolerance: 500
+  - type: PowerMonitoringDevice
+    group: Generator
+    loadNode: output
+    sprite: _DeadSpace/Interface/Power/obelisk.rsi
+    state: obelisk
   - type: Anchorable
   - type: Electrified
     onHandInteract: false
