@@ -74,6 +74,11 @@ public abstract class SharedStrippableSystem : EntitySystem
         if (args.Hands == null || !args.CanAccess || !args.CanInteract || args.Target == args.User)
             return;
 
+        // DS14-start: don't offer to strip a target that can't be stripped (e.g. a stasis cocoon).
+        if (args.Target is { Valid: true } target && TryComp<HandsComponent>(target, out var targetHands) && !targetHands.CanBeStripped)
+            return;
+        // DS14-end
+
         Verb verb = new()
         {
             Text = Loc.GetString("strip-verb-get-data-text"),
@@ -88,6 +93,11 @@ public abstract class SharedStrippableSystem : EntitySystem
     {
         if (args.Hands == null || !args.CanAccess || !args.CanInteract || args.Target == args.User)
             return;
+
+        // DS14-start: don't offer to strip a target that can't be stripped (e.g. a stasis cocoon).
+        if (args.Target is { Valid: true } target && TryComp<HandsComponent>(target, out var targetHands) && !targetHands.CanBeStripped)
+            return;
+        // DS14-end
 
         ExamineVerb verb = new()
         {
@@ -752,6 +762,15 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         if (!HasComp<StrippingComponent>(user))
             return false;
+
+        // DS14-start: don't let anyone open the stripping UI on a target that
+        // can't be stripped (e.g. a changeling in a stasis cocoon).
+        if (TryComp<HandsComponent>(target.Owner, out var targetHands) && !targetHands.CanBeStripped)
+        {
+            _popupSystem.PopupCursor(Loc.GetString("strip-cannot-strip"), user);
+            return false;
+        }
+        // DS14-end
 
         _ui.OpenUi(target.Owner, StrippingUiKey.Key, user);
         return true;
