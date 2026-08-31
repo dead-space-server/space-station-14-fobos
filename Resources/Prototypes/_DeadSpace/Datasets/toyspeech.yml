@@ -514,3 +514,9 @@
   values:
     prefix: plushies-zuti-igna-
     count: 5
+
+- type: localizedDataset
+  id: PlushieSastrBonSpeech
+  values:
+    prefix: plushies-sastr-bon-
+    count: 10

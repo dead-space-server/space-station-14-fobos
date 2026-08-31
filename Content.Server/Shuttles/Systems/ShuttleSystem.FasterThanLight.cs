@@ -1221,11 +1221,13 @@ public sealed partial class ShuttleSystem
                     continue;
                 }
 
-                // If it's on our grid ignore it.
-                if (!_xformQuery.TryComp(ent, out var childXform) || childXform.GridUid == uid)
+                // DS14-start
+                // Grid-owned entities belong to the arriving shuttle or the target station and must never be flattened.
+                if (!_xformQuery.TryComp(ent, out var childXform) || childXform.GridUid is { Valid: true })
                 {
                     continue;
                 }
+                // DS14-end
 
                 // If it has the FTLSmashImmuneComponent ignore it.
                 if (_immuneQuery.HasComponent(ent))

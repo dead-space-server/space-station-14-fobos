@@ -12,6 +12,7 @@ public sealed partial class PipeShuttleWindow : FancyWindow
 {
     private int _selectedIndex = -1;
     private bool _travelling;
+    private bool _manualMode;
 
     public event Action<string>? OnDestSelected;
 
@@ -24,7 +25,7 @@ public sealed partial class PipeShuttleWindow : FancyWindow
             if (_selectedIndex >= 0 && StopList.Count > _selectedIndex)
             {
                 var item = StopList[_selectedIndex];
-                if (item.Metadata is string destId)
+                if (item.Metadata is string destId && !_manualMode)
                     OnDestSelected?.Invoke(destId);
             }
         };
@@ -32,7 +33,7 @@ public sealed partial class PipeShuttleWindow : FancyWindow
         StopList.OnItemSelected += args =>
         {
             _selectedIndex = args.ItemIndex;
-            CallButton.Disabled = _travelling;
+            CallButton.Disabled = _travelling || _manualMode;
         };
     }
 
@@ -41,6 +42,7 @@ public sealed partial class PipeShuttleWindow : FancyWindow
         StopList.Clear();
         _selectedIndex = -1;
         _travelling = state.Travelling;
+        _manualMode = state.ManualMode;
         CallButton.Disabled = true;
 
         foreach (var dest in state.Destinations)
@@ -54,7 +56,12 @@ public sealed partial class PipeShuttleWindow : FancyWindow
             StopList.AddItem(label, metadata: dest.Id);
         }
 
-        if (state.Travelling)
+        if (state.ManualMode)
+        {
+            StatusLabel.Text = Loc.GetString("pipe-shuttle-status-manual");
+            CallButton.Disabled = true;
+        }
+        else if (state.Travelling)
         {
             var targetName = state.TargetDestId;
             foreach (var d in state.Destinations)

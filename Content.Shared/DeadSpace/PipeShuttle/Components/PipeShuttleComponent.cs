@@ -34,8 +34,17 @@ public sealed partial class PipeShuttleComponent : Component
     [DataField("positionOffset")]
     public Vector2 PositionOffset;
 
+    [DataField("flightMode"), AutoNetworkedField]
+    public PipeShuttleFlightMode FlightMode = PipeShuttleFlightMode.Automatic;
+
     [ViewVariables]
     public bool DoorsSecured;
+}
+
+public enum PipeShuttleFlightMode : byte
+{
+    Automatic,
+    Manual,
 }
 
 [Serializable, DataDefinition, NetSerializable]

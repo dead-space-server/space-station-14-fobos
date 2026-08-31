@@ -440,8 +440,7 @@ public sealed partial class StationJobsSystem : EntitySystem
             var filtered = jobPriorities
                 .Where(p =>
                             p.Value == priority
-                            && disallowedJobs != null
-                            && !disallowedJobs.Contains(p.Key)
+                            && (disallowedJobs == null || !disallowedJobs.Contains(p.Key)) // DS14 - null means no exclusions.
                             && available.Contains(p.Key))
                 .Select(p => p.Key)
                 .ToList();
@@ -474,11 +473,15 @@ public sealed partial class StationJobsSystem : EntitySystem
         if (!pickOverflows)
             return null;
 
-        var overflows = GetOverflowJobs(station);
+        // DS14-start - overflow fallback must not bypass bans, timers, whitelists, or species requirements.
+        var overflows = GetOverflowJobs(station)
+            .Where(job => disallowedJobs == null || !disallowedJobs.Contains(job))
+            .ToList();
         if (overflows.Count == 0)
             return null;
 
         return _random.Pick(overflows);
+        // DS14-end
     }
 
     #endregion Public API

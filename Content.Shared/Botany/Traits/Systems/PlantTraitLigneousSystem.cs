@@ -11,18 +11,21 @@ namespace Content.Shared.Botany.Traits.Systems;
 /// <inheritdoc cref="PlantTraitLigneousComponent"/>
 public sealed partial class PlantTraitLigneousSystem : EntitySystem
 {
-    // DS14-start: current engine uses readonly IoC fields.
+    // DS14-start
     [Dependency] private readonly PlantHarvestSystem _plantHarvest = default!;
     [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedToolSystem _tool = default!;
+
+    private EntityQuery<PlantHolderComponent> _holderQuery;
     // DS14-end
 
     public override void Initialize()
     {
-        // DS14-start: current engine uses explicit event subscriptions.
+        // DS14-start: current engine uses explicit event subscriptions and query initialization.
         base.Initialize();
         SubscribeLocalEvent<PlantTraitLigneousComponent, InteractUsingEvent>(OnInteractUsing);
+        _holderQuery = GetEntityQuery<PlantHolderComponent>();
         // DS14-end
 
         SubscribeLocalEvent<PlantTraitLigneousComponent, DoHarvestEvent>(OnDoHarvest, before: [typeof(PlantHarvestSystem)]);
@@ -33,10 +36,10 @@ public sealed partial class PlantTraitLigneousSystem : EntitySystem
         if (args.Handled)
             return;
 
-        if (!TryComp<PlantHarvestComponent>(ent.Owner, out var harvest))
+        if (!_holderQuery.TryComp(ent.Owner, out var holder)) // DS14
             return;
 
-        if (!harvest.ReadyForHarvest)
+        if (!holder.ReadyForHarvest) // DS14
             return;
 
         if (_plantHolder.IsDead(ent.Owner))

@@ -932,8 +932,7 @@ public sealed partial class ChatUIController : UIController
                 if (_ghost is not { IsGhost: true})
                     break;
 
-                if (_ghost.IsGhostSpriteVisible(_ent.GetEntity(msg.SenderEntity))) // DS14 - Respect per-ghost admin visibility.
-                    AddSpeechBubble(msg, SpeechBubble.SpeechType.Say);
+                AddSpeechBubble(msg, SpeechBubble.SpeechType.Say);
                 break;
 
             case ChatChannel.Emotes:

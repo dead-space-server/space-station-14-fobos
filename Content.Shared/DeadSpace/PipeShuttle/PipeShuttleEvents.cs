@@ -30,4 +30,5 @@ public sealed class PipeShuttleUiState : BoundUserInterfaceState
     public string? CurrentDestId;
     public bool Travelling;
     public string? TargetDestId;
+    public bool ManualMode;
 }
