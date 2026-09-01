@@ -18,12 +18,10 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
 {
     public override StyleRule[] GetRules(NanotrasenStylesheet sheet, object config)
     {
-        var normalBorder = DeadSpaceStylePalette.ClassicChrome
-            ? DeadSpaceStylePalette.BorderControl
-            : Color.Transparent;
-        var disabledBorder = DeadSpaceStylePalette.ClassicChrome
-            ? DeadSpaceStylePalette.BorderDisabled
-            : Color.Transparent;
+        // Persistent neutral edges keep normal controls distinct from their parent surface. Hover and pressed
+        // states still replace them with the stronger accent outlines below.
+        var normalBorder = DeadSpaceStylePalette.BorderControl;
+        var disabledBorder = DeadSpaceStylePalette.BorderDisabled;
 
         var action = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Action,
@@ -162,7 +160,7 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
         var input = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Input,
             DeadSpaceStylePalette.BorderControl,
-            DeadSpaceStylePalette.ClassicChrome ? new Thickness(1) : new Thickness(0, 0, 0, 1),
+            new Thickness(1),
             7,
             4);
         var inputDisabled = new StyleBoxFlat(input)
@@ -170,9 +168,16 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
             BackgroundColor = DeadSpaceStylePalette.ControlDisabled,
             BorderColor = DeadSpaceStylePalette.BorderDisabled,
         };
-        var textArea = new StyleBoxFlat(input);
-        textArea.ContentMarginTopOverride = 6;
-        textArea.ContentMarginBottomOverride = 6;
+        // OutputPanel content commonly contains channel/name markup authored for a dark transcript. Keep this
+        // surface dark in both themes instead of applying a destructive tint to arbitrary markup colors.
+        var textArea = DeadSpaceStyleBoxes.Flat(
+            DeadSpaceStylePalette.SurfaceTranscript,
+            DeadSpaceStylePalette.BorderControl,
+            new Thickness(1),
+            7,
+            6);
+        var chatPanel = DeadSpaceStyleBoxes.Flat(
+            DeadSpaceStylePalette.SurfaceTranscript.WithAlpha(221f / 255f));
 
         var rules = new List<StyleRule>
         {
@@ -201,7 +206,9 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
                     .Prop(OutputPanel.StylePropertyStyleBox, textArea),
                 E<LineEdit>()
                     .Prop(LineEdit.StylePropertyStyleBox, input)
-                    .Prop("font-color", DeadSpaceStylePalette.Text),
+                    .Prop("font-color", DeadSpaceStylePalette.Text)
+                    .Prop(LineEdit.StylePropertyCursorColor, DeadSpaceStylePalette.Amber)
+                    .Prop(LineEdit.StylePropertySelectionColor, DeadSpaceStylePalette.CyanSelection),
                 E<LineEdit>()
                     .Class(LineEdit.StyleClassLineEditNotEditable)
                     .Prop(LineEdit.StylePropertyStyleBox, inputDisabled)
@@ -216,6 +223,17 @@ public sealed class DeadSpaceControlSheetlet : Sheetlet<NanotrasenStylesheet>
                 E<TextEdit>()
                     .Pseudo(TextEdit.StylePseudoClassPlaceholder)
                     .Prop("font-color", DeadSpaceStylePalette.TextPlaceholder),
+                E<PanelContainer>()
+                    .Class(ChatInputBox.StyleClassChatPanel)
+                    .Prop(PanelContainer.StylePropertyPanel, chatPanel),
+                E<LineEdit>()
+                    .Class(ChatInputBox.StyleClassChatLineEdit)
+                    .Prop(LineEdit.StylePropertyStyleBox, new StyleBoxEmpty())
+                    .Prop("font-color", DeadSpaceStylePalette.TextOnTranscript),
+                E<LineEdit>()
+                    .Class(ChatInputBox.StyleClassChatLineEdit)
+                    .Pseudo(LineEdit.StylePseudoClassPlaceholder)
+                    .Prop("font-color", DeadSpaceStylePalette.TextOnTranscriptPlaceholder),
             ]);
 
             AddBareContainerButtonRules(

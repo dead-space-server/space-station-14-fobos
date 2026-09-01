@@ -33,6 +33,7 @@ DEFAULT_FIXTURES = (
     "pda-overflow",
     "photocopier",
     "admin",
+    "ahelp",
     "server-list",
     "late-join",
     "role-priorities",

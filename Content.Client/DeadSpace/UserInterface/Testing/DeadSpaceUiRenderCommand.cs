@@ -5,6 +5,7 @@
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using Content.Client.Administration.UI.Bwoink;
 using Content.Client.Administration.UI.Tabs.AdminTab;
 using Content.Client.Cargo.UI;
 using Content.Client.Chemistry.UI;
@@ -71,7 +72,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
 
     public string Command => "ds14_ui_render";
     public string Description => "Render a deterministic DS14 UI fixture to user data and quit.";
-    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|pda-overflow|photocopier|admin|server-list|late-join|role-priorities|options-general|options-footer|ert-admin|ert-admin-pending|ert-admin-manual|ert-admin-codes|fax|communications|chat> [output-name]";
+    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|pda-overflow|photocopier|admin|ahelp|server-list|late-join|role-priorities|options-general|options-footer|ert-admin|ert-admin-pending|ert-admin-manual|ert-admin-codes|fax|communications|chat> [output-name]";
 
     public void Execute(IConsoleShell shell, string argStr, string[] args)
     {
@@ -118,6 +119,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
             "pda-overflow" => CreatePdaOverflowFixture(),
             "photocopier" => CreatePhotocopierFixture(),
             "admin" => CreateAdminFixture(),
+            "ahelp" => CreateAHelpFixture(),
             "server-list" => CreateServerListFixture(),
             "late-join" => CreateLateJoinFixture(),
             "role-priorities" => CreateRolePriorityFixture(),
@@ -181,11 +183,14 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         filter.AddItem("Электроника");
         search.AddChild(filter);
         recipes.AddChild(search);
-        recipes.AddChild(SectionLabel("Доступные чертежи"));
-        recipes.AddChild(InsetList(
-            "Лист стали",
-            "Изолированные перчатки",
-            "Очень длинное название производственного рецепта"));
+        recipes.AddChild(SectionLabel("Рецепты: доступный и недоступный"));
+        var recipeStates = Vertical(3);
+        recipeStates.AddChild(MachineRecipeRow("Батарея малой ёмкости", false));
+        recipeStates.AddChild(MachineRecipeRow("Батарея средней ёмкости", true));
+        recipeStates.AddChild(MachineRecipeRow(
+            "Очень длинное название недоступного производственного рецепта",
+            true));
+        recipes.AddChild(recipeStates);
         var amount = Horizontal(6);
         amount.AddChild(new Label { Text = "Количество" });
         amount.AddChild(new LineEdit { Text = "1", HorizontalExpand = true });
@@ -459,6 +464,29 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         tabs.SetTabTitle(1, "Раунд");
         tabs.SetTabTitle(2, "Объекты");
         window.Contents.AddChild(tabs);
+        return window;
+    }
+
+    private static BaseWindow CreateAHelpFixture()
+    {
+        var window = FixtureWindow("AHelp — transcript и поле ввода", new Vector2(720, 460));
+        var panel = new BwoinkPanel(_ => { })
+        {
+            Margin = new Thickness(10),
+        };
+        var sentAt = new DateTime(2710, 8, 26, 14, 31, 0);
+        panel.ReceiveLine(new SharedBwoinkSystem.BwoinkTextMessage(
+            SharedBwoinkSystem.SystemUserId,
+            SharedBwoinkSystem.SystemUserId,
+            "[bold][color=#8CB7E8]Игрок:[/color][/bold] Не могу открыть шлюз инженерного отдела.",
+            sentAt));
+        panel.ReceiveLine(new SharedBwoinkSystem.BwoinkTextMessage(
+            SharedBwoinkSystem.SystemUserId,
+            SharedBwoinkSystem.SystemUserId,
+            "[bold][color=#FFB347]Администратор:[/color][/bold] Проверяю доступ и логи взаимодействия.",
+            sentAt.AddMinutes(1)));
+        panel.FindControl<LineEdit>("SenderLineEdit").Text = "Поле ответа должно отличаться от истории сообщений";
+        window.Contents.AddChild(panel);
         return window;
     }
 
@@ -754,12 +782,13 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         };
         chat.ChatWindowPanel.PanelOverride = new StyleBoxFlat
         {
-            BackgroundColor = DeadSpaceStylePalette.SurfaceDark.WithAlpha(0.22f),
+            BackgroundColor = DeadSpaceStylePalette.SurfaceTranscript.WithAlpha(0.22f),
         };
         chat.AddLine("АДМИН: Проверка важного системного сообщения", Robust.Shared.Maths.Color.FromHex("#FF4A4A"));
         chat.AddLine("Добро пожаловать на Космическую Станцию 14!", Robust.Shared.Maths.Color.FromHex("#FFB347"));
-        chat.AddLine("[bold]Капитан Айзек Кларк:[/bold] Работа продолжается в штатном режиме.", Robust.Shared.Maths.Color.FromHex("#D7DEE8"));
-        chat.AddLine("Рядом: обычная локальная реплика для оценки фона и контраста.", Robust.Shared.Maths.Color.FromHex("#AFC8D8"));
+        chat.AddLine("[bold][color=#DA8BC9]Капитан Айзек Кларк:[/color][/bold] Работа продолжается в штатном режиме.", Robust.Shared.Maths.Color.FromHex("#D7DEE8"));
+        chat.AddLine("[bold][color=#8BDA8E]Николь Бреннан:[/color][/bold] Цвет ника остаётся читаемым в обеих темах.", Robust.Shared.Maths.Color.FromHex("#D7DEE8"));
+        chat.AddLine("[bold][color=#8CB7E8]Кендра Дэниелс:[/color][/bold] Ещё один цвет из ChatNames.", Robust.Shared.Maths.Color.FromHex("#D7DEE8"));
         LayoutContainer.SetAnchorPreset(chat, LayoutContainer.LayoutPreset.Wide);
         stage.AddChild(chat);
         window.Contents.AddChild(stage);
@@ -803,6 +832,26 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
         {
             Text = text,
             StyleClasses = { DeadSpaceStyleClass.SectionTitle },
+        };
+    }
+
+    private static Button MachineRecipeRow(string text, bool disabled)
+    {
+        var content = Horizontal(4);
+        content.AddChild(new Label { Text = "▣", MinWidth = 24 });
+        content.AddChild(new Label
+        {
+            Text = text,
+            HorizontalExpand = true,
+            ClipText = true,
+        });
+
+        return new Button
+        {
+            StyleClasses = { StyleClass.ButtonSquare },
+            HorizontalExpand = true,
+            Disabled = disabled,
+            Children = { content },
         };
     }
 
