@@ -72,7 +72,7 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
 
     public string Command => "ds14_ui_render";
     public string Description => "Render a deterministic DS14 UI fixture to user data and quit.";
-    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|pda-overflow|photocopier|admin|ahelp|server-list|late-join|role-priorities|options-general|options-footer|ert-admin|ert-admin-pending|ert-admin-manual|ert-admin-codes|fax|communications|chat> [output-name]";
+    public string Help => "ds14_ui_render <palette|dropdowns|list-container|vending|smart-fridge|store|lathe|reagent-dispenser|cargo|atmos-power|pda|pda-overflow|photocopier|admin|ahelp|debug-console|appearance-traits|server-list|late-join|role-priorities|options-general|options-footer|ert-admin|ert-admin-pending|ert-admin-manual|ert-admin-codes|fax|communications|chat> [output-name]";
 
     public void Execute(IConsoleShell shell, string argStr, string[] args)
     {
@@ -120,6 +120,8 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
             "photocopier" => CreatePhotocopierFixture(),
             "admin" => CreateAdminFixture(),
             "ahelp" => CreateAHelpFixture(),
+            "debug-console" => CreateDebugConsoleFixture(),
+            "appearance-traits" => CreateAppearanceTraitsFixture(),
             "server-list" => CreateServerListFixture(),
             "late-join" => CreateLateJoinFixture(),
             "role-priorities" => CreateRolePriorityFixture(),
@@ -469,10 +471,12 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
 
     private static BaseWindow CreateAHelpFixture()
     {
-        var window = FixtureWindow("AHelp — transcript и поле ввода", new Vector2(720, 460));
+        var window = FixtureWindow("AHelp — transcript, ввод и действия", new Vector2(760, 500));
+        var root = Vertical(8);
         var panel = new BwoinkPanel(_ => { })
         {
             Margin = new Thickness(10),
+            VerticalExpand = true,
         };
         var sentAt = new DateTime(2710, 8, 26, 14, 31, 0);
         panel.ReceiveLine(new SharedBwoinkSystem.BwoinkTextMessage(
@@ -486,7 +490,92 @@ public sealed class DeadSpaceUiRenderCommand : IConsoleCommand
             "[bold][color=#FFB347]Администратор:[/color][/bold] Проверяю доступ и логи взаимодействия.",
             sentAt.AddMinutes(1)));
         panel.FindControl<LineEdit>("SenderLineEdit").Text = "Поле ответа должно отличаться от истории сообщений";
-        window.Contents.AddChild(panel);
+        root.AddChild(panel);
+
+        var actions = Horizontal(6);
+        actions.AddChild(new Button { Text = "Заметки", HorizontalExpand = true });
+        actions.AddChild(new ConfirmButton
+        {
+            Text = "Кикнуть",
+            ConfirmationText = "Подтвердить",
+            HorizontalExpand = true,
+            StyleClasses = { DeadSpaceStyleClass.ControlDanger },
+        });
+        actions.AddChild(new Button
+        {
+            Text = "Забанить",
+            HorizontalExpand = true,
+            StyleClasses = { DeadSpaceStyleClass.ControlDanger },
+        });
+        actions.AddChild(new Button { Text = "Респаун", HorizontalExpand = true });
+        root.AddChild(actions);
+        window.Contents.AddChild(root);
+        return window;
+    }
+
+    private static BaseWindow CreateDebugConsoleFixture()
+    {
+        var window = FixtureWindow("F1-консоль — служебные цвета", new Vector2(900, 420));
+        var console = new DebugConsole
+        {
+            HorizontalExpand = true,
+            VerticalExpand = true,
+        };
+        console.AddLine(
+            FormattedMessage.FromUnformatted("[INFO] cfg: config saved to client_config.toml"),
+            Robust.Shared.Maths.Color.Cyan);
+        console.AddLine(
+            FormattedMessage.FromUnformatted("> delaystart"),
+            Robust.Shared.Maths.Color.Yellow);
+        console.AddLine(
+            FormattedMessage.FromUnformatted("Command delaystart with args: []"),
+            Robust.Shared.Maths.Color.Red);
+        console.AddLine(
+            FormattedMessage.FromUnformatted("Начало раунда было приостановлено."),
+            Robust.Shared.Maths.Color.Orange);
+        window.Contents.AddChild(console);
+        return window;
+    }
+
+    private static BaseWindow CreateAppearanceTraitsFixture()
+    {
+        var window = FixtureWindow("Черты внешности", new Vector2(920, 520));
+        var columns = Horizontal(8);
+        columns.VerticalExpand = true;
+
+        var unusedColumn = Vertical(4);
+        unusedColumn.HorizontalExpand = true;
+        unusedColumn.AddChild(SectionLabel("Неиспользуемые черты"));
+        var category = new OptionButton { HorizontalExpand = true };
+        category.AddItem("Грудь");
+        category.AddItem("Голова");
+        unusedColumn.AddChild(category);
+        unusedColumn.AddChild(new LineEdit { PlaceHolder = "Поиск", HorizontalExpand = true });
+        var unused = new ItemList
+        {
+            HorizontalExpand = true,
+            VerticalExpand = true,
+        };
+        unused.AddItem("Унатх, грудь (Подбрюшье)");
+        unused.AddItem("Унатх, грудь (Тигр)");
+        var unavailable = unused.AddItem("Унатх, грудь, шипы на спине (Четыре)");
+        unavailable.Disabled = true;
+        unusedColumn.AddChild(unused);
+
+        var usedColumn = Vertical(4);
+        usedColumn.HorizontalExpand = true;
+        usedColumn.AddChild(SectionLabel("Используемые черты"));
+        var used = new ItemList
+        {
+            HorizontalExpand = true,
+            VerticalExpand = true,
+        };
+        used.AddItem("Унатх, грудь (Обычная)");
+        usedColumn.AddChild(used);
+
+        columns.AddChild(unusedColumn);
+        columns.AddChild(usedColumn);
+        window.Contents.AddChild(columns);
         return window;
     }
 
@@ -1004,6 +1093,20 @@ internal sealed class DeadSpaceUiFixtureWindow : DefaultWindow
         root.AddChild(StateRow(null));
         root.AddChild(Section("Action pseudo-states"));
         root.AddChild(StateRow(DeadSpaceStyleClass.Action));
+
+        root.AddChild(Section("Top actions on section header"));
+        var header = new PanelContainer
+        {
+            StyleClasses = { DeadSpaceStyleClass.SectionHeader },
+            HorizontalExpand = true,
+        };
+        var headerActions = HorizontalRow();
+        headerActions.Margin = new Thickness(8);
+        headerActions.AddChild(Button("Статистика", DeadSpaceStyleClass.TopAction));
+        headerActions.AddChild(Button("Правила", DeadSpaceStyleClass.TopAction));
+        headerActions.AddChild(Button("Закрыть", DeadSpaceStyleClass.TopAction));
+        header.AddChild(headerActions);
+        root.AddChild(header);
 
         root.AddChild(Section("Semantic states"));
         var semantic = HorizontalRow();

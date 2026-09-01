@@ -34,6 +34,8 @@ DEFAULT_FIXTURES = (
     "photocopier",
     "admin",
     "ahelp",
+    "debug-console",
+    "appearance-traits",
     "server-list",
     "late-join",
     "role-priorities",

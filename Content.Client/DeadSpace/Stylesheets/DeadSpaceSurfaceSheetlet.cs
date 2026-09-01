@@ -155,7 +155,9 @@ public sealed class DeadSpaceSurfaceSheetlet : Sheetlet<NanotrasenStylesheet>
         };
         var input = DeadSpaceStyleBoxes.Flat(
             DeadSpaceStylePalette.Input,
-            DeadSpaceStylePalette.BorderControl,
+            DeadSpaceStylePalette.ClassicChrome
+                ? DeadSpaceStylePalette.BorderControl
+                : Color.Transparent,
             DeadSpaceStylePalette.ClassicChrome ? new Thickness(0) : new Thickness(1),
             7,
             4);
