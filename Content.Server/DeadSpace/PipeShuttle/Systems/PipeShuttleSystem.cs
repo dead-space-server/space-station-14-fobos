@@ -119,14 +119,14 @@ public sealed class PipeShuttleSystem : EntitySystem
             _physics.SetCanCollide(uid, false, body: body);
         }
 
-        if (string.IsNullOrEmpty(component.CurrentDestId))
-            return;
-
-        var dest = FindDestination(component, component.CurrentDestId);
-        if (dest != null)
+        if (!string.IsNullOrEmpty(component.CurrentDestId))
         {
-            var gridPos = _transform.GetWorldPosition(uid);
-            component.PositionOffset = gridPos - dest.Position;
+            var dest = FindDestination(component, component.CurrentDestId);
+            if (dest != null)
+            {
+                var gridPos = _transform.GetWorldPosition(uid);
+                component.PositionOffset = gridPos - dest.Position;
+            }
         }
 
         if (component.FlightMode == PipeShuttleFlightMode.Manual)
