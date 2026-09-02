@@ -7369,3 +7369,10 @@ Entries:
     message: Спрайт иконки некоторой униформы;
   - type: Tweak
     message: Новый спрайт для униформы агента ЦК.
+- id: 703
+  author: IvanKuvalda
+  time: '2026-09-02T15:25:16.396019+00:00'
+  pr: 2281
+  changes:
+  - type: Add
+    message: 2 новых способности для генокрада.
