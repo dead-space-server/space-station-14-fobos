@@ -23,7 +23,7 @@ namespace Content.Client.UserInterface.Systems.Sandbox;
 
 // TODO hud refactor should part of this be in engine?
 [UsedImplicitly]
-public sealed class SandboxUIController : UIController, IOnStateChanged<GameplayState>, IOnSystemChanged<SandboxSystem>
+public sealed partial class SandboxUIController : UIController, IOnStateChanged<GameplayState>, IOnSystemChanged<SandboxSystem>
 {
     [Dependency] private readonly IConsoleHost _console = default!;
     [Dependency] private readonly IInputManager _input = default!;
@@ -108,6 +108,10 @@ public sealed class SandboxUIController : UIController, IOnStateChanged<Gameplay
 
         _window.OnOpen += () => { SandboxButton!.Pressed = true; };
         _window.OnClose += () => { SandboxButton!.Pressed = false; };
+
+        // Sunrise port start - sandbox UI hook (ported from makura-games/lust-station, author ThereDrD)
+        InitializeSunriseWindow();
+        // Sunrise port end
 
         _window.AiOverlayButton.OnPressed += args =>
         {
