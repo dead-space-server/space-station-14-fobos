@@ -128,6 +128,9 @@ public sealed class PipeShuttleSystem : EntitySystem
             var gridPos = _transform.GetWorldPosition(uid);
             component.PositionOffset = gridPos - dest.Position;
         }
+
+        if (component.FlightMode == PipeShuttleFlightMode.Manual)
+            EnableManualBody(uid, component);
     }
 
     private void OnShuttleShutdown(EntityUid uid, PipeShuttleComponent component, ComponentShutdown args)
