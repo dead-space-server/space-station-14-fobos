@@ -2,7 +2,7 @@
   parent: BaseWallmountMachine
   id: MusicalLoudspeaker
   name: музыкальный динамик
-  description: Динамик воспроизводящий музыку с завода, обычно используется для музыки в лифтах.
+  description: Настенный динамик с передатчиком, гонящим заводской плейлист по всей комнате.
   components:
   - type: WallMount
     arc: 360
@@ -11,12 +11,15 @@
     sprite: _DeadSpace/Structures/Wallmounts/musical_loudspeaker.rsi
     state: base
   - type: Appearance
-  - type: AmbientSound
-    enabled: true
+  - type: MusicalLoudspeaker
     range: 12
-    volume: -4
-    sound:
-      path: /Audio/_DeadSpace/Music/_IvanKuvalda/Prima.ogg
+    volume: -2
+    songs:
+    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/dreamisland.ogg
+    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/haircutsformen.ogg
+    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/NealsRules.ogg
+    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/QuoVadis.ogg
+    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/velvet.ogg
   - type: Destructible
     thresholds:
     - trigger:
