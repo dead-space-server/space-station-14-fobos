@@ -180,6 +180,11 @@ public abstract class SharedStrippableSystem : EntitySystem
         if (!Resolve(user, ref user.Comp))
             return false;
 
+        // DS14-start: a stasis cocoon blocks inventory slots as well as hands.
+        if (TryComp<HandsComponent>(target, out var targetHands) && !targetHands.CanBeStripped)
+            return false;
+        // DS14-end
+
         if (!_handsSystem.TryGetActiveItem(user, out var activeItem) || activeItem != held)
             return false;
 
@@ -286,6 +291,11 @@ public abstract class SharedStrippableSystem : EntitySystem
         EntityUid item,
         string slot)
     {
+        // DS14-start: re-check during the strip do-after so entering a cocoon cancels it.
+        if (TryComp<HandsComponent>(target, out var targetHands) && !targetHands.CanBeStripped)
+            return false;
+        // DS14-end
+
         if (!_inventorySystem.TryGetSlotEntity(target, slot, out var slotItem))
         {
             _popupSystem.PopupCursor(Loc.GetString("strippable-component-item-slot-free-message", ("owner", Identity.Entity(target, EntityManager))));
