@@ -7360,3 +7360,12 @@ Entries:
   changes:
   - type: Tweak
     message: Некоторые системы с целью попытки оптимизации.
+- id: 702
+  author: MTF97
+  time: '2026-09-02T15:22:19.776074+00:00'
+  pr: 2282
+  changes:
+  - type: Tweak
+    message: Спрайт иконки некоторой униформы;
+  - type: Tweak
+    message: Новый спрайт для униформы агента ЦК.
