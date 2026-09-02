@@ -7353,3 +7353,10 @@ Entries:
   changes:
   - type: Fix
     message: Некоторые проблемы с UI.
+- id: 701
+  author: CyberBobeks
+  time: '2026-09-02T14:06:58.809039+00:00'
+  pr: 2289
+  changes:
+  - type: Tweak
+    message: Некоторые системы с целью попытки оптимизации.
