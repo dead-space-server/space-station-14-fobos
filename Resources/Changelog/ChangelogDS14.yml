@@ -7376,3 +7376,10 @@ Entries:
   changes:
   - type: Add
     message: 2 новых способности для генокрада.
+- id: 704
+  author: CyberBobeks
+  time: '2026-09-02T15:42:24.764315+00:00'
+  pr: 2290
+  changes:
+  - type: Fix
+    message: Ошибка кода у артефактов.
