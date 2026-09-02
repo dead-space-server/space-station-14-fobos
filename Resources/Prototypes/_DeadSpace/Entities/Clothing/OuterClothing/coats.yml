@@ -284,9 +284,9 @@
 
 - type: entity
   parent: ClothingOuterStorageFoldableBase
-  id: ClothingOuterCoatSuitJacketСС
+  id: ClothingOuterCoatSuitJacketCC
   name: пиджак агента Центком
-  description: Дорогущий пиджак сотрудника ЦК. Придаёт вид человека, который одной росьписью пера рушит жизни людей.
+  description: Дорогущий пиджак сотрудника ЦК. Придаёт вид человека, который одним росчерком пера рушит жизни людей.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/OuterClothing/Coats/suit_jacket_cc.rsi
@@ -294,6 +294,6 @@
     sprite: _DeadSpace/Clothing/OuterClothing/Coats/suit_jacket_cc.rsi
 
 - type: entity
-  parent: [ClothingOuterStorageFoldableBaseOpened, ClothingOuterCoatSuitJacketСС]
-  id: ClothingOuterCoatSuitJacketССOpened
+  parent: [ClothingOuterStorageFoldableBaseOpened, ClothingOuterCoatSuitJacketCC]
+  id: ClothingOuterCoatSuitJacketCCOpened
   name: пиджак агента Центком
