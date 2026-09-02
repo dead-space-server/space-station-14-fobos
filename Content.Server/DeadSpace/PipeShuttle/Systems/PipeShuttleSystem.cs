@@ -61,12 +61,7 @@ public sealed class PipeShuttleSystem : EntitySystem
         while (shuttleQuery.MoveNext(out var uid, out var shuttle, out var xform))
         {
             if (shuttle.FlightMode == PipeShuttleFlightMode.Manual)
-            {
-                EnableManualMode(uid, shuttle);
-                continue;
-            }
-
-            DisableManualMode(uid, shuttle);
+                continue; // Flight-mode changes are applied on map initialization and mode switches.
 
             if (!shuttle.Travelling || string.IsNullOrEmpty(shuttle.TargetDestId))
                 continue;
@@ -124,15 +119,18 @@ public sealed class PipeShuttleSystem : EntitySystem
             _physics.SetCanCollide(uid, false, body: body);
         }
 
-        if (string.IsNullOrEmpty(component.CurrentDestId))
-            return;
-
-        var dest = FindDestination(component, component.CurrentDestId);
-        if (dest != null)
+        if (!string.IsNullOrEmpty(component.CurrentDestId))
         {
-            var gridPos = _transform.GetWorldPosition(uid);
-            component.PositionOffset = gridPos - dest.Position;
+            var dest = FindDestination(component, component.CurrentDestId);
+            if (dest != null)
+            {
+                var gridPos = _transform.GetWorldPosition(uid);
+                component.PositionOffset = gridPos - dest.Position;
+            }
         }
+
+        if (component.FlightMode == PipeShuttleFlightMode.Manual)
+            EnableManualBody(uid);
     }
 
     private void OnShuttleShutdown(EntityUid uid, PipeShuttleComponent component, ComponentShutdown args)
@@ -193,29 +191,15 @@ public sealed class PipeShuttleSystem : EntitySystem
         args.Handled = true;
     }
 
-    private void EnableManualMode(EntityUid uid, PipeShuttleComponent shuttle)
-    {
-        if (shuttle.DoorsSecured)
-        {
-            ReleaseDoors(uid);
-            shuttle.DoorsSecured = false;
-            Dirty(uid, shuttle);
-        }
-
-        EnableManualBody(uid);
-    }
-
     private void EnableManualBody(EntityUid uid)
     {
         EnsureComp<ShuttleComponent>(uid);
         _shuttle.Enable(uid);
 
-        RegisterThrusters(uid);
-    }
+        if (_physicsQuery.TryComp(uid, out var body))
+            _physics.SetCanCollide(uid, true, body: body);
 
-    private void DisableManualMode(EntityUid uid, PipeShuttleComponent shuttle)
-    {
-        DisableManualBody(uid);
+        RegisterThrusters(uid);
     }
 
     private void DisableManualBody(EntityUid uid)
