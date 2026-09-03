@@ -20,6 +20,7 @@
     - path: /Audio/_DeadSpace/Music/_IvanKuvalda/NealsRules.ogg
     - path: /Audio/_DeadSpace/Music/_IvanKuvalda/QuoVadis.ogg
     - path: /Audio/_DeadSpace/Music/_IvanKuvalda/velvet.ogg
+    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/french.ogg
   - type: Destructible
     thresholds:
     - trigger:
