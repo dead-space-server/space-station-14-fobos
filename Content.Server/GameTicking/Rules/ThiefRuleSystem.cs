@@ -40,12 +40,13 @@ public sealed class ThiefRuleSystem : GameRuleSystem<ThiefRuleComponent>
     {
         var ent = args.EntityUid;
 
-        // DS14: pick the round's unlock tool once per rule, then mark the thief's own PDA(s)
-        // so ВорПРО can only be unlocked on the thief's PDA with exactly this tool.
-        if (mindId.Comp.UnlockTool == null)
-            mindId.Comp.UnlockTool = _random.Pick(UnlockToolOptions);
-
-        MarkThiefPdas(ent);
+        // DS14: ВорПРО wiring is disabled for normal players (kept for the future rework).
+        // // pick the round's unlock tool once per rule, then mark the thief's own PDA(s)
+        // // so ВорПРО can only be unlocked on the thief's PDA with exactly this tool.
+        // if (mindId.Comp.UnlockTool == null)
+        //     mindId.Comp.UnlockTool = _random.Pick(UnlockToolOptions);
+        //
+        // MarkThiefPdas(ent);
 
         _antag.SendBriefing(ent, MakeBriefing(ent), null, null);
     }
@@ -107,12 +108,11 @@ public sealed class ThiefRuleSystem : GameRuleSystem<ThiefRuleComponent>
         if (isHuman)
             briefing += "\n \n" + Loc.GetString("thief-role-greeting-equipment") + "\n";
 
-        // DS14: tell the thief about the goal and how to unlock the ВорПРО program —
-        // insert the round's chosen tool into the PDA's tool slot.
-        briefing += "\n" + Loc.GetString("thief-role-greeting-goal") + "\n";
-
-        var tool = GetUnlockToolName();
-        briefing += "\n" + Loc.GetString("thief-role-greeting-unlock", ("tool", tool)) + "\n";
+        // DS14: no ВорПРО goal/unlock hint for normal players (kept for the future rework).
+        // briefing += "\n" + Loc.GetString("thief-role-greeting-goal") + "\n";
+        //
+        // var tool = GetUnlockToolName();
+        // briefing += "\n" + Loc.GetString("thief-role-greeting-unlock", ("tool", tool)) + "\n";
 
         return briefing;
     }

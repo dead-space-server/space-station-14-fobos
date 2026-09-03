@@ -92,10 +92,12 @@ public sealed class ThiefProgramSystem : EntitySystem
         SubscribeLocalEvent<ThiefPdaProgramComponent, CartridgeMessageEvent>(OnUiMessage);
         SubscribeLocalEvent<ThiefPdaProgramComponent, CartridgeUiReadyEvent>(OnUiReady);
 
-        // Broadcast subscription: inserting a tool into a PDA's tool slot installs the
-        // ВорПРО program (only for thieves), taking it out deletes the program again.
-        SubscribeLocalEvent<EntInsertedIntoContainerMessage>(OnPdaToolInserted);
-        SubscribeLocalEvent<EntRemovedFromContainerMessage>(OnPdaToolRemoved);
+        // DS14: Wire unsubscribe too — the ВорПРО unlock (insert the tool into the PDA's
+        // tool slot) is disabled for normal players (kept for the future thief rework).
+        // // Broadcast subscription: inserting a tool into a PDA's tool slot installs the
+        // // ВорПРО program (only for thieves), taking it out deletes the program again.
+        // SubscribeLocalEvent<EntInsertedIntoContainerMessage>(OnPdaToolInserted);
+        // SubscribeLocalEvent<EntRemovedFromContainerMessage>(OnPdaToolRemoved);
     }
 
     public override void Update(float frameTime)
