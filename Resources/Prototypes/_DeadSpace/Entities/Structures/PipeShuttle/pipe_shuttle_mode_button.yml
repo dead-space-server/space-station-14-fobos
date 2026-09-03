@@ -1,8 +1,8 @@
 - type: entity
   parent: BaseWallmountMachine
   id: PipeShuttleModeButton
-  name: pipe shuttle mode switch
-  description: Switches the tram between manual and automatic flight modes.
+  name: кнопка переключения режимов
+  description: Переключает режим управления.
   components:
   - type: WallMount
     arc: 360
