@@ -7383,3 +7383,11 @@ Entries:
   changes:
   - type: Fix
     message: Ошибка кода у артефактов.
+- id: 705
+  author: IvanKuvalda
+  time: '2026-09-03T11:58:41.432703+00:00'
+  pr: 2292
+  changes:
+  - type: Remove
+    message: Вор вернулся к своим старым целям. Ремейк не отменен, у меня нет настроения
+      для него.
