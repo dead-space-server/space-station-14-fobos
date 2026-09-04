@@ -1,12 +1,7 @@
 - type: construction
   id: chistotyan
-  name: чисто-тян
-  description: Улучшенный чистобот-горничная.
   graph: CleanBotChistoTyan
   startNode: start
   targetNode: bot
   category: construction-category-utilities
   objectType: Item
-  icon:
-    sprite: _DeadSpace/Mobs/Silicon/Bots/chistotyan.rsi
-    state: icon

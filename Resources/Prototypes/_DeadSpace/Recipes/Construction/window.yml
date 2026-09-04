@@ -42,8 +42,6 @@
 
 - type: construction
   id: PaperWindow
-  name: бумажное окно
-  description: Раздвижная перегородка сёдзи из бумаги и дерева.
   graph: PaperWindow
   startNode: start
   targetNode: window
@@ -51,6 +49,3 @@
   objectType: Structure
   placementMode: SnapgridCenter
   canBuildInImpassable: false
-  icon:
-    sprite: _DeadSpace/Structures/Windows/paper_window.rsi
-    state: normal
