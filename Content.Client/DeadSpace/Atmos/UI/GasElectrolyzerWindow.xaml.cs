@@ -130,6 +130,8 @@ public sealed partial class GasElectrolyzerWindow : FancyWindow
         foreach (var gas in gasMix.Gases)
             totalGasAmount += gas.Amount;
 
+        var hasGas = totalGasAmount > 0f;
+
         tableKey.AddChild(new Label { Text = Loc.GetString("gas-analyzer-window-gas-column-name"), Align = Label.AlignMode.Center });
         tableVal.AddChild(new Label { Text = Loc.GetString("gas-analyzer-window-molarity-column-name"), Align = Label.AlignMode.Center });
         tablePercent.AddChild(new Label { Text = Loc.GetString("gas-analyzer-window-percentage-column-name"), Align = Label.AlignMode.Center });
@@ -150,14 +152,16 @@ public sealed partial class GasElectrolyzerWindow : FancyWindow
             });
             tablePercent.AddChild(new Label
             {
-                Text = Loc.GetString("gas-analyzer-window-percentage-text", ("percentage", $"{(gas.Amount / totalGasAmount * 100):0.0}")),
+                Text = hasGas
+                    ? Loc.GetString("gas-analyzer-window-percentage-text", ("percentage", $"{(gas.Amount / totalGasAmount * 100):0.0}"))
+                    : Loc.GetString("gas-analyzer-window-percentage-text", ("percentage", "0.0")),
                 Align = Label.AlignMode.Right,
             });
 
             gasBar.AddEntry(gas.Amount, color, tooltip: Loc.GetString("gas-analyzer-window-molarity-percentage-text",
                 ("gasName", gas.Name),
                 ("amount", $"{gas.Amount:0.##}"),
-                ("percentage", $"{(gas.Amount / totalGasAmount * 100):0.#}")));
+                ("percentage", hasGas ? $"{(gas.Amount / totalGasAmount * 100):0.#}" : "0")));
         }
 
         dataContainer.AddChild(gasBar);

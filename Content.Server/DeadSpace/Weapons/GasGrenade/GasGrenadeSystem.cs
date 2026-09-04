@@ -136,6 +136,7 @@ public sealed class GasGrenadeSystem : EntitySystem
         {
             MixShells(shells);
             ent.Comp.MixReactTimer = ent.Comp.MixReactInterval;
+            ent.Comp.MixShellEntity = shells[0].Owner;
         }
         else
         {
@@ -160,9 +161,8 @@ public sealed class GasGrenadeSystem : EntitySystem
                 comp.MixReactTimer -= frameTime;
                 if (comp.MixReactTimer <= 0f)
                 {
-                    var mixing = GetShellTanks((uid, comp));
-                    if (mixing.Count > 0)
-                        _atmos.React(mixing[0].Comp.Air, mixing[0].Comp);
+                    if (comp.MixShellEntity is { } shellUid && TryComp<GasTankComponent>(shellUid, out var tank))
+                        _atmos.React(tank.Air, tank);
 
                     comp.MixReactTimer = comp.MixReactInterval;
                 }
@@ -173,6 +173,8 @@ public sealed class GasGrenadeSystem : EntitySystem
                 continue;
 
             comp.MixCountdown = null;
+            comp.MixShellEntity = null;
+
 
             if (comp.Mode == GasGrenadeMode.Mix)
                 ReleaseAll((uid, comp), GetShellTanks((uid, comp)));

@@ -33,4 +33,7 @@ public sealed partial class GasGrenadeComponent : Component
 
     [ViewVariables]
     public bool Releasing;
+
+    [ViewVariables]
+    public EntityUid? MixShellEntity;
 }
