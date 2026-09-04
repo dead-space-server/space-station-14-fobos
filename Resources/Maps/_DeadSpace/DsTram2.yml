@@ -111839,8 +111839,7 @@ entities:
     - type: AtmosPipeColor
       color: '#0055CCFF'
     - type: DeviceNetwork
-      configurators:
-      - invalid
+      configurators: []
       deviceLists:
       - 26347
   - uid: 26645
@@ -111949,8 +111948,7 @@ entities:
       pos: -39.5,-22.5
       parent: 26345
     - type: DeviceNetwork
-      configurators:
-      - invalid
+      configurators: []
       deviceLists:
       - 26347
     - type: AtmosPipeColor
@@ -113400,8 +113398,7 @@ entities:
       pos: -45.5,-22.5
       parent: 26345
     - type: DeviceNetwork
-      configurators:
-      - invalid
+      configurators: []
       deviceLists:
       - 26347
     - type: AtmosPipeColor
@@ -113413,8 +113410,7 @@ entities:
       pos: -37.5,-22.5
       parent: 26345
     - type: DeviceNetwork
-      configurators:
-      - invalid
+      configurators: []
       deviceLists:
       - 26347
     - type: AtmosPipeColor
@@ -126285,7 +126281,6 @@ entities:
       playLandSound: True
       landTime: 20584.9426049
       thrownTime: 20584.85
-      thrower: invalid
   - uid: 17847
     components:
     - type: Transform
@@ -128685,7 +128680,6 @@ entities:
       playLandSound: True
       landTime: 19477.76251
       thrownTime: 19477.7
-      thrower: invalid
 - proto: PowerCellRecharger
   entities:
   - uid: 18163
@@ -141203,7 +141197,6 @@ entities:
       playLandSound: True
       landTime: 19490.629251
       thrownTime: 19490.5
-      thrower: invalid
 - proto: SeedExtractor
   entities:
   - uid: 20349
@@ -141688,8 +141681,7 @@ entities:
       pos: 5.5,-53.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
+      configurators: []
   - uid: 20412
     components:
     - type: Transform
@@ -142339,8 +142331,7 @@ entities:
       pos: 9.5,-55.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
+      configurators: []
     - type: DeviceLinkSource
       linkedPorts:
         20411:
