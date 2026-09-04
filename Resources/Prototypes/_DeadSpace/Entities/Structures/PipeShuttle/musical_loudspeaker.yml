@@ -15,12 +15,9 @@
     range: 12
     volume: -2
     songs:
-    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/dreamisland.ogg
-    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/haircutsformen.ogg
-    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/NealsRules.ogg
-    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/QuoVadis.ogg
-    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/velvet.ogg
     - path: /Audio/_DeadSpace/Music/_IvanKuvalda/french.ogg
+    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/games.ogg
+    - path: /Audio/_DeadSpace/Music/_IvanKuvalda/toonfoolery.ogg
   - type: Destructible
     thresholds:
     - trigger:
