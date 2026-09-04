@@ -1,0 +1,29 @@
+- type: construction
+  id: TableAsia
+  name: азиатский стол
+  description: Низкий деревянный стол в восточном стиле.
+  graph: TableAsia
+  startNode: start
+  targetNode: asia
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  icon:
+    sprite: _DeadSpace/Structures/Furniture/Tables/asia.rsi
+    state: full
+
+- type: construction
+  id: TablePlasmaGlassArmored
+  name: бронированный плазменный стол
+  description: Усиленный плазменный стол повышенной прочности.
+  graph: TablePlasmaGlassArmored
+  startNode: start
+  targetNode: armored
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  icon:
+    sprite: _DeadSpace/Structures/Furniture/Tables/r_plasma.rsi
+    state: full
