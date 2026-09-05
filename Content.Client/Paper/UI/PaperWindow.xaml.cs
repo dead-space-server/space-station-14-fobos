@@ -76,18 +76,30 @@ namespace Content.Client.Paper.UI
         private const string ClownJobId = "Clown";
 
         private static readonly Regex FontTagStripRegex = new(@"\[/pfont\]|\[pfont=(?:""[^""]*""|[^\]]*)\]");
+
+        /// <summary>
+        /// Font forced onto everything the local player writes, or null if they
+        /// are free to pick fonts themselves.
+        /// </summary>
         public string? ForcedFontId { get; private set; }
         // DS14-end
 
         private DefaultWindow? _colorPickerWindow;
         private ColorSelectorSliders? _colorPickerSliders;
 
-        // DS14-start
+        // DS14-start: insert-data helper panel (station/date/name/job/manifest)
         private DefaultWindow? _insertDataWindow;
         private Label? _insertDataStatusLabel;
         private BoxContainer? _insertDataButtons;
+        private LineEdit? _insertDataManifestSearch;
         private ItemList? _insertDataManifestList;
         private List<CrewManifestEntry> _insertDataManifest = new();
+        private List<CrewManifestEntry> _insertDataManifestFiltered = new();
+
+        /// <summary>
+        /// Raised when the player opens the insert-data panel and it needs fresh data from the
+        /// server (station name, their identity, crew manifest).
+        /// </summary>
         public event Action? OnInsertDataRequested;
         // DS14-end
 
@@ -970,13 +982,22 @@ namespace Content.Client.Paper.UI
             _insertDataButtons = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Vertical, Visible = false };
             root.AddChild(_insertDataButtons);
 
+            _insertDataManifestSearch = new LineEdit
+            {
+                PlaceHolder = Loc.GetString("paper-ui-insert-manifest-search"),
+                Visible = false,
+                Margin = new Thickness(0, 4, 0, 0),
+            };
+            _insertDataManifestSearch.OnTextChanged += _ => RefreshManifestList();
+            root.AddChild(_insertDataManifestSearch);
+
             _insertDataManifestList = new ItemList { MinSize = new Vector2(0, 140), Visible = false };
             _insertDataManifestList.OnItemSelected += args =>
             {
-                if (args.ItemIndex < 0 || args.ItemIndex >= _insertDataManifest.Count)
+                if (args.ItemIndex < 0 || args.ItemIndex >= _insertDataManifestFiltered.Count)
                     return;
 
-                var entry = _insertDataManifest[args.ItemIndex];
+                var entry = _insertDataManifestFiltered[args.ItemIndex];
                 InsertValue($"{entry.Name}, {entry.JobTitle}");
                 _insertDataManifestList!.ClearSelected();
             };
@@ -1003,10 +1024,32 @@ namespace Content.Client.Paper.UI
             AddInsertDataButton(Loc.GetString("paper-ui-insert-job", ("job", data.CharacterJob ?? Loc.GetString("paper-ui-insert-unknown"))), data.CharacterJob);
 
             _insertDataManifest = data.Manifest;
+            _insertDataManifestSearch!.Text = string.Empty;
+            _insertDataManifestSearch.Visible = _insertDataManifest.Count > 0;
+            RefreshManifestList();
+        }
+
+        /// <summary>
+        /// Re-filters <see cref="_insertDataManifest"/> by the search box text (matched against
+        /// both name and job title) and redraws <see cref="_insertDataManifestList"/> from the
+        /// result.
+        /// </summary>
+        private void RefreshManifestList()
+        {
+            var query = _insertDataManifestSearch?.Text.Trim() ?? string.Empty;
+
+            _insertDataManifestFiltered = query.Length == 0
+                ? _insertDataManifest
+                : _insertDataManifest
+                    .Where(entry =>
+                        entry.Name.Contains(query, StringComparison.CurrentCultureIgnoreCase) ||
+                        entry.JobTitle.Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                    .ToList();
+
             _insertDataManifestList!.Clear();
             _insertDataManifestList.Visible = _insertDataManifest.Count > 0;
 
-            foreach (var entry in _insertDataManifest)
+            foreach (var entry in _insertDataManifestFiltered)
             {
                 _insertDataManifestList.AddItem($"{entry.Name}, {entry.JobTitle}");
             }
@@ -1042,6 +1085,7 @@ namespace Content.Client.Paper.UI
             _insertDataWindow = null;
             _insertDataStatusLabel = null;
             _insertDataButtons = null;
+            _insertDataManifestSearch = null;
             _insertDataManifestList = null;
         }
         // DS14-end

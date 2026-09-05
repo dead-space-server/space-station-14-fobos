@@ -53,4 +53,5 @@ paper-ui-insert-station = Станция: { $station }
 paper-ui-insert-datetime = Время и дата: { $datetime }
 paper-ui-insert-name = Ваше имя: { $name }
 paper-ui-insert-job = Ваша должность: { $job }
+paper-ui-insert-manifest-search = Поиск по манифесту...
 # DS14-end

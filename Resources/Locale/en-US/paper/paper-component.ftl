@@ -59,4 +59,5 @@ paper-ui-insert-station = Station: { $station }
 paper-ui-insert-datetime = Time and date: { $datetime }
 paper-ui-insert-name = Your name: { $name }
 paper-ui-insert-job = Your job: { $job }
+paper-ui-insert-manifest-search = Search the manifest...
 # DS14-end
