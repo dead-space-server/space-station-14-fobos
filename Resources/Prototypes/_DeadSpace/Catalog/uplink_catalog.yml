@@ -469,7 +469,7 @@
   icon: { sprite: _DeadSpace/Objects/Specific/Arkalyse/arkalyse_book.rsi, state: icon }
   productEntity: BoxArkalyse
   cost:
-    Telecrystal: 15
+    Telecrystal: 20 # DS14-value
   categories:
   - UplinkWeaponry
   conditions:
@@ -547,7 +547,7 @@
   icon: { sprite: /Textures/_DeadSpace/Items/Toys/TommyGun/tommy_gun.rsi, state: icon }
   productEntity: ClothingBackpackDuffelSyndicateFilledSMGTommyGun
   cost:
-    Telecrystal: 15
+    Telecrystal: 12 # DS14-value
   categories:
   - UplinkWeaponry
   conditions:
