@@ -27,6 +27,8 @@ paper-ui-toolbar-underline = Underline
 paper-ui-toolbar-strikethrough = Strikethrough
 paper-ui-toolbar-mono = Monospace font
 paper-ui-toolbar-color = Text color
+paper-ui-toolbar-insert = Insert
+paper-ui-toolbar-insert-tooltip = Insert helper: station, time, your name and job, crew manifest
 paper-ui-toolbar-small = Small text
 paper-ui-toolbar-shift = Dense text
 paper-ui-toolbar-confusion = Handwritten text
@@ -49,3 +51,12 @@ paper-ui-toolbar-heading-3 = Heading 3
 paper-ui-toolbar-bullet = List
 paper-ui-toolbar-preview = Preview
 paper-ui-toolbar-edit = Edit
+
+# DS14-start: insert-data helper panel
+paper-ui-insert-loading = Loading...
+paper-ui-insert-unknown = unknown
+paper-ui-insert-station = Station: { $station }
+paper-ui-insert-datetime = Time and date: { $datetime }
+paper-ui-insert-name = Your name: { $name }
+paper-ui-insert-job = Your job: { $job }
+# DS14-end

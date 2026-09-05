@@ -21,6 +21,8 @@ paper-ui-toolbar-underline = Подчёркнутый
 paper-ui-toolbar-strikethrough = Зачёркнутый
 paper-ui-toolbar-mono = Моноширинный шрифт
 paper-ui-toolbar-color = Цвет текста
+paper-ui-toolbar-insert = Вставить
+paper-ui-toolbar-insert-tooltip = Панель вставки: станция, время, ваши имя и должность, манифест экипажа
 paper-ui-toolbar-small = Мелкий текст
 paper-ui-toolbar-shift = Плотный текст
 paper-ui-toolbar-confusion = Рукописный текст
@@ -43,3 +45,12 @@ paper-ui-toolbar-heading-3 = Заголовок 3
 paper-ui-toolbar-bullet = Список
 paper-ui-toolbar-preview = Просмотр
 paper-ui-toolbar-edit = Редактирование
+
+# DS14-start: insert-data helper panel
+paper-ui-insert-loading = Загрузка...
+paper-ui-insert-unknown = неизвестно
+paper-ui-insert-station = Станция: { $station }
+paper-ui-insert-datetime = Время и дата: { $datetime }
+paper-ui-insert-name = Ваше имя: { $name }
+paper-ui-insert-job = Ваша должность: { $job }
+# DS14-end
