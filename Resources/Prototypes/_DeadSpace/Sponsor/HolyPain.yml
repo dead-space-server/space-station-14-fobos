@@ -69,13 +69,8 @@
       - id: PillCanisterBicaridine
       - id: PillCanisterDylovene
       - id: PillCanisterDermaline
-      - id: PillCanisterDexalin
       - id: PillCanisterHyronalin
       - id: ClothingHandsGlovesHolyPainSecond
-      - id: SyringeHolyPain
-      - id: SyringeHolyPain
-      - id: SyringeHolyPain
-      - id: SyringeHolyPain
       - id: SyringeHolyPain
       - id: ClothingEyesGlassesHolyPain
       - id: BluespaceBeakerHolyPain
@@ -187,6 +182,8 @@
       map: [ "enum.ToggleableVisuals.Layer" ]
   - type: Clothing
     sprite: _DeadSpace/Sponsor/HolyPain/boots.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/HolyPain/boots.rsi
   - type: ClothingSpeedModifier
     walkModifier: 1
     sprintModifier: 1
@@ -206,6 +203,7 @@
   parent: JetInjector
   id: JetInjectorHolyPain
   name: бронзовый струйный инъектор
+  description: Уникальный инъектор, украшенный изумрудом, с гравировкой в честь HolyPain на бронзовых частях.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -301,6 +299,8 @@
     sprite: _DeadSpace/Sponsor/HolyPain/beaker_bluespace.rsi
     layers:
       - state: beakerbluespace
+  - type: Item
+    sprite: _DeadSpace/Sponsor/HolyPain/beaker_bluespace.rsi
   - type: SolutionContainerVisuals
     maxFillLevels: 0
   - type: SolutionContainerManager
