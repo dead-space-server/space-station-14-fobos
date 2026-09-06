@@ -8,7 +8,7 @@ namespace Content.Server.DeadSpace.ThermalVision;
 
 public sealed class ThermalVisorSystem : EntitySystem
 {
-    public const SlotFlags ValidSlots = SlotFlags.EYES;
+    public const SlotFlags InvalidSlots = SlotFlags.POCKET;
 
     public override void Initialize()
     {
@@ -19,7 +19,7 @@ public sealed class ThermalVisorSystem : EntitySystem
 
     private void OnGotEquipped(EntityUid entity, ThermalVisorComponent comp, ref GotEquippedEvent args)
     {
-        if ((args.SlotFlags & ValidSlots) == 0)
+        if ((args.SlotFlags & InvalidSlots) != 0)
             return;
 
         if (HasComp<ThermalVisionComponent>(args.Equipee))
