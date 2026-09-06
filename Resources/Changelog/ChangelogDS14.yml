@@ -7427,3 +7427,10 @@ Entries:
   changes:
   - type: Tweak
     message: Характеристики защиты и замедления у скафандров ОБР Эмбер, некий бафф.
+- id: 710
+  author: zubekkk
+  time: '2026-09-06T10:02:33.830738+00:00'
+  pr: 2301
+  changes:
+  - type: Tweak
+    message: Теперь компонент ThermalVisor работает не только в слоте глаз.
