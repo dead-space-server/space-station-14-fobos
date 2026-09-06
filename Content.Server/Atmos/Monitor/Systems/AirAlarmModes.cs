@@ -93,6 +93,12 @@ public abstract class AirAlarmModeExecutor : IAirAlarmMode
         DeviceNetworkSystem = EntityManager.System<DeviceNetworkSystem>();
         AirAlarmSystem = EntityManager.System<AirAlarmSystem>();
     }
+    // DS-14-Start
+    protected void SetScrubberPreset(EntityUid uid, string addr, GasVentScrubberData current, GasVentScrubberData preset)
+    {
+        AirAlarmSystem.SetData(uid, addr, new GasVentScrubberData{ Enabled = preset.Enabled, Dirty = preset.Dirty, IgnoreAlarms = preset.IgnoreAlarms, FilterGases = new HashSet<Gas>(current.FilterGases), PumpDirection = preset.PumpDirection, VolumeRate = preset.VolumeRate, WideNet = preset.WideNet, AirAlarmPanicWireCut = current.AirAlarmPanicWireCut });
+    }
+    // DS-14-End
 }
 
 public sealed class AirAlarmNoneMode : AirAlarmModeExecutor
@@ -110,8 +116,7 @@ public sealed class AirAlarmNoneMode : AirAlarmModeExecutor
 
         foreach (var (addr, device) in alarm.ScrubberData)
         {
-            device.Enabled = false;
-            AirAlarmSystem.SetData(uid, addr, device);
+            SetScrubberPreset(uid, addr, device, GasVentScrubberData.FilterModePreset); // DS-14
         }
     }
 }
@@ -130,7 +135,7 @@ public sealed class AirAlarmFilterMode : AirAlarmModeExecutor
 
         foreach (var (addr, device) in alarm.ScrubberData)
         {
-            AirAlarmSystem.SetData(uid, addr, GasVentScrubberData.FilterModePreset);
+            SetScrubberPreset(uid, addr, device, GasVentScrubberData.FilterModePreset); // DS-14
         }
     }
 }
@@ -149,7 +154,7 @@ public sealed class AirAlarmWideFilterMode : AirAlarmModeExecutor
 
         foreach (var (addr, device) in alarm.ScrubberData)
         {
-            AirAlarmSystem.SetData(uid, addr, GasVentScrubberData.WideFilterModePreset);
+            SetScrubberPreset(uid, addr, device, GasVentScrubberData.WideFilterModePreset); // DS-14
         }
     }
 }
