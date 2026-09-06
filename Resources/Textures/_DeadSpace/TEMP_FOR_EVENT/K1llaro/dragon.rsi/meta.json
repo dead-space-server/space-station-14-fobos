@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "size": {
+    "x": 128,
+    "y": 128
+  },
+  "states": [
+    {
+      "name": "alive",
+      "directions": 1,
+      "delays": [
+        [0.06, 0.10, 0.10, 0.10, 0.10]
+      ]
+    },
+    {
+      "name": "dead",
+      "directions": 1,
+      "delays": [
+        [0.1]
+      ]
+    }
+  ]
+}
+
