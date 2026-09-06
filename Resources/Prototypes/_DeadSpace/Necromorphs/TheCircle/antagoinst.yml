@@ -81,11 +81,11 @@
   guides: [ TheCircle ]
 
 - type: antag
-  id: CircleGeist
-  name: roles-antag-thecircle-geist-name
+  id: CircleShockTrooper
+  name: roles-antag-thecircle-shock-trooper-name
   antagonist: true
   setPreference: true
-  objective: roles-antag-thecircle-geist-objective
+  objective: roles-antag-thecircle-shock-trooper-objective
   requirements:
     - !type:OverallPlaytimeRequirement
       time: 1944000 # 540 hours
