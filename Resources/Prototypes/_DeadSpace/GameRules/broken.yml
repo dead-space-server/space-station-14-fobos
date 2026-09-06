@@ -40,6 +40,13 @@
           - StationAnchorOff
           - TegCirculator
           - TegCenter
+          - GasPipeStraight
+          - GasPipeTJunction
+          - GasPipeFourway
+          - GasPipeBend
+          - GasPipeHalf
+          - GasVolumePump
+          - GasPressurePump
         # blacklistTags:
         #   - HighRiskItem
         minuteMin: 25
